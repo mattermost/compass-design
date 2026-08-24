@@ -1,0 +1,165 @@
+---
+paths:
+  - "**/*.module.scss"
+  - "**/tokens.scss"
+  - "src/styles/**/*.scss"
+---
+
+# Styling
+
+Apply when editing styles (especially `*.module.scss`). Prefer tokens from `src/styles/tokens.scss` and theme vars (`--center-channel-color`, `--center-channel-bg`, `--button-bg`, etc.).
+
+**Cursor twin:** keep [.cursor/rules/styling.mdc](../../.cursor/rules/styling.mdc) in sync with this file.
+
+## SCSS: BEM + nesting
+
+One root block per component module; nest elements and modifiers under it.
+
+1. **One root block** — e.g. `.button`. No other top-level selectors for that component.
+2. **Elements** — `&__element` under the block.
+3. **Modifiers** — `&--modifier` under the block.
+4. **Modifier → element** — inside a modifier, target `.block__element` (full class).
+
+Compound modifiers on one element — interpolate (Sass requires `&` at the start only):
+
+```scss
+#{&}--destructive#{&}--emphasis-primary { /* ... */ }
+```
+
+Do not write `&--destructive&--emphasis-primary`. Keyframes may stay at file top; the component lives under the single block.
+
+```scss
+.button {
+  display: inline-flex;
+
+  &__label { line-height: 1; }
+
+  &--size-small {
+    padding: var(--spacing-xxs) var(--spacing-l);
+    .button__label {
+      font-size: var(--font-size-75);
+    }
+  }
+}
+```
+
+## Prefer design tokens over hardcoded values
+
+| Concern | Tokens |
+| --- | --- |
+| Spacing | `--spacing-xxxxs` (2px) … `--spacing-xxxxxl` (48px) |
+| Font size | `--font-size-25` (10px) … `--font-size-1000` (40px) |
+| Font weight | `--font-weight-regular` / `--font-weight-semibold` (prefer semibold over bold/`700` unless Figma requires 700) |
+| Line height | `--line-height-*` |
+| Radius | `--radius-xs` … `--radius-xl`; pills → `--radius-full` |
+| Shadow | `--elevation-1` … `--elevation-6` |
+| Icon boxes | `--icon-size-10` … `--icon-size-104` |
+
+```scss
+// ❌ BAD
+padding: 12px 16px;
+gap: 8px;
+font-size: 14px;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+color: #386fe5;
+color: var(--center-channel-color, #3f4350);
+
+// ✅ GOOD
+padding: var(--spacing-m) var(--spacing-l);
+gap: var(--spacing-xs);
+font-size: var(--font-size-100);
+border-radius: var(--radius-m);
+box-shadow: var(--elevation-2);
+color: var(--color-info);
+```
+
+- Prefer nearest token or `calc()` of tokens over raw `px`.
+- Do not put tokenizable spacing/font in inline `style={{}}` — use a CSS module.
+- **Exceptions:** `1px` hairlines; visually-hidden `1px`/`-1px`; one-off layout widths with no token; container/media breakpoints; `webapp-compat.scss` `@layer` maps shared Mattermost names (`--neutral-*`, `--semantic-color-*`) to Compass palette / token defaults so host unlayered values win when embedded.
+- Before finishing, scan new/edited styles for leftover raw `px`, hex, numeric `font-weight`, or hardcoded `ms`/`ease`.
+
+## Animation: easing and duration
+
+Never hard-code durations or easing keywords — use tokens:
+
+| Scenario | Easing | Duration |
+| --- | --- | --- |
+| On-screen, small movement | `--ease-transition` | `--duration-quick` |
+| On-screen, large movement | `--ease-transition` | `--duration-moderate` |
+| Entrance | `--ease-entrance` | `--duration-quick` |
+| Exit | `--ease-exit` | `--duration-quick` |
+
+“Large movement” = significant travel across the viewport (e.g. panel from off-screen).
+
+## Semantic colors
+
+Fixed intent colors: `--color-info|success|warning|danger` (and `-rgb` for `rgba()`). Never raw palette (e.g. `--color-blue-400`).
+
+These wrap shared Mattermost `--semantic-color-*` RGB tokens (same names as webapp). Compass maps standalone defaults to palette RGB in `webapp-compat.scss` `@layer`; host unlayered values win when Compass is embedded in webapp.
+
+**Themeable error / destructive UI** (validation, destructive buttons, danger notices): reference the webapp theme role first:
+
+```scss
+color: var(--error-text, var(--color-danger));
+background: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.08);
+```
+
+**Presence** is not semantic: use `--online-indicator`, `--away-indicator`, `--dnd-indicator` (optional `--color-*` fallback). Do not use `--color-success|warning|danger` alone for StatusBadge / presence.
+
+| Token | Role |
+| --- | --- |
+| `--semantic-color-info\|success\|warning\|danger` | Shared RGB with webapp (source of truth for fixed semantics) |
+| `--color-info\|success\|warning\|danger` (+ `-rgb`) | Convenience wrappers → `rgb(var(--semantic-color-*))` |
+| `--error-text` / `--error-text-color-rgb` | Themeable error role (prefer in error/destructive components) |
+
+Toasts / global banners: use `rgb(var(--semantic-color-*))` directly for type fills.
+
+## Figma opacity suffixes
+
+Figma `token/8` → `rgba(var(--token-rgb), 0.08)` (no suffixed CSS variable). Text color alpha clamp ≥ **0.72**; icon color clamp ≥ **0.56**. **Exceptions:** field placeholder text may use **0.64**; disabled components may go as low as **0.4**. Backgrounds/borders/fills may use the mapped alpha as written.
+
+## Opacity floors
+
+Never style **text** below **72%** opacity or **icons** below **56%** (including `rgba`/`hsla` as `color`/`fill`, and `opacity` on text/icon elements). Lower alpha is fine for backgrounds, borders, fills, overlays. Entrance/exit may fade temporarily; resting UI must meet the floors.
+
+**Exception — placeholders:** Input / Select / Combobox placeholder text (hint copy in the empty field) may use **64%** opacity (`rgba(var(--center-channel-color-rgb), 0.64)`). Do not apply this floor exemption to labels, values, body copy, or other resting text.
+
+**Exception — disabled:** Disabled controls and disabled menu/list rows may drop below the text/icon floors so they read as inactive, but not below **40%** opacity (`0.4`). Form fields often use **0.56** on the control surface; menu items often dim content at **0.4**. Do not use these values on enabled resting UI.
+
+## Iconography: phone
+
+Phone/call actions: filled `@mattermost/compass-icons/components/phone` — never `phone-outline`.
+
+## Typography: semibold over bold
+
+Use `var(--font-weight-semibold)` (600) for emphasis. Do not use bold/`700` unless Figma explicitly specifies 700.
+
+## Popover open/close
+
+Menus/info popovers/dropdowns: scale 90%→100% + fade in on open (`--duration-quick` / `--ease-entrance`); reverse on close (`--ease-exit`). Set `transform-origin` toward the anchor.
+
+## Expand/collapse
+
+In-place expand/collapse must animate — never snap. Prefer CSS grid `0fr`↔`1fr` with `--duration-moderate` / `--ease-transition`. Keep content mounted; toggle `--expanded`; `aria-expanded` / `aria-hidden` as appropriate.
+
+```scss
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-moderate) var(--ease-transition);
+
+  &--expanded { grid-template-rows: 1fr; }
+}
+
+.collapse__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+```
+
+## Scrollbars
+
+Scrolling regions in Compass UI components / guideline specimens: use `Scrollbars` from `src/components/ui/Scrollbars/` (not raw overflow). Parent needs `flex: 1; min-height: 0` in a flex column; pad a child inside `Scrollbars`, not the root. Dark surfaces: `color="--sidebar-text-rgb"`.
+
+**Exception:** docs shell layout scrollers (`AppShell`, `DocsLayout`, `DocSidebar`, `OnThisPage`) keep native `overflow: auto` + `@include minimal-scrollbar` (sticky + flex chain).

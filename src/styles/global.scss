@@ -1,0 +1,15 @@
+// App shell overrides — tokens/themes from @mattermost/compass-ui/styles;
+// reset + default body chrome from @mattermost/compass-ui/styles/standalone
+body {
+  color: var(--color-neutral-800);
+  background-color: var(--color-neutral-50);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-heading);
+}

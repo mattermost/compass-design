@@ -1,0 +1,17 @@
+<svg width="103" height="83" viewBox="0 0 103 83" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="25" y="16" width="52" height="52" rx="5.625" fill="#1C58D9" fill-opacity="0.12"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M19.443 9.443L13 11.5L19.443 13.557L21.5 20L23.557 13.557L30 11.5L23.557 9.443L21.5 3L19.443 9.443Z" fill="#3F4350" fill-opacity="0.32"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M78.927 68.927L74 70.5L78.927 72.073L80.5 77L82.073 72.073L87 70.5L82.073 68.927L80.5 64L78.927 68.927Z" fill="#3F4350" fill-opacity="0.32"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M18.338 69.338L10 72L18.338 74.662L21 83L23.662 74.662L32 72L23.662 69.338L21 61L18.338 69.338Z" fill="#3F4350" fill-opacity="0.32"/>
+<path d="M61.0664 31.6094L61.1455 31.8545L61.3906 31.9336L91.3545 41.5L61.3906 51.0664L61.1455 51.1455L61.0664 51.3906L51.5 81.3545L41.9336 51.3906L41.8545 51.1455L41.6094 51.0664L11.6445 41.5L41.6094 31.9336L41.8545 31.8545L41.9336 31.6094L51.5 1.64453L61.0664 31.6094Z" fill="white" stroke="#3F4350"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M46.055 36.055L29 41.5L46.055 46.945L51.5 64L56.945 46.945L74 41.5L56.945 36.055L51.5 19L46.055 36.055Z" fill="#3F4350" fill-opacity="0.04"/>
+<path d="M65 54.5L79.5 49.6667M87.5 47L86.25 47.4167M82.5 48.6667L84 48.1667" stroke="#3F4350" stroke-linecap="round"/>
+<path d="M46.5 77.5L41.6667 63M39 55L39.4167 56.25M40.6667 60L40.1667 58.5" stroke="#3F4350" stroke-linecap="round"/>
+<path opacity="0.24" d="M72.1159 34.8807L65 41.9825V8C65 6.89543 65.8954 6 67 6H98.5195C99.6241 6 100.52 6.89543 100.52 8V32.8807C100.52 33.9853 99.6241 34.8807 98.5195 34.8807H72.1159Z" fill="#3F4350"/>
+<path d="M74.1159 32.8807L67 39.9825V6C67 4.89543 67.8954 4 69 4H100.52C101.624 4 102.52 4.89543 102.52 6V30.8807C102.52 31.9853 101.624 32.8807 100.52 32.8807H74.1159Z" fill="white"/>
+<path d="M74.1159 32.8807L67 39.9825V6C67 4.89543 67.8954 4 69 4H100.52C101.624 4 102.52 4.89543 102.52 6V30.8807C102.52 31.9853 101.624 32.8807 100.52 32.8807H74.1159Z" fill="#28427B"/>
+<path d="M75.5195 11.9824H86.5195" stroke="white" stroke-linecap="round"/>
+<path d="M75.5195 16.9824H94.5195" stroke="white" stroke-linecap="round"/>
+<path d="M75.5195 21.9824H83.5195" stroke="white" stroke-linecap="round"/>
+<path d="M85.5195 21.9824H92.5195" stroke="white" stroke-linecap="round"/>
+</svg>
