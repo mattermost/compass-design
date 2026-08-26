@@ -400,7 +400,15 @@ git tag 0.1.0-alpha.0
 git push origin 0.1.0-alpha.0
 ```
 
-Then draft a GitHub Release from that tag. Long term, align with compass-icons: **Release published → CI runs `npm publish`** (not manual publish first).
+Then create a GitHub Release from that tag:
+
+1. **Choose tag** `0.1.0-alpha.0` (create from `main` if it does not exist yet).
+2. **Title** `v0.1.0-alpha.0`.
+3. Check **Set as a pre-release** (required for alpha/beta semver).
+4. **Publish the release** — do not leave it as a draft; the CHANGELOG link must resolve to a public release URL:
+   `https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0`
+
+Long term, align with compass-icons: **Release published → CI runs `npm publish`** (not manual publish first).
 
 ---
 
