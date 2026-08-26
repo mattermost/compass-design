@@ -9,32 +9,31 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - Storybook coverage for Tier 1 components (in progress).
-- `scripts/smoke-test-compass-ui-pack.mjs` — tarball install + Vite consumer build gate.
-- `INTEGRATION.md` — consumer setup guide for Vite and Mattermost webapp.
-- `@mattermost/compass-ui/styles/standalone` — CSS reset + document `body` / heading chrome for Storybook and other standalone hosts.
 
-### Changed
+## [0.1.0-alpha.0] - 2026-08-26
 
-- `@mattermost/compass-ui/styles` is tokens/themes/webapp-compat only (no reset or document chrome), so webapp can import it safely. Standalone hosts also import `/styles/standalone`.
-- Demo fixtures out of the published core surface: `buildDefaultChannelsSidebarModel` and `defaultAdminConsoleSidebarGroups` move to `@mattermost/compass-proto`; `RightSidebarThread` / `RightSidebarChannelInfo` move to proto. `ChannelsSidebar` / `AdminConsoleSidebar` remain props-driven in core (empty defaults).
-
-First alpha extracted from `mattermost-proto-playground`.
+First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playground`.
 
 ### Added
 
 - **`@mattermost/compass-ui` workspace package** with Vite library build (ESM + CJS).
 - **81 UI components** migrated from `src/components/ui/`.
 - **Style exports:**
-  - `@mattermost/compass-ui/styles` — tokens, themes, reset (`dist/compass-ui.css`)
+  - `@mattermost/compass-ui/styles` — tokens, themes, webapp-compat (`dist/compass-ui.css`)
+  - `@mattermost/compass-ui/styles/standalone` — CSS reset + document `body` / heading chrome for Storybook and other standalone hosts
   - `@mattermost/compass-ui/component-styles` — component CSS modules + SimpleBar base styles (`dist/index.css`)
 - **Root barrel** export from `src/index.ts` (components, hooks, utilities, sub-exports for layout shells).
 - **Call icons:** `OutboundCallIcon`, `PhoneLockIcon` (in `compass-proto`). Dialpad uses `@mattermost/compass-icons` `dialpad`.
-- **ChannelsSidebar helpers:** `buildDefaultChannelsSidebarModel`, header/navigator subcomponents.
+- **ChannelsSidebar helpers:** header/navigator subcomponents (fixture builders moved to proto).
 - **Storybook** with theme toolbar (`denim`, `sapphire`, `quartz`, `indigo`, `onyx`).
 - **CI workflow** (typecheck, build, `npm pack` artifact).
+- `scripts/smoke-test-compass-ui-pack.mjs` — tarball install + Vite consumer build gate.
+- `INTEGRATION.md` — consumer setup guide for Vite and Mattermost webapp.
 
 ### Changed
 
+- `@mattermost/compass-ui/styles` is tokens/themes/webapp-compat only (no reset or document chrome), so webapp can import it safely. Standalone hosts also import `/styles/standalone`.
+- Demo fixtures out of the published core surface: `buildDefaultChannelsSidebarModel` and `defaultAdminConsoleSidebarGroups` move to `@mattermost/compass-proto`; `RightSidebarThread` / `RightSidebarChannelInfo` move to proto. `ChannelsSidebar` / `AdminConsoleSidebar` remain props-driven in core (empty defaults).
 - Monolith consumers (`mattermost-proto-playground`) import from `@mattermost/compass-ui` instead of `@/components/ui/*`.
 - `ChannelShell`, `ThreadListItem`, `RightSidebarThread` no longer bundle demo avatar assets — consumers pass fixtures via props.
 
@@ -45,8 +44,7 @@ First alpha extracted from `mattermost-proto-playground`.
 ### Notes
 
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
-- **Not yet published to npm** — install via workspace, `file:`, or packed tarball until `@mattermost` org publish access is granted.
-- **Webapp integration** (webpack) validated separately in Phase 6.
+- **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/mattermost-proto-playground/compare/v0.1.0-alpha.0...HEAD
-[0.1.0-alpha.0]: https://github.com/mattermost/mattermost-proto-playground/releases/tag/@mattermost/compass-ui@0.1.0-alpha.0
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.0...HEAD
+[0.1.0-alpha.0]: https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0
