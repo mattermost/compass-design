@@ -384,7 +384,7 @@ Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.
 | Beta | `0.1.0-beta.0` | `beta` |
 | Stable | `0.1.0` | `latest` |
 
-Git tag format (Mattermost platform convention): `@mattermost/compass-ui@0.1.0-alpha.0`
+Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.0`. GitHub Release title: `v0.1.0-alpha.0`. Mark pre-release versions as **pre-release** on GitHub.
 
 Publish commands (requires `@mattermost` npm org write access):
 
@@ -392,6 +392,23 @@ Publish commands (requires `@mattermost` npm org write access):
 npm run build --workspace=@mattermost/compass-ui
 npm publish --access=public --tag alpha --workspace=@mattermost/compass-ui
 ```
+
+Tag and push after publish (on `main`, at the commit that was built):
+
+```bash
+git tag 0.1.0-alpha.0
+git push origin 0.1.0-alpha.0
+```
+
+Then create a GitHub Release from that tag:
+
+1. **Choose tag** `0.1.0-alpha.0` (create from `main` if it does not exist yet).
+2. **Title** `v0.1.0-alpha.0`.
+3. Check **Set as a pre-release** (required for alpha/beta semver).
+4. **Publish the release** — do not leave it as a draft; the CHANGELOG link must resolve to a public release URL:
+   `https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0`
+
+Long term, align with compass-icons: **Release published → CI runs `npm publish`** (not manual publish first).
 
 ---
 
