@@ -4,7 +4,7 @@ import { useControllable } from '@/hooks/useControllable';
 import { toKebab } from '@/utils/string';
 import styles from './Switch.module.scss';
 
-export type SwitchSize = 'Small' | 'Medium' | 'Large';
+export type SwitchSize = 'small' | 'medium' | 'large';
 
 export interface SwitchProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -36,7 +36,7 @@ export interface SwitchProps extends Omit<
  */
 export default function Switch({
   className = '',
-  size = 'Medium',
+  size = 'medium',
   children,
   secondaryLabel,
   semiBold = false,

@@ -102,10 +102,8 @@ export default function PopoverNotice({
               {actions.map((action, i) => (
                 <Button
                   key={i}
-                  emphasis={
-                    action.emphasis === 'tertiary' ? 'Tertiary' : 'Primary'
-                  }
-                  size="Small"
+                  emphasis={action.emphasis ?? 'primary'}
+                  size="small"
                   onClick={action.onClick}
                 >
                   {action.label}
@@ -114,7 +112,7 @@ export default function PopoverNotice({
             </div>
           )}
 
-          {showCheckbox && <Checkbox size="Medium">{checkboxLabel}</Checkbox>}
+          {showCheckbox && <Checkbox size="medium">{checkboxLabel}</Checkbox>}
         </div>
       </div>
 
@@ -122,7 +120,7 @@ export default function PopoverNotice({
         <IconButton
           className={styles['popover-notice__close']}
           aria-label="Close"
-          size="Small"
+          size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onClose}
         />

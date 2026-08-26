@@ -117,7 +117,7 @@ export default function MobileChannelLayout() {
         >
           <div className={styles['mobile-channel-layout__content']}>
             <MobileNavigationBar
-              variant='Channel'
+              variant='channel'
               name='Town Square'
               memberCount={124}
             />
@@ -125,7 +125,7 @@ export default function MobileChannelLayout() {
             <div className={styles['mobile-channel-layout__body']}>
               <Scrollbar>
                 <div className={styles['mobile-channel-layout__messages']}>
-                  <MessageSeparator type='Date' label='Today' />
+                  <MessageSeparator type='date' label='Today' />
 
                   <MobileMessage
                     avatarSrc={avatarSofia}
@@ -162,7 +162,7 @@ export default function MobileChannelLayout() {
                     </p>
                   </MobileMessage>
 
-                  <MessageSeparator type='New Messages' />
+                  <MessageSeparator type='new-messages' />
 
                   <MobileMessage
                     avatarSrc={avatarLeonard}

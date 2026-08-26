@@ -38,7 +38,7 @@ export default function RightSidebarHeader({
   title,
   secondaryTitle,
   tag,
-  tagType = 'Info',
+  tagType = 'info',
   leadingIcon,
   onBack,
   onExpand,
@@ -59,7 +59,7 @@ export default function RightSidebarHeader({
           {onBack && (
             <IconButton
               className={styles['right-sidebar-header__back']}
-              size="Small"
+              size="small"
               aria-label="Back"
               onClick={onBack}
               icon={<Icon size="16" glyph={<ArrowBackIosIcon />} />}
@@ -76,8 +76,8 @@ export default function RightSidebarHeader({
               <Tag
                 label={tag}
                 type={tagType}
-                size="X-Small"
-                casing="All Caps"
+                size="x-small"
+                casing="all-caps"
               />
             </span>
           )}
@@ -111,7 +111,7 @@ export default function RightSidebarHeader({
         )}
         {onExpand && (
           <IconButton
-            size="Small"
+            size="small"
             aria-label="Expand"
             onClick={onExpand}
             icon={<Icon size="16" glyph={<ArrowExpandIcon />} />}
@@ -119,7 +119,7 @@ export default function RightSidebarHeader({
         )}
         {onClose && (
           <IconButton
-            size="Small"
+            size="small"
             aria-label="Close"
             onClick={onClose}
             icon={<Icon size="16" glyph={<CloseIcon />} />}

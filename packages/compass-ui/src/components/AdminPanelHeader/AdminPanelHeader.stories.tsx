@@ -114,7 +114,7 @@ export const ControlledExpand: Story = {
   render: function ControlledExpandStory() {
     const titleId = useId();
     const [expanded, setExpanded] =
-      useState<AdminPanelExpandedState>('Expanded');
+      useState<AdminPanelExpandedState>('expanded');
 
     return (
       <HeaderChrome>
@@ -125,18 +125,18 @@ export const ControlledExpand: Story = {
           iconLeft
           leadingIcon={<Icon size="20" glyph={<GlobeIcon />} />}
           expandable
-          isExpanded={expanded === 'Expanded'}
+          isExpanded={expanded === 'expanded'}
           onToggleExpand={() =>
             setExpanded((state) =>
-              state === 'Expanded' ? 'Collapsed' : 'Expanded',
+              state === 'expanded' ? 'collapsed' : 'expanded',
             )
           }
-          showDivider={expanded === 'Expanded'}
+          showDivider={expanded === 'expanded'}
           headerActions={
             <IconButton
               type="button"
-              style="Default"
-              size="Medium"
+              style="default"
+              size="medium"
               aria-label="Help"
               icon={<Icon size="20" glyph={<InformationOutlineIcon />} />}
             />

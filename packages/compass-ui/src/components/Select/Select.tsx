@@ -21,7 +21,7 @@ import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import { toKebab } from '@/utils/string';
 import styles from './Select.module.scss';
 
-export type SelectSize = 'Small' | 'Medium' | 'Large';
+export type SelectSize = 'small' | 'medium' | 'large';
 
 export type SelectOption = {
   value: string;
@@ -151,7 +151,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
     placeholder,
     label,
     leadingIcon,
-    size = 'Medium',
+    size = 'medium',
     invalid = false,
     disabled = false,
     id: idProp,

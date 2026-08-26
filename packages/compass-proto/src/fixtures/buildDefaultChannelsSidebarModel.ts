@@ -6,7 +6,7 @@ import type {
 
 export interface BuildDefaultChannelsSidebarModelInput {
   showUnreadsCategory: boolean;
-  /** When true, appends "Dial Pad" to the top group (Threads / Drafts row). */
+  /** When true, appends "dial-pad" to the top group (Threads / Drafts row). */
   showDialPad?: boolean;
   avatarAikoTan: string;
   avatarArjunPatel: string;
@@ -34,16 +34,16 @@ export function buildDefaultChannelsSidebarModel(
   } = input;
 
   const topGroupItems: ChannelsSidebarItemModel[] = [
-    { name: 'Threads', leadingVisual: 'Threads' },
+    { name: 'threads', leadingVisual: 'threads' },
     {
-      name: 'Drafts',
-      leadingVisual: 'Drafts',
-      status: 'Mention',
+      name: 'drafts',
+      leadingVisual: 'drafts',
+      status: 'mention',
       mentionCount: 1,
     },
   ];
   if (showDialPad) {
-    topGroupItems.push({ name: 'Dial Pad', leadingVisual: 'Dial Pad' });
+    topGroupItems.push({ name: 'dial-pad', leadingVisual: 'dial-pad' });
   }
 
   const groups: ChannelsSidebarGroupModel[] = [];
@@ -53,23 +53,23 @@ export function buildDefaultChannelsSidebarModel(
       key: 'unreads',
       category: { label: 'Unreads', showChevron: false },
       items: [
-        { name: 'UX Design', leadingVisual: 'Public', active: true },
-        { name: 'Orion', leadingVisual: 'Public', status: 'Unread' },
+        { name: 'UX Design', leadingVisual: 'public', active: true },
+        { name: 'Orion', leadingVisual: 'public', status: 'unread' },
         {
           name: 'Release Discussion',
-          leadingVisual: 'Public',
-          status: 'Unread',
+          leadingVisual: 'public',
+          status: 'unread',
         },
         {
           name: 'Customer Onboarding',
-          leadingVisual: 'Private',
-          status: 'Unread',
+          leadingVisual: 'private',
+          status: 'unread',
         },
-        { name: 'Race Teams', leadingVisual: 'Private', status: 'Unread' },
+        { name: 'Race Teams', leadingVisual: 'private', status: 'unread' },
         {
           name: 'Arjun Patel',
-          leadingVisual: 'Direct Message',
-          status: 'Mention',
+          leadingVisual: 'direct-message',
+          status: 'mention',
           mentionCount: 1,
           avatarSrc: avatarArjunPatel,
           avatarAlt: 'Arjun Patel',
@@ -77,8 +77,8 @@ export function buildDefaultChannelsSidebarModel(
         },
         {
           name: 'Danielle Okoro',
-          leadingVisual: 'Direct Message',
-          status: 'Mention',
+          leadingVisual: 'direct-message',
+          status: 'mention',
           mentionCount: 1,
           avatarSrc: avatarDanielleOkoro,
           avatarAlt: 'Danielle Okoro',
@@ -89,27 +89,27 @@ export function buildDefaultChannelsSidebarModel(
   }
 
   const favoritesItems: ChannelsSidebarItemModel[] = [
-    { name: 'UI Redesign', leadingVisual: 'Public' },
+    { name: 'UI Redesign', leadingVisual: 'public' },
   ];
   if (!showUnreadsCategory) {
     favoritesItems.push({
       name: 'UX Design',
-      leadingVisual: 'Public',
+      leadingVisual: 'public',
       active: true,
     });
   }
   favoritesItems.push(
-    { name: 'softphone-ux', leadingVisual: 'Public' },
+    { name: 'softphone-ux', leadingVisual: 'public' },
     {
       name: 'Aiko Tan',
-      leadingVisual: 'Direct Message',
+      leadingVisual: 'direct-message',
       avatarSrc: avatarAikoTan,
       avatarAlt: 'Aiko Tan',
       showAvatarStatus: true,
     },
     {
       name: 'Hilda Martin, Steve M...',
-      leadingVisual: 'Group Message',
+      leadingVisual: 'group-message',
       memberCount: 2,
     },
   );
@@ -121,47 +121,47 @@ export function buildDefaultChannelsSidebarModel(
   });
 
   const channelsItems: ChannelsSidebarItemModel[] = [
-    { name: 'Contributors', leadingVisual: 'Public' },
-    { name: 'Developers', leadingVisual: 'Public' },
+    { name: 'Contributors', leadingVisual: 'public' },
+    { name: 'Developers', leadingVisual: 'public' },
   ];
   if (!showUnreadsCategory) {
     channelsItems.push(
-      { name: 'Orion', leadingVisual: 'Public', status: 'Unread' },
+      { name: 'Orion', leadingVisual: 'public', status: 'unread' },
       {
         name: 'Release Discussion',
-        leadingVisual: 'Public',
-        status: 'Unread',
+        leadingVisual: 'public',
+        status: 'unread',
       },
     );
   }
   channelsItems.push(
-    { name: 'calling-eng', leadingVisual: 'Public' },
-    { name: 'Security Incident', leadingVisual: 'Public' },
-    { name: 'telephony-vendors', leadingVisual: 'Private' },
-    { name: 'System Status', leadingVisual: 'Private' },
-    { name: 'Product Support', leadingVisual: 'Private' },
+    { name: 'calling-eng', leadingVisual: 'public' },
+    { name: 'Security Incident', leadingVisual: 'public' },
+    { name: 'telephony-vendors', leadingVisual: 'private' },
+    { name: 'System Status', leadingVisual: 'private' },
+    { name: 'Product Support', leadingVisual: 'private' },
   );
   if (!showUnreadsCategory) {
     channelsItems.push(
-      { name: 'Sales Partners', leadingVisual: 'Private', status: 'Unread' },
+      { name: 'Sales Partners', leadingVisual: 'private', status: 'unread' },
       {
         name: 'Customer Onboarding',
-        leadingVisual: 'Private',
-        status: 'Unread',
+        leadingVisual: 'private',
+        status: 'unread',
       },
     );
   }
 
   groups.push({
     key: 'channels',
-    category: { label: 'Channels' },
+    category: { label: 'channels' },
     items: channelsItems,
   });
 
   const dmItems: ChannelsSidebarItemModel[] = [
     {
       name: 'Aiko Tan',
-      leadingVisual: 'Direct Message',
+      leadingVisual: 'direct-message',
       avatarSrc: avatarAikoTan,
       avatarAlt: 'Aiko Tan',
       showAvatarStatus: true,
@@ -171,8 +171,8 @@ export function buildDefaultChannelsSidebarModel(
     dmItems.push(
       {
         name: 'Arjun Patel',
-        leadingVisual: 'Direct Message',
-        status: 'Mention',
+        leadingVisual: 'direct-message',
+        status: 'mention',
         mentionCount: 1,
         avatarSrc: avatarArjunPatel,
         avatarAlt: 'Arjun Patel',
@@ -180,8 +180,8 @@ export function buildDefaultChannelsSidebarModel(
       },
       {
         name: 'Danielle Okoro',
-        leadingVisual: 'Direct Message',
-        status: 'Mention',
+        leadingVisual: 'direct-message',
+        status: 'mention',
         mentionCount: 1,
         avatarSrc: avatarDanielleOkoro,
         avatarAlt: 'Danielle Okoro',
@@ -192,33 +192,33 @@ export function buildDefaultChannelsSidebarModel(
   dmItems.push(
     {
       name: 'Richard McDaniel, P...',
-      leadingVisual: 'Group Message',
+      leadingVisual: 'group-message',
       memberCount: 2,
     },
     {
       name: 'Darius Cole',
-      leadingVisual: 'Direct Message',
+      leadingVisual: 'direct-message',
       avatarSrc: avatarDariusCole,
       avatarAlt: 'Darius Cole',
       showAvatarStatus: true,
     },
     {
       name: 'David Liang',
-      leadingVisual: 'Direct Message',
+      leadingVisual: 'direct-message',
       avatarSrc: avatarDavidLiang,
       avatarAlt: 'David Liang',
       showAvatarStatus: true,
     },
     {
       name: 'Emma Novak',
-      leadingVisual: 'Direct Message',
+      leadingVisual: 'direct-message',
       avatarSrc: avatarEmmaNovak,
       avatarAlt: 'Emma Novak',
       showAvatarStatus: true,
     },
     {
       name: 'Ethan Brooks',
-      leadingVisual: 'Direct Message',
+      leadingVisual: 'direct-message',
       avatarSrc: avatarEthanBrooks,
       avatarAlt: 'Ethan Brooks',
       showAvatarStatus: true,

@@ -13,10 +13,10 @@ export interface MobileMenuItemProps
   /** Optional secondary label. */
   secondaryLabel?: ReactNode;
   /**
-   * Where the secondary label appears. Default: 'Below'.
-   * Figma “Stacked” maps to 'Below'.
+   * Where the secondary label appears. Default: 'below'.
+   * Figma “Stacked” maps to 'below'.
    */
-  secondaryLabelPosition?: 'Inline' | 'Below';
+  secondaryLabelPosition?: 'inline' | 'below';
   /** Custom content for the leading slot. When omitted, shows placeholder icon. */
   leadingVisual?: ReactNode;
   /** Show the leading visual slot. Default: true. */
@@ -47,7 +47,7 @@ export interface MobileMenuItemProps
 export default function MobileMenuItem({
   label,
   secondaryLabel,
-  secondaryLabelPosition = 'Below',
+  secondaryLabelPosition = 'below',
   leadingVisual,
   leadingElement = true,
   trailingVisual,
@@ -88,7 +88,7 @@ export default function MobileMenuItem({
         <div className={styles['mobile-menu-item__middle']}>
           <div className={styles['mobile-menu-item__top-row']}>
             <span className={styles['mobile-menu-item__label']}>{label}</span>
-            {secondaryLabel && secondaryLabelPosition === 'Inline' && (
+            {secondaryLabel && secondaryLabelPosition === 'inline' && (
               <span className={styles['mobile-menu-item__secondary-label-inline']}>
                 {secondaryLabel}
               </span>
@@ -105,12 +105,12 @@ export default function MobileMenuItem({
             {mentionCount != null && mentionCount > 0 && (
               <MentionBadge
                 count={mentionCount}
-                location='Menu Item'
-                size='Small'
+                location='menu-item'
+                size='small'
               />
             )}
           </div>
-          {secondaryLabel && secondaryLabelPosition === 'Below' && (
+          {secondaryLabel && secondaryLabelPosition === 'below' && (
             <div className={styles['mobile-menu-item__bottom-row']}>
               <span className={styles['mobile-menu-item__secondary-label-below']}>
                 {secondaryLabel}

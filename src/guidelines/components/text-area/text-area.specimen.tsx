@@ -7,9 +7,9 @@ export default function TextAreaLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <TextArea size="Small" placeholder="Small…" />
-          <TextArea size="Medium" placeholder="Medium…" />
-          <TextArea size="Large" placeholder="Large…" />
+          <TextArea size="small" placeholder="Small…" />
+          <TextArea size="medium" placeholder="Medium…" />
+          <TextArea size="large" placeholder="Large…" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>

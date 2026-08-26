@@ -127,12 +127,12 @@ export default function MessageInput({
 
       <IconButton
         icon={<Icon glyph={<PaperclipIcon />} size="16" />}
-        size="Small"
+        size="small"
         aria-label="Attach a file"
       />
       <IconButton
         icon={<Icon glyph={<EmoticonHappyOutlineIcon />} size="16" />}
-        size="Small"
+        size="small"
         aria-label="Add an emoji"
       />
 
@@ -202,9 +202,9 @@ export default function MessageInput({
             <div className={styles['message-input__priority-row']}>
               <Tag
                 label="IMPORTANT"
-                type="Info"
-                size="X-Small"
-                casing="All Caps"
+                type="info"
+                size="x-small"
+                casing="all-caps"
                 leadingIcon={
                   <Icon glyph={<AlertCircleOutlineIcon />} size="10" />
                 }
@@ -260,24 +260,24 @@ export default function MessageInput({
             <div className={styles['message-input__toolbar-group']}>
               <IconButton
                 icon={<Icon glyph={<FormatBoldIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Bold"
               />
               <IconButton
                 icon={<Icon glyph={<FormatItalicIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Italic"
               />
               <IconButton
                 icon={
                   <Icon glyph={<FormatStrikethroughVariantIcon />} size="16" />
                 }
-                size="Small"
+                size="small"
                 aria-label="Strikethrough"
               />
               <IconButton
                 icon={<Icon glyph={<FormatHeaderIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Heading"
               />
             </div>
@@ -291,12 +291,12 @@ export default function MessageInput({
             <div className={styles['message-input__toolbar-group']}>
               <IconButton
                 icon={<Icon glyph={<LinkVariantIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Add link"
               />
               <IconButton
                 icon={<Icon glyph={<CodeTagsIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Code"
               />
             </div>
@@ -310,17 +310,17 @@ export default function MessageInput({
             <div className={styles['message-input__toolbar-group']}>
               <IconButton
                 icon={<Icon glyph={<FormatQuoteOpenIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Quote"
               />
               <IconButton
                 icon={<Icon glyph={<FormatListBulletedIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Bulleted list"
               />
               <IconButton
                 icon={<Icon glyph={<FormatListNumberedIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Numbered list"
               />
             </div>
@@ -334,17 +334,17 @@ export default function MessageInput({
             <div className={styles['message-input__toolbar-group']}>
               <IconButton
                 icon={<Icon glyph={<AlertCircleOutlineIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Message priority"
               />
               <IconButton
                 icon={<Icon glyph={<FireIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="Burn on read"
               />
               <IconButton
                 icon={<Icon glyph={<CreationOutlineIcon />} size="16" />}
-                size="Small"
+                size="small"
                 aria-label="AI assistance"
               />
             </div>
@@ -358,22 +358,22 @@ export default function MessageInput({
                 <div className={styles['message-input__formatting-collapsed']}>
                   <IconButton
                     icon={<Icon glyph={<FormatBoldIcon />} size="16" />}
-                    size="Small"
+                    size="small"
                     aria-label="Bold"
                   />
                   <IconButton
                     icon={<Icon glyph={<FormatItalicIcon />} size="16" />}
-                    size="Small"
+                    size="small"
                     aria-label="Italic"
                   />
                   <IconButton
                     icon={<Icon glyph={<LinkVariantIcon />} size="16" />}
-                    size="Small"
+                    size="small"
                     aria-label="Add link"
                   />
                   <IconButton
                     icon={<Icon glyph={<DotsHorizontalIcon />} size="16" />}
-                    size="Small"
+                    size="small"
                     aria-label="More formatting options"
                   />
                 </div>

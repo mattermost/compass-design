@@ -49,7 +49,7 @@ export default function ChannelShell({
   channelHeader,
   children,
   trailing,
-  product = 'Channels',
+  product = 'channels',
   userAvatarSrc,
   userAvatarAlt = 'User',
   teams = DEFAULT_TEAMS,

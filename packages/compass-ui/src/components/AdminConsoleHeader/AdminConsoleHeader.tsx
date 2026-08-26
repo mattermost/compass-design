@@ -38,7 +38,7 @@ export default function AdminConsoleHeader({
     enterpriseBadge ? (
       <Tag
         label={enterpriseBadgeLabel}
-        size="X-Small"
+        size="x-small"
         leadingIcon={<Icon size="12" glyph={<MattermostIcon />} />}
       />
     ) : null;
@@ -52,8 +52,8 @@ export default function AdminConsoleHeader({
           <div className={styles['admin-console-header__back']}>
             <IconButton
               type="button"
-              style="Default"
-              size="Medium"
+              style="default"
+              size="medium"
               className={styles['admin-console-header__back-button']}
               aria-label={ariaLabelBack}
               onClick={onBackClick}

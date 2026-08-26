@@ -9,19 +9,19 @@ import {
 } from '../../storybook/icons';
 
 const EMPHASES: ButtonEmphasis[] = [
-  'Primary',
-  'Secondary',
-  'Tertiary',
-  'Quaternary',
+  'primary',
+  'secondary',
+  'tertiary',
+  'quaternary',
 ];
 
-const SIZES: ButtonSize[] = ['X-Small', 'Small', 'Medium', 'Large'];
+const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 const BUTTON_SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
-  'X-Small': '12',
-  Small: '16',
-  Medium: '16',
-  Large: '20',
+  'x-small': '12',
+  small: '16',
+  medium: '16',
+  large: '20',
 };
 
 type ButtonStoryArgs = Omit<ButtonProps, 'leadingIcon' | 'trailingIcon'> & {
@@ -34,7 +34,7 @@ const meta = {
   component: Button,
   tags: ['autodocs'],
   argTypes: {
-    appearance: { control: 'select', options: ['Default', 'Inverted'] },
+    appearance: { control: 'select', options: ['default', 'inverted'] },
     emphasis: { control: 'select', options: EMPHASES },
     size: { control: 'select', options: SIZES },
     leadingIcon: iconSelectArgType({
@@ -54,7 +54,7 @@ const meta = {
     leadingIcon: ICON_NONE,
     trailingIcon: ICON_NONE,
   },
-  render: ({ leadingIcon, trailingIcon, size = 'Medium', ...rest }) => {
+  render: ({ leadingIcon, trailingIcon, size = 'medium', ...rest }) => {
     const iconSize = BUTTON_SIZE_ICON_MAP[size];
     return (
       <Button
@@ -83,8 +83,8 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     children: 'Label',
-    emphasis: 'Primary',
-    size: 'Medium',
+    emphasis: 'primary',
+    size: 'medium',
   },
 };
 
@@ -151,18 +151,18 @@ export const AllVariants: Story = {
       <section>
         <h3 style={{ marginBottom: 12 }}>Default</h3>
         <PermutationGrid
-          appearance="Default"
+          appearance="default"
           destructive={false}
           disabled={false}
         />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Destructive</h3>
-        <PermutationGrid appearance="Default" destructive disabled={false} />
+        <PermutationGrid appearance="default" destructive disabled={false} />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Disabled</h3>
-        <PermutationGrid appearance="Default" destructive={false} disabled />
+        <PermutationGrid appearance="default" destructive={false} disabled />
       </section>
       <section
         style={{
@@ -175,7 +175,7 @@ export const AllVariants: Story = {
           Inverted
         </h3>
         <PermutationGrid
-          appearance="Inverted"
+          appearance="inverted"
           destructive={false}
           disabled={false}
           labelColor="var(--sidebar-text)"

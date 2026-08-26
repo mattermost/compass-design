@@ -57,7 +57,7 @@ the right. The live React implementation mirrors the Global Header Figma spec
 <Preview caption="Channels">
   <div style={{ width: '100%' }}>
     <GlobalHeader
-      product="Channels"
+      product="channels"
       userAvatarSrc={avatarLeonard}
       userAvatarAlt="Leonard Riley"
     />
@@ -72,7 +72,7 @@ Default layout: left (switcher, branding, navigator) → center (search + help)
 <Preview caption="Channels — Upgrade">
   <div style={{ width: '100%' }}>
     <GlobalHeader
-      product="Channels"
+      product="channels"
       showUpgradeButton
       userAvatarSrc={avatarLeonard}
       userAvatarAlt="Leonard Riley"
@@ -88,7 +88,7 @@ right-cluster icons so it remains visible without crowding search.
 <Preview caption="Playbooks">
   <div style={{ width: '100%' }}>
     <GlobalHeader
-      product="Playbooks"
+      product="playbooks"
       userAvatarSrc={avatarLeonard}
       userAvatarAlt="Leonard Riley"
     />
@@ -103,7 +103,7 @@ Tasks, then Help, Settings, and Account.
 <Preview caption="Boards">
   <div style={{ width: '100%' }}>
     <GlobalHeader
-      product="Boards"
+      product="boards"
       userAvatarSrc={avatarLeonard}
       userAvatarAlt="Leonard Riley"
     />
@@ -135,7 +135,7 @@ another surface already states product context.
 - Search input is a native `type="search"` field with custom styling; focus clears
   the default outline in favor of container treatment — wire focus rings or
   command-palette behavior at the app layer if required by accessibility audit.
-- Icon buttons use `padding="Compact"` and `style="Inverted"` for density and
+- Icon buttons use `padding="compact"` and `style="inverted"` for density and
   contrast on the dark header surface.
 - Account uses `UserAvatar` at 24px with `status` enabled so presence reads
   consistently with the rest of the shell.

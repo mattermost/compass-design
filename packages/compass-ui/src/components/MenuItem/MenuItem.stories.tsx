@@ -53,7 +53,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: 'Menu Item',
+    label: 'menu-item',
   },
 };
 
@@ -66,16 +66,16 @@ export const WithTrailingCheck: Story = {
 
 export const SecondaryLabelBelow: Story = {
   args: {
-    label: 'Menu Item',
+    label: 'menu-item',
     secondaryLabel: 'Descriptive text below',
   },
 };
 
 export const SecondaryLabelInline: Story = {
   args: {
-    label: 'Menu Item',
+    label: 'menu-item',
     secondaryLabel: 'Inline text',
-    secondaryLabelPosition: 'Inline',
+    secondaryLabelPosition: 'inline',
   },
 };
 
@@ -107,7 +107,7 @@ export const AllVariants: Story = {
           Default
         </h3>
         <div style={menuDemoStyle}>
-          <MenuItem label="Menu Item" />
+          <MenuItem label="menu-item" />
           <MenuItem label="With trailing check" trailingElement />
           <MenuItem label="No leading visual" leadingElement={false} />
         </div>
@@ -123,11 +123,11 @@ export const AllVariants: Story = {
           Secondary label
         </h3>
         <div style={menuDemoStyle}>
-          <MenuItem label="Menu Item" secondaryLabel="Descriptive text below" />
+          <MenuItem label="menu-item" secondaryLabel="Descriptive text below" />
           <MenuItem
-            label="Menu Item"
+            label="menu-item"
             secondaryLabel="Inline text"
-            secondaryLabelPosition="Inline"
+            secondaryLabelPosition="inline"
           />
         </div>
       </section>
@@ -173,7 +173,7 @@ export const AllVariants: Story = {
           Disabled
         </h3>
         <div style={menuDemoStyle}>
-          <MenuItem label="Menu Item" disabled />
+          <MenuItem label="menu-item" disabled />
           <MenuItem label="With badge" disabled mentionCount={2} />
           <MenuItem label="Destructive" destructive disabled />
         </div>

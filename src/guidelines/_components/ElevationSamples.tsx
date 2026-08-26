@@ -106,7 +106,7 @@ export function ElevationScale({
             {showUses && uses.length > 0 && (
               <div className={styles['scale__uses']}>
                 {uses.map((use) => (
-                  <Chip key={use} size="Small">
+                  <Chip key={use} size="small">
                     {use}
                   </Chip>
                 ))}

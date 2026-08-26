@@ -83,8 +83,8 @@ export default function LinkPreview({
           />
           <IconButton
             className={styles['link-preview__dismiss']}
-            size="X-Small"
-            padding="Compact"
+            size="x-small"
+            padding="compact"
             aria-label="Remove link preview"
             icon={<Icon size="12" glyph={<CloseIcon />} />}
             onClick={onDismiss}

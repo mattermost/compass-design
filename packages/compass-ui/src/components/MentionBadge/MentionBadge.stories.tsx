@@ -4,12 +4,12 @@ import MentionBadge from './MentionBadge';
 import type { MentionBadgeLocation, MentionBadgeSize } from './MentionBadge';
 
 const LOCATIONS: MentionBadgeLocation[] = [
-  'Sidebar',
-  'Menu Item',
-  'Icon Button',
-  'Channel',
+  'sidebar',
+  'menu-item',
+  'icon-button',
+  'channel',
 ];
-const SIZES: MentionBadgeSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: MentionBadgeSize[] = ['small', 'medium', 'large'];
 const COUNTS = [1, 22, 100];
 
 const meta = {
@@ -65,8 +65,8 @@ function Row({
 export const Default: Story = {
   args: {
     count: 22,
-    location: 'Sidebar',
-    size: 'Small',
+    location: 'sidebar',
+    size: 'small',
   },
   decorators: [
     (Story) => (
@@ -87,8 +87,8 @@ export const Default: Story = {
 export const Overflow: Story = {
   args: {
     count: 100,
-    location: 'Channel',
-    size: 'Medium',
+    location: 'channel',
+    size: 'medium',
   },
 };
 
@@ -101,7 +101,7 @@ export const AllVariants: Story = {
             <MentionBadge
               key={count}
               count={count}
-              location="Sidebar"
+              location="sidebar"
               size={size}
             />
           ))}
@@ -113,7 +113,7 @@ export const AllVariants: Story = {
             {SIZES.map((size) => (
               <MentionBadge
                 key={size}
-                count={size === 'Small' ? 1 : size === 'Medium' ? 22 : 100}
+                count={size === 'small' ? 1 : size === 'medium' ? 22 : 100}
                 location={location}
                 size={size}
               />

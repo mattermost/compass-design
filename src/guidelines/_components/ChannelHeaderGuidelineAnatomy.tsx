@@ -15,7 +15,7 @@ export function ChannelHeaderAnatomyStage() {
     >
       <div className={styles['channel-header-anatomy__strip']}>
         <ChannelHeader
-          type="Channel"
+          type="channel"
           name="UX Design"
           memberCount={48}
           pinnedCount={3}

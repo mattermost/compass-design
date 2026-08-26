@@ -8,7 +8,7 @@ import { forwardRef, useId, useState, useCallback, useRef } from 'react';
 import { toKebab } from '@/utils/string';
 import styles from './TextInput.module.scss';
 
-export type TextInputSize = 'Small' | 'Medium' | 'Large';
+export type TextInputSize = 'small' | 'medium' | 'large';
 
 export interface TextInputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -43,7 +43,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   function TextInput(
     {
       className = '',
-      size = 'Medium',
+      size = 'medium',
       label,
       leadingIcon,
       trailingIcon,

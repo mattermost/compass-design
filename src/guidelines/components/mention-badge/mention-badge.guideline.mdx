@@ -17,8 +17,8 @@ A Mention Badge is a single pill with a numeric label.
 
 <AnatomyStage style={{ gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
   <MentionBadge count={3} />
-  <MentionBadge count={3} location="Channel" />
-  <MentionBadge count={3} location="Menu Item" />
+  <MentionBadge count={3} location="channel" />
+  <MentionBadge count={3} location="menu-item" />
 </AnatomyStage>
 
 Use the badge for **mention** counts only. For "this row has unread activity"
@@ -32,9 +32,9 @@ Three sizes cover every context. Pick the smallest that still reads at the
 expected viewing distance.
 
 <div style={{display:'flex',gap:'1rem',flexWrap:'wrap',alignItems:'center'}}>
-  <MentionBadge count={5} size="Small" />
-  <MentionBadge count={5} size="Medium" />
-  <MentionBadge count={5} size="Large" />
+  <MentionBadge count={5} size="small" />
+  <MentionBadge count={5} size="medium" />
+  <MentionBadge count={5} size="large" />
 </div>
 
 | Size   | Use when                                                         |
@@ -54,10 +54,10 @@ underlying surface. Pass `location` to match the surface (see the
 Same count across each location:
 
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', padding: '0.75rem 0' }}>
-  <MentionBadge count={3} location="Sidebar" />
-  <MentionBadge count={3} location="Menu Item" />
-  <MentionBadge count={3} location="Channel" />
-  <MentionBadge count={3} location="Icon Button" />
+  <MentionBadge count={3} location="sidebar" />
+  <MentionBadge count={3} location="menu-item" />
+  <MentionBadge count={3} location="channel" />
+  <MentionBadge count={3} location="icon-button" />
 </div>
 
 | Location    | Use when                                                              |

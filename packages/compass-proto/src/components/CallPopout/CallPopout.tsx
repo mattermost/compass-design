@@ -102,15 +102,15 @@ export default function CallPopout({
       <div className={styles['popout__container']}>
         <div className={styles['popout__header']}>
           <div className={styles['popout__header-left']}>
-            <RecordingPill state="Recording" />
+            <RecordingPill state="recording" />
             <span className={styles['popout__elapsed']}>
               3:39 &middot; {participants.length} participants
             </span>
           </div>
           <div className={styles['popout__header-right']}>
             <IconButton
-              size="Small"
-              style="Inverted"
+              size="small"
+              style="inverted"
               toggled={infoOpen}
               aria-label={infoOpen ? 'Close call info' : 'Open call info'}
               icon={<Icon size="16" glyph={<InformationOutlineIcon />} />}
@@ -118,8 +118,8 @@ export default function CallPopout({
             />
             {!fullscreen && (
               <IconButton
-                size="Small"
-                style="Inverted"
+                size="small"
+                style="inverted"
                 aria-label="Collapse call"
                 icon={<Icon size="16" glyph={<ArrowCollapseIcon />} />}
                 onClick={onCollapse}
@@ -157,7 +157,7 @@ export default function CallPopout({
                   src={p.avatarSrc}
                   alt={p.name}
                   name={p.name}
-                  size="Medium"
+                  size="medium"
                   kind={p.kind}
                   host={p.host}
                   external={p.external}
@@ -178,8 +178,8 @@ export default function CallPopout({
         <div className={styles['popout__controls']}>
           <div className={styles['popout__controls-left']}>
             <IconButton
-              size="Medium"
-              style="Inverted"
+              size="medium"
+              style="inverted"
               toggled={participantsOpen}
               count={participants.length}
               aria-label={`Participants (${participants.length})`}
@@ -190,8 +190,8 @@ export default function CallPopout({
 
           <div className={styles['popout__controls-middle']}>
             <IconButton
-              size="Medium"
-              style="Inverted"
+              size="medium"
+              style="inverted"
               aria-label={muted ? 'Unmute' : 'Mute'}
               icon={
                 <Icon
@@ -202,34 +202,34 @@ export default function CallPopout({
               onClick={onToggleMute}
             />
             <IconButton
-              size="Medium"
-              style="Inverted"
+              size="medium"
+              style="inverted"
               aria-label="Share screen"
               icon={<Icon size="20" glyph={<MonitorOffIcon />} />}
             />
             {!fullscreen && (
               <IconButton
-                size="Medium"
-                style="Inverted"
+                size="medium"
+                style="inverted"
                 aria-label="Record"
                 icon={<Icon size="20" glyph={<RecordCircleOutlineIcon />} />}
               />
             )}
             <IconButton
-              size="Medium"
-              style="Inverted"
+              size="medium"
+              style="inverted"
               aria-label="Reactions"
               icon={<Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />}
             />
             <IconButton
-              size="Medium"
-              style="Inverted"
+              size="medium"
+              style="inverted"
               aria-label="Chat"
               icon={<Icon size="20" glyph={<MessageTextOutlineIcon />} />}
             />
             <IconButton
-              size="Medium"
-              style="Inverted"
+              size="medium"
+              style="inverted"
               aria-label="More"
               icon={<Icon size="20" glyph={<DotsHorizontalIcon />} />}
             />
@@ -237,7 +237,7 @@ export default function CallPopout({
 
           <div className={styles['popout__controls-right']}>
             <IconButton
-              size="Medium"
+              size="medium"
               destructive
               aria-label="Leave call"
               icon={<Icon size="20" glyph={<PhoneHangupIcon />} />}

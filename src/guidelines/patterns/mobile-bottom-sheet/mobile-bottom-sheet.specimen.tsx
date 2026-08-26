@@ -61,7 +61,7 @@ function InteractiveSheet() {
           <p className={styles['mbs-specimen__device-copy']}>
             Channel content behind the sheet.
           </p>
-          <Button emphasis='Primary' onClick={() => setOpen(true)}>
+          <Button emphasis='primary' onClick={() => setOpen(true)}>
             Open bottom sheet
           </Button>
         </div>
@@ -71,8 +71,8 @@ function InteractiveSheet() {
           title='Files and media'
           footer={
             <Button
-              emphasis='Primary'
-              size='Large'
+              emphasis='primary'
+              size='large'
               className={styles['mbs-specimen__footer-btn']}
               onClick={() => setOpen(false)}
             >
@@ -126,8 +126,8 @@ export default function MobileBottomSheetLibrary() {
               }
               footer={
                 <Button
-                  emphasis='Primary'
-                  size='Large'
+                  emphasis='primary'
+                  size='large'
                   className={styles['mbs-specimen__footer-btn']}
                 >
                   Primary Button

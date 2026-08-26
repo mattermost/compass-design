@@ -3,7 +3,7 @@ import styles from './UnreadBadge.module.scss';
 
 export type UnreadBadgeSize = '6' | '8';
 
-export type UnreadBadgeContext = 'Team Icon' | 'Icon Button';
+export type UnreadBadgeContext = 'team-icon' | 'icon-button';
 
 export interface UnreadBadgeProps {
   /** Dot size in px. Default: 8. */
@@ -12,7 +12,7 @@ export interface UnreadBadgeProps {
   context?: UnreadBadgeContext;
   /** Optional CSS class name. */
   className?: string;
-  /** Accessible label. Default: "Unread". */
+  /** Accessible label. Default: "unread". */
   'aria-label'?: string;
 }
 
@@ -24,9 +24,9 @@ export interface UnreadBadgeProps {
  * @see Figma Unread Badge (v2.0.0, Source: F3fippSczUZwF6C5yXoNFf)
  */
 export default function UnreadBadge({
-  'aria-label': ariaLabel = 'Unread',
+  'aria-label': ariaLabel = 'unread',
   className = '',
-  context = 'Team Icon',
+  context = 'team-icon',
   size = '8',
 }: UnreadBadgeProps) {
   const sizeClass = styles[`unread-badge--size-${size}`];

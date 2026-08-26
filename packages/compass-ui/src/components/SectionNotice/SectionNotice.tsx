@@ -10,11 +10,11 @@ import CloseIcon from '@mattermost/compass-icons/components/close';
 import styles from './SectionNotice.module.scss';
 
 export type SectionNoticeType =
-  | 'Info'
-  | 'Warning'
-  | 'Danger'
-  | 'Success'
-  | 'Hint';
+  | 'info'
+  | 'warning'
+  | 'danger'
+  | 'success'
+  | 'hint';
 
 export interface SectionNoticeProps {
   /** Optional CSS class name. */
@@ -40,11 +40,11 @@ export interface SectionNoticeProps {
 }
 
 const DEFAULT_ICONS: Record<SectionNoticeType, ReactNode> = {
-  Info: <Icon size="20" glyph={<InformationOutlineIcon />} />,
-  Warning: <Icon size="20" glyph={<AlertCircleOutlineIcon />} />,
-  Danger: <Icon size="20" glyph={<AlertOutlineIcon />} />,
-  Success: <Icon size="20" glyph={<CheckCircleOutlineIcon />} />,
-  Hint: <Icon size="20" glyph={<InformationOutlineIcon />} />,
+  info: <Icon size="20" glyph={<InformationOutlineIcon />} />,
+  warning: <Icon size="20" glyph={<AlertCircleOutlineIcon />} />,
+  danger: <Icon size="20" glyph={<AlertOutlineIcon />} />,
+  success: <Icon size="20" glyph={<CheckCircleOutlineIcon />} />,
+  hint: <Icon size="20" glyph={<InformationOutlineIcon />} />,
 };
 
 /**
@@ -54,7 +54,7 @@ const DEFAULT_ICONS: Record<SectionNoticeType, ReactNode> = {
  */
 export default function SectionNotice({
   className = '',
-  type = 'Info',
+  type = 'info',
   icon,
   title,
   description,
@@ -93,8 +93,8 @@ export default function SectionNotice({
             <div className={styles['section-notice__actions']}>
               {primaryButtonLabel != null && (
                 <Button
-                  emphasis="Primary"
-                  size="Small"
+                  emphasis="primary"
+                  size="small"
                   onClick={onPrimaryAction}
                 >
                   {primaryButtonLabel}
@@ -102,8 +102,8 @@ export default function SectionNotice({
               )}
               {secondaryButtonLabel != null && (
                 <Button
-                  emphasis="Secondary"
-                  size="Small"
+                  emphasis="secondary"
+                  size="small"
                   onClick={onSecondaryAction}
                 >
                   {secondaryButtonLabel}
@@ -117,7 +117,7 @@ export default function SectionNotice({
         <IconButton
           className={styles['section-notice__dismiss']}
           aria-label="Dismiss"
-          size="Small"
+          size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onDismiss}
         />

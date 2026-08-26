@@ -7,29 +7,29 @@ export default function ToastLibrary() {
       <div className={styles['components__button-block']}>
         <Toast
           message="Link copied to clipboard."
-          type="General"
+          type="general"
           onDismiss={() => {}}
         />
         <Toast
           message="Message saved successfully."
-          type="Success"
+          type="success"
           onDismiss={() => {}}
         />
         <Toast
           message="Failed to send message. Please try again."
-          type="Danger"
+          type="danger"
           actionLabel="Retry"
           onAction={() => {}}
           onDismiss={() => {}}
         />
         <Toast
           message="Your session will expire in 5 minutes."
-          type="Warning"
+          type="warning"
           onDismiss={() => {}}
         />
         <Toast
           message="New update available. Refresh to apply."
-          type="Info"
+          type="info"
           actionLabel="Refresh"
           onAction={() => {}}
           onDismiss={() => {}}

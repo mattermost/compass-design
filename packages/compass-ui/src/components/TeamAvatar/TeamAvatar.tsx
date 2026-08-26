@@ -12,7 +12,7 @@ export type TeamAvatarSize =
   | '72'
   | '96'
   | '120';
-export type TeamAvatarState = 'Default' | 'Active';
+export type TeamAvatarState = 'default' | 'active';
 
 export interface TeamAvatarProps {
   alt?: string;
@@ -31,10 +31,10 @@ export default function TeamAvatar({
   initials = 'Ac',
   size = '40',
   src,
-  state = 'Default',
+  state = 'default',
 }: TeamAvatarProps) {
   const numSize = parseInt(size, 10);
-  const isActive = state === 'Active';
+  const isActive = state === 'active';
   const showBadge = badge != null && badge > 0 && numSize <= 64 && !isActive;
 
   const rootClasses = [
@@ -63,7 +63,7 @@ export default function TeamAvatar({
       {showBadge && (
         <MentionBadge
           count={badge!}
-          size="Medium"
+          size="medium"
           className={styles['team-avatar__badge']}
         />
       )}

@@ -60,7 +60,7 @@ export default function AdminPanel({
   switchDisabled,
   expandable = false,
   expandedState: expandedStateProp,
-  defaultExpandedState = 'Collapsed',
+  defaultExpandedState = 'collapsed',
   onExpandedStateChange,
 }: AdminPanelProps) {
   const titleId = useId();
@@ -70,12 +70,12 @@ export default function AdminPanel({
 
   const isExpandControlled = expandable && expandedStateProp !== undefined;
   const resolvedExpandedState: AdminPanelExpandedState = !expandable
-    ? 'Expanded'
+    ? 'expanded'
     : isExpandControlled
       ? expandedStateProp!
       : uncontrolledExpanded;
 
-  const isExpanded = resolvedExpandedState === 'Expanded';
+  const isExpanded = resolvedExpandedState === 'expanded';
 
   const setExpandedState = (next: AdminPanelExpandedState) => {
     if (!expandable) return;
@@ -86,7 +86,7 @@ export default function AdminPanel({
   };
 
   const toggleExpanded = () => {
-    setExpandedState(isExpanded ? 'Collapsed' : 'Expanded');
+    setExpandedState(isExpanded ? 'collapsed' : 'expanded');
   };
 
   const showHeaderDivider = !expandable || isExpanded;

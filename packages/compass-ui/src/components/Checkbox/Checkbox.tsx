@@ -9,7 +9,7 @@ import MinusIcon from '@mattermost/compass-icons/components/minus';
 import { toKebab } from '@/utils/string';
 import styles from './Checkbox.module.scss';
 
-export type CheckboxSize = 'Small' | 'Medium' | 'Large';
+export type CheckboxSize = 'small' | 'medium' | 'large';
 
 export interface CheckboxProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -29,9 +29,9 @@ export interface CheckboxProps extends Omit<
 
 /** Icon size from design system scale for each checkbox size (fits inside box). */
 const CHECKBOX_ICON_SIZE: Record<CheckboxSize, IconSize> = {
-  Small: '10',
-  Medium: '12',
-  Large: '16',
+  small: '10',
+  medium: '12',
+  large: '16',
 };
 
 /** Compass icon component per checked/indeterminate state. */
@@ -53,7 +53,7 @@ const ICON_COMPONENT: Record<'check' | 'minus', ElementType> = {
 export default function Checkbox({
   className = '',
   indeterminate = false,
-  size = 'Medium',
+  size = 'medium',
   valid = true,
   children,
   id: idProp,

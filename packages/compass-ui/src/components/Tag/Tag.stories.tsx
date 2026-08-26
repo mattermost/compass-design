@@ -10,15 +10,15 @@ import {
 } from '../../storybook/icons';
 
 const TYPES: TagType[] = [
-  'Default',
-  'Info',
-  'Info Dim',
-  'Danger',
-  'Success',
-  'Warning',
+  'default',
+  'info',
+  'info-dim',
+  'danger',
+  'success',
+  'warning',
 ];
-const SIZES: TagSize[] = ['X-Small', 'Small'];
-const CASINGS: TagCasing[] = ['Title Case', 'All Caps'];
+const SIZES: TagSize[] = ['x-small', 'small'];
+const CASINGS: TagCasing[] = ['title-case', 'all-caps'];
 
 type TagStoryArgs = Omit<TagProps, 'leadingIcon'> & {
   leadingIcon?: string;
@@ -37,13 +37,13 @@ const meta = {
   args: {
     leadingIcon: ICON_NONE,
   },
-  render: ({ leadingIcon, size = 'X-Small', ...rest }) => (
+  render: ({ leadingIcon, size = 'x-small', ...rest }) => (
     <Tag
       {...rest}
       size={size}
       leadingIcon={
         resolveStoryIcon(leadingIcon, {
-          glyphSize: size === 'Small' ? 12 : 10,
+          glyphSize: size === 'small' ? 12 : 10,
         }) as ReactNode
       }
     />
@@ -79,17 +79,17 @@ function Row({ children, label }: { children: ReactNode; label: string }) {
 
 export const Default: Story = {
   args: {
-    label: 'Default',
-    type: 'Default',
+    label: 'default',
+    type: 'default',
   },
 };
 
 export const WithIcon: Story = {
   args: {
     label: 'Professional',
-    casing: 'All Caps',
+    casing: 'all-caps',
     leadingIcon: 'globe',
-    type: 'Default',
+    type: 'default',
   },
 };
 
@@ -105,26 +105,26 @@ export const AllVariants: Story = {
       ))}
       <Row label="All caps">
         {TYPES.map((type) => (
-          <Tag key={type} label="Tag" type={type} casing="All Caps" />
+          <Tag key={type} label="Tag" type={type} casing="all-caps" />
         ))}
       </Row>
       <Row label="With icon">
         <Tag
           label="Professional"
-          casing="All Caps"
+          casing="all-caps"
           leadingIcon={<GlobeIcon size={10} />}
-          type="Default"
+          type="default"
         />
         <Tag
-          label="Info"
+          label="info"
           leadingIcon={<GlobeIcon size={10} />}
-          type="Info"
+          type="info"
         />
         <Tag
-          label="Success"
+          label="success"
           leadingIcon={<GlobeIcon size={12} />}
-          size="Small"
-          type="Success"
+          size="small"
+          type="success"
         />
       </Row>
     </div>

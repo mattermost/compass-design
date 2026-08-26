@@ -100,7 +100,7 @@ function App() {
   const items = Array.from({ length: 20 }, (_, i) => \`Row \${i + 1}\`);
   return (
     <div style={{ padding: 24, fontFamily: 'system-ui' }}>
-      <Button emphasis="Primary">Compass UI</Button>
+      <Button emphasis="primary">Compass UI</Button>
       <Button leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}>With icon</Button>
       <div style={{ width: 240, height: 120, marginTop: 16, border: '1px solid #ccc' }}>
         <Scrollbar>

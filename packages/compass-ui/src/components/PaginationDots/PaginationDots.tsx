@@ -1,7 +1,7 @@
 import styles from './PaginationDots.module.scss';
 
-export type PaginationDotsOrientation = 'Horizontal' | 'Vertical';
-export type PaginationDotsStyle = 'Default' | 'Inverted' | 'OnPrimary';
+export type PaginationDotsOrientation = 'horizontal' | 'vertical';
+export type PaginationDotsStyle = 'default' | 'inverted' | 'on-primary';
 
 export interface PaginationDotsProps {
   /** Total number of pages/steps. */
@@ -27,14 +27,14 @@ export interface PaginationDotsProps {
 export default function PaginationDots({
   pages,
   activePage,
-  orientation = 'Horizontal',
-  dotStyle = 'Default',
+  orientation = 'horizontal',
+  dotStyle = 'default',
   onPageChange,
   className = '',
 }: PaginationDotsProps) {
-  const isVertical = orientation === 'Vertical';
-  const isInverted = dotStyle === 'Inverted';
-  const isOnPrimary = dotStyle === 'OnPrimary';
+  const isVertical = orientation === 'vertical';
+  const isInverted = dotStyle === 'inverted';
+  const isOnPrimary = dotStyle === 'on-primary';
 
   const orientationClass = isVertical
     ? styles['pagination-dots--vertical']

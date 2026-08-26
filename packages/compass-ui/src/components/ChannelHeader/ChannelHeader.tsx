@@ -16,12 +16,12 @@ import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import styles from './ChannelHeader.module.scss';
 
 export type ChannelHeaderType =
-  | 'Channel'
-  | 'Bot'
-  | 'DM'
-  | 'GM'
-  | 'Threads'
-  | 'Drafts';
+  | 'channel'
+  | 'bot'
+  | 'dm'
+  | 'gm'
+  | 'threads'
+  | 'drafts';
 
 export interface ChannelHeaderProps {
   /** Channel type variant. Default: Channel. */
@@ -58,7 +58,7 @@ export interface ChannelHeaderProps {
 }
 
 export default function ChannelHeader({
-  type = 'Channel',
+  type = 'channel',
   name = '',
   description,
   memberCount,
@@ -75,13 +75,13 @@ export default function ChannelHeader({
   infoToggled = false,
   className = '',
 }: ChannelHeaderProps) {
-  const isSimple = type === 'Threads' || type === 'Drafts';
-  const showCallButton = type === 'Channel' || type === 'DM' || type === 'GM';
+  const isSimple = type === 'threads' || type === 'drafts';
+  const showCallButton = type === 'channel' || type === 'dm' || type === 'gm';
   const showMembers =
-    (type === 'Channel' || type === 'GM') && memberCount != null;
-  const showFiles = type === 'Channel' || type === 'DM' || type === 'GM';
-  const showChevron = type === 'Channel' || type === 'DM' || type === 'GM';
-  const hasDmAvatar = (type === 'DM' || type === 'Bot') && Boolean(avatarSrc);
+    (type === 'channel' || type === 'gm') && memberCount != null;
+  const showFiles = type === 'channel' || type === 'dm' || type === 'gm';
+  const showChevron = type === 'channel' || type === 'dm' || type === 'gm';
+  const hasDmAvatar = (type === 'dm' || type === 'bot') && Boolean(avatarSrc);
 
   const rootClass = [
     styles['channel-header'],
@@ -109,7 +109,7 @@ export default function ChannelHeader({
       <div className={styles['channel-header__left']}>
         <div className={styles['channel-header__top-row']}>
           <IconButton
-            size="X-Small"
+            size="x-small"
             aria-label={
               favorited ? 'Remove from favorites' : 'Add to favorites'
             }
@@ -133,9 +133,9 @@ export default function ChannelHeader({
                 src={avatarSrc!}
                 alt={name}
                 size="24"
-                status={type === 'DM' ? avatarStatus : false}
+                status={type === 'dm' ? avatarStatus : false}
               />
-              {type === 'Bot' ? (
+              {type === 'bot' ? (
                 <div className={styles['channel-header__bot-name-group']}>
                   <button
                     className={styles['channel-header__name-area']}
@@ -147,7 +147,7 @@ export default function ChannelHeader({
                     </span>
                   </button>
                   <span className={styles['channel-header__bot-tag']}>
-                    <Tag label="BOT" casing="All Caps" />
+                    <Tag label="BOT" casing="all-caps" />
                   </span>
                 </div>
               ) : (
@@ -177,14 +177,14 @@ export default function ChannelHeader({
           <div className={styles['channel-header__stat-icons']}>
             {muted && (
               <IconButton
-                size="X-Small"
+                size="x-small"
                 aria-label="Notifications muted"
                 icon={<Icon size="12" glyph={<BellOffOutlineIcon />} />}
               />
             )}
             {showMembers && (
               <IconButton
-                size="X-Small"
+                size="x-small"
                 aria-label={`${memberCount} members`}
                 count={memberCount}
                 icon={<Icon size="12" glyph={<AccountOutlineIcon />} />}
@@ -192,7 +192,7 @@ export default function ChannelHeader({
             )}
             {pinnedCount != null && (
               <IconButton
-                size="X-Small"
+                size="x-small"
                 aria-label={`${pinnedCount} pinned messages`}
                 count={pinnedCount}
                 icon={<Icon size="12" glyph={<PinOutlineIcon />} />}
@@ -200,7 +200,7 @@ export default function ChannelHeader({
             )}
             {showFiles && (
               <IconButton
-                size="X-Small"
+                size="x-small"
                 aria-label="Files"
                 icon={<Icon size="12" glyph={<FileTextOutlineIcon />} />}
               />
@@ -217,8 +217,8 @@ export default function ChannelHeader({
         {showCallButton && (callButton ?? (
           <Button
             className={styles['channel-header__call-btn']}
-            emphasis="Quaternary"
-            size="Small"
+            emphasis="quaternary"
+            size="small"
             leadingIcon={<Icon size="16" glyph={<PhoneIcon />} />}
             onClick={onCallClick}
           >
@@ -226,7 +226,7 @@ export default function ChannelHeader({
           </Button>
         ))}
         <IconButton
-          size="Small"
+          size="small"
           aria-label="Channel info"
           icon={<Icon size="16" glyph={<InformationOutlineIcon />} />}
           onClick={onInfoClick}

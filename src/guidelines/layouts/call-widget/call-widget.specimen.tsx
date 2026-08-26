@@ -40,7 +40,7 @@ export default function CallWidgetLayout() {
       channelsSidebarModel={defaultChannelsSidebarDemoModel}
       channelHeader={
         <ChannelHeader
-          type="Channel"
+          type="channel"
           name="UX Design"
           description="Design reviews and ongoing work."
           memberCount={24}
@@ -82,7 +82,7 @@ export default function CallWidgetLayout() {
       <div className={shellStyles['channel-shell__messages']}>
         <Scrollbar>
           <div className={shellStyles['channel-shell__messages-list']}>
-            <MessageSeparator type="Date" label="Today" />
+            <MessageSeparator type="date" label="Today" />
 
             <Message
               avatarSrc={avatarSofia}

@@ -1,7 +1,7 @@
 import styles from './ShortcutTag.module.scss';
 
-export type ShortcutTagSize = 'Small' | 'Medium' | 'Large';
-export type ShortcutTagLocation = 'Default' | 'Tooltips';
+export type ShortcutTagSize = 'small' | 'medium' | 'large';
+export type ShortcutTagLocation = 'default' | 'tooltips';
 
 export type ShortcutTagProps = {
   /** Key label (e.g. `⌘`, `Shift`, `K`). */
@@ -13,14 +13,14 @@ export type ShortcutTagProps = {
 };
 
 const SIZE_CLASS: Record<ShortcutTagSize, string> = {
-  Small: styles['shortcut-tag__key--size-small'],
-  Medium: styles['shortcut-tag__key--size-medium'],
-  Large: styles['shortcut-tag__key--size-large'],
+  small: styles['shortcut-tag__key--size-small'],
+  medium: styles['shortcut-tag__key--size-medium'],
+  large: styles['shortcut-tag__key--size-large'],
 };
 
 const LOCATION_CLASS: Record<ShortcutTagLocation, string> = {
-  Default: styles['shortcut-tag__key--location-default'],
-  Tooltips: styles['shortcut-tag__key--location-tooltips'],
+  default: styles['shortcut-tag__key--location-default'],
+  tooltips: styles['shortcut-tag__key--location-tooltips'],
 };
 
 /**
@@ -30,8 +30,8 @@ const LOCATION_CLASS: Record<ShortcutTagLocation, string> = {
  */
 export default function ShortcutTag({
   label,
-  size = 'Small',
-  location = 'Default',
+  size = 'small',
+  location = 'default',
   className = '',
 }: ShortcutTagProps) {
   const rootClass = [
@@ -57,8 +57,8 @@ export type ShortcutTagGroupProps = {
 /** Inline row of shortcut tags for prose and notice copy. */
 export function ShortcutTagGroup({
   labels,
-  size = 'Small',
-  location = 'Default',
+  size = 'small',
+  location = 'default',
   className = '',
 }: ShortcutTagGroupProps) {
   const groupClass = [styles['shortcut-tag-group'], className]

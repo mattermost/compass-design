@@ -22,7 +22,7 @@ export default function MobileMentionsLibrary() {
           <MobileMentions>
             <Scrollbar>
               <div className={styles['mobile-mentions-layout__list']}>
-                <MessageSeparator type='Date' label='Today' />
+                <MessageSeparator type='date' label='Today' />
                 <MobileMessage
                   avatarSrc={avatarSofia}
                   avatarAlt='Sofia Bauer'
@@ -48,7 +48,7 @@ export default function MobileMentionsLibrary() {
                     onboarding flow before we cut a release.
                   </p>
                 </MobileMessage>
-                <MessageSeparator type='Date' label='Yesterday' />
+                <MessageSeparator type='date' label='Yesterday' />
                 <MobileMessage
                   avatarSrc={avatarAikoTan}
                   avatarAlt='Aiko Tan'

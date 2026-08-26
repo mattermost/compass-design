@@ -17,7 +17,7 @@ export function MobileModalNavigationBarAnatomyStage() {
     >
       <div className={styles['mobile-modal-navigation-bar-anatomy__frame']}>
         <MobileModalNavigationBar
-          variant='Child'
+          variant='child'
           title='Modal'
           subtitle='UX Design'
           actionLabel='Action'

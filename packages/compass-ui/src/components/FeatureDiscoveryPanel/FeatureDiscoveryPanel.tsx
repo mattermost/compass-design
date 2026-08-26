@@ -51,7 +51,7 @@ export default function FeatureDiscoveryPanel({
             {skuLabel != null && (
               <Tag
                 label={skuLabel}
-                casing="All Caps"
+                casing="all-caps"
                 leadingIcon={<Icon size="10" glyph={<MattermostIcon />} />}
               />
             )}
@@ -68,12 +68,12 @@ export default function FeatureDiscoveryPanel({
           <div className={styles['feature-discovery-panel__actions']}>
             {primaryAction != null && (
               <div className={styles['feature-discovery-panel__action']}>
-                <Button size="Medium" {...primaryAction} />
+                <Button size="medium" {...primaryAction} />
               </div>
             )}
             {secondaryAction != null && (
               <div className={styles['feature-discovery-panel__action']}>
-                <Button size="Medium" {...secondaryAction} />
+                <Button size="medium" {...secondaryAction} />
               </div>
             )}
           </div>

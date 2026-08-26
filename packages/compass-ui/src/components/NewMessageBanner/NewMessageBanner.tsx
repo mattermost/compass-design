@@ -3,7 +3,7 @@ import ArrowDownIcon from '@mattermost/compass-icons/components/arrow-down';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import styles from './NewMessageBanner.module.scss';
 
-export type NewMessageBannerType = 'JumpToUnreads' | 'NewReplies';
+export type NewMessageBannerType = 'jump-to-unreads' | 'new-replies';
 
 export interface NewMessageBannerProps {
   /** Optional CSS class name. */
@@ -25,14 +25,14 @@ export interface NewMessageBannerProps {
  */
 export default function NewMessageBanner({
   className = '',
-  type = 'JumpToUnreads',
+  type = 'jump-to-unreads',
   countLabel,
   onClick,
   onDismiss,
 }: NewMessageBannerProps) {
   const typeClass =
     styles[
-      `new-message-banner--type-${type === 'JumpToUnreads' ? 'jump-to-unreads' : 'new-replies'}`
+      `new-message-banner--type-${type === 'jump-to-unreads' ? 'jump-to-unreads' : 'new-replies'}`
     ];
 
   const rootClass = [
@@ -50,7 +50,7 @@ export default function NewMessageBanner({
         type="button"
         onClick={onClick}
         aria-label={
-          type === 'JumpToUnreads'
+          type === 'jump-to-unreads'
             ? countLabel != null
               ? `Jump to unreads, ${countLabel}`
               : 'Jump to unreads'
@@ -62,11 +62,11 @@ export default function NewMessageBanner({
             <Icon size="16" glyph={<ArrowDownIcon />} />
           </span>
           <span className={styles['new-message-banner__jump-label']}>
-            {type === 'JumpToUnreads' ? 'Jump to unreads' : 'New replies'}
+            {type === 'jump-to-unreads' ? 'Jump to unreads' : 'New replies'}
           </span>
         </span>
       </button>
-      {type === 'JumpToUnreads' && countLabel != null && (
+      {type === 'jump-to-unreads' && countLabel != null && (
         <span className={styles['new-message-banner__count']} aria-hidden>
           {countLabel}
         </span>

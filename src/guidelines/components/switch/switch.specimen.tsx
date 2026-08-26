@@ -15,18 +15,18 @@ export default function SwitchLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>
-          <Switch size="Medium">Unchecked</Switch>
-          <Switch size="Medium" defaultChecked>
+          <Switch size="medium">Unchecked</Switch>
+          <Switch size="medium" defaultChecked>
             Checked
           </Switch>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <Switch size="Small">Small</Switch>
-          <Switch size="Medium" defaultChecked>
+          <Switch size="small">Small</Switch>
+          <Switch size="medium" defaultChecked>
             Medium
           </Switch>
-          <Switch size="Large" defaultChecked>
+          <Switch size="large" defaultChecked>
             Large
           </Switch>
         </div>
@@ -34,11 +34,11 @@ export default function SwitchLibrary() {
           <span className={styles['components__instance-label']}>
             With secondary label
           </span>
-          <Switch size="Medium" secondaryLabel="Optional description text">
+          <Switch size="medium" secondaryLabel="Optional description text">
             Label
           </Switch>
           <Switch
-            size="Medium"
+            size="medium"
             defaultChecked
             secondaryLabel="Optional description"
           >
@@ -49,13 +49,13 @@ export default function SwitchLibrary() {
           <span className={styles['components__instance-label']}>
             Semi-bold & disabled
           </span>
-          <Switch size="Medium" semiBold>
+          <Switch size="medium" semiBold>
             Semi-bold label
           </Switch>
-          <Switch size="Medium" disabled>
+          <Switch size="medium" disabled>
             Disabled unchecked
           </Switch>
-          <Switch size="Medium" defaultChecked disabled>
+          <Switch size="medium" defaultChecked disabled>
             Disabled checked
           </Switch>
         </div>

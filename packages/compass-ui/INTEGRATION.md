@@ -145,7 +145,7 @@ import './app.scss';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Button emphasis="Primary">Hello</Button>
+    <Button emphasis="primary">Hello</Button>
   </StrictMode>,
 );
 ```

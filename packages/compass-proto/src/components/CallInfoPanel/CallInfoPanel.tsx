@@ -76,8 +76,8 @@ export default function CallInfoPanel({
         <span className={styles['call-info__title']}>Call info</span>
         {onClose && (
           <IconButton
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             aria-label="Close call info"
             icon={<Icon size="16" glyph={<CloseIcon />} />}
             onClick={onClose}
@@ -92,8 +92,8 @@ export default function CallInfoPanel({
             <div className={styles['call-info__kv']}>
               <span className={styles['call-info__value']}>{internalLink}</span>
               <IconButton
-                size="Small"
-                padding="Compact"
+                size="small"
+                padding="compact"
                 aria-label={
                   copied === 'internal'
                     ? 'Copied internal link'
@@ -125,7 +125,7 @@ export default function CallInfoPanel({
           <div className={styles['call-info__toggle-row']}>
             <Switch
               className={styles['call-info__switch']}
-              size="Medium"
+              size="medium"
               semiBold
               checked={externalEnabled}
               onChange={(e) =>
@@ -137,8 +137,8 @@ export default function CallInfoPanel({
                 : 'Enable external participants'}
             </Switch>
             <IconButton
-              size="Small"
-              padding="Compact"
+              size="small"
+              padding="compact"
               aria-label="External link settings"
               icon={<Icon size="16" glyph={<CogOutlineIcon />} />}
               onClick={onSettingsClick}
@@ -155,8 +155,8 @@ export default function CallInfoPanel({
                   {externalLink}
                 </span>
                 <IconButton
-                  size="Small"
-                  padding="Compact"
+                  size="small"
+                  padding="compact"
                   aria-label={
                     copied === 'external'
                       ? 'Copied external link'
@@ -193,8 +193,8 @@ export default function CallInfoPanel({
             </div>
 
             <Button
-              size="Small"
-              emphasis="Tertiary"
+              size="small"
+              emphasis="tertiary"
               leadingIcon={
                 <Icon
                   size="12"

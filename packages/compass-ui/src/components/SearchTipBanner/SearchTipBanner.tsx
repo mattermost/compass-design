@@ -48,7 +48,7 @@ export default function SearchTipBanner({
             <span className={styles['search-tip-banner__text']}>{prefix}</span>
             <ShortcutTagGroup
               labels={shortcutKeys.map((key) => key.label)}
-              size="Medium"
+              size="medium"
             />
             <span className={styles['search-tip-banner__text']}>{suffix}</span>
           </>
@@ -57,7 +57,7 @@ export default function SearchTipBanner({
       {onDismiss != null && (
         <IconButton
           aria-label="Dismiss tip"
-          size="Small"
+          size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onDismiss}
         />

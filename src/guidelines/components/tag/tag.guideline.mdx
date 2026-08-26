@@ -18,10 +18,10 @@ A pill-shaped container with a label, optional leading icon, and a colour
 that signals the tag's intent.
 
 <AnatomyStage style={{gap:'0.5rem',flexWrap:'wrap'}}>
-  <Tag label="BOT" type="Info Dim" casing="All Caps" />
-  <Tag label="Guest" type="Default" />
-  <Tag label="Beta" type="Info" />
-  <Tag label="PROFESSIONAL" type="Default" casing="All Caps" leadingIcon={<GlobeIcon size={10} />} />
+  <Tag label="BOT" type="info-dim" casing="all-caps" />
+  <Tag label="Guest" type="default" />
+  <Tag label="Beta" type="info" />
+  <Tag label="PROFESSIONAL" type="default" casing="all-caps" leadingIcon={<GlobeIcon size={10} />} />
 </AnatomyStage>
 
 - <Num>1</Num> **Container** — rounded rectangle. Background and text
@@ -41,8 +41,8 @@ quietly inside a row of text. Use **Small** when the tag stands alone or
 sits in a target where the smaller form would be hard to hit.
 
 <div style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
-  <Tag label="X-Small" type="Default" size="X-Small" />
-  <Tag label="Small" type="Default" size="Small" />
+  <Tag label="X-Small" type="default" size="x-small" />
+  <Tag label="Small" type="default" size="small" />
 </div>
 
 | Size    | Use when                                                               |
@@ -59,12 +59,12 @@ that matches the tag's semantic intent — don't choose a colour because it
 looks nice.
 
 <div style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px',flexWrap:'wrap'}}>
-  <Tag label="Default" type="Default" />
-  <Tag label="Info" type="Info" />
-  <Tag label="Info Dim" type="Info Dim" />
-  <Tag label="Danger" type="Danger" />
-  <Tag label="Success" type="Success" />
-  <Tag label="Warning" type="Warning" />
+  <Tag label="Default" type="default" />
+  <Tag label="Info" type="info" />
+  <Tag label="Info Dim" type="info-dim" />
+  <Tag label="Danger" type="danger" />
+  <Tag label="Success" type="success" />
+  <Tag label="Warning" type="warning" />
 </div>
 
 | Type      | Use when                                                                                |
@@ -85,8 +85,8 @@ labels where the all-caps form is the convention — Bot tag, SKU labels,
 role badges in admin contexts.
 
 <div style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
-  <Tag label="New" type="Info" />
-  <Tag label="NEW" type="Info" casing="All Caps" />
+  <Tag label="New" type="info" />
+  <Tag label="NEW" type="info" casing="all-caps" />
 </div>
 
 <Divider />

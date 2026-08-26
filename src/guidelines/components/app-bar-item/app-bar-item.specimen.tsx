@@ -14,12 +14,12 @@ export default function AppBarItemLibrary() {
           <AppBarItem
             icon={<EmoticonHappyOutlineIcon size={20} />}
             label="Emoji"
-            state="Default"
+            state="default"
           />
           <AppBarItem
             icon={<GlobeIcon size={20} />}
             label="Channels"
-            state="Selected"
+            state="selected"
           />
         </div>
         <div className={styles['components__button-row']}>

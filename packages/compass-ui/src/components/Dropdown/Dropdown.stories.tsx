@@ -14,11 +14,11 @@ import {
 } from '../../storybook/icons';
 
 const SIZES: DropdownSize[] = [
-  'X-Small',
-  'Small',
-  'Medium',
-  'Large',
-  'X-Large',
+  'x-small',
+  'small',
+  'medium',
+  'large',
+  'x-large',
 ];
 
 type DropdownStoryArgs = Omit<DropdownProps, 'leadingIcon'> & {
@@ -33,11 +33,11 @@ const meta = {
     size: { control: 'select', options: SIZES },
     padding: {
       control: 'select',
-      options: ['Tight', 'Compact'] satisfies DropdownPadding[],
+      options: ['tight', 'compact'] satisfies DropdownPadding[],
     },
     appearance: {
       control: 'select',
-      options: ['Default', 'Inverted'] satisfies DropdownAppearance[],
+      options: ['default', 'inverted'] satisfies DropdownAppearance[],
     },
     leadingIcon: iconSelectArgType({ optional: true }),
   },
@@ -60,7 +60,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: 'Label',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 
@@ -81,8 +81,8 @@ export const Sizes: Story = {
 export const CompactPadding: Story = {
   args: {
     children: 'Compact',
-    size: 'Medium',
-    padding: 'Compact',
+    size: 'medium',
+    padding: 'compact',
   },
 };
 
@@ -90,7 +90,7 @@ export const WithLeadingIcon: Story = {
   args: {
     children: 'Workspace',
     leadingIcon: 'globe',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 
@@ -117,7 +117,7 @@ export const Inverted: Story = {
         background: 'var(--sidebar-header-bg)',
       }}
     >
-      <Dropdown appearance="Inverted">Inverted</Dropdown>
+      <Dropdown appearance="inverted">Inverted</Dropdown>
     </div>
   ),
 };

@@ -8,7 +8,7 @@ export default function ChannelHeaderLibrary() {
     <div className={styles['patterns__channel-header-demo']}>
       <p className={styles['patterns__variant-label']}>Channel</p>
       <ChannelHeader
-        type="Channel"
+        type="channel"
         name="UX Design"
         memberCount={48}
         pinnedCount={1}
@@ -17,7 +17,7 @@ export default function ChannelHeaderLibrary() {
         Channel — favorited, muted
       </p>
       <ChannelHeader
-        type="Channel"
+        type="channel"
         name="UX Design"
         memberCount={48}
         pinnedCount={1}
@@ -26,7 +26,7 @@ export default function ChannelHeaderLibrary() {
       />
       <p className={styles['patterns__variant-label']}>Bot</p>
       <ChannelHeader
-        type="Bot"
+        type="bot"
         name="Todo"
         avatarSrc={avatarLeonard}
         description="Created by the Todo Plugin"
@@ -34,7 +34,7 @@ export default function ChannelHeaderLibrary() {
       />
       <p className={styles['patterns__variant-label']}>DM</p>
       <ChannelHeader
-        type="DM"
+        type="dm"
         name="Aiko Tan"
         avatarSrc={avatarAikoTan}
         avatarStatus
@@ -42,20 +42,20 @@ export default function ChannelHeaderLibrary() {
       />
       <p className={styles['patterns__variant-label']}>GM</p>
       <ChannelHeader
-        type="GM"
+        type="gm"
         name="Aiko Tan, Arjun Patel, Danielle Okoro"
         memberCount={4}
         pinnedCount={1}
       />
       <p className={styles['patterns__variant-label']}>Threads</p>
       <ChannelHeader
-        type="Threads"
+        type="threads"
         name="Followed Threads"
         description="Threads you're participating in will automatically show here"
       />
       <p className={styles['patterns__variant-label']}>Drafts</p>
       <ChannelHeader
-        type="Drafts"
+        type="drafts"
         name="Drafts"
         description="Any messages you've started will show here"
       />

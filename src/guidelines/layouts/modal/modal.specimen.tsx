@@ -27,8 +27,8 @@ export default function ModalLayout() {
 
   const modalFooter = (
     <>
-      <Button emphasis="Tertiary">Cancel</Button>
-      <Button emphasis="Primary" destructive>
+      <Button emphasis="tertiary">Cancel</Button>
+      <Button emphasis="primary" destructive>
         Delete
       </Button>
     </>
@@ -39,7 +39,7 @@ export default function ModalLayout() {
       channelsSidebarModel={defaultChannelsSidebarDemoModel}
       channelHeader={
         <ChannelHeader
-          type="Channel"
+          type="channel"
           name="Town Square"
           description="Company-wide announcements and general discussion."
           memberCount={124}
@@ -70,7 +70,7 @@ export default function ModalLayout() {
           <div className={styles['modal-layout__dialog']}>
             <Modal
               title="Delete category"
-              size="Small"
+              size="small"
               headerDivider={false}
               footerDivider={false}
               onClose={() => undefined}
@@ -93,7 +93,7 @@ export default function ModalLayout() {
         <div className={shellStyles['channel-shell__messages']}>
           <Scrollbar>
             <div className={shellStyles['channel-shell__messages-list']}>
-              <MessageSeparator type="Date" label="Today" />
+              <MessageSeparator type="date" label="Today" />
 
               <Message
                 avatarSrc={avatarSofia}
@@ -163,7 +163,7 @@ export default function ModalLayout() {
                 </p>
               </Message>
 
-              <MessageSeparator type="New Messages" />
+              <MessageSeparator type="new-messages" />
 
               <Message
                 avatarSrc={avatarLeonard}

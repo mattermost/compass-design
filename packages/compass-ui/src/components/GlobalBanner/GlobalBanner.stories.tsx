@@ -10,11 +10,11 @@ import {
 } from '../../storybook/icons';
 
 const TYPES: GlobalBannerType[] = [
-  'General',
-  'Warning',
-  'Danger',
-  'Info',
-  'Success',
+  'general',
+  'warning',
+  'danger',
+  'info',
+  'success',
 ];
 
 type GlobalBannerStoryArgs = Omit<GlobalBannerProps, 'leadingIcon'> & {
@@ -48,7 +48,7 @@ type Story = StoryObj<typeof meta>;
 export const General: Story = {
   args: {
     message: 'Your license expires in 14 days.',
-    type: 'General',
+    type: 'general',
     actionLabel: 'Renew',
     onAction: fn(),
     onDismiss: fn(),
@@ -58,7 +58,7 @@ export const General: Story = {
 export const Warning: Story = {
   args: {
     message: 'Scheduled maintenance window tonight from 2–4 AM UTC.',
-    type: 'Warning',
+    type: 'warning',
     onDismiss: fn(),
   },
 };
@@ -66,7 +66,7 @@ export const Warning: Story = {
 export const Danger: Story = {
   args: {
     message: 'Critical security update required. Please update immediately.',
-    type: 'Danger',
+    type: 'danger',
     actionLabel: 'Update now',
     onAction: fn(),
   },
@@ -77,32 +77,32 @@ export const AllVariants: Story = {
     <div style={{ display: 'grid', gap: 0 }}>
       <GlobalBanner
         message="Your license expires in 14 days."
-        type="General"
+        type="general"
         actionLabel="Renew"
         onAction={fn()}
         onDismiss={fn()}
       />
       <GlobalBanner
         message="Scheduled maintenance window tonight from 2–4 AM UTC."
-        type="Warning"
+        type="warning"
         onDismiss={fn()}
       />
       <GlobalBanner
         message="Critical security update required. Please update immediately."
-        type="Danger"
+        type="danger"
         actionLabel="Update now"
         onAction={fn()}
       />
       <GlobalBanner
         message="New version of Mattermost is available."
-        type="Info"
+        type="info"
         actionLabel="Learn more"
         onAction={fn()}
         onDismiss={fn()}
       />
       <GlobalBanner
         message="Your data export is ready to download."
-        type="Success"
+        type="success"
         actionLabel="Download"
         onAction={fn()}
         onDismiss={fn()}

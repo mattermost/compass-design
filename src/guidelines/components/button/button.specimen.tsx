@@ -10,13 +10,13 @@ import { Icon } from '@mattermost/compass-ui';
 import styles from '@/styles/library-demo/components.module.scss';
 
 const EMPHASES: ButtonEmphasis[] = [
-  'Primary',
-  'Secondary',
-  'Tertiary',
-  'Quaternary',
+  'primary',
+  'secondary',
+  'tertiary',
+  'quaternary',
 ];
 
-const SIZES: ButtonSize[] = ['X-Small', 'Small', 'Medium', 'Large'];
+const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 function VariantCell({
   label,
@@ -110,7 +110,7 @@ export default function ButtonLibrary() {
           Default
         </h3>
         <ButtonPermutationGrid
-          appearance="Default"
+          appearance="default"
           destructive={false}
           disabled={false}
         />
@@ -121,7 +121,7 @@ export default function ButtonLibrary() {
           Destructive
         </h3>
         <ButtonPermutationGrid
-          appearance="Default"
+          appearance="default"
           destructive
           disabled={false}
         />
@@ -132,7 +132,7 @@ export default function ButtonLibrary() {
           Disabled
         </h3>
         <ButtonPermutationGrid
-          appearance="Default"
+          appearance="default"
           destructive={false}
           disabled
         />
@@ -144,7 +144,7 @@ export default function ButtonLibrary() {
             Inverted
           </h3>
           <ButtonPermutationGrid
-            appearance="Inverted"
+            appearance="inverted"
             destructive={false}
             disabled={false}
           />
@@ -155,7 +155,7 @@ export default function ButtonLibrary() {
             Inverted Destructive
           </h3>
           <ButtonPermutationGrid
-            appearance="Inverted"
+            appearance="inverted"
             destructive
             disabled={false}
           />
@@ -166,7 +166,7 @@ export default function ButtonLibrary() {
             Inverted Disabled
           </h3>
           <ButtonPermutationGrid
-            appearance="Inverted"
+            appearance="inverted"
             destructive={false}
             disabled
           />

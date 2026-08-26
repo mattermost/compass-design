@@ -29,7 +29,7 @@ import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import { toKebab } from '@/utils/string';
 import styles from './Combobox.module.scss';
 
-export type ComboboxSize = 'Small' | 'Medium' | 'Large';
+export type ComboboxSize = 'small' | 'medium' | 'large';
 
 export type ComboboxOption = {
   value: string;
@@ -76,9 +76,9 @@ export interface ComboboxProps {
 const POPUP_MAX_HEIGHT = 280;
 
 const CHIP_SIZE_BY_COMBOBOX: Record<ComboboxSize, ChipSize> = {
-  Small: 'Small',
-  Medium: 'Medium',
-  Large: 'Large',
+  small: 'small',
+  medium: 'medium',
+  large: 'large',
 };
 
 function defaultFilter(option: ComboboxOption, query: string): boolean {
@@ -133,7 +133,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     label,
     placeholder,
     leadingIcon,
-    size = 'Medium',
+    size = 'medium',
     invalid = false,
     disabled = false,
     filter = true,

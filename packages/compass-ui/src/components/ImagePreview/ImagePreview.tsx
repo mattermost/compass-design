@@ -103,8 +103,8 @@ export default function ImagePreview({
             <div className={styles['image-preview__actions']}>
               {onCopyLink != null && (
                 <IconButton
-                  size="Small"
-                  padding="Compact"
+                  size="small"
+                  padding="compact"
                   aria-label="Copy link"
                   icon={<Icon size="16" glyph={<LinkVariantIcon />} />}
                   onClick={onCopyLink}
@@ -112,8 +112,8 @@ export default function ImagePreview({
               )}
               {onDownload != null && (
                 <IconButton
-                  size="Small"
-                  padding="Compact"
+                  size="small"
+                  padding="compact"
                   aria-label="Download"
                   icon={<Icon size="16" glyph={<DownloadOutlineIcon />} />}
                   onClick={onDownload}

@@ -39,12 +39,12 @@ export default function ThreadFooterLibrary() {
           <span className={styles['components__instance-label']}>Badges</span>
           <ThreadFooter
             replyCount={3}
-            badge="Unread"
+            badge="unread"
             avatars={[{ src: avatarLeonard, alt: 'Leonard' }]}
           />
           <ThreadFooter
             replyCount={1}
-            badge="Mention"
+            badge="mention"
             avatars={[{ src: avatarDanielle, alt: 'Danielle' }]}
           />
         </div>

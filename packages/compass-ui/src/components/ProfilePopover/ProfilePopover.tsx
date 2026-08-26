@@ -16,7 +16,7 @@ import Tag from '@/components/Tag/Tag';
 import Icon from '@/components/Icon/Icon';
 import styles from './ProfilePopover.module.scss';
 
-export type ProfilePopoverUser = 'Others' | 'You';
+export type ProfilePopoverUser = 'others' | 'you';
 
 export interface ProfilePopoverCustomStatus {
   emoji: string;
@@ -48,7 +48,7 @@ export interface ProfilePopoverPhone {
 }
 
 export interface ProfilePopoverProps {
-  /** Whose profile is shown. Default: 'Others'. */
+  /** Whose profile is shown. Default: 'others'. */
   user?: ProfilePopoverUser;
   /** Avatar image URL. */
   avatarSrc: string;
@@ -128,7 +128,7 @@ function MetaRow({ icon, children, href }: MetaRowProps) {
 }
 
 export default function ProfilePopover({
-  user = 'Others',
+  user = 'others',
   avatarSrc,
   avatarAlt,
   name,
@@ -156,7 +156,7 @@ export default function ProfilePopover({
   onAnimationEnd,
   className = '',
 }: ProfilePopoverProps) {
-  const isYou = user === 'You';
+  const isYou = user === 'you';
 
   const rootClass = [
     styles['profile-popover'],
@@ -181,7 +181,7 @@ export default function ProfilePopover({
     <div className={rootClass} onAnimationEnd={onAnimationEnd}>
       {jobRole && (
         <div className={styles['profile-popover__role-tag']}>
-          <Tag label={jobRole} casing="All Caps" size="X-Small" />
+          <Tag label={jobRole} casing="all-caps" size="x-small" />
         </div>
       )}
 
@@ -189,8 +189,8 @@ export default function ProfilePopover({
         <IconButton
           className={styles['profile-popover__close']}
           aria-label="Close"
-          size="Small"
-          padding="Compact"
+          size="small"
+          padding="compact"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onClose}
         />
@@ -341,8 +341,8 @@ export default function ProfilePopover({
         >
           <Button
             className={styles['profile-popover__primary-button']}
-            size="Small"
-            emphasis="Primary"
+            size="small"
+            emphasis="primary"
             leadingIcon={
               isYou ? (
                 <Icon size="12" glyph={<PencilOutlineIcon />} />
@@ -359,7 +359,7 @@ export default function ProfilePopover({
           {isYou ? (
             <IconButton
               aria-label="Send message"
-              size="Small"
+              size="small"
               icon={<Icon size="16" glyph={<SendOutlineIcon />} />}
               onClick={onSend}
             />
@@ -367,13 +367,13 @@ export default function ProfilePopover({
             <>
               <IconButton
                 aria-label="Mention user"
-                size="Small"
+                size="small"
                 icon={<Icon size="16" glyph={<AtIcon />} />}
                 onClick={onMention}
               />
               <IconButton
                 aria-label="Add to channel"
-                size="Small"
+                size="small"
                 icon={<Icon size="16" glyph={<AccountPlusOutlineIcon />} />}
                 onClick={onAddToChannel}
               />
@@ -381,7 +381,7 @@ export default function ProfilePopover({
                 (onCall ? (
                   <IconButton
                     aria-label="Call"
-                    size="Small"
+                    size="small"
                     icon={<Icon size="16" glyph={<PhoneIcon />} />}
                     onClick={onCall}
                   />

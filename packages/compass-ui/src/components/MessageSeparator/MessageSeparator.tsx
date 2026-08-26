@@ -3,12 +3,12 @@ import Icon from '@/components/Icon/Icon';
 import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
 import styles from './MessageSeparator.module.scss';
 
-export type MessageSeparatorType = 'Date' | 'New Messages' | 'Reply Count';
+export type MessageSeparatorType = 'date' | 'new-messages' | 'reply-count';
 
 export interface MessageSeparatorProps extends HTMLAttributes<HTMLDivElement> {
   /** Separator variant. Default: Date. */
   type?: MessageSeparatorType;
-  /** Label text. Defaults: 'Today' / 'New Messages' / '4 replies'. */
+  /** Label text. Defaults: 'Today' / 'new-messages' / '4 replies'. */
   label?: string;
   /** Show AI summarize button (New Messages type only). Default: false. */
   showAiSummary?: boolean;
@@ -19,9 +19,9 @@ export interface MessageSeparatorProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const DEFAULT_LABELS: Record<MessageSeparatorType, string> = {
-  Date: 'Today',
-  'New Messages': 'New Messages',
-  'Reply Count': '4 replies',
+  date: 'Today',
+  'new-messages': 'new-messages',
+  'reply-count': '4 replies',
 };
 
 /**
@@ -29,7 +29,7 @@ const DEFAULT_LABELS: Record<MessageSeparatorType, string> = {
  * Three types: date separator, new-message indicator (gold), and reply count.
  */
 export default function MessageSeparator({
-  type = 'Date',
+  type = 'date',
   label,
   showAiSummary = false,
   onSummarize,
@@ -41,7 +41,7 @@ export default function MessageSeparator({
   const rootClass = [
     styles['message-separator'],
     styles[
-      `message-separator--${type === 'New Messages' ? 'new' : type === 'Reply Count' ? 'reply' : 'date'}`
+      `message-separator--${type === 'new-messages' ? 'new' : type === 'reply-count' ? 'reply' : 'date'}`
     ],
     className,
   ]
@@ -54,7 +54,7 @@ export default function MessageSeparator({
         {displayLabel}
       </span>
 
-      {type === 'New Messages' && showAiSummary && (
+      {type === 'new-messages' && showAiSummary && (
         <button
           type="button"
           className={styles['message-separator__summarize']}
@@ -75,7 +75,7 @@ export default function MessageSeparator({
 
   return (
     <div className={rootClass} role="separator" {...rest}>
-      {type === 'Reply Count' ? (
+      {type === 'reply-count' ? (
         <>
           <div className={styles['message-separator__reply-gutter']} aria-hidden>
             <div className={styles['message-separator__reply-line-start']} />

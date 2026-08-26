@@ -101,9 +101,9 @@ export default function TourPoint({
             <IconButton
               className={styles['tour-point__close']}
               aria-label="Close"
-              size="Small"
-              padding="Compact"
-              style="Default"
+              size="small"
+              padding="compact"
+              style="default"
               icon={<Icon size="16" glyph={<CloseIcon />} />}
               onClick={onClose}
             />
@@ -124,7 +124,7 @@ export default function TourPoint({
                 className={styles['tour-point__progress']}
                 pages={progress.pages}
                 activePage={progress.activePage}
-                dotStyle="OnPrimary"
+                dotStyle="on-primary"
                 onPageChange={progress.onPageChange}
               />
             ) : (
@@ -134,8 +134,8 @@ export default function TourPoint({
             {primaryAction != null ? (
               <div className={styles['tour-point__next-wrap']}>
                 <Button
-                  emphasis="Primary"
-                  size="Small"
+                  emphasis="primary"
+                  size="small"
                   trailingIcon={
                     <Icon size="16" glyph={<ChevronRightIcon />} />
                   }

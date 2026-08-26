@@ -21,7 +21,7 @@ container.
     backgroundColor: 'var(--calls-bg)',
   }}
 >
-  <RecordingPill state="Recording" />
+  <RecordingPill state="recording" />
 </AnatomyStage>
 
 - <Num>1</Num> **Status icon** — a spinner while initializing, a record glyph
@@ -49,9 +49,9 @@ container.
     paddingBottom: 'var(--spacing-xxxl)',
   }}
 >
-  <RecordingPill state="Initializing" />
-  <RecordingPill state="Recording" />
-  <RecordingPill state="Hover" />
+  <RecordingPill state="initializing" />
+  <RecordingPill state="recording" />
+  <RecordingPill state="hover" />
 </AnatomyStage>
 
 The hover state is only meaningful for users who can stop the recording.

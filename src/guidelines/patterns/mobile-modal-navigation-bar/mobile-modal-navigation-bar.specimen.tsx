@@ -18,16 +18,16 @@ export default function MobileModalNavigationBarLibrary() {
   return (
     <div className={styles['mmnb-specimen']}>
       <Stage label='Parent'>
-        <MobileModalNavigationBar variant='Parent' title='Modal' />
+        <MobileModalNavigationBar variant='parent' title='Modal' />
       </Stage>
 
       <Stage label='Child'>
-        <MobileModalNavigationBar variant='Child' title='Modal' />
+        <MobileModalNavigationBar variant='child' title='Modal' />
       </Stage>
 
       <Stage label='Child — subtitle'>
         <MobileModalNavigationBar
-          variant='Child'
+          variant='child'
           title='Modal'
           subtitle='UX Design'
         />
@@ -35,7 +35,7 @@ export default function MobileModalNavigationBarLibrary() {
 
       <Stage label='Parent — action'>
         <MobileModalNavigationBar
-          variant='Parent'
+          variant='parent'
           title='Modal'
           actionLabel='Action'
         />
@@ -43,7 +43,7 @@ export default function MobileModalNavigationBarLibrary() {
 
       <Stage label='Parent — trailing icon'>
         <MobileModalNavigationBar
-          variant='Parent'
+          variant='parent'
           title='Modal'
           trailingIcon={<Icon size='20' glyph={<SendIcon />} />}
         />
@@ -51,7 +51,7 @@ export default function MobileModalNavigationBarLibrary() {
 
       <Stage label='Parent — avatar'>
         <MobileModalNavigationBar
-          variant='Parent'
+          variant='parent'
           title='Modal'
           avatarSrc={avatarStaffTeam}
           avatarAlt='App'
@@ -60,7 +60,7 @@ export default function MobileModalNavigationBarLibrary() {
 
       <Stage label='Child — action and avatar'>
         <MobileModalNavigationBar
-          variant='Child'
+          variant='child'
           title='Modal'
           avatarSrc={avatarStaffTeam}
           avatarAlt='App'

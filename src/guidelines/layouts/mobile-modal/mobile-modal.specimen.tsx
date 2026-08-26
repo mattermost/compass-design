@@ -13,7 +13,7 @@ function ChannelPeek() {
   return (
     <div className={styles['mobile-modal-layout__peek']}>
       <MobileNavigationBar
-        variant='Channel'
+        variant='channel'
         name='UX Design'
         memberCount={32}
       />

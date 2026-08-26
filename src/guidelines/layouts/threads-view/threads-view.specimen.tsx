@@ -36,7 +36,7 @@ function buildThreadsChannelsSidebarModel(
   const base = buildDefaultChannelsSidebarModel(input);
   return {
     topGroupItems: base.topGroupItems.map((row) =>
-      row.leadingVisual === 'Threads'
+      row.leadingVisual === 'threads'
         ? { ...row, active: true }
         : { ...row, active: false },
     ),
@@ -101,9 +101,9 @@ export default function ThreadsViewLayout() {
                 controls={
                   <IconButton
                     aria-label="Mark all as read"
-                    size="Small"
-                    style="Default"
-                    padding="Compact"
+                    size="small"
+                    style="default"
+                    padding="compact"
                     icon={<Icon size="16" glyph={<PlaylistCheckIcon />} />}
                   />
                 }
@@ -115,7 +115,7 @@ export default function ThreadsViewLayout() {
                 <div className={inboxStyles['threads-view__list-inner']}>
                   <ThreadListItem
                     active={selectedIndex === 0}
-                    badge="None"
+                    badge="none"
                     authorName="Leonard Riley"
                     channelLabel="UX DESIGN"
                     previewText="Nulla tincidunt eu viverra ultrices vitae enim pharetra in. Neque massa eu commodo elementum congue…"
@@ -126,7 +126,7 @@ export default function ThreadsViewLayout() {
                   />
                   <ThreadListItem
                     active={selectedIndex === 1}
-                    badge="Unread"
+                    badge="unread"
                     authorName="Pauline Burton"
                     channelLabel="ENTERPRISE TEAM"
                     previewText="Tristique lorem est facilisis sed est felis. Ut viverra semper suspendisse lacus mauris dui, sit aliquet nam."
@@ -137,7 +137,7 @@ export default function ThreadsViewLayout() {
                   />
                   <ThreadListItem
                     active={selectedIndex === 2}
-                    badge="Unread"
+                    badge="unread"
                     authorName="Jenny Ball"
                     channelLabel="DESIGN TEAM"
                     previewText="Sed semper scelerisque sit sollicitudin donec nunc, elit at. Maecenas ac sed morbi lectus dolor quis lacus."
@@ -147,7 +147,7 @@ export default function ThreadsViewLayout() {
                   />
                   <ThreadListItem
                     active={selectedIndex === 3}
-                    badge="Unread"
+                    badge="unread"
                     authorName="Martin Newman"
                     channelLabel="MOBILE TEAM"
                     previewText="Tortor quis auctor vel lacus leo, commodo porttitor sit. Diam amet imperdiet arcu sed quis elementum."
@@ -159,7 +159,7 @@ export default function ThreadsViewLayout() {
                     <>
                       <ThreadListItem
                         active={selectedIndex === 4}
-                        badge="None"
+                        badge="none"
                         authorName="Emma Novak"
                         channelLabel="DEVELOPERS"
                         previewText="Ship checklist is updated for the release candidate — please confirm your sections by EOD."
@@ -172,7 +172,7 @@ export default function ThreadsViewLayout() {
                       />
                       <ThreadListItem
                         active={selectedIndex === 5}
-                        badge="None"
+                        badge="none"
                         authorName="Ethan Brooks"
                         channelLabel="TOWN SQUARE"
                         previewText="Recording from the town hall is pinned in the channel header for anyone who missed it."

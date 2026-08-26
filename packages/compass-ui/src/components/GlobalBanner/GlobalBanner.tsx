@@ -6,11 +6,11 @@ import CloseIcon from '@mattermost/compass-icons/components/close';
 import styles from './GlobalBanner.module.scss';
 
 export type GlobalBannerType =
-  | 'General'
-  | 'Warning'
-  | 'Danger'
-  | 'Info'
-  | 'Success';
+  | 'general'
+  | 'warning'
+  | 'danger'
+  | 'info'
+  | 'success';
 
 export interface GlobalBannerProps {
   /** Optional CSS class name. */
@@ -37,14 +37,14 @@ export interface GlobalBannerProps {
 export default function GlobalBanner({
   className = '',
   message,
-  type = 'General',
+  type = 'general',
   leadingIcon,
   actionLabel,
   onAction,
   onDismiss,
 }: GlobalBannerProps) {
   const typeClass =
-    type !== 'General'
+    type !== 'general'
       ? styles[`global-banner--type-${type.toLowerCase()}`]
       : '';
 
@@ -64,9 +64,9 @@ export default function GlobalBanner({
         {actionLabel != null && (
           <Button
             className={styles['global-banner__action']}
-            appearance="Default"
-            emphasis="Tertiary"
-            size="X-Small"
+            appearance="default"
+            emphasis="tertiary"
+            size="x-small"
             onClick={onAction}
           >
             {actionLabel}
@@ -77,7 +77,7 @@ export default function GlobalBanner({
         <IconButton
           className={styles['global-banner__dismiss']}
           aria-label="Dismiss"
-          size="Small"
+          size="small"
           icon={<Icon glyph={<CloseIcon />} size="16" />}
           onClick={onDismiss}
         />

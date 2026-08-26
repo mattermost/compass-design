@@ -15,7 +15,7 @@ export function GlobalHeaderAnatomyStage() {
     >
       <div style={{ width: '100%', maxWidth: 960 }}>
         <GlobalHeader
-          product="Channels"
+          product="channels"
           userAvatarSrc={avatarLeonard}
           userAvatarAlt="Leonard Riley"
         />

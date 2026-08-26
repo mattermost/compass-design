@@ -68,17 +68,17 @@ export function ParticipantListItem({
         {isYou && (
           <span className={styles['participants-panel__you']}>(you)</span>
         )}
-        {host && <Tag label="HOST" size="X-Small" casing="All Caps" />}
+        {host && <Tag label="HOST" size="x-small" casing="all-caps" />}
         {external && (
-          <Tag label="EXTERNAL" size="X-Small" casing="All Caps" />
+          <Tag label="EXTERNAL" size="x-small" casing="all-caps" />
         )}
       </div>
 
       <div className={styles['participants-panel__item-actions']}>
         <span className={styles['participants-panel__more']}>
           <IconButton
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             aria-label={`More actions for ${name}`}
             icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
           />

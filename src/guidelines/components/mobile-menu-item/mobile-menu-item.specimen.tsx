@@ -33,7 +33,7 @@ export default function MobileMenuItemLibrary() {
         <MobileMenuItem
           label='Menu Item Label'
           secondaryLabel='Secondary label'
-          secondaryLabelPosition='Inline'
+          secondaryLabelPosition='inline'
         />
       </Stage>
 
@@ -47,7 +47,7 @@ export default function MobileMenuItemLibrary() {
         <MobileMenuItem
           label='Menu Item Label'
           secondaryLabel='Secondary label'
-          secondaryLabelPosition='Inline'
+          secondaryLabelPosition='inline'
           active
         />
       </Stage>
@@ -62,7 +62,7 @@ export default function MobileMenuItemLibrary() {
         <MobileMenuItem
           label='Menu Item Label'
           secondaryLabel='Secondary label'
-          secondaryLabelPosition='Inline'
+          secondaryLabelPosition='inline'
           destructive
         />
         <MobileMenuItem label='Menu Item Label' destructive active />
@@ -75,7 +75,7 @@ export default function MobileMenuItemLibrary() {
         <MobileMenuItem
           label='Menu Item Label'
           secondaryLabel='Secondary label'
-          secondaryLabelPosition='Inline'
+          secondaryLabelPosition='inline'
           destructive
           active
         />

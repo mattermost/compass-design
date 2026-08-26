@@ -10,11 +10,11 @@ import IconButton from '@/components/IconButton/IconButton';
 import styles from './Toast.module.scss';
 
 export type ToastType =
-  | 'General'
-  | 'Info'
-  | 'Success'
-  | 'Warning'
-  | 'Danger';
+  | 'general'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'danger';
 
 export interface ToastProps {
   className?: string;
@@ -26,17 +26,17 @@ export interface ToastProps {
 }
 
 const TYPE_ICONS: Record<ToastType, ReactNode> = {
-  General: <AlertCircleOutlineIcon />,
-  Info: <InformationOutlineIcon />,
-  Success: <CheckIcon />,
-  Danger: <AlertOutlineIcon />,
-  Warning: <AlertCircleOutlineIcon />,
+  general: <AlertCircleOutlineIcon />,
+  info: <InformationOutlineIcon />,
+  success: <CheckIcon />,
+  danger: <AlertOutlineIcon />,
+  warning: <AlertCircleOutlineIcon />,
 };
 
 export default function Toast({
   className = '',
   message,
-  type = 'General',
+  type = 'general',
   actionLabel,
   onAction,
   onDismiss,
@@ -53,9 +53,9 @@ export default function Toast({
         <span className={styles['toast__message']}>{message}</span>
         {actionLabel != null && (
           <Button
-            appearance="Default"
-            emphasis="Tertiary"
-            size="X-Small"
+            appearance="default"
+            emphasis="tertiary"
+            size="x-small"
             className={styles['toast__action-btn--on-dark']}
             onClick={onAction}
           >
@@ -66,7 +66,7 @@ export default function Toast({
       {onDismiss != null && (
         <IconButton
           aria-label="Dismiss"
-          size="Small"
+          size="small"
           className={styles['toast__dismiss']}
           icon={<Icon glyph={<CloseIcon />} size="16" />}
           onClick={onDismiss}

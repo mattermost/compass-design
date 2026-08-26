@@ -10,7 +10,7 @@ import styles from '@/styles/library-demo/components.module.scss';
 
 export default function AdminPanelPatternSpecimen() {
   const [controlledExpand, setControlledExpand] =
-    useState<AdminPanelExpandedState>('Expanded');
+    useState<AdminPanelExpandedState>('expanded');
 
   return (
     <div className={styles['components__button-block']}>
@@ -29,7 +29,7 @@ export default function AdminPanelPatternSpecimen() {
           showButton
           buttonLabel="Button"
           expandable
-          defaultExpandedState="Expanded"
+          defaultExpandedState="expanded"
         >
           Section content — body hides when collapsed and expandable.
         </AdminPanel>
@@ -42,7 +42,7 @@ export default function AdminPanelPatternSpecimen() {
           title="Section Title"
           subtitle="Section sub-title"
           expandable
-          defaultExpandedState="Collapsed"
+          defaultExpandedState="collapsed"
           showSwitch
           switchLabel="Off"
         >
@@ -64,8 +64,8 @@ export default function AdminPanelPatternSpecimen() {
           headerActions={
             <IconButton
               type="button"
-              style="Default"
-              size="Medium"
+              style="default"
+              size="medium"
               aria-label="Help"
               icon={<Icon size="20" glyph={<InformationOutlineIcon />} />}
             />

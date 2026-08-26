@@ -8,7 +8,7 @@ import { IconButton } from '@mattermost/compass-ui';
 import { MentionBadge } from '@mattermost/compass-ui';
 import styles from './MobileNavigationBar.module.scss';
 
-export type MobileNavigationBarVariant = 'Channel' | 'DM' | 'GM' | 'Bot';
+export type MobileNavigationBarVariant = 'channel' | 'dm' | 'gm' | 'bot';
 
 export interface MobileNavigationBarProps {
   /** Conversation type. Default: Channel. */
@@ -40,7 +40,7 @@ function formatMembersLabel(count: number): string {
  * @see Figma Patterns — Mobile — Top Nav Bar — Channel
  */
 export default function MobileNavigationBar({
-  variant = 'Channel',
+  variant = 'channel',
   name,
   memberCount,
   mentionCount,
@@ -53,7 +53,7 @@ export default function MobileNavigationBar({
   className = '',
 }: MobileNavigationBarProps) {
   const showCustomStatus =
-    variant === 'DM' && Boolean(customStatusEmoji) && Boolean(customStatusText);
+    variant === 'dm' && Boolean(customStatusEmoji) && Boolean(customStatusText);
 
   let subtitle: ReactNode = null;
   let showChevron = false;
@@ -70,7 +70,7 @@ export default function MobileNavigationBar({
       </>
     );
   } else if (
-    (variant === 'Channel' || variant === 'GM') &&
+    (variant === 'channel' || variant === 'gm') &&
     memberCount != null
   ) {
     subtitle = (
@@ -118,13 +118,13 @@ export default function MobileNavigationBar({
         <div className={styles['mobile-navigation-bar__left']}>
           <IconButton
             aria-label='Back'
-            size='Medium'
-            style='Inverted'
+            size='medium'
+            style='inverted'
             onClick={onBackClick}
             icon={<Icon size='20' glyph={<ArrowBackIosIcon />} />}
           />
           {mentionCount != null && mentionCount > 0 && (
-            <MentionBadge count={mentionCount} location='Sidebar' size='Large' />
+            <MentionBadge count={mentionCount} location='sidebar' size='large' />
           )}
         </div>
 
@@ -143,15 +143,15 @@ export default function MobileNavigationBar({
         <div className={styles['mobile-navigation-bar__right']}>
           <IconButton
             aria-label='Search'
-            size='Medium'
-            style='Inverted'
+            size='medium'
+            style='inverted'
             onClick={onSearchClick}
             icon={<Icon size='20' glyph={<MagnifyIcon />} />}
           />
           <IconButton
             aria-label='More options'
-            size='Medium'
-            style='Inverted'
+            size='medium'
+            style='inverted'
             onClick={onMoreClick}
             icon={<Icon size='20' glyph={<DotsHorizontalIcon />} />}
           />

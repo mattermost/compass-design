@@ -12,7 +12,7 @@ export default function MessageHeader({
   username,
   timestamp,
   isBot = false,
-  botLabel = 'Bot',
+  botLabel = 'bot',
 }: MessageHeaderProps) {
   return (
     <div className={styles['message-header']}>

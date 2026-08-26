@@ -8,14 +8,14 @@ import type { UserAvatarFallbackColor, UserAvatarSize } from './UserAvatar';
 
 const IMAGE_SIZES: UserAvatarSize[] = ['24', '32', '48', '64', '96'];
 const FALLBACK_COLORS: UserAvatarFallbackColor[] = [
-  'Red',
-  'Purple',
-  'Neutral',
-  'Blue',
-  'Cyan',
-  'Yellow',
-  'Green',
-  'Orange',
+  'red',
+  'purple',
+  'neutral',
+  'blue',
+  'cyan',
+  'yellow',
+  'green',
+  'orange',
 ];
 
 const labelStyle = {

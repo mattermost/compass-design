@@ -11,16 +11,16 @@ import IconButton, {
 import Icon from '../Icon/Icon';
 import { iconSelectArgType, resolveStoryIcon } from '../../storybook/icons';
 
-const SIZES: IconButtonSize[] = ['X-Small', 'Small', 'Medium', 'Large'];
+const SIZES: IconButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 const MATRIX_ROWS: {
   label: string;
   padding: IconButtonPadding;
   rounded: boolean;
 }[] = [
-  { label: 'Default', padding: 'Default', rounded: false },
-  { label: 'Compact', padding: 'Compact', rounded: false },
-  { label: 'Rounded', padding: 'Default', rounded: true },
+  { label: 'default', padding: 'default', rounded: false },
+  { label: 'Compact', padding: 'compact', rounded: false },
+  { label: 'Rounded', padding: 'default', rounded: true },
 ];
 
 type IconButtonStoryArgs = Omit<IconButtonProps, 'icon'> & {
@@ -32,9 +32,9 @@ const meta = {
   component: IconButton,
   tags: ['autodocs'],
   argTypes: {
-    style: { control: 'select', options: ['Default', 'Inverted'] },
+    style: { control: 'select', options: ['default', 'inverted'] },
     size: { control: 'select', options: SIZES },
-    padding: { control: 'select', options: ['Default', 'Compact'] },
+    padding: { control: 'select', options: ['default', 'compact'] },
     icon: iconSelectArgType({
       description: 'Icon glyph shown inside the button.',
     }),
@@ -42,7 +42,7 @@ const meta = {
   args: {
     icon: 'globe',
   },
-  render: ({ icon, size = 'Medium', ...rest }) => (
+  render: ({ icon, size = 'medium', ...rest }) => (
     <IconButton
       {...rest}
       size={size}
@@ -61,16 +61,16 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     'aria-label': 'Open menu',
-    size: 'Medium',
-    style: 'Default',
+    size: 'medium',
+    style: 'default',
   },
 };
 
 export const Inverted: Story = {
   args: {
     'aria-label': 'Open menu',
-    size: 'Medium',
-    style: 'Inverted',
+    size: 'medium',
+    style: 'inverted',
   },
   decorators: [
     (Story) => (
@@ -203,18 +203,18 @@ export const AllVariants: Story = {
       <section>
         <h3 style={{ marginBottom: 12 }}>Default</h3>
         <PermutationGrid
-          style="Default"
+          style="default"
           destructive={false}
           disabled={false}
         />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Destructive</h3>
-        <PermutationGrid style="Default" destructive disabled={false} />
+        <PermutationGrid style="default" destructive disabled={false} />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Disabled</h3>
-        <PermutationGrid style="Default" destructive={false} disabled />
+        <PermutationGrid style="default" destructive={false} disabled />
       </section>
       <section
         style={{
@@ -227,7 +227,7 @@ export const AllVariants: Story = {
           Inverted
         </h3>
         <PermutationGrid
-          style="Inverted"
+          style="inverted"
           destructive={false}
           disabled={false}
           labelColor="var(--sidebar-text)"
@@ -277,13 +277,13 @@ export const AllVariants: Story = {
             <IconButton
               aria-label="12 notifications"
               count={12}
-              size="X-Small"
+              size="x-small"
               icon={<Icon glyph={<GlobeIcon />} size="12" />}
             />
             <IconButton
               aria-label="48 notifications"
               count={48}
-              size="Small"
+              size="small"
               icon={<Icon glyph={<GlobeIcon />} size="16" />}
             />
             <IconButton
@@ -294,11 +294,11 @@ export const AllVariants: Story = {
             <IconButton
               aria-label="9 notifications"
               count={9}
-              size="Large"
+              size="large"
               icon={<Icon glyph={<GlobeIcon />} size="24" />}
             />
           </Row>
-          <Row label="Unread">
+          <Row label="unread">
             {SIZES.map((size) => (
               <IconButton
                 key={size}

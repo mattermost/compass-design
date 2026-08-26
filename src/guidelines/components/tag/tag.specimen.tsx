@@ -8,34 +8,34 @@ export default function TagLibrary() {
       <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>Types</h3>
         <div className={styles['components__row']}>
-          <Tag label="Default" type="Default" />
-          <Tag label="Info" type="Info" />
-          <Tag label="Info Dim" type="Info Dim" />
-          <Tag label="Danger" type="Danger" />
-          <Tag label="Success" type="Success" />
-          <Tag label="Warning" type="Warning" />
+          <Tag label="default" type="default" />
+          <Tag label="Info" type="info" />
+          <Tag label="Info Dim" type="info-dim" />
+          <Tag label="Danger" type="danger" />
+          <Tag label="Success" type="success" />
+          <Tag label="Warning" type="warning" />
         </div>
       </div>
       <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>Sizes</h3>
         <div className={styles['components__row']}>
-          <Tag label="Default" type="Default" size="Small" />
-          <Tag label="Info" type="Info" size="Small" />
-          <Tag label="Info Dim" type="Info Dim" size="Small" />
-          <Tag label="Danger" type="Danger" size="Small" />
-          <Tag label="Success" type="Success" size="Small" />
-          <Tag label="Warning" type="Warning" size="Small" />
+          <Tag label="default" type="default" size="small" />
+          <Tag label="Info" type="info" size="small" />
+          <Tag label="Info Dim" type="info-dim" size="small" />
+          <Tag label="Danger" type="danger" size="small" />
+          <Tag label="Success" type="success" size="small" />
+          <Tag label="Warning" type="warning" size="small" />
         </div>
       </div>
       <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>All caps</h3>
         <div className={styles['components__row']}>
-          <Tag label="Tag" type="Default" casing="All Caps" />
-          <Tag label="Tag" type="Info" casing="All Caps" />
-          <Tag label="Tag" type="Info Dim" casing="All Caps" />
-          <Tag label="Tag" type="Danger" casing="All Caps" />
-          <Tag label="Tag" type="Success" casing="All Caps" />
-          <Tag label="Tag" type="Warning" casing="All Caps" />
+          <Tag label="Tag" type="default" casing="all-caps" />
+          <Tag label="Tag" type="info" casing="all-caps" />
+          <Tag label="Tag" type="info-dim" casing="all-caps" />
+          <Tag label="Tag" type="danger" casing="all-caps" />
+          <Tag label="Tag" type="success" casing="all-caps" />
+          <Tag label="Tag" type="warning" casing="all-caps" />
         </div>
       </div>
       <div className={styles['components__section']}>
@@ -43,20 +43,20 @@ export default function TagLibrary() {
         <div className={styles['components__row']}>
           <Tag
             label="Professional"
-            casing="All Caps"
+            casing="all-caps"
             leadingIcon={<GlobeIcon size={10} />}
-            type="Default"
+            type="default"
           />
           <Tag
             label="Info"
             leadingIcon={<GlobeIcon size={10} />}
-            type="Info"
+            type="info"
           />
           <Tag
             label="Success"
             leadingIcon={<GlobeIcon size={12} />}
-            size="Small"
-            type="Success"
+            size="small"
+            type="success"
           />
         </div>
       </div>

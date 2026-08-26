@@ -7,7 +7,7 @@ export default function GlobalHeaderLibrary() {
     <div className={styles['patterns__global-header-demo']}>
       <p className={styles['patterns__variant-label']}>Channels</p>
       <GlobalHeader
-        product="Channels"
+        product="channels"
         userAvatarSrc={avatarLeonard}
         userAvatarAlt="Leonard Riley"
       />
@@ -15,20 +15,20 @@ export default function GlobalHeaderLibrary() {
         Channels — with Upgrade
       </p>
       <GlobalHeader
-        product="Channels"
+        product="channels"
         showUpgradeButton
         userAvatarSrc={avatarLeonard}
         userAvatarAlt="Leonard Riley"
       />
       <p className={styles['patterns__variant-label']}>Playbooks</p>
       <GlobalHeader
-        product="Playbooks"
+        product="playbooks"
         userAvatarSrc={avatarLeonard}
         userAvatarAlt="Leonard Riley"
       />
       <p className={styles['patterns__variant-label']}>Boards</p>
       <GlobalHeader
-        product="Boards"
+        product="boards"
         userAvatarSrc={avatarLeonard}
         userAvatarAlt="Leonard Riley"
       />

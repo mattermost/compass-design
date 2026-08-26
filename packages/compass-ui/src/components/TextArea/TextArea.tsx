@@ -3,7 +3,7 @@ import { forwardRef, useId, useState, useCallback } from 'react';
 import { toKebab } from '@/utils/string';
 import styles from './TextArea.module.scss';
 
-export type TextAreaSize = 'Small' | 'Medium' | 'Large';
+export type TextAreaSize = 'small' | 'medium' | 'large';
 
 export interface TextAreaProps extends Omit<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -34,7 +34,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   function TextArea(
     {
       className = '',
-      size = 'Medium',
+      size = 'medium',
       label,
       invalid = false,
       maxLength,

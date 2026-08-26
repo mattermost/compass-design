@@ -7,32 +7,32 @@ export default function ReactionPillLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Types</span>
-          <ReactionPill type="Reaction" emoji="🎉" label="Leonard R." />
-          <ReactionPill type="Hand Raise" label="Danielle O." />
+          <ReactionPill type="reaction" emoji="🎉" label="Leonard R." />
+          <ReactionPill type="hand-raise" label="Danielle O." />
           <ReactionPill
-            type="Other"
+            type="other"
             message="You have been muted by the host"
           />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
           <ReactionPill
-            type="Reaction"
+            type="reaction"
             emoji="👍"
             label="Marco R."
-            size="Small"
+            size="small"
           />
           <ReactionPill
-            type="Reaction"
+            type="reaction"
             emoji="👍"
             label="Marco R."
-            size="Medium"
+            size="medium"
           />
           <ReactionPill
-            type="Reaction"
+            type="reaction"
             emoji="👍"
             label="Marco R."
-            size="Large"
+            size="large"
           />
         </div>
       </div>

@@ -538,8 +538,8 @@ export default function DateRangePicker({
             </span>
             <div className={styles.dateRangePicker__headerActions}>
               <Button
-                emphasis="Quaternary"
-                size="Small"
+                emphasis="quaternary"
+                size="small"
                 leadingIcon={<Icon size="16" glyph={<CalendarOutlineIcon />} />}
                 onClick={handleToday}
               >
@@ -547,11 +547,11 @@ export default function DateRangePicker({
               </Button>
               <div className={styles.dateRangePicker__navButtons}>
                 <IconButton
-                  size="Medium"
-                  padding="Compact"
+                  size="medium"
+                  padding="compact"
                   icon={
                     <Icon
-                      size={ICON_BUTTON_ICON_SIZES['Medium']}
+                      size={ICON_BUTTON_ICON_SIZES['medium']}
                       glyph={<ChevronLeftIcon />}
                     />
                   }
@@ -559,11 +559,11 @@ export default function DateRangePicker({
                   aria-label="Previous month"
                 />
                 <IconButton
-                  size="Medium"
-                  padding="Compact"
+                  size="medium"
+                  padding="compact"
                   icon={
                     <Icon
-                      size={ICON_BUTTON_ICON_SIZES['Medium']}
+                      size={ICON_BUTTON_ICON_SIZES['medium']}
                       glyph={<ChevronRightIcon />}
                     />
                   }

@@ -6,11 +6,11 @@ import TextInput from '../TextInput/TextInput';
 import Modal from './Modal';
 import type { ModalSize } from './Modal';
 
-const SIZES: ModalSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: ModalSize[] = ['small', 'medium', 'large'];
 
 const modalFooter = (
   <>
-    <Button emphasis="Tertiary">Cancel</Button>
+    <Button emphasis="tertiary">Cancel</Button>
     <Button destructive>Delete Channel</Button>
   </>
 );
@@ -71,7 +71,7 @@ export const Default: Story = {
     <ModalCanvas>
       <Modal
         title="Delete Channel"
-        size="Small"
+        size="small"
         footer={modalFooter}
         onClose={fn()}
       >
@@ -87,11 +87,11 @@ export const WithSubtitle: Story = {
       <Modal
         title="Invite members"
         subtitle="Add people to #design"
-        size="Medium"
+        size="medium"
         footer={
           <>
-            <Button emphasis="Tertiary">Cancel</Button>
-            <Button emphasis="Primary">Send invites</Button>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Send invites</Button>
           </>
         }
         onClose={fn()}
@@ -107,7 +107,7 @@ export const WithBackButton: Story = {
     <ModalCanvas>
       <Modal
         title="Confirm deletion"
-        size="Small"
+        size="small"
         showBackButton
         onBack={fn()}
         onClose={fn()}
@@ -124,7 +124,7 @@ export const WithoutDividers: Story = {
     <ModalCanvas>
       <Modal
         title="Delete Channel"
-        size="Small"
+        size="small"
         headerDivider={false}
         footerDivider={false}
         footer={modalFooter}

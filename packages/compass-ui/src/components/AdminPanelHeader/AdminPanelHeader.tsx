@@ -11,7 +11,7 @@ import Switch from '@/components/Switch/Switch';
 import styles from './AdminPanelHeader.module.scss';
 
 /** System Console admin panel expand/collapse (`expandedState` in Figma). */
-export type AdminPanelExpandedState = 'Collapsed' | 'Expanded';
+export type AdminPanelExpandedState = 'collapsed' | 'expanded';
 
 export interface AdminPanelHeaderProps {
   /** Passed to the title `h2` for `aria-labelledby` on the parent panel. */
@@ -110,13 +110,13 @@ export default function AdminPanelHeader({
               {showEnterpriseLabel ? (
                 <Tag
                   label={enterpriseLabel}
-                  size="X-Small"
-                  type="Default"
+                  size="x-small"
+                  type="default"
                   leadingIcon={<Icon size="10" glyph={<MattermostIcon />} />}
                 />
               ) : null}
               {showBeta ? (
-                <Tag label={betaLabel} size="X-Small" type="Default" />
+                <Tag label={betaLabel} size="x-small" type="default" />
               ) : null}
             </div>
             {subtitle != null ? (
@@ -130,7 +130,7 @@ export default function AdminPanelHeader({
           <div className={styles['admin-panel-header__actions']}>
             {showSwitch ? (
               <Switch
-                size="Medium"
+                size="medium"
                 checked={switchChecked}
                 defaultChecked={defaultSwitchChecked}
                 disabled={switchDisabled}
@@ -144,8 +144,8 @@ export default function AdminPanelHeader({
             {showButton ? (
               <Button
                 type="button"
-                size="Medium"
-                emphasis="Primary"
+                size="medium"
+                emphasis="primary"
                 onClick={onButtonClick}
               >
                 {buttonLabel}
@@ -155,8 +155,8 @@ export default function AdminPanelHeader({
             {expandable ? (
               <IconButton
                 type="button"
-                style="Default"
-                size="Medium"
+                style="default"
+                size="medium"
                 aria-label={isExpanded ? 'Collapse section' : 'Expand section'}
                 aria-expanded={isExpanded}
                 onClick={onToggleExpand}

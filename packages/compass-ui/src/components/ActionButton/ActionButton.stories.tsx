@@ -72,7 +72,7 @@ export const Default: Story = {
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 20 }}>
-      <Row label="Default">
+      <Row label="default">
         <ActionButton
           icon={<EmoticonHappyOutlineIcon size={20} />}
           label="Action"

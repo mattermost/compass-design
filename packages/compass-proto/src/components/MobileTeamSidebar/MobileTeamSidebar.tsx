@@ -53,12 +53,12 @@ export default function MobileTeamSidebar({
         <div className={styles['mobile-team-sidebar__servers']}>
           <IconButton
             aria-label='Servers'
-            size='Medium'
-            style='Inverted'
+            size='medium'
+            style='inverted'
             active={serversActive}
             icon={
               <Icon
-                size={ICON_BUTTON_ICON_SIZES.Medium}
+                size={ICON_BUTTON_ICON_SIZES.medium}
                 glyph={<ServerVariantIcon />}
               />
             }
@@ -87,7 +87,7 @@ export default function MobileTeamSidebar({
                   alt={team.name}
                   initials={team.initials}
                   size='40'
-                  state={active ? 'Active' : 'Default'}
+                  state={active ? 'active' : 'default'}
                   badge={hasMentions ? team.mentions : undefined}
                 />
                 {showUnreadDot && (
@@ -102,8 +102,8 @@ export default function MobileTeamSidebar({
           {showAddTeam && (
             <IconButton
               aria-label='Add team'
-              size='Medium'
-              style='Inverted'
+              size='medium'
+              style='inverted'
               icon={<Icon size='20' glyph={<PlusIcon />} />}
               onClick={onAddTeam}
               className={styles['mobile-team-sidebar__add']}

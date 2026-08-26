@@ -116,8 +116,8 @@ export default function CallWidget({
             </div>
           </div>
           <IconButton
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             aria-label="Expand call window"
             icon={<Icon size="16" glyph={<ArrowExpandIcon />} />}
             onClick={onExpand}
@@ -138,8 +138,8 @@ export default function CallWidget({
 
           <div className={styles['widget__actions']}>
             <IconButton
-              size="Small"
-              padding="Compact"
+              size="small"
+              padding="compact"
               toggled={muted}
               destructive={muted}
               aria-label={muted ? 'Unmute microphone' : 'Mute microphone'}
@@ -152,8 +152,8 @@ export default function CallWidget({
               onClick={onToggleMute}
             />
             <IconButton
-              size="Small"
-              padding="Compact"
+              size="small"
+              padding="compact"
               toggled={handRaised}
               aria-label={handRaised ? 'Lower hand' : 'Raise hand'}
               icon={
@@ -167,8 +167,8 @@ export default function CallWidget({
               onClick={onToggleHand}
             />
             <IconButton
-              size="Small"
-              padding="Compact"
+              size="small"
+              padding="compact"
               toggled={sharing}
               aria-label={sharing ? 'Stop sharing screen' : 'Share screen'}
               icon={
@@ -180,8 +180,8 @@ export default function CallWidget({
               onClick={onToggleShare}
             />
             <IconButton
-              size="Small"
-              padding="Compact"
+              size="small"
+              padding="compact"
               toggled={overlay === 'menu'}
               aria-label={
                 overlay === 'menu' ? 'Close call menu' : 'Open call menu'
@@ -210,21 +210,21 @@ export default function CallWidget({
           <div className={styles['widget__menu']} role="menu">
             <MenuItem
               label="Audio output"
-              secondaryLabel="Default"
+              secondaryLabel="default"
               leadingVisual={<Icon size="16" glyph={<VolumeHighIcon />} />}
               trailingElement
               trailingVisual={<Icon size="16" glyph={<ChevronRightIcon />} />}
             />
             <MenuItem
               label="Microphone"
-              secondaryLabel="Default"
+              secondaryLabel="default"
               leadingVisual={<Icon size="16" glyph={<MicrophoneIcon />} />}
               trailingElement
               trailingVisual={<Icon size="16" glyph={<ChevronRightIcon />} />}
             />
             <MenuItem
               label="Camera"
-              secondaryLabel="Default"
+              secondaryLabel="default"
               leadingVisual={<Icon size="16" glyph={<VideoOutlineIcon />} />}
               trailingElement
               trailingVisual={<Icon size="16" glyph={<ChevronRightIcon />} />}

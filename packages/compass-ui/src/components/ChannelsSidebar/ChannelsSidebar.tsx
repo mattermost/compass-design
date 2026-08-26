@@ -55,9 +55,9 @@ export function ChannelsSidebarHeader({ teamName }: ChannelsSidebarHeaderProps) 
       </div>
       <IconButton
         aria-label="Add channels"
-        size="Small"
-        style="Inverted"
-        padding="Compact"
+        size="small"
+        style="inverted"
+        padding="compact"
         rounded
         icon={<Icon size="16" glyph={<PlusIcon />} />}
         className={styles['channels-sidebar__sidebar-icon-button']}
@@ -79,9 +79,9 @@ export function ChannelsSidebarNavigator({
       {showFilter && (
         <IconButton
           aria-label="Filter channels"
-          size="Small"
-          style="Inverted"
-          padding="Compact"
+          size="small"
+          style="inverted"
+          padding="compact"
           icon={<Icon size="16" glyph={<FilterVariantIcon />} />}
           className={styles['channels-sidebar__sidebar-icon-button']}
         />
@@ -154,8 +154,8 @@ export function ChannelsSidebarCategory({
       {showPlusButton && (
         <IconButton
           aria-label={`New ${label.toLowerCase()}`}
-          size="X-Small"
-          style="Inverted"
+          size="x-small"
+          style="inverted"
           icon={<Icon size="12" glyph={<PlusIcon />} />}
         />
       )}
@@ -256,13 +256,13 @@ export default function ChannelsSidebar({
 
         {moreUnreadsAbove && (
           <MoreUnreadsBanner
-            direction="Up"
+            direction="up"
             className={`${styles['channels-sidebar__more-unreads']} ${styles['channels-sidebar__more-unreads--above']}`}
           />
         )}
         {moreUnreadsBelow && (
           <MoreUnreadsBanner
-            direction="Down"
+            direction="down"
             className={`${styles['channels-sidebar__more-unreads']} ${styles['channels-sidebar__more-unreads--below']}`}
           />
         )}

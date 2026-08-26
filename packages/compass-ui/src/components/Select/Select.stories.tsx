@@ -10,7 +10,7 @@ import {
   resolveStoryIcon,
 } from '../../storybook/icons';
 
-const SIZES: SelectSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: SelectSize[] = ['small', 'medium', 'large'];
 
 const DEFAULT_OPTIONS: SelectOption[] = [
   { value: 'a', label: 'Option A' },
@@ -80,7 +80,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 
 export const Default: Story = {
   args: {
-    size: 'Medium',
+    size: 'medium',
     options: DEFAULT_OPTIONS,
     defaultValue: '',
     placeholder: 'Select...',
@@ -90,7 +90,7 @@ export const Default: Story = {
 export const WithLabel: Story = {
   args: {
     label: 'Select option',
-    size: 'Medium',
+    size: 'medium',
     options: DEFAULT_OPTIONS,
     defaultValue: '',
     placeholder: 'Select...',

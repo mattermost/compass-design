@@ -34,8 +34,8 @@ export function MobileBottomSheetAnatomyStage() {
           }
           footer={
             <Button
-              emphasis='Primary'
-              size='Large'
+              emphasis='primary'
+              size='large'
               className={styles['mobile-bottom-sheet-anatomy__footer-btn']}
             >
               Primary Button

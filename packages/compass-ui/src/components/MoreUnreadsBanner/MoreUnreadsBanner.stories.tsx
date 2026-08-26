@@ -6,8 +6,8 @@ import type {
   MoreUnreadsBannerSize,
 } from './MoreUnreadsBanner';
 
-const DIRECTIONS: MoreUnreadsBannerDirection[] = ['Up', 'Down'];
-const SIZES: MoreUnreadsBannerSize[] = ['Small', 'Medium', 'Large'];
+const DIRECTIONS: MoreUnreadsBannerDirection[] = ['up', 'down'];
+const SIZES: MoreUnreadsBannerSize[] = ['small', 'medium', 'large'];
 
 const meta = {
   title: 'Components/Banners/More Unreads Banner',
@@ -24,8 +24,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    direction: 'Up',
-    size: 'Medium',
+    direction: 'up',
+    size: 'medium',
     onClick: fn(),
   },
 };
@@ -44,8 +44,8 @@ export const AllVariants: Story = {
           Directions
         </h3>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <MoreUnreadsBanner direction="Up" onClick={fn()} />
-          <MoreUnreadsBanner direction="Down" onClick={fn()} />
+          <MoreUnreadsBanner direction="up" onClick={fn()} />
+          <MoreUnreadsBanner direction="down" onClick={fn()} />
         </div>
       </section>
       <section>
@@ -59,9 +59,9 @@ export const AllVariants: Story = {
           Sizes
         </h3>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <MoreUnreadsBanner size="Small" onClick={fn()} />
-          <MoreUnreadsBanner size="Medium" onClick={fn()} />
-          <MoreUnreadsBanner size="Large" onClick={fn()} />
+          <MoreUnreadsBanner size="small" onClick={fn()} />
+          <MoreUnreadsBanner size="medium" onClick={fn()} />
+          <MoreUnreadsBanner size="large" onClick={fn()} />
         </div>
       </section>
     </div>

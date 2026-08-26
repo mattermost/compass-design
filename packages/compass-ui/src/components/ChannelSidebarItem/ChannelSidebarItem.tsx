@@ -13,16 +13,16 @@ import IconButton from '@/components/IconButton/IconButton';
 import styles from './ChannelSidebarItem.module.scss';
 
 export type ChannelSidebarItemLeadingVisual =
-  | 'Public'
-  | 'Private'
-  | 'Group Message'
-  | 'Direct Message'
-  | 'Drafts'
-  | 'Insights'
-  | 'Threads'
-  | 'Dial Pad';
+  | 'public'
+  | 'private'
+  | 'group-message'
+  | 'direct-message'
+  | 'drafts'
+  | 'insights'
+  | 'threads'
+  | 'dial-pad';
 
-export type ChannelSidebarItemStatus = 'Read' | 'Unread' | 'Mention';
+export type ChannelSidebarItemStatus = 'read' | 'unread' | 'mention';
 
 export interface ChannelSidebarItemProps {
   className?: string;
@@ -45,17 +45,17 @@ export interface ChannelSidebarItemProps {
   callActive?: boolean;
   /** Shows the shared-channel icon after the name. */
   sharedChannel?: boolean;
-  /** Mention count shown in the badge when status='Mention'. */
+  /** Mention count shown in the badge when status='mention'. */
   mentionCount?: number;
-  /** Member count shown in the group icon when leadingVisual='Group Message'. */
+  /** Member count shown in the group icon when leadingVisual='group-message'. */
   memberCount?: number;
-  /** Avatar image URL for leadingVisual='Direct Message'. */
+  /** Avatar image URL for leadingVisual='direct-message'. */
   avatarSrc?: string;
-  /** Avatar alt text for leadingVisual='Direct Message'. */
+  /** Avatar alt text for leadingVisual='direct-message'. */
   avatarAlt?: string;
-  /** Shows status badge on the avatar when leadingVisual='Direct Message'. */
+  /** Shows status badge on the avatar when leadingVisual='direct-message'. */
   showAvatarStatus?: boolean;
-  /** Custom status emoji shown after the name for leadingVisual='Direct Message'. */
+  /** Custom status emoji shown after the name for leadingVisual='direct-message'. */
   customStatusEmoji?: string;
   onClick?: () => void;
 }
@@ -74,15 +74,15 @@ function LeadingVisualContent({
   showAvatarStatus: boolean | undefined;
 }) {
   switch (leadingVisual) {
-    case 'Private':
+    case 'private':
       return <LockOutlineIcon size={16} />;
-    case 'Group Message':
+    case 'group-message':
       return (
         <div className={styles['channel-sidebar-item__group-icon']}>
           {memberCount ?? 2}
         </div>
       );
-    case 'Direct Message':
+    case 'direct-message':
       return (
         <UserAvatar
           src={avatarSrc ?? ''}
@@ -91,15 +91,15 @@ function LeadingVisualContent({
           status={!!showAvatarStatus}
         />
       );
-    case 'Drafts':
+    case 'drafts':
       return <SendOutlineIcon size={16} />;
-    case 'Insights':
+    case 'insights':
       return <ChartLineIcon size={16} />;
-    case 'Threads':
+    case 'threads':
       return <MessageTextOutlineIcon size={16} />;
-    case 'Dial Pad':
+    case 'dial-pad':
       return <DialpadIcon size={16} />;
-    case 'Public':
+    case 'public':
     default:
       return <GlobeIcon size={16} />;
   }
@@ -109,8 +109,8 @@ export default function ChannelSidebarItem({
   className,
   name,
   hideLeadingVisual = false,
-  leadingVisual = 'Public',
-  status = 'Read',
+  leadingVisual = 'public',
+  status = 'read',
   active = false,
   muted = false,
   callActive = false,
@@ -123,13 +123,13 @@ export default function ChannelSidebarItem({
   customStatusEmoji,
   onClick,
 }: ChannelSidebarItemProps) {
-  const isDM = !hideLeadingVisual && leadingVisual === 'Direct Message';
-  const isDrafts = !hideLeadingVisual && leadingVisual === 'Drafts';
-  const effectiveStatus = isDrafts && status === 'Unread' ? 'Read' : status;
-  const hasMentionBadge = effectiveStatus === 'Mention';
+  const isDM = !hideLeadingVisual && leadingVisual === 'direct-message';
+  const isDrafts = !hideLeadingVisual && leadingVisual === 'drafts';
+  const effectiveStatus = isDrafts && status === 'unread' ? 'read' : status;
+  const hasMentionBadge = effectiveStatus === 'mention';
   const isChannelOrDM =
     !hideLeadingVisual &&
-    ['Public', 'Private', 'Group Message', 'Direct Message'].includes(
+    ['public', 'private', 'group-message', 'direct-message'].includes(
       leadingVisual,
     );
 
@@ -206,16 +206,16 @@ export default function ChannelSidebarItem({
           <span className={styles['channel-sidebar-item__mention-badge']}>
             <MentionBadge
               count={mentionCount ?? 1}
-              location="Sidebar"
-              size="Medium"
+              location="sidebar"
+              size="medium"
             />
           </span>
         )}
         {isChannelOrDM && (
           <span className={styles['channel-sidebar-item__menu-button']}>
             <IconButton
-              size="X-Small"
-              style="Inverted"
+              size="x-small"
+              style="inverted"
               icon={<DotsVerticalIcon size={12} />}
               aria-label="Channel options"
               onClick={(e) => e.stopPropagation()}

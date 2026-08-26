@@ -93,7 +93,7 @@ export default function UserAvatarGroup({
             role="presentation"
           >
             <Tooltip
-              arrow="Bottom"
+              arrow="bottom"
               className={styles['user-avatar-group__tooltip']}
               label={avatar.name}
             />
@@ -116,7 +116,7 @@ export default function UserAvatarGroup({
             role="presentation"
           >
             <Tooltip
-              arrow="Bottom"
+              arrow="bottom"
               className={styles['user-avatar-group__tooltip']}
               label={overflowNamesLabel(hidden)}
             />

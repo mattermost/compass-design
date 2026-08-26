@@ -9,14 +9,14 @@ export default function MoreUnreadsBannerLibrary() {
           <span className={styles['components__instance-label']}>
             Directions
           </span>
-          <MoreUnreadsBanner direction="Up" />
-          <MoreUnreadsBanner direction="Down" />
+          <MoreUnreadsBanner direction="up" />
+          <MoreUnreadsBanner direction="down" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <MoreUnreadsBanner size="Small" />
-          <MoreUnreadsBanner size="Medium" />
-          <MoreUnreadsBanner size="Large" />
+          <MoreUnreadsBanner size="small" />
+          <MoreUnreadsBanner size="medium" />
+          <MoreUnreadsBanner size="large" />
         </div>
       </div>
     </>

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import TextArea from './TextArea';
 import type { TextAreaSize } from './TextArea';
 
-const SIZES: TextAreaSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: TextAreaSize[] = ['small', 'medium', 'large'];
 
 const meta = {
   title: 'Components/Forms and Input/Text Area',
@@ -45,7 +45,7 @@ export const Default: Story = {
   args: {
     placeholder: 'Enter a description...',
     rows: 3,
-    size: 'Medium',
+    size: 'medium',
   },
 };
 

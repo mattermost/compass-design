@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Switch from './Switch';
 import type { SwitchSize } from './Switch';
 
-const SIZES: SwitchSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: SwitchSize[] = ['small', 'medium', 'large'];
 
 const meta = {
   title: 'Components/Forms and Input/Switch',
@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: 'Enable notifications',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 
@@ -27,7 +27,7 @@ export const Checked: Story = {
   args: {
     children: 'Enable notifications',
     defaultChecked: true,
-    size: 'Medium',
+    size: 'medium',
   },
 };
 
@@ -35,7 +35,7 @@ export const WithSecondaryLabel: Story = {
   args: {
     children: 'Thread replies',
     secondaryLabel: 'Notify me about replies to threads I follow',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 
@@ -59,8 +59,8 @@ export const AllVariants: Story = {
         >
           States
         </span>
-        <Switch size="Medium">Unchecked</Switch>
-        <Switch size="Medium" defaultChecked>
+        <Switch size="medium">Unchecked</Switch>
+        <Switch size="medium" defaultChecked>
           Checked
         </Switch>
       </div>
@@ -82,7 +82,7 @@ export const AllVariants: Story = {
           Sizes
         </span>
         {SIZES.map((size) => (
-          <Switch key={size} size={size} defaultChecked={size !== 'Small'}>
+          <Switch key={size} size={size} defaultChecked={size !== 'small'}>
             {size}
           </Switch>
         ))}
@@ -104,11 +104,11 @@ export const AllVariants: Story = {
         >
           Secondary label
         </span>
-        <Switch size="Medium" secondaryLabel="Optional description text">
+        <Switch size="medium" secondaryLabel="Optional description text">
           Label
         </Switch>
         <Switch
-          size="Medium"
+          size="medium"
           defaultChecked
           secondaryLabel="Optional description"
         >
@@ -132,13 +132,13 @@ export const AllVariants: Story = {
         >
           Semi-bold & disabled
         </span>
-        <Switch size="Medium" semiBold>
+        <Switch size="medium" semiBold>
           Semi-bold label
         </Switch>
-        <Switch size="Medium" disabled>
+        <Switch size="medium" disabled>
           Disabled unchecked
         </Switch>
-        <Switch size="Medium" defaultChecked disabled>
+        <Switch size="medium" defaultChecked disabled>
           Disabled checked
         </Switch>
       </div>

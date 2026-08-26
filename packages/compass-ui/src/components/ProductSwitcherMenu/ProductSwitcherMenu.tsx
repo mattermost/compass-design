@@ -16,7 +16,7 @@ import PopoverMenu, {
 import styles from './ProductSwitcherMenu.module.scss';
 
 /** Built-in products shipped with the switcher. */
-export type BuiltInProductSwitcherProduct = 'Channels' | 'Boards' | 'Playbooks';
+export type BuiltInProductSwitcherProduct = 'channels' | 'boards' | 'playbooks';
 
 /**
  * Product id for selection. Built-ins use their labels; prototypes use any
@@ -55,18 +55,18 @@ export interface ProductSwitcherMenuProps extends HTMLAttributes<HTMLDivElement>
 
 export const DEFAULT_PRODUCT_SWITCHER_PRODUCTS: ProductSwitcherProductItem[] = [
   {
-    id: 'Channels',
-    label: 'Channels',
+    id: 'channels',
+    label: 'channels',
     icon: <ProductChannelsIcon />,
   },
   {
-    id: 'Boards',
-    label: 'Boards',
+    id: 'boards',
+    label: 'boards',
     icon: <ProductBoardsIcon />,
   },
   {
-    id: 'Playbooks',
-    label: 'Playbooks',
+    id: 'playbooks',
+    label: 'playbooks',
     icon: <ProductPlaybooksIcon />,
   },
 ];
@@ -89,7 +89,7 @@ function productLeadingVisual(glyph: ReactNode) {
  * Matches Figma Patterns — Popover Menus (node 1423:8667).
  */
 export default function ProductSwitcherMenu({
-  selectedProduct = 'Channels',
+  selectedProduct = 'channels',
   additionalProducts = [],
   onProductSelect,
   className = '',

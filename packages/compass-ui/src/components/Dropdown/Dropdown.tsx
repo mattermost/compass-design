@@ -5,9 +5,9 @@ import Icon from '@/components/Icon/Icon';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import styles from './Dropdown.module.scss';
 
-export type DropdownSize = 'X-Small' | 'Small' | 'Medium' | 'Large' | 'X-Large';
-export type DropdownAppearance = 'Default' | 'Inverted';
-export type DropdownPadding = 'Tight' | 'Compact';
+export type DropdownSize = 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
+export type DropdownAppearance = 'default' | 'inverted';
+export type DropdownPadding = 'tight' | 'compact';
 
 export interface DropdownProps extends Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -40,9 +40,9 @@ export default function Dropdown({
   className = '',
   children,
   leadingIcon,
-  padding = 'Tight',
-  size = 'Medium',
-  appearance = 'Default',
+  padding = 'tight',
+  size = 'medium',
+  appearance = 'default',
   isOpen = false,
   disabled,
   type = 'button',
@@ -50,9 +50,9 @@ export default function Dropdown({
 }: DropdownProps) {
   const sizeClass = styles[`dropdown--size-${toKebab(size)}`];
   const paddingClass =
-    padding === 'Compact' ? styles['dropdown--padding-compact'] : '';
+    padding === 'compact' ? styles['dropdown--padding-compact'] : '';
   const appearanceClass =
-    appearance === 'Inverted' ? styles['dropdown--appearance-inverted'] : '';
+    appearance === 'inverted' ? styles['dropdown--appearance-inverted'] : '';
   const openClass = isOpen ? styles['dropdown--open'] : '';
 
   const rootClass = [
@@ -69,8 +69,8 @@ export default function Dropdown({
   return (
     <Button
       className={rootClass}
-      emphasis="Quaternary"
-      size="Medium"
+      emphasis="quaternary"
+      size="medium"
       type={type}
       disabled={disabled}
       aria-expanded={isOpen}

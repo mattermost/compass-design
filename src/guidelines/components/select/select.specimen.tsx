@@ -13,20 +13,20 @@ export default function SelectLibrary() {
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
           <Select
-            size="Small"
-            label="Small"
+            size="small"
+            label="small"
             options={DEMO_OPTIONS}
             defaultValue="a"
           />
           <Select
-            size="Medium"
-            label="Medium"
+            size="medium"
+            label="medium"
             options={DEMO_OPTIONS}
             defaultValue="a"
           />
           <Select
-            size="Large"
-            label="Large"
+            size="large"
+            label="large"
             options={DEMO_OPTIONS}
             defaultValue="a"
           />

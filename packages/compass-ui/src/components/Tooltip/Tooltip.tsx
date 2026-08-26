@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ShortcutTagGroup } from '@/components/ShortcutTag/ShortcutTag';
 import styles from './Tooltip.module.scss';
 
-export type TooltipArrow = 'Top' | 'Right' | 'Bottom' | 'Left';
+export type TooltipArrow = 'top' | 'right' | 'bottom' | 'left';
 
 export interface TooltipShortcutKey {
   label: string;
@@ -29,7 +29,7 @@ export interface TooltipProps {
  */
 export default function Tooltip({
   label,
-  arrow = 'Right',
+  arrow = 'right',
   hint,
   shortcutKeys,
   icon,
@@ -57,8 +57,8 @@ export default function Tooltip({
           <div className={styles['tooltip__shortcuts']}>
             <ShortcutTagGroup
               labels={shortcutKeys.map((key) => key.label)}
-              location="Tooltips"
-              size="Small"
+              location="tooltips"
+              size="small"
             />
           </div>
         )}

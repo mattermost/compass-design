@@ -27,37 +27,37 @@ export default function TeamAvatarLibrary() {
             src={avatarStaffTeam}
             alt="Staff Team"
             size="24"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             src={avatarStaffTeam}
             alt="Staff Team"
             size="32"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             src={avatarStaffTeam}
             alt="Staff Team"
             size="40"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             src={avatarStaffTeam}
             alt="Staff Team"
             size="48"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             src={avatarStaffTeam}
             alt="Staff Team"
             size="56"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             src={avatarStaffTeam}
             alt="Staff Team"
             size="64"
-            state="Active"
+            state="active"
           />
         </div>
         <div className={styles['components__button-row']}>
@@ -79,37 +79,37 @@ export default function TeamAvatarLibrary() {
             initials="Ac"
             alt="Design Team"
             size="24"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             initials="Ac"
             alt="Design Team"
             size="32"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             initials="Ac"
             alt="Design Team"
             size="40"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             initials="Ac"
             alt="Design Team"
             size="48"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             initials="Ac"
             alt="Design Team"
             size="56"
-            state="Active"
+            state="active"
           />
           <TeamAvatar
             initials="Ac"
             alt="Design Team"
             size="64"
-            state="Active"
+            state="active"
           />
         </div>
         <div className={styles['components__button-row']}>

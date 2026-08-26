@@ -7,9 +7,9 @@ export default function SearchInputLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <SearchInput size="Small" placeholder="Small search..." />
-          <SearchInput size="Medium" placeholder="Medium search..." />
-          <SearchInput size="Large" placeholder="Large search..." />
+          <SearchInput size="small" placeholder="Small search..." />
+          <SearchInput size="medium" placeholder="Medium search..." />
+          <SearchInput size="large" placeholder="Large search..." />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>

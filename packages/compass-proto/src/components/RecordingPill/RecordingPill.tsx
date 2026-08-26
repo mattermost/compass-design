@@ -5,7 +5,7 @@ import RecordCircleOutlineIcon from '@mattermost/compass-icons/components/record
 import RecordSquareOutlineIcon from '@mattermost/compass-icons/components/record-square-outline';
 import styles from './RecordingPill.module.scss';
 
-export type RecordingPillState = 'Initializing' | 'Recording' | 'Hover';
+export type RecordingPillState = 'initializing' | 'recording' | 'hover';
 
 export interface RecordingPillProps extends HTMLAttributes<HTMLDivElement> {
   /** Current recording state. Default: Initializing. */
@@ -22,7 +22,7 @@ export interface RecordingPillProps extends HTMLAttributes<HTMLDivElement> {
  * or stop icon with tooltip (hover/click-to-stop).
  */
 export default function RecordingPill({
-  state = 'Initializing',
+  state = 'initializing',
   onStop,
   className = '',
   ...rest
@@ -42,24 +42,24 @@ export default function RecordingPill({
         className={styles['recording-pill__button']}
         onClick={onStop}
         aria-label={
-          state === 'Hover' ? 'Stop recording' : 'Recording in progress'
+          state === 'hover' ? 'Stop recording' : 'Recording in progress'
         }
       >
         <span className={styles['recording-pill__icon']} aria-hidden>
-          {state === 'Initializing' && (
+          {state === 'initializing' && (
             <Spinner size={12} inverted aria-label="Initializing recording" />
           )}
-          {state === 'Recording' && (
+          {state === 'recording' && (
             <Icon size="12" glyph={<RecordCircleOutlineIcon />} />
           )}
-          {state === 'Hover' && (
+          {state === 'hover' && (
             <Icon size="12" glyph={<RecordSquareOutlineIcon />} />
           )}
         </span>
         <span className={styles['recording-pill__label']}>REC</span>
       </button>
 
-      {state === 'Hover' && (
+      {state === 'hover' && (
         <div className={styles['recording-pill__tooltip']} role="tooltip">
           Click to Stop
         </div>

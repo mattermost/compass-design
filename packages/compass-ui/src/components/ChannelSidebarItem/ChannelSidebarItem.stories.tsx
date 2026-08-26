@@ -31,19 +31,19 @@ const meta = {
     leadingVisual: {
       control: 'select',
       options: [
-        'Public',
-        'Private',
-        'Group Message',
-        'Direct Message',
-        'Drafts',
-        'Insights',
-        'Threads',
-        'Dial Pad',
+        'public',
+        'private',
+        'group-message',
+        'direct-message',
+        'drafts',
+        'insights',
+        'threads',
+        'dial-pad',
       ] satisfies ChannelSidebarItemLeadingVisual[],
     },
     status: {
       control: 'select',
-      options: ['Read', 'Unread', 'Mention'] satisfies ChannelSidebarItemStatus[],
+      options: ['read', 'unread', 'mention'] satisfies ChannelSidebarItemStatus[],
     },
   },
   decorators: [
@@ -60,7 +60,7 @@ type Story = StoryObj<typeof meta>;
 
 export const PublicChannel: Story = {
   args: {
-    leadingVisual: 'Public',
+    leadingVisual: 'public',
     name: 'Design',
     onClick: fn(),
   },
@@ -68,16 +68,16 @@ export const PublicChannel: Story = {
 
 export const Unread: Story = {
   args: {
-    leadingVisual: 'Public',
+    leadingVisual: 'public',
     name: 'Unread channel',
-    status: 'Unread',
+    status: 'unread',
     onClick: fn(),
   },
 };
 
 export const DirectMessage: Story = {
   args: {
-    leadingVisual: 'Direct Message',
+    leadingVisual: 'direct-message',
     name: 'Leonard Riley',
     avatarSrc: avatarLeonard,
     avatarAlt: 'Leonard Riley',
@@ -88,7 +88,7 @@ export const DirectMessage: Story = {
 
 export const Active: Story = {
   args: {
-    leadingVisual: 'Public',
+    leadingVisual: 'public',
     name: 'Active channel',
     active: true,
     onClick: fn(),
@@ -101,30 +101,30 @@ export const AllVariants: Story = {
       <section>
         <span style={labelStyle}>Leading visuals</span>
         <div style={{ display: 'grid', gap: 2 }}>
-          <ChannelSidebarItem leadingVisual="Public" name="Design" onClick={fn()} />
+          <ChannelSidebarItem leadingVisual="public" name="Design" onClick={fn()} />
           <ChannelSidebarItem
-            leadingVisual="Private"
+            leadingVisual="private"
             name="Engineering"
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Group Message"
+            leadingVisual="group-message"
             name="Design Team"
             memberCount={4}
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Direct Message"
+            leadingVisual="direct-message"
             name="Leonard Riley"
             avatarSrc={avatarLeonard}
             avatarAlt="Leonard Riley"
             showAvatarStatus
             onClick={fn()}
           />
-          <ChannelSidebarItem leadingVisual="Threads" name="Threads" onClick={fn()} />
-          <ChannelSidebarItem leadingVisual="Drafts" name="Drafts" onClick={fn()} />
+          <ChannelSidebarItem leadingVisual="threads" name="threads" onClick={fn()} />
+          <ChannelSidebarItem leadingVisual="drafts" name="drafts" onClick={fn()} />
           <ChannelSidebarItem
-            leadingVisual="Insights"
+            leadingVisual="insights"
             name="Insights"
             onClick={fn()}
           />
@@ -134,21 +134,21 @@ export const AllVariants: Story = {
         <span style={labelStyle}>Status</span>
         <div style={{ display: 'grid', gap: 2 }}>
           <ChannelSidebarItem
-            leadingVisual="Public"
+            leadingVisual="public"
             name="Read channel"
-            status="Read"
+            status="read"
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Public"
+            leadingVisual="public"
             name="Unread channel"
-            status="Unread"
+            status="unread"
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Public"
+            leadingVisual="public"
             name="Mention channel"
-            status="Mention"
+            status="mention"
             mentionCount={3}
             onClick={fn()}
           />
@@ -158,19 +158,19 @@ export const AllVariants: Story = {
         <span style={labelStyle}>Active and muted</span>
         <div style={{ display: 'grid', gap: 2 }}>
           <ChannelSidebarItem
-            leadingVisual="Public"
+            leadingVisual="public"
             name="Active channel"
             active
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Public"
+            leadingVisual="public"
             name="Muted channel"
             muted
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Direct Message"
+            leadingVisual="direct-message"
             name="Danielle Okoro"
             avatarSrc={avatarDanielle}
             avatarAlt="Danielle Okoro"
@@ -183,19 +183,19 @@ export const AllVariants: Story = {
         <span style={labelStyle}>Shared, call, emoji</span>
         <div style={{ display: 'grid', gap: 2 }}>
           <ChannelSidebarItem
-            leadingVisual="Public"
+            leadingVisual="public"
             name="Shared channel"
             sharedChannel
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Private"
+            leadingVisual="private"
             name="Call active"
             callActive
             onClick={fn()}
           />
           <ChannelSidebarItem
-            leadingVisual="Direct Message"
+            leadingVisual="direct-message"
             name="Marco Rinaldi"
             avatarSrc={avatarMarco}
             avatarAlt="Marco Rinaldi"

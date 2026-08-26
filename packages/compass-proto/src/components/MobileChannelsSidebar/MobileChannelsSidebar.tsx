@@ -144,8 +144,8 @@ export default function MobileChannelsSidebar({
         {headerAction ?? (
           <IconButton
             aria-label='Add channels'
-            size='Medium'
-            style='Inverted'
+            size='medium'
+            style='inverted'
             rounded
             icon={<Icon size='20' glyph={<PlusIcon />} />}
             className={styles['mobile-channels-sidebar__add']}

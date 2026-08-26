@@ -11,16 +11,16 @@ import { MentionBadge } from '@mattermost/compass-ui';
 import styles from './MobileChannelSidebarItem.module.scss';
 
 export type MobileChannelSidebarItemLeadingVisual =
-  | 'Public'
-  | 'Private'
-  | 'Group Message'
-  | 'Direct Message'
-  | 'Drafts'
-  | 'Insights'
-  | 'Threads'
-  | 'Dial Pad';
+  | 'public'
+  | 'private'
+  | 'group-message'
+  | 'direct-message'
+  | 'drafts'
+  | 'insights'
+  | 'threads'
+  | 'dial-pad';
 
-export type MobileChannelSidebarItemStatus = 'Read' | 'Unread' | 'Mention';
+export type MobileChannelSidebarItemStatus = 'read' | 'unread' | 'mention';
 
 export interface MobileChannelSidebarItemProps {
   className?: string;
@@ -40,17 +40,17 @@ export interface MobileChannelSidebarItemProps {
   callActive?: boolean;
   /** Shows the shared-channel icon after the name. */
   sharedChannel?: boolean;
-  /** Mention count shown in the badge when status='Mention'. */
+  /** Mention count shown in the badge when status='mention'. */
   mentionCount?: number;
-  /** Member count shown in the group icon when leadingVisual='Group Message'. */
+  /** Member count shown in the group icon when leadingVisual='group-message'. */
   memberCount?: number;
-  /** Avatar image URL for leadingVisual='Direct Message'. */
+  /** Avatar image URL for leadingVisual='direct-message'. */
   avatarSrc?: string;
-  /** Avatar alt text for leadingVisual='Direct Message'. */
+  /** Avatar alt text for leadingVisual='direct-message'. */
   avatarAlt?: string;
-  /** Shows status badge on the avatar when leadingVisual='Direct Message'. */
+  /** Shows status badge on the avatar when leadingVisual='direct-message'. */
   showAvatarStatus?: boolean;
-  /** Custom status emoji shown after the name for leadingVisual='Direct Message'. */
+  /** Custom status emoji shown after the name for leadingVisual='direct-message'. */
   customStatusEmoji?: string;
   onClick?: () => void;
 }
@@ -69,15 +69,15 @@ function LeadingVisualContent({
   showAvatarStatus: boolean | undefined;
 }) {
   switch (leadingVisual) {
-    case 'Private':
+    case 'private':
       return <LockOutlineIcon size={20} />;
-    case 'Group Message':
+    case 'group-message':
       return (
         <div className={styles['mobile-channel-sidebar-item__group-icon']}>
           {memberCount ?? 2}
         </div>
       );
-    case 'Direct Message':
+    case 'direct-message':
       return (
         <UserAvatar
           src={avatarSrc ?? ''}
@@ -86,15 +86,15 @@ function LeadingVisualContent({
           status={!!showAvatarStatus}
         />
       );
-    case 'Drafts':
+    case 'drafts':
       return <SendOutlineIcon size={20} />;
-    case 'Insights':
+    case 'insights':
       return <ChartLineIcon size={20} />;
-    case 'Threads':
+    case 'threads':
       return <MessageTextOutlineIcon size={20} />;
-    case 'Dial Pad':
+    case 'dial-pad':
       return <DialpadIcon size={20} />;
-    case 'Public':
+    case 'public':
     default:
       return <GlobeIcon size={20} />;
   }
@@ -107,8 +107,8 @@ export default function MobileChannelSidebarItem({
   className,
   name,
   hideLeadingVisual = false,
-  leadingVisual = 'Public',
-  status = 'Read',
+  leadingVisual = 'public',
+  status = 'read',
   muted = false,
   callActive = false,
   sharedChannel = false,
@@ -120,10 +120,10 @@ export default function MobileChannelSidebarItem({
   customStatusEmoji,
   onClick,
 }: MobileChannelSidebarItemProps) {
-  const isDM = !hideLeadingVisual && leadingVisual === 'Direct Message';
-  const isDrafts = !hideLeadingVisual && leadingVisual === 'Drafts';
-  const effectiveStatus = isDrafts && status === 'Unread' ? 'Read' : status;
-  const hasMentionBadge = effectiveStatus === 'Mention';
+  const isDM = !hideLeadingVisual && leadingVisual === 'direct-message';
+  const isDrafts = !hideLeadingVisual && leadingVisual === 'drafts';
+  const effectiveStatus = isDrafts && status === 'unread' ? 'read' : status;
+  const hasMentionBadge = effectiveStatus === 'mention';
 
   const rootClass = [
     styles['mobile-channel-sidebar-item'],
@@ -202,8 +202,8 @@ export default function MobileChannelSidebarItem({
           >
             <MentionBadge
               count={mentionCount ?? 1}
-              location='Sidebar'
-              size='Medium'
+              location='sidebar'
+              size='medium'
             />
           </span>
         )}

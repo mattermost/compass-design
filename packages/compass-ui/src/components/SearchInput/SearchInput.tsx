@@ -13,12 +13,12 @@ import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import styles from './SearchInput.module.scss';
 
-export type SearchInputSize = 'Small' | 'Medium' | 'Large';
+export type SearchInputSize = 'small' | 'medium' | 'large';
 
 const ICON_SIZE_MAP: Record<SearchInputSize, IconSize> = {
-  Small: '12',
-  Medium: '16',
-  Large: '20',
+  small: '12',
+  medium: '16',
+  large: '20',
 };
 
 export interface SearchInputProps extends Omit<
@@ -44,7 +44,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput(
     {
       className = '',
-      size = 'Medium',
+      size = 'medium',
       label,
       onClear,
       id: idProp,

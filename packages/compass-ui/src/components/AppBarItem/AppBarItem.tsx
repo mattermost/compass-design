@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import styles from './AppBarItem.module.scss';
 
-export type AppBarItemState = 'Default' | 'Selected';
+export type AppBarItemState = 'default' | 'selected';
 
 export interface AppBarItemProps {
   /** Icon element (image or SVG) representing the app. */
@@ -27,13 +27,13 @@ export interface AppBarItemProps {
 export default function AppBarItem({
   icon,
   label,
-  state = 'Default',
+  state = 'default',
   mentionBadge,
   unreadBadge = false,
   onClick,
   className = '',
 }: AppBarItemProps) {
-  const isSelected = state === 'Selected';
+  const isSelected = state === 'selected';
 
   const rootClass = [
     styles['app-bar-item'],
@@ -65,7 +65,7 @@ export default function AppBarItem({
       {unreadBadge && mentionBadge == null && (
         <span
           className={styles['app-bar-item__unread-badge']}
-          aria-label="Unread"
+          aria-label="unread"
         />
       )}
     </button>

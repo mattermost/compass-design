@@ -9,17 +9,17 @@ export default function MessageActionsLibrary() {
           <span className={styles['components__instance-label']}>
             Center Channel
           </span>
-          <MessageActions type="Center Channel" />
+          <MessageActions type="center-channel" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>RHS</span>
-          <MessageActions type="RHS" />
+          <MessageActions type="rhs" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
             Search Results
           </span>
-          <MessageActions type="Search Results" />
+          <MessageActions type="search-results" />
         </div>
       </div>
     </>

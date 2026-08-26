@@ -61,9 +61,9 @@ export default function ComboboxLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <Combobox size="Small" label="Small" options={CHANNEL_OPTIONS} />
-          <Combobox size="Medium" label="Medium" options={CHANNEL_OPTIONS} />
-          <Combobox size="Large" label="Large" options={CHANNEL_OPTIONS} />
+          <Combobox size="small" label="small" options={CHANNEL_OPTIONS} />
+          <Combobox size="medium" label="medium" options={CHANNEL_OPTIONS} />
+          <Combobox size="large" label="large" options={CHANNEL_OPTIONS} />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Single</span>

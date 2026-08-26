@@ -1,5 +1,17 @@
 # Compass UI (Storybook)
 
+## Variant prop string values
+
+Component variant props (`size`, `emphasis`, `appearance`, `style`, `type`, `padding`, `status`, etc.) must use **lowercase kebab-case** literals in exported types, defaults, comparisons, Record maps, stories, and specimens — e.g. `'medium'`, `'inverted'`, `'do-not-disturb'`. Map to SCSS modifiers with `toKebab()` from `@/utils/string`.
+
+When adding a component:
+
+1. Define exported `type` unions with lowercase values (mirror Figma variant names, not Figma label casing).
+2. Use `toKebab(propValue)` for `--modifier` class suffixes; avoid ad-hoc `.toLowerCase()` unless the prop is already a single word.
+3. Storybook `argTypes` `options` arrays and guideline specimens must use the same literals as the component types.
+
+See also the repo-wide rule in [AGENTS.md](../../AGENTS.md#variant-prop-string-values).
+
 ## Overlay components
 
 Published overlay primitives (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover`, …) ship **chrome only**. Do not add portals, focus traps, hover triggers, or backdrop/scrim logic to these components — the host product wires open/close and accessibility orchestration. Panel-level ARIA on the surface is fine.

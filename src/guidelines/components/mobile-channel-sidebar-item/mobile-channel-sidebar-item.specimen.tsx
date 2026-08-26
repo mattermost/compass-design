@@ -13,45 +13,45 @@ export default function MobileChannelSidebarItemLibrary() {
             Leading visuals
           </span>
           <div className={styles['components__sidebar-demo']}>
-            <MobileChannelSidebarItem leadingVisual='Public' name='Design' />
+            <MobileChannelSidebarItem leadingVisual='public' name='Design' />
             <MobileChannelSidebarItem
-              leadingVisual='Private'
+              leadingVisual='private'
               name='Engineering'
             />
             <MobileChannelSidebarItem
-              leadingVisual='Group Message'
+              leadingVisual='group-message'
               name='Design Team'
               memberCount={4}
             />
             <MobileChannelSidebarItem
-              leadingVisual='Direct Message'
+              leadingVisual='direct-message'
               name='Leonard Riley'
               avatarSrc={avatarLeonard}
               avatarAlt='Leonard Riley'
               showAvatarStatus
             />
-            <MobileChannelSidebarItem leadingVisual='Threads' name='Threads' />
-            <MobileChannelSidebarItem leadingVisual='Drafts' name='Drafts' />
-            <MobileChannelSidebarItem leadingVisual='Insights' name='Insights' />
+            <MobileChannelSidebarItem leadingVisual='threads' name='threads' />
+            <MobileChannelSidebarItem leadingVisual='drafts' name='Drafts' />
+            <MobileChannelSidebarItem leadingVisual='insights' name='Insights' />
           </div>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Status</span>
           <div className={styles['components__sidebar-demo']}>
             <MobileChannelSidebarItem
-              leadingVisual='Public'
+              leadingVisual='public'
               name='Read channel'
-              status='Read'
+              status='read'
             />
             <MobileChannelSidebarItem
-              leadingVisual='Public'
+              leadingVisual='public'
               name='Unread channel'
-              status='Unread'
+              status='unread'
             />
             <MobileChannelSidebarItem
-              leadingVisual='Public'
+              leadingVisual='public'
               name='Mention channel'
-              status='Mention'
+              status='mention'
               mentionCount={3}
             />
           </div>
@@ -62,12 +62,12 @@ export default function MobileChannelSidebarItemLibrary() {
           </span>
           <div className={styles['components__sidebar-demo']}>
             <MobileChannelSidebarItem
-              leadingVisual='Public'
+              leadingVisual='public'
               name='Muted channel'
               muted
             />
             <MobileChannelSidebarItem
-              leadingVisual='Direct Message'
+              leadingVisual='direct-message'
               name='Danielle Okoro'
               avatarSrc={avatarDanielle}
               avatarAlt='Danielle Okoro'
@@ -81,17 +81,17 @@ export default function MobileChannelSidebarItemLibrary() {
           </span>
           <div className={styles['components__sidebar-demo']}>
             <MobileChannelSidebarItem
-              leadingVisual='Public'
+              leadingVisual='public'
               name='Shared channel'
               sharedChannel
             />
             <MobileChannelSidebarItem
-              leadingVisual='Private'
+              leadingVisual='private'
               name='Call active'
               callActive
             />
             <MobileChannelSidebarItem
-              leadingVisual='Direct Message'
+              leadingVisual='direct-message'
               name='Marco Rinaldi'
               avatarSrc={avatarMarco}
               avatarAlt='Marco Rinaldi'

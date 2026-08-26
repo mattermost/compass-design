@@ -7,10 +7,10 @@ export default function TooltipLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Arrows</span>
-          <Tooltip label="Top arrow" arrow="Top" />
-          <Tooltip label="Right arrow" arrow="Right" />
-          <Tooltip label="Bottom arrow" arrow="Bottom" />
-          <Tooltip label="Left arrow" arrow="Left" />
+          <Tooltip label="Top arrow" arrow="top" />
+          <Tooltip label="Right arrow" arrow="right" />
+          <Tooltip label="Bottom arrow" arrow="bottom" />
+          <Tooltip label="Left arrow" arrow="left" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
@@ -18,12 +18,12 @@ export default function TooltipLibrary() {
           </span>
           <Tooltip
             label="Bold"
-            arrow="Bottom"
+            arrow="bottom"
             shortcutKeys={[{ label: '⌘' }, { label: 'B' }]}
           />
           <Tooltip
             label="Open quick switcher"
-            arrow="Right"
+            arrow="right"
             hint="Jump to any channel or direct message"
             shortcutKeys={[{ label: '⌘' }, { label: 'K' }]}
           />

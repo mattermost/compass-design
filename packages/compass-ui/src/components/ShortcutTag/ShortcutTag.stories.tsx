@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ShortcutTag, { ShortcutTagGroup } from './ShortcutTag';
 import type { ShortcutTagLocation, ShortcutTagSize } from './ShortcutTag';
 
-const SIZES: ShortcutTagSize[] = ['Small', 'Medium', 'Large'];
-const LOCATIONS: ShortcutTagLocation[] = ['Default', 'Tooltips'];
+const SIZES: ShortcutTagSize[] = ['small', 'medium', 'large'];
+const LOCATIONS: ShortcutTagLocation[] = ['default', 'tooltips'];
 
 const meta = {
   title: 'Components/Status Indicators/Shortcut Tag',
@@ -56,8 +56,8 @@ function Row({
 export const Default: Story = {
   args: {
     label: '⌘',
-    location: 'Default',
-    size: 'Small',
+    location: 'default',
+    size: 'small',
   },
 };
 
@@ -74,10 +74,10 @@ export const AllVariants: Story = {
           style={{
             display: 'grid',
             gap: 12,
-            padding: location === 'Tooltips' ? 16 : 0,
-            borderRadius: location === 'Tooltips' ? 8 : undefined,
+            padding: location === 'tooltips' ? 16 : 0,
+            borderRadius: location === 'tooltips' ? 8 : undefined,
             backgroundColor:
-              location === 'Tooltips'
+              location === 'tooltips'
                 ? 'var(--neutral-1200)'
                 : undefined,
           }}
@@ -86,7 +86,7 @@ export const AllVariants: Story = {
             <Row
               key={size}
               label={`${location} / ${size}`}
-              onDark={location === 'Tooltips'}
+              onDark={location === 'tooltips'}
             >
               <ShortcutTag label="⌘" location={location} size={size} />
               <ShortcutTag label="Shift" location={location} size={size} />

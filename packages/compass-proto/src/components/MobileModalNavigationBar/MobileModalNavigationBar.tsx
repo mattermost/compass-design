@@ -6,7 +6,7 @@ import { IconButton } from '@mattermost/compass-ui';
 import { UserAvatar } from '@mattermost/compass-ui';
 import styles from './MobileModalNavigationBar.module.scss';
 
-export type MobileModalNavigationBarVariant = 'Parent' | 'Child';
+export type MobileModalNavigationBarVariant = 'parent' | 'child';
 
 export interface MobileModalNavigationBarProps {
   /** Parent shows Close; Child shows Back. Default: Parent. */
@@ -41,7 +41,7 @@ export interface MobileModalNavigationBarProps {
  * @see Figma Patterns — Mobile — Top Nav Bar — Modal
  */
 export default function MobileModalNavigationBar({
-  variant = 'Parent',
+  variant = 'parent',
   title,
   subtitle,
   avatarSrc,
@@ -54,7 +54,7 @@ export default function MobileModalNavigationBar({
   onBackClick,
   className = '',
 }: MobileModalNavigationBarProps) {
-  const isParent = variant === 'Parent';
+  const isParent = variant === 'parent';
   const showSubtitle = Boolean(subtitle);
 
   const rootClass = [
@@ -72,16 +72,16 @@ export default function MobileModalNavigationBar({
           {isParent ? (
             <IconButton
               aria-label='Close'
-              size='Medium'
-              style='Inverted'
+              size='medium'
+              style='inverted'
               onClick={onCloseClick}
               icon={<Icon size='20' glyph={<CloseIcon />} />}
             />
           ) : (
             <IconButton
               aria-label='Back'
-              size='Medium'
-              style='Inverted'
+              size='medium'
+              style='inverted'
               onClick={onBackClick}
               icon={<Icon size='20' glyph={<ArrowBackIosIcon />} />}
             />
@@ -123,8 +123,8 @@ export default function MobileModalNavigationBar({
           {trailingIcon && (
             <IconButton
               aria-label='Action'
-              size='Medium'
-              style='Inverted'
+              size='medium'
+              style='inverted'
               onClick={onTrailingIconClick}
               icon={trailingIcon}
             />

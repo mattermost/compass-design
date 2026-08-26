@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import SearchInput from './SearchInput';
 import type { SearchInputSize } from './SearchInput';
 
-const SIZES: SearchInputSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: SearchInputSize[] = ['small', 'medium', 'large'];
 
 const meta = {
   title: 'Components/Forms and Input/Search Input',
@@ -62,7 +62,7 @@ function ClearableSearchInput() {
 export const Default: Story = {
   args: {
     placeholder: 'Search...',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 

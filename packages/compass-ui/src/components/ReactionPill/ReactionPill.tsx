@@ -5,8 +5,8 @@ import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-o
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import styles from './ReactionPill.module.scss';
 
-export type ReactionPillSize = 'Small' | 'Medium' | 'Large';
-export type ReactionPillType = 'Reaction' | 'Hand Raise' | 'Other';
+export type ReactionPillSize = 'small' | 'medium' | 'large';
+export type ReactionPillType = 'reaction' | 'hand-raise' | 'other';
 
 export interface ReactionPillProps extends HTMLAttributes<HTMLDivElement> {
   /** Size variant. Default: Small. */
@@ -17,7 +17,7 @@ export interface ReactionPillProps extends HTMLAttributes<HTMLDivElement> {
   emoji?: string;
   /** Participant name / label text. */
   label?: string;
-  /** Notification message for 'Other' type. */
+  /** Notification message for 'other' type. */
   message?: string;
   /** Optional CSS class name. */
   className?: string;
@@ -28,8 +28,8 @@ export interface ReactionPillProps extends HTMLAttributes<HTMLDivElement> {
  * during calls. Anatomy: Leading Icon + Label (+ Trailing Icon for Other type).
  */
 export default function ReactionPill({
-  size = 'Small',
-  type = 'Reaction',
+  size = 'small',
+  type = 'reaction',
   emoji = '😀',
   label = 'Leonard R.',
   message = 'You have been muted by the host',
@@ -40,7 +40,7 @@ export default function ReactionPill({
     styles['reaction-pill'],
     styles[`reaction-pill--size-${size.toLowerCase()}`],
     styles[
-      `reaction-pill--type-${type === 'Hand Raise' ? 'hand-raise' : type === 'Other' ? 'other' : 'reaction'}`
+      `reaction-pill--type-${type === 'hand-raise' ? 'hand-raise' : type === 'other' ? 'other' : 'reaction'}`
     ],
     className,
   ]
@@ -51,7 +51,7 @@ export default function ReactionPill({
     <div className={rootClass} {...rest}>
       <div className={styles['reaction-pill__inner']}>
         {/* Reaction type: emoji + name */}
-        {type === 'Reaction' && (
+        {type === 'reaction' && (
           <>
             <span className={styles['reaction-pill__emoji']} aria-hidden>
               {emoji}
@@ -61,7 +61,7 @@ export default function ReactionPill({
         )}
 
         {/* Hand Raise: icon + name */}
-        {type === 'Hand Raise' && (
+        {type === 'hand-raise' && (
           <>
             <span className={styles['reaction-pill__leading-icon']} aria-hidden>
               <Icon size="12" glyph={<HandRightOutlineIcon />} />
@@ -73,7 +73,7 @@ export default function ReactionPill({
         )}
 
         {/* Other type: icon + message + dismiss */}
-        {type === 'Other' && (
+        {type === 'other' && (
           <>
             <span className={styles['reaction-pill__leading-icon']} aria-hidden>
               <Icon size="12" glyph={<MicrophoneOffIcon />} />

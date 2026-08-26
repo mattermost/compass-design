@@ -4,7 +4,7 @@ import { useControllable } from '@/hooks/useControllable';
 import { toKebab } from '@/utils/string';
 import styles from './Radio.module.scss';
 
-export type RadioSize = 'Small' | 'Medium' | 'Large';
+export type RadioSize = 'small' | 'medium' | 'large';
 
 export interface RadioProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -31,7 +31,7 @@ export interface RadioProps extends Omit<
  */
 export default function Radio({
   className = '',
-  size = 'Medium',
+  size = 'medium',
   valid = true,
   children,
   id: idProp,

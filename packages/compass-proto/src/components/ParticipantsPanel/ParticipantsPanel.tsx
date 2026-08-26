@@ -39,15 +39,15 @@ export default function ParticipantsPanel({
         <h2 className={styles['participants-panel__title']}>Participants</h2>
         <div className={styles['participants-panel__header-actions']}>
           <Button
-            emphasis="Quaternary"
-            size="X-Small"
+            emphasis="quaternary"
+            size="x-small"
             leadingIcon={<Icon size="12" glyph={<MicrophoneOffIcon />} />}
           >
             Mute all
           </Button>
           {!isWidget && onClose && (
             <IconButton
-              size="Small"
+              size="small"
               aria-label="Close participants"
               icon={<Icon size="16" glyph={<CloseIcon />} />}
               onClick={onClose}

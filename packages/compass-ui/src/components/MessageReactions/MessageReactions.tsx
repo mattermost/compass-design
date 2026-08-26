@@ -126,7 +126,7 @@ export default function MessageReactions({
           <IconButton
             aria-label="Add reaction"
             className={styles['message-reactions__add-reaction']}
-            size="X-Small"
+            size="x-small"
             onClick={onAddReaction}
             icon={<Icon size="16" glyph={<EmoticonPlusOutlineIcon />} />}
           />

@@ -79,8 +79,8 @@ export default function AdminPanelFooter({
         <div className={styles['admin-panel-footer__actions']}>
           <Button
             type="button"
-            size="Medium"
-            emphasis="Primary"
+            size="medium"
+            emphasis="primary"
             disabled={saveDisabled}
             onClick={onSave}
           >
@@ -88,8 +88,8 @@ export default function AdminPanelFooter({
           </Button>
           <Button
             type="button"
-            size="Medium"
-            emphasis="Tertiary"
+            size="medium"
+            emphasis="tertiary"
             onClick={onCancel}
           >
             {cancelLabel}

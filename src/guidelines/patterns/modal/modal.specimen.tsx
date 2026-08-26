@@ -6,7 +6,7 @@ import styles from '@/styles/library-demo/patterns.module.scss';
 
 const modalFooter = (
   <>
-    <Button emphasis="Tertiary">Cancel</Button>
+    <Button emphasis="tertiary">Cancel</Button>
     <Button destructive>Delete Channel</Button>
   </>
 );
@@ -36,7 +36,7 @@ export default function ModalLibrary() {
       <div>
         <p className={styles['patterns__variant-label']}>With dividers</p>
         <ModalCanvas>
-          <Modal title="Delete Channel" size="Small" footer={modalFooter}>
+          <Modal title="Delete Channel" size="small" footer={modalFooter}>
             {modalBody}
           </Modal>
         </ModalCanvas>
@@ -46,7 +46,7 @@ export default function ModalLibrary() {
         <ModalCanvas>
           <Modal
             title="Delete Channel"
-            size="Small"
+            size="small"
             headerDivider={false}
             footerDivider={false}
             footer={modalFooter}

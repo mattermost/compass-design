@@ -1,6 +1,6 @@
 import styles from './ProgressBar.module.scss';
 
-export type ProgressBarSize = 'Small' | 'Large';
+export type ProgressBarSize = 'small' | 'large';
 
 export interface ProgressBarProps {
   /** Progress value 0–100. Default: 0. */
@@ -31,14 +31,14 @@ function getSemanticColorClass(value: number): string {
  */
 export default function ProgressBar({
   value = 0,
-  size = 'Large',
+  size = 'large',
   semanticColors = false,
   'aria-label': ariaLabel = 'Progress',
   className = '',
 }: ProgressBarProps) {
   const clampedValue = Math.min(100, Math.max(0, value));
   const sizeClass =
-    size === 'Small'
+    size === 'small'
       ? styles['progress-bar--size-small']
       : styles['progress-bar--size-large'];
 

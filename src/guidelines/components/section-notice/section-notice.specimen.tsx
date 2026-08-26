@@ -26,7 +26,7 @@ export default function SectionNoticeLibrary() {
           <span className={styles['components__instance-label']}>Info</span>
           <SectionNotice
             title="Keyboard shortcut updated"
-            type="Info"
+            type="info"
             description={
               <>
                 The quick switcher is now opened with{' '}
@@ -40,7 +40,7 @@ export default function SectionNoticeLibrary() {
           <span className={styles['components__instance-label']}>Success</span>
           <SectionNotice
             title="Changes saved"
-            type="Success"
+            type="success"
             description="Your notification preferences have been updated."
             primaryButtonLabel="Got it"
             onPrimaryAction={() => {}}
@@ -51,7 +51,7 @@ export default function SectionNoticeLibrary() {
           <span className={styles['components__instance-label']}>Warning</span>
           <SectionNotice
             title="Session expiring soon"
-            type="Warning"
+            type="warning"
             description="You will be signed out in 5 minutes due to inactivity."
             primaryButtonLabel="Stay signed in"
             onPrimaryAction={() => {}}
@@ -64,7 +64,7 @@ export default function SectionNoticeLibrary() {
           <span className={styles['components__instance-label']}>Danger</span>
           <SectionNotice
             title="Permission required"
-            type="Danger"
+            type="danger"
             description="You don't have access to post in this channel."
             primaryButtonLabel="Review permissions"
             onPrimaryAction={() => {}}

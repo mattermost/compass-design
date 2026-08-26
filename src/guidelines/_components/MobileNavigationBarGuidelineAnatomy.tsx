@@ -15,7 +15,7 @@ export function MobileNavigationBarAnatomyStage() {
     >
       <div className={styles['mobile-navigation-bar-anatomy__frame']}>
         <MobileNavigationBar
-          variant='Channel'
+          variant='channel'
           name='UX Design'
           memberCount={32}
           mentionCount={1}
