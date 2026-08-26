@@ -6,7 +6,7 @@ How we are splitting Compass UI work across two repositories. Replaces the earli
 
 | Layer | Repository | Role |
 | ----- | ---------- | ---- |
-| Design-system monorepo | `mattermost/compass-design` (this repo) | `@mattermost/compass-ui` (published), `@mattermost/compass-proto` (unpublished), docs + Storybook, GitHub Pages |
+| Design system repo | `mattermost/compass-design` (this repo) | `@mattermost/compass-ui` (published), `@mattermost/compass-proto` (unpublished), docs + Storybook, GitHub Pages |
 | Prototypes catalog | `mattermost/mattermost-proto-playground` | Multi-scene prototype flows, device chrome (`PrototypeTopNav`, `DeviceFrame`), registry |
 
 Icons stay in [`mattermost/compass-icons`](https://github.com/mattermost/compass-icons) for now (peer dependency; may move into `compass-design` later).
@@ -19,6 +19,24 @@ Icons stay in [`mattermost/compass-icons`](https://github.com/mattermost/compass
 | `@mattermost/compass-proto` | No (workspace / `npm pack` only) | Mobile*, `ChannelShell`, Call* composites, demo RHS panels, sidebar fixture builders |
 
 **Chrome vs fixtures:** Core keeps presentational shells (`ChannelsSidebar`, `AdminConsoleSidebar`, `RightSidebar` header). Demo trees and specimen RHS screens live in proto or docs fixtures — not in the published core API.
+
+### Layouts and shells (who uses what)
+
+Layouts are composed MDX specimens in `src/guidelines/layouts/`. They are **not** an npm export — they stitch published chrome and unpublished proto together for documentation.
+
+| Layer | Package / location | Published | What lives here |
+| ----- | ------------------ | --------- | --------------- |
+| UI (chrome) | `@mattermost/compass-ui` | Yes | Foundations, primitives, props-driven web chrome |
+| Proto | `@mattermost/compass-proto` | Never npm | `ChannelShell`, Mobile*, Call*, demo RHS panels, sidebar fixture helpers |
+| Docs chrome | `src/components/layout/` (this repo) | No | `DeviceFrame`, `MobileModalStage` — specimen framing only |
+
+Layout specimens import ui + proto (and docs chrome where needed) to show full screens. Proto is **not** on npm; playground and docs consume it via workspace / `file:` links.
+
+| Consumer | What it uses |
+| -------- | ------------ |
+| `compass-design` | Guidelines: workspace `compass-ui` + `compass-proto`. **Storybook:** published `@mattermost/compass-ui` only |
+| Proto playground | `file:` / workspace for both `compass-ui` and `compass-proto` |
+| Webapp | `@mattermost/compass-ui` only — no proto |
 
 **Compass vs product:** Compass owns look (props/slots). Webapp owns behavior (permissions, markdown, optimistic UI). Adopt leaf-first; do not grow Compass into a second Post/sidebar controller.
 
@@ -39,7 +57,7 @@ Stop after each phase; verify before starting the next.
 
 ## Consumption
 
-- **Docs / Storybook (in monorepo):** workspace `compass-ui` + `compass-proto`
+- **Docs / Storybook (in this repo):** guidelines use workspace `compass-ui` + `compass-proto`; **Storybook** catalogs published `@mattermost/compass-ui` only
 - **Playground (after split):** published `@mattermost/compass-ui` + `file:` / `npm pack` for `@mattermost/compass-proto`
 - **Webapp (testing branch):** `file:` → `packages/compass-ui` + watch; webpack React aliases — see INTEGRATION.md
 - **Webapp (after alpha):** `@mattermost/compass-ui@alpha` only — no Mobile*, `ChannelShell`, or Call* from proto in product code
