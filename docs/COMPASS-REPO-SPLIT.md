@@ -35,7 +35,7 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | Consumer | What it uses |
 | -------- | ------------ |
 | `compass-design` | Guidelines: workspace `compass-ui` + `compass-proto`. **Storybook:** published `@mattermost/compass-ui` only |
-| Proto playground | `file:` / workspace for both `compass-ui` and `compass-proto` |
+| Proto playground | Published `@mattermost/compass-ui` + `file:` / `npm pack` for `@mattermost/compass-proto` |
 | Webapp | `@mattermost/compass-ui` only — no proto |
 
 **Compass vs product:** Compass owns look (props/slots). Webapp owns behavior (permissions, markdown, optimistic UI). Adopt leaf-first; do not grow Compass into a second Post/sidebar controller.
@@ -50,8 +50,8 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | ----- | ------ | ------- |
 | **0 — Boundary + webapp spike** | Done | `compass-proto` package; core barrel pruned; chrome vs fixtures; pack/smoke tests; local webapp `file:` + watch validation |
 | **1 — Create `compass-design`** | Done (initial import) | Move packages + docs app; CI publishes core only; GitHub Pages on design repo |
-| **2 — Slim playground** | Next | Flows + chrome only; depend on published core + packed proto; rewrite README for catalog role |
-| **3 — Alpha release** | Later | `@mattermost/compass-ui@alpha`; webapp switches from `file:` to npm for mergeable PRs |
+| **2 — Slim playground** | Done | Flows + chrome only; depend on published core + packed proto; rewrite README for catalog role |
+| **3 — Alpha release** | Next | `@mattermost/compass-ui@alpha`; webapp switches from `file:` to npm for mergeable PRs |
 
 Stop after each phase; verify before starting the next.
 
