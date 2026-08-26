@@ -25,10 +25,9 @@ export interface FeatureDiscoveryPanelProps {
 }
 
 /**
- * Feature Discovery Panel — highlights capabilities only available in higher-tier SKUs.
- * Contains an illustration, SKU tag, title, description, and CTA buttons.
- *
- * @see https://compass.mattermost.com/29be2c109/p/865664-feature-discovery-panel
+ * Feature Discovery Panels surface capabilities only available on a higher-tier SKU. They
+ * live in the System Console and are visible to admins — never to end users. The goal is to
+ * communicate the value of the feature, not gate the UI behind a paywall.
  */
 export default function FeatureDiscoveryPanel({
   skuLabel = 'PROFESSIONAL',

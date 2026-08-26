@@ -19,10 +19,9 @@ export interface PaginationDotsProps {
 }
 
 /**
- * Pagination Dots — step/progress indicator dots for multi-step flows.
- * Horizontal and vertical orientations. Default, inverted (sidebar), and
- * on-primary (light dots on `--button-bg` / info surfaces via `--button-color`).
- * Used in onboarding wizards.
+ * Pagination Dots indicate progress through a fixed sequence of steps — most often a
+ * multi-step onboarding flow or a swipeable carousel. One dot per step, the active one
+ * filled, the rest quiet.
  */
 export default function PaginationDots({
   pages,

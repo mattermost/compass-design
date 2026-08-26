@@ -117,8 +117,9 @@ function optionLeadingVisual(option: ComboboxOption): ReactNode | undefined {
 }
 
 /**
- * Autocomplete combobox with optional multi-selection chips.
- * Field chrome matches Select / Text Input; list uses PopoverMenu + MenuItem.
+ * { value: 'town-square', label: 'Town Square' }, { value: 'off-topic', label: 'Off-Topic'
+ * }, { value: 'design', label: 'Design' }, { value: 'engineering', label: 'Engineering' }, {
+ * value: 'releases', label: 'Releases' }, ];
  */
 const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   {

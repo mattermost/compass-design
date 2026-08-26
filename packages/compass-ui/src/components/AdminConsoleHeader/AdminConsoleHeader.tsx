@@ -22,7 +22,9 @@ export interface AdminConsoleHeaderProps {
 }
 
 /**
- * Strip header for System Console content: title, optional enterprise tag, optional back affordance.
+ * The Admin Console header is the stripe above scrolling System Console content. It anchors
+ * the active page title, optional edition signalling, navigation back into nested settings,
+ * and sparse trailing utilities.
  */
 export default function AdminConsoleHeader({
   title,

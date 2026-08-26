@@ -33,11 +33,8 @@ export interface TextInputProps extends Omit<
 }
 
 /**
- * Text Input component with optional floating label, leading/trailing icons, and character counter.
- * Matches Figma Text Input v2.0.1 (Border=On only). Uses theme variables only.
- * When label is provided, the label floats above the border on focus or when the field has a value.
- *
- * @see https://compass.mattermost.com (Text Input)
+ * Text Inputs let people enter and edit a single line of text — names, emails, search
+ * queries, channel titles. They're the workhorse of every form and modal in Mattermost.
  */
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   function TextInput(

@@ -56,6 +56,12 @@ const VARIANT_ICON_CLASS: Record<PopoverNoticeVariant, string> = {
   danger: styles['popover-notice__icon--danger'],
 };
 
+/**
+ * Popover Notice is a small overlay card that surfaces a transient message — a tip, a
+ * confirmation, a warning — without taking over the screen. Think of it as a [Section
+ * Notice](/components/section-notice) that floats: shorter, dismissable, and gone in five
+ * seconds unless the user engages.
+ */
 export default function PopoverNotice({
   title,
   children,

@@ -23,9 +23,9 @@ export interface PermalinkPreviewProps {
 }
 
 /**
- * Inline preview of a linked message within a thread or channel. Shows sender
- * avatar, name, timestamp, and message content. Corresponds to Figma
- * Permalink Preview v1.0.0.
+ * A Permalink Preview renders an inline card for a message that another message links to.
+ * Sender, timestamp, body, and origin channel — enough context to recognise the quoted
+ * message without leaving where you are.
  */
 export default function PermalinkPreview({
   authorName = 'Leonard Riley',

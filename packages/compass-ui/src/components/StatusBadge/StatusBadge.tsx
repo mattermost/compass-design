@@ -48,10 +48,8 @@ const GLYPH_COMPONENT: Record<StatusBadgeStatus, ElementType> = {
 };
 
 /**
- * Status badge (Online, Away, Do Not Disturb, Offline).
- * Matches Figma Status Badge v2.0.1. Uses Icon + @mattermost/compass-icons.
- *
- * @see Figma Status Badge (Node ID: 702:1875)
+ * A Status Badge tells you whether someone is reachable. It pairs with an avatar or username
+ * so a glance is enough to know if a teammate is online, focused, away, or signed out.
  */
 export default function StatusBadge({
   className = '',

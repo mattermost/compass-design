@@ -48,9 +48,9 @@ export interface ThreadListItemProps {
 }
 
 /**
- * Thread entry in the Threads view. Shows author, team badge, preview text,
- * timestamp, participant avatars, reply count. Badge variants: None, Unread,
- * Mention. More actions (⋯) appear on row hover or focus.
+ * The Thread List Item is a single entry in the Threads view. Each row gives the user enough
+ * context — who, where, what, when — to decide whether to open the thread without opening
+ * it.
  */
 export default function ThreadListItem({
   active = false,

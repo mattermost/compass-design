@@ -21,13 +21,9 @@ export interface RadioProps extends Omit<
 }
 
 /**
- * Radio component built on the native HTML radio input.
- * Supports checked/unchecked; sizes and valid/invalid styling match Figma Radio v2.0.0.
- *
- * Use with a shared `name` when grouping options so only one is selected.
- * Use with a label: pass children to render label text, or wrap in your own <label>.
- *
- * @see https://compass.mattermost.com (Radio)
+ * Radios let people pick exactly one option from a small, mutually exclusive set — a
+ * workspace plan, a notification cadence, a default theme. Use a Radio when the choices are
+ * few enough to show at once and the user benefits from seeing every option side-by-side.
  */
 export default function Radio({
   className = '',

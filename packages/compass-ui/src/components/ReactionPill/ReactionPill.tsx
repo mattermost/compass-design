@@ -24,8 +24,9 @@ export interface ReactionPillProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Call-specific reaction pills showing emoji, hand-raise, or notification reactions
- * during calls. Anatomy: Leading Icon + Label (+ Trailing Icon for Other type).
+ * Reaction Pills surface lightweight, transient signals during a call — emoji reactions,
+ * raised hands, and system notifications like "you've been muted." They float over the call
+ * surface long enough to register and then disappear; they aren't meant to be durable UI.
  */
 export default function ReactionPill({
   size = 'small',

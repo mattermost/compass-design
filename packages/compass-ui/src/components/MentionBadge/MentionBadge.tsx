@@ -23,10 +23,10 @@ export interface MentionBadgeProps {
 }
 
 /**
- * Mention badge — displays a numeric count in a pill.
- * Matches Figma Mention Badge v2.0.1.
- *
- * @see Figma Mention Badge (Node ID: 322:4608)
+ * Mention Badges show a numerical count of pending mentions. They appear next to channel
+ * names in the sidebar, on app-bar icons, inline in menu items, and on center-channel lists
+ * such as thread rows — small, high-contrast pills that pull the eye without dominating the
+ * row.
  */
 export default function MentionBadge({
   className = '',

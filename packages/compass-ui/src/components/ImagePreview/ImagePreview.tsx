@@ -29,9 +29,9 @@ export interface ImagePreviewProps {
 }
 
 /**
- * Image preview / lightbox for viewing attached images. Supports collapsed
- * state and hover action overlay (copy link, download). Corresponds to Figma
- * Image Preview v1.0.0.
+ * Image Preview displays image attachments, markdown images, and inline image links inside
+ * the message stream. It frames the image, shows hover actions for copy and download, and
+ * lets the user collapse the preview when it's in the way.
  */
 export default function ImagePreview({
   src,

@@ -24,11 +24,9 @@ export interface TextAreaProps extends Omit<
 }
 
 /**
- * Text Area component with optional floating label and character counter.
- * Multi-line text input for long-form content. Matches Figma Text Area v2.0.0.
- * Used in message compose, post editing, admin settings.
- *
- * @see https://compass.mattermost.com (Text Area)
+ * Text Areas let people write long-form text that spans multiple lines — descriptions,
+ * channel purposes, message drafts, admin notes. They share their visual rhythm with Text
+ * Input but trade the single-line constraint for room to breathe.
  */
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   function TextArea(

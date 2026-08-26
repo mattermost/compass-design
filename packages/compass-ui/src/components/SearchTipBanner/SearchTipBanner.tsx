@@ -25,8 +25,9 @@ export interface SearchTipBannerProps {
 }
 
 /**
- * Search Tip Banner — dismissable hint banner showing keyboard shortcut tips.
- * Used contextually to surface relevant keyboard shortcuts to users.
+ * The Search Tip Banner nudges people toward the keyboard shortcut for in-channel search. It
+ * appears once a user has scrolled up far enough that they're clearly looking for something,
+ * and offers a faster path than scroll-and-skim.
  */
 export default function SearchTipBanner({
   prefix = 'Tip: Try',

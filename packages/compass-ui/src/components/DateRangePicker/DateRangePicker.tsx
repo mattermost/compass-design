@@ -96,9 +96,8 @@ function dayFromIso(iso: string, year: number, month: number): number | null {
 }
 
 /**
- * DateRangePicker — calendar popover for single date or date-range selection.
- * Month/year nav, today shortcut. Matches Figma Date & Range Picker v2.0.0.
- * Used in boards and admin scheduling.
+ * The Date and Range Picker lets people pick a single date or a start/end range from a
+ * calendar. The trigger is a compact field; the calendar is a popover anchored 4px below it.
  */
 export default function DateRangePicker({
   className = '',

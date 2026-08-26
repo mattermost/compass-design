@@ -32,11 +32,9 @@ export interface ChannelInfoMsgHeaderProps {
 }
 
 /**
- * Channel + optional team label bar. Used above messages in Mentions / Saved
- * lists and as section tabs in the channel info panel.
- *
- * @see Figma Components — Channel Info Message Header
- * @see https://www.figma.com/design/VLpUbaoHEh2GR3XekSqmI6/Components---Channel-Info-Message-Header?node-id=1215-615
+ * The Channel Info Message Header names a channel (or section) and, when useful, the team it
+ * belongs to. Use it above posts in Mentions and Saved lists, or as section tabs at the top
+ * of a channel info panel.
  */
 export default function ChannelInfoMsgHeader({
   channelName,

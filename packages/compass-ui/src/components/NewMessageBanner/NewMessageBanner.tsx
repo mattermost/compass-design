@@ -19,9 +19,9 @@ export interface NewMessageBannerProps {
 }
 
 /**
- * New Message Banner — blue pill banner for unread message navigation.
- * 'Jump to unreads' shows full-width with count. 'New replies' is compact.
- * Dismissable with X button.
+ * The New Messages Banner alerts the user that there's fresh activity in the channel they're
+ * reading. It floats over the message stream so they can jump to the unread region in one
+ * click — or dismiss it if they'd rather keep scrolling.
  */
 export default function NewMessageBanner({
   className = '',

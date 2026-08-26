@@ -26,8 +26,9 @@ export interface MessageActionsProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Hover toolbar on messages. Context-aware variants for Center Channel, RHS,
- * and Search Results. Quick Reactions toggle shows emoji shortcuts.
+ * Message Actions is the floating toolbar that appears on a message when you hover, tab, or
+ * long-press it. It bundles the most common per-message actions — react, save, reply, more —
+ * into a small, context-aware row that hovers above the post.
  */
 export default function MessageActions({
   type = 'center-channel',

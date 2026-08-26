@@ -34,8 +34,9 @@ export interface LinkPreviewProps {
 }
 
 /**
- * Rich URL preview card shown in messages. Displays site name, title (linked),
- * and description. Corresponds to the Figma Link Preview component v2.0.0.
+ * Link Previews appear under a message whenever it contains a URL with rich metadata — a
+ * documentation page, a blog post, a product link. They give the recipient enough context to
+ * decide whether to click without forcing them to open the link cold.
  */
 export default function LinkPreview({
   siteName = 'Mattermost.com',

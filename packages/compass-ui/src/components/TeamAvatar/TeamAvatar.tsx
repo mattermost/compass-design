@@ -24,6 +24,10 @@ export interface TeamAvatarProps {
   state?: TeamAvatarState;
 }
 
+/**
+ * Team Avatars identify a Team in Mattermost. Their rounded-square shape sets them apart
+ * from circular User Avatars at a glance — same scanning rhythm, different kind of subject.
+ */
 export default function TeamAvatar({
   alt = '',
   badge,

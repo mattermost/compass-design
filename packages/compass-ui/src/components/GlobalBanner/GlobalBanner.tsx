@@ -30,9 +30,10 @@ export interface GlobalBannerProps {
 }
 
 /**
- * Global Banner — full-width persistent banner at the top of the app.
- * Used for system alerts: maintenance, license, updates.
- * Fixed 40px height. Dismissable.
+ * Global Banners sit at the very top of the application and broadcast something every user
+ * in the workspace needs to know — a maintenance window, an expiring licence, a connectivity
+ * problem, an available update. They span the full width of the app and stay visible until
+ * they're dismissed or the condition resolves.
  */
 export default function GlobalBanner({
   className = '',

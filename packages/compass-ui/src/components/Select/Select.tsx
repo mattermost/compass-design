@@ -137,10 +137,8 @@ function SelectOptionRow({
 }
 
 /**
- * Select with floating label and PopoverMenu list.
- * Field chrome matches Combobox / Text Input; list uses PopoverMenu + MenuItem.
- *
- * @see https://compass.mattermost.com (Select)
+ * { value: 'town-square', label: 'Town Square' }, { value: 'off-topic', label: 'Off-Topic'
+ * }, { value: 'design', label: 'Design' }, ];
  */
 const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
   {

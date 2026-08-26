@@ -103,14 +103,9 @@ function getInitials(name: string): string {
 }
 
 /**
- * User avatar. Matches Figma User Avatar — Image and Fallback variants.
- * When `src` is provided, renders an `<img>`; otherwise renders initials on
- * one of eight deterministic colour backgrounds (hashed from `name`/`alt`,
- * or overridden via `fallbackColor`). System variant is not implemented.
- *
- * Uses StatusBadge for online indicator when status=true.
- *
- * @see Figma User Avatar (Type=Image, Type=Fallback)
+ * User Avatars represent a person — usually their uploaded photo, with initials on a colour
+ * background as a fallback. Their circular shape distinguishes them from rounded-square Team
+ * Avatars at a glance.
  */
 export default function UserAvatar({
   alt,

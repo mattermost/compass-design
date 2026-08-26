@@ -17,11 +17,9 @@ export interface UnreadBadgeProps {
 }
 
 /**
- * Small unread dot indicator (no number).
- * Signals "something unread" without a count.
- * Two sizes (6/8 px) and two contexts (Team Icon / Icon Button).
- *
- * @see Figma Unread Badge (v2.0.0, Source: F3fippSczUZwF6C5yXoNFf)
+ * The Unread Badge is a small dot that signals "something's new here" without specifying how
+ * much. Reach for it when the count would be noisy, distracting, or simply isn't useful — a
+ * Team has unread channels, an icon button has a new state, a tab has activity behind it.
  */
 export default function UnreadBadge({
   'aria-label': ariaLabel = 'unread',

@@ -34,9 +34,9 @@ export interface ThreadFooterProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Reply summary bar at the bottom of messages.
- * Shows participant avatars, reply count, Follow/Following toggle,
- * and last reply time. Badge variants: None, Unread dot, Mention count.
+ * The Thread Footer is the reply summary bar at the bottom of a message. It shows
+ * participants, reply count, follow state, and last-reply time — the information someone
+ * needs to decide whether to dive in.
  */
 export default function ThreadFooter({
   replyCount = 3,

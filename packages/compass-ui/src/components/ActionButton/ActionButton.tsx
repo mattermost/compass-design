@@ -8,6 +8,11 @@ export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElemen
   destructive?: boolean;
 }
 
+/**
+ * Action Buttons surface a small set of high-frequency actions in a fixed context — a
+ * profile popover, a channel info panel, a card. They sit close to the content they act on
+ * and read as a row of equal-weight choices.
+ */
 export default function ActionButton({
   icon,
   label,

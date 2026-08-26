@@ -25,9 +25,9 @@ function getSemanticColorClass(value: number): string {
 }
 
 /**
- * Progress Bar — horizontal progress indicator.
- * Size (Small/Large). Semantic colors mode changes fill color by percentage.
- * Used in upload progress, quota usage.
+ * Progress Bar shows determinate progress through a wait state — an upload finishing, a
+ * quota filling, an import running. Use it when the duration or total is known; reach for
+ * [Spinner](/components/spinner) when it isn't.
  */
 export default function ProgressBar({
   value = 0,

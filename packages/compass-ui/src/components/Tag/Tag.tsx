@@ -37,8 +37,9 @@ const TYPE_CLASS: Record<TagType, string> = {
 };
 
 /**
- * Compact pill for roles, status, tiers, and other metadata labels.
- * Maps to Figma Label Tag (v1.0.1).
+ * Tags are compact pills that mark something — a role (_BOT_, _GUEST_), a tier
+ * (_PROFESSIONAL_), a status (_NEW_, _BETA_), or a category. They're scannable signal: a way
+ * to surface a small piece of metadata without spending a sentence on it.
  */
 export default function Tag({
   label,

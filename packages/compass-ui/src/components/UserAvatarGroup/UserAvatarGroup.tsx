@@ -44,12 +44,9 @@ function overflowNamesLabel(hidden: UserAvatarGroupItem[]): string {
 }
 
 /**
- * Stacked, overlapping user avatars showing multiple participants.
- * Displays up to `max` avatars then shows an overflow "+N" chip.
- * Hover shows a `Tooltip` with each participant’s display name.
- * Used in thread footers, call cards, and playbook run info.
- *
- * @see Figma Avatar Group (v1.0.1)
+ * A User Avatar Group displays multiple participants as a stack of overlapping avatars. It's
+ * a compact way to show "who's involved" — thread participants, channel members, call
+ * attendees — without a list.
  */
 export default function UserAvatarGroup({
   avatars,

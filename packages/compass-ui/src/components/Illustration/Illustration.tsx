@@ -15,12 +15,10 @@ export interface IllustrationProps {
 }
 
 /**
- * Wrapper for illustration SVGs. Import SVGs as React components with the ?react suffix
- * and pass them as children.
- *
- * @example
- * import EmptyStateSvg from '@/assets/illustrations/empty-state.svg?react'
- * <Illustration aria-label="No items yet"><EmptyStateSvg /></Illustration>
+ * Illustration is the wrapper for any of the brand SVG artworks shipped under
+ * `@/assets/illustrations/`. It enforces a consistent size box, contains the SVG, and
+ * exposes an accessible label so screen readers can describe the artwork (or skip it when
+ * it's purely decorative).
  */
 export default function Illustration({
   children,

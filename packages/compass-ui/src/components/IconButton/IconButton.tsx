@@ -49,11 +49,10 @@ export const ICON_BUTTON_ICON_SIZES: Record<
 };
 
 /**
- * Icon-only button matching Figma Icon Button variants.
- * Pass icon e.g. <Icon glyph={<GlobeIcon size={SVG_SIZE_MAP['20']} />} size="20" /> — use ICON_BUTTON_ICON_SIZES[size] for the Icon container size.
- * Accessible via aria-label.
- *
- * @see https://compass.mattermost.com (Icon Button)
+ * Icon Buttons are compact, label-free actions for tight surfaces — channel headers, message
+ * hover actions, modal dismissals, toolbar slots. They lean on the icon to communicate
+ * intent, so every Icon Button must pair with a tooltip or `aria-label` that makes the
+ * action explicit.
  */
 export default function IconButton({
   active = false,

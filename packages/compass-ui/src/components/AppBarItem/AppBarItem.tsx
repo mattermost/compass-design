@@ -21,8 +21,9 @@ export interface AppBarItemProps {
 }
 
 /**
- * App Bar Item component matching Figma design.
- * Circular app icon for the right-side app bar with optional selection indicator and badges.
+ * The App Bar Item is a circular icon that anchors a third-party app or plugin in the
+ * right-side App Bar. Each item is a single tap-target with optional selection styling and
+ * notification badges.
  */
 export default function AppBarItem({
   icon,

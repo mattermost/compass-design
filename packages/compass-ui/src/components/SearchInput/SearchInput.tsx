@@ -36,9 +36,9 @@ export interface SearchInputProps extends Omit<
 }
 
 /**
- * Search Input component — text input with leading magnifier icon.
- * Used in global search bar, channel search, user search, and filter inputs.
- * Matches Figma Search Input (State: Default/Focus/Filled × Size S/M/L).
+ * Search Inputs are the entry point to filtering or finding content — global search, channel
+ * switcher, member picker, file finder. They look like a text input with a leading magnifier
+ * so the affordance is obvious before the user reads a single word.
  */
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput(

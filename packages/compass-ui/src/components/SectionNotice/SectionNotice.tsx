@@ -48,9 +48,9 @@ const DEFAULT_ICONS: Record<SectionNoticeType, ReactNode> = {
 };
 
 /**
- * Section Notice — in-context notice block for settings and admin panels.
- * Color-coded by severity. Supports title, description, primary/secondary
- * action buttons, and dismiss.
+ * A Section Notice is an in-context alert that lives inside a settings page, admin panel, or
+ * other content region. Use it to flag important information, report a state change, or
+ * surface a problem the user needs to act on — without yanking them out of the flow.
  */
 export default function SectionNotice({
   className = '',

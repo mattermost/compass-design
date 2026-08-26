@@ -40,9 +40,9 @@ const DEFAULT_REACTIONS: ReactionItem[] = [
 ];
 
 /**
- * Emoji reaction chips displayed below messages.
- * Distinguishes the current user's own reactions (highlighted) from others.
- * Includes an add-reaction button and an optional Acknowledge variant.
+ * Message Reactions are the row of emoji pills below a message — the lightest weight way to
+ * respond, applaud, or acknowledge without adding to the thread. The component handles the
+ * count, the "this is mine" highlight, and the add-reaction affordance.
  */
 export default function MessageReactions({
   reactions = DEFAULT_REACTIONS,

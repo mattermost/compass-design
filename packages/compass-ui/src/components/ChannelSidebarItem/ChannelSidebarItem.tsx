@@ -105,6 +105,11 @@ function LeadingVisualContent({
   }
 }
 
+/**
+ * The Channel Sidebar Item is the row people use to move between channels, DMs, and group
+ * messages. It compresses a lot of state — channel type, unread, mention count, mute,
+ * in-call — into a single, scannable line.
+ */
 export default function ChannelSidebarItem({
   className,
   name,

@@ -34,9 +34,8 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 /**
- * Menu item matching Figma/Compass Menu Item v2.0.0.
- *
- * @see https://compass.mattermost.com/29be2c109/p/1092d5-menu-item
+ * Menu Items are the rows inside a Menu — the smallest selectable unit in any dropdown,
+ * kebab, or context menu. One label, optional supporting visuals, and a clear hit target.
  */
 export default function MenuItem({
   label,

@@ -25,8 +25,9 @@ const DEFAULT_LABELS: Record<MessageSeparatorType, string> = {
 };
 
 /**
- * Horizontal divider lines in the message stream.
- * Three types: date separator, new-message indicator (gold), and reply count.
+ * Message Separators sit between messages in the stream to group them — by day, by reply
+ * count, or to mark the boundary between read and unread. They help readers orient
+ * themselves when scrolling back through history or returning to a busy channel.
  */
 export default function MessageSeparator({
   type = 'date',

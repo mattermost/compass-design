@@ -100,6 +100,11 @@ const FILE_TYPE_COLORS: Record<
   zip: undefined,
 };
 
+/**
+ * Attachment Cards represent a file shared in a channel, message, or task. Each card shows
+ * the file's identity at a glance — type, name, size — and hosts the actions a viewer can
+ * take on it.
+ */
 export default function AttachmentCard({
   className = '',
   fileName,

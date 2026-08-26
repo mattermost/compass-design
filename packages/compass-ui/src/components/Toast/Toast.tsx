@@ -33,6 +33,11 @@ const TYPE_ICONS: Record<ToastType, ReactNode> = {
   warning: <AlertCircleOutlineIcon />,
 };
 
+/**
+ * Toasts notify the user that an action has completed or surface a brief message about a
+ * system process. They sit on top of the workflow without interrupting it, don't require
+ * user input to disappear, and auto-dismiss after a short duration.
+ */
 export default function Toast({
   className = '',
   message,

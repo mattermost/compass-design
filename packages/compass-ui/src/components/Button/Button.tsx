@@ -41,10 +41,9 @@ const SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
 };
 
 /**
- * Button component matching Figma/Compass variants.
- * Use leadingIcon and trailingIcon with the Icon component for icons.
- *
- * @see https://compass.mattermost.com/29be2c109/p/40e456-buttons
+ * Buttons let people take actions or make decisions with a single tap or click — saving a
+ * form, sending a message, confirming a dialog. Compass ships several button variants, each
+ * with the same anatomy and rhythm so they feel like members of the same family.
  */
 export default function Button({
   appearance = 'default',

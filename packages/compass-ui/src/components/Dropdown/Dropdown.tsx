@@ -30,11 +30,8 @@ export interface DropdownProps extends Omit<
 }
 
 /**
- * Dropdown trigger component — inline select/dropdown button composed with a chevron.
- * Multiple sizes. Light and dark background variants. Composed with Menu Items.
- * Matches Figma Dropdown v2.1.3.
- *
- * @see https://compass.mattermost.com/29be2c109/p/78f994-dropdowns
+ * A Dropdown is a heading-weight trigger that opens a Popover Menu. It reads as a title —
+ * semibold, with a chevron — and signals "this label is also a control."
  */
 export default function Dropdown({
   className = '',

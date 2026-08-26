@@ -24,8 +24,9 @@ export interface TooltipProps {
 }
 
 /**
- * Tooltip component matching Figma design.
- * Dark overlay for hover context with optional arrow, hint, and keyboard shortcuts.
+ * Tooltips surface short, supporting text on hover. Reach for a tooltip when the affordance
+ * behind it isn't fully self-explanatory — an Icon Button, a truncated label, a keyboard
+ * shortcut. Don't reach for one when the label is already on screen.
  */
 export default function Tooltip({
   label,

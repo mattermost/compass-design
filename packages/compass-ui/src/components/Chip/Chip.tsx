@@ -46,6 +46,11 @@ const AVATAR_SIZE_MAP: Record<ChipSize, UserAvatarSize> = {
   large: '20',
 };
 
+/**
+ * Chips are compact, self-contained tokens that represent a selection — a person added to an
+ * invite, a filter applied to a search, a chosen value in a tokenizing input. Each Chip
+ * stands on its own and is removable or selectable, depending on context.
+ */
 export default function Chip({
   children,
   size = 'medium',

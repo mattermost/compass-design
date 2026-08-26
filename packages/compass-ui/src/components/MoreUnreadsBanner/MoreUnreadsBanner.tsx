@@ -18,8 +18,9 @@ export interface MoreUnreadsBannerProps {
 }
 
 /**
- * More Unreads Banner — simple pill banner indicating unread messages
- * above or below the viewport in channel view.
+ * The More Unreads Banner is the small pill that floats inside the channel sidebar to tell
+ * the user there are unread channels above or below the current scroll position. One arrow,
+ * one label — clicking it scrolls to the next unread.
  */
 export default function MoreUnreadsBanner({
   className = '',
