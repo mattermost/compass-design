@@ -51,7 +51,7 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | **0 — Boundary + webapp spike** | Done | `compass-proto` package; core barrel pruned; chrome vs fixtures; pack/smoke tests; local webapp `file:` + watch validation |
 | **1 — Create `compass-design`** | Done (initial import) | Move packages + docs app; CI publishes core only; GitHub Pages on design repo |
 | **2 — Slim playground** | Done | Flows + chrome only; depend on published core + packed proto; rewrite README for catalog role |
-| **3 — Alpha release** | Next | `@mattermost/compass-ui@alpha`; webapp switches from `file:` to npm for mergeable PRs |
+| **3 — Alpha release** | Done | `@mattermost/compass-ui@0.1.0-alpha.0` on npm (`alpha` tag); GitHub pre-release; webapp npm consumption validated — no mergeable PR merged yet |
 
 Stop after each phase; verify before starting the next.
 
@@ -60,7 +60,7 @@ Stop after each phase; verify before starting the next.
 - **Docs / Storybook (in this repo):** guidelines use workspace `compass-ui` + `compass-proto`; **Storybook** catalogs published `@mattermost/compass-ui` only
 - **Playground (after split):** published `@mattermost/compass-ui` + `file:` / `npm pack` for `@mattermost/compass-proto`
 - **Webapp (testing branch):** `file:` → `packages/compass-ui` + watch; webpack React aliases — see INTEGRATION.md
-- **Webapp (after alpha):** `@mattermost/compass-ui@alpha` only — no Mobile*, `ChannelShell`, or Call* from proto in product code
+- **Webapp (mergeable PRs):** `@mattermost/compass-ui@alpha` — npm path validated and ready; no product PR merged yet — no Mobile*, `ChannelShell`, or Call* from proto in product code
 
 ## Related docs
 
