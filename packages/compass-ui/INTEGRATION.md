@@ -386,31 +386,35 @@ Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.
 | Beta | `0.1.0-beta.0` | `beta` |
 | Stable | `0.1.0` | `latest` |
 
-Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.0`. GitHub Release title: `v0.1.0-alpha.0`. Mark pre-release versions as **pre-release** on GitHub.
+Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.2`. GitHub Release title: `v0.1.0-alpha.2`. Mark pre-release versions as **pre-release** on GitHub for alpha/beta.
 
-Publish commands (requires `@mattermost` npm org write access):
+### Release flow (automated)
+
+1. **Bump** `packages/compass-ui/package.json` + move CHANGELOG `[Unreleased]` notes into the new version section. Update `compass-proto`’s `@mattermost/compass-ui` peer if it pins an exact version.
+2. **Merge** that PR to `main`.
+3. **Publish a GitHub Release** from `main` at that commit:
+   - Tag: `0.1.0-alpha.2` (must match `package.json` exactly; optional `v` prefix is stripped)
+   - Title: `v0.1.0-alpha.2`
+   - Check **Set as a pre-release** for alpha/beta
+   - Publish the release (not a draft) so CHANGELOG compare links resolve
+4. **CI** (`.github/workflows/publish-compass-ui.yml`) runs on `release: published`: typecheck, build, then `npm publish --access public --tag <alpha|beta|latest> --workspace=@mattermost/compass-ui`. Dist-tag is derived from the version string. Already-published versions are skipped.
+
+Do **not** publish from your laptop for routine releases. Manual publish is only a fallback if CI/auth is down:
 
 ```bash
 npm run build --workspace=@mattermost/compass-ui
 npm publish --access=public --tag alpha --workspace=@mattermost/compass-ui
 ```
 
-Tag and push after publish (on `main`, at the commit that was built):
+### npm trusted publishing (one-time setup)
 
-```bash
-git tag 0.1.0-alpha.0
-git push origin 0.1.0-alpha.0
-```
+Publishing uses npm [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers) (no long-lived `NPM_TOKEN` in GitHub secrets), same pattern as compass-icons.
 
-Then create a GitHub Release from that tag:
+1. On npmjs.com → `@mattermost/compass-ui` → **Trusted Publisher**
+2. Link this GitHub repo and workflow file: `publish-compass-ui.yml`
+3. Allow publish (and provenance if offered)
 
-1. **Choose tag** `0.1.0-alpha.0` (create from `main` if it does not exist yet).
-2. **Title** `v0.1.0-alpha.0`.
-3. Check **Set as a pre-release** (required for alpha/beta semver).
-4. **Publish the release** — do not leave it as a draft; the CHANGELOG link must resolve to a public release URL:
-   `https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0`
-
-Long term, align with compass-icons: **Release published → CI runs `npm publish`** (not manual publish first).
+Until trusted publishing is configured, the Release → CI job will fail at `npm publish`; configure the publisher before cutting the next release.
 
 ---
 
@@ -422,7 +426,9 @@ Long term, align with compass-icons: **Release published → CI runs `npm publis
 | Unstyled components (flat gray UI) | Import both `/styles` and `/component-styles` at app entry |
 | Scrollbars missing thumb/track | Ensure `simplebar-react` is installed; `component-styles` includes SimpleBar CSS |
 | `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
-| Wrong colors | Set `data-theme` on `<html>` |
+| Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
+| Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page |
+| Release tag ≠ package version | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.2`) |
 | Workspace link missing | Run `npm install` from repo root, not inside `packages/compass-ui` |
 
 ---

@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- GitHub Actions `publish-compass-ui.yml`: on GitHub Release published, build and `npm publish` `@mattermost/compass-ui` (dist-tag from version; OIDC trusted publishing).
+
 ## [0.1.0-alpha.2] - 2026-08-27
 
 ### Changed

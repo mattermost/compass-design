@@ -76,7 +76,7 @@ npm run storybook --workspace=@mattermost/compass-ui
 
 ## Integration and releases
 
-- [INTEGRATION.md](./INTEGRATION.md) — Vite + webapp consumer setup
+- [INTEGRATION.md](./INTEGRATION.md) — Vite + webapp consumer setup, **release → CI publish** flow
 - [CHANGELOG.md](./CHANGELOG.md) — release history
 
 Validate a publishable tarball from the monorepo root:
