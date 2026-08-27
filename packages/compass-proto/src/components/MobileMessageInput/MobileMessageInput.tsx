@@ -191,7 +191,7 @@ export default function MobileMessageInput({
       <div className={styles['mobile-message-input__expand']}>
         <IconButton
           aria-label={isExpanded ? 'Collapse composer' : 'Expand composer'}
-          size='Small'
+          size='small'
           onClick={handleExpandToggle}
           tabIndex={showFocusedChrome ? undefined : -1}
           icon={
@@ -207,7 +207,7 @@ export default function MobileMessageInput({
         <div className={styles['mobile-message-input__plus']}>
           <IconButton
             aria-label='Add files and media'
-            size='Medium'
+            size='medium'
             rounded
             className={styles['mobile-message-input__plus-button']}
             onClick={onPlusClick}
@@ -282,7 +282,7 @@ export default function MobileMessageInput({
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
                   aria-label='Add files and media'
-                  size='Medium'
+                  size='medium'
                   rounded
                   className={styles['mobile-message-input__plus-button']}
                   onClick={onPlusClick}
@@ -293,7 +293,7 @@ export default function MobileMessageInput({
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
                   aria-label='Mention someone'
-                  size='Medium'
+                  size='medium'
                   onClick={onMentionClick}
                   tabIndex={showFocusedChrome ? undefined : -1}
                   icon={toolbarIcon(<AtIcon />)}
@@ -302,7 +302,7 @@ export default function MobileMessageInput({
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
                   aria-label='Insert emoji'
-                  size='Medium'
+                  size='medium'
                   onClick={onEmojiClick}
                   tabIndex={showFocusedChrome ? undefined : -1}
                   icon={toolbarIcon(<EmoticonOutlineIcon />)}
@@ -311,7 +311,7 @@ export default function MobileMessageInput({
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
                   aria-label='Slash command'
-                  size='Medium'
+                  size='medium'
                   onClick={onSlashClick}
                   tabIndex={showFocusedChrome ? undefined : -1}
                   icon={toolbarIcon(<SlashForwardBoxOutlineIcon />)}

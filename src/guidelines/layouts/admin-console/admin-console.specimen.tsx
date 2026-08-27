@@ -64,14 +64,14 @@ export default function AdminConsoleLayout() {
                           name={`${radioNs}-auto-follow`}
                           value="true"
                           defaultChecked
-                          size="Medium"
+                          size="medium"
                         >
                           True
                         </Radio>
                         <Radio
                           name={`${radioNs}-auto-follow`}
                           value="false"
-                          size="Medium"
+                          size="medium"
                         >
                           False
                         </Radio>
@@ -105,7 +105,7 @@ export default function AdminConsoleLayout() {
                       <div className={styles['admin-console-layout__select-wrap']}>
                         <Select
                           label="Mode"
-                          size="Medium"
+                          size="medium"
                           defaultValue="always-on"
                           options={THREAD_MODE_OPTIONS}
                           aria-label="Threaded discussions mode"
@@ -139,14 +139,14 @@ export default function AdminConsoleLayout() {
                           name={`${radioNs}-draft-sync`}
                           value="true"
                           defaultChecked
-                          size="Medium"
+                          size="medium"
                         >
                           True
                         </Radio>
                         <Radio
                           name={`${radioNs}-draft-sync`}
                           value="false"
-                          size="Medium"
+                          size="medium"
                         >
                           False
                         </Radio>
@@ -169,14 +169,14 @@ export default function AdminConsoleLayout() {
                           name={`${radioNs}-scheduled`}
                           value="true"
                           defaultChecked
-                          size="Medium"
+                          size="medium"
                         >
                           True
                         </Radio>
                         <Radio
                           name={`${radioNs}-scheduled`}
                           value="false"
-                          size="Medium"
+                          size="medium"
                         >
                           False
                         </Radio>
@@ -205,14 +205,14 @@ export default function AdminConsoleLayout() {
                           name={`${radioNs}-msg-priority`}
                           value="true"
                           defaultChecked
-                          size="Medium"
+                          size="medium"
                         >
                           True
                         </Radio>
                         <Radio
                           name={`${radioNs}-msg-priority`}
                           value="false"
-                          size="Medium"
+                          size="medium"
                         >
                           False
                         </Radio>
@@ -244,14 +244,14 @@ export default function AdminConsoleLayout() {
                           name={`${radioNs}-persistent`}
                           value="true"
                           defaultChecked
-                          size="Medium"
+                          size="medium"
                         >
                           True
                         </Radio>
                         <Radio
                           name={`${radioNs}-persistent`}
                           value="false"
-                          size="Medium"
+                          size="medium"
                         >
                           False
                         </Radio>
@@ -282,7 +282,7 @@ export default function AdminConsoleLayout() {
                         <TextInput
                           label="Value"
                           defaultValue="5"
-                          size="Medium"
+                          size="medium"
                           inputMode="numeric"
                           aria-label="Maximum number of recipients for persistent notifications"
                         />
@@ -313,7 +313,7 @@ export default function AdminConsoleLayout() {
                         <TextInput
                           label="Minutes between repeats"
                           defaultValue="5"
-                          size="Medium"
+                          size="medium"
                           inputMode="numeric"
                           aria-label="Frequency of persistent notifications in minutes"
                         />
@@ -345,7 +345,7 @@ export default function AdminConsoleLayout() {
                         <TextInput
                           label="Value"
                           defaultValue="6"
-                          size="Medium"
+                          size="medium"
                           inputMode="numeric"
                           aria-label="Total number of persistent notifications per post"
                         />
@@ -376,7 +376,7 @@ export default function AdminConsoleLayout() {
                         <Radio
                           name={`${radioNs}-guest-persistent`}
                           value="true"
-                          size="Medium"
+                          size="medium"
                         >
                           True
                         </Radio>
@@ -384,7 +384,7 @@ export default function AdminConsoleLayout() {
                           name={`${radioNs}-guest-persistent`}
                           value="false"
                           defaultChecked
-                          size="Medium"
+                          size="medium"
                         >
                           False
                         </Radio>

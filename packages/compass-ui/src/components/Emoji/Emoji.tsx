@@ -37,7 +37,10 @@ const SIZE_CLASS_MAP: Record<EmojiSize, string> = {
 };
 
 /**
- * Renders an emoji at a consistent size from the Mattermost icon scale.
+ * Emoji is a compact, inline visual for conveying emotion, intent, or status — on messages,
+ * in reactions, in pickers, or sprinkled through UI copy. The component standardises sizing
+ * so native Unicode and custom workspace emoji render at a consistent footprint alongside
+ * Icon.
  */
 export default function Emoji({
   className = '',

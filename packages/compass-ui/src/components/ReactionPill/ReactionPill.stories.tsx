@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ReactionPill from './ReactionPill';
 import type { ReactionPillSize, ReactionPillType } from './ReactionPill';
 
-const SIZES: ReactionPillSize[] = ['Small', 'Medium', 'Large'];
-const TYPES: ReactionPillType[] = ['Reaction', 'Hand Raise', 'Other'];
+const SIZES: ReactionPillSize[] = ['small', 'medium', 'large'];
+const TYPES: ReactionPillType[] = ['reaction', 'hand-raise', 'other'];
 
 const meta = {
   title: 'Components/Calls/Reaction Pill',
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Reaction: Story = {
   args: {
-    type: 'Reaction',
+    type: 'reaction',
     emoji: '🎉',
     label: 'Leonard R.',
   },
@@ -28,14 +28,14 @@ export const Reaction: Story = {
 
 export const HandRaise: Story = {
   args: {
-    type: 'Hand Raise',
+    type: 'hand-raise',
     label: 'Danielle O.',
   },
 };
 
 export const Other: Story = {
   args: {
-    type: 'Other',
+    type: 'other',
     message: 'You have been muted by the host',
   },
 };
@@ -46,7 +46,7 @@ export const Sizes: Story = {
       {SIZES.map((size) => (
         <ReactionPill
           key={size}
-          type="Reaction"
+          type="reaction"
           emoji="👍"
           label="Marco R."
           size={size}
@@ -59,9 +59,9 @@ export const Sizes: Story = {
 export const AllTypes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-      <ReactionPill type="Reaction" emoji="🎉" label="Leonard R." />
-      <ReactionPill type="Hand Raise" label="Danielle O." />
-      <ReactionPill type="Other" message="You have been muted by the host" />
+      <ReactionPill type="reaction" emoji="🎉" label="Leonard R." />
+      <ReactionPill type="hand-raise" label="Danielle O." />
+      <ReactionPill type="other" message="You have been muted by the host" />
     </div>
   ),
 };

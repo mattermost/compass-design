@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Checkbox from './Checkbox';
 import type { CheckboxSize } from './Checkbox';
 
-const SIZES: CheckboxSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: CheckboxSize[] = ['small', 'medium', 'large'];
 
 const meta = {
   title: 'Components/Forms and Input/Checkbox',
@@ -58,11 +58,11 @@ export const AllVariants: Story = {
         >
           States
         </span>
-        <Checkbox size="Medium">Unchecked</Checkbox>
-        <Checkbox size="Medium" defaultChecked>
+        <Checkbox size="medium">Unchecked</Checkbox>
+        <Checkbox size="medium" defaultChecked>
           Checked
         </Checkbox>
-        <Checkbox size="Medium" indeterminate>
+        <Checkbox size="medium" indeterminate>
           Indeterminate
         </Checkbox>
       </div>
@@ -84,7 +84,7 @@ export const AllVariants: Story = {
           Sizes
         </span>
         {SIZES.map((size) => (
-          <Checkbox key={size} size={size} defaultChecked={size !== 'Small'}>
+          <Checkbox key={size} size={size} defaultChecked={size !== 'small'}>
             {size}
           </Checkbox>
         ))}
@@ -106,13 +106,13 @@ export const AllVariants: Story = {
         >
           Invalid
         </span>
-        <Checkbox size="Medium" valid={false}>
+        <Checkbox size="medium" valid={false}>
           Unchecked invalid
         </Checkbox>
-        <Checkbox size="Medium" defaultChecked valid={false}>
+        <Checkbox size="medium" defaultChecked valid={false}>
           Checked invalid
         </Checkbox>
-        <Checkbox size="Medium" indeterminate valid={false}>
+        <Checkbox size="medium" indeterminate valid={false}>
           Indeterminate invalid
         </Checkbox>
       </div>
@@ -133,13 +133,13 @@ export const AllVariants: Story = {
         >
           Disabled
         </span>
-        <Checkbox size="Medium" disabled>
+        <Checkbox size="medium" disabled>
           Disabled unchecked
         </Checkbox>
-        <Checkbox size="Medium" defaultChecked disabled>
+        <Checkbox size="medium" defaultChecked disabled>
           Disabled checked
         </Checkbox>
-        <Checkbox size="Medium" indeterminate disabled>
+        <Checkbox size="medium" indeterminate disabled>
           Disabled indeterminate
         </Checkbox>
       </div>

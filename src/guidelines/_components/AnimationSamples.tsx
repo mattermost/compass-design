@@ -98,10 +98,10 @@ export function MotionMatrix() {
                 icon={
                   <Icon
                     glyph={<PlayOutlineIcon />}
-                    size={ICON_BUTTON_ICON_SIZES['Small']}
+                    size={ICON_BUTTON_ICON_SIZES['small']}
                   />
                 }
-                size="Small"
+                size="small"
                 aria-label={`Play ${cell.title}`}
                 onClick={() => play(cell.id)}
               />
@@ -126,7 +126,7 @@ export function PopoverPattern() {
     <div className={styles['popover-pattern']}>
       <div className={styles['popover-pattern__anchor']}>
         <Button
-          emphasis="Secondary"
+          emphasis="secondary"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
         >

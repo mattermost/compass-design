@@ -17,7 +17,7 @@ import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import type { ComponentType } from 'react';
 import styles from './GlobalHeader.module.scss';
 
-export type GlobalHeaderProduct = 'Channels' | 'Playbooks' | 'Boards';
+export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
 
 export interface GlobalHeaderProps {
   /** Optional CSS class name. */
@@ -38,9 +38,15 @@ const PRODUCT_ICON: Record<
   GlobalHeaderProduct,
   ComponentType<{ size?: number }>
 > = {
-  Channels: ProductChannelsIcon,
-  Playbooks: ProductPlaybooksIcon,
-  Boards: ProductBoardsIcon,
+  channels: ProductChannelsIcon,
+  playbooks: ProductPlaybooksIcon,
+  boards: ProductBoardsIcon,
+};
+
+const PRODUCT_LABEL: Record<GlobalHeaderProduct, string> = {
+  channels: 'Channels',
+  playbooks: 'Playbooks',
+  boards: 'Boards',
 };
 
 function InvertedIconButton({
@@ -53,9 +59,9 @@ function InvertedIconButton({
   return (
     <IconButton
       aria-label={ariaLabel}
-      size="Small"
-      padding="Compact"
-      style="Inverted"
+      size="small"
+      padding="compact"
+      style="inverted"
       icon={<Icon size="16" glyph={glyph} />}
     />
   );
@@ -68,7 +74,9 @@ function ProductBrand({ product }: { product: GlobalHeaderProduct }) {
       <span className={styles['global-header__product-icon']} aria-hidden>
         <Icon size="20" glyph={<ProductIcon />} />
       </span>
-      <span className={styles['global-header__product-name']}>{product}</span>
+      <span className={styles['global-header__product-name']}>
+        {PRODUCT_LABEL[product]}
+      </span>
     </div>
   );
 }
@@ -95,13 +103,13 @@ function Navigator() {
  */
 export default function GlobalHeader({
   className = '',
-  product = 'Channels',
+  product = 'channels',
   showChannelsBranding = true,
   showUpgradeButton = false,
   userAvatarSrc,
   userAvatarAlt = 'User',
 }: GlobalHeaderProps) {
-  const isChannels = product === 'Channels';
+  const isChannels = product === 'channels';
   const showBrand = isChannels ? showChannelsBranding : true;
 
   const rootClass = [
@@ -147,11 +155,11 @@ export default function GlobalHeader({
 
       <div className={styles['global-header__right']}>
         {showUpgradeButton && (
-          <Button emphasis="Primary" size="X-Small">
+          <Button emphasis="primary" size="x-small">
             Upgrade
           </Button>
         )}
-        {product === 'Playbooks' && (
+        {product === 'playbooks' && (
           <InvertedIconButton
             ariaLabel="Tasks"
             glyph={<CheckboxMultipleMarkedOutlineIcon />}

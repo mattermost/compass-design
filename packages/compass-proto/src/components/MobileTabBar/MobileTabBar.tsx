@@ -80,7 +80,7 @@ export default function MobileTabBar({
   } as CSSProperties;
 
   return (
-    <nav className={rootClass} aria-label='Primary'>
+    <nav className={rootClass} aria-label='primary'>
       <div className={styles['mobile-tab-bar__row']} style={rowStyle}>
         <span className={styles['mobile-tab-bar__indicator']} aria-hidden>
           <span className={styles['mobile-tab-bar__indicator-bar']} />
@@ -110,8 +110,8 @@ export default function MobileTabBar({
                       <MentionBadge
                         className={styles['mobile-tab-bar__badge-pill']}
                         count={mentionsBadge}
-                        size='Large'
-                        location='Channel'
+                        size='large'
+                        location='channel'
                       />
                     </span>
                   )}

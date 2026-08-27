@@ -32,6 +32,11 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 - Live UI in docs: wrap in `compass-doc-embed` via `DocUiEmbed`, `AnatomyStage`, or `Preview`.
 - Components must never render bare `<h2>`, `<p>`, `<li>`, etc. without a CSS-module className.
 
+## Specimens and MDX code samples
+
+- Variant props in specimens, `_components/*Samples.tsx`, and MDX `<Preview>` blocks must use the same **lowercase kebab-case** literals as `@mattermost/compass-ui` (e.g. `size="medium"`, `emphasis="tertiary"`). See [AGENTS.md](../../AGENTS.md#variant-prop-string-values).
+- Matrix headings and button labels may stay human-readable (Title Case); prop values must not.
+
 ## Guideline MDX voice
 
 - **Bold sparingly** — in anatomy lists, bold only the short label before the em dash; otherwise prefer `` `backticks` `` for components/props/paths.

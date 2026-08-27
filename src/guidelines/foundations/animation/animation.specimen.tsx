@@ -76,9 +76,9 @@ function AnimationRow({
       </div>
       <IconButton
         icon={
-          <Icon glyph={<PlayOutlineIcon />} size={ICON_BUTTON_ICON_SIZES['Small']} />
+          <Icon glyph={<PlayOutlineIcon />} size={ICON_BUTTON_ICON_SIZES['small']} />
         }
-        size="Small"
+        size="small"
         aria-label={`Play ${token} preview`}
         onClick={() => replay(token)}
       />

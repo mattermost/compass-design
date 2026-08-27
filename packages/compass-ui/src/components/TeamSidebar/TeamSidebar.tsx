@@ -62,7 +62,7 @@ export default function TeamSidebar({
                 src={team.src}
                 alt={team.name}
                 initials={team.initials}
-                state={active ? 'Active' : 'Default'}
+                state={active ? 'active' : 'default'}
                 badge={hasMentions ? team.mentions : undefined}
               />
               {showUnreadDot && (
@@ -77,8 +77,8 @@ export default function TeamSidebar({
         {showAddTeam && (
           <IconButton
             aria-label="Add team"
-            size="Medium"
-            style="Inverted"
+            size="medium"
+            style="inverted"
             icon={<Icon size="20" glyph={<PlusIcon />} />}
             onClick={onAddTeam}
             className={styles['team-sidebar__add']}
@@ -89,8 +89,8 @@ export default function TeamSidebar({
         <div className={styles['team-sidebar__footer']}>
           <IconButton
             aria-label="Dial pad"
-            size="Small"
-            style="Inverted"
+            size="small"
+            style="inverted"
             active={dialPadActive}
             icon={<Icon size="16" glyph={<DialpadIcon />} />}
             onClick={onDialPadClick}

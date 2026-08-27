@@ -14,7 +14,7 @@ import {
   resolveStoryIcon,
 } from '../../storybook/icons';
 
-const SIZES: ComboboxSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: ComboboxSize[] = ['small', 'medium', 'large'];
 
 const CHANNEL_OPTIONS: ComboboxOption[] = [
   { value: 'town-square', label: 'Town Square' },
@@ -81,7 +81,7 @@ export const Default: Story = {
     label: 'Channel',
     placeholder: 'Search channels…',
     options: CHANNEL_OPTIONS,
-    size: 'Medium',
+    size: 'medium',
   },
 };
 

@@ -25,8 +25,9 @@ export interface SearchTipBannerProps {
 }
 
 /**
- * Search Tip Banner — dismissable hint banner showing keyboard shortcut tips.
- * Used contextually to surface relevant keyboard shortcuts to users.
+ * The Search Tip Banner nudges people toward the keyboard shortcut for in-channel search. It
+ * appears once a user has scrolled up far enough that they're clearly looking for something,
+ * and offers a faster path than scroll-and-skim.
  */
 export default function SearchTipBanner({
   prefix = 'Tip: Try',
@@ -48,7 +49,7 @@ export default function SearchTipBanner({
             <span className={styles['search-tip-banner__text']}>{prefix}</span>
             <ShortcutTagGroup
               labels={shortcutKeys.map((key) => key.label)}
-              size="Medium"
+              size="medium"
             />
             <span className={styles['search-tip-banner__text']}>{suffix}</span>
           </>
@@ -57,7 +58,7 @@ export default function SearchTipBanner({
       {onDismiss != null && (
         <IconButton
           aria-label="Dismiss tip"
-          size="Small"
+          size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onDismiss}
         />

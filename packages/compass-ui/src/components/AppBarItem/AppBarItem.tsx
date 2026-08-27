@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import styles from './AppBarItem.module.scss';
 
-export type AppBarItemState = 'Default' | 'Selected';
+export type AppBarItemState = 'default' | 'selected';
 
 export interface AppBarItemProps {
   /** Icon element (image or SVG) representing the app. */
@@ -21,19 +21,20 @@ export interface AppBarItemProps {
 }
 
 /**
- * App Bar Item component matching Figma design.
- * Circular app icon for the right-side app bar with optional selection indicator and badges.
+ * The App Bar Item is a circular icon that anchors a third-party app or plugin in the
+ * right-side App Bar. Each item is a single tap-target with optional selection styling and
+ * notification badges.
  */
 export default function AppBarItem({
   icon,
   label,
-  state = 'Default',
+  state = 'default',
   mentionBadge,
   unreadBadge = false,
   onClick,
   className = '',
 }: AppBarItemProps) {
-  const isSelected = state === 'Selected';
+  const isSelected = state === 'selected';
 
   const rootClass = [
     styles['app-bar-item'],

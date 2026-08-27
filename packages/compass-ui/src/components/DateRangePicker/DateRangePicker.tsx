@@ -96,9 +96,8 @@ function dayFromIso(iso: string, year: number, month: number): number | null {
 }
 
 /**
- * DateRangePicker — calendar popover for single date or date-range selection.
- * Month/year nav, today shortcut. Matches Figma Date & Range Picker v2.0.0.
- * Used in boards and admin scheduling.
+ * The Date and Range Picker lets people pick a single date or a start/end range from a
+ * calendar. The trigger is a compact field; the calendar is a popover anchored 4px below it.
  */
 export default function DateRangePicker({
   className = '',
@@ -538,8 +537,8 @@ export default function DateRangePicker({
             </span>
             <div className={styles.dateRangePicker__headerActions}>
               <Button
-                emphasis="Quaternary"
-                size="Small"
+                emphasis="quaternary"
+                size="small"
                 leadingIcon={<Icon size="16" glyph={<CalendarOutlineIcon />} />}
                 onClick={handleToday}
               >
@@ -547,11 +546,11 @@ export default function DateRangePicker({
               </Button>
               <div className={styles.dateRangePicker__navButtons}>
                 <IconButton
-                  size="Medium"
-                  padding="Compact"
+                  size="medium"
+                  padding="compact"
                   icon={
                     <Icon
-                      size={ICON_BUTTON_ICON_SIZES['Medium']}
+                      size={ICON_BUTTON_ICON_SIZES['medium']}
                       glyph={<ChevronLeftIcon />}
                     />
                   }
@@ -559,11 +558,11 @@ export default function DateRangePicker({
                   aria-label="Previous month"
                 />
                 <IconButton
-                  size="Medium"
-                  padding="Compact"
+                  size="medium"
+                  padding="compact"
                   icon={
                     <Icon
-                      size={ICON_BUTTON_ICON_SIZES['Medium']}
+                      size={ICON_BUTTON_ICON_SIZES['medium']}
                       glyph={<ChevronRightIcon />}
                     />
                   }

@@ -105,8 +105,8 @@ import '@mattermost/compass-proto/component-styles';
 function App() {
   return (
     <div style={{ padding: 24, fontFamily: 'system-ui', display: 'flex', gap: 16, alignItems: 'center' }}>
-      <Button emphasis="Primary">Core</Button>
-      <RecordingPill state="Recording" />
+      <Button emphasis="primary">Core</Button>
+      <RecordingPill state="recording" />
     </div>
   );
 }

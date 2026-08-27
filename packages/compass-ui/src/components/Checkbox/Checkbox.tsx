@@ -9,7 +9,7 @@ import MinusIcon from '@mattermost/compass-icons/components/minus';
 import { toKebab } from '@/utils/string';
 import styles from './Checkbox.module.scss';
 
-export type CheckboxSize = 'Small' | 'Medium' | 'Large';
+export type CheckboxSize = 'small' | 'medium' | 'large';
 
 export interface CheckboxProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -29,9 +29,9 @@ export interface CheckboxProps extends Omit<
 
 /** Icon size from design system scale for each checkbox size (fits inside box). */
 const CHECKBOX_ICON_SIZE: Record<CheckboxSize, IconSize> = {
-  Small: '10',
-  Medium: '12',
-  Large: '16',
+  small: '10',
+  medium: '12',
+  large: '16',
 };
 
 /** Compass icon component per checked/indeterminate state. */
@@ -41,19 +41,13 @@ const ICON_COMPONENT: Record<'check' | 'minus', ElementType> = {
 };
 
 /**
- * Checkbox component built on the native HTML checkbox.
- * Supports checked, unchecked, and indeterminate states; sizes and valid/invalid
- * styling match Figma Checkbox (Checkbox Selector) v2.0.2.
- *
- * Use with a label: pass children to render label text, or wrap in your own <label>.
- * Indeterminate must be set via the `indeterminate` prop (native attribute is not reflectable).
- *
- * @see https://compass.mattermost.com (Checkbox)
+ * A Checkbox lets people pick any number of options from a set, or toggle a single setting
+ * on or off. Each box represents one independent choice — pick none, some, or all.
  */
 export default function Checkbox({
   className = '',
   indeterminate = false,
-  size = 'Medium',
+  size = 'medium',
   valid = true,
   children,
   id: idProp,

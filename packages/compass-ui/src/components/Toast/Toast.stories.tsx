@@ -4,11 +4,11 @@ import Toast from './Toast';
 import type { ToastType } from './Toast';
 
 const TYPES: ToastType[] = [
-  'General',
-  'Info',
-  'Success',
-  'Warning',
-  'Danger',
+  'general',
+  'info',
+  'success',
+  'warning',
+  'danger',
 ];
 
 const meta = {
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 export const General: Story = {
   args: {
     message: 'Link copied to clipboard.',
-    type: 'General',
+    type: 'general',
     onDismiss: fn(),
   },
 };
@@ -34,7 +34,7 @@ export const General: Story = {
 export const Success: Story = {
   args: {
     message: 'Message saved successfully.',
-    type: 'Success',
+    type: 'success',
     onDismiss: fn(),
   },
 };
@@ -42,7 +42,7 @@ export const Success: Story = {
 export const WithAction: Story = {
   args: {
     message: 'Failed to send message. Please try again.',
-    type: 'Danger',
+    type: 'danger',
     actionLabel: 'Retry',
     onAction: fn(),
     onDismiss: fn(),
@@ -52,7 +52,7 @@ export const WithAction: Story = {
 export const Warning: Story = {
   args: {
     message: 'Your session will expire in 5 minutes.',
-    type: 'Warning',
+    type: 'warning',
     onDismiss: fn(),
   },
 };
@@ -60,7 +60,7 @@ export const Warning: Story = {
 export const Info: Story = {
   args: {
     message: 'New update available. Refresh to apply.',
-    type: 'Info',
+    type: 'info',
     actionLabel: 'Refresh',
     onAction: fn(),
     onDismiss: fn(),
@@ -79,29 +79,29 @@ export const AllVariants: Story = {
     >
       <Toast
         message="Link copied to clipboard."
-        type="General"
+        type="general"
         onDismiss={fn()}
       />
       <Toast
         message="Message saved successfully."
-        type="Success"
+        type="success"
         onDismiss={fn()}
       />
       <Toast
         message="Failed to send message. Please try again."
-        type="Danger"
+        type="danger"
         actionLabel="Retry"
         onAction={fn()}
         onDismiss={fn()}
       />
       <Toast
         message="Your session will expire in 5 minutes."
-        type="Warning"
+        type="warning"
         onDismiss={fn()}
       />
       <Toast
         message="New update available. Refresh to apply."
-        type="Info"
+        type="info"
         actionLabel="Refresh"
         onAction={fn()}
         onDismiss={fn()}

@@ -8,16 +8,16 @@ import {
 import { Icon } from '@mattermost/compass-ui';
 import styles from '@/styles/library-demo/components.module.scss';
 
-const SIZES: IconButtonSize[] = ['X-Small', 'Small', 'Medium', 'Large'];
+const SIZES: IconButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 const MATRIX_ROWS: {
   label: string;
   padding: IconButtonPadding;
   rounded: boolean;
 }[] = [
-  { label: 'Default', padding: 'Default', rounded: false },
-  { label: 'Compact', padding: 'Compact', rounded: false },
-  { label: 'Rounded', padding: 'Default', rounded: true },
+  { label: 'Default', padding: 'default', rounded: false },
+  { label: 'Compact', padding: 'compact', rounded: false },
+  { label: 'Rounded', padding: 'default', rounded: true },
 ];
 
 function IconButtonPermutationGrid({
@@ -101,7 +101,7 @@ export default function IconButtonLibrary() {
           Default
         </h3>
         <IconButtonPermutationGrid
-          surfaceStyle="Default"
+          surfaceStyle="default"
           destructive={false}
           disabled={false}
         />
@@ -112,7 +112,7 @@ export default function IconButtonLibrary() {
           Destructive
         </h3>
         <IconButtonPermutationGrid
-          surfaceStyle="Default"
+          surfaceStyle="default"
           destructive
           disabled={false}
         />
@@ -123,7 +123,7 @@ export default function IconButtonLibrary() {
           Disabled
         </h3>
         <IconButtonPermutationGrid
-          surfaceStyle="Default"
+          surfaceStyle="default"
           destructive={false}
           disabled
         />
@@ -135,7 +135,7 @@ export default function IconButtonLibrary() {
             Inverted
           </h3>
           <IconButtonPermutationGrid
-            surfaceStyle="Inverted"
+            surfaceStyle="inverted"
             destructive={false}
             disabled={false}
           />
@@ -146,7 +146,7 @@ export default function IconButtonLibrary() {
             Inverted Destructive
           </h3>
           <IconButtonPermutationGrid
-            surfaceStyle="Inverted"
+            surfaceStyle="inverted"
             destructive
             disabled={false}
           />
@@ -157,7 +157,7 @@ export default function IconButtonLibrary() {
             Inverted Disabled
           </h3>
           <IconButtonPermutationGrid
-            surfaceStyle="Inverted"
+            surfaceStyle="inverted"
             destructive={false}
             disabled
           />
@@ -171,13 +171,13 @@ export default function IconButtonLibrary() {
             aria-label="12 notifications, X-Small"
             count={12}
             icon={<Icon glyph={<GlobeIcon />} size="12" />}
-            size="X-Small"
+            size="x-small"
           />
           <IconButton
             aria-label="48 notifications, Small"
             count={48}
             icon={<Icon glyph={<GlobeIcon />} size="16" />}
-            size="Small"
+            size="small"
           />
           <IconButton
             aria-label="425 notifications, Medium"
@@ -188,7 +188,7 @@ export default function IconButtonLibrary() {
             aria-label="9 notifications, Large"
             count={9}
             icon={<Icon glyph={<GlobeIcon />} size="24" />}
-            size="Large"
+            size="large"
           />
         </div>
       </div>
@@ -199,13 +199,13 @@ export default function IconButtonLibrary() {
           <IconButton
             aria-label="Unread, X-Small"
             icon={<Icon glyph={<GlobeIcon />} size="12" />}
-            size="X-Small"
+            size="x-small"
             unreadBadge
           />
           <IconButton
             aria-label="Unread, Small"
             icon={<Icon glyph={<GlobeIcon />} size="16" />}
-            size="Small"
+            size="small"
             unreadBadge
           />
           <IconButton
@@ -216,7 +216,7 @@ export default function IconButtonLibrary() {
           <IconButton
             aria-label="Unread, Large"
             icon={<Icon glyph={<GlobeIcon />} size="24" />}
-            size="Large"
+            size="large"
             unreadBadge
           />
           <IconButton
@@ -248,12 +248,12 @@ export default function IconButtonLibrary() {
             aria-label="Inverted with count"
             count={7}
             icon={<Icon glyph={<GlobeIcon />} size="20" />}
-            style="Inverted"
+            style="inverted"
           />
           <IconButton
             aria-label="Inverted with unread badge"
             icon={<Icon glyph={<GlobeIcon />} size="20" />}
-            style="Inverted"
+            style="inverted"
             unreadBadge
           />
         </div>

@@ -8,7 +8,7 @@ export default function ProfilePopoverLibrary() {
       <div>
         <p className={styles['patterns__variant-label']}>Others — full</p>
         <ProfilePopover
-          user="Others"
+          user="others"
           avatarSrc={avatarLeonard}
           avatarAlt="Leonard Riley"
           name="Leonard Riley"
@@ -31,7 +31,7 @@ export default function ProfilePopoverLibrary() {
           Others — with custom status + extras
         </p>
         <ProfilePopover
-          user="Others"
+          user="others"
           avatarSrc={avatarLeonard}
           avatarAlt="Leonard Riley"
           name="Leonard Riley"
@@ -60,7 +60,7 @@ export default function ProfilePopoverLibrary() {
       <div>
         <p className={styles['patterns__variant-label']}>You</p>
         <ProfilePopover
-          user="You"
+          user="you"
           avatarSrc={avatarLeonard}
           avatarAlt="Leonard Riley"
           name="Leonard Riley"
@@ -83,7 +83,7 @@ export default function ProfilePopoverLibrary() {
           You — with custom status + extras
         </p>
         <ProfilePopover
-          user="You"
+          user="you"
           avatarSrc={avatarLeonard}
           avatarAlt="Leonard Riley"
           name="Leonard Riley"

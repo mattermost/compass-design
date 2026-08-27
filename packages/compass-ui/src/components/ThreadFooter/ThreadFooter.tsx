@@ -5,7 +5,7 @@ import Icon from '@/components/Icon/Icon';
 import ReplyOutlineIcon from '@mattermost/compass-icons/components/reply-outline';
 import styles from './ThreadFooter.module.scss';
 
-export type ThreadFooterBadge = 'None' | 'Unread' | 'Mention';
+export type ThreadFooterBadge = 'none' | 'unread' | 'mention';
 
 export interface AvatarData {
   src: string;
@@ -34,14 +34,14 @@ export interface ThreadFooterProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Reply summary bar at the bottom of messages.
- * Shows participant avatars, reply count, Follow/Following toggle,
- * and last reply time. Badge variants: None, Unread dot, Mention count.
+ * The Thread Footer is the reply summary bar at the bottom of a message. It shows
+ * participants, reply count, follow state, and last-reply time — the information someone
+ * needs to decide whether to dive in.
  */
 export default function ThreadFooter({
   replyCount = 3,
   avatars = [],
-  badge = 'None',
+  badge = 'none',
   following = false,
   lastReplyTime,
   onReply,
@@ -64,13 +64,13 @@ export default function ThreadFooter({
       <div className={styles['thread-footer__inner']}>
         {/* Badge + Avatars */}
         <div className={styles['thread-footer__avatars-group']}>
-          {badge === 'Unread' && (
+          {badge === 'unread' && (
             <span
               className={styles['thread-footer__unread-dot']}
               aria-label="Unread replies"
             />
           )}
-          {badge === 'Mention' && (
+          {badge === 'mention' && (
             <span className={styles['thread-footer__mention-badge']}>@</span>
           )}
 
@@ -114,8 +114,8 @@ export default function ThreadFooter({
         <div className={styles['thread-footer__buttons']}>
           {/* Reply button */}
           <Button
-            emphasis="Quaternary"
-            size="X-Small"
+            emphasis="quaternary"
+            size="x-small"
             className={[
               styles['thread-footer__reply-btn'],
               hovered ? styles['thread-footer__reply-btn--hovered'] : '',
@@ -135,8 +135,8 @@ export default function ThreadFooter({
 
           {/* Follow / Following button */}
           <Button
-            emphasis="Quaternary"
-            size="X-Small"
+            emphasis="quaternary"
+            size="x-small"
             className={[
               styles['thread-footer__follow-btn'],
               following ? styles['thread-footer__follow-btn--following'] : '',

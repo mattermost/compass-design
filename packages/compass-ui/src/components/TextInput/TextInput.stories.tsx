@@ -10,7 +10,7 @@ import {
   resolveStoryIcon,
 } from '../../storybook/icons';
 
-const SIZES: TextInputSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: TextInputSize[] = ['small', 'medium', 'large'];
 
 type TextInputStoryArgs = Omit<
   TextInputProps,
@@ -76,7 +76,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 export const Default: Story = {
   args: {
     placeholder: 'Enter text...',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 
@@ -84,7 +84,7 @@ export const WithLabel: Story = {
   args: {
     label: 'Display name',
     placeholder: 'Enter display name...',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 

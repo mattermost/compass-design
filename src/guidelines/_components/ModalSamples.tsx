@@ -5,8 +5,8 @@ import styles from './ModalSamples.module.scss';
 export function ModalAnatomy() {
   const footer = (
     <>
-      <Button emphasis="Tertiary">Cancel</Button>
-      <Button emphasis="Primary">Save</Button>
+      <Button emphasis="tertiary">Cancel</Button>
+      <Button emphasis="primary">Save</Button>
     </>
   );
 

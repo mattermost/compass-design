@@ -3,8 +3,8 @@ import ArrowUpIcon from '@mattermost/compass-icons/components/arrow-up';
 import ArrowDownIcon from '@mattermost/compass-icons/components/arrow-down';
 import styles from './MoreUnreadsBanner.module.scss';
 
-export type MoreUnreadsBannerDirection = 'Up' | 'Down';
-export type MoreUnreadsBannerSize = 'Small' | 'Medium' | 'Large';
+export type MoreUnreadsBannerDirection = 'up' | 'down';
+export type MoreUnreadsBannerSize = 'small' | 'medium' | 'large';
 
 export interface MoreUnreadsBannerProps {
   /** Optional CSS class name. */
@@ -18,13 +18,14 @@ export interface MoreUnreadsBannerProps {
 }
 
 /**
- * More Unreads Banner — simple pill banner indicating unread messages
- * above or below the viewport in channel view.
+ * The More Unreads Banner is the small pill that floats inside the channel sidebar to tell
+ * the user there are unread channels above or below the current scroll position. One arrow,
+ * one label — clicking it scrolls to the next unread.
  */
 export default function MoreUnreadsBanner({
   className = '',
-  direction = 'Up',
-  size = 'Medium',
+  direction = 'up',
+  size = 'medium',
   onClick,
 }: MoreUnreadsBannerProps) {
   const sizeClass = styles[`more-unreads-banner--size-${size.toLowerCase()}`];
@@ -36,7 +37,7 @@ export default function MoreUnreadsBanner({
   return (
     <button className={rootClass} type="button" onClick={onClick}>
       <span className={styles['more-unreads-banner__icon']} aria-hidden>
-        {direction === 'Up' ? (
+        {direction === 'up' ? (
           <Icon size="12" glyph={<ArrowUpIcon />} />
         ) : (
           <Icon size="12" glyph={<ArrowDownIcon />} />

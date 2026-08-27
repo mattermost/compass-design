@@ -12,10 +12,10 @@ import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizo
 import styles from './CallParticipantAvatar.module.scss';
 
 export type CallParticipantAvatarSize =
-  | 'X-Small'
-  | 'Small'
-  | 'Medium'
-  | 'Large';
+  | 'x-small'
+  | 'small'
+  | 'medium'
+  | 'large';
 
 export type CallParticipantMuteState = 'muted' | 'unmuted';
 
@@ -60,10 +60,10 @@ export interface CallParticipantAvatarProps extends Omit<
 
 /** Image pixel sizes per Figma size variant. */
 const SIZE_PX: Record<CallParticipantAvatarSize, number> = {
-  'X-Small': 56,
-  Small: 72,
-  Medium: 96,
-  Large: 120,
+  'x-small': 56,
+  small: 72,
+  medium: 96,
+  large: 120,
 };
 
 /**
@@ -85,7 +85,7 @@ export default function CallParticipantAvatar({
   name,
   raisedHand = false,
   reaction,
-  size = 'Large',
+  size = 'large',
   src,
   talking = false,
   ...imgProps
@@ -107,16 +107,16 @@ export default function CallParticipantAvatar({
   const px = SIZE_PX[size];
 
   const glyphSize: IconSize =
-    size === 'Large'
+    size === 'large'
       ? '52'
-      : size === 'Medium'
+      : size === 'medium'
         ? '40'
-        : size === 'Small'
+        : size === 'small'
           ? '32'
           : '28';
 
   const hostControlsButtonSize: IconButtonSize =
-    size === 'Large' || size === 'Medium' ? 'Small' : 'X-Small';
+    size === 'large' || size === 'medium' ? 'small' : 'x-small';
   const hostControlsIconSize = ICON_BUTTON_ICON_SIZES[hostControlsButtonSize];
 
   const showHostControls = hostControls;
@@ -127,8 +127,8 @@ export default function CallParticipantAvatar({
         <div className={styles['call-participant-avatar__host-actions']}>
           <IconButton
             aria-label="Participant actions"
-            style="Inverted"
-            padding="Compact"
+            style="inverted"
+            padding="compact"
             size={hostControlsButtonSize}
             icon={
               <Icon

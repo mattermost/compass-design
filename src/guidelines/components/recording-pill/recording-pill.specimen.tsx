@@ -9,9 +9,9 @@ export default function RecordingPillLibrary() {
       >
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>
-          <RecordingPill state="Initializing" />
-          <RecordingPill state="Recording" />
-          <RecordingPill state="Hover" onStop={() => {}} />
+          <RecordingPill state="initializing" />
+          <RecordingPill state="recording" />
+          <RecordingPill state="hover" onStop={() => {}} />
         </div>
       </div>
     </>

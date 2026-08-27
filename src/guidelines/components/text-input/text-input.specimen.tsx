@@ -17,9 +17,9 @@ export default function TextInputLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <TextInput size="Small" placeholder="Small" />
-          <TextInput size="Medium" placeholder="Medium" />
-          <TextInput size="Large" placeholder="Large" />
+          <TextInput size="small" placeholder="small" />
+          <TextInput size="medium" placeholder="medium" />
+          <TextInput size="large" placeholder="large" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>

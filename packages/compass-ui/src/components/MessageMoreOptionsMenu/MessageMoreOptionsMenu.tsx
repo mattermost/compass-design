@@ -30,7 +30,7 @@ export interface MessageMoreOptionsMenuProps
 }
 
 function shortcutLabel(text: string) {
-  return <ShortcutTag label={text} size="Small" />;
+  return <ShortcutTag label={text} size="small" />;
 }
 
 /**

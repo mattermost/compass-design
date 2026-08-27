@@ -11,7 +11,7 @@ import {
   resolveStoryIcon,
 } from '../../storybook/icons';
 
-const SIZES: ChipSize[] = ['Small', 'Medium', 'Medium Compact', 'Large'];
+const SIZES: ChipSize[] = ['small', 'medium', 'medium-compact', 'large'];
 
 type ChipStoryArgs = Omit<ChipProps, 'leadingIcon'> & {
   leadingIcon?: string;
@@ -46,7 +46,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: 'Label',
-    size: 'Medium',
+    size: 'medium',
     onRemove: fn(),
   },
 };
@@ -66,7 +66,7 @@ export const Sizes: Story = {
 export const WithLeadingIcon: Story = {
   args: {
     children: 'With icon',
-    size: 'Medium',
+    size: 'medium',
     leadingIcon: 'emoticon-happy-outline',
     onRemove: fn(),
   },
@@ -75,7 +75,7 @@ export const WithLeadingIcon: Story = {
 export const WithLeadingAvatar: Story = {
   args: {
     children: 'Leonard Riley',
-    size: 'Medium',
+    size: 'medium',
     leadingAvatar: { src: avatarLeonard, alt: 'Leonard Riley' },
     onRemove: fn(),
   },
@@ -84,7 +84,7 @@ export const WithLeadingAvatar: Story = {
 export const Error: Story = {
   args: {
     children: 'Error',
-    size: 'Medium',
+    size: 'medium',
     error: true,
     onRemove: fn(),
   },
@@ -93,7 +93,7 @@ export const Error: Story = {
 export const Colored: Story = {
   args: {
     children: 'Colored',
-    size: 'Medium',
+    size: 'medium',
     colored: true,
     onRemove: fn(),
   },
@@ -102,7 +102,7 @@ export const Colored: Story = {
 export const WithoutRemove: Story = {
   args: {
     children: 'Read only',
-    size: 'Medium',
+    size: 'medium',
   },
 };
 
@@ -110,18 +110,18 @@ export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 16 }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        <Chip size="Medium" onRemove={fn()}>
+        <Chip size="medium" onRemove={fn()}>
           Default
         </Chip>
         <Chip
-          size="Medium"
+          size="medium"
           leadingIcon={<EmoticonHappyOutlineIcon size={12} />}
           onRemove={fn()}
         >
           With icon
         </Chip>
         <Chip
-          size="Medium"
+          size="medium"
           leadingAvatar={{ src: avatarLeonard, alt: 'Leonard Riley' }}
           onRemove={fn()}
         >
@@ -129,13 +129,13 @@ export const AllVariants: Story = {
         </Chip>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        <Chip size="Medium" error onRemove={fn()}>
+        <Chip size="medium" error onRemove={fn()}>
           Error
         </Chip>
-        <Chip size="Medium" colored onRemove={fn()}>
+        <Chip size="medium" colored onRemove={fn()}>
           Colored
         </Chip>
-        <Chip size="Medium">No remove</Chip>
+        <Chip size="medium">No remove</Chip>
       </div>
     </div>
   ),

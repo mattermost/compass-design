@@ -2,15 +2,15 @@ import type { ReactNode } from 'react';
 import styles from './Tag.module.scss';
 
 export type TagType =
-  | 'Default'
-  | 'Info'
-  | 'Info Dim'
-  | 'Danger'
-  | 'Success'
-  | 'Warning';
+  | 'default'
+  | 'info'
+  | 'info-dim'
+  | 'danger'
+  | 'success'
+  | 'warning';
 
-export type TagSize = 'Small' | 'X-Small';
-export type TagCasing = 'Title Case' | 'All Caps';
+export type TagSize = 'small' | 'x-small';
+export type TagCasing = 'title-case' | 'all-caps';
 
 export type TagProps = {
   /** Tag label text. */
@@ -28,33 +28,34 @@ export type TagProps = {
 };
 
 const TYPE_CLASS: Record<TagType, string> = {
-  Default: styles['tag--type-default'],
-  Info: styles['tag--type-info'],
-  'Info Dim': styles['tag--type-info-dim'],
-  Danger: styles['tag--type-danger'],
-  Success: styles['tag--type-success'],
-  Warning: styles['tag--type-warning'],
+  default: styles['tag--type-default'],
+  info: styles['tag--type-info'],
+  'info-dim': styles['tag--type-info-dim'],
+  danger: styles['tag--type-danger'],
+  success: styles['tag--type-success'],
+  warning: styles['tag--type-warning'],
 };
 
 /**
- * Compact pill for roles, status, tiers, and other metadata labels.
- * Maps to Figma Label Tag (v1.0.1).
+ * Tags are compact pills that mark something — a role (_BOT_, _GUEST_), a tier
+ * (_PROFESSIONAL_), a status (_NEW_, _BETA_), or a category. They're scannable signal: a way
+ * to surface a small piece of metadata without spending a sentence on it.
  */
 export default function Tag({
   label,
-  type = 'Default',
-  size = 'X-Small',
-  casing = 'Title Case',
+  type = 'default',
+  size = 'x-small',
+  casing = 'title-case',
   leadingIcon,
   className = '',
 }: TagProps) {
   const classes = [
     styles.tag,
     TYPE_CLASS[type],
-    size === 'Small'
+    size === 'small'
       ? styles['tag--size-small']
       : styles['tag--size-x-small'],
-    casing === 'All Caps' ? styles['tag--casing-all-caps'] : '',
+    casing === 'all-caps' ? styles['tag--casing-all-caps'] : '',
     className,
   ]
     .filter(Boolean)

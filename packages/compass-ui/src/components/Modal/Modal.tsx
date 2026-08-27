@@ -8,7 +8,7 @@ import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import { toKebab } from '@/utils/string';
 import styles from './Modal.module.scss';
 
-export type ModalSize = 'Small' | 'Medium' | 'Large';
+export type ModalSize = 'small' | 'medium' | 'large';
 
 export interface ModalProps {
   /** Width variant. Figma: Size — Small 600px, Medium 704px, Large 832px. */
@@ -34,7 +34,7 @@ export interface ModalProps {
 }
 
 export default function Modal({
-  size = 'Small',
+  size = 'small',
   title,
   subtitle,
   showBackButton = false,

@@ -29,9 +29,9 @@ export interface ImagePreviewProps {
 }
 
 /**
- * Image preview / lightbox for viewing attached images. Supports collapsed
- * state and hover action overlay (copy link, download). Corresponds to Figma
- * Image Preview v1.0.0.
+ * Image Preview displays image attachments, markdown images, and inline image links inside
+ * the message stream. It frames the image, shows hover actions for copy and download, and
+ * lets the user collapse the preview when it's in the way.
  */
 export default function ImagePreview({
   src,
@@ -103,8 +103,8 @@ export default function ImagePreview({
             <div className={styles['image-preview__actions']}>
               {onCopyLink != null && (
                 <IconButton
-                  size="Small"
-                  padding="Compact"
+                  size="small"
+                  padding="compact"
                   aria-label="Copy link"
                   icon={<Icon size="16" glyph={<LinkVariantIcon />} />}
                   onClick={onCopyLink}
@@ -112,8 +112,8 @@ export default function ImagePreview({
               )}
               {onDownload != null && (
                 <IconButton
-                  size="Small"
-                  padding="Compact"
+                  size="small"
+                  padding="compact"
                   aria-label="Download"
                   icon={<Icon size="16" glyph={<DownloadOutlineIcon />} />}
                   onClick={onDownload}

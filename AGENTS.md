@@ -15,6 +15,14 @@ Package split (in-repo):
 
 Before writing new UI, audit `src/components/` (and Compass UI). Reuse an existing component when it already covers the need — especially when the name matches Figma. Only build a new sub-component when nothing suitable exists.
 
+### Variant prop string values
+
+Figma variant props (`size`, `emphasis`, `appearance`, `type`, `padding`, etc.) use **lowercase kebab-case** string literals in the public TypeScript API — aligned with the Mattermost webapp shared package. Examples: `'primary'`, `'x-small'`, `'default'`, `'do-not-disturb'`, `'center-channel'`.
+
+- Map prop values to BEM modifiers with `toKebab()` from `@/utils/string` (or the package export). Do not use Title Case in prop types or JSX prop values.
+- Figma labels may stay Title Case in docs prose and matrix headings; only the **prop values** are lowercase.
+- Numeric sizes (`Icon` `size="16"`, avatar px tokens) and free-form strings (`label`, `title`) are unchanged.
+
 ## Shared React hooks
 
 Check `src/hooks/` before duplicating logic. Key hooks: `useExitAnimation` (exit animations), `useOutsideClose` (click-outside behavior).
@@ -27,7 +35,7 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 
 ## Component usage (short)
 
-- **Primary button:** `emphasis="Primary"` at most once per view. Prefer Secondary / Tertiary / Quaternary otherwise.
+- **Primary button:** `emphasis="primary"` at most once per view. Prefer `secondary` / `tertiary` / `quaternary` otherwise.
 - **EmptyState actions:** omit `size` on the action `Button` unless Figma requires otherwise (default Medium).
 - **Admin True/False radios:** lay out horizontally in a flex row (e.g. `admin-console-layout__radio-row`); override Radio `width: 100%` so both stay on one row; match label `padding-top: var(--spacing-xxs)`.
 - **Avatars:** pass a real image from `src/assets/avatars/` when the component supports `src` / equivalent. Initials-only only when documenting fallback or unnamed users.

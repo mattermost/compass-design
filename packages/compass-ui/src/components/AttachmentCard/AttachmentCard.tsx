@@ -100,6 +100,11 @@ const FILE_TYPE_COLORS: Record<
   zip: undefined,
 };
 
+/**
+ * Attachment Cards represent a file shared in a channel, message, or task. Each card shows
+ * the file's identity at a glance — type, name, size — and hosts the actions a viewer can
+ * take on it.
+ */
 export default function AttachmentCard({
   className = '',
   fileName,
@@ -182,7 +187,7 @@ export default function AttachmentCard({
             <div className={styles['attachment-card__actions']}>
               {(isUploaded || isUploading) && (
                 <IconButton
-                  size="Small"
+                  size="small"
                   icon={<Icon glyph={<CloseIcon />} size="16" />}
                   aria-label={
                     isUploading ? 'Cancel upload' : 'Remove attachment'
@@ -193,13 +198,13 @@ export default function AttachmentCard({
               {isDefault && (
                 <>
                   <IconButton
-                    size="Small"
+                    size="small"
                     icon={<Icon glyph={<DotsVerticalIcon />} size="16" />}
                     aria-label="More options"
                     onClick={onMore}
                   />
                   <IconButton
-                    size="Small"
+                    size="small"
                     icon={<Icon glyph={<DownloadOutlineIcon />} size="16" />}
                     aria-label="Download"
                     onClick={onDownload}

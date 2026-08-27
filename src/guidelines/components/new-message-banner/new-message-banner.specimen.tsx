@@ -10,7 +10,7 @@ export default function NewMessageBannerLibrary() {
             Jump to unreads
           </span>
           <NewMessageBanner
-            type="JumpToUnreads"
+            type="jump-to-unreads"
             countLabel="21 new messages since Saturday"
             onDismiss={() => {}}
           />
@@ -19,7 +19,7 @@ export default function NewMessageBannerLibrary() {
           <span className={styles['components__instance-label']}>
             New replies
           </span>
-          <NewMessageBanner type="NewReplies" onDismiss={() => {}} />
+          <NewMessageBanner type="new-replies" onDismiss={() => {}} />
         </div>
       </div>
     </>

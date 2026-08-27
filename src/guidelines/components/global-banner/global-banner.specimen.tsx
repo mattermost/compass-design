@@ -10,32 +10,32 @@ export default function GlobalBannerLibrary() {
         </div>
         <GlobalBanner
           message="Your license expires in 14 days."
-          type="General"
+          type="general"
           actionLabel="Renew"
           onAction={() => {}}
           onDismiss={() => {}}
         />
         <GlobalBanner
           message="Scheduled maintenance window tonight from 2–4 AM UTC."
-          type="Warning"
+          type="warning"
           onDismiss={() => {}}
         />
         <GlobalBanner
           message="Critical security update required. Please update immediately."
-          type="Danger"
+          type="danger"
           actionLabel="Update now"
           onAction={() => {}}
         />
         <GlobalBanner
           message="New version of Mattermost is available."
-          type="Info"
+          type="info"
           actionLabel="Learn more"
           onAction={() => {}}
           onDismiss={() => {}}
         />
         <GlobalBanner
           message="Your data export is ready to download."
-          type="Success"
+          type="success"
           actionLabel="Download"
           onAction={() => {}}
           onDismiss={() => {}}

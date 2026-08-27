@@ -15,7 +15,7 @@ import ShortcutTag from '@/components/ShortcutTag/ShortcutTag';
 export interface ThreadActionsMenuProps extends HTMLAttributes<HTMLDivElement> {}
 
 function shortcutLabel(text: string) {
-  return <ShortcutTag label={text} size="Small" />;
+  return <ShortcutTag label={text} size="small" />;
 }
 
 /**

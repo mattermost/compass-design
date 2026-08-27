@@ -3,13 +3,13 @@ import styles from './MentionBadge.module.scss';
 
 /** Figma Mention Badge location context — controls color scheme. */
 export type MentionBadgeLocation =
-  | 'Sidebar'
-  | 'Menu Item'
-  | 'Icon Button'
-  | 'Channel';
+  | 'sidebar'
+  | 'menu-item'
+  | 'icon-button'
+  | 'channel';
 
 /** Figma Mention Badge size. */
-export type MentionBadgeSize = 'Small' | 'Medium' | 'Large';
+export type MentionBadgeSize = 'small' | 'medium' | 'large';
 
 export interface MentionBadgeProps {
   /** Optional CSS class name. */
@@ -23,16 +23,16 @@ export interface MentionBadgeProps {
 }
 
 /**
- * Mention badge — displays a numeric count in a pill.
- * Matches Figma Mention Badge v2.0.1.
- *
- * @see Figma Mention Badge (Node ID: 322:4608)
+ * Mention Badges show a numerical count of pending mentions. They appear next to channel
+ * names in the sidebar, on app-bar icons, inline in menu items, and on center-channel lists
+ * such as thread rows — small, high-contrast pills that pull the eye without dominating the
+ * row.
  */
 export default function MentionBadge({
   className = '',
   count,
-  location = 'Sidebar',
-  size = 'Small',
+  location = 'sidebar',
+  size = 'small',
 }: MentionBadgeProps) {
   const displayText = count > 99 ? '99+' : String(count);
   const digitCount = displayText.length; // 1, 2, or 3 (for "99+")
@@ -41,7 +41,7 @@ export default function MentionBadge({
     styles['mention-badge'],
     styles[`mention-badge--size-${toKebab(size)}`],
     styles[`mention-badge--digits-${digitCount}`],
-    location !== 'Sidebar'
+    location !== 'sidebar'
       ? styles[`mention-badge--location-${toKebab(location)}`]
       : '',
     className,

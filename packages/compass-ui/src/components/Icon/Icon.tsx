@@ -63,11 +63,9 @@ const SIZE_CLASS_MAP: Record<IconSize, string> = {
 };
 
 /**
- * Icon container using @mattermost/compass-icons. The `size` prop sets the
- * clipping container; the SVG itself renders at SVG_SIZE_MAP[size] to bleed
- * past the container edges and eliminate compass-icons clear-space padding.
- *
- * @see https://compass.mattermost.com/29be2c109/p/19c648-iconography
+ * Icon is the standard wrapper for any glyph from `@mattermost/compass-icons`. It enforces a
+ * consistent container size, strips the package's built-in clear-space padding, and keeps
+ * icons aligned with text and other icons across the system.
  */
 export default function Icon({
   className = '',

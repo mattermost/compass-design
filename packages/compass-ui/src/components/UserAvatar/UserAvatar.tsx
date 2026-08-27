@@ -23,14 +23,14 @@ export type UserAvatarSize =
 
 /** Figma User Avatar Fallback colour variants. */
 export type UserAvatarFallbackColor =
-  | 'Red'
-  | 'Purple'
-  | 'Neutral'
-  | 'Blue'
-  | 'Cyan'
-  | 'Yellow'
-  | 'Green'
-  | 'Orange';
+  | 'red'
+  | 'purple'
+  | 'neutral'
+  | 'blue'
+  | 'cyan'
+  | 'yellow'
+  | 'green'
+  | 'orange';
 
 export interface UserAvatarProps extends Omit<
   ImgHTMLAttributes<HTMLImageElement>,
@@ -59,32 +59,32 @@ export interface UserAvatarProps extends Omit<
 }
 
 const FALLBACK_COLORS: readonly UserAvatarFallbackColor[] = [
-  'Red',
-  'Purple',
-  'Neutral',
-  'Blue',
-  'Cyan',
-  'Yellow',
-  'Green',
-  'Orange',
+  'red',
+  'purple',
+  'neutral',
+  'blue',
+  'cyan',
+  'yellow',
+  'green',
+  'orange',
 ];
 
 /** Map UserAvatar size to StatusBadge size (Figma scale). */
 const USER_AVATAR_TO_BADGE_SIZE: Record<UserAvatarSize, StatusBadgeSize> = {
-  '12': 'XX-Small',
-  '16': 'XX-Small',
-  '20': 'X-Small',
-  '24': 'X-Small',
-  '28': 'X-Small',
-  '32': 'Small',
-  '40': 'Small',
-  '48': 'Small',
-  '56': 'Medium',
-  '64': 'Medium',
-  '72': 'Medium',
-  '80': 'Medium',
-  '96': 'Large',
-  '120': 'Large',
+  '12': 'xx-small',
+  '16': 'xx-small',
+  '20': 'x-small',
+  '24': 'x-small',
+  '28': 'x-small',
+  '32': 'small',
+  '40': 'small',
+  '48': 'small',
+  '56': 'medium',
+  '64': 'medium',
+  '72': 'medium',
+  '80': 'medium',
+  '96': 'large',
+  '120': 'large',
 };
 
 function hashFallbackColor(s: string): UserAvatarFallbackColor {
@@ -103,14 +103,9 @@ function getInitials(name: string): string {
 }
 
 /**
- * User avatar. Matches Figma User Avatar — Image and Fallback variants.
- * When `src` is provided, renders an `<img>`; otherwise renders initials on
- * one of eight deterministic colour backgrounds (hashed from `name`/`alt`,
- * or overridden via `fallbackColor`). System variant is not implemented.
- *
- * Uses StatusBadge for online indicator when status=true.
- *
- * @see Figma User Avatar (Type=Image, Type=Fallback)
+ * User Avatars represent a person — usually their uploaded photo, with initials on a colour
+ * background as a fallback. Their circular shape distinguishes them from rounded-square Team
+ * Avatars at a glance.
  */
 export default function UserAvatar({
   alt,
@@ -159,7 +154,7 @@ export default function UserAvatar({
       )}
       {status && (
         <span className={styles['user-avatar__status']}>
-          <StatusBadge status="Online" size={USER_AVATAR_TO_BADGE_SIZE[size]} />
+          <StatusBadge status="online" size={USER_AVATAR_TO_BADGE_SIZE[size]} />
         </span>
       )}
     </div>

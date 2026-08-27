@@ -2,12 +2,12 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { toKebab } from '@/utils/string';
 import styles from './IconButton.module.scss';
 
-export type IconButtonSize = 'X-Small' | 'Small' | 'Medium' | 'Large';
+export type IconButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 
 /** Figma "Style": Default (light context) | Inverted (dark context). */
-export type IconButtonStyle = 'Default' | 'Inverted';
+export type IconButtonStyle = 'default' | 'inverted';
 
-export type IconButtonPadding = 'Default' | 'Compact';
+export type IconButtonPadding = 'default' | 'compact';
 
 export interface IconButtonProps extends Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -42,18 +42,17 @@ export const ICON_BUTTON_ICON_SIZES: Record<
   IconButtonSize,
   '12' | '16' | '20' | '24'
 > = {
-  'X-Small': '12',
-  Small: '16',
-  Medium: '20',
-  Large: '24',
+  'x-small': '12',
+  small: '16',
+  medium: '20',
+  large: '24',
 };
 
 /**
- * Icon-only button matching Figma Icon Button variants.
- * Pass icon e.g. <Icon glyph={<GlobeIcon size={SVG_SIZE_MAP['20']} />} size="20" /> — use ICON_BUTTON_ICON_SIZES[size] for the Icon container size.
- * Accessible via aria-label.
- *
- * @see https://compass.mattermost.com (Icon Button)
+ * Icon Buttons are compact, label-free actions for tight surfaces — channel headers, message
+ * hover actions, modal dismissals, toolbar slots. They lean on the icon to communicate
+ * intent, so every Icon Button must pair with a tooltip or `aria-label` that makes the
+ * action explicit.
  */
 export default function IconButton({
   active = false,
@@ -61,10 +60,10 @@ export default function IconButton({
   count,
   destructive = false,
   icon,
-  padding = 'Default',
+  padding = 'default',
   rounded = false,
-  size = 'Medium',
-  style = 'Default',
+  size = 'medium',
+  style = 'default',
   toggled = false,
   unreadBadge = false,
   disabled,
@@ -74,9 +73,9 @@ export default function IconButton({
 }: IconButtonProps) {
   const sizeClass = styles[`icon-button--size-${toKebab(size)}`];
   const paddingClass =
-    padding === 'Compact' ? styles['icon-button--padding-compact'] : '';
+    padding === 'compact' ? styles['icon-button--padding-compact'] : '';
   const styleClass =
-    style === 'Inverted' ? styles['icon-button--style-inverted'] : '';
+    style === 'inverted' ? styles['icon-button--style-inverted'] : '';
   const destructiveClass = destructive
     ? styles['icon-button--destructive']
     : '';

@@ -127,7 +127,7 @@ export default function AdminConsoleSidebar({
                     name={row.name}
                     hideLeadingVisual
                     active={row.active}
-                    status="Read"
+                    status="read"
                   />
                 ))}
               </div>

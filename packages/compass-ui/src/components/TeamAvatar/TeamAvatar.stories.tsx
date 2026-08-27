@@ -25,7 +25,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
-    state: { control: 'select', options: ['Default', 'Active'] },
+    state: { control: 'select', options: ['default', 'active'] },
   },
 } satisfies Meta<typeof TeamAvatar>;
 
@@ -45,7 +45,7 @@ export const Active: Story = {
     src: avatarStaffTeam,
     alt: 'Staff Team',
     size: '40',
-    state: 'Active',
+    state: 'active',
   },
 };
 
@@ -103,7 +103,7 @@ export const AllVariants: Story = {
             src={avatarStaffTeam}
             alt="Staff Team"
             size={size}
-            state="Active"
+            state="active"
           />
         ))}
       </Row>
@@ -119,7 +119,7 @@ export const AllVariants: Story = {
             alt="Design Team"
             initials="Ac"
             size={size}
-            state="Active"
+            state="active"
           />
         ))}
       </Row>

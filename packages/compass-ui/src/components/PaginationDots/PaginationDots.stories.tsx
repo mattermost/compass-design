@@ -7,8 +7,8 @@ import type {
   PaginationDotsStyle,
 } from './PaginationDots';
 
-const ORIENTATIONS: PaginationDotsOrientation[] = ['Horizontal', 'Vertical'];
-const DOT_STYLES: PaginationDotsStyle[] = ['Default', 'Inverted', 'OnPrimary'];
+const ORIENTATIONS: PaginationDotsOrientation[] = ['horizontal', 'vertical'];
+const DOT_STYLES: PaginationDotsStyle[] = ['default', 'inverted', 'on-primary'];
 
 const meta = {
   title: 'Components/Progress Indicators/Pagination Dots',
@@ -74,12 +74,12 @@ export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 16 }}>
       <Row label="Horizontal">
-        <PaginationDots activePage={2} pages={5} orientation="Horizontal" />
+        <PaginationDots activePage={2} pages={5} orientation="horizontal" />
       </Row>
       <Row label="Vertical">
-        <PaginationDots activePage={1} pages={4} orientation="Vertical" />
+        <PaginationDots activePage={1} pages={4} orientation="vertical" />
       </Row>
-      <Row label="Inverted">
+      <Row label="inverted">
         <span
           style={{
             display: 'inline-flex',
@@ -88,7 +88,7 @@ export const AllVariants: Story = {
             background: 'var(--sidebar-header-bg)',
           }}
         >
-          <PaginationDots activePage={3} dotStyle="Inverted" pages={5} />
+          <PaginationDots activePage={3} dotStyle="inverted" pages={5} />
         </span>
       </Row>
       <Row label="On primary">
@@ -100,7 +100,7 @@ export const AllVariants: Story = {
             background: 'var(--button-bg)',
           }}
         >
-          <PaginationDots activePage={2} dotStyle="OnPrimary" pages={5} />
+          <PaginationDots activePage={2} dotStyle="on-primary" pages={5} />
         </span>
       </Row>
     </div>

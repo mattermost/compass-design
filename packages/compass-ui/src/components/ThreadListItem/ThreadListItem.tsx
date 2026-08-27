@@ -22,7 +22,7 @@ export interface ThreadListItemProps {
   /** Whether this item is the active/selected thread. */
   active?: boolean;
   /** Badge in the left gutter. Default: None. Hidden when `active` is true. */
-  badge?: 'None' | 'Unread' | 'Mention';
+  badge?: 'none' | 'unread' | 'mention';
   /** Shown when `badge` is Mention. Default: 1. */
   mentionCount?: number;
   /** Author name. */
@@ -48,13 +48,13 @@ export interface ThreadListItemProps {
 }
 
 /**
- * Thread entry in the Threads view. Shows author, team badge, preview text,
- * timestamp, participant avatars, reply count. Badge variants: None, Unread,
- * Mention. More actions (⋯) appear on row hover or focus.
+ * The Thread List Item is a single entry in the Threads view. Each row gives the user enough
+ * context — who, where, what, when — to decide whether to open the thread without opening
+ * it.
  */
 export default function ThreadListItem({
   active = false,
-  badge = 'None',
+  badge = 'none',
   mentionCount = 1,
   authorName = 'Martin Kraft',
   channelLabel = 'ENTERPRISE TEAM',
@@ -71,7 +71,7 @@ export default function ThreadListItem({
     participantsProp === undefined ? DEFAULT_PARTICIPANTS : participantsProp;
   const showParticipants = participants.length > 0;
   const showGutterBadge =
-    !active && (badge === 'Unread' || badge === 'Mention');
+    !active && (badge === 'unread' || badge === 'mention');
   const replyLabel = replyCount === 1 ? '1 reply' : `${replyCount} replies`;
 
   const rootClass = [
@@ -105,18 +105,18 @@ export default function ThreadListItem({
         <div className={styles['thread-list-item__container']}>
           <div className={styles['thread-list-item__post-content']}>
             <div className={styles['thread-list-item__gutter']}>
-              {showGutterBadge && badge === 'Unread' && (
+              {showGutterBadge && badge === 'unread' && (
                 <UnreadBadge
                   className={styles['thread-list-item__unread-badge']}
-                  context="Icon Button"
+                  context="icon-button"
                 />
               )}
-              {showGutterBadge && badge === 'Mention' && (
+              {showGutterBadge && badge === 'mention' && (
                 <span className={styles['thread-list-item__mention-gutter']}>
                   <MentionBadge
                     count={mentionCount}
-                    location="Channel"
-                    size="Medium"
+                    location="channel"
+                    size="medium"
                   />
                 </span>
               )}
@@ -129,7 +129,7 @@ export default function ThreadListItem({
                       {authorName}
                     </span>
                     <Tag
-                      casing="All Caps"
+                      casing="all-caps"
                       label={channelLabel}
                     />
                   </div>
@@ -172,9 +172,9 @@ export default function ThreadListItem({
           <IconButton
             aria-label="Thread actions"
             icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
-            padding="Compact"
-            size="Small"
-            style="Default"
+            padding="compact"
+            size="small"
+            style="default"
             type="button"
             onClick={(e) => {
               e.stopPropagation();

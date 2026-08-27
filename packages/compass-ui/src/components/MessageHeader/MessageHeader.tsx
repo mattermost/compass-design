@@ -8,6 +8,11 @@ type MessageHeaderProps = {
   botLabel?: string;
 };
 
+/**
+ * The Message Header sits above every message body — username, optional bot or guest tag,
+ * and timestamp. It's the byline of the conversation, so the rules are tight: same parts,
+ * same order, every time.
+ */
 export default function MessageHeader({
   username,
   timestamp,

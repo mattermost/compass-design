@@ -4,7 +4,7 @@ import { useControllable } from '@/hooks/useControllable';
 import { toKebab } from '@/utils/string';
 import styles from './Switch.module.scss';
 
-export type SwitchSize = 'Small' | 'Medium' | 'Large';
+export type SwitchSize = 'small' | 'medium' | 'large';
 
 export interface SwitchProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -23,20 +23,12 @@ export interface SwitchProps extends Omit<
 }
 
 /**
- * Switch component built on the native HTML checkbox.
- * Uses role="switch" so assistive tech announces "switch" and on/off state.
- * Renders as a track + sliding knob; checked = on (right), unchecked = off (left).
- *
- * Supports label, optional secondary label, sizes (Small/Medium/Large), and
- * states: default, hover, focus, active, disabled. Matches Figma Switch v2.0.0.
- *
- * Use with a label: pass children for the primary label, or wrap in your own <label>.
- *
- * @see https://compass.mattermost.com (Switch)
+ * A Switch is a real-world toggle: flip it, and the change happens. Use it for binary
+ * settings that take effect immediately and don't need a separate "Save" step.
  */
 export default function Switch({
   className = '',
-  size = 'Medium',
+  size = 'medium',
   children,
   secondaryLabel,
   semiBold = false,

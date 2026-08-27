@@ -6,7 +6,7 @@ const meta = {
   component: ProgressBar,
   tags: ['autodocs'],
   argTypes: {
-    size: { control: 'select', options: ['Small', 'Large'] },
+    size: { control: 'select', options: ['small', 'large'] },
     value: { control: { type: 'range', min: 0, max: 100, step: 1 } },
   },
 } satisfies Meta<typeof ProgressBar>;
@@ -52,8 +52,8 @@ export const AllVariants: Story = {
         >
           Sizes
         </span>
-        <ProgressBar value={60} size="Small" aria-label="Small 60%" />
-        <ProgressBar value={60} size="Large" aria-label="Large 60%" />
+        <ProgressBar value={60} size="small" aria-label="Small 60%" />
+        <ProgressBar value={60} size="large" aria-label="Large 60%" />
       </div>
       <div style={{ display: 'grid', gap: 8 }}>
         <span

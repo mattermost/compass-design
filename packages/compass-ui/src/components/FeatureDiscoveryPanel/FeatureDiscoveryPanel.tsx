@@ -25,10 +25,9 @@ export interface FeatureDiscoveryPanelProps {
 }
 
 /**
- * Feature Discovery Panel — highlights capabilities only available in higher-tier SKUs.
- * Contains an illustration, SKU tag, title, description, and CTA buttons.
- *
- * @see https://compass.mattermost.com/29be2c109/p/865664-feature-discovery-panel
+ * Feature Discovery Panels surface capabilities only available on a higher-tier SKU. They
+ * live in the System Console and are visible to admins — never to end users. The goal is to
+ * communicate the value of the feature, not gate the UI behind a paywall.
  */
 export default function FeatureDiscoveryPanel({
   skuLabel = 'PROFESSIONAL',
@@ -51,7 +50,7 @@ export default function FeatureDiscoveryPanel({
             {skuLabel != null && (
               <Tag
                 label={skuLabel}
-                casing="All Caps"
+                casing="all-caps"
                 leadingIcon={<Icon size="10" glyph={<MattermostIcon />} />}
               />
             )}
@@ -68,12 +67,12 @@ export default function FeatureDiscoveryPanel({
           <div className={styles['feature-discovery-panel__actions']}>
             {primaryAction != null && (
               <div className={styles['feature-discovery-panel__action']}>
-                <Button size="Medium" {...primaryAction} />
+                <Button size="medium" {...primaryAction} />
               </div>
             )}
             {secondaryAction != null && (
               <div className={styles['feature-discovery-panel__action']}>
-                <Button size="Medium" {...secondaryAction} />
+                <Button size="medium" {...secondaryAction} />
               </div>
             )}
           </div>

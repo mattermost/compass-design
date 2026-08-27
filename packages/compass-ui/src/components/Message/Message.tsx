@@ -43,7 +43,7 @@ export default function Message({
   timestamp,
   isBot = false,
   botLabel,
-  messageActionsType = 'Center Channel',
+  messageActionsType = 'center-channel',
   showMessageActions = true,
   showPinnedSavedIndicators = false,
   className = '',

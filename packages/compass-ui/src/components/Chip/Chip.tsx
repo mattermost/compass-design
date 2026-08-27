@@ -7,7 +7,7 @@ import type { UserAvatarSize } from '@/components/UserAvatar/UserAvatar';
 import { toKebab } from '@/utils/string';
 import styles from './Chip.module.scss';
 
-export type ChipSize = 'Small' | 'Medium' | 'Medium Compact' | 'Large';
+export type ChipSize = 'small' | 'medium' | 'medium-compact' | 'large';
 
 export interface ChipProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -33,22 +33,27 @@ export interface ChipProps extends Omit<
 }
 
 const ICON_SIZE_MAP: Record<ChipSize, IconSize> = {
-  Small: '10',
-  Medium: '12',
-  'Medium Compact': '12',
-  Large: '16',
+  small: '10',
+  medium: '12',
+  'medium-compact': '12',
+  large: '16',
 };
 
 const AVATAR_SIZE_MAP: Record<ChipSize, UserAvatarSize> = {
-  Small: '12',
-  Medium: '16',
-  'Medium Compact': '16',
-  Large: '20',
+  small: '12',
+  medium: '16',
+  'medium-compact': '16',
+  large: '20',
 };
 
+/**
+ * Chips are compact, self-contained tokens that represent a selection — a person added to an
+ * invite, a filter applied to a search, a chosen value in a tokenizing input. Each Chip
+ * stands on its own and is removable or selectable, depending on context.
+ */
 export default function Chip({
   children,
-  size = 'Medium',
+  size = 'medium',
   leadingIcon,
   leadingAvatar,
   onRemove,

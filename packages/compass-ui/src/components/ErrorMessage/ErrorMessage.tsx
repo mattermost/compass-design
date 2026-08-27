@@ -10,8 +10,9 @@ export interface ErrorMessageProps {
 }
 
 /**
- * Error Message — inline red error text for form validation.
- * Displays an error icon alongside the message. Used below form inputs.
+ * Error Message is the inline red error line that appears below a form input when validation
+ * fails. It pairs an alert glyph with a short, human-readable explanation so the user can
+ * fix the field and move on.
  */
 export default function ErrorMessage({
   className = '',

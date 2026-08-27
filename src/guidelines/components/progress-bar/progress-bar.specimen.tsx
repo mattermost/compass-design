@@ -14,8 +14,8 @@ export default function ProgressBarLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <ProgressBar value={60} size="Small" aria-label="Small 60%" />
-          <ProgressBar value={60} size="Large" aria-label="Large 60%" />
+          <ProgressBar value={60} size="small" aria-label="Small 60%" />
+          <ProgressBar value={60} size="large" aria-label="Large 60%" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>

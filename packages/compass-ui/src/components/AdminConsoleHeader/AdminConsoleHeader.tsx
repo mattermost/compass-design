@@ -22,7 +22,9 @@ export interface AdminConsoleHeaderProps {
 }
 
 /**
- * Strip header for System Console content: title, optional enterprise tag, optional back affordance.
+ * The Admin Console header is the stripe above scrolling System Console content. It anchors
+ * the active page title, optional edition signalling, navigation back into nested settings,
+ * and sparse trailing utilities.
  */
 export default function AdminConsoleHeader({
   title,
@@ -38,7 +40,7 @@ export default function AdminConsoleHeader({
     enterpriseBadge ? (
       <Tag
         label={enterpriseBadgeLabel}
-        size="X-Small"
+        size="x-small"
         leadingIcon={<Icon size="12" glyph={<MattermostIcon />} />}
       />
     ) : null;
@@ -52,8 +54,8 @@ export default function AdminConsoleHeader({
           <div className={styles['admin-console-header__back']}>
             <IconButton
               type="button"
-              style="Default"
-              size="Medium"
+              style="default"
+              size="medium"
               className={styles['admin-console-header__back-button']}
               aria-label={ariaLabelBack}
               onClick={onBackClick}

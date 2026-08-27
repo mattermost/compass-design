@@ -25,7 +25,7 @@ export default function MenuItemLibrary() {
             <MenuItem
               label="Menu Item"
               secondaryLabel="Inline text"
-              secondaryLabelPosition="Inline"
+              secondaryLabelPosition="inline"
             />
           </div>
         </div>

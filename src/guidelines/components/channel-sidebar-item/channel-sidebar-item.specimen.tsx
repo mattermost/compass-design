@@ -13,42 +13,42 @@ export default function ChannelSidebarItemLibrary() {
             Leading visuals
           </span>
           <div className={styles['components__sidebar-demo']}>
-            <ChannelSidebarItem leadingVisual="Public" name="Design" />
-            <ChannelSidebarItem leadingVisual="Private" name="Engineering" />
+            <ChannelSidebarItem leadingVisual="public" name="Design" />
+            <ChannelSidebarItem leadingVisual="private" name="Engineering" />
             <ChannelSidebarItem
-              leadingVisual="Group Message"
+              leadingVisual="group-message"
               name="Design Team"
               memberCount={4}
             />
             <ChannelSidebarItem
-              leadingVisual="Direct Message"
+              leadingVisual="direct-message"
               name="Leonard Riley"
               avatarSrc={avatarLeonard}
               avatarAlt="Leonard Riley"
               showAvatarStatus
             />
-            <ChannelSidebarItem leadingVisual="Threads" name="Threads" />
-            <ChannelSidebarItem leadingVisual="Drafts" name="Drafts" />
-            <ChannelSidebarItem leadingVisual="Insights" name="Insights" />
+            <ChannelSidebarItem leadingVisual="threads" name="threads" />
+            <ChannelSidebarItem leadingVisual="drafts" name="Drafts" />
+            <ChannelSidebarItem leadingVisual="insights" name="Insights" />
           </div>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Status</span>
           <div className={styles['components__sidebar-demo']}>
             <ChannelSidebarItem
-              leadingVisual="Public"
+              leadingVisual="public"
               name="Read channel"
-              status="Read"
+              status="read"
             />
             <ChannelSidebarItem
-              leadingVisual="Public"
+              leadingVisual="public"
               name="Unread channel"
-              status="Unread"
+              status="unread"
             />
             <ChannelSidebarItem
-              leadingVisual="Public"
+              leadingVisual="public"
               name="Mention channel"
-              status="Mention"
+              status="mention"
               mentionCount={3}
             />
           </div>
@@ -59,17 +59,17 @@ export default function ChannelSidebarItemLibrary() {
           </span>
           <div className={styles['components__sidebar-demo']}>
             <ChannelSidebarItem
-              leadingVisual="Public"
+              leadingVisual="public"
               name="Active channel"
               active
             />
             <ChannelSidebarItem
-              leadingVisual="Public"
+              leadingVisual="public"
               name="Muted channel"
               muted
             />
             <ChannelSidebarItem
-              leadingVisual="Direct Message"
+              leadingVisual="direct-message"
               name="Danielle Okoro"
               avatarSrc={avatarDanielle}
               avatarAlt="Danielle Okoro"
@@ -83,17 +83,17 @@ export default function ChannelSidebarItemLibrary() {
           </span>
           <div className={styles['components__sidebar-demo']}>
             <ChannelSidebarItem
-              leadingVisual="Public"
+              leadingVisual="public"
               name="Shared channel"
               sharedChannel
             />
             <ChannelSidebarItem
-              leadingVisual="Private"
+              leadingVisual="private"
               name="Call active"
               callActive
             />
             <ChannelSidebarItem
-              leadingVisual="Direct Message"
+              leadingVisual="direct-message"
               name="Marco Rinaldi"
               avatarSrc={avatarMarco}
               avatarAlt="Marco Rinaldi"

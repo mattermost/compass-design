@@ -26,8 +26,9 @@ export interface TabsProps {
 }
 
 /**
- * Tabs component matching Figma design.
- * Horizontal tab navigation with active state, count badges, and unread indicators.
+ * Tabs let people switch between sibling views inside the same surface — Mentions in the
+ * right sidebar, sections of a settings panel, or filters on a list. The content area
+ * changes; the surrounding chrome doesn't.
  */
 export default function Tabs({
   tabs,

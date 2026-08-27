@@ -56,6 +56,12 @@ const VARIANT_ICON_CLASS: Record<PopoverNoticeVariant, string> = {
   danger: styles['popover-notice__icon--danger'],
 };
 
+/**
+ * Popover Notice is a small overlay card that surfaces a transient message — a tip, a
+ * confirmation, a warning — without taking over the screen. Think of it as a [Section
+ * Notice](/components/section-notice) that floats: shorter, dismissable, and gone in five
+ * seconds unless the user engages.
+ */
 export default function PopoverNotice({
   title,
   children,
@@ -102,10 +108,8 @@ export default function PopoverNotice({
               {actions.map((action, i) => (
                 <Button
                   key={i}
-                  emphasis={
-                    action.emphasis === 'tertiary' ? 'Tertiary' : 'Primary'
-                  }
-                  size="Small"
+                  emphasis={action.emphasis ?? 'primary'}
+                  size="small"
                   onClick={action.onClick}
                 >
                   {action.label}
@@ -114,7 +118,7 @@ export default function PopoverNotice({
             </div>
           )}
 
-          {showCheckbox && <Checkbox size="Medium">{checkboxLabel}</Checkbox>}
+          {showCheckbox && <Checkbox size="medium">{checkboxLabel}</Checkbox>}
         </div>
       </div>
 
@@ -122,7 +126,7 @@ export default function PopoverNotice({
         <IconButton
           className={styles['popover-notice__close']}
           aria-label="Close"
-          size="Small"
+          size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onClose}
         />

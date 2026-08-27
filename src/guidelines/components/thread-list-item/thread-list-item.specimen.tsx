@@ -15,21 +15,21 @@ export default function ThreadListItemLibrary() {
           </span>
           <ThreadListItem
             active
-            badge="Unread"
+            badge="unread"
             onClick={() => undefined}
           />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Unread</span>
           <ThreadListItem
-            badge="Unread"
+            badge="unread"
             onClick={() => undefined}
           />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Mention</span>
           <ThreadListItem
-            badge="Mention"
+            badge="mention"
             mentionCount={3}
             onClick={() => undefined}
           />
@@ -50,7 +50,7 @@ export default function ThreadListItemLibrary() {
           </span>
           <ThreadListItem
             authorName="Danielle Okoro"
-            badge="Unread"
+            badge="unread"
             channelLabel="DESIGN TEAM"
             replyCount={7}
             timestamp="12 mins ago"

@@ -20,10 +20,9 @@ export interface EmptyStateProps {
 }
 
 /**
- * Empty State — illustration + message shown when a view has no content.
- * ~12 context-specific variants: no saved messages, no mentions, no results, no files, etc.
- *
- * @see https://compass.mattermost.com
+ * Empty State fills a view that has no content yet — no saved messages, no mentions, no
+ * search results, no files. It pairs an illustration with a short explanation and, when
+ * there's something the user can do next, a single action.
  */
 export default function EmptyState({
   illustration,

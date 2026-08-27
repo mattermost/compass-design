@@ -10,7 +10,7 @@ import AppsIcon from '@mattermost/compass-icons/components/apps';
 import ReplyOutlineIcon from '@mattermost/compass-icons/components/reply-outline';
 import styles from './MessageActions.module.scss';
 
-export type MessageActionsType = 'Center Channel' | 'RHS' | 'Search Results';
+export type MessageActionsType = 'center-channel' | 'rhs' | 'search-results';
 
 export interface MessageActionsProps extends HTMLAttributes<HTMLDivElement> {
   /** Context variant. Default: Center Channel. */
@@ -26,11 +26,12 @@ export interface MessageActionsProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Hover toolbar on messages. Context-aware variants for Center Channel, RHS,
- * and Search Results. Quick Reactions toggle shows emoji shortcuts.
+ * Message Actions is the floating toolbar that appears on a message when you hover, tab, or
+ * long-press it. It bundles the most common per-message actions — react, save, reply, more —
+ * into a small, context-aware row that hovers above the post.
  */
 export default function MessageActions({
-  type = 'Center Channel',
+  type = 'center-channel',
   visible = true,
   collapsedReplyThreads = true,
   quickReactions = true,
@@ -39,9 +40,9 @@ export default function MessageActions({
 }: MessageActionsProps) {
   if (!visible) return null;
 
-  const isCenterChannel = type === 'Center Channel';
-  const isRHS = type === 'RHS';
-  const isSearchResults = type === 'Search Results';
+  const isCenterChannel = type === 'center-channel';
+  const isRHS = type === 'rhs';
+  const isSearchResults = type === 'search-results';
   const showQuickReactions = quickReactions && collapsedReplyThreads;
 
   const rootClass = [styles['message-actions'], className]
@@ -60,30 +61,30 @@ export default function MessageActions({
         <>
           <IconButton
             aria-label="React with thumbs up"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Emoji emoji="👍" size="16" />}
           />
           {isCenterChannel && (
             <>
               <IconButton
                 aria-label="React with raised hands"
-                size="Small"
-                padding="Compact"
+                size="small"
+                padding="compact"
                 icon={<Emoji emoji="🙌" size="16" />}
               />
               <IconButton
                 aria-label="React with OK hand"
-                size="Small"
-                padding="Compact"
+                size="small"
+                padding="compact"
                 icon={<Emoji emoji="👌" size="16" />}
               />
             </>
           )}
           <IconButton
             aria-label="Add reaction"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<EmoticonPlusOutlineIcon />} />}
           />
         </>
@@ -93,8 +94,8 @@ export default function MessageActions({
       {isSearchResults && (
         <IconButton
           aria-label="More actions"
-          size="Small"
-          padding="Compact"
+          size="small"
+          padding="compact"
           icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
         />
       )}
@@ -104,32 +105,32 @@ export default function MessageActions({
         <>
           <IconButton
             aria-label="Save message"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<BookmarkOutlineIcon />} />}
           />
           <IconButton
             aria-label="AI actions"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<CreationOutlineIcon />} />}
           />
           <IconButton
             aria-label="Plugin actions"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<AppsIcon />} />}
           />
           <IconButton
             aria-label="Reply in thread"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<ReplyOutlineIcon />} />}
           />
           <IconButton
             aria-label="More actions"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
           />
         </>
@@ -139,8 +140,8 @@ export default function MessageActions({
       {isRHS && (
         <IconButton
           aria-label="More actions"
-          size="Small"
-          padding="Compact"
+          size="small"
+          padding="compact"
           icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
         />
       )}
@@ -150,14 +151,14 @@ export default function MessageActions({
         <>
           <IconButton
             aria-label="Save message"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<BookmarkOutlineIcon />} />}
           />
           <IconButton
             aria-label="Reply in thread"
-            size="Small"
-            padding="Compact"
+            size="small"
+            padding="compact"
             icon={<Icon size="16" glyph={<ReplyOutlineIcon />} />}
           />
           <button

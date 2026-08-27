@@ -7,16 +7,16 @@ export default function DropdownLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <Dropdown size="X-Small">X-Small</Dropdown>
-          <Dropdown size="Small">Small</Dropdown>
-          <Dropdown size="Medium">Medium</Dropdown>
-          <Dropdown size="Large">Large</Dropdown>
-          <Dropdown size="X-Large">X-Large</Dropdown>
+          <Dropdown size="x-small">X-Small</Dropdown>
+          <Dropdown size="small">Small</Dropdown>
+          <Dropdown size="medium">Medium</Dropdown>
+          <Dropdown size="large">Large</Dropdown>
+          <Dropdown size="x-large">X-Large</Dropdown>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Padding</span>
-          <Dropdown size="Medium">Tight</Dropdown>
-          <Dropdown size="Medium" padding="Compact">
+          <Dropdown size="medium">Tight</Dropdown>
+          <Dropdown size="medium" padding="compact">
             Compact
           </Dropdown>
         </div>
@@ -33,7 +33,7 @@ export default function DropdownLibrary() {
           ].join(' ')}
         >
           <span className={styles['components__instance-label']}>Inverted</span>
-          <Dropdown appearance="Inverted">Inverted</Dropdown>
+          <Dropdown appearance="inverted">Inverted</Dropdown>
         </div>
       </div>
     </>

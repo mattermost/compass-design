@@ -25,7 +25,7 @@ function PreviousView() {
   return (
     <div className={styles['mobile-modal-specimen__previous']}>
       <MobileNavigationBar
-        variant='Channel'
+        variant='channel'
         name='UX Design'
         memberCount={32}
       />
@@ -125,7 +125,7 @@ export default function MobileModalLibrary() {
             animate={false}
             modal={
               <MobileModal
-                variant='Child'
+                variant='child'
                 title='Notifications'
                 subtitle='Settings'
               >

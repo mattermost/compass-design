@@ -32,7 +32,7 @@ export const defaultAdminConsoleSidebarGroups: AdminConsoleSidebarGroupModel[] =
         { name: 'Users' },
         { name: 'Groups' },
         { name: 'Teams', active: true },
-        { name: 'Channels' },
+        { name: 'channels' },
         { name: 'Permissions' },
       ],
     },

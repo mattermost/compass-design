@@ -4,17 +4,17 @@ import StatusBadge from './StatusBadge';
 import type { StatusBadgeSize, StatusBadgeStatus } from './StatusBadge';
 
 const SIZES: StatusBadgeSize[] = [
-  'XX-Small',
-  'X-Small',
-  'Small',
-  'Medium',
-  'Large',
+  'xx-small',
+  'x-small',
+  'small',
+  'medium',
+  'large',
 ];
 const STATUSES: StatusBadgeStatus[] = [
-  'Online',
-  'Away',
-  'Do Not Disturb',
-  'Offline',
+  'online',
+  'away',
+  'do-not-disturb',
+  'offline',
 ];
 
 const meta = {
@@ -56,15 +56,15 @@ function Row({ children, label }: { children: ReactNode; label: string }) {
 
 export const Default: Story = {
   args: {
-    size: 'X-Small',
-    status: 'Online',
+    size: 'x-small',
+    status: 'online',
   },
 };
 
 export const DoNotDisturb: Story = {
   args: {
-    size: 'Small',
-    status: 'Do Not Disturb',
+    size: 'small',
+    status: 'do-not-disturb',
   },
 };
 
@@ -78,7 +78,7 @@ export const AllVariants: Story = {
       </Row>
       <Row label="Sizes">
         {SIZES.map((size) => (
-          <StatusBadge key={size} size={size} status="Online" />
+          <StatusBadge key={size} size={size} status="online" />
         ))}
       </Row>
     </div>

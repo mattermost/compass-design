@@ -21,7 +21,7 @@ import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import { toKebab } from '@/utils/string';
 import styles from './Select.module.scss';
 
-export type SelectSize = 'Small' | 'Medium' | 'Large';
+export type SelectSize = 'small' | 'medium' | 'large';
 
 export type SelectOption = {
   value: string;
@@ -137,10 +137,8 @@ function SelectOptionRow({
 }
 
 /**
- * Select with floating label and PopoverMenu list.
- * Field chrome matches Combobox / Text Input; list uses PopoverMenu + MenuItem.
- *
- * @see https://compass.mattermost.com (Select)
+ * { value: 'town-square', label: 'Town Square' }, { value: 'off-topic', label: 'Off-Topic'
+ * }, { value: 'design', label: 'Design' }, ];
  */
 const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
   {
@@ -151,7 +149,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
     placeholder,
     label,
     leadingIcon,
-    size = 'Medium',
+    size = 'medium',
     invalid = false,
     disabled = false,
     id: idProp,

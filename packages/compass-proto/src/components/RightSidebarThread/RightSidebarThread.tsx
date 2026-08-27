@@ -76,7 +76,7 @@ export default function RightSidebarThread({
           </Message>
         )}
         {rest.length > 0 && (
-          <MessageSeparator type="Reply Count" label={replySeparatorLabel} />
+          <MessageSeparator type="reply-count" label={replySeparatorLabel} />
         )}
         {rest.map((message) => (
           <Message

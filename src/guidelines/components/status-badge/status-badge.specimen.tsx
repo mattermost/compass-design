@@ -14,18 +14,18 @@ export default function StatusBadgeLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Status</span>
-          <StatusBadge status="Online" />
-          <StatusBadge status="Away" />
-          <StatusBadge status="Do Not Disturb" />
-          <StatusBadge status="Offline" />
+          <StatusBadge status="online" />
+          <StatusBadge status="away" />
+          <StatusBadge status="do-not-disturb" />
+          <StatusBadge status="offline" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <StatusBadge size="XX-Small" status="Online" />
-          <StatusBadge size="X-Small" status="Online" />
-          <StatusBadge size="Small" status="Online" />
-          <StatusBadge size="Medium" status="Online" />
-          <StatusBadge size="Large" status="Online" />
+          <StatusBadge size="xx-small" status="online" />
+          <StatusBadge size="x-small" status="online" />
+          <StatusBadge size="small" status="online" />
+          <StatusBadge size="medium" status="online" />
+          <StatusBadge size="large" status="online" />
         </div>
       </div>
     </>

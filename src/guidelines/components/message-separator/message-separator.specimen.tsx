@@ -7,19 +7,19 @@ export default function MessageSeparatorLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Date</span>
-          <MessageSeparator type="Date" label="Today" />
+          <MessageSeparator type="date" label="Today" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
             New Messages
           </span>
-          <MessageSeparator type="New Messages" showAiSummary />
+          <MessageSeparator type="new-messages" showAiSummary />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
             Reply Count
           </span>
-          <MessageSeparator type="Reply Count" label="6 replies" />
+          <MessageSeparator type="reply-count" label="6 replies" />
         </div>
       </div>
     </>

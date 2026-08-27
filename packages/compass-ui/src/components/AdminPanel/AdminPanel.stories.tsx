@@ -54,7 +54,7 @@ export const FullHeaderExpanded: Story = {
     buttonLabel: 'Button',
     onButtonClick: fn(),
     expandable: true,
-    defaultExpandedState: 'Expanded',
+    defaultExpandedState: 'expanded',
     children: 'Section content — body hides when collapsed and expandable.',
   },
 };
@@ -64,7 +64,7 @@ export const ExpandableCollapsed: Story = {
     title: 'Section Title',
     subtitle: 'Section sub-title',
     expandable: true,
-    defaultExpandedState: 'Collapsed',
+    defaultExpandedState: 'collapsed',
     showSwitch: true,
     switchLabel: 'Off',
     children: 'Content appears after expand.',
@@ -74,7 +74,7 @@ export const ExpandableCollapsed: Story = {
 export const ControlledExpand: Story = {
   render: function ControlledExpandStory() {
     const [expandedState, setExpandedState] =
-      useState<AdminPanelExpandedState>('Expanded');
+      useState<AdminPanelExpandedState>('expanded');
 
     return (
       <AdminPanel
@@ -88,8 +88,8 @@ export const ControlledExpand: Story = {
         headerActions={
           <IconButton
             type="button"
-            style="Default"
-            size="Medium"
+            style="default"
+            size="medium"
             aria-label="Help"
             icon={<Icon size="20" glyph={<InformationOutlineIcon />} />}
           />
@@ -115,7 +115,7 @@ export const AllVariants: Story = {
         showButton
         buttonLabel="Button"
         expandable
-        defaultExpandedState="Expanded"
+        defaultExpandedState="expanded"
       >
         Section content — body hides when collapsed and expandable.
       </AdminPanel>
@@ -123,7 +123,7 @@ export const AllVariants: Story = {
         title="Section Title"
         subtitle="Section sub-title"
         expandable
-        defaultExpandedState="Collapsed"
+        defaultExpandedState="collapsed"
         showSwitch
         switchLabel="Off"
       >

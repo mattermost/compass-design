@@ -15,7 +15,7 @@ export default function FeatureDiscoveryPanelLibrary() {
             title="Synchronize your Active Directory/LDAP groups"
             description="Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions, and more."
             primaryAction={{ children: 'Contact sales' }}
-            secondaryAction={{ emphasis: 'Tertiary', children: 'Learn more' }}
+            secondaryAction={{ emphasis: 'tertiary', children: 'Learn more' }}
             illustration={{
               children: <GroupsIllustration />,
               width: '276px',
@@ -33,7 +33,7 @@ export default function FeatureDiscoveryPanelLibrary() {
             title="Unlock advanced reporting"
             description="Get deeper insights into your workspace with advanced analytics and custom dashboards available on the Professional plan."
             primaryAction={{ children: 'Upgrade now' }}
-            secondaryAction={{ emphasis: 'Tertiary', children: 'Learn more' }}
+            secondaryAction={{ emphasis: 'tertiary', children: 'Learn more' }}
           />
         </div>
         <div className={styles['components__button-row']}>

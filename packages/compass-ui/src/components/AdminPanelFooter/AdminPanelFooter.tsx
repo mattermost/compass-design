@@ -24,6 +24,11 @@ export interface AdminPanelFooterProps {
 const DEFAULT_WARNING = 'There are outstanding issues in the form above.';
 const DEFAULT_ERROR = 'There are errors in the form above.';
 
+/**
+ * Admin Panel Footer pins Save and Cancel to the bottom of System Console form layouts. It
+ * mirrors channel composer discipline: one primary commit path, a safe escape hatch, and
+ * optional validation status without stealing focus from the draft.
+ */
 export default function AdminPanelFooter({
   saveLabel = 'Save',
   cancelLabel = 'Cancel',
@@ -79,8 +84,8 @@ export default function AdminPanelFooter({
         <div className={styles['admin-panel-footer__actions']}>
           <Button
             type="button"
-            size="Medium"
-            emphasis="Primary"
+            size="medium"
+            emphasis="primary"
             disabled={saveDisabled}
             onClick={onSave}
           >
@@ -88,8 +93,8 @@ export default function AdminPanelFooter({
           </Button>
           <Button
             type="button"
-            size="Medium"
-            emphasis="Tertiary"
+            size="medium"
+            emphasis="tertiary"
             onClick={onCancel}
           >
             {cancelLabel}

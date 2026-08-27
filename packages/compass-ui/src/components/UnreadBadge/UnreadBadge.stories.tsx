@@ -4,7 +4,7 @@ import UnreadBadge from './UnreadBadge';
 import type { UnreadBadgeContext, UnreadBadgeSize } from './UnreadBadge';
 
 const SIZES: UnreadBadgeSize[] = ['6', '8'];
-const CONTEXTS: UnreadBadgeContext[] = ['Team Icon', 'Icon Button'];
+const CONTEXTS: UnreadBadgeContext[] = ['team-icon', 'icon-button'];
 
 const meta = {
   title: 'Components/Status Indicators/Unread Badge',
@@ -45,14 +45,14 @@ function Row({ children, label }: { children: ReactNode; label: string }) {
 
 export const Default: Story = {
   args: {
-    context: 'Team Icon',
+    context: 'team-icon',
     size: '8',
   },
 };
 
 export const IconButtonContext: Story = {
   args: {
-    context: 'Icon Button',
+    context: 'icon-button',
     size: '8',
   },
 };
@@ -62,7 +62,7 @@ export const AllVariants: Story = {
     <div style={{ display: 'grid', gap: 16 }}>
       <Row label="Sizes">
         {SIZES.map((size) => (
-          <UnreadBadge key={size} size={size} context="Team Icon" />
+          <UnreadBadge key={size} size={size} context="team-icon" />
         ))}
       </Row>
       <Row label="Contexts">

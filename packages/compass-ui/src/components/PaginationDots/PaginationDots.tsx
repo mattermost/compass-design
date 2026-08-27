@@ -1,7 +1,7 @@
 import styles from './PaginationDots.module.scss';
 
-export type PaginationDotsOrientation = 'Horizontal' | 'Vertical';
-export type PaginationDotsStyle = 'Default' | 'Inverted' | 'OnPrimary';
+export type PaginationDotsOrientation = 'horizontal' | 'vertical';
+export type PaginationDotsStyle = 'default' | 'inverted' | 'on-primary';
 
 export interface PaginationDotsProps {
   /** Total number of pages/steps. */
@@ -19,22 +19,21 @@ export interface PaginationDotsProps {
 }
 
 /**
- * Pagination Dots — step/progress indicator dots for multi-step flows.
- * Horizontal and vertical orientations. Default, inverted (sidebar), and
- * on-primary (light dots on `--button-bg` / info surfaces via `--button-color`).
- * Used in onboarding wizards.
+ * Pagination Dots indicate progress through a fixed sequence of steps — most often a
+ * multi-step onboarding flow or a swipeable carousel. One dot per step, the active one
+ * filled, the rest quiet.
  */
 export default function PaginationDots({
   pages,
   activePage,
-  orientation = 'Horizontal',
-  dotStyle = 'Default',
+  orientation = 'horizontal',
+  dotStyle = 'default',
   onPageChange,
   className = '',
 }: PaginationDotsProps) {
-  const isVertical = orientation === 'Vertical';
-  const isInverted = dotStyle === 'Inverted';
-  const isOnPrimary = dotStyle === 'OnPrimary';
+  const isVertical = orientation === 'vertical';
+  const isInverted = dotStyle === 'inverted';
+  const isOnPrimary = dotStyle === 'on-primary';
 
   const orientationClass = isVertical
     ? styles['pagination-dots--vertical']

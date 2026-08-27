@@ -55,7 +55,7 @@ export const WithTrailingAction: Story = {
     <AdminConsoleHeader
       {...args}
       trailing={
-        <Button emphasis="Tertiary" size="Medium">
+        <Button emphasis="tertiary" size="medium">
           Action
         </Button>
       }
@@ -87,7 +87,7 @@ export const AllVariants: Story = {
           enterpriseBadge
           onBackClick={fn()}
           trailing={
-            <Button emphasis="Tertiary" size="Medium">
+            <Button emphasis="tertiary" size="medium">
               Action
             </Button>
           }

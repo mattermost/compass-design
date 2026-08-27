@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Radio from './Radio';
 import type { RadioSize } from './Radio';
 
-const SIZES: RadioSize[] = ['Small', 'Medium', 'Large'];
+const SIZES: RadioSize[] = ['small', 'medium', 'large'];
 
 const meta = {
   title: 'Components/Forms and Input/Radio',
@@ -20,7 +20,7 @@ export const Default: Story = {
   args: {
     children: 'Option',
     name: 'radio-default',
-    size: 'Medium',
+    size: 'medium',
     value: 'option',
   },
 };
@@ -30,7 +30,7 @@ export const Checked: Story = {
     children: 'Selected option',
     defaultChecked: true,
     name: 'radio-checked',
-    size: 'Medium',
+    size: 'medium',
     value: 'selected',
   },
 };
@@ -55,13 +55,13 @@ export const AllVariants: Story = {
         >
           Group
         </span>
-        <Radio name="radio-group" value="a" size="Medium">
+        <Radio name="radio-group" value="a" size="medium">
           Option A
         </Radio>
-        <Radio name="radio-group" value="b" defaultChecked size="Medium">
+        <Radio name="radio-group" value="b" defaultChecked size="medium">
           Option B
         </Radio>
-        <Radio name="radio-group" value="c" size="Medium">
+        <Radio name="radio-group" value="c" size="medium">
           Option C
         </Radio>
       </div>
@@ -87,7 +87,7 @@ export const AllVariants: Story = {
             key={size}
             name="radio-sizes"
             value={size.toLowerCase()}
-            defaultChecked={size === 'Medium'}
+            defaultChecked={size === 'medium'}
             size={size}
           >
             {size}

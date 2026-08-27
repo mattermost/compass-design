@@ -11,8 +11,8 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   /** Optional secondary label. */
   secondaryLabel?: ReactNode;
-  /** Where the secondary label appears. Default: 'Below'. */
-  secondaryLabelPosition?: 'Inline' | 'Below';
+  /** Where the secondary label appears. Default: 'below'. */
+  secondaryLabelPosition?: 'inline' | 'below';
   /** Custom content for the leading slot. When omitted, shows placeholder icon. */
   leadingVisual?: ReactNode;
   /** Show the leading visual slot. Default: true. */
@@ -34,14 +34,13 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 /**
- * Menu item matching Figma/Compass Menu Item v2.0.0.
- *
- * @see https://compass.mattermost.com/29be2c109/p/1092d5-menu-item
+ * Menu Items are the rows inside a Menu — the smallest selectable unit in any dropdown,
+ * kebab, or context menu. One label, optional supporting visuals, and a clear hit target.
  */
 export default function MenuItem({
   label,
   secondaryLabel,
-  secondaryLabelPosition = 'Below',
+  secondaryLabelPosition = 'below',
   leadingVisual,
   leadingElement = true,
   trailingVisual,
@@ -80,7 +79,7 @@ export default function MenuItem({
         <div className={styles['menu-item__middle']}>
           <div className={styles['menu-item__top-row']}>
             <span className={styles['menu-item__label']}>{label}</span>
-            {secondaryLabel && secondaryLabelPosition === 'Inline' && (
+            {secondaryLabel && secondaryLabelPosition === 'inline' && (
               <span className={styles['menu-item__secondary-label-inline']}>
                 {secondaryLabel}
               </span>
@@ -94,12 +93,12 @@ export default function MenuItem({
             {mentionCount != null && mentionCount > 0 && (
               <MentionBadge
                 count={mentionCount}
-                location="Menu Item"
-                size="Small"
+                location="menu-item"
+                size="small"
               />
             )}
           </div>
-          {secondaryLabel && secondaryLabelPosition === 'Below' && (
+          {secondaryLabel && secondaryLabelPosition === 'below' && (
             <div className={styles['menu-item__bottom-row']}>
               <span className={styles['menu-item__secondary-label-below']}>
                 {secondaryLabel}

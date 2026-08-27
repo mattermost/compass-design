@@ -28,7 +28,7 @@ function HeaderChrome({ children }: { children: ReactNode }) {
 
 export default function AdminPanelHeaderLibrary() {
   const [expanded, setExpanded] =
-    useState<AdminPanelExpandedState>('Expanded');
+    useState<AdminPanelExpandedState>('expanded');
 
   const idFull = useId();
   const idCollapsed = useId();
@@ -88,16 +88,16 @@ export default function AdminPanelHeaderLibrary() {
             iconLeft
             leadingIcon={<Icon size="20" glyph={<GlobeIcon />} />}
             expandable
-            isExpanded={expanded === 'Expanded'}
+            isExpanded={expanded === 'expanded'}
             onToggleExpand={() =>
-              setExpanded((s: AdminPanelExpandedState) => (s === 'Expanded' ? 'Collapsed' : 'Expanded'))
+              setExpanded((s: AdminPanelExpandedState) => (s === 'expanded' ? 'collapsed' : 'expanded'))
             }
-            showDivider={expanded === 'Expanded'}
+            showDivider={expanded === 'expanded'}
             headerActions={
               <IconButton
                 type="button"
-                style="Default"
-                size="Medium"
+                style="default"
+                size="medium"
                 aria-label="Help"
                 icon={<Icon size="20" glyph={<InformationOutlineIcon />} />}
               />

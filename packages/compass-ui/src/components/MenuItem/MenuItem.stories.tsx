@@ -75,7 +75,7 @@ export const SecondaryLabelInline: Story = {
   args: {
     label: 'Menu Item',
     secondaryLabel: 'Inline text',
-    secondaryLabelPosition: 'Inline',
+    secondaryLabelPosition: 'inline',
   },
 };
 
@@ -127,7 +127,7 @@ export const AllVariants: Story = {
           <MenuItem
             label="Menu Item"
             secondaryLabel="Inline text"
-            secondaryLabelPosition="Inline"
+            secondaryLabelPosition="inline"
           />
         </div>
       </section>

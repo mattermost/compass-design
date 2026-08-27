@@ -48,7 +48,7 @@ export default function MobileMessage({
   username,
   timestamp,
   isBot = false,
-  botLabel = 'Bot',
+  botLabel = 'bot',
   showPinnedSavedIndicators = false,
   channelName,
   teamName,

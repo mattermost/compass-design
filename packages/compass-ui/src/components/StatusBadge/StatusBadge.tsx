@@ -8,18 +8,18 @@ import styles from './StatusBadge.module.scss';
 
 /** Figma Status Badge size. */
 export type StatusBadgeSize =
-  | 'XX-Small'
-  | 'X-Small'
-  | 'Small'
-  | 'Medium'
-  | 'Large';
+  | 'xx-small'
+  | 'x-small'
+  | 'small'
+  | 'medium'
+  | 'large';
 
 /** Figma Status Badge status variant. */
 export type StatusBadgeStatus =
-  | 'Online'
-  | 'Away'
-  | 'Do Not Disturb'
-  | 'Offline';
+  | 'online'
+  | 'away'
+  | 'do-not-disturb'
+  | 'offline';
 
 export interface StatusBadgeProps {
   /** Optional CSS class name. */
@@ -32,31 +32,29 @@ export interface StatusBadgeProps {
 
 /** Compass icon size in px per StatusBadge size — Figma. */
 const BADGE_ICON_SIZE_PX: Record<StatusBadgeSize, number> = {
-  'XX-Small': 10,
-  'X-Small': 12,
-  Small: 16,
-  Medium: 20,
-  Large: 32,
+  'xx-small': 10,
+  'x-small': 12,
+  small: 16,
+  medium: 20,
+  large: 32,
 };
 
 /** Compass icon component per status variant. */
 const GLYPH_COMPONENT: Record<StatusBadgeStatus, ElementType> = {
-  Online: CheckCircleIcon,
-  Away: ClockIcon,
-  'Do Not Disturb': MinusCircleIcon,
-  Offline: CircleOutlineIcon,
+  online: CheckCircleIcon,
+  away: ClockIcon,
+  'do-not-disturb': MinusCircleIcon,
+  offline: CircleOutlineIcon,
 };
 
 /**
- * Status badge (Online, Away, Do Not Disturb, Offline).
- * Matches Figma Status Badge v2.0.1. Uses Icon + @mattermost/compass-icons.
- *
- * @see Figma Status Badge (Node ID: 702:1875)
+ * A Status Badge tells you whether someone is reachable. It pairs with an avatar or username
+ * so a glance is enough to know if a teammate is online, focused, away, or signed out.
  */
 export default function StatusBadge({
   className = '',
-  size = 'X-Small',
-  status = 'Online',
+  size = 'x-small',
+  status = 'online',
 }: StatusBadgeProps) {
   const sizeClass = styles[`status-badge--size-${toKebab(size)}`];
   const statusClass = styles[`status-badge--status-${toKebab(status)}`];

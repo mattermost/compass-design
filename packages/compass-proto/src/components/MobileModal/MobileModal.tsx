@@ -37,7 +37,7 @@ export interface MobileModalProps {
  * @see https://www.figma.com/design/pdKKsvCKoy2HxsbASFPAg8/MM-45221-Settings-UI-Improvements?node-id=2-29072
  */
 export default function MobileModal({
-  variant = 'Parent',
+  variant = 'parent',
   title,
   subtitle,
   avatarSrc,

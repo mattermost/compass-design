@@ -30,7 +30,7 @@ export const WithIllustration: Story = {
       'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions, and more.',
     primaryAction: { children: 'Contact sales', onClick: fn() },
     secondaryAction: {
-      emphasis: 'Tertiary',
+      emphasis: 'tertiary',
       children: 'Learn more',
       onClick: fn(),
     },
@@ -51,7 +51,7 @@ export const TextOnly: Story = {
       'Get deeper insights into your workspace with advanced analytics and custom dashboards available on the Professional plan.',
     primaryAction: { children: 'Upgrade now', onClick: fn() },
     secondaryAction: {
-      emphasis: 'Tertiary',
+      emphasis: 'tertiary',
       children: 'Learn more',
       onClick: fn(),
     },
@@ -77,7 +77,7 @@ export const AllVariants: Story = {
         description="Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions, and more."
         primaryAction={{ children: 'Contact sales', onClick: fn() }}
         secondaryAction={{
-          emphasis: 'Tertiary',
+          emphasis: 'tertiary',
           children: 'Learn more',
           onClick: fn(),
         }}
@@ -94,7 +94,7 @@ export const AllVariants: Story = {
         description="Get deeper insights into your workspace with advanced analytics and custom dashboards available on the Professional plan."
         primaryAction={{ children: 'Upgrade now', onClick: fn() }}
         secondaryAction={{
-          emphasis: 'Tertiary',
+          emphasis: 'tertiary',
           children: 'Learn more',
           onClick: fn(),
         }}

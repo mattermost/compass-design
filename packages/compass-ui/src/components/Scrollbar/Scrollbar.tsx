@@ -32,13 +32,10 @@ export interface ScrollbarProps {
 }
 
 /**
- * Scrollbar — wraps content in a SimpleBar overlay scroller.
- *
- * The forwarded ref points at the inner scrollable `<div>`, so consumers can
- * call `.scrollTo(...)` or read `.scrollTop` for things like "scroll to item"
- * or "more unreads above/below" indicators.
- *
- * @see https://compass.mattermost.com/29be2c109/p/88cb9c-scrollbars
+ * Scrollbars let people move through content that exceeds the viewport while showing where
+ * they are in the larger whole. Compass uses a single, minimal treatment — a transparent
+ * track with a thin, translucent thumb — so the scrollbar reads as a position indicator
+ * first and a control second.
  */
 const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
   { children, color, alwaysVisible = false, className, style, onScroll },

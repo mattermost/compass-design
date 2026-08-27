@@ -86,15 +86,15 @@ export default function PopoverMenuMotion({
             </PopoverMenu>
           </div>
         ) : (
-          <Button size="Small" emphasis="Secondary">
+          <Button size="small" emphasis="secondary">
             Trigger
           </Button>
         )}
         {childMenu}
       </div>
       <Button
-        size="Small"
-        emphasis="Tertiary"
+        size="small"
+        emphasis="tertiary"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >

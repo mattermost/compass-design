@@ -11,7 +11,7 @@ export function ButtonAnatomy() {
     <div className={[styles['anatomy'], 'compass-doc-embed'].join(' ')}>
       <div className={styles['anatomy__chart']}>
         <Button
-          size="Large"
+          size="large"
           leadingIcon={<Icon glyph={<GlobeIcon />} size="20" />}
           trailingIcon={<Icon glyph={<ChevronDownIcon />} size="20" />}
         >
@@ -41,10 +41,10 @@ export function ButtonAnatomy() {
 export function ButtonSizes() {
   return (
     <div className={styles['row']}>
-      <Button size="X-Small">X-Small</Button>
-      <Button size="Small">Small</Button>
-      <Button size="Medium">Medium</Button>
-      <Button size="Large">Large</Button>
+      <Button size="x-small">X-Small</Button>
+      <Button size="small">Small</Button>
+      <Button size="medium">Medium</Button>
+      <Button size="large">Large</Button>
     </div>
   );
 }
@@ -52,10 +52,10 @@ export function ButtonSizes() {
 export function ButtonEmphasis() {
   return (
     <div className={styles['row']}>
-      <Button emphasis="Primary">Primary</Button>
-      <Button emphasis="Secondary">Secondary</Button>
-      <Button emphasis="Tertiary">Tertiary</Button>
-      <Button emphasis="Quaternary">Quaternary</Button>
+      <Button emphasis="primary">Primary</Button>
+      <Button emphasis="secondary">Secondary</Button>
+      <Button emphasis="tertiary">Tertiary</Button>
+      <Button emphasis="quaternary">Quaternary</Button>
     </div>
   );
 }
@@ -72,14 +72,14 @@ export function ButtonStates() {
 export function ButtonInverted() {
   return (
     <div className={`${styles['row']} ${styles['row--inverted']}`}>
-      <Button appearance="Inverted">Primary</Button>
-      <Button appearance="Inverted" emphasis="Secondary">
+      <Button appearance="inverted">Primary</Button>
+      <Button appearance="inverted" emphasis="secondary">
         Secondary
       </Button>
-      <Button appearance="Inverted" emphasis="Tertiary">
+      <Button appearance="inverted" emphasis="tertiary">
         Tertiary
       </Button>
-      <Button appearance="Inverted" emphasis="Quaternary">
+      <Button appearance="inverted" emphasis="quaternary">
         Quaternary
       </Button>
     </div>
@@ -92,10 +92,10 @@ export function ButtonDestructive() {
       <Button destructive leadingIcon={<Icon glyph={<TrashCanOutlineIcon />} size="16" />}>
         Delete channel
       </Button>
-      <Button destructive emphasis="Secondary">
+      <Button destructive emphasis="secondary">
         Delete
       </Button>
-      <Button destructive emphasis="Tertiary">
+      <Button destructive emphasis="tertiary">
         Delete
       </Button>
     </div>
@@ -109,7 +109,7 @@ export function ButtonWidths() {
         <span className={styles['widths__caption']}>Dynamic (default)</span>
         <div className={styles['widths__stage']}>
           <Button>Save</Button>
-          <Button emphasis="Tertiary">Save changes</Button>
+          <Button emphasis="tertiary">Save changes</Button>
         </div>
       </div>
       <div className={styles['widths__row']}>
@@ -130,7 +130,7 @@ export function ButtonWidths() {
           <Button className={styles['widths__full']}>Sign in</Button>
           <Button
             className={styles['widths__full']}
-            emphasis="Tertiary"
+            emphasis="tertiary"
           >
             Use a different account
           </Button>
@@ -151,7 +151,7 @@ export function ButtonPositioning() {
             footerDivider={false}
             footer={
               <>
-                <Button emphasis="Tertiary">Cancel</Button>
+                <Button emphasis="tertiary">Cancel</Button>
                 <Button destructive>Delete channel</Button>
               </>
             }
@@ -171,7 +171,7 @@ export function ButtonPositioning() {
           <div className={styles['surface__title']}>Channel settings</div>
           <div className={styles['surface__body']}>Left-aligned page content.</div>
           <div className={`${styles['surface__actions']} ${styles['surface__actions--start']}`}>
-            <Button emphasis="Tertiary">Cancel</Button>
+            <Button emphasis="tertiary">Cancel</Button>
             <Button>Save</Button>
           </div>
         </div>

@@ -100,7 +100,7 @@ function App() {
   const items = Array.from({ length: 20 }, (_, i) => \`Row \${i + 1}\`);
   return (
     <div style={{ padding: 24, fontFamily: 'system-ui' }}>
-      <Button emphasis="Primary">Compass UI</Button>
+      <Button emphasis="primary">Compass UI</Button>
       <Button leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}>With icon</Button>
       <div style={{ width: 240, height: 120, marginTop: 16, border: '1px solid #ccc' }}>
         <Scrollbar>
@@ -143,14 +143,23 @@ for (const file of requiredDistFiles) {
 }
 
 const packDir = mkdtempSync(path.join(tmpdir(), 'compass-ui-pack-'));
-const tarballName = 'mattermost-compass-ui-0.1.0-alpha.0.tgz';
-const tarballPath = path.join(packDir, tarballName);
 
 console.log('[smoke] Packing tarball…');
-execSync(`npm pack --workspace=@mattermost/compass-ui --pack-destination "${packDir}"`, {
-  cwd: root,
-  stdio: 'inherit',
-});
+const packOutput = execSync(
+  `npm pack --workspace=@mattermost/compass-ui --pack-destination "${packDir}"`,
+  { cwd: root, encoding: 'utf8', stdio: ['inherit', 'pipe', 'inherit'] },
+);
+const tarballName = packOutput
+  .trim()
+  .split(/\r?\n/)
+  .filter(Boolean)
+  .at(-1);
+if (!tarballName?.endsWith('.tgz')) {
+  throw new Error(
+    `npm pack did not print a tarball name; got: ${JSON.stringify(packOutput)}`,
+  );
+}
+const tarballPath = path.join(packDir, tarballName);
 
 assertTarballContents(tarballPath);
 console.log('[smoke] Tarball contents OK');

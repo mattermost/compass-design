@@ -5,10 +5,10 @@ import SectionNotice from './SectionNotice';
 import type { SectionNoticeType } from './SectionNotice';
 
 const TYPES: SectionNoticeType[] = [
-  'Info',
-  'Success',
-  'Warning',
-  'Danger',
+  'info',
+  'success',
+  'warning',
+  'danger',
 ];
 
 const meta = {
@@ -43,7 +43,7 @@ export const Default: Story = {
 export const Info: Story = {
   args: {
     title: 'Keyboard shortcut updated',
-    type: 'Info',
+    type: 'info',
     description: (
       <>
         The quick switcher is now opened with{' '}
@@ -57,7 +57,7 @@ export const Info: Story = {
 export const Success: Story = {
   args: {
     title: 'Changes saved',
-    type: 'Success',
+    type: 'success',
     description: 'Your notification preferences have been updated.',
     primaryButtonLabel: 'Got it',
     onPrimaryAction: fn(),
@@ -68,7 +68,7 @@ export const Success: Story = {
 export const Warning: Story = {
   args: {
     title: 'Session expiring soon',
-    type: 'Warning',
+    type: 'warning',
     description: 'You will be signed out in 5 minutes due to inactivity.',
     primaryButtonLabel: 'Stay signed in',
     onPrimaryAction: fn(),
@@ -81,7 +81,7 @@ export const Warning: Story = {
 export const Danger: Story = {
   args: {
     title: 'Permission required',
-    type: 'Danger',
+    type: 'danger',
     description: "You don't have access to post in this channel.",
     primaryButtonLabel: 'Review permissions',
     onPrimaryAction: fn(),

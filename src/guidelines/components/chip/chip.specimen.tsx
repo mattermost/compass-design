@@ -9,33 +9,33 @@ export default function ChipLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <Chip size="Small" onRemove={() => {}}>
+          <Chip size="small" onRemove={() => {}}>
             Label
           </Chip>
-          <Chip size="Medium" onRemove={() => {}}>
+          <Chip size="medium" onRemove={() => {}}>
             Label
           </Chip>
-          <Chip size="Medium Compact" onRemove={() => {}}>
+          <Chip size="medium-compact" onRemove={() => {}}>
             Label
           </Chip>
-          <Chip size="Large" onRemove={() => {}}>
+          <Chip size="large" onRemove={() => {}}>
             Label
           </Chip>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Leading</span>
-          <Chip size="Medium" onRemove={() => {}}>
+          <Chip size="medium" onRemove={() => {}}>
             No leading
           </Chip>
           <Chip
-            size="Medium"
+            size="medium"
             leadingIcon={<EmoticonHappyOutlineIcon size={12} />}
             onRemove={() => {}}
           >
             With icon
           </Chip>
           <Chip
-            size="Medium"
+            size="medium"
             leadingAvatar={{ src: avatarLeonard, alt: 'Leonard Riley' }}
             onRemove={() => {}}
           >
@@ -44,13 +44,13 @@ export default function ChipLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>
-          <Chip size="Medium" onRemove={() => {}}>
+          <Chip size="medium" onRemove={() => {}}>
             Default
           </Chip>
-          <Chip size="Medium" error onRemove={() => {}}>
+          <Chip size="medium" error onRemove={() => {}}>
             Error
           </Chip>
-          <Chip size="Medium" colored onRemove={() => {}}>
+          <Chip size="medium" colored onRemove={() => {}}>
             Colored
           </Chip>
         </div>
@@ -58,9 +58,9 @@ export default function ChipLibrary() {
           <span className={styles['components__instance-label']}>
             No remove
           </span>
-          <Chip size="Small">Small</Chip>
-          <Chip size="Medium">Medium</Chip>
-          <Chip size="Large">Large</Chip>
+          <Chip size="small">Small</Chip>
+          <Chip size="medium">Medium</Chip>
+          <Chip size="large">Large</Chip>
         </div>
       </div>
     </>

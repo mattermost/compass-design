@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ShortcutTagGroup } from '@/components/ShortcutTag/ShortcutTag';
 import styles from './Tooltip.module.scss';
 
-export type TooltipArrow = 'Top' | 'Right' | 'Bottom' | 'Left';
+export type TooltipArrow = 'top' | 'right' | 'bottom' | 'left';
 
 export interface TooltipShortcutKey {
   label: string;
@@ -24,12 +24,13 @@ export interface TooltipProps {
 }
 
 /**
- * Tooltip component matching Figma design.
- * Dark overlay for hover context with optional arrow, hint, and keyboard shortcuts.
+ * Tooltips surface short, supporting text on hover. Reach for a tooltip when the affordance
+ * behind it isn't fully self-explanatory — an Icon Button, a truncated label, a keyboard
+ * shortcut. Don't reach for one when the label is already on screen.
  */
 export default function Tooltip({
   label,
-  arrow = 'Right',
+  arrow = 'right',
   hint,
   shortcutKeys,
   icon,
@@ -57,8 +58,8 @@ export default function Tooltip({
           <div className={styles['tooltip__shortcuts']}>
             <ShortcutTagGroup
               labels={shortcutKeys.map((key) => key.label)}
-              location="Tooltips"
-              size="Small"
+              location="tooltips"
+              size="small"
             />
           </div>
         )}

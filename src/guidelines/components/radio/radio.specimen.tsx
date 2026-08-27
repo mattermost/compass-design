@@ -14,31 +14,31 @@ export default function RadioLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Group</span>
-          <Radio name="demo-size" value="a" size="Medium">
+          <Radio name="demo-size" value="a" size="medium">
             Option A
           </Radio>
-          <Radio name="demo-size" value="b" defaultChecked size="Medium">
+          <Radio name="demo-size" value="b" defaultChecked size="medium">
             Option B
           </Radio>
-          <Radio name="demo-size" value="c" size="Medium">
+          <Radio name="demo-size" value="c" size="medium">
             Option C
           </Radio>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
-          <Radio name="demo-sizes" value="s" size="Small">
+          <Radio name="demo-sizes" value="s" size="small">
             Small
           </Radio>
-          <Radio name="demo-sizes" value="m" defaultChecked size="Medium">
+          <Radio name="demo-sizes" value="m" defaultChecked size="medium">
             Medium
           </Radio>
-          <Radio name="demo-sizes" value="l" size="Large">
+          <Radio name="demo-sizes" value="l" size="large">
             Large
           </Radio>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Invalid</span>
-          <Radio name="demo-invalid" value="u" valid={false} size="Medium">
+          <Radio name="demo-invalid" value="u" valid={false} size="medium">
             Unchecked invalid
           </Radio>
           <Radio
@@ -46,14 +46,14 @@ export default function RadioLibrary() {
             value="c"
             defaultChecked
             valid={false}
-            size="Medium"
+            size="medium"
           >
             Checked invalid
           </Radio>
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Disabled</span>
-          <Radio name="demo-disabled" value="u" disabled size="Medium">
+          <Radio name="demo-disabled" value="u" disabled size="medium">
             Disabled unchecked
           </Radio>
           <Radio
@@ -61,7 +61,7 @@ export default function RadioLibrary() {
             value="c"
             defaultChecked
             disabled
-            size="Medium"
+            size="medium"
           >
             Disabled checked
           </Radio>

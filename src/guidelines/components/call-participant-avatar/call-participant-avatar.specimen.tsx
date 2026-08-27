@@ -16,25 +16,25 @@ export default function CallParticipantAvatarLibrary() {
           <CallParticipantAvatar
             src={avatarLeonard}
             alt="Leonard Riley"
-            size="X-Small"
+            size="x-small"
             name="Leonard R."
           />
           <CallParticipantAvatar
             src={avatarDanielle}
             alt="Danielle Okoro"
-            size="Small"
+            size="small"
             name="Danielle O."
           />
           <CallParticipantAvatar
             src={avatarMarco}
             alt="Marco Rinaldi"
-            size="Medium"
+            size="medium"
             name="Marco R."
           />
           <CallParticipantAvatar
             src={avatarEmma}
             alt="Emma Novak"
-            size="Large"
+            size="large"
             name="Emma N."
           />
         </div>
@@ -43,14 +43,14 @@ export default function CallParticipantAvatarLibrary() {
           <CallParticipantAvatar
             src={avatarLeonard}
             alt="Leonard Riley"
-            size="Small"
+            size="small"
             muteState="muted"
             name="Muted"
           />
           <CallParticipantAvatar
             src={avatarDanielle}
             alt="Danielle Okoro"
-            size="Small"
+            size="small"
             muteState="unmuted"
             name="Unmuted"
             talking
@@ -58,14 +58,14 @@ export default function CallParticipantAvatarLibrary() {
           <CallParticipantAvatar
             src={avatarMarco}
             alt="Marco Rinaldi"
-            size="Small"
+            size="small"
             host
             name="Host"
           />
           <CallParticipantAvatar
             src={avatarEmma}
             alt="Emma Novak"
-            size="Small"
+            size="small"
             reaction="🎉"
             name="Reaction"
           />

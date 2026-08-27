@@ -25,7 +25,7 @@ export default function ChannelInfoLayout() {
       channelsSidebarModel={defaultChannelsSidebarDemoModel}
       channelHeader={
         <ChannelHeader
-          type="Channel"
+          type="channel"
           name="Town Square"
           description="Company-wide announcements and general discussion."
           memberCount={124}
@@ -54,7 +54,7 @@ export default function ChannelInfoLayout() {
         <div className={shellStyles['channel-shell__messages']}>
           <Scrollbar>
             <div className={shellStyles['channel-shell__messages-list']}>
-              <MessageSeparator type="Date" label="Today" />
+              <MessageSeparator type="date" label="Today" />
 
               <Message
                 avatarSrc={avatarSofia}
@@ -124,7 +124,7 @@ export default function ChannelInfoLayout() {
                 </p>
               </Message>
 
-              <MessageSeparator type="New Messages" />
+              <MessageSeparator type="new-messages" />
 
               <Message
                 avatarSrc={avatarLeonard}

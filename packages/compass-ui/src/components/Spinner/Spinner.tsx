@@ -12,6 +12,10 @@ export interface SpinnerProps extends Omit<
   'aria-label'?: string;
 }
 
+/**
+ * A Spinner is the all-purpose indicator that something is happening but the duration is
+ * unknown. It signals "wait" without claiming to know how long the wait will be.
+ */
 export default function Spinner({
   size = 16,
   inverted = false,

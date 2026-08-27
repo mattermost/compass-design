@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     user: {
       control: 'select',
-      options: ['Others', 'You'] satisfies ProfilePopoverUser[],
+      options: ['others', 'you'] satisfies ProfilePopoverUser[],
     },
   },
 } satisfies Meta<typeof ProfilePopover>;
@@ -27,7 +27,7 @@ const sharedLocalTime = {
 
 export const OthersFull: Story = {
   args: {
-    user: 'Others',
+    user: 'others',
     avatarSrc: avatarLeonard,
     avatarAlt: 'Leonard Riley',
     name: 'Leonard Riley',
@@ -48,7 +48,7 @@ export const OthersFull: Story = {
 
 export const OthersWithExtras: Story = {
   args: {
-    user: 'Others',
+    user: 'others',
     avatarSrc: avatarLeonard,
     avatarAlt: 'Leonard Riley',
     name: 'Leonard Riley',
@@ -77,7 +77,7 @@ export const OthersWithExtras: Story = {
 
 export const You: Story = {
   args: {
-    user: 'You',
+    user: 'you',
     avatarSrc: avatarLeonard,
     avatarAlt: 'Leonard Riley',
     name: 'Leonard Riley',
@@ -105,7 +105,7 @@ export const AllVariants: Story = {
       }}
     >
       <ProfilePopover
-        user="Others"
+        user="others"
         avatarSrc={avatarLeonard}
         avatarAlt="Leonard Riley"
         name="Leonard Riley"
@@ -123,7 +123,7 @@ export const AllVariants: Story = {
         onCall={fn()}
       />
       <ProfilePopover
-        user="Others"
+        user="others"
         avatarSrc={avatarLeonard}
         avatarAlt="Leonard Riley"
         name="Leonard Riley"
@@ -149,7 +149,7 @@ export const AllVariants: Story = {
         onCall={fn()}
       />
       <ProfilePopover
-        user="You"
+        user="you"
         avatarSrc={avatarLeonard}
         avatarAlt="Leonard Riley"
         name="Leonard Riley"

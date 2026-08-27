@@ -148,7 +148,7 @@ export function ShapeExamples({ kind }: ShapeExamplesProps) {
       {kind === 'rounded' && (
         <>
           <ShapeExample label="Button">
-            <Button emphasis="Primary">Sign in</Button>
+            <Button emphasis="primary">Sign in</Button>
           </ShapeExample>
           <ShapeExample label="Popover Menu">
             <div className={styles['popover-demo']}>
@@ -165,9 +165,9 @@ export function ShapeExamples({ kind }: ShapeExamplesProps) {
       {kind === 'pill' && (
         <ShapeExample label="Mention Badge" inverted>
           <div className={styles['pill-demo-stage']}>
-            <MentionBadge count={3} size="Medium" />
-            <MentionBadge count={42} size="Medium" />
-            <MentionBadge count={120} size="Medium" />
+            <MentionBadge count={3} size="medium" />
+            <MentionBadge count={42} size="medium" />
+            <MentionBadge count={120} size="medium" />
           </div>
         </ShapeExample>
       )}
@@ -178,7 +178,7 @@ export function ShapeExamples({ kind }: ShapeExamplesProps) {
           </ShapeExample>
           <ShapeExample label="Status Badge">
             <div className={styles['circle-demo-stage']}>
-              <StatusBadge status="Online" size="Large" />
+              <StatusBadge status="online" size="large" />
             </div>
           </ShapeExample>
           <ShapeExample label="Unread Badge" inverted>
