@@ -19,15 +19,15 @@ import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
 ```
 
-Standalone hosts (Storybook, playground) also need document chrome:
+Standalone hosts (Storybook, playground) also need theme presets and document chrome:
 
 ```tsx
 import '@mattermost/compass-ui/styles/standalone';
 ```
 
-Do not load `/styles/standalone` into Mattermost webapp.
+Do not load `/styles/standalone` into Mattermost webapp (it already owns themes, reset, and document styles).
 
-Set a theme on `<html>`:
+Set a theme on `<html>` (standalone hosts):
 
 ```html
 <html data-theme="denim">
@@ -51,8 +51,8 @@ npm run storybook     # component catalog on :6006
 ## Package layout
 
 - `dist/index.js` / `dist/index.cjs` — component bundle (ESM + CJS)
-- `dist/compass-ui.css` — tokens, themes, and webapp-compat defaults (`./styles`)
-- `dist/compass-ui-standalone.css` — CSS reset + `body` / heading chrome for standalone hosts (`./styles/standalone`)
+- `dist/compass-ui.css` — tokens and webapp-compat defaults (`./styles`)
+- `dist/compass-ui-standalone.css` — theme presets + CSS reset + `body` / heading chrome for standalone hosts (`./styles/standalone`)
 - `dist/index.css` — component CSS modules (injected at build; also available as `./component-styles`)
 
 ## Storybook
@@ -76,7 +76,7 @@ npm run storybook --workspace=@mattermost/compass-ui
 
 ## Integration and releases
 
-- [INTEGRATION.md](./INTEGRATION.md) — Vite + webapp consumer setup
+- [INTEGRATION.md](./INTEGRATION.md) — Vite + webapp consumer setup, **release → CI publish** flow
 - [CHANGELOG.md](./CHANGELOG.md) — release history
 
 Validate a publishable tarball from the monorepo root:

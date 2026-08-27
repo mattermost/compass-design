@@ -1,5 +1,6 @@
 // Host-only chrome for Storybook, playground, and other standalone apps.
-// Do not load into Mattermost webapp — it already owns reset and document styles.
+// Do not load into Mattermost webapp — it already owns themes, reset, and document styles.
+@use 'themes';
 @use 'reset';
 
 body {

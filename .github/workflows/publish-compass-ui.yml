@@ -1,0 +1,87 @@
+name: Publish compass-ui
+
+# Ship @mattermost/compass-ui when a GitHub Release is published (compass-icons pattern).
+# Version bump + CHANGELOG land on main first; the Release/tag is the intentional publish signal.
+on:
+  release:
+    types: [published]
+
+permissions:
+  id-token: write # npm OIDC trusted publishing
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing requires npm >= 11.5.1
+      - name: Install npm with trusted publishing support
+        run: |
+          npm install -g npm@^11.5.1
+          npm --version
+
+      - run: npm ci
+
+      - name: Resolve version and dist-tag
+        id: meta
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version=$(node -p "require('./packages/compass-ui/package.json').version")
+          tag_name="$RELEASE_TAG"
+          # Tags are plain semver (e.g. 0.1.0-alpha.2); strip optional leading v
+          release_version="${tag_name#v}"
+
+          if [ "$version" != "$release_version" ]; then
+            echo "::error::Release tag ($tag_name) does not match packages/compass-ui version ($version)"
+            exit 1
+          fi
+
+          if [[ "$version" == *"-alpha"* ]]; then
+            dist_tag=alpha
+          elif [[ "$version" == *"-beta"* ]]; then
+            dist_tag=beta
+          else
+            dist_tag=latest
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
+          echo "Publishing @mattermost/compass-ui@$version with --tag $dist_tag"
+
+      - name: Typecheck compass-ui
+        run: npm run typecheck --workspace=@mattermost/compass-ui
+
+      - name: Build compass-ui
+        run: npm run build --workspace=@mattermost/compass-ui
+
+      - name: Skip if version already on npm
+        id: check
+        run: |
+          version="${{ steps.meta.outputs.version }}"
+          on_reg=$(npm view "@mattermost/compass-ui@$version" version 2>/dev/null || true)
+          if [ "$on_reg" = "$version" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Version $version is already on npm — skipping publish"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish to npm
+        if: steps.check.outputs.exists != 'true'
+        run: >
+          npm publish
+          --access public
+          --tag ${{ steps.meta.outputs.dist_tag }}
+          --workspace=@mattermost/compass-ui
+          --provenance

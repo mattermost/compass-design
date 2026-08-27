@@ -64,25 +64,27 @@ import '@mattermost/compass-ui/component-styles';
 
 | Export | Contents |
 |--------|----------|
-| `@mattermost/compass-ui/styles` | CSS variables (tokens), themes, webapp-compat defaults |
-| `@mattermost/compass-ui/styles/standalone` | CSS reset + document `body` / heading chrome for Storybook and other **standalone** hosts only |
+| `@mattermost/compass-ui/styles` | CSS variables (tokens) + webapp-compat defaults |
+| `@mattermost/compass-ui/styles/standalone` | Theme presets (`data-theme`), CSS reset, and document `body` / heading chrome for Storybook and other **standalone** hosts only |
 | `@mattermost/compass-ui/component-styles` | Component CSS modules, SimpleBar base CSS |
 
 Components assume CSS variables are present — they do not import tokens directly.
 
-**Mattermost webapp:** import `/styles` and `/component-styles` only. Do **not** import `/styles/standalone` — webapp already owns reset and document styles.
+**Mattermost webapp:** import `/styles` and `/component-styles` only. Do **not** import `/styles/standalone` — webapp already owns themes, reset, and document styles.
 
 **Standalone hosts** (playground, Storybook, local demos): also import `/styles/standalone` after `/styles`.
 
 ### 2. Set a theme
 
+Standalone hosts (with `/styles/standalone`):
+
 ```html
 <html data-theme="denim">
 ```
 
-Supported themes: `denim`, `sapphire`, `quartz`, `indigo`, `onyx`.
+Supported presets: `denim`, `sapphire`, `quartz`, `indigo`, `onyx`. Toggle via `document.documentElement.setAttribute('data-theme', theme)` or your theme context.
 
-In React apps, toggle via `document.documentElement.setAttribute('data-theme', theme)` or your existing theme context.
+**Mattermost webapp** applies its own theme CSS variables — do not rely on Compass theme presets. Published components fall back to palette tokens (e.g. `var(--calls-bg, var(--color-indigo-600))`) when a host role is missing.
 
 ### 3. Load fonts (recommended)
 
@@ -188,7 +190,7 @@ npm run dev-server
 ```tsx
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
-// Do not import @mattermost/compass-ui/styles/standalone in webapp
+// Do not import /styles/standalone — webapp owns themes, reset, and document styles
 ```
 
 Use components as usual:
@@ -208,7 +210,7 @@ import { Select, Icon, Button } from '@mattermost/compass-ui';
 />
 ```
 
-Webapp already applies theme CSS variables; Compass tokens reuse the same names. If colors look flat/gray outside the webapp shell, set `data-theme="denim"` on `<html>`.
+Webapp already applies theme CSS variables; Compass components reuse the same role names (`--center-channel-bg`, `--button-bg`, etc.). Do not import `/styles/standalone` to supply Compass theme presets.
 
 #### Duplicate React (required for `file:` links)
 
@@ -272,7 +274,7 @@ Remove the smoke component before any mergeable PR.
 After `@mattermost` npm org publish, use the `alpha` tag until stable:
 
 ```json
-"@mattermost/compass-ui": "0.1.0-alpha.1"
+"@mattermost/compass-ui": "0.1.0-alpha.2"
 ```
 
 ```bash
@@ -285,7 +287,7 @@ npm install @mattermost/compass-ui@alpha
 import { Button } from '@mattermost/compass-ui';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
-// Do not import /styles/standalone — webapp owns reset and document styles
+// Do not import /styles/standalone — webapp owns themes, reset, and document styles
 ```
 
 Load `/styles` once at the app bootstrap (same entry that loads global webapp SCSS).
@@ -311,13 +313,13 @@ Load `/styles` once at the app bootstrap (same entry that loads global webapp SC
 
 ### Theme alignment
 
-Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`).
+Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`). Compass theme presets (including `--calls-bg`) ship only in `/styles/standalone` for Storybook/playground — not in the webapp `/styles` entry.
 
 Compass uses the **same semantic names** as webapp:
 
 - **`webapp-compat.scss` `@layer`**: standalone defaults for `--semantic-color-*` (mapped to Compass palette RGB) and `--neutral-*`. Host unlayered values always win when embedded.
 - **`tokens.scss`**: `--color-info|success|warning|danger` wrap `rgb(var(--semantic-color-*))` for authoring.
-- **Components**: error / destructive UI uses `var(--error-text, var(--color-danger))`. Presence uses `--online-indicator` / `--away-indicator` / `--dnd-indicator`. Toasts / global banners use `--color-*` (fixed semantics).
+- **Components**: error / destructive UI uses `var(--error-text, var(--color-danger))`. Presence uses `--online-indicator` / `--away-indicator` / `--dnd-indicator`. Calls surfaces use `var(--calls-bg, var(--color-indigo-600))` until the host defines `--calls-bg`. Toasts / global banners use `--color-*` (fixed semantics).
 
 Confirm host vars match Compass theme role names before wide rollout. Spike with `Button` destructive / `SectionNotice` danger / `Toast` first.
 
@@ -367,8 +369,8 @@ dist/index.js          # ESM bundle
 dist/index.cjs         # CJS bundle
 dist/index.d.ts        # Type declarations
 dist/index.css         # component-styles
-dist/compass-ui.css    # styles (tokens/themes/webapp-compat)
-dist/compass-ui-standalone.css  # reset + body/heading chrome (standalone hosts only)
+dist/compass-ui.css    # styles (tokens + webapp-compat)
+dist/compass-ui-standalone.css  # theme presets + reset + body/heading chrome (standalone hosts only)
 dist/components/       # per-component .d.ts
 ```
 
@@ -384,31 +386,35 @@ Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.
 | Beta | `0.1.0-beta.0` | `beta` |
 | Stable | `0.1.0` | `latest` |
 
-Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.0`. GitHub Release title: `v0.1.0-alpha.0`. Mark pre-release versions as **pre-release** on GitHub.
+Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.2`. GitHub Release title: `v0.1.0-alpha.2`. Mark pre-release versions as **pre-release** on GitHub for alpha/beta.
 
-Publish commands (requires `@mattermost` npm org write access):
+### Release flow (automated)
+
+1. **Bump** `packages/compass-ui/package.json` + move CHANGELOG `[Unreleased]` notes into the new version section. Update `compass-proto`’s `@mattermost/compass-ui` peer if it pins an exact version.
+2. **Merge** that PR to `main`.
+3. **Publish a GitHub Release** from `main` at that commit:
+   - Tag: `0.1.0-alpha.2` (must match `package.json` exactly; optional `v` prefix is stripped)
+   - Title: `v0.1.0-alpha.2`
+   - Check **Set as a pre-release** for alpha/beta
+   - Publish the release (not a draft) so CHANGELOG compare links resolve
+4. **CI** (`.github/workflows/publish-compass-ui.yml`) runs on `release: published`: typecheck, build, then `npm publish --access public --tag <alpha|beta|latest> --workspace=@mattermost/compass-ui`. Dist-tag is derived from the version string. Already-published versions are skipped.
+
+Do **not** publish from your laptop for routine releases. Manual publish is only a fallback if CI/auth is down:
 
 ```bash
 npm run build --workspace=@mattermost/compass-ui
 npm publish --access=public --tag alpha --workspace=@mattermost/compass-ui
 ```
 
-Tag and push after publish (on `main`, at the commit that was built):
+### npm trusted publishing (one-time setup)
 
-```bash
-git tag 0.1.0-alpha.0
-git push origin 0.1.0-alpha.0
-```
+Publishing uses npm [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers) (no long-lived `NPM_TOKEN` in GitHub secrets), same pattern as compass-icons.
 
-Then create a GitHub Release from that tag:
+1. On npmjs.com → `@mattermost/compass-ui` → **Trusted Publisher**
+2. Link this GitHub repo and workflow file: `publish-compass-ui.yml`
+3. Allow publish (and provenance if offered)
 
-1. **Choose tag** `0.1.0-alpha.0` (create from `main` if it does not exist yet).
-2. **Title** `v0.1.0-alpha.0`.
-3. Check **Set as a pre-release** (required for alpha/beta semver).
-4. **Publish the release** — do not leave it as a draft; the CHANGELOG link must resolve to a public release URL:
-   `https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0`
-
-Long term, align with compass-icons: **Release published → CI runs `npm publish`** (not manual publish first).
+Until trusted publishing is configured, the Release → CI job will fail at `npm publish`; configure the publisher before cutting the next release.
 
 ---
 
@@ -420,7 +426,9 @@ Long term, align with compass-icons: **Release published → CI runs `npm publis
 | Unstyled components (flat gray UI) | Import both `/styles` and `/component-styles` at app entry |
 | Scrollbars missing thumb/track | Ensure `simplebar-react` is installed; `component-styles` includes SimpleBar CSS |
 | `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
-| Wrong colors | Set `data-theme` on `<html>` |
+| Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
+| Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page |
+| Release tag ≠ package version | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.2`) |
 | Workspace link missing | Run `npm install` from repo root, not inside `packages/compass-ui` |
 
 ---
