@@ -272,7 +272,7 @@ Remove the smoke component before any mergeable PR.
 After `@mattermost` npm org publish, use the `alpha` tag until stable:
 
 ```json
-"@mattermost/compass-ui": "0.1.0-alpha.0"
+"@mattermost/compass-ui": "0.1.0-alpha.1"
 ```
 
 ```bash

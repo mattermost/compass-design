@@ -6,9 +6,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.1] - 2026-08-27
+
+### Changed
+
+- **BREAKING:** Variant prop string values standardized to lowercase kebab-case across components (e.g. `emphasis="primary"`, `size="x-small"`, `appearance="do-not-disturb"`). Aligns with Mattermost webapp shared package conventions.
+- Storybook autodocs descriptions synced from the first paragraph of each component guidelines page.
+- User-facing display labels use Title Case where appropriate (product names, demo copy, aria-labels); variant prop values remain lowercase.
+
 ### Added
 
-- Storybook coverage for Tier 1 components (in progress).
+- `scripts/sync-storybook-descriptions.mjs` — refresh component JSDoc from guidelines intros.
+- Agent docs for variant prop conventions and Storybook description sync workflow.
 
 ## [0.1.0-alpha.0] - 2026-08-26
 
@@ -46,5 +55,6 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.0...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.1...HEAD
+[0.1.0-alpha.1]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.0...0.1.0-alpha.1
 [0.1.0-alpha.0]: https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0
