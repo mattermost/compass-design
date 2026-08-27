@@ -64,25 +64,27 @@ import '@mattermost/compass-ui/component-styles';
 
 | Export | Contents |
 |--------|----------|
-| `@mattermost/compass-ui/styles` | CSS variables (tokens), themes, webapp-compat defaults |
-| `@mattermost/compass-ui/styles/standalone` | CSS reset + document `body` / heading chrome for Storybook and other **standalone** hosts only |
+| `@mattermost/compass-ui/styles` | CSS variables (tokens) + webapp-compat defaults |
+| `@mattermost/compass-ui/styles/standalone` | Theme presets (`data-theme`), CSS reset, and document `body` / heading chrome for Storybook and other **standalone** hosts only |
 | `@mattermost/compass-ui/component-styles` | Component CSS modules, SimpleBar base CSS |
 
 Components assume CSS variables are present — they do not import tokens directly.
 
-**Mattermost webapp:** import `/styles` and `/component-styles` only. Do **not** import `/styles/standalone` — webapp already owns reset and document styles.
+**Mattermost webapp:** import `/styles` and `/component-styles` only. Do **not** import `/styles/standalone` — webapp already owns themes, reset, and document styles.
 
 **Standalone hosts** (playground, Storybook, local demos): also import `/styles/standalone` after `/styles`.
 
 ### 2. Set a theme
 
+Standalone hosts (with `/styles/standalone`):
+
 ```html
 <html data-theme="denim">
 ```
 
-Supported themes: `denim`, `sapphire`, `quartz`, `indigo`, `onyx`.
+Supported presets: `denim`, `sapphire`, `quartz`, `indigo`, `onyx`. Toggle via `document.documentElement.setAttribute('data-theme', theme)` or your theme context.
 
-In React apps, toggle via `document.documentElement.setAttribute('data-theme', theme)` or your existing theme context.
+**Mattermost webapp** applies its own theme CSS variables — do not rely on Compass theme presets. Published components fall back to palette tokens (e.g. `var(--calls-bg, var(--color-indigo-600))`) when a host role is missing.
 
 ### 3. Load fonts (recommended)
 
@@ -188,7 +190,7 @@ npm run dev-server
 ```tsx
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
-// Do not import @mattermost/compass-ui/styles/standalone in webapp
+// Do not import /styles/standalone — webapp owns themes, reset, and document styles
 ```
 
 Use components as usual:
@@ -208,7 +210,7 @@ import { Select, Icon, Button } from '@mattermost/compass-ui';
 />
 ```
 
-Webapp already applies theme CSS variables; Compass tokens reuse the same names. If colors look flat/gray outside the webapp shell, set `data-theme="denim"` on `<html>`.
+Webapp already applies theme CSS variables; Compass components reuse the same role names (`--center-channel-bg`, `--button-bg`, etc.). Do not import `/styles/standalone` to supply Compass theme presets.
 
 #### Duplicate React (required for `file:` links)
 
@@ -285,7 +287,7 @@ npm install @mattermost/compass-ui@alpha
 import { Button } from '@mattermost/compass-ui';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
-// Do not import /styles/standalone — webapp owns reset and document styles
+// Do not import /styles/standalone — webapp owns themes, reset, and document styles
 ```
 
 Load `/styles` once at the app bootstrap (same entry that loads global webapp SCSS).
@@ -311,13 +313,13 @@ Load `/styles` once at the app bootstrap (same entry that loads global webapp SC
 
 ### Theme alignment
 
-Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`).
+Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`). Compass theme presets (including `--calls-bg`) ship only in `/styles/standalone` for Storybook/playground — not in the webapp `/styles` entry.
 
 Compass uses the **same semantic names** as webapp:
 
 - **`webapp-compat.scss` `@layer`**: standalone defaults for `--semantic-color-*` (mapped to Compass palette RGB) and `--neutral-*`. Host unlayered values always win when embedded.
 - **`tokens.scss`**: `--color-info|success|warning|danger` wrap `rgb(var(--semantic-color-*))` for authoring.
-- **Components**: error / destructive UI uses `var(--error-text, var(--color-danger))`. Presence uses `--online-indicator` / `--away-indicator` / `--dnd-indicator`. Toasts / global banners use `--color-*` (fixed semantics).
+- **Components**: error / destructive UI uses `var(--error-text, var(--color-danger))`. Presence uses `--online-indicator` / `--away-indicator` / `--dnd-indicator`. Calls surfaces use `var(--calls-bg, var(--color-indigo-600))` until the host defines `--calls-bg`. Toasts / global banners use `--color-*` (fixed semantics).
 
 Confirm host vars match Compass theme role names before wide rollout. Spike with `Button` destructive / `SectionNotice` danger / `Toast` first.
 
@@ -367,8 +369,8 @@ dist/index.js          # ESM bundle
 dist/index.cjs         # CJS bundle
 dist/index.d.ts        # Type declarations
 dist/index.css         # component-styles
-dist/compass-ui.css    # styles (tokens/themes/webapp-compat)
-dist/compass-ui-standalone.css  # reset + body/heading chrome (standalone hosts only)
+dist/compass-ui.css    # styles (tokens + webapp-compat)
+dist/compass-ui-standalone.css  # theme presets + reset + body/heading chrome (standalone hosts only)
 dist/components/       # per-component .d.ts
 ```
 

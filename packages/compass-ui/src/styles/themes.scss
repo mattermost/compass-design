@@ -3,6 +3,9 @@
 // Applied via data-theme attribute on <html>
 // e.g. <html data-theme="onyx">
 //
+// Loaded via /styles/standalone only (Storybook, playground).
+// Do not ship in the webapp-safe /styles entry — hosts own these roles.
+//
 // Default theme: Denim
 //
 // Opacity: Use -rgb variables with rgba() for theme-aware transparency:
