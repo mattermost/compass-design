@@ -15,7 +15,7 @@ const MATRIX_ROWS: {
   padding: IconButtonPadding;
   rounded: boolean;
 }[] = [
-  { label: 'default', padding: 'default', rounded: false },
+  { label: 'Default', padding: 'default', rounded: false },
   { label: 'Compact', padding: 'compact', rounded: false },
   { label: 'Rounded', padding: 'default', rounded: true },
 ];

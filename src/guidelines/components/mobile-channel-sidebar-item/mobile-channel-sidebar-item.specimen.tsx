@@ -30,7 +30,7 @@ export default function MobileChannelSidebarItemLibrary() {
               avatarAlt='Leonard Riley'
               showAvatarStatus
             />
-            <MobileChannelSidebarItem leadingVisual='threads' name='threads' />
+            <MobileChannelSidebarItem leadingVisual='threads' name='Threads' />
             <MobileChannelSidebarItem leadingVisual='drafts' name='Drafts' />
             <MobileChannelSidebarItem leadingVisual='insights' name='Insights' />
           </div>

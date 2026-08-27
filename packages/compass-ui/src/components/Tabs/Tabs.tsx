@@ -78,7 +78,7 @@ export default function Tabs({
               {tab.unreadBadge && !isActive && (
                 <span
                   className={styles['tabs__unread-badge']}
-                  aria-label="unread"
+                  aria-label="Unread"
                 />
               )}
             </button>

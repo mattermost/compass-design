@@ -50,7 +50,7 @@ export default function AdminConsoleLayout() {
           <Scrollbar>
             <div className={styles['admin-console-layout__panels']}>
               <AdminPanel
-                title="threads"
+                title="Threads"
                 subtitle="Configure threaded discussions and auto-follow defaults."
               >
                 <div className={styles['admin-console-layout__settings']}>
