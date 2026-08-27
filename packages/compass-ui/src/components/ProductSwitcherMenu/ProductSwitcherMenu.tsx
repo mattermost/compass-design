@@ -56,17 +56,17 @@ export interface ProductSwitcherMenuProps extends HTMLAttributes<HTMLDivElement>
 export const DEFAULT_PRODUCT_SWITCHER_PRODUCTS: ProductSwitcherProductItem[] = [
   {
     id: 'channels',
-    label: 'channels',
+    label: 'Channels',
     icon: <ProductChannelsIcon />,
   },
   {
     id: 'boards',
-    label: 'boards',
+    label: 'Boards',
     icon: <ProductBoardsIcon />,
   },
   {
     id: 'playbooks',
-    label: 'playbooks',
+    label: 'Playbooks',
     icon: <ProductPlaybooksIcon />,
   },
 ];

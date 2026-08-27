@@ -18,7 +18,7 @@ const MATRIX_ROWS: {
   padding: IconButtonPadding;
   rounded: boolean;
 }[] = [
-  { label: 'default', padding: 'default', rounded: false },
+  { label: 'Default', padding: 'default', rounded: false },
   { label: 'Compact', padding: 'compact', rounded: false },
   { label: 'Rounded', padding: 'default', rounded: true },
 ];
@@ -298,7 +298,7 @@ export const AllVariants: Story = {
               icon={<Icon glyph={<GlobeIcon />} size="24" />}
             />
           </Row>
-          <Row label="unread">
+          <Row label="Unread">
             {SIZES.map((size) => (
               <IconButton
                 key={size}

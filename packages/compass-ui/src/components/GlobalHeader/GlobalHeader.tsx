@@ -43,6 +43,12 @@ const PRODUCT_ICON: Record<
   boards: ProductBoardsIcon,
 };
 
+const PRODUCT_LABEL: Record<GlobalHeaderProduct, string> = {
+  channels: 'Channels',
+  playbooks: 'Playbooks',
+  boards: 'Boards',
+};
+
 function InvertedIconButton({
   ariaLabel,
   glyph,
@@ -68,7 +74,9 @@ function ProductBrand({ product }: { product: GlobalHeaderProduct }) {
       <span className={styles['global-header__product-icon']} aria-hidden>
         <Icon size="20" glyph={<ProductIcon />} />
       </span>
-      <span className={styles['global-header__product-name']}>{product}</span>
+      <span className={styles['global-header__product-name']}>
+        {PRODUCT_LABEL[product]}
+      </span>
     </div>
   );
 }

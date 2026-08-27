@@ -66,7 +66,7 @@ export default function AppBarItem({
       {unreadBadge && mentionBadge == null && (
         <span
           className={styles['app-bar-item__unread-badge']}
-          aria-label="unread"
+          aria-label="Unread"
         />
       )}
     </button>

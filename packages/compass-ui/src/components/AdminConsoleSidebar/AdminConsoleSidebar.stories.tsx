@@ -13,7 +13,7 @@ const DEMO_GROUPS: AdminConsoleSidebarGroupModel[] = [
     items: [
       { name: 'Users' },
       { name: 'Teams', active: true },
-      { name: 'channels' },
+      { name: 'Channels' },
     ],
   },
 ];
