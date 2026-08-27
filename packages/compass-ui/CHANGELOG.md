@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.2] - 2026-08-27
+
 ### Changed
 
 - **BREAKING:** Theme presets (`themes.scss`, including `--calls-bg`) move from `@mattermost/compass-ui/styles` to `/styles/standalone`. Webapp-safe `/styles` is tokens + webapp-compat only. Standalone hosts already import `/styles/standalone` and need no import change. Webapp should continue omitting standalone and rely on host theme vars (components keep palette fallbacks such as `var(--calls-bg, var(--color-indigo-600))`).
@@ -59,6 +61,7 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.1...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.2...HEAD
+[0.1.0-alpha.2]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.1...0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.0...0.1.0-alpha.1
 [0.1.0-alpha.0]: https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0
