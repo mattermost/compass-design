@@ -427,7 +427,7 @@ Until trusted publishing is configured, the Release → CI job will fail at `npm
 | Scrollbars missing thumb/track | Ensure `simplebar-react` is installed; `component-styles` includes SimpleBar CSS |
 | `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
 | Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
-| Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page |
+| Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page. Do not set `registry-url` / `NODE_AUTH_TOKEN` on the publish job — empty token auth blocks OIDC and surfaces as E404. |
 | Release tag ≠ package version | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.2`) |
 | Workspace link missing | Run `npm install` from repo root, not inside `packages/compass-ui` |
 
