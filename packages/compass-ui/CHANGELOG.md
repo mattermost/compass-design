@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - GitHub Actions `publish-compass-ui.yml`: on GitHub Release published, build and `npm publish` `@mattermost/compass-ui` (dist-tag from version; OIDC trusted publishing).
+- `repository` field on `@mattermost/compass-ui` for npm provenance / trusted publishing.
+
+### Fixed
+
+- Publish workflow: drop `setup-node` `registry-url` so OIDC trusted-publisher auth is not overridden by an empty `.npmrc` token (E404 on PUT).
 
 ## [0.1.0-alpha.2] - 2026-08-27
 
