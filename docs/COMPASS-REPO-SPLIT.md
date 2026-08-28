@@ -52,13 +52,14 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | **1 — Create `compass-design`** | Done (initial import) | Move packages + docs app; CI publishes core only; GitHub Pages on design repo |
 | **2 — Slim playground** | Done | Flows + chrome only; depend on published core + packed proto; rewrite README for catalog role |
 | **3 — Alpha release** | Done | `@mattermost/compass-ui@0.1.0-alpha.0` on npm (`alpha` tag); GitHub pre-release; webapp npm consumption validated — no mergeable PR merged yet |
+| **7 — Subpath imports** | Done (design repo); proto-playground PR | Multi-entry packaging + subpath exports in `@mattermost/compass-ui@0.1.0-alpha.3`. Docs/playground in this repo migrated; [`mattermost-proto-playground`](https://github.com/mattermost/mattermost-proto-playground) follows in a companion PR. Webapp migration documented in INTEGRATION.md. |
 
 Stop after each phase; verify before starting the next.
 
 ## Consumption
 
 - **Docs / Storybook (in this repo):** guidelines use workspace `compass-ui` + `compass-proto`; **Storybook** catalogs published `@mattermost/compass-ui` only
-- **Playground (after split):** published `@mattermost/compass-ui` + `file:` / `npm pack` for `@mattermost/compass-proto`
+- **Playground (after split):** published `@mattermost/compass-ui@alpha` (subpath imports; `0.1.0-alpha.3+`) + `file:` / `npm pack` for `@mattermost/compass-proto`
 - **Webapp (testing branch):** `file:` → `packages/compass-ui` + watch; webpack React aliases — see INTEGRATION.md
 - **Webapp (mergeable PRs):** `@mattermost/compass-ui@alpha` — npm path validated and ready; no product PR merged yet — no Mobile*, `ChannelShell`, or Call* from proto in product code
 
