@@ -16,13 +16,13 @@ import VolumeHighIcon from '@mattermost/compass-icons/components/volume-high';
 import VideoOutlineIcon from '@mattermost/compass-icons/components/video-outline';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
-import { UserAvatar } from '@mattermost/compass-ui';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import CallInfoPanel from '@/components/CallInfoPanel/CallInfoPanel';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
-import { MenuItem } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import ParticipantsPanel from '@/components/ParticipantsPanel/ParticipantsPanel';
-import { usePopoverTransition } from '@mattermost/compass-ui';
+import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
 import type { Participant } from '@/types/callParticipant';
 import styles from './CallWidget.module.scss';
 

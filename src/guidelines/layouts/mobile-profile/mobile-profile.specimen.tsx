@@ -4,8 +4,8 @@ import CheckCircleIcon from '@mattermost/compass-icons/components/check-circle';
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
-import {
-  Icon, Scrollbar } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import { type MobileTabBarTab } from '@mattermost/compass-proto';
 import { MobileMenuItem, MobileProfile, MobileTabBar } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';

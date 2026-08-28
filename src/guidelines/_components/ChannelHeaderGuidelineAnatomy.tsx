@@ -1,4 +1,4 @@
-import { ChannelHeader } from '@mattermost/compass-ui';
+import { ChannelHeader } from '@mattermost/compass-ui/components/channel-header';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import styles from './ChannelHeaderGuidelineAnatomy.module.scss';
 

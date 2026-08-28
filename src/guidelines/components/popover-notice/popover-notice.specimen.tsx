@@ -1,4 +1,5 @@
-import { PopoverNotice, ShortcutTagGroup } from '@mattermost/compass-ui';
+import { PopoverNotice } from '@mattermost/compass-ui/components/popover-notice';
+import { ShortcutTagGroup } from '@mattermost/compass-ui/components/shortcut-tag';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function PopoverNoticeLibrary() {

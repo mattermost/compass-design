@@ -1,4 +1,4 @@
-import { ReactionPill } from '@mattermost/compass-ui';
+import { ReactionPill } from '@mattermost/compass-ui/components/reaction-pill';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function ReactionPillLibrary() {

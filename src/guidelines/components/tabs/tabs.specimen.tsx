@@ -1,4 +1,4 @@
-import { Tabs } from '@mattermost/compass-ui';
+import { Tabs } from '@mattermost/compass-ui/components/tabs';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function TabsLibrary() {

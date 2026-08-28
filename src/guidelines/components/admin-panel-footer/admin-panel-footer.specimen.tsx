@@ -1,4 +1,4 @@
-import { AdminPanelFooter } from '@mattermost/compass-ui';
+import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function AdminPanelFooterLibrary() {

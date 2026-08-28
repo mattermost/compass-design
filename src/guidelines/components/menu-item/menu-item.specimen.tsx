@@ -1,4 +1,4 @@
-import { MenuItem } from '@mattermost/compass-ui';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MenuItemLibrary() {

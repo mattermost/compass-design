@@ -3,8 +3,8 @@ import AtIcon from '@mattermost/compass-icons/components/at';
 import BookmarkOutlineIcon from '@mattermost/compass-icons/components/bookmark-outline';
 import HomeVariantOutlineIcon from '@mattermost/compass-icons/components/home-variant-outline';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
-import { MentionBadge } from '@mattermost/compass-ui';
-import { UserAvatar } from '@mattermost/compass-ui';
+import { MentionBadge } from '@mattermost/compass-ui/components/mention-badge';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from './MobileTabBar.module.scss';
 
 export type MobileTabBarTab =

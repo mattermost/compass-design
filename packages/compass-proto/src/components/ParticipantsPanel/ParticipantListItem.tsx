@@ -3,10 +3,10 @@ import MicrophoneIcon from '@mattermost/compass-icons/components/microphone';
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
 import PhoneIcon from '@mattermost/compass-icons/components/phone';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
-import { UserAvatar } from '@mattermost/compass-ui';
-import { Tag } from '@mattermost/compass-ui';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import { Tag } from '@mattermost/compass-ui/components/tag';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import type { Participant } from '@/types/callParticipant';
 import styles from './ParticipantsPanel.module.scss';
 

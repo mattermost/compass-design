@@ -1,6 +1,6 @@
 import type { ReactNode} from 'react';
 import SendIcon from '@mattermost/compass-icons/components/send';
-import {Icon } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MobileModalNavigationBar } from '@mattermost/compass-proto';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import styles from './mobile-modal-navigation-bar.specimen.module.scss';

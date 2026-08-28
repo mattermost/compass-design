@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react';
-import {
-  Message,
-  MessageSeparator,
-  messageStyles,
-} from '@mattermost/compass-ui';
+import { Message, messageStyles } from '@mattermost/compass-ui/components/message';
+import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import styles from './RightSidebarThread.module.scss';
 
 export interface RightSidebarThreadMessage {

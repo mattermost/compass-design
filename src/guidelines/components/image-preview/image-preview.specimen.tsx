@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import sampleImage from '@/assets/images/sample-image.jpg';
-import { ImagePreview } from '@mattermost/compass-ui';
-import type { ImagePreviewProps } from '@mattermost/compass-ui';
+import { ImagePreview } from '@mattermost/compass-ui/components/image-preview';
+import type { ImagePreviewProps } from '@mattermost/compass-ui/components/image-preview';
 import styles from '@/styles/library-demo/components.module.scss';
 
 function InteractiveImagePreview({

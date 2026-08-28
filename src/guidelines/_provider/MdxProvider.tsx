@@ -67,9 +67,9 @@ import { MobileBottomSheetAnatomyStage } from '@/guidelines/_components/MobileBo
 import Num from '@/guidelines/_components/Num';
 import MdxAnchor from '@/guidelines/_components/MdxAnchor';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
-import { Divider } from '@mattermost/compass-ui';
-import { Chip } from '@mattermost/compass-ui';
-import { Combobox } from '@mattermost/compass-ui';
+import { Divider } from '@mattermost/compass-ui/components/divider';
+import { Chip } from '@mattermost/compass-ui/components/chip';
+import { Combobox } from '@mattermost/compass-ui/components/combobox';
 import GuidelineSampleRow from '@/guidelines/_components/GuidelineSampleRow';
 import DocUiEmbed from '@/pages/_shell/DocUiEmbed';
 

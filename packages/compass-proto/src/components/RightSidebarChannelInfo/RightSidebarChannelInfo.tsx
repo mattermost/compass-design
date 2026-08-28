@@ -6,7 +6,10 @@ import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
 import PinOutlineIcon from '@mattermost/compass-icons/components/pin-outline';
 import FileTextOutlineIcon from '@mattermost/compass-icons/components/file-text-outline';
-import { ActionButton, Divider, Icon, MenuItem } from '@mattermost/compass-ui';
+import { ActionButton } from '@mattermost/compass-ui/components/action-button';
+import { Divider } from '@mattermost/compass-ui/components/divider';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import styles from './RightSidebarChannelInfo.module.scss';
 
 export default function RightSidebarChannelInfo() {

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
-import { ChannelsSidebar } from '@mattermost/compass-ui';
-import { GlobalHeader } from '@mattermost/compass-ui';
-import type { GlobalHeaderProduct } from '@mattermost/compass-ui';
-import { TeamSidebar, type TeamSidebarItem, } from '@mattermost/compass-ui';
-import type { ChannelsSidebarModel } from '@mattermost/compass-ui';
+import { ChannelsSidebar } from '@mattermost/compass-ui/components/channels-sidebar';
+import { GlobalHeader } from '@mattermost/compass-ui/components/global-header';
+import type { GlobalHeaderProduct } from '@mattermost/compass-ui/components/global-header';
+import { TeamSidebar, type TeamSidebarItem } from '@mattermost/compass-ui/components/team-sidebar';
+import type { ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
 import styles from './ChannelShell.module.scss';
 
 const DEFAULT_TEAMS: TeamSidebarItem[] = [

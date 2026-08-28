@@ -12,11 +12,11 @@ import PhoneHangupIcon from '@mattermost/compass-icons/components/phone-hangup';
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
 import CallParticipantAvatar from '@/components/CallParticipantAvatar/CallParticipantAvatar';
 import CallInfoPanel from '@/components/CallInfoPanel/CallInfoPanel';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import RecordingPill from '@/components/RecordingPill/RecordingPill';
 import ParticipantsPanel from '@/components/ParticipantsPanel/ParticipantsPanel';
-import { usePopoverTransition } from '@mattermost/compass-ui';
+import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
 import type { Participant } from '@/types/callParticipant';
 import styles from './CallPopout.module.scss';
 

@@ -1,8 +1,7 @@
 import type { ImgHTMLAttributes } from 'react';
-import { toKebab } from '@mattermost/compass-ui';
-import { Icon, type IconSize } from '@mattermost/compass-ui';
-import { IconButton, ICON_BUTTON_ICON_SIZES,
-  type IconButtonSize, } from '@mattermost/compass-ui';
+import { toKebab } from '@mattermost/compass-ui/utils/string';
+import { Icon, type IconSize } from '@mattermost/compass-ui/components/icon';
+import { IconButton, ICON_BUTTON_ICON_SIZES, type IconButtonSize } from '@mattermost/compass-ui/components/icon-button';
 import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-off';
 import MicrophoneIcon from '@mattermost/compass-icons/components/microphone';
 import HandRightIcon from '@mattermost/compass-icons/components/hand-right';

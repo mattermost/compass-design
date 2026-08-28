@@ -1,4 +1,5 @@
-import { SectionNotice, ShortcutTagGroup } from '@mattermost/compass-ui';
+import { SectionNotice } from '@mattermost/compass-ui/components/section-notice';
+import { ShortcutTagGroup } from '@mattermost/compass-ui/components/shortcut-tag';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function SectionNoticeLibrary() {

@@ -1,4 +1,4 @@
-import { Select } from '@mattermost/compass-ui';
+import { Select } from '@mattermost/compass-ui/components/select';
 import styles from '@/styles/library-demo/components.module.scss';
 
 const DEMO_OPTIONS = [

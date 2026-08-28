@@ -1,4 +1,4 @@
-import { AdminConsoleSidebar } from '@mattermost/compass-ui';
+import { AdminConsoleSidebar } from '@mattermost/compass-ui/components/admin-console-sidebar';
 import { defaultAdminConsoleSidebarGroups } from '@mattermost/compass-proto';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';

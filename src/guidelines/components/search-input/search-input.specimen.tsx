@@ -1,4 +1,4 @@
-import { SearchInput } from '@mattermost/compass-ui';
+import { SearchInput } from '@mattermost/compass-ui/components/search-input';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function SearchInputLibrary() {

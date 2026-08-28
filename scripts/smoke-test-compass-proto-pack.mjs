@@ -96,7 +96,7 @@ function writeConsumer(tempDir, uiTarballPath, protoTarballPath) {
     path.join(tempDir, 'src', 'main.tsx'),
     `import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
 import { RecordingPill } from '@mattermost/compass-proto';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
@@ -184,6 +184,7 @@ assertTarballContents(
   [
     'package/package.json',
     'package/dist/index.js',
+    'package/dist/components/button/index.js',
     'package/dist/compass-ui.css',
   ],
   'compass-ui',

@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
-import { Button } from '@mattermost/compass-ui';
-import { MentionBadge } from '@mattermost/compass-ui';
-import { StatusBadge } from '@mattermost/compass-ui';
-import { UnreadBadge } from '@mattermost/compass-ui';
-import { UserAvatar } from '@mattermost/compass-ui';
-import { TeamAvatar } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { MentionBadge } from '@mattermost/compass-ui/components/mention-badge';
+import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
+import { UnreadBadge } from '@mattermost/compass-ui/components/unread-badge';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from './ShapeSamples.module.scss';
 

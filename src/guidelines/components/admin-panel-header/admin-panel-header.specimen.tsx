@@ -1,11 +1,9 @@
 import { useId, useState, type ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
-import {
-  type AdminPanelExpandedState,
-  AdminPanelHeader} from '@mattermost/compass-ui';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
+import { type AdminPanelExpandedState, AdminPanelHeader } from '@mattermost/compass-ui/components/admin-panel-header';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import styles from '@/styles/library-demo/components.module.scss';
 
 function HeaderChrome({ children }: { children: ReactNode }) {

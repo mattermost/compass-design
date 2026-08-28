@@ -18,3 +18,4 @@ Every docs entry is a **topic** in `src/manifests/topics.ts` with Guidelines / S
 
 - Foundations bento on `/foundations` is curated in `src/pages/topics/FoundationsBento/FoundationsBento.tsx` — place new foundation topics there or they use the plain-card fallback.
 - Follow voice/prose invariants in [src/guidelines/AGENTS.md](../../../src/guidelines/AGENTS.md).
+- **Imports in specimens and MDX code samples:** use subpath imports only — e.g. `import { Button } from '@mattermost/compass-ui/components/button'`. Never `from '@mattermost/compass-ui'` (root barrel). Hooks: `@mattermost/compass-ui/hooks/use-exit-animation`.

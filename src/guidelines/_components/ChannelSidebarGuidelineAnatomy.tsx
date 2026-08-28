@@ -1,4 +1,4 @@
-import { ChannelsSidebar } from '@mattermost/compass-ui';
+import { ChannelsSidebar } from '@mattermost/compass-ui/components/channels-sidebar';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import {
   defaultChannelsSidebarDemoModel,

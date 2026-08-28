@@ -15,8 +15,8 @@ import EmoticonOutlineIcon from '@mattermost/compass-icons/components/emoticon-o
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import SendIcon from '@mattermost/compass-icons/components/send';
 import SlashForwardBoxOutlineIcon from '@mattermost/compass-icons/components/slash-forward-box-outline';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import styles from './MobileMessageInput.module.scss';
 
 export type MobileMessageInputVariant = 'Root' | 'Reply';

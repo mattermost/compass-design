@@ -1,4 +1,4 @@
-import { Toast } from '@mattermost/compass-ui';
+import { Toast } from '@mattermost/compass-ui/components/toast';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function ToastLibrary() {

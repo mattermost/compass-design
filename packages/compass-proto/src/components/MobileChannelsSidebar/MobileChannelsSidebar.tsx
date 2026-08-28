@@ -3,14 +3,10 @@ import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import MobileChannelSidebarItem from '@/components/MobileChannelSidebarItem/MobileChannelSidebarItem';
 import MobileSearchField from '@/components/MobileSearchField/MobileSearchField';
-import { IconButton } from '@mattermost/compass-ui';
-import { Icon } from '@mattermost/compass-ui';
-import { Scrollbar } from '@mattermost/compass-ui';
-import {
-  applyChannelNameOverrides,
-  type ChannelsSidebarItemModel,
-  type ChannelsSidebarModel,
-} from '@mattermost/compass-ui';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import { applyChannelNameOverrides, type ChannelsSidebarItemModel, type ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
 import { buildDefaultChannelsSidebarModel } from '@/fixtures/buildDefaultChannelsSidebarModel';
 import styles from './MobileChannelsSidebar.module.scss';
 

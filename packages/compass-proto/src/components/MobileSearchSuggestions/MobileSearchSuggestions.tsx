@@ -2,7 +2,7 @@ import {useState} from 'react';
 import ClockOutlineIcon from '@mattermost/compass-icons/components/clock-outline';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import PlusBoxOutlineIcon from '@mattermost/compass-icons/components/plus-box-outline';
-import { Icon } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import MobileMenuItem from '@/components/MobileMenuItem/MobileMenuItem';
 import styles from './MobileSearchSuggestions.module.scss';
 

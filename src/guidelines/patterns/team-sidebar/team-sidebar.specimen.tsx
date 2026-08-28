@@ -1,4 +1,4 @@
-import { TeamSidebar } from '@mattermost/compass-ui';
+import { TeamSidebar } from '@mattermost/compass-ui/components/team-sidebar';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
 

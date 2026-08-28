@@ -1,4 +1,4 @@
-import { MoreUnreadsBanner } from '@mattermost/compass-ui';
+import { MoreUnreadsBanner } from '@mattermost/compass-ui/components/more-unreads-banner';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MoreUnreadsBannerLibrary() {

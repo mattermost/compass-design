@@ -1,4 +1,4 @@
-import { StatusBadge } from '@mattermost/compass-ui';
+import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function StatusBadgeLibrary() {

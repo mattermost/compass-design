@@ -1,9 +1,9 @@
 import type {ButtonHTMLAttributes, ReactNode} from 'react';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import CheckIcon from '@mattermost/compass-icons/components/check';
-import { Icon } from '@mattermost/compass-ui';
-import { Tag } from '@mattermost/compass-ui';
-import { MentionBadge } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Tag } from '@mattermost/compass-ui/components/tag';
+import { MentionBadge } from '@mattermost/compass-ui/components/mention-badge';
 import styles from './MobileMenuItem.module.scss';
 
 export interface MobileMenuItemProps

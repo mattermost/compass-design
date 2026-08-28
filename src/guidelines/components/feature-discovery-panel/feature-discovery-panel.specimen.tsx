@@ -1,4 +1,4 @@
-import { FeatureDiscoveryPanel } from '@mattermost/compass-ui';
+import { FeatureDiscoveryPanel } from '@mattermost/compass-ui/components/feature-discovery-panel';
 import GroupsIllustration from '@/assets/illustrations/groups.svg?react';
 import styles from '@/styles/library-demo/components.module.scss';
 

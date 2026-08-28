@@ -1,5 +1,5 @@
-import { Button } from '@mattermost/compass-ui';
-import { Modal } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Modal } from '@mattermost/compass-ui/components/modal';
 import styles from './ModalSamples.module.scss';
 
 export function ModalAnatomy() {

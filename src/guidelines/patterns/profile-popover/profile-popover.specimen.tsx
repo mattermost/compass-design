@@ -1,4 +1,4 @@
-import { ProfilePopover } from '@mattermost/compass-ui';
+import { ProfilePopover } from '@mattermost/compass-ui/components/profile-popover';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
 

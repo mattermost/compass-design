@@ -1,5 +1,5 @@
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
-import { TeamAvatar } from '@mattermost/compass-ui';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function TeamAvatarLibrary() {

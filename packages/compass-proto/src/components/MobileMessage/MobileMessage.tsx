@@ -1,8 +1,8 @@
 import type {ReactNode} from 'react';
-import { ChannelInfoMsgHeader } from '@mattermost/compass-ui';
-import { Tag } from '@mattermost/compass-ui';
-import { UserAvatar } from '@mattermost/compass-ui';
-import { PinnedSavedIndicators } from '@mattermost/compass-ui';
+import { ChannelInfoMsgHeader } from '@mattermost/compass-ui/components/channel-info-msg-header';
+import { Tag } from '@mattermost/compass-ui/components/tag';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import { PinnedSavedIndicators } from '@mattermost/compass-ui/components/pinned-saved-indicators';
 import styles from './MobileMessage.module.scss';
 
 export interface MobileMessageProps {

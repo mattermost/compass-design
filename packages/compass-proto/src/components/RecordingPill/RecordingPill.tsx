@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
-import { Spinner } from '@mattermost/compass-ui';
-import { Icon } from '@mattermost/compass-ui';
+import { Spinner } from '@mattermost/compass-ui/components/spinner';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import RecordCircleOutlineIcon from '@mattermost/compass-icons/components/record-circle-outline';
 import RecordSquareOutlineIcon from '@mattermost/compass-icons/components/record-square-outline';
 import styles from './RecordingPill.module.scss';

@@ -1,4 +1,4 @@
-import { MentionBadge } from '@mattermost/compass-ui';
+import { MentionBadge } from '@mattermost/compass-ui/components/mention-badge';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MentionBadgeLibrary() {

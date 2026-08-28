@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import { Button } from '@mattermost/compass-ui';
-import { TextInput } from '@mattermost/compass-ui';
-import { Modal } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { TextInput } from '@mattermost/compass-ui/components/text-input';
+import { Modal } from '@mattermost/compass-ui/components/modal';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 const modalFooter = (

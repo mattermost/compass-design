@@ -3,7 +3,7 @@ import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
-import { UserAvatarGroup } from '@mattermost/compass-ui';
+import { UserAvatarGroup } from '@mattermost/compass-ui/components/user-avatar-group';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function UserAvatarGroupLibrary() {

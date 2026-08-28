@@ -1,19 +1,17 @@
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
-import {
-  ChannelCategoryMenu,
-  ChannelHeaderMenu,
-  ChannelMenu,
-  HelpMenu,
-  Icon,
-  MenuItem,
-  MessageMoreOptionsMenu,
-  PlusMenu,
-  PopoverMenu,
-  ProductSwitcherMenu,
-  TeamMenu,
-  ThreadActionsMenu,
-} from '@mattermost/compass-ui';
+import { ChannelCategoryMenu } from '@mattermost/compass-ui/components/channel-category-menu';
+import { ChannelHeaderMenu } from '@mattermost/compass-ui/components/channel-header-menu';
+import { ChannelMenu } from '@mattermost/compass-ui/components/channel-menu';
+import { HelpMenu } from '@mattermost/compass-ui/components/help-menu';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import { MessageMoreOptionsMenu } from '@mattermost/compass-ui/components/message-more-options-menu';
+import { PlusMenu } from '@mattermost/compass-ui/components/plus-menu';
+import { PopoverMenu } from '@mattermost/compass-ui/components/popover-menu';
+import { ProductSwitcherMenu } from '@mattermost/compass-ui/components/product-switcher-menu';
+import { TeamMenu } from '@mattermost/compass-ui/components/team-menu';
+import { ThreadActionsMenu } from '@mattermost/compass-ui/components/thread-actions-menu';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 export default function PopoverMenuLibrary() {

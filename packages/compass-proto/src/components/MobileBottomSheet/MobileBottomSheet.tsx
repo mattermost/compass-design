@@ -5,7 +5,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import {useExitAnimation} from '@mattermost/compass-ui';
+import { useExitAnimation } from '@mattermost/compass-ui/hooks/use-exit-animation';
 import styles from './MobileBottomSheet.module.scss';
 
 /** Matches `--duration-moderate` (300ms) for enter/exit sheet animation. */

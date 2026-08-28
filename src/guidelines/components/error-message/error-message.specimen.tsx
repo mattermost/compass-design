@@ -1,4 +1,4 @@
-import { ErrorMessage } from '@mattermost/compass-ui';
+import { ErrorMessage } from '@mattermost/compass-ui/components/error-message';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function ErrorMessageLibrary() {

@@ -1,11 +1,11 @@
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import sampleImage from '@/assets/images/sample-image.jpg';
-import { AttachmentCard } from '@mattermost/compass-ui';
-import { ImagePreview } from '@mattermost/compass-ui';
-import { LinkPreview } from '@mattermost/compass-ui';
-import { Message } from '@mattermost/compass-ui';
-import { messageStyles } from '@mattermost/compass-ui';
-import { MessageReactions } from '@mattermost/compass-ui';
+import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-card';
+import { ImagePreview } from '@mattermost/compass-ui/components/image-preview';
+import { LinkPreview } from '@mattermost/compass-ui/components/link-preview';
+import { Message } from '@mattermost/compass-ui/components/message';
+import { messageStyles } from '@mattermost/compass-ui/components/message';
+import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import styles from './MessageGuidelineAnatomy.module.scss';
 

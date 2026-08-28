@@ -1,9 +1,6 @@
 import { RightSidebarThread, RightSidebarChannelInfo } from '@mattermost/compass-proto';
-import {
-  RightSidebarHeader,
-  RightSidebar
-} from '@mattermost/compass-ui';
-import { UserAvatar } from '@mattermost/compass-ui';
+import { RightSidebarHeader, RightSidebar } from '@mattermost/compass-ui/components/right-sidebar';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES } from '@/fixtures/rightSidebarThreadDemo';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
