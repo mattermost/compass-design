@@ -354,6 +354,26 @@ Order matters: list the `hooks/` and `utils/string` patterns **before** the gene
 3. Migrate imports leaf-first — start with `confirm_modal.tsx` and other early adopters.
 4. Avoid mocking the entire package unless you need to stub behavior; subpaths remove the need for global mocks.
 
+### Proto playground (`mattermost-proto-playground`)
+
+The prototypes catalog is a **separate repo** that consumes published `@mattermost/compass-ui` from npm plus `file:../compass-design/packages/compass-proto`.
+
+After `0.1.0-alpha.3` is published:
+
+1. Bump `package.json`: `"@mattermost/compass-ui": "0.1.0-alpha.3"` (or `@alpha`).
+2. From a sibling `compass-design` clone, run the import codemod against the playground tree:
+
+```bash
+cd compass-design
+COMPASS_UI_CONSUMER_ROOT=../mattermost-proto-playground node scripts/migrate-compass-ui-imports.mjs
+```
+
+3. Update agent docs (`AGENTS.md`, `src/pages/prototypes/AGENTS.md`) to mandate subpath imports.
+4. Extend `scripts/ensure-compass-packages.mjs` to assert `dist/components/button/index.js` exists (subpath layout).
+5. `npm install && npm run build` — verify prototype flows compile.
+
+Import convention matches webapp and docs: `@mattermost/compass-ui/components/<kebab-name>` only; do not use the root barrel.
+
 ### Webpack checklist
 
 - [ ] ESM + CJS: package ships both (`module` / `main` fields).

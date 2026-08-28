@@ -8,10 +8,24 @@ import { fileURLToPath } from 'node:url';
 import { buildExportManifest } from './compass-ui-export-manifest.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const targets = [
-  path.join(repoRoot, 'src'),
-  path.join(repoRoot, 'packages/compass-proto/src'),
-];
+
+function resolveTargets() {
+  const consumerRoot = process.env.COMPASS_UI_CONSUMER_ROOT;
+  if (consumerRoot) {
+    const resolved = path.resolve(consumerRoot);
+    const src = path.join(resolved, 'src');
+    if (!fs.existsSync(src)) {
+      throw new Error(`COMPASS_UI_CONSUMER_ROOT has no src/: ${resolved}`);
+    }
+    return [src];
+  }
+  return [
+    path.join(repoRoot, 'src'),
+    path.join(repoRoot, 'packages/compass-proto/src'),
+  ];
+}
+
+const targets = resolveTargets();
 
 const IMPORT_RE =
   /import\s+(type\s+)?\{([^}]+)\}\s+from\s+(['"])@mattermost\/compass-ui\3\s*;?/g;
@@ -116,6 +130,9 @@ function main() {
   }
 
   console.log(`[migrate-compass-ui-imports] Updated ${changed} files`);
+  if (process.env.COMPASS_UI_CONSUMER_ROOT) {
+    console.log(`  Consumer: ${path.resolve(process.env.COMPASS_UI_CONSUMER_ROOT)}`);
+  }
 }
 
 main();
