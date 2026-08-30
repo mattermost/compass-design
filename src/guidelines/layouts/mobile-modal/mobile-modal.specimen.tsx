@@ -3,7 +3,7 @@ import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
 import LayersOutlineIcon from '@mattermost/compass-icons/components/layers-outline';
-import { Icon } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MobileMenuItem, MobileModal, MobileNavigationBar } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import MobileModalStage from '@/components/layout/MobileModalStage';

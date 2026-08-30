@@ -103,10 +103,30 @@ import '@fontsource/open-sans/600.css';
 
 Fonts are not bundled in the library — consumers load them (same pattern as the playground).
 
-### 4. Import components
+### 4. Import components (subpaths)
+
+Import from **per-component subpaths** so bundlers and Jest load only the module graph you need (same pattern as `@mattermost/shared`):
 
 ```tsx
-import { Button, Icon } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { useExitAnimation } from '@mattermost/compass-ui/hooks/use-exit-animation';
+```
+
+| Import style | When to use |
+|--------------|-------------|
+| `@mattermost/compass-ui/components/<kebab-name>` | **Default** — components, types, and style sub-exports from that component |
+| `@mattermost/compass-ui/hooks/<kebab-name>` | Shared hooks |
+| `@mattermost/compass-ui/utils/string` | `toKebab` and string helpers |
+| `@mattermost/compass-ui` (root barrel) | Legacy only — loads the full package; avoid in Jest |
+
+PascalCase component folders map to kebab-case subpaths: `AdminConsoleSidebar` → `components/admin-console-sidebar`.
+
+Style sub-exports live on the owning component subpath:
+
+```tsx
+import { btnStyles } from '@mattermost/compass-ui/components/button';
+import { messageStyles } from '@mattermost/compass-ui/components/message';
 ```
 
 For playground, prototypes, and docs that install the unpublished workspace package, also:
@@ -139,7 +159,7 @@ Minimal `main.tsx`:
 ```tsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/styles/standalone';
 import '@mattermost/compass-ui/component-styles';
@@ -197,7 +217,9 @@ Use components as usual:
 
 ```tsx
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
-import { Select, Icon, Button } from '@mattermost/compass-ui';
+import { Select } from '@mattermost/compass-ui/components/select';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Button } from '@mattermost/compass-ui/components/button';
 
 <Select
   label="Team"
@@ -274,7 +296,7 @@ Remove the smoke component before any mergeable PR.
 After `@mattermost` npm org publish, use the `alpha` tag until stable:
 
 ```json
-"@mattermost/compass-ui": "0.1.0-alpha.2"
+"@mattermost/compass-ui": "0.1.0-alpha.3"
 ```
 
 ```bash
@@ -284,13 +306,73 @@ npm install @mattermost/compass-ui@alpha
 ### Import pattern
 
 ```tsx
-import { Button } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
 // Do not import /styles/standalone — webapp owns themes, reset, and document styles
 ```
 
 Load `/styles` once at the app bootstrap (same entry that loads global webapp SCSS).
+
+### Jest (unit tests)
+
+Use **subpath imports** in product code (e.g. `confirm_modal.tsx`):
+
+```tsx
+import { Button } from '@mattermost/compass-ui/components/button';
+```
+
+Do **not** import from the root barrel in tests — Jest `require('@mattermost/compass-ui')` loads the full CJS bundle and evaluates every component, which triggers spurious React warnings and slows suites.
+
+Add a `moduleNameMapper` entry in `webapp/channels/jest.config.js` (adjust paths if your layout differs):
+
+```js
+moduleNameMapper: {
+  // …existing mappers…
+  '^@mattermost/compass-ui/hooks/(.*)$':
+    '<rootDir>/node_modules/@mattermost/compass-ui/dist/hooks/$1.cjs',
+  '^@mattermost/compass-ui/utils/string$':
+    '<rootDir>/node_modules/@mattermost/compass-ui/dist/utils/string.cjs',
+  '^@mattermost/compass-ui/(.*)$':
+    '<rootDir>/node_modules/@mattermost/compass-ui/dist/$1/index.cjs',
+},
+```
+
+Order matters: list the `hooks/` and `utils/string` patterns **before** the generic `/(.*)$` rule so hooks resolve to `dist/hooks/<name>.cjs` (no `/index` suffix).
+
+**Symptoms fixed by subpaths + mapper (alpha.3+):**
+
+| Symptom | Cause |
+|---------|--------|
+| `React.jsx: type is invalid -- got: object` on icon props | CJS default export interop — fixed in dist chunks |
+| Warnings referencing `AdminConsoleSidebar`, `PopoverNotice`, etc. while testing unrelated files | Root barrel loads all components |
+
+**Webapp migration (separate PR in `mattermost/mattermost`):**
+
+1. Bump to `@mattermost/compass-ui@0.1.0-alpha.3` (or `@alpha` after publish).
+2. Add Jest `moduleNameMapper` entries above.
+3. Migrate imports leaf-first — start with `confirm_modal.tsx` and other early adopters.
+4. Avoid mocking the entire package unless you need to stub behavior; subpaths remove the need for global mocks.
+
+### Proto playground (`mattermost-proto-playground`)
+
+The prototypes catalog is a **separate repo** that consumes published `@mattermost/compass-ui` from npm plus `file:../compass-design/packages/compass-proto`.
+
+After `0.1.0-alpha.3` is published:
+
+1. Bump `package.json`: `"@mattermost/compass-ui": "0.1.0-alpha.3"` (or `@alpha`).
+2. From a sibling `compass-design` clone, run the import codemod against the playground tree:
+
+```bash
+cd compass-design
+COMPASS_UI_CONSUMER_ROOT=../mattermost-proto-playground node scripts/migrate-compass-ui-imports.mjs
+```
+
+3. Update agent docs (`AGENTS.md`, `src/pages/prototypes/AGENTS.md`) to mandate subpath imports.
+4. Extend `scripts/ensure-compass-packages.mjs` to assert `dist/components/button/index.js` exists (subpath layout).
+5. `npm install && npm run build` — verify prototype flows compile.
+
+Import convention matches webapp and docs: `@mattermost/compass-ui/components/<kebab-name>` only; do not use the root barrel.
 
 ### Webpack checklist
 
@@ -307,7 +389,7 @@ Load `/styles` once at the app bootstrap (same entry that loads global webapp SC
 **Leaf-first** — do not big-bang replace `@mattermost/compass-components`.
 
 1. Add `@mattermost/compass-ui` alongside legacy package.
-2. New code uses compass-ui.
+2. New code uses compass-ui **subpath imports** (`components/button`, not the root barrel).
 3. Replace compass-components usages file-by-file (Button, Text equivalents, etc.).
 4. Storybook is the variant reference — link from internal docs.
 
@@ -339,7 +421,7 @@ Compass layers are Foundations → Components → Patterns → Layouts. Patterns
 
 ```tsx
 // Workspace consumers (playground, prototypes, docs) — not webapp product code
-import type { ChannelsSidebarModel } from '@mattermost/compass-ui';
+import type { ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
 import {
   ChannelShell,
   buildDefaultChannelsSidebarModel,
@@ -365,13 +447,14 @@ See `src/fixtures/rightSidebarThreadDemo.tsx` in the playground for a docs-side 
 Only `dist/` is published (`files: ["dist"]`):
 
 ```
-dist/index.js          # ESM bundle
-dist/index.cjs         # CJS bundle
-dist/index.d.ts        # Type declarations
-dist/index.css         # component-styles
-dist/compass-ui.css    # styles (tokens + webapp-compat)
-dist/compass-ui-standalone.css  # theme presets + reset + body/heading chrome (standalone hosts only)
-dist/components/       # per-component .d.ts
+dist/index.js / index.cjs     # legacy root barrel (re-exports all symbols)
+dist/index.d.ts
+dist/index.css                # component-styles
+dist/compass-ui.css           # styles (tokens + webapp-compat)
+dist/compass-ui-standalone.css
+dist/components/<name>/       # per-component ESM + CJS + .d.ts (subpath imports)
+dist/hooks/                   # hook modules
+dist/utils/string.*           # string helpers
 ```
 
 Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.
@@ -428,7 +511,9 @@ Until trusted publishing is configured, the Release → CI job will fail at `npm
 | `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
 | Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
 | Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page. Do not set `registry-url` / `NODE_AUTH_TOKEN` on the publish job — empty token auth blocks OIDC and surfaces as E404. |
-| Release tag ≠ package version | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.2`) |
+| Release tag ≠ package version | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.3`) |
+| Jest `type is invalid -- got: object` on icons | Upgrade to `0.1.0-alpha.3+`; use subpath imports + Jest mapper (see above) |
+| Jest warnings from unrelated compass-ui components | Stop importing from root barrel; use `@mattermost/compass-ui/components/<name>` |
 | Workspace link missing | Run `npm install` from repo root, not inside `packages/compass-ui` |
 
 ---

@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import path from 'path';
+import { collectLibEntries } from './build-entries';
 import { compassIconsJsExtensions } from './vite-plugin-compass-icons-ext';
 import { compassUiGlobalStyles } from './vite-plugin-global-styles';
 
 const isWatchBuild = process.argv.includes('--watch');
+const srcRoot = path.resolve(__dirname, 'src');
 
 export default defineConfig({
   plugins: [
@@ -23,11 +25,12 @@ export default defineConfig({
         'src/storybook/**',
       ],
       rollupTypes: false,
+      outDir: 'dist',
     }),
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': srcRoot,
     },
   },
   css: {
@@ -40,10 +43,8 @@ export default defineConfig({
   build: {
     emptyOutDir: !isWatchBuild,
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'CompassUI',
+      entry: collectLibEntries(),
       formats: ['es', 'cjs'],
-      fileName: (format) => (format === 'es' ? 'index.js' : 'index.cjs'),
     },
     rollupOptions: {
       external: (id) => {
@@ -56,12 +57,28 @@ export default defineConfig({
         if (id === 'simplebar-react') {
           return true;
         }
-        // Bundle simplebar CSS into component-styles; externalize JS subpaths only.
         if (/^simplebar-react\//.test(id) && !id.endsWith('.css')) {
           return true;
         }
         return false;
       },
+      output: [
+        {
+          format: 'es',
+          preserveModules: true,
+          preserveModulesRoot: srcRoot,
+          entryFileNames: '[name].js',
+          chunkFileNames: '[name].js',
+        },
+        {
+          format: 'cjs',
+          preserveModules: true,
+          preserveModulesRoot: srcRoot,
+          entryFileNames: '[name].cjs',
+          chunkFileNames: '[name].cjs',
+          exports: 'named',
+        },
+      ],
     },
     cssCodeSplit: false,
     sourcemap: true,

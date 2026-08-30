@@ -1,9 +1,9 @@
 import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-off';
 import CloseIcon from '@mattermost/compass-icons/components/close';
-import { Button } from '@mattermost/compass-ui';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
-import { Scrollbar } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import type { Participant } from '@/types/callParticipant';
 import { ParticipantListItem } from './ParticipantListItem';
 import styles from './ParticipantsPanel.module.scss';

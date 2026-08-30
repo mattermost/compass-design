@@ -1,9 +1,9 @@
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import ServerVariantIcon from '@mattermost/compass-icons/components/server-variant';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton, ICON_BUTTON_ICON_SIZES, } from '@mattermost/compass-ui';
-import { TeamAvatar } from '@mattermost/compass-ui';
-import { UnreadBadge } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton, ICON_BUTTON_ICON_SIZES } from '@mattermost/compass-ui/components/icon-button';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
+import { UnreadBadge } from '@mattermost/compass-ui/components/unread-badge';
 import styles from './MobileTeamSidebar.module.scss';
 
 export interface MobileTeamSidebarItem {

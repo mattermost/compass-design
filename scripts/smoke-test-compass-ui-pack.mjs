@@ -33,6 +33,8 @@ function assertTarballContents(tarballPath) {
     'package/dist/index.css',
     'package/dist/compass-ui.css',
     'package/dist/compass-ui-standalone.css',
+    'package/dist/components/button/index.js',
+    'package/dist/components/button/index.cjs',
     'package/dist/index.d.ts',
   ];
   for (const entry of required) {
@@ -92,7 +94,9 @@ function writeConsumer(tempDir, tarballPath) {
     `import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
-import { Button, Icon, Scrollbar } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
 

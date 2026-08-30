@@ -1,5 +1,5 @@
-import { TourPoint } from '@mattermost/compass-ui';
-import type { TourPointPointerPosition } from '@mattermost/compass-ui';
+import { TourPoint } from '@mattermost/compass-ui/components/tour-point';
+import type { TourPointPointerPosition } from '@mattermost/compass-ui/components/tour-point';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 const POINTER_VARIANTS: TourPointPointerPosition[] = [

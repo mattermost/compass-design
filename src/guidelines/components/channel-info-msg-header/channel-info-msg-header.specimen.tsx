@@ -1,4 +1,4 @@
-import { ChannelInfoMsgHeader } from '@mattermost/compass-ui';
+import { ChannelInfoMsgHeader } from '@mattermost/compass-ui/components/channel-info-msg-header';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function ChannelInfoMsgHeaderLibrary() {

@@ -3,8 +3,10 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarArjun from '@/assets/avatars/Arjun Patel.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
-import { Combobox, Icon, UserAvatar } from '@mattermost/compass-ui';
-import type { ComboboxOption } from '@mattermost/compass-ui';
+import { Combobox } from '@mattermost/compass-ui/components/combobox';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import type { ComboboxOption } from '@mattermost/compass-ui/components/combobox';
 import styles from '@/styles/library-demo/components.module.scss';
 
 const CHANNEL_OPTIONS: ComboboxOption[] = [

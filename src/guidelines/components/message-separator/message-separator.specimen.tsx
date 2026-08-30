@@ -1,4 +1,4 @@
-import { MessageSeparator } from '@mattermost/compass-ui';
+import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MessageSeparatorLibrary() {

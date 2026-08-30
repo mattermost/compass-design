@@ -1,9 +1,9 @@
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
-import { Button } from '@mattermost/compass-ui';
-import { Icon } from '@mattermost/compass-ui';
-import { Modal } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Modal } from '@mattermost/compass-ui/components/modal';
 import styles from './ButtonSamples.module.scss';
 
 export function ButtonAnatomy() {

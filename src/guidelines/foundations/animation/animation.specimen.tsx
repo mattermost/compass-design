@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from 'react';
 import PlayOutlineIcon from '@mattermost/compass-icons/components/play-outline';
-import { Icon, IconButton, ICON_BUTTON_ICON_SIZES } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton, ICON_BUTTON_ICON_SIZES } from '@mattermost/compass-ui/components/icon-button';
 import styles from '@/styles/library-demo/foundations.module.scss';
 
 const DURATIONS = [

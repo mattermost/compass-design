@@ -1,4 +1,4 @@
-import { NewMessageBanner } from '@mattermost/compass-ui';
+import { NewMessageBanner } from '@mattermost/compass-ui/components/new-message-banner';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function NewMessageBannerLibrary() {

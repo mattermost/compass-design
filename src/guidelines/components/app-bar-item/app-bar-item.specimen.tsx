@@ -2,7 +2,7 @@ import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
-import { AppBarItem } from '@mattermost/compass-ui';
+import { AppBarItem } from '@mattermost/compass-ui/components/app-bar-item';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function AppBarItemLibrary() {

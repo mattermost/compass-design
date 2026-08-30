@@ -1,4 +1,4 @@
-import { SearchTipBanner } from '@mattermost/compass-ui';
+import { SearchTipBanner } from '@mattermost/compass-ui/components/search-tip-banner';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function SearchTipBannerLibrary() {

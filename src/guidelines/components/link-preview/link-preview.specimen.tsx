@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LinkPreview } from '@mattermost/compass-ui';
+import { LinkPreview } from '@mattermost/compass-ui/components/link-preview';
 import sampleImage from '@/assets/images/sample-image.jpg';
 import styles from '@/styles/library-demo/components.module.scss';
 

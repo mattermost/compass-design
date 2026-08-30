@@ -1,4 +1,4 @@
-import { UnreadBadge } from '@mattermost/compass-ui';
+import { UnreadBadge } from '@mattermost/compass-ui/components/unread-badge';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function UnreadBadgeLibrary() {

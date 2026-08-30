@@ -1,4 +1,4 @@
-import { Emoji } from '@mattermost/compass-ui';
+import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function EmojiLibrary() {

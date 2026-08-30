@@ -1,4 +1,4 @@
-import { ChannelsSidebar } from '@mattermost/compass-ui';
+import { ChannelsSidebar } from '@mattermost/compass-ui/components/channels-sidebar';
 import {
   defaultChannelsSidebarDemoModel,
   unreadsChannelsSidebarDemoModel,

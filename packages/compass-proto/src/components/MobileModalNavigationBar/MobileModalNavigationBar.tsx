@@ -1,9 +1,9 @@
 import type {ReactNode} from 'react';
 import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-ios';
 import CloseIcon from '@mattermost/compass-icons/components/close';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
-import { UserAvatar } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from './MobileModalNavigationBar.module.scss';
 
 export type MobileModalNavigationBarVariant = 'parent' | 'child';

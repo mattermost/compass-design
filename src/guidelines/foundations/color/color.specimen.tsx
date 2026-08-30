@@ -1,5 +1,5 @@
 import Swatch, { SwatchGrid } from '@/guidelines/_components/Swatch';
-import { Divider } from '@mattermost/compass-ui';
+import { Divider } from '@mattermost/compass-ui/components/divider';
 import styles from './color.specimen.module.scss';
 
 const PALETTES: { label: string; base: string; shades: number[] }[] = [

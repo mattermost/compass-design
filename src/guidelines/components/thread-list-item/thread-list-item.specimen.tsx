@@ -1,4 +1,4 @@
-import { ThreadListItem } from '@mattermost/compass-ui';
+import { ThreadListItem } from '@mattermost/compass-ui/components/thread-list-item';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function ThreadListItemLibrary() {

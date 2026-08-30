@@ -5,3 +5,4 @@ export type {
   ButtonSize,
   ButtonAppearance,
 } from './Button';
+export { default as btnStyles } from './Button.module.scss';

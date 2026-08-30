@@ -1,5 +1,5 @@
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import { PermalinkPreview } from '@mattermost/compass-ui';
+import { PermalinkPreview } from '@mattermost/compass-ui/components/permalink-preview';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function PermalinkPreviewLibrary() {

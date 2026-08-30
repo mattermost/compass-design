@@ -6,14 +6,25 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
-### Added
+## [0.1.0-alpha.3] - 2026-08-28
 
-- GitHub Actions `publish-compass-ui.yml`: on GitHub Release published, build and `npm publish` `@mattermost/compass-ui` (dist-tag from version; OIDC trusted publishing).
-- `repository` field on `@mattermost/compass-ui` for npm provenance / trusted publishing.
+### Changed
+
+- **BREAKING (recommended):** Import components from subpaths — `@mattermost/compass-ui/components/<kebab-name>` — instead of the root barrel. Matches `@mattermost/shared` packaging; Jest and webpack load only the requested module graph. Root barrel (`@mattermost/compass-ui`) is retained for backwards compatibility but discouraged in test environments.
+- Multi-entry Vite build with `preserveModules`: `dist/components/<name>/`, `dist/hooks/`, wildcard `package.json` exports, and `typesVersions` for deep subpath TypeScript resolution.
+- Playground, docs, and `@mattermost/compass-proto` consumers migrated to subpath imports.
 
 ### Fixed
 
-- Publish workflow: drop `setup-node` `registry-url` so OIDC trusted-publisher auth is not overridden by an empty `.npmrc` token (E404 on PUT).
+- CJS dist chunks unwrap `@mattermost/compass-icons` default exports (`mod?.default ?? mod`) in every `.cjs` file — fixes Jest `React.jsx: type is invalid -- got: object` warnings on icon props.
+- Post-build normalization renames component output folders to kebab-case and bundles aggregated `component-styles` CSS.
+
+### Added
+
+- `scripts/generate-compass-ui-exports.mjs`, `scripts/normalize-compass-ui-dist.mjs`, `scripts/verify-compass-ui-dist.mjs` — exports codegen, dist layout normalization, and subpath isolation checks.
+- `scripts/migrate-compass-ui-imports.mjs` — codemod for root → subpath import migration.
+- Style sub-exports on component indexes: `btnStyles`, `messageStyles`, `channelsSidebarStyles`.
+- INTEGRATION.md Jest `moduleNameMapper` guidance for Mattermost webapp consumers.
 
 ## [0.1.0-alpha.2] - 2026-08-27
 
@@ -70,7 +81,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.2...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.3...HEAD
+[0.1.0-alpha.3]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.2...0.1.0-alpha.3
 [0.1.0-alpha.2]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.1...0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.0...0.1.0-alpha.1
 [0.1.0-alpha.0]: https://github.com/mattermost/compass-design/releases/tag/0.1.0-alpha.0

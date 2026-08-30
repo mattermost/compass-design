@@ -1,5 +1,5 @@
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
-import { Tag } from '@mattermost/compass-ui';
+import { Tag } from '@mattermost/compass-ui/components/tag';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function TagLibrary() {

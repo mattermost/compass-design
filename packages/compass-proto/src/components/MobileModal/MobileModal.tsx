@@ -1,5 +1,5 @@
 import type {ReactNode} from 'react';
-import { Scrollbar } from '@mattermost/compass-ui';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import MobileModalNavigationBar, {
   type MobileModalNavigationBarVariant,
 } from '@/components/MobileModalNavigationBar/MobileModalNavigationBar';

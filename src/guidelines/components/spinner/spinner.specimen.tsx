@@ -1,4 +1,4 @@
-import { Spinner } from '@mattermost/compass-ui';
+import { Spinner } from '@mattermost/compass-ui/components/spinner';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function SpinnerLibrary() {

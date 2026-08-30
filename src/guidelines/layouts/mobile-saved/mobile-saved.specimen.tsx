@@ -1,5 +1,5 @@
 import { useState} from 'react';
-import { Scrollbar } from '@mattermost/compass-ui';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import { MobileMessage } from '@mattermost/compass-proto';
 import { type MobileTabBarTab } from '@mattermost/compass-proto';
 import { MobileSavedMessages, MobileTabBar, mobileMessageStyles } from '@mattermost/compass-proto';

@@ -6,8 +6,8 @@ import ChartLineIcon from '@mattermost/compass-icons/components/chart-line';
 import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circle-multiple-outline';
 import PhoneInTalkIcon from '@mattermost/compass-icons/components/phone-in-talk';
 import DialpadIcon from '@mattermost/compass-icons/components/dialpad';
-import { UserAvatar } from '@mattermost/compass-ui';
-import { MentionBadge } from '@mattermost/compass-ui';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import { MentionBadge } from '@mattermost/compass-ui/components/mention-badge';
 import styles from './MobileChannelSidebarItem.module.scss';
 
 export type MobileChannelSidebarItemLeadingVisual =

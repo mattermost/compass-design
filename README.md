@@ -38,6 +38,7 @@ npm run smoke-test:packages
 ## Consumers
 
 - **Vite / docs:** workspace packages (this repo)
+- **Proto playground:** [`mattermost-proto-playground`](https://github.com/mattermost/mattermost-proto-playground) — npm `@mattermost/compass-ui@alpha` (subpath imports; `0.1.0-alpha.3+`) + `file:` for `@mattermost/compass-proto`
 - **Mattermost webapp:** `file:` or `@mattermost/compass-ui@alpha` — see [`packages/compass-ui/INTEGRATION.md`](./packages/compass-ui/INTEGRATION.md)
 - **Proto package:** workspace or `npm pack` only; not for webapp product code
 

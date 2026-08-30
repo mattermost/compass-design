@@ -33,11 +33,13 @@ Set a theme on `<html>` (standalone hosts):
 <html data-theme="denim">
 ```
 
-Import components:
+Import components from **subpaths** (one module graph per import — required for Jest and recommended for webpack):
 
 ```tsx
-import { Button } from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
 ```
+
+The root barrel (`@mattermost/compass-ui`) remains for backwards compatibility but loads the full package.
 
 ## Development
 
@@ -50,7 +52,9 @@ npm run storybook     # component catalog on :6006
 
 ## Package layout
 
-- `dist/index.js` / `dist/index.cjs` — component bundle (ESM + CJS)
+- `dist/components/<name>/index.js` / `.cjs` — per-component subpaths (`@mattermost/compass-ui/components/<name>`)
+- `dist/hooks/<name>.js` / `.cjs` — hooks (`@mattermost/compass-ui/hooks/<name>`)
+- `dist/index.js` / `dist/index.cjs` — legacy root barrel (ESM + CJS)
 - `dist/compass-ui.css` — tokens and webapp-compat defaults (`./styles`)
 - `dist/compass-ui-standalone.css` — theme presets + CSS reset + `body` / heading chrome for standalone hosts (`./styles/standalone`)
 - `dist/index.css` — component CSS modules (injected at build; also available as `./component-styles`)

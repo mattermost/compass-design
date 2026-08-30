@@ -3,6 +3,9 @@ import type { OutputBundle, Plugin } from 'vite';
 const ICON_DEFAULT_IMPORT =
   /import\s+([A-Za-z_$][\w$]*)\s+from\s*(["'])(@mattermost\/compass-icons\/[^"']+)\2\s*;?/g;
 
+const CJS_ICON_REQUIRE =
+  /([A-Za-z_$][\w$]*)=require\((["'])(@mattermost\/compass-icons\/[^"']+)\2\)/g;
+
 function withJsExtension(specifier: string): string {
   if (!specifier.startsWith('@mattermost/compass-icons/')) {
     return specifier;
@@ -30,10 +33,22 @@ function rewriteEsmIconImports(code: string): string {
   return next;
 }
 
-function rewriteCjsIconSpecs(code: string): string {
-  return code.replace(/@mattermost\/compass-icons\/[^'"]+/g, (spec) =>
+function rewriteCjsIconRequires(code: string): string {
+  let next = code.replace(
+    CJS_ICON_REQUIRE,
+    (_m, id: string, quote: string, spec: string) => {
+      if (id.startsWith('__')) return _m;
+      const path = withJsExtension(spec);
+      const tmp = `__${id}`;
+      return `${tmp}=require(${quote}${path}${quote}),${id}=${tmp}?.default??${tmp}`;
+    },
+  );
+
+  next = next.replace(/@mattermost\/compass-icons\/[^'"]+/g, (spec) =>
     withJsExtension(spec),
   );
+
+  return next;
 }
 
 function rewriteBundle(bundle: OutputBundle) {
@@ -42,7 +57,7 @@ function rewriteBundle(bundle: OutputBundle) {
       continue;
     }
     if (item.fileName.endsWith('.cjs')) {
-      item.code = rewriteCjsIconSpecs(item.code);
+      item.code = rewriteCjsIconRequires(item.code);
     } else if (item.fileName.endsWith('.js')) {
       item.code = rewriteEsmIconImports(item.code);
     }
@@ -51,7 +66,7 @@ function rewriteBundle(bundle: OutputBundle) {
 
 /**
  * - Append .js for webpack 5 ESM fullySpecified resolution.
- * - Unwrap CJS default exports so icon components are functions under webpack,
+ * - Unwrap CJS default exports so icon components are functions under webpack/Jest,
  *   not `{ default: fn }` module namespace objects.
  */
 export function compassIconsJsExtensions(): Plugin {

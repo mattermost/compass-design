@@ -1,5 +1,5 @@
 import type {ReactNode} from 'react';
-import { UserAvatar } from '@mattermost/compass-ui';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import MobileTabScreen from '@/components/MobileTabScreen/MobileTabScreen';
 import styles from './MobileProfile.module.scss';
 

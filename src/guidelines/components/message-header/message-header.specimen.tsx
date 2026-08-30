@@ -1,4 +1,4 @@
-import { MessageHeader } from '@mattermost/compass-ui';
+import { MessageHeader } from '@mattermost/compass-ui/components/message-header';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MessageHeaderLibrary() {

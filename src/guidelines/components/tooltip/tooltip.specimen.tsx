@@ -1,4 +1,4 @@
-import { Tooltip } from '@mattermost/compass-ui';
+import { Tooltip } from '@mattermost/compass-ui/components/tooltip';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function TooltipLibrary() {

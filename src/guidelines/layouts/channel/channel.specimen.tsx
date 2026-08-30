@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import { ChannelHeader } from '@mattermost/compass-ui';
+import { ChannelHeader } from '@mattermost/compass-ui/components/channel-header';
 import { ChannelShell } from '@mattermost/compass-proto';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-import { MessageInput } from '@mattermost/compass-ui';
-import { MessageReactions } from '@mattermost/compass-ui';
-import { MessageSeparator } from '@mattermost/compass-ui';
-import { Message } from '@mattermost/compass-ui';
+import { MessageInput } from '@mattermost/compass-ui/components/message-input';
+import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
+import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
+import { Message } from '@mattermost/compass-ui/components/message';
 import { RightSidebarChannelInfo } from '@mattermost/compass-proto';
-import {
-  RightSidebarHeader
-} from '@mattermost/compass-ui';
-import { Scrollbar } from '@mattermost/compass-ui';
+import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
 import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';

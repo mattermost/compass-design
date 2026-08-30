@@ -1,4 +1,4 @@
-import { Dropdown } from '@mattermost/compass-ui';
+import { Dropdown } from '@mattermost/compass-ui/components/dropdown';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function DropdownLibrary() {

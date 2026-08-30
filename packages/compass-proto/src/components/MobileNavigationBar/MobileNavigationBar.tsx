@@ -3,9 +3,9 @@ import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-io
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
-import { MentionBadge } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { MentionBadge } from '@mattermost/compass-ui/components/mention-badge';
 import styles from './MobileNavigationBar.module.scss';
 
 export type MobileNavigationBarVariant = 'channel' | 'dm' | 'gm' | 'bot';

@@ -3,10 +3,10 @@ import ContentCopyIcon from '@mattermost/compass-icons/components/content-copy';
 import CheckIcon from '@mattermost/compass-icons/components/check';
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import CloseIcon from '@mattermost/compass-icons/components/close';
-import { Icon } from '@mattermost/compass-ui';
-import { IconButton } from '@mattermost/compass-ui';
-import { Switch } from '@mattermost/compass-ui';
-import { Button } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Switch } from '@mattermost/compass-ui/components/switch';
+import { Button } from '@mattermost/compass-ui/components/button';
 import styles from './CallInfoPanel.module.scss';
 
 export type CallInfoPanelVariant = 'host' | 'guest';

@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
-import { Button } from '@mattermost/compass-ui';
-import { Icon } from '@mattermost/compass-ui';
-import { MenuItem } from '@mattermost/compass-ui';
-import {
-  PopoverMenuGroup,
-  PopoverMenu} from '@mattermost/compass-ui';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import { PopoverMenuGroup, PopoverMenu } from '@mattermost/compass-ui/components/popover-menu';
 import styles from './PopoverMenuMotion.module.scss';
 
 export type PopoverMenuMotionDirection =

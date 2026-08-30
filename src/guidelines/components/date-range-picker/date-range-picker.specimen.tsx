@@ -1,4 +1,4 @@
-import { DateRangePicker } from '@mattermost/compass-ui';
+import { DateRangePicker } from '@mattermost/compass-ui/components/date-range-picker';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function DateRangePickerLibrary() {

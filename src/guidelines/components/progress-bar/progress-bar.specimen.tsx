@@ -1,4 +1,4 @@
-import { ProgressBar } from '@mattermost/compass-ui';
+import { ProgressBar } from '@mattermost/compass-ui/components/progress-bar';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function ProgressBarLibrary() {

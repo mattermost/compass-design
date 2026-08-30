@@ -1,4 +1,4 @@
-import { Radio } from '@mattermost/compass-ui';
+import { Radio } from '@mattermost/compass-ui/components/radio';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function RadioLibrary() {

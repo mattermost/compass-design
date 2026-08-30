@@ -5,7 +5,7 @@ import {
   type InputHTMLAttributes,
 } from 'react';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
-import { Icon } from '@mattermost/compass-ui';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from './MobileSearchField.module.scss';
 
 export interface MobileSearchFieldProps

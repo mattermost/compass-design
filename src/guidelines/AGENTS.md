@@ -34,6 +34,7 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 
 ## Specimens and MDX code samples
 
+- **Import convention:** always use subpath imports from `@mattermost/compass-ui` — never the root barrel. Map PascalCase component names to kebab-case segments: `Button` → `@mattermost/compass-ui/components/button`, `useExitAnimation` → `@mattermost/compass-ui/hooks/use-exit-animation`. Style sub-exports (`btnStyles`, `messageStyles`) come from the owning component subpath (e.g. `@mattermost/compass-ui/components/button`). Split multi-component imports into separate subpath lines.
 - Variant props in specimens, `_components/*Samples.tsx`, and MDX `<Preview>` blocks must use the same **lowercase kebab-case** literals as `@mattermost/compass-ui` (e.g. `size="medium"`, `emphasis="tertiary"`). See [AGENTS.md](../../AGENTS.md#variant-prop-string-values).
 - Matrix headings and button labels may stay human-readable (Title Case); prop values must not.
 
