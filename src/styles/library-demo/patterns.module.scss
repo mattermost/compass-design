@@ -128,6 +128,13 @@
     gap: var(--spacing-l);
   }
 
+  // Bleed MenuItem rows so label content aligns with the 32px modal margins.
+  &__modal-menu-list {
+    display: flex;
+    flex-direction: column;
+    margin-inline: calc(-1 * var(--spacing-l));
+  }
+
   // ── Team Sidebar demo ───────────────────────────────────────
   &__team-sidebar-demo {
     display: inline-flex;

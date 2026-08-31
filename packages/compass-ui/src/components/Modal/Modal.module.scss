@@ -80,6 +80,10 @@
 
   &__body-inner {
     padding: 28px var(--spacing-xxxl);
+
+    &--compact {
+      padding: var(--spacing-xs) var(--spacing-xxxl);
+    }
   }
 
   // ── Footer ────────────────────────────────────────────────

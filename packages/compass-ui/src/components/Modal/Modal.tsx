@@ -47,6 +47,8 @@ export default function Modal({
 }: ModalProps) {
   const titleId = useId();
   const sizeClass = styles[`modal--size-${toKebab(size)}`];
+  const compactBody =
+    !headerDivider && (footer == null || !footerDivider);
 
   return (
     <div
@@ -90,7 +92,16 @@ export default function Modal({
 
       <div className={styles['modal__body']}>
         <Scrollbar>
-          <div className={styles['modal__body-inner']}>{children}</div>
+          <div
+            className={[
+              styles['modal__body-inner'],
+              compactBody && styles['modal__body-inner--compact'],
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {children}
+          </div>
         </Scrollbar>
       </div>
 
