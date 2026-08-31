@@ -41,7 +41,8 @@ header and body, an optional footer, and the dimmed overlay behind the dialog.
 The title should be a short statement or question; add a subtitle only when
 users need more guidance. Reserve a header action for related work that is not
 one of the modal's primary outcomes. Use a header input (small) when the body
-shows long lists — search is the common case. Body padding is 32px horizontal and
+shows long lists — search is the common case. Keep that list a stable height
+while filtering (see Searchable lists). Body padding is 32px horizontal and
 28px vertical by default. When header and footer dividers are off, remove the
 header’s bottom padding and the footer’s top padding. For `MenuItem` lists, set
 `bodyPadding="menu"` (typically with dividers off) so rows bleed and labels line
@@ -78,6 +79,17 @@ Viewport height &lt; 900px
 
 Maximum height is viewport height minus 160px (80px inset from top and bottom).
 Overflow scrolls in the body.
+
+<Divider />
+
+## Searchable lists
+
+When a modal pairs a header search field with a filtered list in the body —
+member pickers, channel switchers, autocomplete-style menus — keep the
+dialog height stable while the user types. Filter results inside a
+fixed-height scrolling body. Don't let the modal shrink as the match count
+drops: because the dialog is vertically centred, a changing height makes it
+jump up and down with each keystroke.
 
 <Divider />
 

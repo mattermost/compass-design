@@ -67,6 +67,11 @@ Active, Disabled — and add **Toggled** for on/off controls.
   <IconButton aria-label="Disabled" disabled icon={<Icon glyph={<StarOutlineIcon />} size="20" />} />
 </div>
 
+**Focus** uses the same double ring as [Button](/components/button) — a gap
+the colour of the surface, then a coloured outer ring. Other compact
+controls (Chip dismiss, App Bar items, icon-only actions) should follow
+that ring rather than inventing a separate overlay.
+
 **Toggled** uses the active button colour to communicate "on" — pin a
 message, favourite a channel, expand a panel. Pair the toggled state with
 an `aria-pressed` attribute (the component sets this for you).

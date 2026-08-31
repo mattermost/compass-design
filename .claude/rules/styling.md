@@ -92,6 +92,36 @@ Never hard-code durations or easing keywords — use tokens:
 
 “Large movement” = significant travel across the viewport (e.g. panel from off-screen).
 
+## Focus rings (buttons and compact controls)
+
+`Button` and `IconButton` draw focus with `box-shadow` on `:focus-visible` — a 3px inner gap in the surface colour and a 5px outer ring. Do **not** use a `::after` overlay plus `position: relative` to scale the ring: that makes the control a positioning context and breaks parents that absolutely place it (e.g. banner dismiss).
+
+Use the same treatment on similar compact controls (`IconButton`, Chip dismiss, `AppBarItem`, other icon-only buttons):
+
+```scss
+// ❌ BAD — overlay + containing block
+position: relative;
+&::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 0 2px var(--button-bg);
+}
+
+// ✅ GOOD
+&:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--center-channel-bg),
+    0 0 0 5px var(--button-bg);
+}
+```
+
+- Transition `box-shadow` with `--duration-quick` / `--ease-transition`.
+- Inverted / dark surfaces: inner `--sidebar-bg`; outer stays `--button-bg` unless destructive (`--error-text` / `--color-danger`).
+- Form fields, checkboxes, radios, and switches keep their own field/box rings — don’t replace those with this button ring.
+- Semantic banner/toast fills may override ring colour for contrast on that surface.
+
 ## Semantic colors
 
 Fixed intent colors: `--color-info|success|warning|danger` (and `-rgb` for `rgba()`). Never raw palette (e.g. `--color-blue-400`).

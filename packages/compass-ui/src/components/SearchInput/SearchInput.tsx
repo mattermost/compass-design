@@ -21,6 +21,12 @@ const ICON_SIZE_MAP: Record<SearchInputSize, IconSize> = {
   large: '20',
 };
 
+const CLEAR_ICON_SIZE_MAP: Record<SearchInputSize, IconSize> = {
+  small: '12',
+  medium: '16',
+  large: '16',
+};
+
 export interface SearchInputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
   'size' | 'type'
@@ -140,6 +146,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       ? styles['searchInput--has-trailing-icon']
       : '';
     const iconSize = ICON_SIZE_MAP[size];
+    const clearIconSize = CLEAR_ICON_SIZE_MAP[size];
 
     const rootClass = [
       styles.searchInput,
@@ -187,7 +194,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                   aria-label="Clear search"
                   tabIndex={-1}
                 >
-                  <Icon size={iconSize} glyph={<CloseCircleIcon />} />
+                  <Icon size={clearIconSize} glyph={<CloseCircleIcon />} />
                 </button>
               </span>
             )}

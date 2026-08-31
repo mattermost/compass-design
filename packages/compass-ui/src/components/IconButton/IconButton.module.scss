@@ -2,10 +2,10 @@
 // Block
 // ---------------------------------------------------------------------------
 .icon-button {
-  --icon-button-focus-ring-color: var(--button-bg);
+  --icon-button-focus-ring-inner: var(--center-channel-bg);
+  --icon-button-focus-ring-outer: var(--button-bg);
 
   box-sizing: border-box;
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -16,37 +16,16 @@
   transition:
     background-color var(--duration-quick) var(--ease-transition),
     border-color var(--duration-quick) var(--ease-transition),
-    color var(--duration-quick) var(--ease-transition);
+    color var(--duration-quick) var(--ease-transition),
+    box-shadow var(--duration-quick) var(--ease-transition);
   background-color: transparent;
   color: rgba(var(--center-channel-color-rgb), 0.64);
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    box-shadow: 0 0 0 2px var(--icon-button-focus-ring-color);
-    opacity: 0;
-    transform: scale(0.94);
-    transition:
-      opacity var(--duration-quick) var(--ease-entrance),
-      transform var(--duration-quick) var(--ease-entrance);
-  }
-
   &:focus-visible {
     outline: none;
-  }
-
-  &:focus-visible:not(:disabled)::after {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  &:not(:focus-visible)::after {
-    transition:
-      opacity var(--duration-quick) var(--ease-exit),
-      transform var(--duration-quick) var(--ease-exit);
+    box-shadow:
+      0 0 0 3px var(--icon-button-focus-ring-inner),
+      0 0 0 5px var(--icon-button-focus-ring-outer);
   }
 
   &:disabled {
@@ -201,9 +180,6 @@
   // Default style — toggled state
   // ---------------------------------------------------------------------------
   &--toggled {
-    --icon-button-focus-ring-inner: var(--center-channel-bg);
-    --icon-button-focus-ring-outer: var(--button-bg);
-
     background-color: var(--button-bg);
     color: var(--button-color);
 
@@ -220,18 +196,14 @@
     .icon-button__unread-badge {
       box-shadow: 0 0 0 2px var(--button-bg);
     }
-
-    &::after {
-      box-shadow:
-        0 0 0 3px var(--icon-button-focus-ring-inner),
-        0 0 0 5px var(--icon-button-focus-ring-outer);
-    }
   }
 
   // ---------------------------------------------------------------------------
   // Style = Inverted (Figma: for dark backgrounds)
   // ---------------------------------------------------------------------------
   &--style-inverted {
+    --icon-button-focus-ring-inner: var(--sidebar-bg);
+
     background-color: transparent;
     color: rgba(var(--sidebar-text-rgb), 0.64);
 
@@ -263,9 +235,6 @@
       }
     }
     &.icon-button--toggled {
-      --icon-button-focus-ring-inner: var(--sidebar-bg);
-      --icon-button-focus-ring-outer: var(--button-bg);
-
       background-color: var(--sidebar-text);
       color: var(--sidebar-bg);
 
@@ -286,7 +255,7 @@
 
     // Inverted + destructive
     &.icon-button--destructive {
-      --icon-button-focus-ring-color: var(--error-text, var(--color-danger));
+      --icon-button-focus-ring-outer: var(--error-text, var(--color-danger));
 
       background-color: transparent;
       color: var(--error-text, var(--color-danger));
@@ -307,7 +276,7 @@
   // Transparent background with danger-color icon; tinted bg on hover/active.
   // ---------------------------------------------------------------------------
   &--destructive {
-    --icon-button-focus-ring-color: var(--error-text, var(--color-danger));
+    --icon-button-focus-ring-outer: var(--error-text, var(--color-danger));
 
     background-color: transparent;
     color: var(--error-text, var(--color-danger));
