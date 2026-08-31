@@ -67,6 +67,9 @@ function replacePathSegments(content, componentMap, hookMap) {
       [`hooks/${from}"`, `hooks/${to}"`],
       [`hooks/${from}'`, `hooks/${to}'`],
       [`hooks\\\\${from}.`, `hooks\\\\${to}.`],
+      // Bare output names: sourceMappingURL and the map "file" field.
+      [`sourceMappingURL=${from}.`, `sourceMappingURL=${to}.`],
+      [`"file":"${from}.`, `"file":"${to}.`],
     ];
     for (const [search, replace] of replacements) {
       next = next.split(search).join(replace);
@@ -125,10 +128,8 @@ function renameDir(oldPath, newPath) {
     const dest = path.join(newPath, entry.name);
     if (entry.isDirectory()) {
       renameDir(src, dest);
-    } else if (!fs.existsSync(dest) || sameInode(src, dest)) {
-      renamePath(src, dest);
     } else {
-      fs.unlinkSync(src);
+      replaceFile(src, dest);
     }
   }
   fs.rmdirSync(oldPath);

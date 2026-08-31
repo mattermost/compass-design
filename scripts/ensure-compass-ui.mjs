@@ -31,8 +31,31 @@ const packages = [
   },
 ];
 
+/** True only when every path segment matches a readdir() name (case-sensitive). */
+function existsWithExactCase(filePath) {
+  const resolved = path.resolve(filePath);
+  if (!fs.existsSync(resolved)) return false;
+
+  const { root } = path.parse(resolved);
+  const relative = path.relative(root, resolved);
+  if (!relative) return true;
+
+  let current = root;
+  for (const segment of relative.split(path.sep)) {
+    let names;
+    try {
+      names = fs.readdirSync(current);
+    } catch {
+      return false;
+    }
+    if (!names.includes(segment)) return false;
+    current = path.join(current, segment);
+  }
+  return true;
+}
+
 function distReady(distFiles) {
-  return distFiles.every((file) => fs.existsSync(file));
+  return distFiles.every((file) => existsWithExactCase(file));
 }
 
 function distMtimeMs(distFiles) {
