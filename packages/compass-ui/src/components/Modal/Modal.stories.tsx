@@ -42,12 +42,18 @@ const people = [
   { name: 'Sofia Bauer', handle: '@sofia', src: avatarSofia },
 ] as const;
 
-function ModalCanvas({ children }: { children: ReactNode }) {
+function ModalCanvas({
+  children,
+  tall = false,
+}: {
+  children: ReactNode;
+  tall?: boolean;
+}) {
   return (
     <div
       style={{
         position: 'relative',
-        height: 480,
+        height: tall ? 600 : 480,
         background: 'var(--center-channel-bg)',
         border: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
         borderRadius: 'var(--radius-l)',
@@ -155,11 +161,12 @@ export const WithoutDividers: Story = {
 
 export const MenuItemList: Story = {
   render: () => (
-    <ModalCanvas>
+    <ModalCanvas tall>
       <Modal
         title="Add people"
         subtitle="Choose members to add to #design"
         size="small"
+        bodyPadding="menu"
         headerDivider={false}
         footerDivider={false}
         footer={
@@ -170,24 +177,16 @@ export const MenuItemList: Story = {
         }
         onClose={fn()}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            marginInline: 'calc(-1 * var(--spacing-l))',
-          }}
-        >
-          {people.map((person) => (
-            <MenuItem
-              key={person.handle}
-              label={person.name}
-              secondaryLabel={person.handle}
-              leadingVisual={
-                <UserAvatar src={person.src} alt={person.name} size="24" />
-              }
-            />
-          ))}
-        </div>
+        {people.map((person) => (
+          <MenuItem
+            key={person.handle}
+            label={person.name}
+            secondaryLabel={person.handle}
+            leadingVisual={
+              <UserAvatar src={person.src} alt={person.name} size="24" />
+            }
+          />
+        ))}
       </Modal>
     </ModalCanvas>
   ),

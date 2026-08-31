@@ -42,8 +42,10 @@ The title should be a short statement or question; add a subtitle only when
 users need more guidance. Reserve a header action for related work that is not
 one of the modal's primary outcomes. Use a header input (small) when the body
 shows long lists — search is the common case. Body padding is 32px horizontal and
-28px vertical, or 8px vertical when header and footer dividers are off; rows of
-menu items should bleed so content lines up with the 32px horizontal margins. In
+28px vertical by default. When header and footer dividers are off, remove the
+header’s bottom padding and the footer’s top padding. For `MenuItem` lists, set
+`bodyPadding="menu"` (typically with dividers off) so rows bleed and labels line
+up with the 32px horizontal margins. In
 the footer, pair primary (confirming) and secondary (dismissive) actions,
 right-aligned with primary on the right; pagination keeps the page count on the
 left and prev/next on the right; stepped flows add previous/next plus dots; a

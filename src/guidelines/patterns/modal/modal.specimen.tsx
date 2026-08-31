@@ -46,9 +46,22 @@ const listFooter = (
   </>
 );
 
-function ModalCanvas({ children }: { children: ReactNode }) {
+function ModalCanvas({
+  children,
+  tall = false,
+}: {
+  children: ReactNode;
+  tall?: boolean;
+}) {
   return (
-    <div className={styles['patterns__modal-canvas']}>
+    <div
+      className={[
+        styles['patterns__modal-canvas'],
+        tall && styles['patterns__modal-canvas--tall'],
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div className={styles['patterns__modal-overlay']}>{children}</div>
     </div>
   );
@@ -81,31 +94,30 @@ export default function ModalLibrary() {
       </div>
       <div>
         <p className={styles['patterns__variant-label']}>Menu item list</p>
-        <ModalCanvas>
+        <ModalCanvas tall>
           <Modal
             title="Add people"
             subtitle="Choose members to add to #design"
             size="small"
+            bodyPadding="menu"
             headerDivider={false}
             footerDivider={false}
             footer={listFooter}
           >
-            <div className={styles['patterns__modal-menu-list']}>
-              {people.map((person) => (
-                <MenuItem
-                  key={person.handle}
-                  label={person.name}
-                  secondaryLabel={person.handle}
-                  leadingVisual={
-                    <UserAvatar
-                      src={person.src}
-                      alt={person.name}
-                      size="24"
-                    />
-                  }
-                />
-              ))}
-            </div>
+            {people.map((person) => (
+              <MenuItem
+                key={person.handle}
+                label={person.name}
+                secondaryLabel={person.handle}
+                leadingVisual={
+                  <UserAvatar
+                    src={person.src}
+                    alt={person.name}
+                    size="24"
+                  />
+                }
+              />
+            ))}
           </Modal>
         </ModalCanvas>
       </div>

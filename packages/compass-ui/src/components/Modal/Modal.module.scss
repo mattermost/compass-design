@@ -81,8 +81,9 @@
   &__body-inner {
     padding: 28px var(--spacing-xxxl);
 
-    &--compact {
-      padding: var(--spacing-xs) var(--spacing-xxxl);
+    // MenuItem rows supply 16px horizontal inset → labels align to 32px margins.
+    &--menu {
+      padding: var(--spacing-xs) var(--spacing-l);
     }
   }
 
