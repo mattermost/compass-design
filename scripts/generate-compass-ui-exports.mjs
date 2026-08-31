@@ -41,24 +41,24 @@ function listKebabHooks() {
 function buildExports() {
   const exportsMap = {
     '.': {
+      types: './dist/index.d.ts',
       import: './dist/index.js',
       require: './dist/index.cjs',
-      types: './dist/index.d.ts',
     },
     './components/*': {
+      types: './dist/components/*/index.d.ts',
       import: './dist/components/*/index.js',
       require: './dist/components/*/index.cjs',
-      types: './dist/components/*/index.d.ts',
     },
     './hooks/*': {
+      types: './dist/hooks/*.d.ts',
       import: './dist/hooks/*.js',
       require: './dist/hooks/*.cjs',
-      types: './dist/hooks/*.d.ts',
     },
     './utils/string': {
+      types: './dist/utils/string.d.ts',
       import: './dist/utils/string.js',
       require: './dist/utils/string.cjs',
-      types: './dist/utils/string.d.ts',
     },
     './styles': {
       import: './dist/compass-ui.css',
@@ -93,8 +93,8 @@ function buildTypesVersions(components, hooks) {
 
   return {
     '>=3.1': {
-      '*': ['./dist/index.d.ts'],
       ...paths,
+      '*': ['./dist/index.d.ts'],
     },
   };
 }
