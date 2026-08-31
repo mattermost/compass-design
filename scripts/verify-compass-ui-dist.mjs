@@ -61,6 +61,60 @@ function assertSubpathLayout() {
   console.log('[verify-compass-ui-dist] Subpath layout OK');
 }
 
+function assertDtsImportPaths() {
+  const modelDts = fs.readFileSync(
+    path.join(
+      packageRoot,
+      'dist/components/channels-sidebar/channelsSidebarModel.d.ts',
+    ),
+    'utf8',
+  );
+  if (!modelDts.includes('../channel-sidebar-item/')) {
+    throw new Error(
+      'channelsSidebarModel.d.ts must import from ../channel-sidebar-item/',
+    );
+  }
+
+  const indexDts = fs.readFileSync(
+    path.join(packageRoot, 'dist/index.d.ts'),
+    'utf8',
+  );
+  if (indexDts.includes('./hooks/usePopoverTransition')) {
+    throw new Error(
+      'index.d.ts must use kebab-case hook paths (use-popover-transition)',
+    );
+  }
+
+  console.log('[verify-compass-ui-dist] Declaration import paths OK');
+}
+
+function assertSourcemapUrls() {
+  const missing = [];
+  for (const file of walkFiles(distRoot)) {
+    if (file.endsWith('.map')) continue;
+    if (
+      !file.endsWith('.js') &&
+      !file.endsWith('.cjs') &&
+      !file.endsWith('.d.ts')
+    ) {
+      continue;
+    }
+    const code = fs.readFileSync(file, 'utf8');
+    const match = code.match(/sourceMappingURL=(\S+)/);
+    if (!match) continue;
+    const mapPath = path.join(path.dirname(file), match[1]);
+    if (!fs.existsSync(mapPath)) {
+      missing.push(`${path.relative(packageRoot, file)} -> ${match[1]}`);
+    }
+  }
+  if (missing.length > 0) {
+    throw new Error(
+      `sourceMappingURL points at missing map:\n${missing.slice(0, 10).join('\n')}`,
+    );
+  }
+  console.log('[verify-compass-ui-dist] Source map URLs OK');
+}
+
 function assertSubpathIsolation() {
   const buttonIndex = fs.readFileSync(
     path.join(packageRoot, 'dist/components/button/index.cjs'),
@@ -93,6 +147,8 @@ function assertSubpathIsolation() {
 
 function main() {
   assertSubpathLayout();
+  assertDtsImportPaths();
+  assertSourcemapUrls();
   assertCjsIconUnwrap();
   assertSubpathIsolation();
   console.log('[verify-compass-ui-dist] All checks passed');
