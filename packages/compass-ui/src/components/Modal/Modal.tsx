@@ -10,6 +10,9 @@ import styles from './Modal.module.scss';
 
 export type ModalSize = 'small' | 'medium' | 'large';
 
+/** Body inset. `menu` is for MenuItem lists — 8px vertical / 16px horizontal so row labels align with the 32px header/footer margins. */
+export type ModalBodyPadding = 'default' | 'menu';
+
 export interface ModalProps {
   /** Width variant. Figma: Size — Small 600px, Medium 704px, Large 832px. */
   size?: ModalSize;
@@ -25,6 +28,12 @@ export interface ModalProps {
   onClose?: () => void;
   /** Show divider between header and body. Figma: Divider = On. Default: true. */
   headerDivider?: boolean;
+  /**
+   * Body inset. Default is 32px horizontal / 28px vertical. Use `menu` for
+   * MenuItem lists (8px vertical / 16px horizontal so row labels align with
+   * the 32px header/footer margins).
+   */
+  bodyPadding?: ModalBodyPadding;
   /** Body content. */
   children: ReactNode;
   /** Footer slot — typically a group of Buttons, right-aligned by default. */
@@ -41,12 +50,14 @@ export default function Modal({
   onBack,
   onClose,
   headerDivider = true,
+  bodyPadding = 'default',
   children,
   footer,
   footerDivider = true,
 }: ModalProps) {
   const titleId = useId();
   const sizeClass = styles[`modal--size-${toKebab(size)}`];
+  const menuBody = bodyPadding === 'menu';
 
   return (
     <div
@@ -90,7 +101,16 @@ export default function Modal({
 
       <div className={styles['modal__body']}>
         <Scrollbar>
-          <div className={styles['modal__body-inner']}>{children}</div>
+          <div
+            className={[
+              styles['modal__body-inner'],
+              menuBody && styles['modal__body-inner--menu'],
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {children}
+          </div>
         </Scrollbar>
       </div>
 

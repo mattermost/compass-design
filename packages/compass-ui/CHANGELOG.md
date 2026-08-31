@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- `Modal` `bodyPadding="menu"` for `MenuItem` lists — 8px vertical / 16px horizontal so row labels align with the 32px header/footer margins.
+
+### Changed
+
+- `Modal` with header/footer dividers off: header bottom and footer top padding are removed (previously only the borders were cleared).
+
 ## [0.1.0-alpha.3] - 2026-08-28
 
 ### Changed

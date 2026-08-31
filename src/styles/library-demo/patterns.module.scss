@@ -110,6 +110,10 @@
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     border-radius: var(--radius-l);
     overflow: hidden;
+
+    &--tall {
+      height: 600px;
+    }
   }
 
   &__modal-overlay {
