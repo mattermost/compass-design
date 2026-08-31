@@ -61,6 +61,33 @@ function assertSubpathLayout() {
   console.log('[verify-compass-ui-dist] Subpath layout OK');
 }
 
+function assertDtsImportPaths() {
+  const modelDts = fs.readFileSync(
+    path.join(
+      packageRoot,
+      'dist/components/channels-sidebar/channelsSidebarModel.d.ts',
+    ),
+    'utf8',
+  );
+  if (!modelDts.includes('../channel-sidebar-item/')) {
+    throw new Error(
+      'channelsSidebarModel.d.ts must import from ../channel-sidebar-item/',
+    );
+  }
+
+  const indexDts = fs.readFileSync(
+    path.join(packageRoot, 'dist/index.d.ts'),
+    'utf8',
+  );
+  if (indexDts.includes('./hooks/usePopoverTransition')) {
+    throw new Error(
+      'index.d.ts must use kebab-case hook paths (use-popover-transition)',
+    );
+  }
+
+  console.log('[verify-compass-ui-dist] Declaration import paths OK');
+}
+
 function assertSubpathIsolation() {
   const buttonIndex = fs.readFileSync(
     path.join(packageRoot, 'dist/components/button/index.cjs'),
@@ -93,6 +120,7 @@ function assertSubpathIsolation() {
 
 function main() {
   assertSubpathLayout();
+  assertDtsImportPaths();
   assertCjsIconUnwrap();
   assertSubpathIsolation();
   console.log('[verify-compass-ui-dist] All checks passed');

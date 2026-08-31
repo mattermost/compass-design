@@ -6,6 +6,7 @@ import path from 'path';
 import { collectLibEntries } from './build-entries';
 import { compassIconsJsExtensions } from './vite-plugin-compass-icons-ext';
 import { compassUiGlobalStyles } from './vite-plugin-global-styles';
+import { compassUiNormalizeDist, markCompassUiDtsFinished } from './vite-plugin-normalize-dist';
 
 const isWatchBuild = process.argv.includes('--watch');
 const srcRoot = path.resolve(__dirname, 'src');
@@ -26,7 +27,11 @@ export default defineConfig({
       ],
       rollupTypes: false,
       outDir: 'dist',
+      afterBuild() {
+        markCompassUiDtsFinished();
+      },
     }),
+    compassUiNormalizeDist(),
   ],
   resolve: {
     alias: {

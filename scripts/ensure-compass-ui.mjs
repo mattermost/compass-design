@@ -15,6 +15,7 @@ const packages = [
       path.join(root, 'packages/compass-ui/dist/compass-ui.css'),
       path.join(root, 'packages/compass-ui/dist/compass-ui-standalone.css'),
       path.join(root, 'packages/compass-ui/dist/index.css'),
+      path.join(root, 'packages/compass-ui/dist/components/button/index.js'),
     ],
     buildScript: 'build:ui',
   },

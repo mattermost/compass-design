@@ -86,25 +86,59 @@ function walkFiles(dir, acc = []) {
   return acc;
 }
 
-function renameDir(oldPath, newPath) {
-  if (!fs.existsSync(oldPath)) return;
+function sameInode(a, b) {
+  try {
+    const sa = fs.statSync(a);
+    const sb = fs.statSync(b);
+    return sa.dev === sb.dev && sa.ino === sb.ino;
+  } catch {
+    return false;
+  }
+}
+
+/** Two-step rename so Button → button works on case-insensitive volumes. */
+function renameCaseOnly(oldPath, newPath) {
+  const tmpPath = `${newPath}.${process.pid}.compass-rename-tmp`;
+  fs.renameSync(oldPath, tmpPath);
+  fs.renameSync(tmpPath, newPath);
+}
+
+function renamePath(oldPath, newPath) {
+  if (!fs.existsSync(oldPath) || oldPath === newPath) return 'missing';
+  if (fs.existsSync(newPath) && sameInode(oldPath, newPath)) {
+    renameCaseOnly(oldPath, newPath);
+    return 'renamed';
+  }
   if (!fs.existsSync(newPath)) {
     fs.renameSync(oldPath, newPath);
-    return;
+    return 'renamed';
   }
+  return 'exists';
+}
+
+function renameDir(oldPath, newPath) {
+  const result = renamePath(oldPath, newPath);
+  if (result !== 'exists') return;
 
   for (const entry of fs.readdirSync(oldPath, { withFileTypes: true })) {
     const src = path.join(oldPath, entry.name);
     const dest = path.join(newPath, entry.name);
     if (entry.isDirectory()) {
       renameDir(src, dest);
-    } else if (!fs.existsSync(dest)) {
-      fs.renameSync(src, dest);
+    } else if (!fs.existsSync(dest) || sameInode(src, dest)) {
+      renamePath(src, dest);
     } else {
       fs.unlinkSync(src);
     }
   }
   fs.rmdirSync(oldPath);
+}
+
+function replaceFile(oldPath, newPath) {
+  const result = renamePath(oldPath, newPath);
+  if (result !== 'exists') return;
+  fs.rmSync(newPath, { force: true });
+  fs.renameSync(oldPath, newPath);
 }
 
 function renameDistDirs(componentMap, hookMap) {
@@ -120,20 +154,24 @@ function renameDistDirs(componentMap, hookMap) {
   for (const [from, to] of hookMap) {
     const oldFile = path.join(hooksDist, from);
     const newFile = path.join(hooksDist, to);
-    for (const ext of ['.js', '.cjs', '.d.ts', '.map']) {
-      const oldPath = `${oldFile}${ext}`;
-      const newPath = `${newFile}${ext}`;
-      if (fs.existsSync(oldPath) && !fs.existsSync(newPath)) {
-        fs.renameSync(oldPath, newPath);
-      }
+    for (const ext of ['.js', '.js.map', '.cjs', '.cjs.map', '.d.ts', '.d.ts.map']) {
+      replaceFile(`${oldFile}${ext}`, `${newFile}${ext}`);
     }
   }
 }
 
+function shouldPatchFile(file) {
+  return (
+    file.endsWith('.js') ||
+    file.endsWith('.cjs') ||
+    file.endsWith('.d.ts') ||
+    file.endsWith('.map')
+  );
+}
+
 function patchDistFiles(componentMap, hookMap) {
-  const exts = new Set(['.js', '.cjs', '.d.ts', '.map']);
   for (const file of walkFiles(distRoot)) {
-    if (!exts.has(path.extname(file))) continue;
+    if (!shouldPatchFile(file)) continue;
     const original = fs.readFileSync(file, 'utf8');
     const updated = replacePathSegments(original, componentMap, hookMap);
     if (updated !== original) fs.writeFileSync(file, updated);
