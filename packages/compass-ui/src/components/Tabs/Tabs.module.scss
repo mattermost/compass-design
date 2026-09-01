@@ -16,17 +16,29 @@
   }
 
   &__tab {
+    --tabs-focus-ring-color: var(--button-bg);
+
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: var(--spacing-xs);
-    overflow: hidden;
     border-radius: var(--radius-s);
     background: transparent;
     border: none;
     cursor: pointer;
     padding: var(--spacing-xxs) var(--spacing-s);
-    transition: background-color var(--duration-quick) var(--ease-transition);
+    outline: 2px solid
+      color-mix(in srgb, var(--tabs-focus-ring-color) 0%, transparent);
+    outline-offset: 0;
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      outline-color var(--duration-quick) var(--ease-transition),
+      outline-offset var(--duration-quick) var(--ease-transition);
+
+    &:focus-visible {
+      outline-color: var(--tabs-focus-ring-color);
+      outline-offset: 3px;
+    }
 
     &:hover:not(&--active) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);

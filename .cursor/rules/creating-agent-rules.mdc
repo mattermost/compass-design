@@ -13,7 +13,7 @@ Use when adding or changing project agent instructions. Prefer **conditional** c
 | Tier | Where | What |
 | --- | --- | --- |
 | Universal (always on via `@AGENTS.md`) | Root [AGENTS.md](../../AGENTS.md) | Short must-dos, hooks, blurbs, **index** — no long examples/tables |
-| Area-nested | `src/guidelines/AGENTS.md`, `packages/compass-ui/AGENTS.md` (+ tiny `CLAUDE.md` with `@AGENTS.md`) | Docs / Storybook handbooks |
+| Area-nested | `src/guidelines/AGENTS.md`, `packages/compass-ui/AGENTS.md`, `packages/compass-proto/AGENTS.md` (+ tiny `CLAUDE.md` with `@AGENTS.md`) | Docs / Storybook / proto handbooks |
 | Path-scoped styling | [.claude/rules/styling.md](../../.claude/rules/styling.md) **and** [.cursor/rules/styling.mdc](styling.mdc) | BEM, tokens, motion, opacity, Scrollbars — **keep both bodies in sync** |
 
 Playbooks (multi-step how-tos) → [.cursor/skills/](../skills/) (e.g. `add-docs-topic`), not always-on AGENTS.

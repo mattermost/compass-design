@@ -52,8 +52,9 @@
     }
 
     &:focus-visible {
-      outline: none !important;
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--neutral-0) 56%, transparent) !important;
+      outline: 2px solid color-mix(in srgb, var(--neutral-0) 56%, transparent) !important;
+      outline-offset: 2px !important;
+      box-shadow: none !important;
     }
   }
 
@@ -74,7 +75,9 @@
     }
 
     &:focus-visible {
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--neutral-0) 56%, transparent) !important;
+      outline: 2px solid color-mix(in srgb, var(--neutral-0) 56%, transparent) !important;
+      outline-offset: 2px !important;
+      box-shadow: none !important;
     }
 
     &:disabled {

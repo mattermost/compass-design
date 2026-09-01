@@ -17,12 +17,13 @@ import VideoOutlineIcon from '@mattermost/compass-icons/components/video-outline
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import CallInfoPanel from '@/components/CallInfoPanel/CallInfoPanel';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
-import ParticipantsPanel from '@/components/ParticipantsPanel/ParticipantsPanel';
 import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
+import CallInfoPanel from '@/components/CallInfoPanel/CallInfoPanel';
+import ParticipantsPanel from '@/components/ParticipantsPanel/ParticipantsPanel';
+import WithTooltip from '@/components/WithTooltip/WithTooltip';
 import type { Participant } from '@/types/callParticipant';
 import styles from './CallWidget.module.scss';
 
@@ -115,13 +116,14 @@ export default function CallWidget({
               </span>
             </div>
           </div>
-          <IconButton
-            size="small"
-            padding="compact"
-            aria-label="Expand call window"
-            icon={<Icon size="16" glyph={<ArrowExpandIcon />} />}
-            onClick={onExpand}
-          />
+          <WithTooltip label="Expand call window">
+            <IconButton
+              size="small"
+              padding="compact"
+              icon={<Icon size="16" glyph={<ArrowExpandIcon />} />}
+              onClick={onExpand}
+            />
+          </WithTooltip>
         </div>
 
         <div className={styles['widget__controls']}>
@@ -137,58 +139,68 @@ export default function CallWidget({
           </button>
 
           <div className={styles['widget__actions']}>
-            <IconButton
-              size="small"
-              padding="compact"
-              toggled={muted}
-              destructive={muted}
-              aria-label={muted ? 'Unmute microphone' : 'Mute microphone'}
-              icon={
-                <Icon
-                  size="16"
-                  glyph={muted ? <MicrophoneOffIcon /> : <MicrophoneIcon />}
-                />
-              }
-              onClick={onToggleMute}
-            />
-            <IconButton
-              size="small"
-              padding="compact"
-              toggled={handRaised}
-              aria-label={handRaised ? 'Lower hand' : 'Raise hand'}
-              icon={
-                <Icon
-                  size="16"
-                  glyph={
-                    handRaised ? <HandRightIcon /> : <HandRightOutlineIcon />
-                  }
-                />
-              }
-              onClick={onToggleHand}
-            />
-            <IconButton
-              size="small"
-              padding="compact"
-              toggled={sharing}
-              aria-label={sharing ? 'Stop sharing screen' : 'Share screen'}
-              icon={
-                <Icon
-                  size="16"
-                  glyph={sharing ? <MonitorIcon /> : <MonitorOffIcon />}
-                />
-              }
-              onClick={onToggleShare}
-            />
-            <IconButton
-              size="small"
-              padding="compact"
-              toggled={overlay === 'menu'}
-              aria-label={
+            <WithTooltip
+              label={muted ? 'Unmute microphone' : 'Mute microphone'}
+            >
+              <IconButton
+                size="small"
+                padding="compact"
+                toggled={muted}
+                destructive={muted}
+                icon={
+                  <Icon
+                    size="16"
+                    glyph={muted ? <MicrophoneOffIcon /> : <MicrophoneIcon />}
+                  />
+                }
+                onClick={onToggleMute}
+              />
+            </WithTooltip>
+            <WithTooltip label={handRaised ? 'Lower hand' : 'Raise hand'}>
+              <IconButton
+                size="small"
+                padding="compact"
+                toggled={handRaised}
+                icon={
+                  <Icon
+                    size="16"
+                    glyph={
+                      handRaised ? <HandRightIcon /> : <HandRightOutlineIcon />
+                    }
+                  />
+                }
+                onClick={onToggleHand}
+              />
+            </WithTooltip>
+            <WithTooltip
+              label={sharing ? 'Stop sharing screen' : 'Share screen'}
+            >
+              <IconButton
+                size="small"
+                padding="compact"
+                toggled={sharing}
+                icon={
+                  <Icon
+                    size="16"
+                    glyph={sharing ? <MonitorIcon /> : <MonitorOffIcon />}
+                  />
+                }
+                onClick={onToggleShare}
+              />
+            </WithTooltip>
+            <WithTooltip
+              label={
                 overlay === 'menu' ? 'Close call menu' : 'Open call menu'
               }
-              icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
-              onClick={onToggleMenu}
-            />
+            >
+              <IconButton
+                size="small"
+                padding="compact"
+                toggled={overlay === 'menu'}
+                icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
+                onClick={onToggleMenu}
+              />
+            </WithTooltip>
             <button
               type="button"
               aria-label="Leave call"

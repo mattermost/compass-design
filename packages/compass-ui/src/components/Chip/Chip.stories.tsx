@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { fn } from '@storybook/test';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import Chip from './Chip';
+import ChipGroup from './ChipGroup';
 import type { ChipProps, ChipSize } from './Chip';
 import {
   ICON_NONE,
@@ -103,6 +105,27 @@ export const WithoutRemove: Story = {
   args: {
     children: 'Read only',
     size: 'medium',
+  },
+};
+
+export const Removable: Story = {
+  render: function RemovableChips() {
+    const [chips, setChips] = useState(['design', 'engineering', 'releases']);
+    return (
+      <ChipGroup aria-label="Selected filters">
+        {chips.map((label) => (
+          <Chip
+            key={label}
+            size="medium"
+            onRemove={() =>
+              setChips((current) => current.filter((c) => c !== label))
+            }
+          >
+            {label}
+          </Chip>
+        ))}
+      </ChipGroup>
+    );
   },
 };
 

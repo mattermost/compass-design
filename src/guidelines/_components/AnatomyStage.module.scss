@@ -9,4 +9,8 @@
   padding: var(--spacing-l);
   border-radius: 12px;
   background-color: rgba(var(--center-channel-color-rgb), 0.08);
+
+  &--sidebar-header {
+    background-color: var(--sidebar-header-bg);
+  }
 }

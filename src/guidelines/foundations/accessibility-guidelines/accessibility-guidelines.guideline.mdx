@@ -56,7 +56,10 @@ operable, understandable, and robust.
 
 - All interactive elements must be focusable and operable via keyboard
   (Tab, Shift+Tab, Enter, Space, Arrow keys).
-- Maintain a visible focus indicator.
+- Maintain a visible focus indicator. Buttons and similar compact
+  controls use a double ring (a surface-coloured gap plus a coloured
+  outer ring). Don't hide focus with `outline: none` unless that ring
+  (or an equivalent) is in place.
 - Ensure logical and intuitive tab order across the interface.
 
 ### Focus Management

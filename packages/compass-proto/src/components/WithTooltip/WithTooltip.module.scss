@@ -1,0 +1,39 @@
+@keyframes with-tooltip-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.with-tooltip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+
+  &__surface {
+    position: fixed;
+    z-index: 1350;
+    pointer-events: auto;
+    animation: with-tooltip-in var(--duration-quick) var(--ease-entrance);
+
+    &--top {
+      transform: translate(-50%, calc(-100% - var(--spacing-xxs)));
+    }
+
+    &--bottom {
+      transform: translate(-50%, var(--spacing-xxs));
+    }
+
+    &--left {
+      transform: translate(calc(-100% - var(--spacing-xxs)), -50%);
+    }
+
+    &--right {
+      transform: translate(var(--spacing-xxs), -50%);
+    }
+  }
+}

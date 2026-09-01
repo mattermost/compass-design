@@ -153,6 +153,8 @@
   }
 
   &__header &__close {
+    --icon-button-focus-ring-color: var(--button-color);
+
     color: rgba(var(--button-color-rgb), 0.88);
 
     &:hover:not(:disabled) {
@@ -162,12 +164,6 @@
 
     &:active:not(:disabled) {
       background-color: rgba(var(--button-color-rgb), 0.2);
-    }
-
-    &:focus-visible {
-      box-shadow:
-        0 0 0 3px var(--color-info),
-        0 0 0 5px var(--button-color);
     }
   }
 
@@ -233,12 +229,16 @@
     flex-shrink: 0;
 
     :global(button) {
+      --button-focus-ring-color: var(--neutral-0);
+
       background-color: var(--neutral-0);
       border-color: transparent;
       color: var(--color-info);
       transition:
         background-color var(--duration-quick) var(--ease-transition),
-        color var(--duration-quick) var(--ease-transition);
+        color var(--duration-quick) var(--ease-transition),
+        outline-color var(--duration-quick) var(--ease-transition),
+        outline-offset var(--duration-quick) var(--ease-transition);
 
       &:hover:not(:disabled) {
         background-color: color-mix(in srgb, var(--neutral-0) 92%, transparent);
@@ -246,12 +246,6 @@
 
       &:active:not(:disabled) {
         background-color: color-mix(in srgb, var(--neutral-0) 86%, transparent);
-      }
-
-      &:focus-visible {
-        box-shadow:
-          0 0 0 3px var(--color-info),
-          0 0 0 5px var(--neutral-0);
       }
     }
   }

@@ -5,48 +5,27 @@
   --icon-button-focus-ring-color: var(--button-bg);
 
   box-sizing: border-box;
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-family-body);
   border-radius: var(--radius-s);
-  border: 1px solid transparent;
+  border: 0;
   cursor: pointer;
   transition:
     background-color var(--duration-quick) var(--ease-transition),
-    border-color var(--duration-quick) var(--ease-transition),
-    color var(--duration-quick) var(--ease-transition);
+    color var(--duration-quick) var(--ease-transition),
+    outline-color var(--duration-quick) var(--ease-transition),
+    outline-offset var(--duration-quick) var(--ease-transition);
   background-color: transparent;
   color: rgba(var(--center-channel-color-rgb), 0.64);
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    box-shadow: 0 0 0 2px var(--icon-button-focus-ring-color);
-    opacity: 0;
-    transform: scale(0.94);
-    transition:
-      opacity var(--duration-quick) var(--ease-entrance),
-      transform var(--duration-quick) var(--ease-entrance);
-  }
+  outline: 2px solid
+    color-mix(in srgb, var(--icon-button-focus-ring-color) 0%, transparent);
+  outline-offset: 0;
 
   &:focus-visible {
-    outline: none;
-  }
-
-  &:focus-visible:not(:disabled)::after {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  &:not(:focus-visible)::after {
-    transition:
-      opacity var(--duration-quick) var(--ease-exit),
-      transform var(--duration-quick) var(--ease-exit);
+    outline-color: var(--icon-button-focus-ring-color);
+    outline-offset: 3px;
   }
 
   &:disabled {
@@ -201,9 +180,6 @@
   // Default style — toggled state
   // ---------------------------------------------------------------------------
   &--toggled {
-    --icon-button-focus-ring-inner: var(--center-channel-bg);
-    --icon-button-focus-ring-outer: var(--button-bg);
-
     background-color: var(--button-bg);
     color: var(--button-color);
 
@@ -219,12 +195,6 @@
 
     .icon-button__unread-badge {
       box-shadow: 0 0 0 2px var(--button-bg);
-    }
-
-    &::after {
-      box-shadow:
-        0 0 0 3px var(--icon-button-focus-ring-inner),
-        0 0 0 5px var(--icon-button-focus-ring-outer);
     }
   }
 
@@ -263,9 +233,6 @@
       }
     }
     &.icon-button--toggled {
-      --icon-button-focus-ring-inner: var(--sidebar-bg);
-      --icon-button-focus-ring-outer: var(--button-bg);
-
       background-color: var(--sidebar-text);
       color: var(--sidebar-bg);
 

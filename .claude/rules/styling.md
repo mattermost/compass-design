@@ -92,6 +92,41 @@ Never hard-code durations or easing keywords — use tokens:
 
 “Large movement” = significant travel across the viewport (e.g. panel from off-screen).
 
+## Focus rings (buttons and compact controls)
+
+`Button` and `IconButton` draw focus with `outline` + `outline-offset` on `:focus-visible` — a 3px gap (real surface showing through) and a 2px ring. Do **not** stack two `box-shadow` spreads for the gap + ring: those layers anti-alias against each other at rounded corners and show a faint grey tick. Do **not** use a `::after` overlay plus `position: relative` to scale the ring: that makes the control a positioning context and breaks parents that absolutely place it (e.g. banner dismiss).
+
+Use the same treatment on similar compact controls (`IconButton`, `ActionButton`, `Dropdown`, `Tabs`, Chip dismiss, `AppBarItem`, other icon-only buttons):
+
+```scss
+// ❌ BAD — stacked shadows (corner artefacts)
+&:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--center-channel-bg),
+    0 0 0 5px var(--button-bg);
+}
+
+// ❌ BAD — overlay + containing block
+position: relative;
+&::after { … }
+
+// ✅ GOOD — rest with the same width/style (transparent) so colour + offset interpolate
+outline: 2px solid color-mix(in srgb, var(--button-bg) 0%, transparent);
+outline-offset: 0;
+
+&:focus-visible {
+  outline-color: var(--button-bg);
+  outline-offset: 3px;
+}
+```
+
+- Transition `outline-color` and `outline-offset` with `--duration-quick` / `--ease-transition`.
+- Destructive: `outline-color` is `--error-text` / `--color-danger`. Secondary / quaternary Button use `--link-color`.
+- Inverted / dark surfaces: keep the same ring colour; the offset gap shows the real background (no fake inner fill).
+- Form fields, checkboxes, radios, and switches keep their own field/box rings — don’t replace those with this button ring.
+- Semantic banner/toast fills may override ring colour for contrast on that surface.
+
 ## Semantic colors
 
 Fixed intent colors: `--color-info|success|warning|danger` (and `-rgb` for `rgba()`). Never raw palette (e.g. `--color-blue-400`).

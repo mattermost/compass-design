@@ -1,12 +1,41 @@
+import { useState } from 'react';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import { Chip } from '@mattermost/compass-ui/components/chip';
+import { Chip, ChipGroup } from '@mattermost/compass-ui/components/chip';
 import styles from '@/styles/library-demo/components.module.scss';
+
+const INITIAL_REMOVABLE = ['design', 'engineering', 'releases'];
+
+export function RemovableChipsDemo() {
+  const [chips, setChips] = useState(INITIAL_REMOVABLE);
+
+  return (
+    <ChipGroup aria-label="Selected filters">
+      {chips.map((label) => (
+        <Chip
+          key={label}
+          size="medium"
+          onRemove={() =>
+            setChips((current) => current.filter((c) => c !== label))
+          }
+        >
+          {label}
+        </Chip>
+      ))}
+    </ChipGroup>
+  );
+}
 
 export default function ChipLibrary() {
   return (
     <>
       <div className={styles['components__button-block']}>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Removable
+          </span>
+          <RemovableChipsDemo />
+        </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
           <Chip size="small" onRemove={() => {}}>

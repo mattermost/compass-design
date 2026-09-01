@@ -148,9 +148,10 @@ Comboboxes share their state model with the rest of the input family.
 
 | Key        | Action                                              |
 | ---------- | --------------------------------------------------- |
-| ↓ / ↑      | Open the list (if closed) and move the highlight.   |
-| Enter      | Select the highlighted option.                      |
+| ↓ / ↑      | On the filter: open the list (if closed) and move the highlight. On a chip: previous or next chip. |
+| ← / →      | On a chip: move between chips.                      |
+| Enter / Space | Enter: select the highlighted option. On a chip: Enter or Space remove it. |
 | Escape     | Close the list.                                     |
-| Home / End | Jump to the first or last enabled option.           |
-| Backspace  | In multi-select with an empty filter, remove the last chip. |
-| Tab        | Close the list and move focus onward.               |
+| Home / End | On the list: first or last enabled option. On a chip: first or last chip. |
+| Delete / Backspace | On a chip: remove it. On an empty filter in multi-select: remove the last chip. |
+| Tab        | Into the field: the active chip (if any), then the filter. On the filter: close the list and move onward. |

@@ -4,6 +4,7 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import avatarEmmaNovak from '@/assets/avatars/Emma Novak.png';
 import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
 import avatarSofiaBauer from '@/assets/avatars/Sofia Bauer.png';
+import { RemovableChipsDemo } from './chip.specimen';
 
 Chips are compact, self-contained tokens that represent a selection — a
 person added to an invite, a filter applied to a search, a chosen value in
@@ -22,8 +23,7 @@ when you're labeling content (Bot, Guest, severity), not selecting it.
 - <Num>2</Num> **Supporting visual** — optional. An avatar for people, an
   icon for filters or properties.
 - <Num>3</Num> **Label** — required text describing the value.
-- <Num>4</Num> **Remove button** — the × control for input chips. Removes
-  the chip from the input.
+- <Num>4</Num> **Remove button** — the control that removes an input chip.
 
 <AnatomyStage style={{gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
   <Chip leadingAvatar={{ src: avatarEmmaNovak, alt: 'Emma Novak' }} onRemove={() => {}}>Emma Novak</Chip>
@@ -87,6 +87,27 @@ so the cause is explicit.
 
 <div style={{display:'flex',gap:'0.5rem'}}>
   <Chip error onRemove={() => {}}>{'not-a-member@example.com'}</Chip>
+</div>
+
+<Divider />
+
+## Accessibility
+
+A set of chips is one widget. Wrap chips that belong together in a
+`ChipGroup`. Tab lands on the active chip; arrows move inside the set;
+the × is mouse-only.
+
+- **Tab.** Lands on the active chip. The next Tab leaves the set (to the
+  parent input, if there is one).
+- **Left / Right.** Move from chip to chip. The × is not a keyboard stop.
+- **Delete / Backspace / Enter / Space.** Remove the focused chip.
+- **Label.** Each chip is named `{label}. Press Delete to remove.`
+- **Focus.** The ring sits on the chip edge (no offset), so it does not
+  collide with a surrounding input. The × never takes a ring.
+- **Mouse.** Click the × to remove, same as Delete.
+
+<div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
+  <RemovableChipsDemo />
 </div>
 
 <Divider />
