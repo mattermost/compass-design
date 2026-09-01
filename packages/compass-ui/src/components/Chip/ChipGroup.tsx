@@ -29,7 +29,7 @@ export function activateChip(el: HTMLElement) {
       chip.tabIndex = chip === el ? 0 : -1;
     });
   }
-  el.focus({ focusVisible: true });
+  el.focus({ focusVisible: true } as FocusOptions);
 }
 
 /**

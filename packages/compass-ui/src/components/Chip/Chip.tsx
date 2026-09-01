@@ -142,7 +142,7 @@ export default function Chip({
       if (nextFocus.dataset.chip != null) {
         activateChip(nextFocus);
       } else {
-        nextFocus.focus({ focusVisible: true });
+        nextFocus.focus({ focusVisible: true } as FocusOptions);
       }
     }, 0);
   };
