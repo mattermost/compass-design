@@ -16,6 +16,7 @@ import {
 } from 'react';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import Chip from '@/components/Chip/Chip';
+import ChipGroup from '@/components/Chip/ChipGroup';
 import type { ChipSize } from '@/components/Chip/Chip';
 import Icon from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
@@ -323,7 +324,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     (optionValue: string) => {
       if (!multiple) return;
       commitValue(multiValue.filter((v) => v !== optionValue));
-      inputRef.current?.focus();
     },
     [multiple, multiValue, commitValue],
   );
@@ -453,8 +453,8 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const handleWrapperMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
-    // Don't steal focus from chip remove buttons
-    if ((e.target as HTMLElement).closest('button')) return;
+    // Don't steal focus from chips or their remove buttons
+    if ((e.target as HTMLElement).closest('[data-chip]')) return;
     if (e.target !== inputRef.current) {
       e.preventDefault();
       inputRef.current?.focus();
@@ -515,30 +515,38 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
             </span>
           )}
           <div className={styles.combobox__value}>
-            {multiple &&
-              selectedOptions.map((option) => (
-                <Chip
-                  key={option.value}
-                  size={CHIP_SIZE_BY_COMBOBOX[size]}
-                  leadingAvatar={option.leadingAvatar}
-                  leadingIcon={
-                    option.leadingAvatar == null
-                      ? option.leadingVisual
-                      : undefined
-                  }
-                  onRemove={
-                    disabled
-                      ? undefined
-                      : (ev) => {
-                          ev.stopPropagation();
-                          removeValue(option.value);
-                        }
-                  }
-                  removeLabel={`Remove ${option.label}`}
-                >
-                  {option.label}
-                </Chip>
-              ))}
+            {multiple && selectedOptions.length > 0 && (
+              <ChipGroup
+                aria-label={
+                  typeof label === 'string' ? `${label} selections` : 'Selected'
+                }
+                disabled={disabled}
+              >
+                {selectedOptions.map((option) => (
+                  <Chip
+                    key={option.value}
+                    size={CHIP_SIZE_BY_COMBOBOX[size]}
+                    leadingAvatar={option.leadingAvatar}
+                    leadingIcon={
+                      option.leadingAvatar == null
+                        ? option.leadingVisual
+                        : undefined
+                    }
+                    onRemove={
+                      disabled
+                        ? undefined
+                        : (ev) => {
+                            ev.stopPropagation();
+                            removeValue(option.value);
+                          }
+                    }
+                    removeLabel={`Remove ${option.label}`}
+                  >
+                    {option.label}
+                  </Chip>
+                ))}
+              </ChipGroup>
+            )}
             <input
               ref={setInputRef}
               id={id}

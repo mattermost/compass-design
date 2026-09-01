@@ -2,8 +2,7 @@
 // Block
 // ---------------------------------------------------------------------------
 .icon-button {
-  --icon-button-focus-ring-inner: var(--center-channel-bg);
-  --icon-button-focus-ring-outer: var(--button-bg);
+  --icon-button-focus-ring-color: var(--button-bg);
 
   box-sizing: border-box;
   display: inline-flex;
@@ -11,21 +10,22 @@
   justify-content: center;
   font-family: var(--font-family-body);
   border-radius: var(--radius-s);
-  border: 1px solid transparent;
+  border: 0;
   cursor: pointer;
   transition:
     background-color var(--duration-quick) var(--ease-transition),
-    border-color var(--duration-quick) var(--ease-transition),
     color var(--duration-quick) var(--ease-transition),
-    box-shadow var(--duration-quick) var(--ease-transition);
+    outline-color var(--duration-quick) var(--ease-transition),
+    outline-offset var(--duration-quick) var(--ease-transition);
   background-color: transparent;
   color: rgba(var(--center-channel-color-rgb), 0.64);
+  outline: 2px solid
+    color-mix(in srgb, var(--icon-button-focus-ring-color) 0%, transparent);
+  outline-offset: 0;
 
   &:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 3px var(--icon-button-focus-ring-inner),
-      0 0 0 5px var(--icon-button-focus-ring-outer);
+    outline-color: var(--icon-button-focus-ring-color);
+    outline-offset: 3px;
   }
 
   &:disabled {
@@ -202,8 +202,6 @@
   // Style = Inverted (Figma: for dark backgrounds)
   // ---------------------------------------------------------------------------
   &--style-inverted {
-    --icon-button-focus-ring-inner: var(--sidebar-bg);
-
     background-color: transparent;
     color: rgba(var(--sidebar-text-rgb), 0.64);
 
@@ -255,7 +253,7 @@
 
     // Inverted + destructive
     &.icon-button--destructive {
-      --icon-button-focus-ring-outer: var(--error-text, var(--color-danger));
+      --icon-button-focus-ring-color: var(--error-text, var(--color-danger));
 
       background-color: transparent;
       color: var(--error-text, var(--color-danger));
@@ -276,7 +274,7 @@
   // Transparent background with danger-color icon; tinted bg on hover/active.
   // ---------------------------------------------------------------------------
   &--destructive {
-    --icon-button-focus-ring-outer: var(--error-text, var(--color-danger));
+    --icon-button-focus-ring-color: var(--error-text, var(--color-danger));
 
     background-color: transparent;
     color: var(--error-text, var(--color-danger));

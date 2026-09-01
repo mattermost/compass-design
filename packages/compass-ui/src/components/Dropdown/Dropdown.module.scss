@@ -23,13 +23,6 @@
     background-color: rgba(var(--center-channel-color-rgb), 0.12);
   }
 
-  &:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 3px var(--center-channel-bg),
-      0 0 0 5px var(--link-color);
-  }
-
   &:disabled {
     opacity: 0.56;
     cursor: not-allowed;
@@ -223,6 +216,8 @@
   // Appearance: Inverted (dark background)
   // ---------------------------------------------------------------------------
   &--appearance-inverted {
+    --button-focus-ring-color: var(--button-bg);
+
     color: var(--sidebar-text);
 
     &:hover:not(:disabled) {
@@ -231,12 +226,6 @@
 
     &:active:not(:disabled) {
       background-color: rgba(var(--sidebar-text-rgb), 0.2);
-    }
-
-    &:focus-visible {
-      box-shadow:
-        0 0 0 3px var(--sidebar-bg),
-        0 0 0 5px var(--button-bg);
     }
   }
 }

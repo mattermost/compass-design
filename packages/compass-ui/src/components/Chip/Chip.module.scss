@@ -1,4 +1,6 @@
 .chip {
+  --chip-focus-ring-color: var(--button-bg);
+
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -9,17 +11,25 @@
   font-weight: var(--font-weight-semibold);
   color: var(--center-channel-color);
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   cursor: default;
+  outline: 2px solid
+    color-mix(in srgb, var(--chip-focus-ring-color) 0%, transparent);
+  outline-offset: 0;
   transition:
     background-color var(--duration-quick) var(--ease-transition),
-    border-color var(--duration-quick) var(--ease-transition);
+    border-color var(--duration-quick) var(--ease-transition),
+    outline-color var(--duration-quick) var(--ease-transition);
 
   &:hover {
     background-color: rgba(var(--center-channel-color-rgb), 0.16);
   }
 
-  &:focus-within {
+  &:focus-visible {
+    outline-color: var(--chip-focus-ring-color);
+  }
+
+  &:focus-within:not(:focus-visible) {
     border-color: var(--button-bg);
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
   }
@@ -29,6 +39,9 @@
   // ---------------------------------------------------------------------------
   &__label {
     position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
 
   &__icon-slot {
@@ -50,16 +63,16 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    position: relative;
     background: none;
-    border: none;
+    border: 0;
     padding: 0;
+    border-radius: var(--radius-full);
     cursor: pointer;
     color: rgba(var(--center-channel-color-rgb), 0.32);
     line-height: 0;
 
-    &:focus-visible {
-      outline: none;
+    &:hover {
+      color: rgba(var(--center-channel-color-rgb), 0.64);
     }
   }
 
@@ -70,6 +83,7 @@
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background-color: rgba(217, 93, 28, 0.16);
     pointer-events: none;
   }

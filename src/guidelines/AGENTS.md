@@ -4,6 +4,8 @@ Follow this when working under `src/guidelines/`, docs manifests, or the docs sh
 
 Mobile*, Call*, and `ChannelShell` live in **`@mattermost/compass-proto`** (unpublished). Prefer importing those from `compass-proto`, not `compass-ui`. Soft-label them as non-core / prototyping when writing docs voice.
 
+Desktop `IconButton`s in layout, pattern, and proto specimens wrap with `WithTooltip` from `@mattermost/compass-proto` (see [packages/compass-proto/AGENTS.md](../../packages/compass-proto/AGENTS.md)). Icon Button anatomy/specimens that document the primitive itself may stay unwrapped. Skip `WithTooltip` on `Mobile*` surfaces.
+
 ## Adding a topic
 
 Every docs entry is a **topic** in `src/manifests/topics.ts` (prose + optional specimen) at `/<category>/<slug>`.

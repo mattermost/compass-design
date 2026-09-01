@@ -1,4 +1,6 @@
 .action-button {
+  --action-button-focus-ring-color: var(--button-bg);
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,16 +15,15 @@
   transition:
     background-color var(--duration-quick) var(--ease-transition),
     color var(--duration-quick) var(--ease-transition),
-    box-shadow var(--duration-quick) var(--ease-transition);
+    outline-color var(--duration-quick) var(--ease-transition),
+    outline-offset var(--duration-quick) var(--ease-transition);
+  outline: 2px solid
+    color-mix(in srgb, var(--action-button-focus-ring-color) 0%, transparent);
+  outline-offset: 0;
 
   &:focus-visible {
-    outline: none;
-  }
-
-  &:focus-visible:not(:disabled) {
-    box-shadow:
-      0 0 0 3px var(--center-channel-bg),
-      0 0 0 5px var(--button-bg);
+    outline-color: var(--action-button-focus-ring-color);
+    outline-offset: 3px;
   }
 
   &:hover:not(:disabled) {
@@ -58,6 +59,8 @@
   }
 
   &--destructive {
+    --action-button-focus-ring-color: var(--error-text, var(--color-danger));
+
     background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.04);
     color: var(--error-text, var(--color-danger));
 
@@ -69,12 +72,6 @@
     &:active:not(:disabled) {
       background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.16);
       color: var(--error-text, var(--color-danger));
-    }
-
-    &:focus-visible:not(:disabled) {
-      box-shadow:
-        0 0 0 3px var(--center-channel-bg),
-        0 0 0 5px var(--error-text, var(--color-danger));
     }
   }
 
