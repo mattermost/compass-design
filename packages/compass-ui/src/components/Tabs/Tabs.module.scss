@@ -18,6 +18,8 @@
   &__tab {
     --tabs-focus-ring-color: var(--button-bg);
 
+    position: relative;
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -99,6 +101,10 @@
     height: 4px;
     border-radius: var(--radius-full);
     background-color: var(--mention-bg);
+  }
+
+  &__unread-label {
+    @include visually-hidden;
   }
 
   &__controls {

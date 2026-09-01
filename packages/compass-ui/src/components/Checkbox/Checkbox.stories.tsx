@@ -106,13 +106,13 @@ export const AllVariants: Story = {
         >
           Invalid
         </span>
-        <Checkbox size="medium" valid={false}>
+        <Checkbox size="medium" invalid>
           Unchecked invalid
         </Checkbox>
-        <Checkbox size="medium" defaultChecked valid={false}>
+        <Checkbox size="medium" defaultChecked invalid>
           Checked invalid
         </Checkbox>
-        <Checkbox size="medium" indeterminate valid={false}>
+        <Checkbox size="medium" indeterminate invalid>
           Indeterminate invalid
         </Checkbox>
       </div>

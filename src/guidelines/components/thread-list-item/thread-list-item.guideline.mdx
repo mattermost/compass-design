@@ -89,6 +89,12 @@ the thread without opening it.
 - Selecting a row sets it to **Active**. Active beats Unread visually — once
   you're on the row, the unread dot is no longer needed.
 - Items are keyboard-focusable. **Enter** and **Space** open the thread.
+- The overflow menu is a sibling of the row button, renders only when
+  `onMenuClick` is provided, and reveals on hover or `:focus-within` via opacity
+  so it stays in the tab order.
+- Unread dot and mention gutter badge are decorative (`aria-hidden`); screen
+  readers get state from a visually hidden hint in the name group (`unread` or
+  `` `${count} mention${count === 1 ? "" : "s"}` ``).
 
 <Divider />
 

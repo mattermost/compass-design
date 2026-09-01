@@ -20,7 +20,7 @@ export interface ChipProps extends Omit<
   size?: ChipSize;
   /** Leading icon from @mattermost/compass-icons. */
   leadingIcon?: ReactNode;
-  /** Leading avatar. Overrides leadingIcon when both are provided. */
+  /** Leading avatar. Overrides leading-icon when both are provided. */
   leadingAvatar?: { src: string; alt: string };
   /** When provided, shows the remove (×) control and calls this on click. */
   onRemove?: (e: MouseEvent<HTMLButtonElement>) => void;

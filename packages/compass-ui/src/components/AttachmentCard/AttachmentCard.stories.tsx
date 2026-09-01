@@ -40,6 +40,7 @@ export const Default: Story = {
     fileName: 'Filename_goes_here.txt',
     fileMeta: 'TXT 15KB',
     fileType: 'text',
+    onOpen: fn(),
     onDownload: fn(),
     onMore: fn(),
   },
@@ -52,6 +53,7 @@ export const WithChannelTag: Story = {
     fileType: 'word',
     channelTag: 'UX Design',
     dateTimeStamp: 'Sep 24 5:14 PM',
+    onOpen: fn(),
     onDownload: fn(),
     onMore: fn(),
   },
@@ -85,6 +87,7 @@ export const AllVariants: Story = {
           fileName="Filename_goes_here.txt"
           fileMeta="TXT 15KB"
           fileType="text"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -94,6 +97,7 @@ export const AllVariants: Story = {
           fileType="word"
           channelTag="UX Design"
           dateTimeStamp="Sep 24 5:14 PM"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -101,6 +105,7 @@ export const AllVariants: Story = {
           fileName="Spreadsheet_Q3_results.xlsx"
           fileMeta="XLSX 842KB"
           fileType="excel"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -110,6 +115,7 @@ export const AllVariants: Story = {
           fileName="Presentation.pptx"
           fileMeta="PPTX 12MB"
           fileType="powerpoint"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -117,6 +123,7 @@ export const AllVariants: Story = {
           fileName="Design_spec.pdf"
           fileMeta="PDF 3.1MB"
           fileType="pdf"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -124,6 +131,7 @@ export const AllVariants: Story = {
           fileName="photo.jpg"
           fileMeta="JPG 2.2MB"
           fileType="image-icon"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -134,6 +142,7 @@ export const AllVariants: Story = {
           fileMeta="JPG 2.2MB"
           fileType="image-thumbnail"
           thumbnailSrc="https://picsum.photos/seed/mm/80/80"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -141,6 +150,7 @@ export const AllVariants: Story = {
           fileName="screencast.mp4"
           fileMeta="MP4 48MB"
           fileType="video"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -148,6 +158,7 @@ export const AllVariants: Story = {
           fileName="podcast_ep12.mp3"
           fileMeta="MP3 28MB"
           fileType="audio"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -157,6 +168,7 @@ export const AllVariants: Story = {
           fileName="patch-0001.diff"
           fileMeta="DIFF 14KB"
           fileType="patch"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -164,6 +176,7 @@ export const AllVariants: Story = {
           fileName="archive.zip"
           fileMeta="ZIP 156MB"
           fileType="zip"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />
@@ -171,6 +184,7 @@ export const AllVariants: Story = {
           fileName="index.ts"
           fileMeta="TS 4KB"
           fileType="code"
+          onOpen={fn()}
           onDownload={fn()}
           onMore={fn()}
         />

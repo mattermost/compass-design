@@ -472,9 +472,9 @@ export default function DateRangePicker({
         : '';
 
   const rootClass = [
-    styles.dateRangePicker,
-    isOpen ? styles['dateRangePicker--open'] : '',
-    disabled ? styles['dateRangePicker--disabled'] : '',
+    styles['date-range-picker'],
+    isOpen ? styles['date-range-picker--open'] : '',
+    disabled ? styles['date-range-picker--disabled'] : '',
     className,
   ]
     .filter(Boolean)
@@ -485,7 +485,7 @@ export default function DateRangePicker({
       {/* Trigger input */}
       <div
         ref={triggerRef}
-        className={styles.dateRangePicker__trigger}
+        className={styles['date-range-picker__trigger']}
         role="button"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
@@ -497,13 +497,13 @@ export default function DateRangePicker({
         onClick={handleToggle}
         onKeyDown={handleTriggerKeyDown}
       >
-        <span className={styles.dateRangePicker__calendarIcon} aria-hidden>
+        <span className={styles['date-range-picker__calendar-icon']} aria-hidden>
           <Icon size="16" glyph={<CalendarOutlineIcon />} />
         </span>
-        <span className={styles.dateRangePicker__value}>
+        <span className={styles['date-range-picker__value']}>
           {displayValue || 'mm/dd/yyyy'}
         </span>
-        <span className={styles.dateRangePicker__chevron} aria-hidden>
+        <span className={styles['date-range-picker__chevron']} aria-hidden>
           <Icon size="16" glyph={<ChevronDownIcon />} />
         </span>
       </div>
@@ -515,12 +515,12 @@ export default function DateRangePicker({
             ref={portalRef}
             id={popoverId}
             className={[
-              styles.dateRangePicker__popover,
+              styles['date-range-picker__popover'],
               placement === 'above'
-                ? styles['dateRangePicker__popover--above']
+                ? styles['date-range-picker__popover--above']
                 : '',
               popoverVisible
-                ? styles['dateRangePicker__popover--visible']
+                ? styles['date-range-picker__popover--visible']
                 : '',
             ]
               .filter(Boolean)
@@ -531,11 +531,11 @@ export default function DateRangePicker({
             aria-label="Date picker"
           >
           {/* Header */}
-          <div className={styles.dateRangePicker__header}>
-            <span className={styles.dateRangePicker__monthLabel} aria-live="polite">
+          <div className={styles['date-range-picker__header']}>
+            <span className={styles['date-range-picker__month-label']} aria-live="polite">
               {MONTHS[displayMonth]} {displayYear}
             </span>
-            <div className={styles.dateRangePicker__headerActions}>
+            <div className={styles['date-range-picker__header-actions']}>
               <Button
                 emphasis="quaternary"
                 size="small"
@@ -544,7 +544,7 @@ export default function DateRangePicker({
               >
                 Today
               </Button>
-              <div className={styles.dateRangePicker__navButtons}>
+              <div className={styles['date-range-picker__nav-buttons']}>
                 <IconButton
                   size="medium"
                   padding="compact"
@@ -574,9 +574,9 @@ export default function DateRangePicker({
           </div>
 
           {/* Weekday headers */}
-          <div className={styles.dateRangePicker__weekdays} aria-hidden>
+          <div className={styles['date-range-picker__weekdays']} aria-hidden>
             {WEEKDAYS.map((d) => (
-              <span key={d} className={styles.dateRangePicker__weekday}>
+              <span key={d} className={styles['date-range-picker__weekday']}>
                 {d}
               </span>
             ))}
@@ -585,14 +585,14 @@ export default function DateRangePicker({
           {/* Date grid */}
           <div
             ref={gridRef}
-            className={styles.dateRangePicker__grid}
+            className={styles['date-range-picker__grid']}
             role="grid"
             aria-label={`${MONTHS[displayMonth]} ${displayYear}`}
           >
             {weeks.map((week, wi) => (
               <div
                 key={wi}
-                className={styles.dateRangePicker__week}
+                className={styles['date-range-picker__week']}
                 role="row"
               >
                 {week.map((day, di) => {
@@ -600,7 +600,7 @@ export default function DateRangePicker({
                     return (
                       <span
                         key={di}
-                        className={styles.dateRangePicker__dayEmpty}
+                        className={styles['date-range-picker__day-empty']}
                         role="gridcell"
                       />
                     );
@@ -627,25 +627,25 @@ export default function DateRangePicker({
                     selectedStart !== selectedEnd;
 
                   const cellClass = [
-                    styles.dateRangePicker__dayCell,
+                    styles['date-range-picker__day-cell'],
                     isInRange
-                      ? styles['dateRangePicker__dayCell--in-range']
+                      ? styles['date-range-picker__day-cell--in-range']
                       : '',
                     hasRangeSpan && isRangeStart
-                      ? styles['dateRangePicker__dayCell--range-start']
+                      ? styles['date-range-picker__day-cell--range-start']
                       : '',
                     hasRangeSpan && isRangeEnd
-                      ? styles['dateRangePicker__dayCell--range-end']
+                      ? styles['date-range-picker__day-cell--range-end']
                       : '',
                   ]
                     .filter(Boolean)
                     .join(' ');
 
                   const dayClass = [
-                    styles.dateRangePicker__day,
-                    isSelected ? styles['dateRangePicker__day--selected'] : '',
+                    styles['date-range-picker__day'],
+                    isSelected ? styles['date-range-picker__day--selected'] : '',
                     isToday && !isSelected
-                      ? styles['dateRangePicker__day--today']
+                      ? styles['date-range-picker__day--today']
                       : '',
                   ]
                     .filter(Boolean)

@@ -13,11 +13,13 @@ export default function ThreadFooterLibrary() {
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Default</span>
           <ThreadFooter
-            replyCount={4}
+            replyCount={5}
             avatars={[
-              { src: avatarLeonard, alt: 'Leonard Riley' },
-              { src: avatarDanielle, alt: 'Danielle Okoro' },
-              { src: avatarMarco, alt: 'Marco Rinaldi' },
+              { key: 'leonard', src: avatarLeonard, name: 'Leonard Riley' },
+              { key: 'danielle', src: avatarDanielle, name: 'Danielle Okoro' },
+              { key: 'marco', src: avatarMarco, name: 'Marco Rinaldi' },
+              { key: 'emma', src: avatarEmma, name: 'Emma Novak' },
+              { key: 'sofia', src: avatarSofia, name: 'Sofia Bauer' },
             ]}
           />
         </div>
@@ -28,8 +30,8 @@ export default function ThreadFooterLibrary() {
           <ThreadFooter
             replyCount={2}
             avatars={[
-              { src: avatarEmma, alt: 'Emma Novak' },
-              { src: avatarSofia, alt: 'Sofia Bauer' },
+              { key: 'emma', src: avatarEmma, name: 'Emma Novak' },
+              { key: 'sofia', src: avatarSofia, name: 'Sofia Bauer' },
             ]}
             following
             lastReplyTime="2 mins ago"
@@ -40,12 +42,13 @@ export default function ThreadFooterLibrary() {
           <ThreadFooter
             replyCount={3}
             badge="unread"
-            avatars={[{ src: avatarLeonard, alt: 'Leonard' }]}
+            avatars={[{ key: 'leonard', src: avatarLeonard, name: 'Leonard Riley' }]}
           />
           <ThreadFooter
             replyCount={1}
             badge="mention"
-            avatars={[{ src: avatarDanielle, alt: 'Danielle' }]}
+            mentionCount={2}
+            avatars={[{ key: 'danielle', src: avatarDanielle, name: 'Danielle Okoro' }]}
           />
         </div>
       </div>

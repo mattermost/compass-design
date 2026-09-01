@@ -16,8 +16,8 @@ type TextInputStoryArgs = Omit<
   TextInputProps,
   'leadingIcon' | 'trailingIcon'
 > & {
-  leadingIcon?: string;
-  trailingIcon?: string;
+  'leadingIcon'?: string;
+  'trailingIcon'?: string;
 };
 
 const meta = {
@@ -26,14 +26,14 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
-    leadingIcon: iconSelectArgType({ optional: true }),
-    trailingIcon: iconSelectArgType({ optional: true }),
+    'leadingIcon': iconSelectArgType({ optional: true }),
+    'trailingIcon': iconSelectArgType({ optional: true }),
   },
   args: {
-    leadingIcon: ICON_NONE,
-    trailingIcon: ICON_NONE,
+    'leadingIcon': ICON_NONE,
+    'trailingIcon': ICON_NONE,
   },
-  render: ({ leadingIcon, trailingIcon, ...rest }) => (
+  render: ({ 'leadingIcon': leadingIcon,' trailing-icon': trailingIcon, ...rest }) => (
     <TextInput
       {...rest}
       leadingIcon={
@@ -92,8 +92,8 @@ export const WithIcons: Story = {
   args: {
     label: 'Workspace',
     placeholder: 'Enter workspace...',
-    leadingIcon: 'globe',
-    trailingIcon: 'globe',
+    'leadingIcon': 'globe',
+    'trailingIcon': 'globe',
   },
 };
 

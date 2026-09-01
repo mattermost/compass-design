@@ -69,7 +69,7 @@ export default function MenuItem({
       <div className={styles['menu-item__content']}>
         {leadingElement && (
           <div className={styles['menu-item__left']}>
-            <span className={styles['menu-item__leading-visual']}>
+            <span className={styles['menu-item__leading-visual']} aria-hidden>
               {leadingVisual ?? (
                 <Icon glyph={<EmoticonHappyOutlineIcon />} size="16" />
               )}

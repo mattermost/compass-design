@@ -394,22 +394,19 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
           aria-controls={listboxId}
           aria-activedescendant={activeDescendant}
           aria-invalid={invalid ? true : undefined}
-          aria-label={
-            ariaLabel ??
-            (typeof label === 'string' ? label : undefined)
-          }
+          aria-label={ariaLabel}
           onClick={() => (isOpen ? close() : open())}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onKeyDown={handleKeyDown}
         >
           {leadingIcon != null && (
-            <span className={styles.select__leadingIcon} aria-hidden>
+            <span className={styles['select__leading-icon']} aria-hidden>
               {leadingIcon}
             </span>
           )}
           <span className={styles.select__value}>{displayLabel}</span>
-          <span className={styles.select__trailingIcon} aria-hidden>
+          <span className={styles['select__trailing-icon']} aria-hidden>
             <Icon size="12" glyph={<ChevronDownIcon />} />
           </span>
         </button>

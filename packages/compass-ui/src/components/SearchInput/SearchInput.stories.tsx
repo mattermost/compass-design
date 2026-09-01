@@ -77,6 +77,14 @@ export const Clearable: Story = {
   render: () => <ClearableSearchInput />,
 };
 
+export const Invalid: Story = {
+  args: {
+    label: 'Search',
+    defaultValue: 'bad query',
+    invalid: true,
+  },
+};
+
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 20 }}>
@@ -102,6 +110,11 @@ export const AllVariants: Story = {
           label="Disabled"
           disabled
           placeholder="Disabled search..."
+        />
+        <SearchInput
+          label="Invalid"
+          defaultValue="bad query"
+          invalid
         />
         <ClearableSearchInput />
       </Row>

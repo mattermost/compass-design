@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING:** `Checkbox` and `Radio` replace the `valid` prop with `invalid?: boolean` (default `false`), aligned with `TextInput`, `TextArea`, `Select`, `Combobox`, and `SearchInput`. Use `invalid` or omit the prop instead of `valid={false}`.
+
+### Added
+
+- `SearchInput` `invalid` prop for error styling and `aria-invalid`.
+
 ## [0.1.0-alpha.4] - 2026-08-31
 
 ### Added

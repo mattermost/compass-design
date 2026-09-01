@@ -1,5 +1,5 @@
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
-import { type KeyboardEvent, type MouseEvent, useCallback } from 'react';
+import type { MouseEvent } from 'react';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
@@ -41,7 +41,7 @@ export interface ThreadListItemProps {
   threadTitle?: string;
   /** Optional CSS class name. */
   className?: string;
-  /** Click handler. */
+  /** Opens the thread. Sibling of the overflow menu for keyboard reachability. */
   onClick?: () => void;
   /** Thread overflow menu handler. */
   onMenuClick?: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -82,107 +82,115 @@ export default function ThreadListItem({
     .filter(Boolean)
     .join(' ');
 
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLDivElement>) => {
-      if (!onClick) return;
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        onClick();
-      }
-    },
-    [onClick],
-  );
+  const statusHint =
+    badge === 'mention'
+      ? `${mentionCount} mention${mentionCount === 1 ? '' : 's'}`
+      : badge === 'unread'
+        ? 'unread'
+        : undefined;
 
   return (
-    <div
-      className={rootClass}
-      onClick={onClick}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onKeyDown={onClick ? handleKeyDown : undefined}
-    >
-      <div className={styles['thread-list-item__thread']}>
-        <div className={styles['thread-list-item__container']}>
-          <div className={styles['thread-list-item__post-content']}>
-            <div className={styles['thread-list-item__gutter']}>
-              {showGutterBadge && badge === 'unread' && (
-                <UnreadBadge
-                  className={styles['thread-list-item__unread-badge']}
-                  context="icon-button"
-                />
-              )}
-              {showGutterBadge && badge === 'mention' && (
-                <span className={styles['thread-list-item__mention-gutter']}>
-                  <MentionBadge
-                    count={mentionCount}
-                    location="channel"
-                    size="medium"
-                  />
-                </span>
-              )}
-            </div>
-            <div className={styles['thread-list-item__post-body']}>
-              <div className={styles['thread-list-item__post-body-content']}>
-                <div className={styles['thread-list-item__name-row']}>
-                  <div className={styles['thread-list-item__name-group']}>
-                    <span className={styles['thread-list-item__author']}>
-                      {authorName}
-                    </span>
-                    <Tag
-                      casing="all-caps"
-                      label={channelLabel}
+    <div className={rootClass}>
+      <button
+        type="button"
+        className={styles['thread-list-item__main']}
+        onClick={onClick}
+        aria-current={active ? true : undefined}
+      >
+        <div className={styles['thread-list-item__thread']}>
+          <div className={styles['thread-list-item__container']}>
+            <div className={styles['thread-list-item__post-content']}>
+              <div className={styles['thread-list-item__gutter']}>
+                {showGutterBadge && badge === 'unread' && (
+                  <span
+                    className={styles['thread-list-item__unread-gutter']}
+                    aria-hidden
+                  >
+                    <UnreadBadge
+                      className={styles['thread-list-item__unread-badge']}
+                      context="icon-button"
                     />
-                  </div>
-                  <span className={styles['thread-list-item__timestamp']}>
-                    {timestamp}
                   </span>
-                </div>
-                {threadTitle != null && (
-                  <div className={styles['thread-list-item__title-row']}>
-                    <p className={styles['thread-list-item__title']}>
-                      {threadTitle}
-                    </p>
-                  </div>
                 )}
-                <p className={styles['thread-list-item__preview']}>
-                  {previewText}
-                </p>
+                {showGutterBadge && badge === 'mention' && (
+                  <span
+                    className={styles['thread-list-item__mention-gutter']}
+                    aria-hidden
+                  >
+                    <MentionBadge
+                      count={mentionCount}
+                      location="channel"
+                      size="medium"
+                    />
+                  </span>
+                )}
+              </div>
+              <div className={styles['thread-list-item__post-body']}>
+                <div className={styles['thread-list-item__post-body-content']}>
+                  <div className={styles['thread-list-item__name-row']}>
+                    <div className={styles['thread-list-item__name-group']}>
+                      <span className={styles['thread-list-item__author']}>
+                        {authorName}
+                      </span>
+                      <Tag casing="all-caps" label={channelLabel} />
+                      {statusHint && (
+                        <span
+                          className={styles['thread-list-item__status-hint']}
+                        >
+                          {statusHint}
+                        </span>
+                      )}
+                    </div>
+                    <span className={styles['thread-list-item__timestamp']}>
+                      {timestamp}
+                    </span>
+                  </div>
+                  {threadTitle != null && (
+                    <div className={styles['thread-list-item__title-row']}>
+                      <p className={styles['thread-list-item__title']}>
+                        {threadTitle}
+                      </p>
+                    </div>
+                  )}
+                  <p className={styles['thread-list-item__preview']}>
+                    {previewText}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className={styles['thread-list-item__replies']}>
+              <div className={styles['thread-list-item__replies-inner']}>
+                {showParticipants && (
+                  <UserAvatarGroup
+                    avatars={participants}
+                    className={styles['thread-list-item__avatar-group']}
+                    max={3}
+                    size="20"
+                  />
+                )}
+                <span className={styles['thread-list-item__reply-count']}>
+                  {replyLabel}
+                </span>
               </div>
             </div>
           </div>
-          <div className={styles['thread-list-item__replies']}>
-            <div className={styles['thread-list-item__replies-inner']}>
-              {showParticipants && (
-                <UserAvatarGroup
-                  avatars={participants}
-                  className={styles['thread-list-item__avatar-group']}
-                  max={3}
-                  size="20"
-                />
-              )}
-              <span className={styles['thread-list-item__reply-count']}>
-                {replyLabel}
-              </span>
-            </div>
-          </div>
         </div>
-      </div>
-      <div className={styles['thread-list-item__actions']}>
-        <span className={styles['thread-list-item__menu-button']}>
-          <IconButton
-            aria-label="Thread actions"
-            icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
-            padding="compact"
-            size="small"
-            style="default"
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onMenuClick?.(e);
-            }}
-          />
-        </span>
-      </div>
+      </button>
+      {onMenuClick && (
+        <div className={styles['thread-list-item__actions']}>
+          <span className={styles['thread-list-item__menu-button']}>
+            <IconButton
+              aria-label="Thread actions"
+              icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
+              padding="compact"
+              size="small"
+              style="default"
+              type="button"
+              onClick={onMenuClick}
+            />
+          </span>
+        </div>
+      )}
     </div>
   );
 }

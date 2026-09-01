@@ -1,8 +1,55 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
+import Divider from '../Divider/Divider';
 import Switch from './Switch';
 import type { SwitchSize } from './Switch';
 
 const SIZES: SwitchSize[] = ['small', 'medium', 'large'];
+const SWITCH_WIDTH = 420;
+
+function SwitchFrame({
+  children,
+  width = SWITCH_WIDTH,
+}: {
+  children: ReactNode;
+  width?: number;
+}) {
+  return <div style={{ width, maxWidth: '100%' }}>{children}</div>;
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <section style={{ display: 'grid', gap: 12 }}>
+      <h3
+        style={{
+          margin: 0,
+          fontSize: 12,
+          fontWeight: 600,
+          lineHeight: 1,
+          color: 'var(--center-channel-color)',
+        }}
+      >
+        {title}
+      </h3>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          alignItems: 'stretch',
+        }}
+      >
+        {children}
+      </div>
+    </section>
+  );
+}
 
 const meta = {
   title: 'Components/Forms and Input/Switch',
@@ -11,6 +58,13 @@ const meta = {
   argTypes: {
     size: { control: 'select', options: SIZES },
   },
+  decorators: [
+    (Story) => (
+      <SwitchFrame>
+        <Story />
+      </SwitchFrame>
+    ),
+  ],
 } satisfies Meta<typeof Switch>;
 
 export default meta;
@@ -40,108 +94,58 @@ export const WithSecondaryLabel: Story = {
 };
 
 export const AllVariants: Story = {
+  decorators: [],
   render: () => (
-    <div style={{ display: 'grid', gap: 20 }}>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 16,
-          alignItems: 'center',
-        }}
-      >
-        <span
-          style={{
-            width: 128,
-            fontSize: 12,
-            color: 'var(--center-channel-color)',
-          }}
-        >
-          States
-        </span>
-        <Switch size="medium">Unchecked</Switch>
-        <Switch size="medium" defaultChecked>
-          Checked
-        </Switch>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 16,
-          alignItems: 'center',
-        }}
-      >
-        <span
-          style={{
-            width: 128,
-            fontSize: 12,
-            color: 'var(--center-channel-color)',
-          }}
-        >
-          Sizes
-        </span>
-        {SIZES.map((size) => (
-          <Switch key={size} size={size} defaultChecked={size !== 'small'}>
-            {size}
+    <SwitchFrame>
+      <div style={{ display: 'grid' }}>
+        <Section title="States">
+          <Switch size="medium">Unchecked</Switch>
+          <Switch size="medium" defaultChecked>
+            Checked
           </Switch>
-        ))}
+        </Section>
+
+        <Divider />
+
+        <Section title="Sizes">
+          {SIZES.map((size) => (
+            <Switch key={size} size={size} defaultChecked={size !== 'small'}>
+              {size}
+            </Switch>
+          ))}
+        </Section>
+
+        <Divider />
+
+        <Section title="Labels">
+          <Switch size="medium">Default label</Switch>
+          <Switch size="medium" semiBold>
+            Semi-bold label
+          </Switch>
+          <Switch size="medium" secondaryLabel="Optional description text">
+            With secondary label
+          </Switch>
+          <Switch
+            size="medium"
+            semiBold
+            defaultChecked
+            secondaryLabel="Optional description text"
+          >
+            Semi-bold with secondary
+          </Switch>
+        </Section>
+
+        <Divider />
+
+        <Section title="Disabled">
+          <Switch size="medium" disabled>
+            Disabled — off
+          </Switch>
+          <Switch size="medium" defaultChecked disabled>
+            Disabled — on
+          </Switch>
+        </Section>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 16,
-          alignItems: 'center',
-        }}
-      >
-        <span
-          style={{
-            width: 128,
-            fontSize: 12,
-            color: 'var(--center-channel-color)',
-          }}
-        >
-          Secondary label
-        </span>
-        <Switch size="medium" secondaryLabel="Optional description text">
-          Label
-        </Switch>
-        <Switch
-          size="medium"
-          defaultChecked
-          secondaryLabel="Optional description"
-        >
-          Label
-        </Switch>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 16,
-          alignItems: 'center',
-        }}
-      >
-        <span
-          style={{
-            width: 128,
-            fontSize: 12,
-            color: 'var(--center-channel-color)',
-          }}
-        >
-          Semi-bold & disabled
-        </span>
-        <Switch size="medium" semiBold>
-          Semi-bold label
-        </Switch>
-        <Switch size="medium" disabled>
-          Disabled unchecked
-        </Switch>
-        <Switch size="medium" defaultChecked disabled>
-          Disabled checked
-        </Switch>
-      </div>
-    </div>
+    </SwitchFrame>
   ),
 };

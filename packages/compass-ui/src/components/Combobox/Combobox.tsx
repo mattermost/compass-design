@@ -510,7 +510,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
           onMouseDown={handleWrapperMouseDown}
         >
           {leadingIcon != null && (
-            <span className={styles.combobox__leadingIcon} aria-hidden>
+            <span className={styles['combobox__leading-icon']} aria-hidden>
               {leadingIcon}
             </span>
           )}
@@ -573,7 +573,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               onKeyDown={handleKeyDown}
             />
           </div>
-          <span className={styles.combobox__trailingIcon} aria-hidden>
+          <span className={styles['combobox__trailing-icon']} aria-hidden>
             <Icon size="12" glyph={<ChevronDownIcon />} />
           </span>
         </div>

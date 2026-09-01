@@ -25,8 +25,8 @@ const BUTTON_SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
 };
 
 type ButtonStoryArgs = Omit<ButtonProps, 'leadingIcon' | 'trailingIcon'> & {
-  leadingIcon?: string;
-  trailingIcon?: string;
+  'leadingIcon'?: string;
+  'trailingIcon'?: string;
 };
 
 const meta = {
@@ -37,13 +37,13 @@ const meta = {
     appearance: { control: 'select', options: ['default', 'inverted'] },
     emphasis: { control: 'select', options: EMPHASES },
     size: { control: 'select', options: SIZES },
-    leadingIcon: iconSelectArgType({
+    'leadingIcon': iconSelectArgType({
       optional: true,
       includeDefault: true,
       description:
         'Leading icon. None hides it; Default uses the built-in Icon glyph.',
     }),
-    trailingIcon: iconSelectArgType({
+    'trailingIcon': iconSelectArgType({
       optional: true,
       includeDefault: true,
       description:
@@ -51,10 +51,10 @@ const meta = {
     }),
   },
   args: {
-    leadingIcon: ICON_NONE,
-    trailingIcon: ICON_NONE,
+    'leadingIcon': ICON_NONE,
+    'trailingIcon': ICON_NONE,
   },
-  render: ({ leadingIcon, trailingIcon, size = 'medium', ...rest }) => {
+  render: ({ 'leadingIcon': leadingIcon, 'trailingIcon': trailingIcon, size = 'medium', ...rest }) => {
     const iconSize = BUTTON_SIZE_ICON_MAP[size];
     return (
       <Button
@@ -91,7 +91,7 @@ export const Primary: Story = {
 export const WithLeadingIcon: Story = {
   args: {
     children: 'Label',
-    leadingIcon: 'globe',
+    'leadingIcon': 'globe',
   },
 };
 

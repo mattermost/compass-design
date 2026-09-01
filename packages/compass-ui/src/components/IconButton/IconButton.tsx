@@ -31,7 +31,7 @@ export interface IconButtonProps extends Omit<
   size?: IconButtonSize;
   /** Default | Inverted. Figma: Style (for light vs dark backgrounds). */
   style?: IconButtonStyle;
-  /** When true, shows toggled/selected state. Figma: Toggled = On. */
+  /** When true, shows toggled/selected state. Figma: Toggled = On. When omitted, the control is not a toggle. */
   toggled?: boolean;
   /** When true, shows a small unread dot over the icon. Figma: Unread Badge. */
   unreadBadge?: boolean;
@@ -64,7 +64,7 @@ export default function IconButton({
   rounded = false,
   size = 'medium',
   style = 'default',
-  toggled = false,
+  toggled,
   unreadBadge = false,
   disabled,
   type = 'button',
@@ -106,7 +106,7 @@ export default function IconButton({
       type={type}
       disabled={disabled}
       aria-label={ariaLabel}
-      aria-pressed={toggled ? true : undefined}
+      aria-pressed={toggled === undefined ? undefined : toggled}
       data-active={active ? 'true' : undefined}
       {...rest}
     >

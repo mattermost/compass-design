@@ -2,7 +2,7 @@
 // Block — Date & Range Picker (Figma v2.0.0).
 // Calendar popover for single date or date range selection.
 // ---------------------------------------------------------------------------
-.dateRangePicker {
+.date-range-picker {
   // Day button / calendar slot: 36px via nearest icon box + spacing step.
   --date-range-picker-day-size: calc(
     var(--icon-size-32) + var(--spacing-xxxs)
@@ -28,19 +28,19 @@
     user-select: none;
     transition: box-shadow var(--duration-quick) var(--ease-transition);
 
-    .dateRangePicker:not(.dateRangePicker--disabled):not(.dateRangePicker--open):not(
+    .date-range-picker:not(.date-range-picker--disabled):not(.date-range-picker--open):not(
         :focus-within
       )
       &:hover {
       box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
     }
 
-    .dateRangePicker:focus-within &,
-    .dateRangePicker--open & {
+    .date-range-picker:focus-within &,
+    .date-range-picker--open & {
       outline: none;
       box-shadow:
         inset 0 0 0 1px var(--button-bg),
-        0 0 0 1px var(--button-bg);
+        0 0 0 2px var(--button-bg);
     }
 
     &:focus {
@@ -51,13 +51,13 @@
       outline: none;
     }
 
-    .dateRangePicker--disabled & {
+    .date-range-picker--disabled & {
       opacity: 0.56;
       cursor: not-allowed;
     }
   }
 
-  &__calendarIcon {
+  &__calendar-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -87,7 +87,7 @@
     text-overflow: ellipsis;
 
     // Empty/placeholder state
-    .dateRangePicker__trigger:not([data-has-value]) & {
+    .date-range-picker__trigger:not([data-has-value]) & {
       color: rgba(var(--center-channel-color-rgb), 0.64);
     }
   }
@@ -106,7 +106,7 @@
       height: var(--icon-size-16);
     }
 
-    .dateRangePicker--open & {
+    .date-range-picker--open & {
       transform: rotate(180deg);
     }
   }
@@ -115,7 +115,7 @@
   // Popover panel — coords from portal hook inline style
   // ---------------------------------------------------------------------------
   &__popover {
-    // Redeclared here so portaled popovers inherit day sizing outside `.dateRangePicker`.
+    // Redeclared here so portaled popovers inherit day sizing outside `.date-range-picker`.
     --date-range-picker-day-size: calc(
       var(--icon-size-32) + var(--spacing-xxxs)
     );
@@ -161,7 +161,7 @@
     padding-left: var(--spacing-xs);
   }
 
-  &__monthLabel {
+  &__month-label {
     font-family: var(--font-family-heading);
     font-size: var(--font-size-200);
     line-height: var(--line-height-200);
@@ -173,14 +173,14 @@
     flex: 1;
   }
 
-  &__headerActions {
+  &__header-actions {
     display: flex;
     align-items: center;
     gap: var(--spacing-xxxs);
     flex-shrink: 0;
   }
 
-  &__navButtons {
+  &__nav-buttons {
     display: flex;
     align-items: center;
   }
@@ -225,13 +225,13 @@
     align-items: stretch;
   }
 
-  &__dayEmpty {
+  &__day-empty {
     display: block;
     height: var(--date-range-picker-day-size);
   }
 
   // Full-width slot so range fill is continuous across the week.
-  &__dayCell {
+  &__day-cell {
     display: flex;
     align-items: center;
     justify-content: center;

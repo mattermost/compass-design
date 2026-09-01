@@ -26,8 +26,8 @@ reach for Menu Items instead.
 
 <AnatomyStage>
   <div style={{width:'100%',maxWidth:'320px',padding:'0.75rem',background:'var(--sidebar-bg)',borderRadius:'8px',display:'flex',flexDirection:'column',gap:'0.25rem'}}>
-    <ChannelSidebarItem name="design" leadingVisual="public" active />
-    <ChannelSidebarItem name="design-leadership" leadingVisual="private" status="mention" mentionCount={3} />
+    <ChannelSidebarItem name="Design" leadingVisual="public" active />
+    <ChannelSidebarItem name="Design Leadership" leadingVisual="private" status="mention" mentionCount={3} />
     <ChannelSidebarItem name="Avery, Mira" leadingVisual="group-message" memberCount={3} status="unread" />
     <ChannelSidebarItem name="Noor Patel" leadingVisual="direct-message" status="unread" />
   </div>
@@ -69,7 +69,15 @@ shouldn't compete for attention even when they have unreads.
 A single item is **Active** at any time — it shows the left-edge border, an
 elevated background, and stays in that state until the user navigates away.
 On hover, non-active rows show a subtle background. The channel menu (three
-dots) only appears on hover or focus to keep resting rows quiet.
+dots) appears on hover or keyboard focus within the row (`:focus-within`) so
+Tab users can reach the menu without pointer hover. The menu stays in the tab
+order via opacity (not `display: none`); the mention badge fades out while the
+menu is visible.
+
+Unread and mention state is announced to screen readers via a visually hidden
+status hint on the channel button (`unread` or
+`` `${count} mention${count === 1 ? "" : "s"}` ``); the mention count pill is
+decorative only (`aria-hidden`).
 
 <Divider />
 

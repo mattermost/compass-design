@@ -14,8 +14,8 @@ export interface RadioProps extends Omit<
   className?: string;
   /** Size variant. Figma: Small (12px), Medium (16px), Large (20px). Default: Medium. */
   size?: RadioSize;
-  /** When false, uses error/destructive styling (red when checked). Default: true. */
-  valid?: boolean;
+  /** When true, uses error/destructive styling (red when checked). */
+  invalid?: boolean;
   /** Label content. Rendered next to the radio. */
   children?: React.ReactNode;
 }
@@ -28,7 +28,7 @@ export interface RadioProps extends Omit<
 export default function Radio({
   className = '',
   size = 'medium',
-  valid = true,
+  invalid = false,
   children,
   id: idProp,
   checked,
@@ -44,7 +44,7 @@ export default function Radio({
   const [, handleChange] = useControllable(checked, defaultChecked, onChange);
 
   const sizeClass = styles[`radio--size-${toKebab(size)}`];
-  const invalidClass = valid ? '' : styles['radio--invalid'];
+  const invalidClass = invalid ? styles['radio--invalid'] : '';
 
   const rootClass = [styles.radio, sizeClass, invalidClass, className]
     .filter(Boolean)
@@ -61,7 +61,7 @@ export default function Radio({
         checked={checked}
         defaultChecked={defaultChecked}
         disabled={disabled}
-        aria-invalid={valid ? undefined : true}
+        aria-invalid={invalid ? true : undefined}
         onChange={handleChange}
         {...rest}
       />

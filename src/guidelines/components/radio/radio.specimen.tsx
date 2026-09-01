@@ -38,14 +38,14 @@ export default function RadioLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Invalid</span>
-          <Radio name="demo-invalid" value="u" valid={false} size="medium">
+          <Radio name="demo-invalid" value="u" invalid size="medium">
             Unchecked invalid
           </Radio>
           <Radio
             name="demo-invalid"
             value="c"
             defaultChecked
-            valid={false}
+            invalid
             size="medium"
           >
             Checked invalid

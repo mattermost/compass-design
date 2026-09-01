@@ -1,27 +1,27 @@
 import type { HTMLAttributes } from 'react';
-import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import ReplyOutlineIcon from '@mattermost/compass-icons/components/reply-outline';
+import MentionBadge from '@/components/MentionBadge/MentionBadge';
+import UserAvatarGroup, {
+  type UserAvatarGroupItem,
+} from '@/components/UserAvatarGroup/UserAvatarGroup';
 import styles from './ThreadFooter.module.scss';
 
 export type ThreadFooterBadge = 'none' | 'unread' | 'mention';
 
-export interface AvatarData {
-  src: string;
-  alt: string;
-}
-
 export interface ThreadFooterProps extends HTMLAttributes<HTMLDivElement> {
   /** Reply count. Default: 3. */
   replyCount?: number;
-  /** Participant avatars (first 3 shown, overflow as +N). */
-  avatars?: AvatarData[];
+  /** Participant avatars. Rendered with User Avatar Group (first 3 shown, overflow as +N). */
+  avatars?: UserAvatarGroupItem[];
   /** Badge variant. Default: None. */
   badge?: ThreadFooterBadge;
+  /** Shown when `badge` is Mention. Default: 1. */
+  mentionCount?: number;
   /** Whether the current user is following the thread. Default: false. */
   following?: boolean;
-  /** Last reply timestamp label. Shown when following. */
+  /** Last reply timestamp label. Shown on row hover when following. */
   lastReplyTime?: string;
   /** Called when Reply is clicked. */
   onReply?: () => void;
@@ -42,6 +42,7 @@ export default function ThreadFooter({
   replyCount = 3,
   avatars = [],
   badge = 'none',
+  mentionCount = 1,
   following = false,
   lastReplyTime,
   onReply,
@@ -50,63 +51,52 @@ export default function ThreadFooter({
   className = '',
   ...rest
 }: ThreadFooterProps) {
-  const rootClass = [styles['thread-footer'], className]
+  const rootClass = [
+    styles['thread-footer'],
+    following ? styles['thread-footer--following'] : '',
+    hovered ? styles['thread-footer--hovered'] : '',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
-  const MAX_VISIBLE = 3;
-  const visibleAvatars = avatars.slice(0, MAX_VISIBLE);
-  const overflowCount =
-    avatars.length > MAX_VISIBLE ? avatars.length - MAX_VISIBLE : 0;
+  const badgeStatusHint =
+    badge === 'mention'
+      ? `${mentionCount} mention${mentionCount === 1 ? '' : 's'}`
+      : badge === 'unread'
+        ? 'Unread replies'
+        : undefined;
 
   return (
     <div className={rootClass} {...rest}>
       <div className={styles['thread-footer__inner']}>
-        {/* Badge + Avatars */}
         <div className={styles['thread-footer__avatars-group']}>
+          {badgeStatusHint && (
+            <span className={styles['thread-footer__status-hint']}>
+              {badgeStatusHint}
+            </span>
+          )}
           {badge === 'unread' && (
             <span
               className={styles['thread-footer__unread-dot']}
-              aria-label="Unread replies"
+              aria-hidden
             />
           )}
           {badge === 'mention' && (
-            <span className={styles['thread-footer__mention-badge']}>@</span>
+            <span
+              className={styles['thread-footer__mention-badge']}
+              aria-hidden
+            >
+              <MentionBadge
+                count={mentionCount}
+                location="channel"
+                size="medium"
+              />
+            </span>
           )}
 
-          {/* Avatar stack */}
-          {visibleAvatars.length > 0 && (
-            <div className={styles['thread-footer__avatars']}>
-              {visibleAvatars.map((av, i) => (
-                <UserAvatar
-                  key={i}
-                  src={av.src}
-                  alt={av.alt}
-                  size="20"
-                  className={styles['thread-footer__avatar']}
-                />
-              ))}
-              {overflowCount > 0 && (
-                <span className={styles['thread-footer__avatar-overflow']}>
-                  +{overflowCount}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Placeholder avatars when none provided */}
-          {visibleAvatars.length === 0 && (
-            <div className={styles['thread-footer__avatars']}>
-              {[0, 1, 2].map((i) => (
-                <span
-                  key={i}
-                  className={styles['thread-footer__avatar-placeholder']}
-                />
-              ))}
-              <span className={styles['thread-footer__avatar-overflow']}>
-                +2
-              </span>
-            </div>
+          {avatars.length > 0 && (
+            <UserAvatarGroup avatars={avatars} max={3} size="20" />
           )}
         </div>
 
@@ -150,14 +140,14 @@ export default function ThreadFooter({
             {following ? 'Following' : 'Follow'}
           </Button>
 
-          {/* Last reply time — visible when following */}
+          {/* Last reply time — revealed on row hover when following */}
           {following && lastReplyTime && (
-            <>
+            <div className={styles['thread-footer__last-reply-group']}>
               <div className={styles['thread-footer__divider']} aria-hidden />
               <span className={styles['thread-footer__last-reply']}>
                 {lastReplyTime}
               </span>
-            </>
+            </div>
           )}
         </div>
       </div>

@@ -35,3 +35,14 @@ When adding or editing `packages/compass-ui/**/*.stories.tsx`:
 - Docs tab chrome: `packages/compass-ui/.storybook/docs-theme.css`.
 
 General styling tokens, opacity floors, and motion: see the repo styling rule (`.claude/rules/styling.md` / `.cursor/rules/styling.mdc`).
+
+## Composite rows: unread, mention, and overflow menus
+
+Messaging and sidebar **row composites** (`ChannelSidebarItem`, `ThreadListItem`, `ThreadFooter`, and similar) share these patterns:
+
+- **Decorative badges** (unread dot, mention pill) use `aria-hidden`. Announce state with a **`__status-hint`** element styled via `@include visually-hidden`.
+  - `ChannelSidebarItem` / `ThreadListItem` / `ThreadFooter`: hint copy for mentions uses `` `${count} mention(s)` ``; unread: `unread` or `Unread replies` (footer).
+  - `ThreadFooter` renders [MentionBadge](/components/mention-badge) (`location="channel"`, `size="medium"`).
+- **Overflow menus** are a **sibling** of the primary control (never nested inside the row button). Reveal on `:hover` and `:focus-within` with **opacity** (and `pointer-events`), not `display: none`, so keyboard users can Tab to the menu button.
+- **Row hover chrome** uses `:hover` and `:focus-within` together so keyboard focus gets the same background and revealed actions as pointer hover.
+- **Focus rings** on composite actions may expose a root custom property (e.g. `--thread-footer-focus-ring-color`) that child buttons inherit via `--button-focus-ring-color`.

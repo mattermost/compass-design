@@ -121,8 +121,8 @@ export const AllVariants: Story = {
             showAvatarStatus
             onClick={fn()}
           />
-          <ChannelSidebarItem leadingVisual="threads" name="threads" onClick={fn()} />
-          <ChannelSidebarItem leadingVisual="drafts" name="drafts" onClick={fn()} />
+          <ChannelSidebarItem leadingVisual="threads" name="Threads" onClick={fn()} />
+          <ChannelSidebarItem leadingVisual="drafts" name="Drafts" onClick={fn()} />
           <ChannelSidebarItem
             leadingVisual="insights"
             name="Insights"

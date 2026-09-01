@@ -29,27 +29,27 @@ const PEOPLE_OPTIONS: ComboboxOption[] = [
     value: 'emma',
     label: 'Emma Novak',
     secondaryLabel: '@emma',
-    leadingAvatar: { src: avatarEmma, alt: 'Emma Novak' },
+    'leadingAvatar': { src: avatarEmma, alt: 'Emma Novak' },
     leadingVisual: <UserAvatar src={avatarEmma} alt="Emma Novak" size="24" />,
   },
   {
     value: 'arjun',
     label: 'Arjun Patel',
     secondaryLabel: '@arjun',
-    leadingAvatar: { src: avatarArjun, alt: 'Arjun Patel' },
+    'leadingAvatar': { src: avatarArjun, alt: 'Arjun Patel' },
     leadingVisual: <UserAvatar src={avatarArjun} alt="Arjun Patel" size="24" />,
   },
   {
     value: 'sofia',
     label: 'Sofia Bauer',
     secondaryLabel: '@sofia',
-    leadingAvatar: { src: avatarSofia, alt: 'Sofia Bauer' },
+    'leadingAvatar': { src: avatarSofia, alt: 'Sofia Bauer' },
     leadingVisual: <UserAvatar src={avatarSofia} alt="Sofia Bauer" size="24" />,
   },
 ];
 
 type ComboboxStoryArgs = Omit<ComboboxProps, 'leadingIcon'> & {
-  leadingIcon?: string;
+  'leadingIcon'?: string;
 };
 
 const meta = {
@@ -58,12 +58,12 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
-    leadingIcon: iconSelectArgType({ optional: true }),
+    'leadingIcon': iconSelectArgType({ optional: true }),
   },
   args: {
-    leadingIcon: ICON_NONE,
+    'leadingIcon': ICON_NONE,
   },
-  render: ({ leadingIcon, ...rest }) => (
+  render: ({ 'leadingIcon': leadingIcon, ...rest }) => (
     <Combobox
       {...rest}
       leadingIcon={
@@ -96,7 +96,7 @@ export const WithValue: Story = {
 export const WithLeadingIcon: Story = {
   args: {
     label: 'Channel',
-    leadingIcon: 'globe',
+    'leadingIcon': 'globe',
     options: CHANNEL_OPTIONS,
   },
 };

@@ -16,7 +16,7 @@ import {
 const SIZES: ChipSize[] = ['small', 'medium', 'medium-compact', 'large'];
 
 type ChipStoryArgs = Omit<ChipProps, 'leadingIcon'> & {
-  leadingIcon?: string;
+  'leadingIcon'?: string;
 };
 
 const meta = {
@@ -25,16 +25,16 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
-    leadingIcon: iconSelectArgType({
+    'leadingIcon': iconSelectArgType({
       optional: true,
       description:
         'Leading icon glyph. Chip wraps it in Icon at the size for the chip.',
     }),
   },
   args: {
-    leadingIcon: ICON_NONE,
+    'leadingIcon': ICON_NONE,
   },
-  render: ({ leadingIcon, ...rest }) => (
+  render: ({ 'leadingIcon': leadingIcon, ...rest }) => (
     <Chip
       {...rest}
       leadingIcon={resolveStoryIcon(leadingIcon) as ReactNode}
@@ -69,7 +69,7 @@ export const WithLeadingIcon: Story = {
   args: {
     children: 'With icon',
     size: 'medium',
-    leadingIcon: 'emoticon-happy-outline',
+    'leadingIcon': 'emoticon-happy-outline',
     onRemove: fn(),
   },
 };
@@ -78,7 +78,7 @@ export const WithLeadingAvatar: Story = {
   args: {
     children: 'Leonard Riley',
     size: 'medium',
-    leadingAvatar: { src: avatarLeonard, alt: 'Leonard Riley' },
+    'leadingAvatar': { src: avatarLeonard, alt: 'Leonard Riley' },
     onRemove: fn(),
   },
 };

@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
@@ -58,19 +59,19 @@ export interface ChannelSidebarItemProps {
   /** Custom status emoji shown after the name for leadingVisual='direct-message'. */
   customStatusEmoji?: string;
   onClick?: () => void;
+  /** Overflow menu (kebab). Sibling of the channel control so it is keyboard-reachable. */
+  onMenuClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 function LeadingVisualContent({
   leadingVisual,
   memberCount,
   avatarSrc,
-  avatarAlt,
   showAvatarStatus,
 }: {
   leadingVisual: ChannelSidebarItemLeadingVisual;
   memberCount: number | undefined;
   avatarSrc: string | undefined;
-  avatarAlt: string | undefined;
   showAvatarStatus: boolean | undefined;
 }) {
   switch (leadingVisual) {
@@ -86,7 +87,7 @@ function LeadingVisualContent({
       return (
         <UserAvatar
           src={avatarSrc ?? ''}
-          alt={avatarAlt ?? ''}
+          alt=""
           size="20"
           status={!!showAvatarStatus}
         />
@@ -123,10 +124,10 @@ export default function ChannelSidebarItem({
   mentionCount,
   memberCount,
   avatarSrc,
-  avatarAlt,
   showAvatarStatus = false,
   customStatusEmoji,
   onClick,
+  onMenuClick,
 }: ChannelSidebarItemProps) {
   const isDM = !hideLeadingVisual && leadingVisual === 'direct-message';
   const isDrafts = !hideLeadingVisual && leadingVisual === 'drafts';
@@ -159,56 +160,70 @@ export default function ChannelSidebarItem({
 
   const rightClass = styles['channel-sidebar-item__right'];
 
+  const statusHint =
+    effectiveStatus === 'mention'
+      ? `${mentionCount ?? 1} mention${(mentionCount ?? 1) === 1 ? '' : 's'}`
+      : effectiveStatus === 'unread'
+        ? 'unread'
+        : undefined;
+
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      className={rootClass}
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick?.();
-        }
-      }}
-    >
+    <div className={rootClass}>
       {active && (
         <div className={styles['channel-sidebar-item__active-border']} />
       )}
-      <div className={styles['channel-sidebar-item__left']}>
+      <button
+        type="button"
+        className={styles['channel-sidebar-item__left']}
+        onClick={onClick}
+        aria-current={active ? true : undefined}
+      >
         {!hideLeadingVisual && (
-          <div className={iconContainerClass}>
+          <div className={iconContainerClass} aria-hidden>
             <LeadingVisualContent
               leadingVisual={leadingVisual}
               memberCount={memberCount}
               avatarSrc={avatarSrc}
-              avatarAlt={avatarAlt}
               showAvatarStatus={showAvatarStatus}
             />
           </div>
         )}
         <div className={styles['channel-sidebar-item__content']}>
           <span className={styles['channel-sidebar-item__name']}>{name}</span>
+          {statusHint && (
+            <span className={styles['channel-sidebar-item__status-hint']}>
+              {statusHint}
+            </span>
+          )}
           {sharedChannel && (
-            <span className={styles['channel-sidebar-item__shared-icon']}>
+            <span
+              className={styles['channel-sidebar-item__shared-icon']}
+              aria-hidden
+            >
               <CircleMultipleOutlineIcon size={12} />
             </span>
           )}
           {isDM && customStatusEmoji && (
-            <span className={styles['channel-sidebar-item__custom-status']}>
+            <span
+              className={styles['channel-sidebar-item__custom-status']}
+              aria-hidden
+            >
               {customStatusEmoji}
             </span>
           )}
         </div>
-      </div>
+      </button>
       <div className={rightClass}>
         {callActive && (
-          <div className={styles['channel-sidebar-item__call']}>
+          <div className={styles['channel-sidebar-item__call']} aria-hidden>
             <PhoneInTalkIcon size={12} />
           </div>
         )}
         {hasMentionBadge && (
-          <span className={styles['channel-sidebar-item__mention-badge']}>
+          <span
+            className={styles['channel-sidebar-item__mention-badge']}
+            aria-hidden
+          >
             <MentionBadge
               count={mentionCount ?? 1}
               location="sidebar"
@@ -219,11 +234,15 @@ export default function ChannelSidebarItem({
         {isChannelOrDM && (
           <span className={styles['channel-sidebar-item__menu-button']}>
             <IconButton
+              className={styles['channel-sidebar-item__menu-icon']}
               size="x-small"
               style="inverted"
               icon={<DotsVerticalIcon size={12} />}
               aria-label="Channel options"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                onMenuClick?.(e);
+              }}
             />
           </span>
         )}

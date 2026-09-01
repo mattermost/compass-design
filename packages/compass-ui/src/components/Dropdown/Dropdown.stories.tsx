@@ -22,7 +22,7 @@ const SIZES: DropdownSize[] = [
 ];
 
 type DropdownStoryArgs = Omit<DropdownProps, 'leadingIcon'> & {
-  leadingIcon?: string;
+  'leadingIcon'?: string;
 };
 
 const meta = {
@@ -39,12 +39,12 @@ const meta = {
       control: 'select',
       options: ['default', 'inverted'] satisfies DropdownAppearance[],
     },
-    leadingIcon: iconSelectArgType({ optional: true }),
+    'leadingIcon': iconSelectArgType({ optional: true }),
   },
   args: {
-    leadingIcon: ICON_NONE,
+    'leadingIcon': ICON_NONE,
   },
-  render: ({ leadingIcon, ...rest }) => (
+  render: ({ 'leadingIcon': leadingIcon, ...rest }) => (
     <Dropdown
       {...rest}
       leadingIcon={
@@ -89,7 +89,7 @@ export const CompactPadding: Story = {
 export const WithLeadingIcon: Story = {
   args: {
     children: 'Workspace',
-    leadingIcon: 'globe',
+    'leadingIcon': 'globe',
     size: 'medium',
   },
 };

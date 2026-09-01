@@ -21,7 +21,7 @@ const SIZES: TagSize[] = ['x-small', 'small'];
 const CASINGS: TagCasing[] = ['title-case', 'all-caps'];
 
 type TagStoryArgs = Omit<TagProps, 'leadingIcon'> & {
-  leadingIcon?: string;
+  'leadingIcon'?: string;
 };
 
 const meta = {
@@ -32,12 +32,12 @@ const meta = {
     casing: { control: 'select', options: CASINGS },
     size: { control: 'select', options: SIZES },
     type: { control: 'select', options: TYPES },
-    leadingIcon: iconSelectArgType({ optional: true }),
+    'leadingIcon': iconSelectArgType({ optional: true }),
   },
   args: {
-    leadingIcon: ICON_NONE,
+    'leadingIcon': ICON_NONE,
   },
-  render: ({ leadingIcon, size = 'x-small', ...rest }) => (
+  render: ({ 'leadingIcon': leadingIcon, size = 'x-small', ...rest }) => (
     <Tag
       {...rest}
       size={size}
@@ -88,7 +88,7 @@ export const WithIcon: Story = {
   args: {
     label: 'Professional',
     casing: 'all-caps',
-    leadingIcon: 'globe',
+    'leadingIcon': 'globe',
     type: 'default',
   },
 };
