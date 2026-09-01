@@ -3,7 +3,7 @@ import styles from './AnatomyStage.module.scss';
 
 interface AnatomyStageProps {
   children: ReactNode;
-  /** Optional override for inner layout (e.g. flex direction, gap). Padding/radius are fixed. */
+  /** Applied on the stage root (typically gap, flexWrap, flexDirection). */
   style?: CSSProperties;
   /** Preview surface. Default is the docs wash; `sidebar-header` matches Team Sidebar chrome. */
   surface?: 'default' | 'sidebar-header';

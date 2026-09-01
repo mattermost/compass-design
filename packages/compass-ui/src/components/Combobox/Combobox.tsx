@@ -540,7 +540,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                             removeValue(option.value);
                           }
                     }
-                    removeLabel={`Remove ${option.label}`}
                   >
                     {option.label}
                   </Chip>

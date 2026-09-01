@@ -8,6 +8,7 @@ import {
   useState,
   type CSSProperties,
   type FocusEvent,
+  type MouseEvent,
   type ReactElement,
 } from 'react';
 import { createPortal } from 'react-dom';
@@ -142,9 +143,16 @@ export default function WithTooltip({
     hide();
   };
 
-  const child = isValidElement<{ 'aria-label'?: string }>(children)
+  const child = isValidElement<{
+    'aria-label'?: string;
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
+  }>(children)
     ? cloneElement(children, {
         'aria-label': children.props['aria-label'] ?? label,
+        onClick: (event) => {
+          children.props.onClick?.(event);
+          hide();
+        },
       })
     : children;
 
@@ -161,7 +169,6 @@ export default function WithTooltip({
       onPointerLeave={scheduleHide}
       onFocus={scheduleShow}
       onBlur={handleBlur}
-      onClick={hide}
     >
       {child}
       {open &&

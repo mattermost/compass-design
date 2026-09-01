@@ -24,11 +24,6 @@ export interface ChipProps extends Omit<
   leadingAvatar?: { src: string; alt: string };
   /** When provided, shows the remove (×) control and calls this on click. */
   onRemove?: (e: MouseEvent<HTMLButtonElement>) => void;
-  /**
-   * Accessible name for a standalone remove control. Inside a ChipGroup (and
-   * on any removable chip) the chip itself is named and the × is mouse-only.
-   */
-  removeLabel?: string;
   /** Shows an error border. */
   error?: boolean;
   /** Adds a colored background overlay. */
@@ -111,7 +106,6 @@ export default function Chip({
   leadingIcon,
   leadingAvatar,
   onRemove,
-  removeLabel: _removeLabel,
   error = false,
   colored = false,
   className = '',
@@ -160,15 +154,16 @@ export default function Chip({
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     rest.onKeyDown?.(e);
     if (grouped || !removable || e.defaultPrevented) return;
-    if (e.key === 'Delete' || e.key === 'Backspace') {
+    if (
+      e.key === 'Delete' ||
+      e.key === 'Backspace' ||
+      e.key === 'Enter' ||
+      e.key === ' '
+    ) {
       e.preventDefault();
       e.currentTarget
         .querySelector<HTMLButtonElement>('[data-chip-remove]')
         ?.click();
-      return;
-    }
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
     }
   };
 
