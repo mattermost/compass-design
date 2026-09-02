@@ -33,7 +33,7 @@ const meta = {
     'leadingIcon': ICON_NONE,
     'trailingIcon': ICON_NONE,
   },
-  render: ({ 'leadingIcon': leadingIcon,' trailing-icon': trailingIcon, ...rest }) => (
+  render: ({ 'leadingIcon': leadingIcon, 'trailingIcon': trailingIcon, ...rest }) => (
     <TextInput
       {...rest}
       leadingIcon={

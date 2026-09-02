@@ -105,7 +105,7 @@ function App() {
   return (
     <div style={{ padding: 24, fontFamily: 'system-ui' }}>
       <Button emphasis="primary">Compass UI</Button>
-      <Button leading-icon={<Icon glyph={<GlobeIcon />} size="16" />}>With icon</Button>
+      <Button leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}>With icon</Button>
       <div style={{ width: 240, height: 120, marginTop: 16, border: '1px solid #ccc' }}>
         <Scrollbar>
           <ul style={{ margin: 0, padding: 8 }}>

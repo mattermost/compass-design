@@ -40,7 +40,6 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 - **Admin True/False radios:** lay out horizontally in a flex row (e.g. `admin-console-layout__radio-row`); override Radio `width: 100%` so both stay on one row; match label `padding-top: var(--spacing-xxs)`.
 - **Avatars:** pass a real image from `src/assets/avatars/` when the component supports `src` / equivalent. Initials-only only when documenting fallback or unnamed users.
 - **IconButton (proto/docs):** wrap desktop Icon Buttons with `WithTooltip` from `@mattermost/compass-proto`. Do not add hover or portals to `IconButton` or Compass `Tooltip`. Skip on mobile-only (touch) surfaces; still set `aria-label`.
-- **Composite rows** (sidebar items, thread list/footer): decorative unread/mention badges are `aria-hidden`; use a visually hidden `__status-hint` for screen-reader state. Overflow menus are siblings of the primary control and reveal via opacity on `:hover`/`:focus-within`. See [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md#composite-rows-unread-mention-and-overflow-menus).
 
 ## Styling
 

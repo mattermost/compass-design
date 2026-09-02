@@ -89,9 +89,13 @@ export default function ThreadListItem({
         ? 'unread'
         : undefined;
 
-  const handleMainClick = () => {
+  const handleMainClick = (event: MouseEvent<HTMLDivElement>) => {
     const selection = window.getSelection();
-    if (selection?.type === 'Range' && selection.toString().length > 0) {
+    if (
+      selection?.type === 'Range' &&
+      selection.toString().length > 0 &&
+      event.currentTarget.contains(selection.getRangeAt(0).commonAncestorContainer)
+    ) {
       return;
     }
     onClick?.();

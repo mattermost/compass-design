@@ -52,6 +52,7 @@ export default function Radio({
 
   return (
     <label className={rootClass} htmlFor={id}>
+      {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props -- invalid form contract; radio has no supported invalid ARIA */}
       <input
         id={id}
         type="radio"

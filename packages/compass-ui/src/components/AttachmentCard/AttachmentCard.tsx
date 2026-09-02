@@ -188,7 +188,7 @@ export default function AttachmentCard({
     <div className={rootClass}>
       <div className={styles['attachment-card__container']}>
         <div className={styles['attachment-card__inner']}>
-          {isDefault ? (
+          {isDefault && onOpen ? (
             <button
               type="button"
               className={`${styles['attachment-card__left']} ${styles['attachment-card__open']}`}

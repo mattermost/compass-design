@@ -49,8 +49,8 @@
     --focus-ring-color: var(--thread-footer-focus-ring-color);
   }
 
-  & &__reply-btn:global([class*='button--emphasis-quaternary']),
-  & &__follow-btn:not(#{&}__follow-btn--following):global([class*='button--emphasis-quaternary']) {
+  & &__reply-btn[class*='button--emphasis-quaternary'],
+  & &__follow-btn:not(#{&}__follow-btn--following)[class*='button--emphasis-quaternary'] {
     color: rgba(var(--center-channel-color-rgb), 0.75);
 
     &:hover:not(:disabled) {
@@ -58,11 +58,11 @@
     }
   }
 
-  & &__reply-btn--hovered:global([class*='button--emphasis-quaternary']) {
+  & &__reply-btn--hovered[class*='button--emphasis-quaternary'] {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
   }
 
-  & &__follow-btn--following:global([class*='button--emphasis-quaternary']) {
+  & &__follow-btn--following[class*='button--emphasis-quaternary'] {
     color: var(--link-color);
     background-color: rgba(var(--link-color-rgb), 0.08);
 
