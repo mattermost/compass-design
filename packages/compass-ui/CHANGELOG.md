@@ -9,10 +9,36 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Changed
 
 - **BREAKING:** `Checkbox` and `Radio` replace the `valid` prop with `invalid?: boolean` (default `false`), aligned with `TextInput`, `TextArea`, `Select`, `Combobox`, and `SearchInput`. Use `invalid` or omit the prop instead of `valid={false}`.
+- **BREAKING:** `ThreadFooter` `avatars` prop type changes from `{ src, alt }[]` to `UserAvatarGroupItem[]` (`key`, `name`, optional `src`). The legacy `AvatarData` type remains exported as **deprecated** for migration; map `alt` → `name` and add a stable `key` per avatar.
+- **BREAKING:** `IconButton` no longer defaults `toggled` to `false`. Omit `toggled` for plain actions so `aria-pressed` is not set; pass `toggled={true|false}` only for toggle buttons.
+- **Focus rings:** add `--focus-ring-color` and `--focus-ring-color-rgb` theme tokens (default `var(--button-bg)`). Standalone themes define them explicitly; `@mattermost/compass-ui/styles` aliases them in `webapp-compat.scss` for hosts that already set `--button-bg`. Compact controls (Button, IconButton, ActionButton, Dropdown, Tabs, Chip, PaginationDots, and similar) use the shared outline ring; form fields use 1px inset + 1px outer ring in `--focus-ring-color`.
+- **Quaternary** Button and Dropdown default focus rings use `--focus-ring-color` instead of `--link-color`. Secondary Button still uses `--link-color` for its ring.
+- **Form field SCSS** blocks renamed to kebab-case BEM (`.text-input`, `.search-input`, `.text-area`, `.select`, `.combobox`, `.date-range-picker`, including element modifiers such as `__leading-icon`). Dist CSS module class hashes change; override via component props or host wrappers, not hard-coded module class names.
+- **Composite rows** (`ChannelSidebarItem`, `ThreadListItem`, `ThreadFooter`): decorative unread/mention badges are `aria-hidden`; screen-reader state uses a visually hidden `__status-hint`. Overflow menus are siblings of the primary control and reveal on `:hover` / `:focus-within` via opacity (not `display: none`).
+- **`ThreadListItem`:** row content is text-selectable; primary activation is a focusable div (not a nested `<button>`). Overflow menu renders only when `onMenuClick` is provided. Click is suppressed only when the active text selection intersects the row.
+- **`ThreadFooter`:** participant stack uses `UserAvatarGroup`; mention badge + `mentionCount` prop; last-reply time reveals on row hover or keyboard focus when following.
+- **`Tabs`:** arrow-key roving tabindex with manual activation (Enter/Space selects). Optional `id` / `panelId` on `TabItem` for `aria-controls` pairing with host tabpanels.
+- **`Tag`:** semantic variants bind to `--color-success`, `--color-warning`, and `--color-danger` tokens.
+- **`AttachmentCard`:** file-open control renders as a button only when `onOpen` is provided; otherwise the identity block is non-interactive. Secondary actions also reveal on `:focus-within`.
+- **`Message`** and **`ImagePreview`:** hover-only secondary actions also reveal on `:focus-within`.
+- **`IconButton`:** focus ring uses outline + offset (same pattern as Button) instead of a stacked box-shadow overlay, avoiding extra positioning context.
+- **`Radio`:** focus ring width aligned with Checkbox (2px).
+- **`MenuItem`:** hover/active fills use theme RGB variables instead of hardcoded black `rgba`.
 
 ### Added
 
 - `SearchInput` `invalid` prop for error styling and `aria-invalid`.
+- `ThreadFooter` `mentionCount` prop (used when `badge="mention"`).
+- `ThreadFooter` Storybook stories.
+- Deprecated `AvatarData` export on `@mattermost/compass-ui/components/thread-footer` for legacy `{ src, alt }` consumers.
+- `INTEGRATION.md` Button size mapping for webapp adopters (`xs`/`sm` → `x-small`/`small`).
+
+### Fixed
+
+- `TextInput` Storybook `trailingIcon` control (arg destructuring typo prevented trailing icons from rendering).
+- `Radio` `aria-invalid` retained for invalid form contract with a scoped `jsx-a11y/role-supports-aria-props` suppression.
+- `ThreadFooter` SCSS selectors for nested Button emphasis modifiers (attribute selectors instead of unsupported `:global` wrappers).
+- `scripts/smoke-test-compass-ui-pack.mjs` exercises `leadingIcon` (camelCase) on Button.
 
 ## [0.1.0-alpha.4] - 2026-08-31
 
