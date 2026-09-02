@@ -21,8 +21,8 @@ export interface CheckboxProps extends Omit<
   indeterminate?: boolean;
   /** Size variant. Figma: Small (12px), Medium (16px), Large (20px). Default: Medium. */
   size?: CheckboxSize;
-  /** When false, uses error/destructive styling (red fill when checked). Default: true. */
-  valid?: boolean;
+  /** When true, uses error/destructive styling (red fill when checked). */
+  invalid?: boolean;
   /** Label content. Rendered next to the checkbox. */
   children?: React.ReactNode;
 }
@@ -48,7 +48,7 @@ export default function Checkbox({
   className = '',
   indeterminate = false,
   size = 'medium',
-  valid = true,
+  invalid = false,
   children,
   id: idProp,
   checked,
@@ -78,7 +78,7 @@ export default function Checkbox({
   }, [indeterminate]);
 
   const sizeClass = styles[`checkbox--size-${toKebab(size)}`];
-  const invalidClass = valid ? '' : styles['checkbox--invalid'];
+  const invalidClass = invalid ? styles['checkbox--invalid'] : '';
   const indeterminateClass = indeterminate
     ? styles['checkbox--indeterminate']
     : '';
@@ -105,9 +105,10 @@ export default function Checkbox({
         checked={checked}
         defaultChecked={defaultChecked}
         disabled={disabled}
-        aria-invalid={valid ? undefined : true}
+        aria-invalid={invalid ? true : undefined}
         onChange={handleChange}
         {...rest}
+        {...(indeterminate ? { 'aria-checked': 'mixed' as const } : {})}
       />
       <span className={styles['checkbox__box']}>
         {showingIcon !== null &&

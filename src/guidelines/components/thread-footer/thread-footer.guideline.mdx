@@ -1,4 +1,17 @@
 import { ThreadFooter } from '@mattermost/compass-ui/components/thread-footer';
+import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
+import avatarEmma from '@/assets/avatars/Emma Novak.png';
+import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
+import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+
+export const threadAvatars = [
+  { key: 'leonard', src: avatarLeonard, name: 'Leonard Riley' },
+  { key: 'danielle', src: avatarDanielle, name: 'Danielle Okoro' },
+  { key: 'marco', src: avatarMarco, name: 'Marco Rinaldi' },
+  { key: 'emma', src: avatarEmma, name: 'Emma Novak' },
+  { key: 'sofia', src: avatarSofia, name: 'Sofia Bauer' },
+];
 
 The Thread Footer is the reply summary bar at the bottom of a message. It
 shows participants, reply count, follow state, and last-reply time — the
@@ -10,20 +23,26 @@ information someone needs to decide whether to dive in.
 
 <AnatomyStage>
   <div style={{ width: '100%', maxWidth: '560px' }}>
-    <ThreadFooter replyCount={3} following lastReplyTime="5m ago" badge="mention" />
+    <ThreadFooter
+      replyCount={5}
+      avatars={threadAvatars}
+      following
+      lastReplyTime="5m ago"
+      badge="mention"
+    />
   </div>
 </AnatomyStage>
 
-- <Num>1</Num> **Avatars** — up to three participant avatars stacked, plus a
-  `+N` overflow when more than three users have replied.
+- <Num>1</Num> **Avatars** — a User Avatar Group of up to three participants,
+  plus a `+N` overflow when more than three users have replied.
 - <Num>2</Num> **Reply count** — quaternary button labelled "N replies"; this
   is the primary entry point into the thread.
 - <Num>3</Num> **Follow toggle** — quaternary button that toggles between
   "Follow" and "Following".
-- <Num>4</Num> **Last reply time** — relative timestamp ("5m ago"), shown
-  only when the user is following the thread.
-- <Num>5</Num> **Badge slot** — optional unread dot or `@` mention badge to
-  the left of the avatar stack.
+- <Num>4</Num> **Last reply time** — relative timestamp ("5m ago"), revealed on
+  row hover or keyboard focus when the user is following the thread.
+- <Num>5</Num> **Badge slot** — optional unread dot or [Mention Badge](/components/mention-badge)
+  to the left of the avatar stack.
 
 <Divider />
 
@@ -32,15 +51,15 @@ information someone needs to decide whether to dive in.
 | Variant     | Use when                                                                          |
 | ----------- | --------------------------------------------------------------------------------- |
 | Default     | The user hasn't followed this thread and has no unread state on it.               |
-| Following   | The user is following the thread; show last reply time after the toggle.         |
+| Following   | The user is following the thread; last reply time appears on row hover.         |
 | Unread      | The user is following and has unread replies; show the unread dot badge.         |
-| Mention     | The user has been `@`mentioned in the thread; show the mention badge.            |
+| Mention     | The user has unread `@`mentions in the thread; show a Mention Badge count.            |
 
 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '560px' }}>
-  <ThreadFooter replyCount={3} />
-  <ThreadFooter replyCount={3} following lastReplyTime="5m ago" />
-  <ThreadFooter replyCount={3} following lastReplyTime="5m ago" badge="unread" />
-  <ThreadFooter replyCount={3} following lastReplyTime="5m ago" badge="mention" />
+  <ThreadFooter replyCount={5} avatars={threadAvatars} />
+  <ThreadFooter replyCount={5} avatars={threadAvatars} following lastReplyTime="5m ago" />
+  <ThreadFooter replyCount={5} avatars={threadAvatars} following lastReplyTime="5m ago" badge="unread" />
+  <ThreadFooter replyCount={5} avatars={threadAvatars} following lastReplyTime="5m ago" badge="mention" />
 </div>
 
 <Divider />
@@ -50,15 +69,25 @@ information someone needs to decide whether to dive in.
 - The reply count is the primary action — clicking it opens the thread in
   the right sidebar.
 - Follow / Following is a self-contained toggle. Following adds the thread to
-  the user's Threads view and surfaces last-reply time.
+  the user's Threads view; last-reply time appears when the pointer or keyboard
+  focus is anywhere on the footer row. Dividers are hidden while Following is
+  active.
 - The unread dot appears when the user is following **and** there are unread
   replies. It clears once the user has read everything in the thread.
 - Mention badge wins over unread dot — if the user is mentioned, surface the
   mention regardless of read state.
+- Unread and mention badges are decorative (`aria-hidden`). Screen readers get
+  state from a visually hidden status hint in the avatar group (`Unread replies` or
+  `` `${count} mention(s)` ``).
 
 <Divider />
 
-## Content
+## Accessibility
+
+- Reply and Follow buttons expose their own labels; badge glyphs do not duplicate
+  that copy.
+- Hosts may set `--thread-footer-focus-ring-color` (or `--focus-ring-color`) on the root to align focus
+  rings on Reply/Follow; both default to the theme focus ring.
 
 - Reply count uses the singular when there's exactly one reply ("1 reply",
   not "1 replies").

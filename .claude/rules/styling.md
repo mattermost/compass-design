@@ -112,17 +112,18 @@ position: relative;
 &::after { … }
 
 // ✅ GOOD — rest with the same width/style (transparent) so colour + offset interpolate
-outline: 2px solid color-mix(in srgb, var(--button-bg) 0%, transparent);
+outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
 outline-offset: 0;
 
 &:focus-visible {
-  outline-color: var(--button-bg);
+  outline-color: var(--focus-ring-color);
   outline-offset: 3px;
 }
 ```
 
+- Default ring colour: `--focus-ring-color` (theme alias for `--button-bg`). Use it directly in outline/focus styles; override locally only for contrast (destructive, sidebar, on-primary surfaces) or on a composite root for child controls.
 - Transition `outline-color` and `outline-offset` with `--duration-quick` / `--ease-transition`.
-- Destructive: `outline-color` is `--error-text` / `--color-danger`. Secondary / quaternary Button use `--link-color`.
+- Destructive: `outline-color` is `--error-text` / `--color-danger`. Secondary Button may still use `--link-color` for its ring.
 - Inverted / dark surfaces: keep the same ring colour; the offset gap shows the real background (no fake inner fill).
 - Form fields, checkboxes, radios, and switches keep their own field/box rings — don’t replace those with this button ring.
 - Semantic banner/toast fills may override ring colour for contrast on that surface.

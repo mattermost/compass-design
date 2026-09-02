@@ -1,6 +1,4 @@
 .pagination-dots {
-  --pagination-dots-focus-ring-color: var(--link-color);
-
   display: inline-flex;
   overflow: visible;
 
@@ -21,8 +19,6 @@
   // Inverted style modifier (sidebar / dark chrome)
   // ---------------------------------------------------------------------------
   &--inverted {
-    --pagination-dots-focus-ring-color: var(--button-bg);
-
     .pagination-dots__dot {
       background-color: rgba(var(--sidebar-text-rgb), 0.4);
     }
@@ -37,7 +33,7 @@
   // On primary / info surfaces (Tour Point, etc.) — uses button label tokens
   // ---------------------------------------------------------------------------
   &--on-primary {
-    --pagination-dots-focus-ring-color: var(--button-color);
+    --focus-ring-color: var(--button-color);
 
     .pagination-dots__dot {
       background-color: rgba(var(--button-color-rgb), 0.4);
@@ -65,14 +61,14 @@
     cursor: pointer;
     flex-shrink: 0;
     outline: 2px solid
-      color-mix(in srgb, var(--pagination-dots-focus-ring-color) 0%, transparent);
+      color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
     outline-offset: 0;
     transition:
       outline-color var(--duration-quick) var(--ease-transition),
       outline-offset var(--duration-quick) var(--ease-transition);
 
     &:focus-visible {
-      outline-color: var(--pagination-dots-focus-ring-color);
+      outline-color: var(--focus-ring-color);
       outline-offset: 3px;
     }
   }

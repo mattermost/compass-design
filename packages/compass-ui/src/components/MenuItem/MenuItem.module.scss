@@ -182,7 +182,11 @@
 
     &:active:not(:disabled) {
       background:
-        linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%),
+        linear-gradient(
+          0deg,
+          rgba(var(--button-color-rgb), 0.1) 0%,
+          rgba(var(--button-color-rgb), 0.1) 100%
+        ),
         var(--error-text, var(--color-danger));
       color: var(--button-color);
 
@@ -194,7 +198,7 @@
 
     &:focus-visible {
       background-color: var(--error-text, var(--color-danger));
-      box-shadow: inset 0 0 0 2px rgba(var(--color-neutral-0-rgb), 0.6);
+      box-shadow: inset 0 0 0 2px rgba(var(--button-color-rgb), 0.6);
       color: var(--button-color);
 
       .menu-item__leading-visual,

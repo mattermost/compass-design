@@ -76,8 +76,7 @@ export default function Switch({
           )}
         </span>
       )}
-      <span className={styles['switch__track']} aria-hidden>
-        {/* Native checkbox (visually hidden via CSS); provides semantics, keyboard, and form support */}
+      <span className={styles['switch__track']}>
         <input
           id={id}
           type="checkbox"
@@ -90,7 +89,7 @@ export default function Switch({
           onChange={handleChange}
           {...rest}
         />
-        <span className={styles['switch__knob']} />
+        <span className={styles['switch__knob']} aria-hidden />
       </span>
     </label>
   );

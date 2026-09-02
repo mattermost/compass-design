@@ -47,6 +47,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       disabled,
       readOnly,
       rows = 3,
+      'aria-describedby': describedBy,
       ...rest
     },
     ref,
@@ -86,13 +87,13 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       [isControlled, onChange],
     );
 
-    const sizeClass = styles[`textArea--size-${toKebab(size)}`];
-    const invalidClass = invalid ? styles['textArea--invalid'] : '';
+    const sizeClass = styles[`text-area--size-${toKebab(size)}`];
+    const invalidClass = invalid ? styles['text-area--invalid'] : '';
     const labelFloatedClass =
-      label != null && labelFloated ? styles['textArea--label-floated'] : '';
+      label != null && labelFloated ? styles['text-area--label-floated'] : '';
 
     const rootClass = [
-      styles.textArea,
+      styles['text-area'],
       sizeClass,
       invalidClass,
       labelFloatedClass,
@@ -107,16 +108,16 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     return (
       <div className={rootClass}>
-        <div className={styles.textArea__wrapper}>
+        <div className={styles['text-area__wrapper']}>
           {label != null && (
-            <label className={styles.textArea__label} htmlFor={id}>
+            <label className={styles['text-area__label']} htmlFor={id}>
               {label}
             </label>
           )}
           <textarea
             ref={ref}
             id={id}
-            className={styles.textArea__input}
+            className={styles['text-area__input']}
             value={isControlled ? valueProp : undefined}
             defaultValue={isControlled ? undefined : defaultValue}
             placeholder={placeholder}
@@ -125,7 +126,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             readOnly={readOnly}
             rows={rows}
             aria-invalid={invalid ? true : undefined}
-            aria-describedby={counterId}
+            aria-describedby={
+              [describedBy, counterId].filter(Boolean).join(' ') || undefined
+            }
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChange}
@@ -135,7 +138,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {showCharacterCount && maxLength != null && (
           <div
             id={counterId}
-            className={styles.textArea__counter}
+            className={styles['text-area__counter']}
             aria-live="polite"
           >
             {currentLength} / {maxLength}

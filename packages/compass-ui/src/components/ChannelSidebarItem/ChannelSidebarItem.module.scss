@@ -4,28 +4,41 @@
   align-items: center;
   height: 32px;
   overflow: hidden;
-  cursor: pointer;
   user-select: none;
 
   &__menu-button {
-    display: none;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
-  &:hover {
-    background: rgba(var(--sidebar-text-rgb), 0.08);
+  &__mention-badge {
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  & &__menu-icon {
+    --focus-ring-color: var(--sidebar-text-active-border);
+  }
+
+  &:hover,
+  &:focus-within {
+    overflow: visible;
 
     .channel-sidebar-item__menu-button {
-      display: contents;
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .channel-sidebar-item__mention-badge {
-      display: none;
+      opacity: 0;
+      pointer-events: none;
     }
   }
 
-  &:focus-visible {
-    outline: none;
-    box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
+  &:hover:not(&--active),
+  &:focus-within:not(&--active) {
+    background: rgba(var(--sidebar-text-rgb), 0.08);
   }
 
   &__active-border {
@@ -37,12 +50,29 @@
   }
 
   &__left {
+    appearance: none;
+    margin: 0;
+    border: none;
+    background: transparent;
     display: flex;
     align-items: center;
     flex: 1;
     min-width: 0;
+    align-self: stretch;
     gap: var(--spacing-xxxxs);
     padding: var(--spacing-xxxxs) var(--spacing-xs) var(--spacing-xxxxs) 18px;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
+    }
   }
 
   &__icon-container {
@@ -98,6 +128,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 144px;
+  }
+
+  &__status-hint {
+    @include visually-hidden;
   }
 
   &__shared-icon {

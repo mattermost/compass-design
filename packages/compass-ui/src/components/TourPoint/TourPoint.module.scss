@@ -153,7 +153,7 @@
   }
 
   &__header &__close {
-    --icon-button-focus-ring-color: var(--button-color);
+    --focus-ring-color: var(--button-color);
 
     color: rgba(var(--button-color-rgb), 0.88);
 
@@ -229,7 +229,7 @@
     flex-shrink: 0;
 
     :global(button) {
-      --button-focus-ring-color: var(--neutral-0);
+      --focus-ring-color: var(--neutral-0);
 
       background-color: var(--neutral-0);
       border-color: transparent;

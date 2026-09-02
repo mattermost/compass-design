@@ -2,8 +2,6 @@
 // Block
 // ---------------------------------------------------------------------------
 .icon-button {
-  --icon-button-focus-ring-color: var(--button-bg);
-
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -20,11 +18,11 @@
   background-color: transparent;
   color: rgba(var(--center-channel-color-rgb), 0.64);
   outline: 2px solid
-    color-mix(in srgb, var(--icon-button-focus-ring-color) 0%, transparent);
+    color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
 
   &:focus-visible {
-    outline-color: var(--icon-button-focus-ring-color);
+    outline-color: var(--focus-ring-color);
     outline-offset: 3px;
   }
 
@@ -253,7 +251,7 @@
 
     // Inverted + destructive
     &.icon-button--destructive {
-      --icon-button-focus-ring-color: var(--error-text, var(--color-danger));
+      --focus-ring-color: var(--error-text, var(--color-danger));
 
       background-color: transparent;
       color: var(--error-text, var(--color-danger));
@@ -274,7 +272,7 @@
   // Transparent background with danger-color icon; tinted bg on hover/active.
   // ---------------------------------------------------------------------------
   &--destructive {
-    --icon-button-focus-ring-color: var(--error-text, var(--color-danger));
+    --focus-ring-color: var(--error-text, var(--color-danger));
 
     background-color: transparent;
     color: var(--error-text, var(--color-danger));

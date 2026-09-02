@@ -55,6 +55,7 @@ export default function ThreadListItemLibrary() {
             replyCount={7}
             timestamp="12 mins ago"
             onClick={() => undefined}
+            onMenuClick={() => undefined}
           />
         </div>
       </div>

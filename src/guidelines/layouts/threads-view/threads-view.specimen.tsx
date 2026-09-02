@@ -120,6 +120,7 @@ export default function ThreadsViewLayout() {
                     replyCount={3}
                     participants={PARTICIPANTS_A}
                     onClick={() => setSelectedIndex(0)}
+                    onMenuClick={() => undefined}
                   />
                   <ThreadListItem
                     active={selectedIndex === 1}

@@ -56,6 +56,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       onChange,
       disabled,
       readOnly,
+      'aria-describedby': describedBy,
       ...rest
     },
     ref,
@@ -111,17 +112,17 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       [isControlled, onChange],
     );
 
-    const sizeClass = styles[`textInput--size-${toKebab(size)}`];
-    const invalidClass = invalid ? styles['textInput--invalid'] : '';
+    const sizeClass = styles[`text-input--size-${toKebab(size)}`];
+    const invalidClass = invalid ? styles['text-input--invalid'] : '';
     const labelFloatedClass =
-      label != null && labelFloated ? styles['textInput--label-floated'] : '';
+      label != null && labelFloated ? styles['text-input--label-floated'] : '';
     const hasLeadingClass =
-      leadingIcon != null ? styles['textInput--has-leading-icon'] : '';
+      leadingIcon != null ? styles['text-input--has-leading-icon'] : '';
     const hasTrailingClass =
-      trailingIcon != null ? styles['textInput--has-trailing-icon'] : '';
+      trailingIcon != null ? styles['text-input--has-trailing-icon'] : '';
 
     const rootClass = [
-      styles.textInput,
+      styles['text-input'],
       sizeClass,
       invalidClass,
       labelFloatedClass,
@@ -138,20 +139,20 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 
     return (
       <div className={rootClass}>
-        <div className={styles.textInput__wrapper}>
-          <label className={styles.textInput__inner}>
+        <div className={styles['text-input__wrapper']}>
+          <label className={styles['text-input__inner']}>
             {label != null && (
-              <span className={styles.textInput__label}>{label}</span>
+              <span className={styles['text-input__label']}>{label}</span>
             )}
             {leadingIcon != null && (
-              <span className={styles.textInput__leadingIcon}>
+              <span className={styles['text-input__leading-icon']}>
                 {leadingIcon}
               </span>
             )}
             <input
               ref={setInputRef}
               id={id}
-              className={styles.textInput__input}
+              className={styles['text-input__input']}
               value={isControlled ? valueProp : undefined}
               defaultValue={isControlled ? undefined : defaultValue}
               placeholder={placeholder}
@@ -159,14 +160,16 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               disabled={disabled}
               readOnly={readOnly}
               aria-invalid={invalid ? true : undefined}
-              aria-describedby={counterId}
+              aria-describedby={
+                [describedBy, counterId].filter(Boolean).join(' ') || undefined
+              }
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChange={handleChange}
               {...rest}
             />
             {trailingIcon != null && (
-              <span className={styles.textInput__trailingIcon}>
+              <span className={styles['text-input__trailing-icon']}>
                 {trailingIcon}
               </span>
             )}
@@ -175,7 +178,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         {showCharacterCount && maxLength != null && (
           <div
             id={counterId}
-            className={styles.textInput__counter}
+            className={styles['text-input__counter']}
             aria-live="polite"
           >
             {currentLength} / {maxLength}

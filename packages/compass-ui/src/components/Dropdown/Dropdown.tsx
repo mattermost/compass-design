@@ -77,7 +77,7 @@ export default function Dropdown({
       <span className={styles.dropdown__trigger}>
         <span className={styles.dropdown__content}>
           {leadingIcon != null && (
-            <span className={styles.dropdown__leadingIcon} aria-hidden>
+            <span className={styles['dropdown__leading-icon']} aria-hidden>
               {leadingIcon}
             </span>
           )}

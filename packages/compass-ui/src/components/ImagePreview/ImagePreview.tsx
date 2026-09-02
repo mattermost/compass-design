@@ -5,6 +5,7 @@ import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import DownloadOutlineIcon from '@mattermost/compass-icons/components/download-outline';
 import MenuDownIcon from '@mattermost/compass-icons/components/menu-down';
 import MenuRightIcon from '@mattermost/compass-icons/components/menu-right';
+import { useEffect, useRef, type KeyboardEvent } from 'react';
 import styles from './ImagePreview.module.scss';
 
 export type ImagePreviewAspectRatio = '16:9' | '4:3' | '1:1';
@@ -31,7 +32,8 @@ export interface ImagePreviewProps {
 /**
  * Image Preview displays image attachments, markdown images, and inline image links inside
  * the message stream. It frames the image, shows hover actions for copy and download, and
- * lets the user collapse the preview when it's in the way.
+ * lets the user collapse the preview when it's in the way. Keyboard activation
+ * moves focus to the paired expand/collapse control; pointer activation does not.
  */
 export default function ImagePreview({
   src,
@@ -45,6 +47,30 @@ export default function ImagePreview({
 }: ImagePreviewProps) {
   const frameTransition = usePopoverTransition(!collapsed);
   const labelTransition = usePopoverTransition(collapsed);
+  const showTriggerRef = useRef<HTMLButtonElement>(null);
+  const collapseTriggerRef = useRef<HTMLButtonElement>(null);
+  const keyboardToggleRef = useRef(false);
+
+  const markKeyboardToggle = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      keyboardToggleRef.current = true;
+    }
+  };
+
+  useEffect(() => {
+    if (!keyboardToggleRef.current) return;
+
+    if (collapsed) {
+      if (!labelTransition.mounted || !showTriggerRef.current) return;
+      keyboardToggleRef.current = false;
+      showTriggerRef.current.focus();
+      return;
+    }
+
+    if (!frameTransition.mounted || !collapseTriggerRef.current) return;
+    keyboardToggleRef.current = false;
+    collapseTriggerRef.current.focus();
+  }, [collapsed, frameTransition.mounted, labelTransition.mounted]);
 
   const rootClass = [
     styles['image-preview'],
@@ -61,6 +87,7 @@ export default function ImagePreview({
       <div className={styles['image-preview__stage']}>
         {labelTransition.mounted && (
           <button
+            ref={showTriggerRef}
             type="button"
             className={[
               styles['image-preview__collapsed-trigger'],
@@ -71,6 +98,7 @@ export default function ImagePreview({
               .filter(Boolean)
               .join(' ')}
             onClick={onToggleCollapse}
+            onKeyDown={markKeyboardToggle}
             aria-label="Show image preview"
           >
             <span className={styles['image-preview__show-label']}>
@@ -100,6 +128,19 @@ export default function ImagePreview({
               <img src={src} alt={alt} className={styles['image-preview__img']} />
             </div>
 
+            {onToggleCollapse != null && (
+              <button
+                ref={collapseTriggerRef}
+                type="button"
+                className={styles['image-preview__collapse-btn']}
+                onClick={onToggleCollapse}
+                onKeyDown={markKeyboardToggle}
+                aria-label="Collapse image preview"
+              >
+                <Icon size="16" glyph={<MenuDownIcon />} />
+              </button>
+            )}
+
             <div className={styles['image-preview__actions']}>
               {onCopyLink != null && (
                 <IconButton
@@ -120,17 +161,6 @@ export default function ImagePreview({
                 />
               )}
             </div>
-
-            {onToggleCollapse != null && (
-              <button
-                type="button"
-                className={styles['image-preview__collapse-btn']}
-                onClick={onToggleCollapse}
-                aria-label="Collapse image preview"
-              >
-                <Icon size="16" glyph={<MenuDownIcon />} />
-              </button>
-            )}
           </div>
         )}
       </div>

@@ -34,13 +34,13 @@ export default function CheckboxLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Invalid</span>
-          <Checkbox size="medium" valid={false}>
+          <Checkbox size="medium" invalid>
             Unchecked invalid
           </Checkbox>
-          <Checkbox size="medium" defaultChecked valid={false}>
+          <Checkbox size="medium" defaultChecked invalid>
             Checked invalid
           </Checkbox>
-          <Checkbox size="medium" indeterminate valid={false}>
+          <Checkbox size="medium" indeterminate invalid>
             Indeterminate invalid
           </Checkbox>
         </div>

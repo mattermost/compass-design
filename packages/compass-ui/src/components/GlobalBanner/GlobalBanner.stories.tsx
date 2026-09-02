@@ -18,7 +18,7 @@ const TYPES: GlobalBannerType[] = [
 ];
 
 type GlobalBannerStoryArgs = Omit<GlobalBannerProps, 'leadingIcon'> & {
-  leadingIcon?: string;
+  'leadingIcon'?: string;
 };
 
 const meta = {
@@ -27,12 +27,12 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     type: { control: 'select', options: TYPES },
-    leadingIcon: iconSelectArgType({ optional: true }),
+    'leadingIcon': iconSelectArgType({ optional: true }),
   },
   args: {
-    leadingIcon: ICON_NONE,
+    'leadingIcon': ICON_NONE,
   },
-  render: ({ leadingIcon, ...rest }) => (
+  render: ({ 'leadingIcon': leadingIcon, ...rest }) => (
     <GlobalBanner
       {...rest}
       leadingIcon={

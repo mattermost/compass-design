@@ -60,7 +60,8 @@
       box-shadow: none;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       box-shadow: var(--elevation-2);
       border-color: rgba(var(--center-channel-color-rgb), 0.24);
       cursor: pointer;
@@ -122,7 +123,8 @@
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
-  &__frame:hover &__actions {
+  &__frame:hover &__actions,
+  &__frame:focus-within &__actions {
     opacity: 1;
   }
 
@@ -147,7 +149,8 @@
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
-  &__frame:hover &__collapse-btn {
+  &__frame:hover &__collapse-btn,
+  &__frame:focus-within &__collapse-btn {
     opacity: 1;
   }
 

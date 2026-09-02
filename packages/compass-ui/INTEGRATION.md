@@ -393,13 +393,46 @@ Import convention matches webapp and docs: `@mattermost/compass-ui/components/<k
 3. Replace compass-components usages file-by-file (Button, Text equivalents, etc.).
 4. Storybook is the variant reference — link from internal docs.
 
+### Button and shared package prop mapping
+
+`@mattermost/shared` `Button` and Compass `Button` share emphasis names (`primary`, `secondary`, `tertiary`, `quaternary`) but **size literals differ**. Map at the adapter boundary when migrating call sites — do not pass shared sizes directly to Compass.
+
+| `@mattermost/shared` | Compass UI `Button` / `IconButton` |
+|----------------------|-------------------------------------|
+| `xs` | `x-small` |
+| `sm` | `small` |
+| `md` | `medium` |
+| `lg` | `large` |
+
+Example adapter:
+
+```tsx
+const SHARED_TO_COMPASS_SIZE = {
+  xs: 'x-small',
+  sm: 'small',
+  md: 'medium',
+  lg: 'large',
+} as const;
+
+<Button
+  emphasis={sharedEmphasis}
+  size={SHARED_TO_COMPASS_SIZE[sharedSize]}
+/>
+```
+
+Other intentional differences during migration:
+
+- **Destructive:** shared uses a `destructive` boolean; Compass uses `emphasis="primary"` + `destructive` or danger tokens on other components — match the Compass API per component docs.
+- **Toggle controls:** Compass `ActionButton` and `IconButton` expose `aria-pressed` only when the toggle prop is set (`active` / `toggled`). Omit the prop for plain actions.
+- **Switch vs Toggle:** Compass `Switch` is `role="switch"`; webapp `toggle.tsx` is an `aria-pressed` button — not interchangeable without host behavior changes.
+
 ### Theme alignment
 
-Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`). Compass theme presets (including `--calls-bg`) ship only in `/styles/standalone` for Storybook/playground — not in the webapp `/styles` entry.
+Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`). Compass theme presets (including `--calls-bg` and `--focus-ring-color`) ship only in `/styles/standalone` for Storybook/playground — not in the webapp `/styles` entry.
 
 Compass uses the **same semantic names** as webapp:
 
-- **`webapp-compat.scss` `@layer`**: standalone defaults for `--semantic-color-*` (mapped to Compass palette RGB) and `--neutral-*`. Host unlayered values always win when embedded.
+- **`webapp-compat.scss` `@layer`**: standalone defaults for `--semantic-color-*` (mapped to Compass palette RGB), `--neutral-*`, and `--focus-ring-color` / `--focus-ring-color-rgb` (aliases of `--button-bg` / `--button-bg-rgb`). Host unlayered values always win when embedded.
 - **`tokens.scss`**: `--color-info|success|warning|danger` wrap `rgb(var(--semantic-color-*))` for authoring.
 - **Components**: error / destructive UI uses `var(--error-text, var(--color-danger))`. Presence uses `--online-indicator` / `--away-indicator` / `--dnd-indicator`. Calls surfaces use `var(--calls-bg, var(--color-indigo-600))` until the host defines `--calls-bg`. Toasts / global banners use `--color-*` (fixed semantics).
 

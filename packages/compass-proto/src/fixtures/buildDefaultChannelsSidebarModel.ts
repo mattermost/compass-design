@@ -30,16 +30,16 @@ export function buildDefaultChannelsSidebarModel(
   } = input;
 
   const topGroupItems: ChannelsSidebarItemModel[] = [
-    { name: 'threads', leadingVisual: 'threads' },
+    { name: 'Threads', leadingVisual: 'threads' },
     {
-      name: 'drafts',
+      name: 'Drafts',
       leadingVisual: 'drafts',
       status: 'mention',
       mentionCount: 1,
     },
   ];
   if (showDialPad) {
-    topGroupItems.push({ name: 'dial-pad', leadingVisual: 'dial-pad' });
+    topGroupItems.push({ name: 'Dial Pad', leadingVisual: 'dial-pad' });
   }
 
   const groups: ChannelsSidebarGroupModel[] = [];
@@ -95,7 +95,7 @@ export function buildDefaultChannelsSidebarModel(
     });
   }
   favoritesItems.push(
-    { name: 'softphone-ux', leadingVisual: 'public' },
+    { name: 'Softphone UX', leadingVisual: 'public' },
     {
       name: 'Aiko Tan',
       leadingVisual: 'direct-message',
@@ -131,9 +131,9 @@ export function buildDefaultChannelsSidebarModel(
     );
   }
   channelsItems.push(
-    { name: 'calling-eng', leadingVisual: 'public' },
+    { name: 'Calling Eng', leadingVisual: 'public' },
     { name: 'Security Incident', leadingVisual: 'public' },
-    { name: 'telephony-vendors', leadingVisual: 'private' },
+    { name: 'Telephony Vendors', leadingVisual: 'private' },
     { name: 'System Status', leadingVisual: 'private' },
     { name: 'Product Support', leadingVisual: 'private' },
   );

@@ -54,6 +54,8 @@ export interface AttachmentCardProps {
   channelTag?: string;
   /** Optional date/time stamp, e.g. "Sep 24 5:14 PM". */
   dateTimeStamp?: string;
+  /** Called when the card is activated to open the file or its preview. */
+  onOpen?: () => void;
   /** Called when the remove or cancel button is clicked. */
   onRemove?: () => void;
   /** Called when the download button is clicked (visible on hover in default state). */
@@ -115,6 +117,7 @@ export default function AttachmentCard({
   thumbnailSrc,
   channelTag,
   dateTimeStamp,
+  onOpen,
   onRemove,
   onDownload,
   onMore,
@@ -136,52 +139,67 @@ export default function AttachmentCard({
   const iconColor =
     fileType !== 'image-thumbnail' ? FILE_TYPE_COLORS[fileType] : undefined;
 
+  const fileIdentity = (
+    <>
+      {fileType === 'image-thumbnail' && thumbnailSrc ? (
+        <img
+          src={thumbnailSrc}
+          alt=""
+          className={styles['attachment-card__thumbnail']}
+        />
+      ) : (
+        <div
+          className={styles['attachment-card__icon']}
+          style={iconColor ? { color: iconColor } : undefined}
+        >
+          <Icon glyph={<FileIcon size={40} />} size="40" />
+        </div>
+      )}
+
+      <div className={styles['attachment-card__text']}>
+        <span className={styles['attachment-card__filename']}>{fileName}</span>
+        <div className={styles['attachment-card__secondary-details']}>
+          {isUploading ? (
+            <span className={styles['attachment-card__uploading-text']}>
+              {`Uploading… (${progress}%)`}
+            </span>
+          ) : (
+            <>
+              {channelTag && <Tag label={channelTag} />}
+              {fileMeta && (
+                <div className={styles['attachment-card__details']}>
+                  <span>{fileMeta}</span>
+                  {dateTimeStamp && (
+                    <span className={styles['attachment-card__datetime']}>
+                      <span>{'•'}</span>
+                      <span>{dateTimeStamp}</span>
+                    </span>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <div className={rootClass}>
       <div className={styles['attachment-card__container']}>
         <div className={styles['attachment-card__inner']}>
-          <div className={styles['attachment-card__left']}>
-            {fileType === 'image-thumbnail' && thumbnailSrc ? (
-              <img
-                src={thumbnailSrc}
-                alt=""
-                className={styles['attachment-card__thumbnail']}
-              />
-            ) : (
-              <div
-                className={styles['attachment-card__icon']}
-                style={iconColor ? { color: iconColor } : undefined}
-              >
-                <Icon glyph={<FileIcon size={40} />} size="40" />
-              </div>
-            )}
-
-            <div className={styles['attachment-card__text']}>
-              <p className={styles['attachment-card__filename']}>{fileName}</p>
-              <div className={styles['attachment-card__secondary-details']}>
-                {isUploading ? (
-                  <span className={styles['attachment-card__uploading-text']}>
-                    {`Uploading… (${progress}%)`}
-                  </span>
-                ) : (
-                  <>
-                    {channelTag && <Tag label={channelTag} />}
-                    {fileMeta && (
-                      <div className={styles['attachment-card__details']}>
-                        <span>{fileMeta}</span>
-                        {dateTimeStamp && (
-                          <span className={styles['attachment-card__datetime']}>
-                            <span>{'•'}</span>
-                            <span>{dateTimeStamp}</span>
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
+          {isDefault && onOpen ? (
+            <button
+              type="button"
+              className={`${styles['attachment-card__left']} ${styles['attachment-card__open']}`}
+              onClick={onOpen}
+              aria-label={`Open ${fileName}`}
+            >
+              {fileIdentity}
+            </button>
+          ) : (
+            <div className={styles['attachment-card__left']}>{fileIdentity}</div>
+          )}
 
           <div className={styles['attachment-card__right']}>
             <div className={styles['attachment-card__actions']}>

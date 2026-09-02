@@ -16,7 +16,7 @@
   }
 
   &__tab {
-    --tabs-focus-ring-color: var(--button-bg);
+    position: relative;
 
     display: flex;
     flex-direction: row;
@@ -28,7 +28,7 @@
     cursor: pointer;
     padding: var(--spacing-xxs) var(--spacing-s);
     outline: 2px solid
-      color-mix(in srgb, var(--tabs-focus-ring-color) 0%, transparent);
+      color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
     outline-offset: 0;
     transition:
       background-color var(--duration-quick) var(--ease-transition),
@@ -36,7 +36,7 @@
       outline-offset var(--duration-quick) var(--ease-transition);
 
     &:focus-visible {
-      outline-color: var(--tabs-focus-ring-color);
+      outline-color: var(--focus-ring-color);
       outline-offset: 3px;
     }
 
@@ -99,6 +99,10 @@
     height: 4px;
     border-radius: var(--radius-full);
     background-color: var(--mention-bg);
+  }
+
+  &__unread-label {
+    @include visually-hidden;
   }
 
   &__controls {

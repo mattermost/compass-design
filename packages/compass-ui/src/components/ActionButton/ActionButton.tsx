@@ -4,6 +4,7 @@ import styles from './ActionButton.module.scss';
 export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: ReactNode;
   label: string;
+  /** When set, this is a toggle; maps to `aria-pressed`. */
   active?: boolean;
   destructive?: boolean;
 }
@@ -16,9 +17,10 @@ export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElemen
 export default function ActionButton({
   icon,
   label,
-  active = false,
+  active,
   destructive = false,
   className,
+  type = 'button',
   ...htmlProps
 }: ActionButtonProps) {
   const rootClass = [
@@ -31,8 +33,15 @@ export default function ActionButton({
     .join(' ');
 
   return (
-    <button className={rootClass} aria-pressed={active} {...htmlProps}>
-      <span className={styles['action-button__icon']}>{icon}</span>
+    <button
+      className={rootClass}
+      type={type}
+      aria-pressed={active === undefined ? undefined : active}
+      {...htmlProps}
+    >
+      <span className={styles['action-button__icon']} aria-hidden>
+        {icon}
+      </span>
       <span className={styles['action-button__label']}>{label}</span>
     </button>
   );

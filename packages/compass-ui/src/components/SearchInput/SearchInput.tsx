@@ -1,4 +1,9 @@
-import type { ChangeEvent, InputHTMLAttributes, ReactNode } from 'react';
+import type {
+  ChangeEvent,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+} from 'react';
 import {
   forwardRef,
   useId,
@@ -33,6 +38,8 @@ export interface SearchInputProps extends Omit<
 > {
   /** Optional CSS class name. */
   className?: string;
+  /** When true, shows invalid/error styling. */
+  invalid?: boolean;
   /** Floating label (placeholder-style). Floats above border when filled. */
   label?: ReactNode;
   /** Size variant. Default: Medium. */
@@ -52,6 +59,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       className = '',
       size = 'medium',
       label,
+      invalid = false,
       onClear,
       id: idProp,
       value: valueProp,
@@ -61,6 +69,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       onBlur,
       onChange,
       disabled,
+      onKeyDown,
       ...rest
     },
     ref,
@@ -136,21 +145,35 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       input.focus();
     }, [disabled, isControlled, onChange, onClear]);
 
+    const handleKeyDown = useCallback(
+      (e: KeyboardEvent<HTMLInputElement>) => {
+        onKeyDown?.(e);
+        if (e.defaultPrevented || disabled) return;
+        if (e.key === 'Escape' && hasValue) {
+          e.preventDefault();
+          handleClear();
+        }
+      },
+      [disabled, handleClear, hasValue, onKeyDown],
+    );
+
     const showClearButton = hasValue && !disabled;
 
-    const sizeClass = styles[`searchInput--size-${toKebab(size)}`];
+    const sizeClass = styles[`search-input--size-${toKebab(size)}`];
+    const invalidClass = invalid ? styles['search-input--invalid'] : '';
     const labelFloatedClass =
-      label != null && labelFloated ? styles['searchInput--label-floated'] : '';
-    const hasLeadingClass = styles['searchInput--has-leading-icon'];
+      label != null && labelFloated ? styles['search-input--label-floated'] : '';
+    const hasLeadingClass = styles['search-input--has-leading-icon'];
     const hasTrailingClass = showClearButton
-      ? styles['searchInput--has-trailing-icon']
+      ? styles['search-input--has-trailing-icon']
       : '';
     const iconSize = ICON_SIZE_MAP[size];
     const clearIconSize = CLEAR_ICON_SIZE_MAP[size];
 
     const rootClass = [
-      styles.searchInput,
+      styles['search-input'],
       sizeClass,
+      invalidClass,
       labelFloatedClass,
       hasLeadingClass,
       hasTrailingClass,
@@ -161,21 +184,21 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
     return (
       <div className={rootClass}>
-        <div className={styles.searchInput__wrapper}>
+        <div className={styles['search-input__wrapper']}>
           {label != null && (
-            <label className={styles.searchInput__label} htmlFor={id}>
+            <label className={styles['search-input__label']} htmlFor={id}>
               {label}
             </label>
           )}
-          <div className={styles.searchInput__inner}>
-            <span className={styles.searchInput__leadingIcon} aria-hidden>
+          <div className={styles['search-input__inner']}>
+            <span className={styles['search-input__leading-icon']} aria-hidden>
               <Icon size={iconSize} glyph={<MagnifyIcon />} />
             </span>
             <input
               ref={setInputRef}
               id={id}
               type="search"
-              className={styles.searchInput__input}
+              className={styles['search-input__input']}
               value={isControlled ? valueProp : undefined}
               defaultValue={isControlled ? undefined : defaultValue}
               placeholder={placeholder}
@@ -183,13 +206,15 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              aria-invalid={invalid ? true : undefined}
               {...rest}
             />
             {showClearButton && (
-              <span className={styles.searchInput__trailingIcon}>
+              <span className={styles['search-input__trailing-icon']}>
                 <button
                   type="button"
-                  className={styles.searchInput__clearButton}
+                  className={styles['search-input__clear-button']}
                   onClick={handleClear}
                   aria-label="Clear search"
                   tabIndex={-1}

@@ -27,7 +27,7 @@ export default function ChannelSidebarItemLibrary() {
               avatarAlt="Leonard Riley"
               showAvatarStatus
             />
-            <ChannelSidebarItem leadingVisual="threads" name="threads" />
+            <ChannelSidebarItem leadingVisual="threads" name="Threads" />
             <ChannelSidebarItem leadingVisual="drafts" name="Drafts" />
             <ChannelSidebarItem leadingVisual="insights" name="Insights" />
           </div>

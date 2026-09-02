@@ -18,13 +18,27 @@ export default function TagLibrary() {
       </div>
       <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>Sizes</h3>
-        <div className={styles['components__row']}>
-          <Tag label="default" type="default" size="small" />
-          <Tag label="Info" type="info" size="small" />
-          <Tag label="Info Dim" type="info-dim" size="small" />
-          <Tag label="Danger" type="danger" size="small" />
-          <Tag label="Success" type="success" size="small" />
-          <Tag label="Warning" type="warning" size="small" />
+        <div className={styles['components__button-block']}>
+          <div className={styles['components__button-row']}>
+            <span className={styles['components__instance-label']}>
+              X-Small
+            </span>
+            <Tag label="default" type="default" size="x-small" />
+            <Tag label="Info" type="info" size="x-small" />
+            <Tag label="Info Dim" type="info-dim" size="x-small" />
+            <Tag label="Danger" type="danger" size="x-small" />
+            <Tag label="Success" type="success" size="x-small" />
+            <Tag label="Warning" type="warning" size="x-small" />
+          </div>
+          <div className={styles['components__button-row']}>
+            <span className={styles['components__instance-label']}>Small</span>
+            <Tag label="default" type="default" size="small" />
+            <Tag label="Info" type="info" size="small" />
+            <Tag label="Info Dim" type="info-dim" size="small" />
+            <Tag label="Danger" type="danger" size="small" />
+            <Tag label="Success" type="success" size="small" />
+            <Tag label="Warning" type="warning" size="small" />
+          </div>
         </div>
       </div>
       <div className={styles['components__section']}>

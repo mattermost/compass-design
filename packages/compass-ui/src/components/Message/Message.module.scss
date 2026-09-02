@@ -6,7 +6,8 @@
   background-color: var(--center-channel-bg);
   transition: background-color var(--duration-quick) var(--ease-transition);
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     /* 4% center-channel-color on top of center-channel-bg (not flat rgba alone). */
     background-color: color-mix(
       in srgb,

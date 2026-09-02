@@ -1,4 +1,6 @@
 .thread-footer {
+  --thread-footer-focus-ring-color: var(--focus-ring-color);
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -18,6 +20,10 @@
     padding-right: var(--spacing-xxxs);
   }
 
+  &__status-hint {
+    @include visually-hidden;
+  }
+
   &__unread-dot {
     display: block;
     width: 8px;
@@ -29,95 +35,40 @@
 
   &__mention-badge {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 16px;
-    height: 16px;
-    padding: 0 var(--spacing-xxxs);
-    border-radius: var(--radius-s);
-    background-color: var(--mention-bg);
-    color: var(--mention-color);
-    font-family: var(--font-family-body);
-    font-size: var(--font-size-25);
-    font-weight: var(--font-weight-semibold);
-    line-height: 1;
-  }
-
-  &__avatars {
-    display: inline-flex;
-    align-items: center;
-    padding-right: 3px;
-  }
-
-  &__avatar {
-    border: 1px solid var(--center-channel-bg);
-    border-radius: var(--radius-full);
-    margin-right: -3px;
-    flex-shrink: 0;
-  }
-
-  &__avatar-placeholder {
-    display: block;
-    width: 24px;
-    height: 24px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--center-channel-bg);
-    background-color: rgba(var(--center-channel-color-rgb), 0.16);
-    margin-right: -3px;
-    flex-shrink: 0;
-  }
-
-  &__avatar-overflow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--center-channel-bg);
-    background-color: var(--center-channel-bg);
-    color: rgba(var(--center-channel-color-rgb), 0.56);
-    font-family: var(--font-family-body);
-    font-size: var(--font-size-75);
-    font-weight: var(--font-weight-semibold);
-    margin-right: -3px;
     flex-shrink: 0;
   }
 
   &__buttons {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-xxxxs);
+    gap: 0;
   }
 
-  &__reply-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xxxs);
-    padding: 4.5px var(--spacing-s);
-    border: none;
-    border-radius: var(--radius-s);
-    background-color: transparent;
-    color: rgba(var(--center-channel-color-rgb), 0.75);
-    cursor: pointer;
-    transition: background-color var(--duration-quick) var(--ease-transition);
+  &__reply-btn,
+  &__follow-btn {
+    --focus-ring-color: var(--thread-footer-focus-ring-color);
+  }
 
-    &:hover,
-    &--hovered {
+  & &__reply-btn[class*='button--emphasis-quaternary'],
+  & &__follow-btn:not(#{&}__follow-btn--following)[class*='button--emphasis-quaternary'] {
+    color: rgba(var(--center-channel-color-rgb), 0.75);
+
+    &:hover:not(:disabled) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
-
-    &:focus-visible {
-      outline: 2px solid var(--link-color);
-      outline-offset: 1px;
-    }
   }
 
-  &__btn-icon {
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-    color: rgba(var(--center-channel-color-rgb), 0.75);
+  & &__reply-btn--hovered[class*='button--emphasis-quaternary'] {
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+  }
+
+  & &__follow-btn--following[class*='button--emphasis-quaternary'] {
+    color: var(--link-color);
+    background-color: rgba(var(--link-color-rgb), 0.08);
+
+    &:hover:not(:disabled) {
+      background-color: rgba(var(--link-color-rgb), 0.12);
+    }
   }
 
   &__btn-label {
@@ -129,47 +80,56 @@
   }
 
   &__divider {
+    box-sizing: border-box;
     width: 1px;
+    min-width: 1px;
+    max-width: 1px;
     height: 16px;
+    padding: 0;
+    margin: 0;
+    border: 0;
     background-color: rgba(var(--center-channel-color-rgb), 0.16);
     flex-shrink: 0;
+    transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
-  &__follow-btn {
+  // Following active — both dividers stay hidden (including on row hover).
+  &__buttons:has(#{&}__follow-btn--following) > &__divider:first-of-type,
+  &__buttons:has(#{&}__follow-btn--following)
+    > &__last-reply-group
+    > &__divider {
+    opacity: 0;
+  }
+
+  // Hide the reply/follow divider when either control is hovered or focused.
+  &__buttons:not(:has(#{&}__follow-btn--following)):has(
+      #{&}__reply-btn:hover,
+      #{&}__reply-btn--hovered,
+      #{&}__reply-btn:focus-visible,
+      #{&}__follow-btn:hover,
+      #{&}__follow-btn:focus-visible
+    )
+    > &__divider:first-of-type {
+    opacity: 0;
+  }
+
+  &__last-reply-group {
     display: inline-flex;
     align-items: center;
-    padding: 4.5px var(--spacing-s);
-    border: none;
-    border-radius: var(--radius-s);
-    background-color: transparent;
-    color: rgba(var(--center-channel-color-rgb), 0.75);
-    font-family: var(--font-family-body);
-    font-size: var(--font-size-75);
-    font-weight: var(--font-weight-semibold);
-    line-height: 15px;
-    white-space: nowrap;
-    cursor: pointer;
+    gap: 0;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
     transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      color var(--duration-quick) var(--ease-transition);
+      max-width var(--duration-quick) var(--ease-transition),
+      opacity var(--duration-quick) var(--ease-transition);
+  }
 
-    &:hover {
-      background-color: rgba(var(--center-channel-color-rgb), 0.08);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--link-color);
-      outline-offset: 1px;
-    }
-
-    &--following {
-      color: var(--link-color);
-      background-color: rgba(var(--link-color-rgb), 0.08);
-
-      &:hover {
-        background-color: rgba(var(--link-color-rgb), 0.12);
-      }
-    }
+  &--following:hover &__last-reply-group,
+  &--following:focus-within &__last-reply-group,
+  &--following#{&}--hovered &__last-reply-group {
+    max-width: 10rem;
+    opacity: 1;
   }
 
   &__last-reply {

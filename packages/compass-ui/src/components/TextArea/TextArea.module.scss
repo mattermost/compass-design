@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------
 // Block — Text Area (Figma v2.0.0). Multi-line text input with floating label.
 // ---------------------------------------------------------------------------
-.textArea {
+.text-area {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -16,17 +16,17 @@
     box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.16);
     transition: box-shadow var(--duration-quick) var(--ease-transition);
 
-    .textArea:has(.textArea__input:not(:disabled)):hover:not(:focus-within) & {
+    .text-area:has(.text-area__input:not(:disabled)):hover:not(:focus-within) & {
       box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
     }
 
-    .textArea:has(.textArea__input:focus-visible) & {
+    .text-area:has(.text-area__input:focus-visible) & {
       box-shadow:
-        inset 0 0 0 1px var(--button-bg),
-        0 0 0 1px var(--button-bg);
+        inset 0 0 0 1px var(--focus-ring-color),
+        0 0 0 1px var(--focus-ring-color);
     }
 
-    .textArea:has(.textArea__input:disabled) & {
+    .text-area:has(.text-area__input:disabled) & {
       background-color: var(--center-channel-bg);
       opacity: 0.56;
     }
@@ -57,7 +57,7 @@
       top var(--duration-quick) var(--ease-transition),
       color var(--duration-quick) var(--ease-transition);
 
-    .textArea--label-floated & {
+    .text-area--label-floated & {
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
@@ -112,19 +112,19 @@
   // Size modifiers
   // ---------------------------------------------------------------------------
   &--size-small {
-    .textArea__input {
+    .text-area__input {
       padding: var(--spacing-xs) var(--spacing-m);
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
     }
 
-    .textArea__label {
+    .text-area__label {
       top: var(--spacing-xs);
       font-size: var(--font-size-75);
       line-height: var(--line-height-25);
     }
 
-    &.textArea--label-floated .textArea__label {
+    &.text-area--label-floated .text-area__label {
       top: 0;
       font-size: var(--font-size-25);
       line-height: 14px;
@@ -132,19 +132,19 @@
   }
 
   &--size-medium {
-    .textArea__input {
+    .text-area__input {
       padding: var(--spacing-s) var(--spacing-l);
       font-size: var(--font-size-100);
       line-height: var(--line-height-100);
     }
 
-    .textArea__label {
+    .text-area__label {
       top: var(--spacing-s);
       left: var(--spacing-m);
       font-size: var(--font-size-100);
     }
 
-    &.textArea--label-floated .textArea__label {
+    &.text-area--label-floated .text-area__label {
       top: 0;
       font-size: var(--font-size-25);
       line-height: 14px;
@@ -152,32 +152,32 @@
   }
 
   &--size-large {
-    .textArea__input {
+    .text-area__input {
       padding: var(--spacing-m) var(--spacing-l);
       font-size: var(--font-size-200);
       line-height: var(--line-height-200);
     }
 
-    .textArea__label {
+    .text-area__label {
       top: var(--spacing-m);
       left: var(--spacing-m);
       font-size: var(--font-size-200);
       line-height: var(--line-height-200);
     }
 
-    &.textArea--label-floated .textArea__label {
+    &.text-area--label-floated .text-area__label {
       top: 0;
       font-size: var(--font-size-25);
       line-height: 14px;
     }
   }
 
-  &:has(.textArea__input:focus-visible) .textArea__label {
+  &:has(.text-area__input:focus-visible) .text-area__label {
     color: var(--button-bg);
   }
 
   // Hide placeholder while the floating label is in the resting position to prevent overlap.
-  &:has(.textArea__label):not(&--label-floated) .textArea__input::placeholder {
+  &:has(.text-area__label):not(&--label-floated) .text-area__input::placeholder {
     color: transparent;
   }
 
@@ -185,21 +185,21 @@
   // Invalid modifier
   // ---------------------------------------------------------------------------
   &--invalid {
-    .textArea__wrapper {
+    .text-area__wrapper {
       box-shadow: inset 0 0 0 1px var(--error-text, var(--color-danger));
     }
 
-    &:has(.textArea__input:focus-visible) .textArea__wrapper {
+    &:has(.text-area__input:focus-visible) .text-area__wrapper {
       box-shadow:
         inset 0 0 0 1px var(--error-text, var(--color-danger)),
         0 0 0 1px var(--error-text, var(--color-danger));
     }
 
-    .textArea__label {
+    .text-area__label {
       color: var(--error-text, var(--color-danger));
     }
 
-    &:has(.textArea__input:focus-visible) .textArea__label {
+    &:has(.text-area__input:focus-visible) .text-area__label {
       color: var(--error-text, var(--color-danger));
     }
   }

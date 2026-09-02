@@ -100,7 +100,7 @@
     }
 
     &:has(.switch__input:disabled:checked) {
-      background-color: rgba(var(--color-neutral-900-rgb), 0.32);
+      background-color: rgba(var(--center-channel-color-rgb), 0.32);
     }
   }
 
@@ -111,7 +111,7 @@
     top: 50%;
     transform: translateY(-50%) translateX(0);
     border-radius: var(--radius-full);
-    background-color: var(--color-neutral-0);
+    background-color: var(--button-color);
     box-shadow: var(--elevation-1);
     transition: transform var(--duration-quick) var(--ease-transition);
     pointer-events: none;
