@@ -1,5 +1,5 @@
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
-import type { MouseEvent } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
@@ -89,12 +89,30 @@ export default function ThreadListItem({
         ? 'unread'
         : undefined;
 
+  const handleMainClick = () => {
+    const selection = window.getSelection();
+    if (selection?.type === 'Range' && selection.toString().length > 0) {
+      return;
+    }
+    onClick?.();
+  };
+
+  const handleMainKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+    event.preventDefault();
+    onClick?.();
+  };
+
   return (
     <div className={rootClass}>
-      <button
-        type="button"
+      <div
         className={styles['thread-list-item__main']}
-        onClick={onClick}
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        onClick={onClick ? handleMainClick : undefined}
+        onKeyDown={onClick ? handleMainKeyDown : undefined}
         aria-current={active ? true : undefined}
       >
         <div className={styles['thread-list-item__thread']}>
@@ -175,7 +193,7 @@ export default function ThreadListItem({
             </div>
           </div>
         </div>
-      </button>
+      </div>
       {onMenuClick && (
         <div className={styles['thread-list-item__actions']}>
           <span className={styles['thread-list-item__menu-button']}>
@@ -186,7 +204,10 @@ export default function ThreadListItem({
               size="small"
               style="default"
               type="button"
-              onClick={onMenuClick}
+              onClick={(event) => {
+                event.stopPropagation();
+                onMenuClick(event);
+              }}
             />
           </span>
         </div>

@@ -12,8 +12,19 @@
   font-family: var(--font-family-body);
   font-weight: var(--font-weight-semibold);
   color: var(--center-channel-color);
-  transition: background-color var(--duration-quick) var(--ease-transition);
+  outline: 2px solid
+    color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+  outline-offset: 0;
+  transition:
+    background-color var(--duration-quick) var(--ease-transition),
+    outline-color var(--duration-quick) var(--ease-transition),
+    outline-offset var(--duration-quick) var(--ease-transition);
   padding: 0;
+
+  &:focus-visible {
+    outline-color: var(--focus-ring-color);
+    outline-offset: 3px;
+  }
 
   &:hover:not(:disabled) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -216,8 +227,6 @@
   // Appearance: Inverted (dark background)
   // ---------------------------------------------------------------------------
   &--appearance-inverted {
-    --button-focus-ring-color: var(--button-bg);
-
     color: var(--sidebar-text);
 
     &:hover:not(:disabled) {

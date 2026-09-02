@@ -14,5 +14,9 @@
     --semantic-color-success: var(--color-green-600-rgb);
     --semantic-color-warning: var(--color-yellow-600-rgb);
     --semantic-color-danger: var(--color-red-500-rgb);
+
+    // Focus ring aliases — webapp sets --button-bg; standalone hosts get these from themes.scss.
+    --focus-ring-color: var(--button-bg);
+    --focus-ring-color-rgb: var(--button-bg-rgb);
   }
 }

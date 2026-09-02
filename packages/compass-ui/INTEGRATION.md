@@ -428,11 +428,11 @@ Other intentional differences during migration:
 
 ### Theme alignment
 
-Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`). Compass theme presets (including `--calls-bg`) ship only in `/styles/standalone` for Storybook/playground — not in the webapp `/styles` entry.
+Mattermost webapp already sets theme CSS variables (`--center-channel-bg`, `--button-bg`, `--error-text`, `--online-indicator`, etc.) and fixed semantic RGB (`--semantic-color-info|success|warning|danger`). Compass theme presets (including `--calls-bg` and `--focus-ring-color`) ship only in `/styles/standalone` for Storybook/playground — not in the webapp `/styles` entry.
 
 Compass uses the **same semantic names** as webapp:
 
-- **`webapp-compat.scss` `@layer`**: standalone defaults for `--semantic-color-*` (mapped to Compass palette RGB) and `--neutral-*`. Host unlayered values always win when embedded.
+- **`webapp-compat.scss` `@layer`**: standalone defaults for `--semantic-color-*` (mapped to Compass palette RGB), `--neutral-*`, and `--focus-ring-color` / `--focus-ring-color-rgb` (aliases of `--button-bg` / `--button-bg-rgb`). Host unlayered values always win when embedded.
 - **`tokens.scss`**: `--color-info|success|warning|danger` wrap `rgb(var(--semantic-color-*))` for authoring.
 - **Components**: error / destructive UI uses `var(--error-text, var(--color-danger))`. Presence uses `--online-indicator` / `--away-indicator` / `--dnd-indicator`. Calls surfaces use `var(--calls-bg, var(--color-indigo-600))` until the host defines `--calls-bg`. Toasts / global banners use `--color-*` (fixed semantics).
 

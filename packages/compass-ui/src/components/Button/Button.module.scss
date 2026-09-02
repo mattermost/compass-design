@@ -2,8 +2,6 @@
 // Block
 // ---------------------------------------------------------------------------
 .button {
-  --button-focus-ring-color: var(--button-bg);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -20,11 +18,11 @@
     outline-color var(--duration-quick) var(--ease-transition),
     outline-offset var(--duration-quick) var(--ease-transition);
   outline: 2px solid
-    color-mix(in srgb, var(--button-focus-ring-color) 0%, transparent);
+    color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
 
   &:focus-visible {
-    outline-color: var(--button-focus-ring-color);
+    outline-color: var(--focus-ring-color);
     outline-offset: 3px;
   }
 
@@ -105,7 +103,7 @@
   }
 
   &--emphasis-secondary {
-    --button-focus-ring-color: var(--link-color);
+    --focus-ring-color: var(--link-color);
 
     background-color: transparent;
     color: var(--link-color);
@@ -140,8 +138,6 @@
   }
 
   &--emphasis-quaternary {
-    --button-focus-ring-color: var(--link-color);
-
     background-color: transparent;
     color: var(--link-color);
 
@@ -160,7 +156,7 @@
   // Destructive + emphasis
   // ---------------------------------------------------------------------------
   &--destructive {
-    --button-focus-ring-color: var(--error-text, var(--color-danger));
+    --focus-ring-color: var(--error-text, var(--color-danger));
 
     &.button--emphasis-primary {
       background-color: var(--error-text, var(--color-danger));
@@ -238,8 +234,6 @@
   // Appearance inverted + emphasis
   // ---------------------------------------------------------------------------
   &--appearance-inverted {
-    --button-focus-ring-color: var(--button-bg);
-
     &.button--emphasis-primary {
       background-color: var(--sidebar-text);
       color: var(--sidebar-bg);

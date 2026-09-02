@@ -1,5 +1,5 @@
 .thread-footer {
-  --thread-footer-focus-ring-color: var(--link-color);
+  --thread-footer-focus-ring-color: var(--focus-ring-color);
 
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@
 
   &__reply-btn,
   &__follow-btn {
-    --button-focus-ring-color: var(--thread-footer-focus-ring-color);
+    --focus-ring-color: var(--thread-footer-focus-ring-color);
   }
 
   & &__reply-btn:global([class*='button--emphasis-quaternary']),

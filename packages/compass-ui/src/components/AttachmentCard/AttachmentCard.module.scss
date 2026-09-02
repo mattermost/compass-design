@@ -66,14 +66,14 @@
     text-align: left;
     align-self: stretch;
     border-radius: var(--radius-s);
-    outline: 2px solid color-mix(in srgb, var(--button-bg) 0%, transparent);
+    outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
     outline-offset: 0;
     transition:
       outline-color var(--duration-quick) var(--ease-transition),
       outline-offset var(--duration-quick) var(--ease-transition);
 
     &:focus-visible {
-      outline-color: var(--button-bg);
+      outline-color: var(--focus-ring-color);
       outline-offset: 3px;
     }
   }
