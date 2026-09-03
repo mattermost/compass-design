@@ -30,6 +30,11 @@
       "import": "./dist/hooks/*.js",
       "require": "./dist/hooks/*.cjs"
     },
+    "./illustrations/*": {
+      "types": "./dist/illustrations/*.d.ts",
+      "import": "./dist/illustrations/*.js",
+      "require": "./dist/illustrations/*.cjs"
+    },
     "./utils/string": {
       "types": "./dist/utils/string.d.ts",
       "import": "./dist/utils/string.js",
@@ -53,7 +58,7 @@
   ],
   "scripts": {
     "build:sass": "sass src/styles/entry.scss dist/compass-ui.css --load-path=src/styles --no-source-map && sass src/styles/standalone-entry.scss dist/compass-ui-standalone.css --load-path=src/styles --no-source-map",
-    "build": "vite build && node ../../scripts/normalize-compass-ui-dist.mjs && node ../../scripts/generate-compass-ui-exports.mjs && node ../../scripts/verify-compass-ui-dist.mjs",
+    "build": "node ../../scripts/gen-compass-illustrations.mjs && vite build && node ../../scripts/normalize-compass-ui-dist.mjs && node ../../scripts/generate-compass-ui-exports.mjs && node ../../scripts/verify-compass-ui-dist.mjs",
     "dev": "vite build --watch",
     "typecheck": "tsc -p tsconfig.build.json --noEmit",
     "test": "vitest run",
@@ -103,6 +108,9 @@
       ],
       "hooks/*": [
         "./dist/hooks/*.d.ts"
+      ],
+      "illustrations/*": [
+        "./dist/illustrations/*.d.ts"
       ],
       "utils/string": [
         "./dist/utils/string.d.ts"
@@ -355,6 +363,210 @@
       ],
       "hooks/use-popover-transition": [
         "./dist/hooks/use-popover-transition.d.ts"
+      ],
+      "illustrations/ai-copilot-intro": [
+        "./dist/illustrations/ai-copilot-intro.d.ts"
+      ],
+      "illustrations/alert": [
+        "./dist/illustrations/alert.d.ts"
+      ],
+      "illustrations/alert-on-sidebar-bg": [
+        "./dist/illustrations/alert-on-sidebar-bg.d.ts"
+      ],
+      "illustrations/archived-channel": [
+        "./dist/illustrations/archived-channel.d.ts"
+      ],
+      "illustrations/auto-translation": [
+        "./dist/illustrations/auto-translation.d.ts"
+      ],
+      "illustrations/banners": [
+        "./dist/illustrations/banners.d.ts"
+      ],
+      "illustrations/billing-history": [
+        "./dist/illustrations/billing-history.d.ts"
+      ],
+      "illustrations/blank-playbook": [
+        "./dist/illustrations/blank-playbook.d.ts"
+      ],
+      "illustrations/bot-accounts": [
+        "./dist/illustrations/bot-accounts.d.ts"
+      ],
+      "illustrations/browser-or-desktop": [
+        "./dist/illustrations/browser-or-desktop.d.ts"
+      ],
+      "illustrations/bug-bash": [
+        "./dist/illustrations/bug-bash.d.ts"
+      ],
+      "illustrations/calls": [
+        "./dist/illustrations/calls.d.ts"
+      ],
+      "illustrations/collaborate": [
+        "./dist/illustrations/collaborate.d.ts"
+      ],
+      "illustrations/compliance-exports": [
+        "./dist/illustrations/compliance-exports.d.ts"
+      ],
+      "illustrations/copilot-bot": [
+        "./dist/illustrations/copilot-bot.d.ts"
+      ],
+      "illustrations/custom-branding": [
+        "./dist/illustrations/custom-branding.d.ts"
+      ],
+      "illustrations/custom-terms": [
+        "./dist/illustrations/custom-terms.d.ts"
+      ],
+      "illustrations/customer-onboarding": [
+        "./dist/illustrations/customer-onboarding.d.ts"
+      ],
+      "illustrations/data-retention": [
+        "./dist/illustrations/data-retention.d.ts"
+      ],
+      "illustrations/drafts-empty": [
+        "./dist/illustrations/drafts-empty.d.ts"
+      ],
+      "illustrations/employee-onboarding": [
+        "./dist/illustrations/employee-onboarding.d.ts"
+      ],
+      "illustrations/feature-lifecycle": [
+        "./dist/illustrations/feature-lifecycle.d.ts"
+      ],
+      "illustrations/file-search-empty": [
+        "./dist/illustrations/file-search-empty.d.ts"
+      ],
+      "illustrations/globe": [
+        "./dist/illustrations/globe.d.ts"
+      ],
+      "illustrations/group": [
+        "./dist/illustrations/group.d.ts"
+      ],
+      "illustrations/groups": [
+        "./dist/illustrations/groups.d.ts"
+      ],
+      "illustrations/incident-resolution": [
+        "./dist/illustrations/incident-resolution.d.ts"
+      ],
+      "illustrations/incoming-webhook": [
+        "./dist/illustrations/incoming-webhook.d.ts"
+      ],
+      "illustrations/intune-mam": [
+        "./dist/illustrations/intune-mam.d.ts"
+      ],
+      "illustrations/learn-playbooks": [
+        "./dist/illustrations/learn-playbooks.d.ts"
+      ],
+      "illustrations/locked-messages": [
+        "./dist/illustrations/locked-messages.d.ts"
+      ],
+      "illustrations/mentions-empty": [
+        "./dist/illustrations/mentions-empty.d.ts"
+      ],
+      "illustrations/message-not-viewable": [
+        "./dist/illustrations/message-not-viewable.d.ts"
+      ],
+      "illustrations/message-search-empty": [
+        "./dist/illustrations/message-search-empty.d.ts"
+      ],
+      "illustrations/mfa": [
+        "./dist/illustrations/mfa.d.ts"
+      ],
+      "illustrations/mfa-complete": [
+        "./dist/illustrations/mfa-complete.d.ts"
+      ],
+      "illustrations/mobile-protection": [
+        "./dist/illustrations/mobile-protection.d.ts"
+      ],
+      "illustrations/mobile-security": [
+        "./dist/illustrations/mobile-security.d.ts"
+      ],
+      "illustrations/names": [
+        "./dist/illustrations/names.d.ts"
+      ],
+      "illustrations/new-password": [
+        "./dist/illustrations/new-password.d.ts"
+      ],
+      "illustrations/no-unreads-on-sidebar-bg": [
+        "./dist/illustrations/no-unreads-on-sidebar-bg.d.ts"
+      ],
+      "illustrations/office": [
+        "./dist/illustrations/office.d.ts"
+      ],
+      "illustrations/outgoing-webhook": [
+        "./dist/illustrations/outgoing-webhook.d.ts"
+      ],
+      "illustrations/pinned-empty": [
+        "./dist/illustrations/pinned-empty.d.ts"
+      ],
+      "illustrations/playbooks-empty": [
+        "./dist/illustrations/playbooks-empty.d.ts"
+      ],
+      "illustrations/private-channel-intro": [
+        "./dist/illustrations/private-channel-intro.d.ts"
+      ],
+      "illustrations/product-release": [
+        "./dist/illustrations/product-release.d.ts"
+      ],
+      "illustrations/public-channel-intro": [
+        "./dist/illustrations/public-channel-intro.d.ts"
+      ],
+      "illustrations/rating": [
+        "./dist/illustrations/rating.d.ts"
+      ],
+      "illustrations/rating-desktop": [
+        "./dist/illustrations/rating-desktop.d.ts"
+      ],
+      "illustrations/read-only": [
+        "./dist/illustrations/read-only.d.ts"
+      ],
+      "illustrations/reset-password": [
+        "./dist/illustrations/reset-password.d.ts"
+      ],
+      "illustrations/saved-empty": [
+        "./dist/illustrations/saved-empty.d.ts"
+      ],
+      "illustrations/scheduled-empty": [
+        "./dist/illustrations/scheduled-empty.d.ts"
+      ],
+      "illustrations/search": [
+        "./dist/illustrations/search.d.ts"
+      ],
+      "illustrations/server": [
+        "./dist/illustrations/server.d.ts"
+      ],
+      "illustrations/setup-system": [
+        "./dist/illustrations/setup-system.d.ts"
+      ],
+      "illustrations/site-error": [
+        "./dist/illustrations/site-error.d.ts"
+      ],
+      "illustrations/slash-commands": [
+        "./dist/illustrations/slash-commands.d.ts"
+      ],
+      "illustrations/success": [
+        "./dist/illustrations/success.d.ts"
+      ],
+      "illustrations/system-admins": [
+        "./dist/illustrations/system-admins.d.ts"
+      ],
+      "illustrations/threads-empty": [
+        "./dist/illustrations/threads-empty.d.ts"
+      ],
+      "illustrations/timer": [
+        "./dist/illustrations/timer.d.ts"
+      ],
+      "illustrations/tls-certificate": [
+        "./dist/illustrations/tls-certificate.d.ts"
+      ],
+      "illustrations/tools": [
+        "./dist/illustrations/tools.d.ts"
+      ],
+      "illustrations/town-square-channel-intro": [
+        "./dist/illustrations/town-square-channel-intro.d.ts"
+      ],
+      "illustrations/upload-license": [
+        "./dist/illustrations/upload-license.d.ts"
+      ],
+      "illustrations/verify-email": [
+        "./dist/illustrations/verify-email.d.ts"
       ],
       "*": [
         "./dist/index.d.ts"

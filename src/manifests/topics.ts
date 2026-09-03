@@ -19,6 +19,7 @@ export interface TopicVisual {
     | 'swatches'
     | 'type-specimen'
     | 'icon-grid'
+    | 'illustration-grid'
     | 'spacing-stack'
     | 'shape-stack'
     | 'elevation-stack'
@@ -153,6 +154,19 @@ export const TOPICS: Topic[] = [
     visual: { kind: 'icon-grid' },
     guidelinePage: () => import('@/guidelines/foundations/iconography/iconography.guideline.mdx'),
     specimenPage: () => import('@/guidelines/foundations/iconography/iconography.specimen'),
+  },
+  {
+    slug: 'illustrations',
+    name: 'Illustrations',
+    category: 'foundations',
+    status: 'stable',
+    description:
+      'Brand SVG artwork for empty states, discovery, and onboarding.',
+    visual: { kind: 'illustration-grid' },
+    guidelinePage: () =>
+      import('@/guidelines/foundations/illustrations/illustrations.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/foundations/illustrations/illustrations.specimen'),
   },
   {
     slug: 'shape',

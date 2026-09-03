@@ -110,12 +110,15 @@ Import from **per-component subpaths** so bundlers and Jest load only the module
 ```tsx
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Illustration } from '@mattermost/compass-ui/components/illustration';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import { useExitAnimation } from '@mattermost/compass-ui/hooks/use-exit-animation';
 ```
 
 | Import style | When to use |
 |--------------|-------------|
 | `@mattermost/compass-ui/components/<kebab-name>` | **Default** — components, types, and style sub-exports from that component |
+| `@mattermost/compass-ui/illustrations/<kebab-name>` | Brand SVG artwork as React components (`search`, `groups`, …) |
 | `@mattermost/compass-ui/hooks/<kebab-name>` | Shared hooks |
 | `@mattermost/compass-ui/utils/string` | `toKebab` and string helpers |
 | `@mattermost/compass-ui` (root barrel) | Legacy only — loads the full package; avoid in Jest |
@@ -333,6 +336,8 @@ moduleNameMapper: {
   // …existing mappers…
   '^@mattermost/compass-ui/hooks/(.*)$':
     '<rootDir>/node_modules/@mattermost/compass-ui/dist/hooks/$1.cjs',
+  '^@mattermost/compass-ui/illustrations/(.*)$':
+    '<rootDir>/node_modules/@mattermost/compass-ui/dist/illustrations/$1.cjs',
   '^@mattermost/compass-ui/utils/string$':
     '<rootDir>/node_modules/@mattermost/compass-ui/dist/utils/string.cjs',
   '^@mattermost/compass-ui/(.*)$':
@@ -340,7 +345,7 @@ moduleNameMapper: {
 },
 ```
 
-Order matters: list the `hooks/` and `utils/string` patterns **before** the generic `/(.*)$` rule so hooks resolve to `dist/hooks/<name>.cjs` (no `/index` suffix).
+Order matters: list the `hooks/`, `illustrations/`, and `utils/string` patterns **before** the generic `/(.*)$` rule so those resolve to `dist/<folder>/<name>.cjs` (no `/index` suffix).
 
 **Symptoms fixed by subpaths + mapper (alpha.3+):**
 
@@ -489,6 +494,7 @@ dist/compass-ui.css           # styles (tokens + webapp-compat)
 dist/compass-ui-standalone.css
 dist/components/<name>/       # per-component ESM + CJS + .d.ts (subpath imports)
 dist/hooks/                   # hook modules
+dist/illustrations/            # brand SVG artwork as React components
 dist/utils/string.*           # string helpers
 ```
 

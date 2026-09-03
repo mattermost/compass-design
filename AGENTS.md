@@ -8,8 +8,8 @@ Vocabulary used everywhere: **Foundations** (tokens, type, color, motion) → **
 
 Package split (in-repo):
 
-- **`@mattermost/compass-ui`** — published core (tokens, primitives, desktop chrome pieces)
-- **`@mattermost/compass-proto`** — unpublished prototyping composites (see [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md))
+- **`@mattermost/compass-ui`** — [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md)
+- **`@mattermost/compass-proto`** — [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md)
 
 ## Building new components
 

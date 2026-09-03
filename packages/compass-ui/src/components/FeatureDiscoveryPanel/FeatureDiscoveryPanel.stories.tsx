@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import GroupsIllustration from '@/assets/illustrations/groups.svg?react';
+import GroupsIllustration from '@/illustrations/groups';
 import FeatureDiscoveryPanel from './FeatureDiscoveryPanel';
 
 const meta = {

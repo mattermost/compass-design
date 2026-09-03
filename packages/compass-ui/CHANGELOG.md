@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- Brand SVG illustrations ship from `@mattermost/compass-ui/illustrations/<name>` (React components; kebab-case filename is the subpath). `ILLUSTRATION_NAMES` is exported from `illustrations/names`.
+
 ### Changed
 
 - **BREAKING:** Move unfinished / layout composites out of `@mattermost/compass-ui` into unpublished `@mattermost/compass-proto`: `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `ReactionPill`, and `AppBarItem` (no docs topic). Import them from `@mattermost/compass-proto`. Message leaves (`MessageHeader`, `MessageActions`, `MessageReactions`, `MessageSeparator`, `MessageMoreOptionsMenu`, `PinnedSavedIndicators`), `Modal`, `TeamSidebar`, and `ChannelHeaderMenu` remain in UI.

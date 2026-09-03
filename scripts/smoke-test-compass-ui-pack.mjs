@@ -35,6 +35,9 @@ function assertTarballContents(tarballPath) {
     'package/dist/compass-ui-standalone.css',
     'package/dist/components/button/index.js',
     'package/dist/components/button/index.cjs',
+    'package/dist/illustrations/search.js',
+    'package/dist/illustrations/search.cjs',
+    'package/dist/illustrations/search.d.ts',
     'package/dist/index.d.ts',
   ];
   for (const entry of required) {
@@ -96,7 +99,9 @@ import { createRoot } from 'react-dom/client';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Illustration } from '@mattermost/compass-ui/components/illustration';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/component-styles';
 
@@ -106,6 +111,9 @@ function App() {
     <div style={{ padding: 24, fontFamily: 'system-ui' }}>
       <Button emphasis="primary">Compass UI</Button>
       <Button leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}>With icon</Button>
+      <Illustration aria-label="Search" width="120px" height="80px">
+        <SearchIllustration />
+      </Illustration>
       <div style={{ width: 240, height: 120, marginTop: 16, border: '1px solid #ccc' }}>
         <Scrollbar>
           <ul style={{ margin: 0, padding: 8 }}>

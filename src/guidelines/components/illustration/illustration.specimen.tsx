@@ -1,6 +1,6 @@
-import AICopilotIllustration from '@/assets/illustrations/ai-copilot-intro.svg?react';
+import AICopilotIllustration from '@mattermost/compass-ui/illustrations/ai-copilot-intro';
 import { Illustration } from '@mattermost/compass-ui/components/illustration';
-import SearchIllustration from '@/assets/illustrations/search.svg?react';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function IllustrationLibrary() {

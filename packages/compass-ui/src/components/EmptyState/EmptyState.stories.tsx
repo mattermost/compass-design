@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import SearchIllustration from '@/assets/illustrations/search.svg?react';
+import SearchIllustration from '@/illustrations/search';
 import EmptyState from './EmptyState';
 
 const meta = {

@@ -77,7 +77,7 @@ function PlainCard({ entry, to }: PlainCardProps) {
 }
 
 const STYLE_HEROES = ['color', 'typography'];
-const STYLE_MEDIUM = ['iconography', 'spacing', 'themes', 'shape'];
+const STYLE_MEDIUM = ['iconography', 'illustrations', 'spacing', 'themes', 'shape'];
 const STYLE_SMALL_WIDE = ['elevation', 'layout', 'animation'];
 
 const GUIDELINE_SLUGS = [

@@ -43,6 +43,15 @@ export function collectLibEntries(): CompassUiEntryMap {
     entries[`hooks/${base}`] = path.join(hooksDir, file);
   }
 
+  const illustrationsDir = path.join(srcRoot, 'illustrations');
+  if (fs.existsSync(illustrationsDir)) {
+    for (const file of fs.readdirSync(illustrationsDir)) {
+      if (!file.endsWith('.ts')) continue;
+      const base = file.replace(/\.ts$/, '');
+      entries[`illustrations/${base}`] = path.join(illustrationsDir, file);
+    }
+  }
+
   return entries;
 }
 
