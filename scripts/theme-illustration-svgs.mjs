@@ -54,13 +54,11 @@ function whiteToken(filename) {
 function mapPaint(value, paper) {
   const trimmed = value.trim();
   const lower = trimmed.toLowerCase();
-  if (
-    lower === 'var(--fill-0, white)' ||
-    lower === 'white' ||
-    lower === '#fff' ||
-    lower === '#ffffff'
-  ) {
+  if (lower === 'var(--fill-0, white)') {
     return paper;
+  }
+  if (lower === 'white' || lower === '#fff' || lower === '#ffffff') {
+    return paper === 'var(--sidebar-text)' ? paper : 'var(--color-neutral-0)';
   }
   if (lower === 'black' || lower === '#000' || lower === '#000000') {
     return 'var(--center-channel-color)';
