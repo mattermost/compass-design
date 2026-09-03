@@ -35,6 +35,13 @@ export default function AppBarItem({
   className = '',
 }: AppBarItemProps) {
   const isSelected = state === 'selected';
+  const showMentionBadge = mentionBadge != null && mentionBadge > 0;
+  const showUnreadBadge = unreadBadge && !showMentionBadge;
+  const ariaLabel = showMentionBadge
+    ? `${label}, ${mentionBadge} ${mentionBadge === 1 ? 'mention' : 'mentions'}`
+    : showUnreadBadge
+      ? `${label}, unread`
+      : label;
 
   const rootClass = [
     styles['app-bar-item'],
@@ -48,26 +55,20 @@ export default function AppBarItem({
     <button
       type="button"
       className={rootClass}
-      aria-label={label}
+      aria-label={ariaLabel}
       aria-pressed={isSelected}
       onClick={onClick}
     >
       <span className={styles['app-bar-item__icon']}>{icon}</span>
 
-      {mentionBadge != null && mentionBadge > 0 && (
-        <span
-          className={styles['app-bar-item__mention-badge']}
-          aria-label={`${mentionBadge} mentions`}
-        >
+      {showMentionBadge && (
+        <span className={styles['app-bar-item__mention-badge']} aria-hidden>
           {mentionBadge}
         </span>
       )}
 
-      {unreadBadge && mentionBadge == null && (
-        <span
-          className={styles['app-bar-item__unread-badge']}
-          aria-label="Unread"
-        />
+      {showUnreadBadge && (
+        <span className={styles['app-bar-item__unread-badge']} aria-hidden />
       )}
     </button>
   );

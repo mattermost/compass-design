@@ -1,4 +1,4 @@
-import { MessageInput } from '@mattermost/compass-ui/components/message-input';
+import { MessageInput } from '@mattermost/compass-proto';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 export default function MessageInputLibrary() {

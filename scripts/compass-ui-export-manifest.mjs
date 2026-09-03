@@ -94,7 +94,6 @@ export function buildExportManifest() {
 
   // Root-only style aliases
   manifest.set('btnStyles', '@mattermost/compass-ui/components/button');
-  manifest.set('messageStyles', '@mattermost/compass-ui/components/message');
   manifest.set(
     'channelsSidebarStyles',
     '@mattermost/compass-ui/components/channels-sidebar',

@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/compass-ui",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "description": "Compass design system UI components for Mattermost products",
   "repository": {
     "type": "git",
@@ -133,9 +133,6 @@
       "components/admin-panel-header": [
         "./dist/components/admin-panel-header/index.d.ts"
       ],
-      "components/app-bar-item": [
-        "./dist/components/app-bar-item/index.d.ts"
-      ],
       "components/attachment-card": [
         "./dist/components/attachment-card/index.d.ts"
       ],
@@ -144,9 +141,6 @@
       ],
       "components/channel-category-menu": [
         "./dist/components/channel-category-menu/index.d.ts"
-      ],
-      "components/channel-header": [
-        "./dist/components/channel-header/index.d.ts"
       ],
       "components/channel-header-menu": [
         "./dist/components/channel-header-menu/index.d.ts"
@@ -223,17 +217,11 @@
       "components/menu-item": [
         "./dist/components/menu-item/index.d.ts"
       ],
-      "components/message": [
-        "./dist/components/message/index.d.ts"
-      ],
       "components/message-actions": [
         "./dist/components/message-actions/index.d.ts"
       ],
       "components/message-header": [
         "./dist/components/message-header/index.d.ts"
-      ],
-      "components/message-input": [
-        "./dist/components/message-input/index.d.ts"
       ],
       "components/message-more-options-menu": [
         "./dist/components/message-more-options-menu/index.d.ts"
@@ -283,11 +271,8 @@
       "components/radio": [
         "./dist/components/radio/index.d.ts"
       ],
-      "components/reaction-pill": [
-        "./dist/components/reaction-pill/index.d.ts"
-      ],
-      "components/right-sidebar": [
-        "./dist/components/right-sidebar/index.d.ts"
+      "components/right-sidebar-header": [
+        "./dist/components/right-sidebar-header/index.d.ts"
       ],
       "components/scrollbar": [
         "./dist/components/scrollbar/index.d.ts"

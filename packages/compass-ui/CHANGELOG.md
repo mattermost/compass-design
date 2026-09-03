@@ -6,12 +6,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.6] - 2026-09-03
+
 ### Added
 
 - Brand SVG illustrations ship from `@mattermost/compass-ui/illustrations/<name>` (React components; kebab-case filename is the subpath). `ILLUSTRATION_NAMES` is exported from `illustrations/names`.
 
 ### Changed
 
+- **BREAKING:** Move unfinished / layout composites out of `@mattermost/compass-ui` into unpublished `@mattermost/compass-proto`: `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `ReactionPill`, and `AppBarItem` (no docs topic). Import them from `@mattermost/compass-proto`. Message leaves (`MessageHeader`, `MessageActions`, `MessageReactions`, `MessageSeparator`, `MessageMoreOptionsMenu`, `PinnedSavedIndicators`), `Modal`, `TeamSidebar`, and `ChannelHeaderMenu` remain in UI.
+- **BREAKING:** `RightSidebarHeader` is now a top-level UI export at `@mattermost/compass-ui/components/right-sidebar-header` (no longer co-exported from `…/right-sidebar`).
+- **BREAKING:** `messageStyles` moves with `Message` to `@mattermost/compass-proto`.
 - **Toast:** dismiss icon rests at 64% white; when `onDismiss` is omitted, content uses matching right padding, so the message is not flush to the edge.
 
 ## [0.1.0-alpha.5] - 2026-09-02
@@ -135,7 +140,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.5...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.6...HEAD
+[0.1.0-alpha.6]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.5...0.1.0-alpha.6
 [0.1.0-alpha.5]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.4...0.1.0-alpha.5
 [0.1.0-alpha.4]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.3...0.1.0-alpha.4
 [0.1.0-alpha.3]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.2...0.1.0-alpha.3

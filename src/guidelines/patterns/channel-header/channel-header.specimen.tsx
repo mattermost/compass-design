@@ -1,4 +1,4 @@
-import { ChannelHeader } from '@mattermost/compass-ui/components/channel-header';
+import { ChannelHeader } from '@mattermost/compass-proto';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
 import styles from '@/styles/library-demo/patterns.module.scss';

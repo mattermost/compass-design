@@ -1,12 +1,7 @@
-import { ChannelHeader } from '@mattermost/compass-ui/components/channel-header';
-import { ChannelShell } from '@mattermost/compass-proto';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-import { MessageInput } from '@mattermost/compass-ui/components/message-input';
 import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
-import { Message } from '@mattermost/compass-ui/components/message';
-import { RightSidebarThread } from '@mattermost/compass-proto';
-import { RightSidebarHeader, RightSidebar } from '@mattermost/compass-ui/components/right-sidebar';
+import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import { RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES } from '@/fixtures/rightSidebarThreadDemo';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
@@ -15,6 +10,12 @@ import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import { ChannelHeader } from '@mattermost/compass-proto';
+import { ChannelShell } from '@mattermost/compass-proto';
+import { MessageInput } from '@mattermost/compass-proto';
+import { Message } from '@mattermost/compass-proto';
+import { RightSidebarThread } from '@mattermost/compass-proto';
+import { RightSidebar } from '@mattermost/compass-proto';
 import { shellStyles } from '@mattermost/compass-proto';
 
 export default function ChannelThreadLayout() {

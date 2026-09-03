@@ -2,6 +2,19 @@
 
 Follow this when working under `packages/compass-proto/` or composing proto UI in docs specimens and layouts.
 
+## Inventory
+
+Unpublished prototyping surface (root barrel only — no component subpaths):
+
+- Mobile* shells and patterns
+- `ChannelShell`
+- Call* composites (`CallWidget`, `CallPopout`, `CallParticipantAvatar`, `RecordingPill`, panels)
+- Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `ReactionPill`, `AppBarItem`
+- Demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`) and sidebar fixture helpers
+- `WithTooltip` (prototype tooltip host)
+
+Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `TeamSidebar`, etc.
+
 ## Icon Buttons need tooltips
 
 Every desktop `IconButton` in a prototype or layout specimen must be wrapped in `WithTooltip` from this package. Compass `Tooltip` is chrome only; this wrapper is the prototype host (400ms hover delay, portal, placement). Do not add hover, portals, or positioning to published `IconButton` or `Tooltip`.

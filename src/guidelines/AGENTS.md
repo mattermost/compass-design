@@ -2,7 +2,7 @@
 
 Follow this when working under `src/guidelines/`, docs manifests, or the docs shell.
 
-Mobile*, Call*, and `ChannelShell` live in **`@mattermost/compass-proto`** (unpublished). Prefer importing those from `compass-proto`, not `compass-ui`. Soft-label them as non-core / prototyping when writing docs voice.
+Mobile*, Call*, `ChannelShell`, `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `ReactionPill`, and `AppBarItem` live in **`@mattermost/compass-proto`** (unpublished). Prefer importing those from `compass-proto` (root barrel — proto has no component subpaths), not `compass-ui`. Soft-label them as non-core / prototyping when writing docs voice. Published chrome such as `RightSidebarHeader`, Message leaves (`MessageHeader`, `MessageActions`, …), `Modal`, and `TeamSidebar` stay on `@mattermost/compass-ui` subpaths.
 
 Desktop `IconButton`s in layout, pattern, and proto specimens wrap with `WithTooltip` from `@mattermost/compass-proto` (see [packages/compass-proto/AGENTS.md](../../packages/compass-proto/AGENTS.md)). Icon Button anatomy/specimens that document the primitive itself may stay unwrapped. Skip `WithTooltip` on `Mobile*` surfaces.
 
@@ -36,7 +36,7 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 
 ## Specimens and MDX code samples
 
-- **Import convention:** always use subpath imports from `@mattermost/compass-ui` — never the root barrel. Map PascalCase component names to kebab-case segments: `Button` → `@mattermost/compass-ui/components/button`, `useExitAnimation` → `@mattermost/compass-ui/hooks/use-exit-animation`. Style sub-exports (`btnStyles`, `messageStyles`) come from the owning component subpath (e.g. `@mattermost/compass-ui/components/button`). Split multi-component imports into separate subpath lines.
+- **Import convention:** always use subpath imports from `@mattermost/compass-ui` — never the root barrel. Map PascalCase component names to kebab-case segments: `Button` → `@mattermost/compass-ui/components/button`, `useExitAnimation` → `@mattermost/compass-ui/hooks/use-exit-animation`. Style sub-exports (`btnStyles`, `channelsSidebarStyles`) come from the owning component subpath (e.g. `@mattermost/compass-ui/components/button`). Proto pieces import from `@mattermost/compass-proto` (root barrel only). Split multi-component imports into separate lines.
 - Variant props in specimens, `_components/*Samples.tsx`, and MDX `<Preview>` blocks must use the same **lowercase kebab-case** literals as `@mattermost/compass-ui` (e.g. `size="medium"`, `emphasis="tertiary"`). See [AGENTS.md](../../AGENTS.md#variant-prop-string-values).
 - Matrix headings and button labels may stay human-readable (Title Case); prop values must not.
 

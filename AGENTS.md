@@ -9,7 +9,7 @@ Vocabulary used everywhere: **Foundations** (tokens, type, color, motion) → **
 Package split (in-repo):
 
 - **`@mattermost/compass-ui`** — [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md)
-- **`@mattermost/compass-proto`** — unpublished Mobile*, `ChannelShell`, Call*, demo RHS panels, sidebar fixture helpers (prototyping / docs only)
+- **`@mattermost/compass-proto`** — [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md)
 
 ## Building new components
 

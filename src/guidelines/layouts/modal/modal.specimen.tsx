@@ -1,15 +1,10 @@
 import { useState } from 'react';
 import { Button } from '@mattermost/compass-ui/components/button';
-import { ChannelHeader } from '@mattermost/compass-ui/components/channel-header';
-import { ChannelShell } from '@mattermost/compass-proto';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-import { MessageInput } from '@mattermost/compass-ui/components/message-input';
 import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
-import { Message } from '@mattermost/compass-ui/components/message';
 import { Modal } from '@mattermost/compass-ui/components/modal';
-import { RightSidebarChannelInfo } from '@mattermost/compass-proto';
-import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar';
+import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
@@ -17,8 +12,13 @@ import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
-import { shellStyles } from '@mattermost/compass-proto';
 import styles from './modal.specimen.module.scss';
+import { ChannelHeader } from '@mattermost/compass-proto';
+import { ChannelShell } from '@mattermost/compass-proto';
+import { MessageInput } from '@mattermost/compass-proto';
+import { Message } from '@mattermost/compass-proto';
+import { RightSidebarChannelInfo } from '@mattermost/compass-proto';
+import { shellStyles } from '@mattermost/compass-proto';
 
 export default function ModalLayout() {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);

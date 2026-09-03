@@ -1,16 +1,12 @@
 import { useMemo, useState } from 'react';
 import PlaylistCheckIcon from '@mattermost/compass-icons/components/playlist-check';
-import { ChannelShell } from '@mattermost/compass-proto';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
-import { MessageInput } from '@mattermost/compass-ui/components/message-input';
-import { RightSidebarThread } from '@mattermost/compass-proto';
-import { RightSidebarHeader, RightSidebar } from '@mattermost/compass-ui/components/right-sidebar';
+import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import { Tabs } from '@mattermost/compass-ui/components/tabs';
 import { ThreadListItem } from '@mattermost/compass-ui/components/thread-list-item';
 import type { ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
-import { buildDefaultChannelsSidebarModel } from '@mattermost/compass-proto';
 import { RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES } from '@/fixtures/rightSidebarThreadDemo';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
 import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
@@ -22,8 +18,13 @@ import avatarEthanBrooks from '@/assets/avatars/Ethan Brooks.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
-import { shellStyles } from '@mattermost/compass-proto';
 import inboxStyles from './threads-view.specimen.module.scss';
+import { ChannelShell } from '@mattermost/compass-proto';
+import { MessageInput } from '@mattermost/compass-proto';
+import { RightSidebarThread } from '@mattermost/compass-proto';
+import { RightSidebar } from '@mattermost/compass-proto';
+import { buildDefaultChannelsSidebarModel } from '@mattermost/compass-proto';
+import { shellStyles } from '@mattermost/compass-proto';
 
 type ThreadsTab = 'all' | 'unreads';
 

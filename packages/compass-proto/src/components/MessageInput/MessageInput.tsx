@@ -19,10 +19,10 @@ import FormatStrikethroughVariantIcon from '@mattermost/compass-icons/components
 import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import SendIcon from '@mattermost/compass-icons/components/send';
-import Icon from '@/components/Icon/Icon';
-import IconButton from '@/components/IconButton/IconButton';
-import Tag from '@/components/Tag/Tag';
-import AttachmentCard from '@/components/AttachmentCard/AttachmentCard';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Tag } from '@mattermost/compass-ui/components/tag';
+import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-card';
 import styles from './MessageInput.module.scss';
 
 export type MessageInputWidth = 'wide' | 'narrow';
@@ -261,11 +261,13 @@ export default function MessageInput({
               <IconButton
                 icon={<Icon glyph={<FormatBoldIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Bold"
               />
               <IconButton
                 icon={<Icon glyph={<FormatItalicIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Italic"
               />
               <IconButton
@@ -273,11 +275,13 @@ export default function MessageInput({
                   <Icon glyph={<FormatStrikethroughVariantIcon />} size="16" />
                 }
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Strikethrough"
               />
               <IconButton
                 icon={<Icon glyph={<FormatHeaderIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Heading"
               />
             </div>
@@ -292,11 +296,13 @@ export default function MessageInput({
               <IconButton
                 icon={<Icon glyph={<LinkVariantIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Add link"
               />
               <IconButton
                 icon={<Icon glyph={<CodeTagsIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Code"
               />
             </div>
@@ -311,16 +317,19 @@ export default function MessageInput({
               <IconButton
                 icon={<Icon glyph={<FormatQuoteOpenIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Quote"
               />
               <IconButton
                 icon={<Icon glyph={<FormatListBulletedIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Bulleted list"
               />
               <IconButton
                 icon={<Icon glyph={<FormatListNumberedIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Numbered list"
               />
             </div>
@@ -335,16 +344,19 @@ export default function MessageInput({
               <IconButton
                 icon={<Icon glyph={<AlertCircleOutlineIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Message priority"
               />
               <IconButton
                 icon={<Icon glyph={<FireIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="Burn on read"
               />
               <IconButton
                 icon={<Icon glyph={<CreationOutlineIcon />} size="16" />}
                 size="small"
+                tabIndex={showWideFormattingBar ? 0 : -1}
                 aria-label="AI assistance"
               />
             </div>

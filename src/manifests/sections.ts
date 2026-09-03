@@ -153,7 +153,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Navigation',
-      slugs: ['app-bar-item', 'channel-sidebar-item', 'menu-item'],
+      slugs: ['channel-sidebar-item', 'menu-item'],
     },
     {
       label: 'Progress Indicators',

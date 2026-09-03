@@ -1,6 +1,6 @@
 import { useState} from 'react';
 import { MobileTabBar } from '@mattermost/compass-proto';
-import { type MobileTabBarTab } from '@mattermost/compass-proto';
+import type { MobileTabBarTab } from '@mattermost/compass-proto';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from './mobile-tab-bar.specimen.module.scss';
 

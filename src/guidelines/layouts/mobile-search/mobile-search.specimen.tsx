@@ -1,8 +1,6 @@
 import { useState} from 'react';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { MobileSearch } from '@mattermost/compass-proto';
-import { type MobileTabBarTab } from '@mattermost/compass-proto';
-import { MobileSearchSuggestions, MobileTabBar } from '@mattermost/compass-proto';
+import { MobileSearch, type MobileTabBarTab, MobileSearchSuggestions, MobileTabBar } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from './mobile-search.specimen.module.scss';
