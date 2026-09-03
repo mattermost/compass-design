@@ -1,5 +1,5 @@
 import type { RightSidebarThreadMessage } from '@mattermost/compass-proto';
-import { messageStyles } from '@mattermost/compass-ui/components/message';
+import { messageStyles } from '@mattermost/compass-proto';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';

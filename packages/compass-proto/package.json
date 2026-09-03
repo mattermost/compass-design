@@ -2,7 +2,7 @@
   "name": "@mattermost/compass-proto",
   "version": "0.1.0-alpha.1",
   "private": true,
-  "description": "Unpublished Compass prototyping UI (mobile, layouts, calls) — not part of core @mattermost/compass-ui",
+  "description": "Unpublished Compass prototyping UI (mobile, layouts, calls, unfinished desktop composites) — not part of core @mattermost/compass-ui",
   "type": "module",
   "sideEffects": [
     "**/*.css",

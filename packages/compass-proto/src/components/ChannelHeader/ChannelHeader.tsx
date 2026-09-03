@@ -8,11 +8,11 @@ import PinOutlineIcon from '@mattermost/compass-icons/components/pin-outline';
 import FileTextOutlineIcon from '@mattermost/compass-icons/components/file-text-outline';
 import PhoneIcon from '@mattermost/compass-icons/components/phone';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
-import Button from '@/components/Button/Button';
-import Icon from '@/components/Icon/Icon';
-import IconButton from '@/components/IconButton/IconButton';
-import Tag from '@/components/Tag/Tag';
-import UserAvatar from '@/components/UserAvatar/UserAvatar';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Tag } from '@mattermost/compass-ui/components/tag';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from './ChannelHeader.module.scss';
 
 export type ChannelHeaderType =

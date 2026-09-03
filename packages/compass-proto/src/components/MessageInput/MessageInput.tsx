@@ -19,10 +19,10 @@ import FormatStrikethroughVariantIcon from '@mattermost/compass-icons/components
 import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import SendIcon from '@mattermost/compass-icons/components/send';
-import Icon from '@/components/Icon/Icon';
-import IconButton from '@/components/IconButton/IconButton';
-import Tag from '@/components/Tag/Tag';
-import AttachmentCard from '@/components/AttachmentCard/AttachmentCard';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Tag } from '@mattermost/compass-ui/components/tag';
+import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-card';
 import styles from './MessageInput.module.scss';
 
 export type MessageInputWidth = 'wide' | 'narrow';

@@ -15,10 +15,10 @@ Icons stay in [`mattermost/compass-icons`](https://github.com/mattermost/compass
 
 | Package | Published | Contents |
 | ------- | --------- | -------- |
-| `@mattermost/compass-ui` | Yes (`alpha` until stable) | Foundations, primitives, props-driven web chrome (sidebars, headers, Message stack, …) |
-| `@mattermost/compass-proto` | No (workspace / `npm pack` only) | Mobile*, `ChannelShell`, Call* composites, demo RHS panels, sidebar fixture builders |
+| `@mattermost/compass-ui` | Yes (`alpha` until stable) | Foundations, primitives, props-driven web chrome (sidebars, headers, Message leaves, Modal, …) |
+| `@mattermost/compass-proto` | No (workspace / `npm pack` only) | Mobile*, `ChannelShell`, Call* composites, Message / Message Input / Channel Header / Right Sidebar shell / Reaction Pill / App Bar Item, demo RHS panels, sidebar fixture builders |
 
-**Chrome vs fixtures:** Core keeps presentational shells (`ChannelsSidebar`, `AdminConsoleSidebar`, `RightSidebar` header). Demo trees and specimen RHS screens live in proto or docs fixtures — not in the published core API.
+**Chrome vs fixtures:** Core keeps presentational chrome (`ChannelsSidebar`, `AdminConsoleSidebar`, `TeamSidebar`, `RightSidebarHeader`, Modal, Message leaves). Layout shells and unfinished composites (`RightSidebar`, `Message`, `MessageInput`, `ChannelHeader`, `ReactionPill`, `AppBarItem`) live in proto — not in the published core API.
 
 ### Layouts and shells (who uses what)
 
@@ -27,7 +27,7 @@ Layouts are composed MDX specimens in `src/guidelines/layouts/`. They are **not*
 | Layer | Package / location | Published | What lives here |
 | ----- | ------------------ | --------- | --------------- |
 | UI (chrome) | `@mattermost/compass-ui` | Yes | Foundations, primitives, props-driven web chrome |
-| Proto | `@mattermost/compass-proto` | Never npm | `ChannelShell`, Mobile*, Call*, demo RHS panels, sidebar fixture helpers |
+| Proto | `@mattermost/compass-proto` | Never npm | `ChannelShell`, Mobile*, Call*, Message / Message Input / Channel Header / Right Sidebar shell / Reaction Pill / App Bar Item, demo RHS panels, sidebar fixture helpers |
 | Docs chrome | `src/components/layout/` (this repo) | No | `DeviceFrame`, `MobileModalStage` — specimen framing only |
 
 Layout specimens import ui + proto (and docs chrome where needed) to show full screens. Proto is **not** on npm; playground and docs consume it via workspace / `file:` links.

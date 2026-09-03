@@ -1,17 +1,12 @@
 import { useState } from 'react';
-import { ChannelHeader } from '@mattermost/compass-ui/components/channel-header';
-import { ChannelShell } from '@mattermost/compass-proto';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-import { MessageInput } from '@mattermost/compass-ui/components/message-input';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
-import { Message } from '@mattermost/compass-ui/components/message';
-import { CallWidget } from '@mattermost/compass-proto';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
-import { shellStyles } from '@mattermost/compass-proto';
 import {
+import { ChannelHeader, ChannelShell, MessageInput, Message, CallWidget, shellStyles } from '@mattermost/compass-proto';
   DIAL_IN_NUMBER,
   DIAL_IN_PIN,
   EXTERNAL_LINK,

@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import Icon from '@/components/Icon/Icon';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import HandRightOutlineIcon from '@mattermost/compass-icons/components/hand-right-outline';
 import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-off';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';

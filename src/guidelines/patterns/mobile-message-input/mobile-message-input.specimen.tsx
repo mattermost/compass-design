@@ -1,6 +1,5 @@
 import { useState, type ReactNode} from 'react';
-import { MobileMessageInput } from '@mattermost/compass-proto';
-import { type MobileMessageAttachment } from '@mattermost/compass-proto';
+import { MobileMessageInput, type MobileMessageAttachment } from '@mattermost/compass-proto';
 import sampleImage from '@/assets/images/sample-image.jpg';
 import styles from './mobile-message-input.specimen.module.scss';
 

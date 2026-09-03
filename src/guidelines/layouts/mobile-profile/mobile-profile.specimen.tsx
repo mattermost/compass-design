@@ -6,8 +6,7 @@ import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoti
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { type MobileTabBarTab } from '@mattermost/compass-proto';
-import { MobileMenuItem, MobileProfile, MobileTabBar } from '@mattermost/compass-proto';
+import { type MobileTabBarTab, MobileMenuItem, MobileProfile, MobileTabBar } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from './mobile-profile.specimen.module.scss';

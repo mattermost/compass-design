@@ -6,6 +6,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING:** Move unfinished / layout composites out of `@mattermost/compass-ui` into unpublished `@mattermost/compass-proto`: `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `ReactionPill`, and `AppBarItem` (no docs topic). Import them from `@mattermost/compass-proto`. Message leaves (`MessageHeader`, `MessageActions`, `MessageReactions`, `MessageSeparator`, `MessageMoreOptionsMenu`, `PinnedSavedIndicators`), `Modal`, `TeamSidebar`, and `ChannelHeaderMenu` remain in UI.
+- **BREAKING:** `RightSidebarHeader` is now a top-level UI export at `@mattermost/compass-ui/components/right-sidebar-header` (no longer co-exported from `…/right-sidebar`).
+- **BREAKING:** `messageStyles` moves with `Message` to `@mattermost/compass-proto`.
+
 ## [0.1.0-alpha.5] - 2026-09-02
 
 ### Changed

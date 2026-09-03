@@ -1,9 +1,11 @@
 import React from 'react';
-import UserAvatar from '@/components/UserAvatar/UserAvatar';
-import MessageHeader from '@/components/MessageHeader/MessageHeader';
-import MessageActions from '@/components/MessageActions/MessageActions';
-import type { MessageActionsType } from '@/components/MessageActions/MessageActions';
-import PinnedSavedIndicators from '@/components/PinnedSavedIndicators/PinnedSavedIndicators';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import { MessageHeader } from '@mattermost/compass-ui/components/message-header';
+import {
+  MessageActions,
+  type MessageActionsType,
+} from '@mattermost/compass-ui/components/message-actions';
+import { PinnedSavedIndicators } from '@mattermost/compass-ui/components/pinned-saved-indicators';
 import styles from './Message.module.scss';
 
 type MessageProps = {

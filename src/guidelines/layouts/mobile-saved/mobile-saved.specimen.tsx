@@ -1,8 +1,6 @@
 import { useState} from 'react';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { MobileMessage } from '@mattermost/compass-proto';
-import { type MobileTabBarTab } from '@mattermost/compass-proto';
-import { MobileSavedMessages, MobileTabBar, mobileMessageStyles } from '@mattermost/compass-proto';
+import { MobileMessage, type MobileTabBarTab, MobileSavedMessages, MobileTabBar, mobileMessageStyles } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';

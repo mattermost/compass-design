@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Scrollbar from '@/components/Scrollbar/Scrollbar';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import styles from './RightSidebar.module.scss';
 
 export interface RightSidebarProps {

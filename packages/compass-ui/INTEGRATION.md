@@ -2,7 +2,7 @@
 
 Guide for consuming the Compass UI library in Vite apps (docs, prototypes catalog) and the Mattermost webapp (`webapp/channels`).
 
-Mobile shells, `ChannelShell`, Call* composites, `ParticipantsPanel`, `RecordingPill`, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only.
+Mobile shells, `ChannelShell`, Call* composites, `ParticipantsPanel`, `RecordingPill`, `ReactionPill`, `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `AppBarItem`, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only. Published chrome includes `RightSidebarHeader`, Message leaves, `Modal`, and `TeamSidebar`.
 
 ## Install
 
@@ -126,13 +126,13 @@ Style sub-exports live on the owning component subpath:
 
 ```tsx
 import { btnStyles } from '@mattermost/compass-ui/components/button';
-import { messageStyles } from '@mattermost/compass-ui/components/message';
+import { channelsSidebarStyles } from '@mattermost/compass-ui/components/channels-sidebar';
 ```
 
 For playground, prototypes, and docs that install the unpublished workspace package, also:
 
 ```tsx
-import { ChannelShell } from '@mattermost/compass-proto';
+import { ChannelShell, Message, messageStyles } from '@mattermost/compass-proto';
 ```
 
 Webapp product code should use `@mattermost/compass-ui` only.

@@ -260,14 +260,7 @@ export const TOPICS: Topic[] = [
     specimenPage: () =>
       import('@/guidelines/components/feature-discovery-panel/feature-discovery-panel.specimen'),
   },
-  {
-    slug: 'app-bar-item',
-    name: 'App Bar Item',
-    category: 'components',
-    status: 'stable',
-    guidelinePage: () => import('@/guidelines/components/app-bar-item/app-bar-item.guideline.mdx'),
-    specimenPage: () => import('@/guidelines/components/app-bar-item/app-bar-item.specimen'),
-  },
+
   {
     slug: 'attachment-card',
     name: 'Attachment Card',

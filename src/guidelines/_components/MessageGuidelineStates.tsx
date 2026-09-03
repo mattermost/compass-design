@@ -1,6 +1,5 @@
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import { Message } from '@mattermost/compass-ui/components/message';
-import { messageStyles } from '@mattermost/compass-ui/components/message';
+import { Message, messageStyles } from '@mattermost/compass-proto';
 import Preview from '@/guidelines/_components/Preview';
 import styles from './MessageGuidelineStates.module.scss';
 

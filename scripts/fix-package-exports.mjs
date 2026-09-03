@@ -53,7 +53,6 @@ const styleExports = `
 export { default as shellStyles } from './components/ChannelShell/ChannelShell.module.scss';
 export { default as layoutStyles } from './components/ChannelShell/ChannelShell.module.scss';
 export { default as btnStyles } from './components/Button/Button.module.scss';
-export { default as messageStyles } from './components/Message/Message.module.scss';
 export { default as DialpadIcon } from './icons/DialpadIcon';
 export { default as OutboundCallIcon } from './icons/OutboundCallIcon';
 export { default as PhoneLockIcon } from './icons/PhoneLockIcon';

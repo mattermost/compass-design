@@ -63,8 +63,6 @@ export const TITLE_STATUS_SHORTCUT_TAG =
   'Components/Status Indicators/Shortcut Tag';
 export const TITLE_STATUS_MENTION_BADGE =
   'Components/Status Indicators/Mention Badge';
-export const TITLE_CALLS_REACTION_PILL =
-  'Components/Calls/Reaction Pill';
 export const TITLE_CALLS_RECORDING_PILL =
   'Components/Calls/Recording Pill';
 export const TITLE_STATUS_STATUS_BADGE =
