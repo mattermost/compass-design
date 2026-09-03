@@ -27,10 +27,10 @@
 <path d="M15.157 22.0039H21.1094" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path d="M22.432 22.0039H28.3844" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path d="M104.987 33.6645L96.9856 41.65V2.37999C96.9856 1.72278 97.5184 1.18999 98.1756 1.18999H135.269C135.926 1.18999 136.459 1.72278 136.459 2.37999V32.4745C136.459 33.1317 135.926 33.6645 135.269 33.6645H104.987Z" fill="var(--color-indigo-500)"/>
-<path d="M106.854 11.0583H118.696" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path d="M106.854 15.9924H128.564" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path d="M106.854 21.9134H115.736" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path d="M117.709 21.9134H126.591" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M106.854 11.0583H118.696" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M106.854 15.9924H128.564" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M106.854 21.9134H115.736" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M117.709 21.9134H126.591" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
 <rect x="59" y="30" width="19.5" height="4.5" rx="1.5" fill="var(--center-channel-color)" fill-opacity="0.16"/>
 <path d="M35.5 51.5V91.5H58M60 91.5H64M66 91.5H68" stroke="var(--center-channel-color)" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
 </g>

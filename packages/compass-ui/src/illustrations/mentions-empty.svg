@@ -17,7 +17,7 @@
 <path d="M73 49L94 49L94 37" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M69 49L63 49" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M60 49L58 49" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="77.9922" cy="19" r="5" stroke="var(--color-neutral-0)"/>
-<path d="M82.9922 19C82.9922 19.1667 82.9922 19.8 82.9922 21C82.9922 22.2 83.9922 24 85.4922 24C86.9922 24 87.9922 23 87.9922 19" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path d="M87.9922 19C87.9922 13.4772 83.515 9 77.9922 9C72.4693 9 67.9922 13.4772 67.9922 19C67.9922 24.5228 72.4693 29 77.9922 29C79.4144 29 80.7673 28.7031 81.9922 28.1679" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<circle fill="none" cx="77.9922" cy="19" r="5" stroke="var(--color-neutral-0)"/>
+<path fill="none" d="M82.9922 19C82.9922 19.1667 82.9922 19.8 82.9922 21C82.9922 22.2 83.9922 24 85.4922 24C86.9922 24 87.9922 23 87.9922 19" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M87.9922 19C87.9922 13.4772 83.515 9 77.9922 9C72.4693 9 67.9922 13.4772 67.9922 19C67.9922 24.5228 72.4693 29 77.9922 29C79.4144 29 80.7673 28.7031 81.9922 28.1679" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
 </svg>

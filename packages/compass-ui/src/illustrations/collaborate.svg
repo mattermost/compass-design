@@ -22,12 +22,12 @@
 </g>
 <path d="M50.1065 105.143L62.1127 117V56C62.1127 54.8954 61.2172 54 60.1127 54H1.99999C0.895424 54 -7.62939e-06 54.8954 -7.62939e-06 56V102.566C-7.62939e-06 103.67 0.895424 104.566 1.99999 104.566H48.7011C49.2272 104.566 49.7322 104.773 50.1065 105.143Z" fill="var(--color-indigo-500)"/>
 <circle opacity="0.48" cx="15.9714" cy="70.8593" r="7.98592" fill="var(--color-neutral-0)"/>
-<path opacity="0.48" d="M29.2806 67.3098H43.4778" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path opacity="0.48" d="M8.87219 89.6087H38.1539" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path opacity="0.48" d="M8.87219 95.087H28.3933" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path opacity="0.48" d="M29.2806 72.6336H51.4637" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path opacity="0.48" d="M8.87219 83.2818H23.9567" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path opacity="0.48" d="M27.5071 83.2818H43.4789" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" opacity="0.48" d="M29.2806 67.3098H43.4778" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" opacity="0.48" d="M8.87219 89.6087H38.1539" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" opacity="0.48" d="M8.87219 95.087H28.3933" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" opacity="0.48" d="M29.2806 72.6336H51.4637" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" opacity="0.48" d="M8.87219 83.2818H23.9567" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" opacity="0.48" d="M27.5071 83.2818H43.4789" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
 <rect x="148.5" y="20.5" width="43" height="79" rx="7.5" fill="var(--center-channel-bg)" stroke="var(--center-channel-color)" stroke-width="3"/>
 <path d="M150 27.5C150 24.4624 152.463 22 155.5 22H184.5C187.538 22 190 24.4624 190 27.5V29H150V27.5Z" fill="var(--button-bg)" fill-opacity="0.16"/>
 <circle cx="159.831" cy="64.831" r="5.83099" fill="var(--center-channel-color)" fill-opacity="0.32"/>

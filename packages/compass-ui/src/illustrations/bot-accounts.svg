@@ -43,10 +43,10 @@
 <path d="M70.9622 48.7543L70.9615 48.805C70.9393 49.8692 70.2205 50.7237 69.337 50.7237C68.4535 50.7237 67.7348 49.8692 67.7125 48.805L67.7119 48.7543L67.7119 44.3262C67.7119 43.2386 68.4395 42.3568 69.337 42.3568C70.2345 42.3568 70.9622 43.2386 70.9622 44.3262L70.9622 48.7543Z" fill="var(--center-channel-color)"/>
 <path d="M52.9121 48.7543L52.9115 48.805C52.8893 49.8692 52.1705 50.7237 51.287 50.7237C50.4035 50.7237 49.6847 49.8692 49.6625 48.805L49.6619 48.7543L49.6619 44.3262C49.6619 43.2386 50.3895 42.3568 51.287 42.3568C52.1845 42.3568 52.9121 43.2386 52.9121 44.3262L52.9121 48.7543Z" fill="var(--center-channel-color)"/>
 <path d="M81.5957 29.9422L76.0269 35.5001V8.53009C76.0269 7.87287 76.5596 7.34009 77.2169 7.34009H102.31C102.967 7.34009 103.5 7.87287 103.5 8.53009V28.7522C103.5 29.4094 102.967 29.9422 102.31 29.9422H81.5957Z" fill="var(--color-indigo-500)"/>
-<path d="M82.8953 14.2084H91.1372" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path d="M82.8953 17.6426H98.0055" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path d="M82.8953 21.7634H89.0767" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
-<path d="M90.4504 21.7634H96.6319" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M82.8953 14.2084H91.1372" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M82.8953 17.6426H98.0055" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M82.8953 21.7634H89.0767" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path fill="none" d="M90.4504 21.7634H96.6319" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
 <path d="M88.2549 61L100.255 61L100.255 74" stroke="var(--center-channel-color)" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M85.2549 61L82.2549 61" stroke="var(--center-channel-color)" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M80.2549 61L78.2549 61" stroke="var(--center-channel-color)" stroke-linecap="round" stroke-linejoin="round"/>
