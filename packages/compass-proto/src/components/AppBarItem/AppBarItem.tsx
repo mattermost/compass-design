@@ -38,7 +38,7 @@ export default function AppBarItem({
   const showMentionBadge = mentionBadge != null && mentionBadge > 0;
   const showUnreadBadge = unreadBadge && !showMentionBadge;
   const ariaLabel = showMentionBadge
-    ? `${label}, ${mentionBadge} mentions`
+    ? `${label}, ${mentionBadge} ${mentionBadge === 1 ? 'mention' : 'mentions'}`
     : showUnreadBadge
       ? `${label}, unread`
       : label;
