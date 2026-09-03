@@ -47,7 +47,10 @@ export default function Toast({
   onDismiss,
 }: ToastProps) {
   const typeClass = styles[`toast--type-${type.toLowerCase()}`];
-  const rootClass = [styles.toast, typeClass, className].filter(Boolean).join(' ');
+  const noDismissClass = onDismiss == null ? styles['toast--no-dismiss'] : '';
+  const rootClass = [styles.toast, typeClass, noDismissClass, className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={rootClass} role="status" aria-live="polite">
