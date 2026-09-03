@@ -12,7 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
-- **Toast:** dismiss icon rests at 64% white; when `onDismiss` is omitted, content uses matching right padding so the message is not flush to the edge.
+- **Toast:** dismiss icon rests at 64% white; when `onDismiss` is omitted, content uses matching right padding, so the message is not flush to the edge.
 
 ## [0.1.0-alpha.5] - 2026-09-02
 
