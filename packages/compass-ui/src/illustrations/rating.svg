@@ -31,8 +31,8 @@
 <path d="M28 70L28 66" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M28 64L28 63" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M35.6531 36.6599L44.6857 45.6747V1.785C44.6857 0.799172 43.8865 0 42.9007 0H1.91C0.924175 0 0.125004 0.799173 0.125004 1.785V34.8749C0.125004 35.8608 0.924175 36.6599 1.91 36.6599H35.6531Z" fill="#CCC4AE"/>
-<path d="M11.2611 11.1401H24.6293" stroke="var(--center-channel-color)" stroke-linecap="round"/>
-<path d="M11.2611 16.7103H35.7695" stroke="var(--center-channel-color)" stroke-linecap="round"/>
-<path d="M11.2611 23.3943H21.2873" stroke="var(--center-channel-color)" stroke-linecap="round"/>
-<path d="M23.5123 23.3943H33.5385" stroke="var(--center-channel-color)" stroke-linecap="round"/>
+<path d="M11.2611 11.1401H24.6293" stroke="var(--color-neutral-1000)" stroke-linecap="round"/>
+<path d="M11.2611 16.7103H35.7695" stroke="var(--color-neutral-1000)" stroke-linecap="round"/>
+<path d="M11.2611 23.3943H21.2873" stroke="var(--color-neutral-1000)" stroke-linecap="round"/>
+<path d="M23.5123 23.3943H33.5385" stroke="var(--color-neutral-1000)" stroke-linecap="round"/>
 </svg>
