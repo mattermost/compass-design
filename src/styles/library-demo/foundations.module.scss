@@ -159,6 +159,55 @@
     max-width: 100%;
   }
 
+  // ── Illustrations ─────────────────────────────────────────────────────────
+
+  &__illustration-library {
+    margin-top: var(--spacing-l);
+  }
+
+  &__illustration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--spacing-m);
+  }
+
+  &__illustration-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-s);
+    border-radius: var(--radius-m);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    background-color: var(--center-channel-bg);
+
+    &--on-sidebar {
+      background-color: var(--sidebar-bg);
+      border-color: rgba(var(--sidebar-text-rgb), 0.16);
+
+      .foundations__illustration-token {
+        color: rgba(var(--sidebar-text-rgb), 0.72);
+      }
+    }
+  }
+
+  &__illustration-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 96px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  &__illustration-token {
+    font-size: var(--font-size-50);
+    font-family: var(--font-family-mono);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    text-align: center;
+    overflow-wrap: anywhere;
+    line-height: var(--line-height-50);
+    max-width: 100%;
+  }
+
   // ── Typography ────────────────────────────────────────────────────────────
 
   &__type-families {

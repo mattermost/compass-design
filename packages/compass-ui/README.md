@@ -54,6 +54,7 @@ npm run storybook     # component catalog on :6006
 
 - `dist/components/<name>/index.js` / `.cjs` — per-component subpaths (`@mattermost/compass-ui/components/<name>`)
 - `dist/hooks/<name>.js` / `.cjs` — hooks (`@mattermost/compass-ui/hooks/<name>`)
+- `dist/illustrations/<name>.js` / `.cjs` — brand SVG artwork (`@mattermost/compass-ui/illustrations/<name>`)
 - `dist/index.js` / `dist/index.cjs` — legacy root barrel (ESM + CJS)
 - `dist/compass-ui.css` — tokens and webapp-compat defaults (`./styles`)
 - `dist/compass-ui-standalone.css` — theme presets + CSS reset + `body` / heading chrome for standalone hosts (`./styles/standalone`)

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import AICopilotIllustration from '@/assets/illustrations/ai-copilot-intro.svg?react';
-import SearchIllustration from '@/assets/illustrations/search.svg?react';
+import AICopilotIllustration from '@/illustrations/ai-copilot-intro';
+import SearchIllustration from '@/illustrations/search';
 import Illustration from './Illustration';
 
 const meta = {

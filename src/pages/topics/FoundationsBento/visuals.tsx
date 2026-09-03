@@ -7,6 +7,10 @@ import EmoticonOutlineIcon from '@mattermost/compass-icons/components/emoticon-o
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
+import GroupsIllustration from '@mattermost/compass-ui/illustrations/groups';
+import SuccessIllustration from '@mattermost/compass-ui/illustrations/success';
+import AICopilotIllustration from '@mattermost/compass-ui/illustrations/ai-copilot-intro';
 import type { TopicVisual } from '@/manifests/topics';
 import styles from './FoundationsBento.module.scss';
 
@@ -67,6 +71,17 @@ function IconGrid() {
           <Icon size={20} />
         </span>
       ))}
+    </div>
+  );
+}
+
+function IllustrationGrid() {
+  return (
+    <div className={styles['visual-illustrations']} aria-hidden="true">
+      <SearchIllustration />
+      <GroupsIllustration />
+      <SuccessIllustration />
+      <AICopilotIllustration />
     </div>
   );
 }
@@ -152,6 +167,7 @@ const VISUALS: Record<TopicVisual['kind'], ComponentType> = {
   swatches: Swatches,
   'type-specimen': TypeSpecimen,
   'icon-grid': IconGrid,
+  'illustration-grid': IllustrationGrid,
   'spacing-stack': SpacingStack,
   'shape-stack': ShapeStack,
   'elevation-stack': ElevationStack,

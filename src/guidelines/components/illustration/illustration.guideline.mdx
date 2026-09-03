@@ -1,12 +1,12 @@
 import { Illustration } from '@mattermost/compass-ui/components/illustration';
-import AICopilotIllustration from '@/assets/illustrations/ai-copilot-intro.svg?react';
-import SearchIllustration from '@/assets/illustrations/search.svg?react';
-import GroupsIllustration from '@/assets/illustrations/groups.svg?react';
+import AICopilotIllustration from '@mattermost/compass-ui/illustrations/ai-copilot-intro';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
+import GroupsIllustration from '@mattermost/compass-ui/illustrations/groups';
 
-Illustration is the wrapper for any of the brand SVG artworks shipped under
-`@/assets/illustrations/`. It enforces a consistent size box, contains the
-SVG, and exposes an accessible label so screen readers can describe the
-artwork (or skip it when it's purely decorative).
+Illustration is the wrapper for brand SVG artwork shipped from
+`@mattermost/compass-ui/illustrations/<name>`. It enforces a consistent size
+box, contains the SVG, and exposes an accessible label so screen readers can
+describe the artwork (or skip it when it's purely decorative).
 
 <Divider />
 
@@ -30,8 +30,8 @@ aspect ratio.
 
 - <Num>1</Num> **Container** — inline-block with explicit width and
   height. Prevents the SVG from overflowing or stretching.
-- <Num>2</Num> **SVG** — passed in as `children`. Imported with the
-  `?react` suffix so Vite renders it as a React component.
+- <Num>2</Num> **SVG** — passed in as `children`. Import the artwork from
+  `@mattermost/compass-ui/illustrations/<name>`.
 
 <Divider />
 
@@ -46,7 +46,8 @@ aspect ratio.
 
 Illustrations are not icons. Don't reach for an Illustration when an Icon
 will do — Illustrations carry brand and emotional weight, and using them
-indiscriminately dilutes both.
+indiscriminately dilutes both. For the artwork library and when to draw a
+new scene, see [Illustrations](/foundations/illustrations).
 
 <Divider />
 
@@ -62,6 +63,15 @@ indiscriminately dilutes both.
 <Divider />
 
 ## Implementation
+
+```tsx
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
+import { Illustration } from '@mattermost/compass-ui/components/illustration';
+
+<Illustration aria-label="No results">
+  <SearchIllustration />
+</Illustration>
+```
 
 For props, variants, and copy-ready examples, see the
 [Illustration specimen page](/components/illustration/specimen).
