@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import path from 'path';
-import svgr from 'vite-plugin-svgr';
+import { compassUiSvgrPlugin } from '../svgr-plugin';
 
 const repoSrc = path.resolve(__dirname, '../../../src');
 
@@ -12,7 +12,7 @@ const config: StorybookConfig = {
     options: {},
   },
   async viteFinal(viteConfig) {
-    viteConfig.plugins = [...(viteConfig.plugins ?? []), svgr()];
+    viteConfig.plugins = [...(viteConfig.plugins ?? []), compassUiSvgrPlugin()];
 
     viteConfig.resolve ??= {};
     const compassSrc = path.resolve(__dirname, '../src');
@@ -21,6 +21,10 @@ const config: StorybookConfig = {
       { find: '@/styles', replacement: path.join(repoSrc, 'styles') },
       { find: '@/assets', replacement: path.join(repoSrc, 'assets') },
       { find: '@/contexts', replacement: path.join(repoSrc, 'contexts') },
+      {
+        find: '@mattermost/compass-ui/illustrations',
+        replacement: path.join(compassSrc, 'illustrations'),
+      },
       { find: '@', replacement: compassSrc },
       ...(Array.isArray(viteConfig.resolve.alias)
         ? viteConfig.resolve.alias

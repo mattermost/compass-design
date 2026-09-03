@@ -1,5 +1,5 @@
 import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
-import SearchIllustration from '@/assets/illustrations/search.svg?react';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function EmptyStateLibrary() {

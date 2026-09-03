@@ -43,6 +43,35 @@ function assertCjsIconUnwrap() {
   );
 }
 
+function assertIllustrationDts() {
+  const dtsPath = path.join(packageRoot, 'dist/illustrations/search.d.ts');
+  if (!fs.existsSync(dtsPath)) {
+    throw new Error('Missing dist/illustrations/search.d.ts');
+  }
+  const dts = fs.readFileSync(dtsPath, 'utf8');
+  if (dts.includes('.svg?react')) {
+    throw new Error(
+      'Illustration declarations must not re-export .svg?react paths',
+    );
+  }
+  if (!dts.includes('SVGProps<SVGSVGElement>')) {
+    throw new Error(
+      'Illustration declarations must export a React SVG component type',
+    );
+  }
+
+  const svgDts = fs
+    .readdirSync(path.join(packageRoot, 'dist/illustrations'))
+    .filter((f) => f.endsWith('.svg.d.ts'));
+  if (svgDts.length > 0) {
+    throw new Error(
+      `Unexpected illustration SVG declaration files: ${svgDts.slice(0, 5).join(', ')}`,
+    );
+  }
+
+  console.log('[verify-compass-ui-dist] Illustration declarations OK');
+}
+
 function assertSubpathLayout() {
   const required = [
     'dist/index.js',
@@ -51,6 +80,11 @@ function assertSubpathLayout() {
     'dist/components/button/index.js',
     'dist/components/button/index.cjs',
     'dist/components/admin-console-sidebar/AdminConsoleSidebar.cjs',
+    'dist/illustrations/search.js',
+    'dist/illustrations/search.cjs',
+    'dist/illustrations/search.d.ts',
+    'dist/illustrations/names.js',
+    'dist/illustrations/names.d.ts',
   ];
   for (const rel of required) {
     const full = path.join(packageRoot, rel);
@@ -148,6 +182,7 @@ function assertSubpathIsolation() {
 function main() {
   assertSubpathLayout();
   assertDtsImportPaths();
+  assertIllustrationDts();
   assertSourcemapUrls();
   assertCjsIconUnwrap();
   assertSubpathIsolation();

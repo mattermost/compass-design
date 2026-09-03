@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import styles from './Illustration.module.scss';
 
 export interface IllustrationProps {
-  /** SVG component from an illustration import (e.g. from `@/assets/illustrations/name.svg?react`). */
+  /** SVG component from `@mattermost/compass-ui/illustrations/<name>`. */
   children: ReactNode;
   /** Optional CSS class name. */
   className?: string;
@@ -15,10 +15,10 @@ export interface IllustrationProps {
 }
 
 /**
- * Illustration is the wrapper for any of the brand SVG artworks shipped under
- * `@/assets/illustrations/`. It enforces a consistent size box, contains the SVG, and
- * exposes an accessible label so screen readers can describe the artwork (or skip it when
- * it's purely decorative).
+ * Illustration is the wrapper for brand SVG artwork shipped from
+ * `@mattermost/compass-ui/illustrations/<name>`. It enforces a consistent size box, contains
+ * the SVG, and exposes an accessible label so screen readers can describe the artwork (or
+ * skip it when it's purely decorative).
  */
 export default function Illustration({
   children,

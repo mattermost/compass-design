@@ -32,6 +32,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'themes',
         'typography',
         'iconography',
+        'illustrations',
         'shape',
         'elevation',
         'spacing',

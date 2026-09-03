@@ -7,12 +7,14 @@ import { collectLibEntries } from './build-entries';
 import { compassIconsJsExtensions } from './vite-plugin-compass-icons-ext';
 import { compassUiGlobalStyles } from './vite-plugin-global-styles';
 import { compassUiNormalizeDist, markCompassUiDtsFinished } from './vite-plugin-normalize-dist';
+import { compassUiSvgrPlugin } from './svgr-plugin';
 
 const isWatchBuild = process.argv.includes('--watch');
 const srcRoot = path.resolve(__dirname, 'src');
 
 export default defineConfig({
   plugins: [
+    compassUiSvgrPlugin(),
     react(),
     libInjectCss(),
     compassUiGlobalStyles(),
@@ -22,6 +24,7 @@ export default defineConfig({
       include: ['src'],
       exclude: [
         '**/*.stories.tsx',
+        '**/*.svg',
         'src/styles/entry.scss',
         'src/storybook/**',
       ],

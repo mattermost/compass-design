@@ -1,0 +1,98 @@
+Illustrations are scene-level brand artwork. They set tone on empty views,
+feature discovery, and first-run flows — they are not icons, and they are not
+decoration for every screen. Use them where a short message needs a visual
+anchor, then let the title and description carry the meaning.
+
+<IllustrationShowcase />
+
+The full set, with every filename and import path, is on this topic's
+[Specimen tab](/foundations/illustrations/specimen).
+
+<Divider />
+
+## When to use an illustration
+
+Reach for an illustration when the view is genuinely empty or introductory and
+the extra warmth helps people recognise the situation. Typical homes:
+
+- **Empty states** — no search results, no drafts, no saved messages.
+- **Feature discovery** — a supporting visual on a System Console upsell panel.
+- **Onboarding and welcome** — channel intros, first-run modals, success screens.
+
+Do not use an illustration when an icon will do. Icons are load-bearing at
+small sizes; illustrations carry brand and emotional weight, and using them
+indiscriminately dilutes both. One illustration per surface is enough.
+
+<Divider />
+
+## Pair with words
+
+An illustration never stands in for copy. The surrounding title and description
+should communicate the same idea in words, so the experience still works if the
+artwork is hidden, slow to load, or skipped by assistive tech.
+
+<Divider />
+
+## Importing artwork
+
+Each file ships from `@mattermost/compass-ui` as a React component. The
+kebab-case filename is the subpath. Wrap it in the
+[Illustration component](/components/illustration) so size and accessibility
+stay consistent.
+
+```tsx
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
+import { Illustration } from '@mattermost/compass-ui/components/illustration';
+
+<Illustration aria-label="No results">
+  <SearchIllustration />
+</Illustration>
+```
+
+Do not copy SVGs into product apps. Add new artwork to the Compass UI package
+so every consumer shares the same file.
+
+<Divider />
+
+## Designing new illustrations
+
+New scenes should read as part of the existing set — same line weight, same
+level of abstraction, same amount of colour. Prefer adapting an existing file
+over drawing a one-off.
+
+<PrincipleList>
+  <Principle title="One idea per scene">
+    Each illustration depicts a single situation (no results, groups, success).
+    Do not pack multiple product stories into one frame.
+  </Principle>
+  <Principle title="Stay at scene scale">
+    These drawings are meant for empty states and hero slots, not toolbars.
+    If it has to work at 16 px, draw an icon instead.
+  </Principle>
+  <Principle title="Keep detail in check">
+    Strip anything that is not load-bearing for recognition. Dense decoration
+    falls apart when the artwork is sized down for a compact empty state.
+  </Principle>
+  <Principle title="Match the family">
+    Stroke, corner treatment, and colour should sit next to search, groups,
+    and the empty-state set without looking like a different product.
+  </Principle>
+</PrincipleList>
+
+<Divider />
+
+## Accessibility
+
+Treat most illustrations as decorative. Pass an empty accessible label on the
+Illustration wrapper so screen readers skip the artwork, and keep the real
+explanation in the title and description. When the picture itself is the
+message (a success scene with no supporting copy), give it a short label that
+names what it depicts.
+
+<Divider />
+
+## Implementation
+
+For the complete catalog and copy-ready import paths, see the
+[Illustrations specimen](/foundations/illustrations/specimen). For the wrapper
+API (size, labelling), see the [Illustration component](/components/illustration).

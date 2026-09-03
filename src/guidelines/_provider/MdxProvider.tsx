@@ -17,6 +17,7 @@ import {
   Principle,
   PrincipleList,
 } from '@/guidelines/_components/IconSamples';
+import { IllustrationShowcase } from '@/guidelines/_components/IllustrationSamples';
 import {
   CoreShapes,
   RadiusRamp,
@@ -96,6 +97,7 @@ const MDX_COMPONENTS = {
   FiletypeShowcase,
   Principle,
   PrincipleList,
+  IllustrationShowcase,
   CoreShapes,
   RadiusRamp,
   ShapeExamples,

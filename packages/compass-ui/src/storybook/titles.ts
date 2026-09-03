@@ -101,6 +101,7 @@ export const TITLE_STYLE_COLOR = 'Foundations/Style/Color';
 export const TITLE_STYLE_THEMES = 'Foundations/Style/Themes';
 export const TITLE_STYLE_TYPOGRAPHY = 'Foundations/Style/Typography';
 export const TITLE_STYLE_ICONOGRAPHY = 'Foundations/Style/Iconography';
+export const TITLE_STYLE_ILLUSTRATIONS = 'Foundations/Style/Illustrations';
 export const TITLE_STYLE_SHAPE = 'Foundations/Style/Shape';
 export const TITLE_STYLE_ELEVATION = 'Foundations/Style/Elevation';
 export const TITLE_STYLE_SPACING = 'Foundations/Style/Spacing';
