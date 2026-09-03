@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.6] - 2026-09-03
+
 ### Added
 
 - Brand SVG illustrations ship from `@mattermost/compass-ui/illustrations/<name>` (React components; kebab-case filename is the subpath). `ILLUSTRATION_NAMES` is exported from `illustrations/names`.
@@ -138,7 +140,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.5...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.6...HEAD
+[0.1.0-alpha.6]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.5...0.1.0-alpha.6
 [0.1.0-alpha.5]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.4...0.1.0-alpha.5
 [0.1.0-alpha.4]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.3...0.1.0-alpha.4
 [0.1.0-alpha.3]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.2...0.1.0-alpha.3
