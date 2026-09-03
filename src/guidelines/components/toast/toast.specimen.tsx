@@ -34,6 +34,13 @@ export default function ToastLibrary() {
           onAction={() => {}}
           onDismiss={() => {}}
         />
+        <Toast message="Link copied to clipboard." type="general" />
+        <Toast
+          message="Failed to send message. Please try again."
+          type="danger"
+          actionLabel="Retry"
+          onAction={() => {}}
+        />
       </div>
     </>
   );

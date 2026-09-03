@@ -67,6 +67,22 @@ export const Info: Story = {
   },
 };
 
+export const WithoutDismiss: Story = {
+  args: {
+    message: 'Link copied to clipboard.',
+    type: 'general',
+  },
+};
+
+export const ActionWithoutDismiss: Story = {
+  args: {
+    message: 'Failed to send message. Please try again.',
+    type: 'danger',
+    actionLabel: 'Retry',
+    onAction: fn(),
+  },
+};
+
 export const AllVariants: Story = {
   render: () => (
     <div
@@ -105,6 +121,13 @@ export const AllVariants: Story = {
         actionLabel="Refresh"
         onAction={fn()}
         onDismiss={fn()}
+      />
+      <Toast message="Link copied to clipboard." type="general" />
+      <Toast
+        message="Failed to send message. Please try again."
+        type="danger"
+        actionLabel="Retry"
+        onAction={fn()}
       />
     </div>
   ),

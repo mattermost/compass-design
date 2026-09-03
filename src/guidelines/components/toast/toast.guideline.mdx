@@ -47,11 +47,11 @@ Pick the type that matches the message's meaning, not the colour you want.
 | Danger   | An error or failure. Always pair with a recovery action when one exists.          |
 
 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxWidth: '480px' }}>
-  <Toast type="general" message="Link copied to clipboard." onDismiss={() => {}} />
+  <Toast type="general" message="Link copied to clipboard." />
   <Toast type="info" message="New update available. Refresh to apply." actionLabel="Refresh" onAction={() => {}} onDismiss={() => {}} />
   <Toast type="success" message="Message saved successfully." onDismiss={() => {}} />
   <Toast type="warning" message="Your session will expire in 5 minutes." onDismiss={() => {}} />
-  <Toast type="danger" message="Failed to send message. Please try again." actionLabel="Retry" onAction={() => {}} onDismiss={() => {}} />
+  <Toast type="danger" message="Failed to send message. Please try again." actionLabel="Retry" onAction={() => {}} />
 </div>
 
 <Divider />

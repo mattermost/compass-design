@@ -65,7 +65,7 @@
 
   &__dismiss {
     flex-shrink: 0;
-    color: color-mix(in srgb, var(--neutral-0) 92%, transparent) !important;
+    color: color-mix(in srgb, var(--neutral-0) 64%, transparent) !important;
 
     &:hover:not(:disabled) {
       background-color: color-mix(in srgb, var(--neutral-0) 12%, transparent) !important;
@@ -98,5 +98,11 @@
 
   &--type-warning {
     background-color: rgb(var(--semantic-color-warning));
+  }
+
+  &--no-dismiss {
+    .toast__content {
+      padding-right: var(--spacing-xs);
+    }
   }
 }
