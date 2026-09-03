@@ -583,8 +583,8 @@
       "illustrations/upload-license": [
         "./dist/illustrations/upload-license.d.ts"
       ],
-      "illustrations/vefiy-email": [
-        "./dist/illustrations/vefiy-email.d.ts"
+      "illustrations/verify-email": [
+        "./dist/illustrations/verify-email.d.ts"
       ],
       "*": [
         "./dist/index.d.ts"
