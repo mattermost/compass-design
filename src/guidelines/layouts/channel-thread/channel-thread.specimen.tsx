@@ -10,7 +10,13 @@ import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
-import { ChannelHeader, ChannelShell, MessageInput, Message, RightSidebarThread, RightSidebar, shellStyles } from '@mattermost/compass-proto';
+import { ChannelHeader } from '@mattermost/compass-proto';
+import { ChannelShell } from '@mattermost/compass-proto';
+import { MessageInput } from '@mattermost/compass-proto';
+import { Message } from '@mattermost/compass-proto';
+import { RightSidebarThread } from '@mattermost/compass-proto';
+import { RightSidebar } from '@mattermost/compass-proto';
+import { shellStyles } from '@mattermost/compass-proto';
 
 export default function ChannelThreadLayout() {
   return (

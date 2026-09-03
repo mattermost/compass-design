@@ -9,7 +9,7 @@ Vocabulary used everywhere: **Foundations** (tokens, type, color, motion) → **
 Package split (in-repo):
 
 - **`@mattermost/compass-ui`** — published core (tokens, primitives, desktop chrome pieces)
-- **`@mattermost/compass-proto`** — unpublished Mobile*, `ChannelShell`, Call*, Message / Message Input / Channel Header / Right Sidebar shell / Reaction Pill / App Bar Item, demo RHS panels, sidebar fixture helpers (prototyping / docs only)
+- **`@mattermost/compass-proto`** — unpublished prototyping composites (see [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md))
 
 ## Building new components
 

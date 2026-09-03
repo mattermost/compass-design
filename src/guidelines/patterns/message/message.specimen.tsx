@@ -1,4 +1,5 @@
-import { Message, messageStyles } from '@mattermost/compass-proto';
+import { Message } from '@mattermost/compass-proto';
+import { messageStyles } from '@mattermost/compass-proto';
 import { Divider } from '@mattermost/compass-ui/components/divider';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';

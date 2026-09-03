@@ -20,7 +20,7 @@
     align-items: center;
     gap: var(--spacing-xxs);
     padding: 0 var(--spacing-xs);
-    flex-shrink: 0;
+    min-width: 0;
   }
 
   &__back {
@@ -45,6 +45,8 @@
     line-height: var(--line-height-200);
     color: var(--center-channel-color);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__secondary {

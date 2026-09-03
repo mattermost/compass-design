@@ -132,7 +132,9 @@ import { channelsSidebarStyles } from '@mattermost/compass-ui/components/channel
 For playground, prototypes, and docs that install the unpublished workspace package, also:
 
 ```tsx
-import { ChannelShell, Message, messageStyles } from '@mattermost/compass-proto';
+import { ChannelShell } from '@mattermost/compass-proto';
+import { Message } from '@mattermost/compass-proto';
+import { messageStyles } from '@mattermost/compass-proto';
 ```
 
 Webapp product code should use `@mattermost/compass-ui` only.
