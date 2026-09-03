@@ -26,8 +26,8 @@
 <path d="M105 103.5H99" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path opacity="0.24" d="M158.5 61C174.24 61 187 48.2401 187 32.5C187 16.7599 174.24 4 158.5 4C142.76 4 130 16.7599 130 32.5C130 48.2401 142.76 61 158.5 61Z" fill="var(--center-channel-color)"/>
 <path d="M158.5 57C174.24 57 187 44.2401 187 28.5C187 12.7599 174.24 0 158.5 0C142.76 0 130 12.7599 130 28.5C130 44.2401 142.76 57 158.5 57Z" fill="var(--color-indigo-500)"/>
-<path d="M158.5 36V13M158.5 13L149 22.8305M158.5 13L168 22.8305" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
-<path d="M146 33V42H171V33" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
+<path d="M158.5 36V13M158.5 13L149 22.8305M158.5 13L168 22.8305" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path d="M146 33V42H171V33" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
 <rect opacity="0.24" x="62" y="34" width="67" height="82" rx="2" fill="var(--center-channel-color)"/>
 <rect x="55" y="21" width="70.3182" height="91" rx="2" fill="var(--center-channel-bg)"/>
 <rect x="55.5" y="21.5" width="69.3182" height="90" rx="1.5" stroke="var(--center-channel-color)" stroke-opacity="0.8"/>

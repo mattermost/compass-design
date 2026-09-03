@@ -35,7 +35,7 @@ artwork follows the active theme:
 - Success / warning / error → `var(--color-success)`, `var(--color-warning)`, `var(--error-text)`
 - Depicted sidebar chrome → `var(--sidebar-bg)`, `var(--sidebar-header-bg)`
 - Solid indigo fills (speech bubbles, cards, accents) → `var(--color-indigo-500)` — fixed palette, not a theme role
-- Line art on an indigo circle badge → `var(--color-neutral-0)` (always white on indigo)
+- Line art / detail on `--color-indigo-500` shapes → `var(--color-neutral-0)` (always white on indigo; keep opacity)
 - Files named `*-on-sidebar-bg.svg` (drawn to sit on the sidebar) → paper/ink `var(--sidebar-text)`
 
 Leave `<mask>` luminance maps as `white` / `black`. Partner logos and a

@@ -10,8 +10,8 @@
 <path opacity="0.24" d="M72.1159 34.8807L65 41.9825V8C65 6.89543 65.8954 6 67 6H98.5195C99.6241 6 100.52 6.89543 100.52 8V32.8807C100.52 33.9853 99.6241 34.8807 98.5195 34.8807H72.1159Z" fill="var(--center-channel-color)"/>
 <path d="M74.1159 32.8807L67 39.9825V6C67 4.89543 67.8954 4 69 4H100.52C101.624 4 102.52 4.89543 102.52 6V30.8807C102.52 31.9853 101.624 32.8807 100.52 32.8807H74.1159Z" fill="var(--center-channel-bg)"/>
 <path d="M74.1159 32.8807L67 39.9825V6C67 4.89543 67.8954 4 69 4H100.52C101.624 4 102.52 4.89543 102.52 6V30.8807C102.52 31.9853 101.624 32.8807 100.52 32.8807H74.1159Z" fill="var(--color-indigo-500)"/>
-<path d="M75.5195 11.9824H86.5195" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
-<path d="M75.5195 16.9824H94.5195" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
-<path d="M75.5195 21.9824H83.5195" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
-<path d="M85.5195 21.9824H92.5195" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
+<path d="M75.5195 11.9824H86.5195" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path d="M75.5195 16.9824H94.5195" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path d="M75.5195 21.9824H83.5195" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path d="M85.5195 21.9824H92.5195" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
 </svg>

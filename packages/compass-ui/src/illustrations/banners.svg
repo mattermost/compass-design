@@ -37,12 +37,12 @@
 <path d="M116 101.5H110" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path d="M107 101.5H101" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path d="M29 13C29 11.8954 29.8954 11 31 11H154C155.105 11 156 11.8954 156 13V30H29V13Z" fill="var(--color-indigo-500)"/>
-<path d="M50 18H74.5948" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
-<path d="M50 22H131" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
-<circle cx="39.5" cy="20.5" r="5" stroke="var(--center-channel-bg)"/>
-<line x1="39.5" y1="20" x2="39.5" y2="23" stroke="var(--center-channel-bg)"/>
-<line x1="39.5" y1="20" x2="39.5" y2="23" stroke="var(--center-channel-bg)"/>
-<line x1="39.5" y1="18" x2="39.5" y2="19" stroke="var(--center-channel-bg)"/>
+<path d="M50 18H74.5948" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<path d="M50 22H131" stroke="var(--color-neutral-0)" stroke-linecap="round"/>
+<circle cx="39.5" cy="20.5" r="5" stroke="var(--color-neutral-0)"/>
+<line x1="39.5" y1="20" x2="39.5" y2="23" stroke="var(--color-neutral-0)"/>
+<line x1="39.5" y1="20" x2="39.5" y2="23" stroke="var(--color-neutral-0)"/>
+<line x1="39.5" y1="18" x2="39.5" y2="19" stroke="var(--color-neutral-0)"/>
 <circle cx="172" cy="84" r="2" transform="rotate(-90 172 84)" fill="var(--center-channel-color)" fill-opacity="0.32"/>
 <circle cx="172" cy="78" r="2" transform="rotate(-90 172 78)" fill="var(--center-channel-color)" fill-opacity="0.32"/>
 <circle cx="172" cy="72" r="2" transform="rotate(-90 172 72)" fill="var(--center-channel-color)" fill-opacity="0.32"/>
