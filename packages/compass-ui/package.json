@@ -412,9 +412,6 @@
       "illustrations/bug-bash": [
         "./dist/illustrations/bug-bash.d.ts"
       ],
-      "illustrations/call-welcome-bg": [
-        "./dist/illustrations/call-welcome-bg.d.ts"
-      ],
       "illustrations/calls": [
         "./dist/illustrations/calls.d.ts"
       ],

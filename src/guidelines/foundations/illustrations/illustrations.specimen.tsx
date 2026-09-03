@@ -19,9 +19,6 @@ function cellSurfaceClass(name: string): string | undefined {
   if (name.endsWith('-on-sidebar-bg')) {
     return styles['foundations__illustration-cell--on-sidebar'];
   }
-  if (name === 'call-welcome-bg') {
-    return styles['foundations__illustration-cell--on-calls'];
-  }
   return undefined;
 }
 

@@ -35,7 +35,6 @@ artwork follows the active theme:
 - Success / warning / error → `var(--color-success)`, `var(--color-warning)`, `var(--error-text)`
 - Depicted sidebar chrome → `var(--sidebar-bg)`, `var(--sidebar-header-bg)`, `var(--sidebar-text-hover-bg)`
 - Files named `*-on-sidebar-bg.svg` (drawn to sit on the sidebar) → paper/ink `var(--sidebar-text)`
-- `call-welcome-bg.svg` (light pattern on Calls) → `var(--button-color)`
 
 Leave `<mask>` luminance maps as `white` / `black`. Partner logos and a
 few decorative hues (rating stars) may stay as hex.

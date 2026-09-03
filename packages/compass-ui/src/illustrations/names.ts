@@ -12,7 +12,6 @@ export const ILLUSTRATION_NAMES = [
   'bot-accounts',
   'browser-or-desktop',
   'bug-bash',
-  'call-welcome-bg',
   'calls',
   'collaborate',
   'compliance-exports',

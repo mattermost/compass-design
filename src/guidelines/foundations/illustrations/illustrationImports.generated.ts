@@ -18,7 +18,6 @@ export const ILLUSTRATION_LOADERS: Record<
   'bot-accounts': () => import('@mattermost/compass-ui/illustrations/bot-accounts'),
   'browser-or-desktop': () => import('@mattermost/compass-ui/illustrations/browser-or-desktop'),
   'bug-bash': () => import('@mattermost/compass-ui/illustrations/bug-bash'),
-  'call-welcome-bg': () => import('@mattermost/compass-ui/illustrations/call-welcome-bg'),
   'calls': () => import('@mattermost/compass-ui/illustrations/calls'),
   'collaborate': () => import('@mattermost/compass-ui/illustrations/collaborate'),
   'compliance-exports': () => import('@mattermost/compass-ui/illustrations/compliance-exports'),

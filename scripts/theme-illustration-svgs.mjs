@@ -45,9 +45,6 @@ function expandHex(value) {
 }
 
 function whiteToken(filename) {
-  if (filename === 'call-welcome-bg.svg') {
-    return 'var(--button-color)';
-  }
   if (filename.endsWith('-on-sidebar-bg.svg')) {
     return 'var(--sidebar-text)';
   }
