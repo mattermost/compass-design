@@ -179,6 +179,24 @@
     border-radius: var(--radius-m);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     background-color: var(--center-channel-bg);
+
+    &--on-sidebar {
+      background-color: var(--sidebar-bg);
+      border-color: rgba(var(--sidebar-text-rgb), 0.16);
+
+      .foundations__illustration-token {
+        color: rgba(var(--sidebar-text-rgb), 0.72);
+      }
+    }
+
+    &--on-calls {
+      background-color: var(--calls-bg);
+      border-color: rgba(var(--button-color-rgb), 0.16);
+
+      .foundations__illustration-token {
+        color: rgba(var(--button-color-rgb), 0.72);
+      }
+    }
   }
 
   &__illustration-preview {

@@ -15,6 +15,16 @@ for (const [name, loader] of Object.entries(ILLUSTRATION_LOADERS)) {
 
 const SORTED_NAMES = [...lazyByName.keys()].sort((a, b) => a.localeCompare(b));
 
+function cellSurfaceClass(name: string): string | undefined {
+  if (name.endsWith('-on-sidebar-bg')) {
+    return styles['foundations__illustration-cell--on-sidebar'];
+  }
+  if (name === 'call-welcome-bg') {
+    return styles['foundations__illustration-cell--on-calls'];
+  }
+  return undefined;
+}
+
 export function IllustrationsGridContent() {
   if (SORTED_NAMES.length === 0) {
     return <p>No illustrations could be loaded from Compass UI.</p>;
@@ -28,7 +38,15 @@ export function IllustrationsGridContent() {
             const LazySvg = lazyByName.get(name);
             if (!LazySvg) return null;
             return (
-              <div key={name} className={styles['foundations__illustration-cell']}>
+              <div
+                key={name}
+                className={[
+                  styles['foundations__illustration-cell'],
+                  cellSurfaceClass(name),
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 <span
                   className={styles['foundations__illustration-preview']}
                   aria-hidden

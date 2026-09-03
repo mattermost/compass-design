@@ -77,6 +77,12 @@ over drawing a one-off.
     Stroke, corner treatment, and colour should sit next to search, groups,
     and the empty-state set without looking like a different product.
   </Principle>
+  <Principle title="Follow the theme">
+    Line art, paper fills, and product accents bind to theme roles so the
+    scene inverts with Denim, Quartz, Indigo, and Onyx. Keep a fixed hex
+    only for partner logos and a few decorative hues that are not theme
+    surfaces.
+  </Principle>
 </PrincipleList>
 
 <Divider />
@@ -88,6 +94,30 @@ Illustration wrapper so screen readers skip the artwork, and keep the real
 explanation in the title and description. When the picture itself is the
 message (a success scene with no supporting copy), give it a short label that
 names what it depicts.
+
+<Divider />
+
+## Color
+
+Illustrations are product UI, not a frozen Denim export. Bind fills and
+strokes to theme roles so ink, paper, and accents follow the active theme:
+
+| Role | Token |
+| --- | --- |
+| Line art / ink | `--center-channel-color` |
+| Paper surfaces | `--center-channel-bg` |
+| Accent washes | `--button-bg` (keep `fill-opacity` for tints) |
+| Success / warning / error | `--color-success`, `--color-warning`, `--error-text` |
+| Depicted sidebar chrome | `--sidebar-bg`, `--sidebar-header-bg`, `--sidebar-text-hover-bg` |
+| Artwork drawn for the sidebar | `--sidebar-text` on `--sidebar-bg` (files named `*-on-sidebar-bg`) |
+| Light pattern on Calls | `--button-color` (`call-welcome-bg`) |
+
+Leave luminance maps inside `<mask>` as `white` / `black`. Partner logos
+(Intune, GitLab, Jira, GitHub) and a few decorative hues (rating stars)
+stay as authored hex.
+
+After a Figma export that still ships Denim hex, run
+`node scripts/theme-illustration-svgs.mjs` from the repo root.
 
 <Divider />
 

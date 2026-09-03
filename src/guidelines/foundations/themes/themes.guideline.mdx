@@ -157,8 +157,10 @@ these rules.
 
 **Use theme tokens for product UI.** Reach for role-based theme tokens
 over raw palette tokens. Palette tokens are appropriate inside
-foundation-level demos, illustrations, or data visualizations where the
-color is intentional and not theme-dependent.
+foundation-level demos or data visualizations where the color is
+intentional and not theme-dependent. Compass illustrations bind fills and
+strokes to theme roles so they invert with the product; keep a fixed hex
+only for logos and a few decorative hues.
 
 **Use the `-rgb` variant inside `rgba()`.** The variant lets translucency
 inherit the theme's resolved color. Never wrap a `var(--token)` reference
