@@ -5,7 +5,7 @@
 <circle cx="92.5" cy="35.5" r="2.5" fill="var(--sidebar-text)" fill-opacity="0.32"/>
 <circle cx="104" cy="35.5" r="2.5" fill="var(--sidebar-text)" fill-opacity="0.32"/>
 <circle cx="115.5" cy="35.5" r="2.5" fill="var(--sidebar-text)" fill-opacity="0.32"/>
-<path d="M95.0443 87.1199L105 97V46C105 44.8954 104.105 44 103 44H55C53.8954 44 53 44.8954 53 46V84.5395C53 85.644 53.8954 86.5395 55 86.5395H93.6355C94.1633 86.5395 94.6697 86.7481 95.0443 87.1199Z" fill="var(--sidebar-text-hover-bg)"/>
+<path d="M95.0443 87.1199L105 97V46C105 44.8954 104.105 44 103 44H55C53.8954 44 53 44.8954 53 46V84.5395C53 85.644 53.8954 86.5395 55 86.5395H93.6355C94.1633 86.5395 94.6697 86.7481 95.0443 87.1199Z" fill="var(--color-indigo-500)"/>
 <path opacity="0.4" d="M67 65H97" stroke="var(--sidebar-text)" stroke-linecap="round"/>
 <path opacity="0.4" d="M67 72H86" stroke="var(--sidebar-text)" stroke-linecap="round"/>
 <path opacity="0.4" d="M67 59H77" stroke="var(--sidebar-text)" stroke-linecap="round"/>

@@ -33,7 +33,8 @@ artwork follows the active theme:
 - Paper surfaces → `var(--center-channel-bg)`
 - Accent washes → `var(--button-bg)` (keep `fill-opacity` for tints)
 - Success / warning / error → `var(--color-success)`, `var(--color-warning)`, `var(--error-text)`
-- Depicted sidebar chrome → `var(--sidebar-bg)`, `var(--sidebar-header-bg)`, `var(--sidebar-text-hover-bg)`
+- Depicted sidebar chrome → `var(--sidebar-bg)`, `var(--sidebar-header-bg)`
+- Solid indigo fills (speech bubbles, cards, accents) → `var(--color-indigo-500)` — fixed palette, not a theme role
 - Files named `*-on-sidebar-bg.svg` (drawn to sit on the sidebar) → paper/ink `var(--sidebar-text)`
 
 Leave `<mask>` luminance maps as `white` / `black`. Partner logos and a

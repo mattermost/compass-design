@@ -25,6 +25,6 @@
 <path d="M135 110L165 110" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path d="M113 110L101 110L101 90" stroke="var(--center-channel-color)" stroke-linecap="round" stroke-linejoin="round"/>
 <path opacity="0.16" d="M154.5 60C170.24 60 183 47.2401 183 31.5C183 15.7599 170.24 3 154.5 3C138.76 3 126 15.7599 126 31.5C126 47.2401 138.76 60 154.5 60Z" fill="var(--center-channel-color)"/>
-<path d="M154.5 57C170.24 57 183 44.2401 183 28.5C183 12.7599 170.24 0 154.5 0C138.76 0 126 12.7599 126 28.5C126 44.2401 138.76 57 154.5 57Z" fill="var(--sidebar-text-hover-bg)"/>
+<path d="M154.5 57C170.24 57 183 44.2401 183 28.5C183 12.7599 170.24 0 154.5 0C138.76 0 126 12.7599 126 28.5C126 44.2401 138.76 57 154.5 57Z" fill="var(--color-indigo-500)"/>
 <path d="M142 29.3101L151.28 38L169 19" stroke="var(--center-channel-bg)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

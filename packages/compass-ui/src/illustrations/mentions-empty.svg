@@ -13,7 +13,7 @@
 <path d="M43 31H68" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
 <path d="M20 43H37" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
 <path d="M41 43H59" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
-<circle cx="78" cy="19" r="19" fill="var(--sidebar-text-hover-bg)"/>
+<circle cx="78" cy="19" r="19" fill="var(--color-indigo-500)"/>
 <path d="M73 49L94 49L94 37" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M69 49L63 49" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M60 49L58 49" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>

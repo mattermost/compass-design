@@ -7,7 +7,7 @@
 <circle cx="2.5" cy="2.5" r="2.5" transform="matrix(1 8.74228e-08 8.74228e-08 -1 0 64)" fill="var(--center-channel-color)" fill-opacity="0.32"/>
 <circle cx="2.5" cy="2.5" r="2.5" transform="matrix(1 8.74228e-08 8.74228e-08 -1 16 64)" fill="var(--center-channel-color)" fill-opacity="0.4"/>
 <circle cx="71" cy="49" r="43" fill="var(--center-channel-color)" fill-opacity="0.12"/>
-<path d="M109.748 82.5258L117.999 91V47C117.999 45.8954 117.104 45 115.999 45H74.9998C73.8952 45 72.9998 45.8954 72.9998 47V79.9211C72.9998 81.0256 73.8952 81.9211 74.9998 81.9211H108.315C108.855 81.9211 109.371 82.1391 109.748 82.5258Z" fill="var(--sidebar-text-hover-bg)"/>
+<path d="M109.748 82.5258L117.999 91V47C117.999 45.8954 117.104 45 115.999 45H74.9998C73.8952 45 72.9998 45.8954 72.9998 47V79.9211C72.9998 81.0256 73.8952 81.9211 74.9998 81.9211H108.315C108.855 81.9211 109.371 82.1391 109.748 82.5258Z" fill="var(--color-indigo-500)"/>
 <circle opacity="0.48" cx="85.831" cy="56.831" r="5.83099" fill="var(--center-channel-bg)"/>
 <path opacity="0.4" d="M95 55H111" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
 <path opacity="0.4" d="M81 70H102.38" stroke="var(--center-channel-bg)" stroke-linecap="round"/>

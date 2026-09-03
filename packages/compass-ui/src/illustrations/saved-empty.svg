@@ -14,7 +14,7 @@
 <path d="M43 31H68" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
 <path d="M20 43H37" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
 <path d="M41 43H59" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
-<circle cx="78" cy="19" r="19" fill="var(--sidebar-text-hover-bg)"/>
+<circle cx="78" cy="19" r="19" fill="var(--color-indigo-500)"/>
 <path d="M70.9883 12V27L77.9883 24L84.9883 27V12C84.9883 10.8954 84.0929 10 82.9883 10H72.9883C71.8837 10 70.9883 10.8954 70.9883 12Z" stroke="var(--center-channel-bg)"/>
 <path d="M73 49L94 49L94 37" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M69 49L63 49" stroke="var(--center-channel-color)" stroke-opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>

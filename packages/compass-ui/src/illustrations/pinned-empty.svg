@@ -14,7 +14,7 @@
 <path d="M43 31H68" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
 <path d="M20 43H37" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
 <path d="M41 43H59" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>
-<circle cx="78" cy="19" r="19" fill="var(--sidebar-text-hover-bg)"/>
+<circle cx="78" cy="19" r="19" fill="var(--color-indigo-500)"/>
 <path d="M79.9902 9L87.9902 17" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
 <path d="M80.4902 27.5L69.4902 16.5C69.4902 16.5 72.4902 15 74.9902 16L80.9902 10L86.9902 16L80.9902 22C81.9902 24.5 80.4902 27.5 80.4902 27.5Z" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
 <path d="M74.9902 22L69.9902 27" stroke="var(--center-channel-bg)" stroke-linecap="round"/>

@@ -17,9 +17,9 @@
 <path d="M23.8281 58.2732L51.0296 74.5941L63.8281 66.915L36.6266 50.5941L23.8281 58.2732Z" fill="var(--center-channel-bg)" stroke="var(--center-channel-color)"/>
 <path d="M63.8281 34.2732L91.7096 50.5941L104.828 42.915L76.9466 26.5941L63.8281 34.2732Z" fill="var(--center-channel-bg)" stroke="var(--center-channel-color)"/>
 <path d="M80 35.0913C80 26.5579 75.3333 22.6468 73 21.7579V39.6246L80 47.7579V35.0913Z" fill="var(--center-channel-bg)"/>
-<path d="M80 35.0913C80 26.5579 75.3333 22.6468 73 21.7579V39.6246L80 47.7579V35.0913Z" fill="var(--sidebar-text-hover-bg)" stroke="var(--center-channel-color)"/>
+<path d="M80 35.0913C80 26.5579 75.3333 22.6468 73 21.7579V39.6246L80 47.7579V35.0913Z" fill="var(--color-indigo-500)" stroke="var(--center-channel-color)"/>
 <path d="M48 35.0913C48 26.5579 52.6667 22.6468 55 21.7579V39.6246L48 47.7579V35.0913Z" fill="var(--center-channel-bg)"/>
-<path d="M48 35.0913C48 26.5579 52.6667 22.6468 55 21.7579V39.6246L48 47.7579V35.0913Z" fill="var(--sidebar-text-hover-bg)" stroke="var(--center-channel-color)"/>
+<path d="M48 35.0913C48 26.5579 52.6667 22.6468 55 21.7579V39.6246L48 47.7579V35.0913Z" fill="var(--color-indigo-500)" stroke="var(--center-channel-color)"/>
 <path d="M55 16.8947C55 8.29354 60.9649 2.44383 63.9474 0.594116C66.9649 2.59797 73 8.66348 73 16.8947V40.5941H55V16.8947Z" fill="var(--center-channel-bg)" stroke="var(--center-channel-color)"/>
 <circle cx="63.8898" cy="15.4961" r="4.55776" fill="var(--button-bg)" fill-opacity="0.16" stroke="var(--center-channel-color)"/>
 <rect x="56.5312" y="40.6888" width="14.601" height="5.79404" fill="var(--center-channel-bg)" stroke="var(--center-channel-color)"/>

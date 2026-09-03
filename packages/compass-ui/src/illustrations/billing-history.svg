@@ -1,7 +1,7 @@
 <svg width="101" height="77" viewBox="0 0 101 77" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect y="9" width="84" height="24" rx="3.75" fill="var(--button-bg)" fill-opacity="0.12"/>
 <rect x="14" y="36" width="87" height="25" rx="3.75" fill="var(--button-bg)" fill-opacity="0.12"/>
-<rect x="28.0276" y="9.33704" width="48.1218" height="58.8953" rx="2" fill="var(--sidebar-text-hover-bg)"/>
+<rect x="28.0276" y="9.33704" width="48.1218" height="58.8953" rx="2" fill="var(--color-indigo-500)"/>
 <rect x="23" width="50.505" height="65.3594" rx="2" fill="var(--center-channel-bg)"/>
 <rect x="23.5" y="0.5" width="49.505" height="64.3594" rx="1.5" stroke="var(--center-channel-color)" stroke-opacity="0.8"/>
 <path d="M29 7H37.6188" stroke="var(--center-channel-color)" stroke-opacity="0.48" stroke-linecap="round"/>

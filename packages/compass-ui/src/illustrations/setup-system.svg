@@ -20,7 +20,7 @@
 <path d="M96.9434 55.6848H106.578" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path d="M108.984 55.6848H112.999" stroke="var(--center-channel-color)" stroke-linecap="round"/>
 <path opacity="0.5" d="M138.987 58.495H72.0527V64.5706H138.987V58.495Z" fill="var(--center-channel-color)" fill-opacity="0.24"/>
-<rect x="110" width="83" height="50" rx="4" fill="var(--sidebar-text-hover-bg)"/>
+<rect x="110" width="83" height="50" rx="4" fill="var(--color-indigo-500)"/>
 <path d="M152 10H166.481" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
 <path d="M152 16H175" stroke="var(--center-channel-bg)" stroke-linecap="round"/>
 <path d="M152 22H182" stroke="var(--center-channel-bg)" stroke-linecap="round"/>

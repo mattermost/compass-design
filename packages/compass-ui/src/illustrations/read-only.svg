@@ -38,7 +38,7 @@
 <circle cx="48.9995" cy="82.0006" r="2" fill="var(--center-channel-color)" fill-opacity="0.32"/>
 <path d="M54.939 82.0006H82.1689" stroke="var(--center-channel-color)" stroke-opacity="0.32" stroke-linecap="round"/>
 <path opacity="0.16" d="M177.5 60C193.24 60 206 47.2401 206 31.5C206 15.7599 193.24 3 177.5 3C161.76 3 149 15.7599 149 31.5C149 47.2401 161.76 60 177.5 60Z" fill="var(--center-channel-color)"/>
-<path d="M177.5 57C193.24 57 206 44.2401 206 28.5C206 12.7599 193.24 0 177.5 0C161.76 0 149 12.7599 149 28.5C149 44.2401 161.76 57 177.5 57Z" fill="var(--sidebar-text-hover-bg)"/>
+<path d="M177.5 57C193.24 57 206 44.2401 206 28.5C206 12.7599 193.24 0 177.5 0C161.76 0 149 12.7599 149 28.5C149 44.2401 161.76 57 177.5 57Z" fill="var(--color-indigo-500)"/>
 <circle cx="177.489" cy="27.5" r="7.23684" stroke="var(--center-channel-bg)" stroke-width="1.44737"/>
 <path d="M177.5 15.1974C168.816 15.1974 161.82 22.9167 159.408 26.7763C161.579 31.1184 168.237 39.8027 177.5 39.8027C186.763 39.8027 193.421 31.1184 195.592 26.7763C193.18 22.9167 186.184 15.1974 177.5 15.1974Z" stroke="var(--center-channel-bg)" stroke-width="1.44737" stroke-linecap="round"/>
 </svg>

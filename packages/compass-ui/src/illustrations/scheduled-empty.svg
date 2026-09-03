@@ -7,7 +7,7 @@
 <circle cx="2.5" cy="2.5" r="2.5" transform="matrix(1 0 0 -1 27 78)" fill="var(--center-channel-color)" fill-opacity="0.48"/>
 <path d="M127 22.5L117 22.5L117 49" stroke="var(--center-channel-color)" stroke-opacity="0.32" stroke-linecap="round"/>
 <circle cx="128.5" cy="22.5" r="2.5" fill="var(--center-channel-color)" fill-opacity="0.48"/>
-<path d="M54.605 67.5638L41 81V12C41 10.8954 41.8954 10 43 10H109C110.105 10 111 10.8954 111 12V64.9868C111 66.0914 110.105 66.9868 109 66.9868H56.0103C55.4842 66.9868 54.9793 67.1941 54.605 67.5638Z" fill="var(--sidebar-text-hover-bg)"/>
+<path d="M54.605 67.5638L41 81V12C41 10.8954 41.8954 10 43 10H109C110.105 10 111 10.8954 111 12V64.9868C111 66.0914 110.105 66.9868 109 66.9868H56.0103C55.4842 66.9868 54.9793 67.1941 54.605 67.5638Z" fill="var(--color-indigo-500)"/>
 <path d="M49.605 62.5638L36 76V7C36 5.89543 36.8954 5 38 5H104C105.105 5 106 5.89543 106 7V59.9868C106 61.0914 105.105 61.9868 104 61.9868H51.0103C50.4842 61.9868 49.9793 62.1941 49.605 62.5638Z" fill="var(--center-channel-bg)"/>
 <path d="M38 5.5H104C104.828 5.5 105.5 6.17157 105.5 7V59.9873C105.5 60.8155 104.828 61.4873 104 61.4873H51.0107C50.3532 61.4873 49.7218 61.746 49.2539 62.208L36.5 74.8027V7C36.5 6.17157 37.1716 5.5 38 5.5Z" stroke="var(--center-channel-color)" stroke-opacity="0.8"/>
 <circle cx="54" cy="24" r="9" fill="var(--center-channel-color)" fill-opacity="0.32"/>
