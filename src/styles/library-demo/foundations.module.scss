@@ -203,7 +203,7 @@
     font-family: var(--font-family-mono);
     color: rgba(var(--center-channel-color-rgb), 0.72);
     text-align: center;
-    word-break: break-word;
+    overflow-wrap: anywhere;
     line-height: var(--line-height-50);
     max-width: 100%;
   }

@@ -68,7 +68,7 @@ export const ILLUSTRATION_NAMES = [
   'tools',
   'town-square-channel-intro',
   'upload-license',
-  'vefiy-email',
+  'verify-email',
 ] as const;
 
 export type IllustrationName = (typeof ILLUSTRATION_NAMES)[number];

@@ -74,5 +74,5 @@ export const ILLUSTRATION_LOADERS: Record<
   'tools': () => import('@mattermost/compass-ui/illustrations/tools'),
   'town-square-channel-intro': () => import('@mattermost/compass-ui/illustrations/town-square-channel-intro'),
   'upload-license': () => import('@mattermost/compass-ui/illustrations/upload-license'),
-  'vefiy-email': () => import('@mattermost/compass-ui/illustrations/vefiy-email'),
+  'verify-email': () => import('@mattermost/compass-ui/illustrations/verify-email'),
 };

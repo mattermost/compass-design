@@ -1,3 +1,4 @@
+import type { Config } from '@svgr/core';
 import svgr from 'vite-plugin-svgr';
 
 /** Shared SVGR options so library builds and Storybook prefix clip-path IDs. */
@@ -16,7 +17,7 @@ export const compassUiSvgrOptions = {
       'prefixIds',
     ],
   },
-} as const;
+} satisfies Config;
 
 export function compassUiSvgrPlugin() {
   return svgr({ svgrOptions: { ...compassUiSvgrOptions } });

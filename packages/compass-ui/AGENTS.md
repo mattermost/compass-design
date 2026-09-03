@@ -1,5 +1,7 @@
 # Compass UI (Storybook)
 
+**`@mattermost/compass-ui`** — published core (tokens, primitives, desktop chrome pieces, brand SVG illustrations).
+
 ## Variant prop string values
 
 Component variant props (`size`, `emphasis`, `appearance`, `style`, `type`, `padding`, `status`, etc.) must use **lowercase kebab-case** literals in exported types, defaults, comparisons, Record maps, stories, and specimens — e.g. `'medium'`, `'inverted'`, `'do-not-disturb'`. Map to SCSS modifiers with `toKebab()` from `@/utils/string`.

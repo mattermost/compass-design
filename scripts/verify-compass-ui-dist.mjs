@@ -43,25 +43,42 @@ function assertCjsIconUnwrap() {
   );
 }
 
+function listIllustrationNames() {
+  const illustrationsSrc = path.join(packageRoot, 'src/illustrations');
+  return fs
+    .readdirSync(illustrationsSrc)
+    .filter((f) => f.endsWith('.svg'))
+    .map((f) => f.replace(/\.svg$/, ''))
+    .sort((a, b) => a.localeCompare(b));
+}
+
 function assertIllustrationDts() {
-  const dtsPath = path.join(packageRoot, 'dist/illustrations/search.d.ts');
-  if (!fs.existsSync(dtsPath)) {
-    throw new Error('Missing dist/illustrations/search.d.ts');
+  const names = listIllustrationNames();
+  if (names.length === 0) {
+    throw new Error('No illustration SVGs found under src/illustrations');
   }
-  const dts = fs.readFileSync(dtsPath, 'utf8');
-  if (dts.includes('.svg?react')) {
-    throw new Error(
-      'Illustration declarations must not re-export .svg?react paths',
-    );
-  }
-  if (!dts.includes('SVGProps<SVGSVGElement>')) {
-    throw new Error(
-      'Illustration declarations must export a React SVG component type',
-    );
+
+  const distIllustrations = path.join(packageRoot, 'dist/illustrations');
+  for (const name of names) {
+    const dtsPath = path.join(distIllustrations, `${name}.d.ts`);
+    if (!fs.existsSync(dtsPath)) {
+      throw new Error(`Missing dist/illustrations/${name}.d.ts`);
+    }
+    const dts = fs.readFileSync(dtsPath, 'utf8');
+    if (dts.includes('.svg?react')) {
+      throw new Error(
+        `Illustration declarations must not re-export .svg?react paths (${name}.d.ts)`,
+      );
+    }
+    if (!dts.includes('SVGProps<SVGSVGElement>')) {
+      throw new Error(
+        `Illustration declarations must export a React SVG component type (${name}.d.ts)`,
+      );
+    }
   }
 
   const svgDts = fs
-    .readdirSync(path.join(packageRoot, 'dist/illustrations'))
+    .readdirSync(distIllustrations)
     .filter((f) => f.endsWith('.svg.d.ts'));
   if (svgDts.length > 0) {
     throw new Error(
@@ -69,7 +86,9 @@ function assertIllustrationDts() {
     );
   }
 
-  console.log('[verify-compass-ui-dist] Illustration declarations OK');
+  console.log(
+    `[verify-compass-ui-dist] Illustration declarations OK (${names.length})`,
+  );
 }
 
 function assertSubpathLayout() {
@@ -80,9 +99,6 @@ function assertSubpathLayout() {
     'dist/components/button/index.js',
     'dist/components/button/index.cjs',
     'dist/components/admin-console-sidebar/AdminConsoleSidebar.cjs',
-    'dist/illustrations/search.js',
-    'dist/illustrations/search.cjs',
-    'dist/illustrations/search.d.ts',
     'dist/illustrations/names.js',
     'dist/illustrations/names.d.ts',
   ];
@@ -92,7 +108,21 @@ function assertSubpathLayout() {
       throw new Error(`Missing required dist file: ${rel}`);
     }
   }
-  console.log('[verify-compass-ui-dist] Subpath layout OK');
+
+  const names = listIllustrationNames();
+  for (const name of names) {
+    for (const ext of ['.js', '.cjs', '.d.ts']) {
+      const rel = `dist/illustrations/${name}${ext}`;
+      const full = path.join(packageRoot, rel);
+      if (!fs.existsSync(full)) {
+        throw new Error(`Missing required dist file: ${rel}`);
+      }
+    }
+  }
+
+  console.log(
+    `[verify-compass-ui-dist] Subpath layout OK (${names.length} illustrations)`,
+  );
 }
 
 function assertDtsImportPaths() {
