@@ -22,7 +22,6 @@ export const ILLUSTRATION_LOADERS: Record<
   'collaborate': () => import('@mattermost/compass-ui/illustrations/collaborate'),
   'compliance-exports': () => import('@mattermost/compass-ui/illustrations/compliance-exports'),
   'copilot-bot': () => import('@mattermost/compass-ui/illustrations/copilot-bot'),
-  'copilot-bot-1': () => import('@mattermost/compass-ui/illustrations/copilot-bot-1'),
   'custom-branding': () => import('@mattermost/compass-ui/illustrations/custom-branding'),
   'custom-terms': () => import('@mattermost/compass-ui/illustrations/custom-terms'),
   'customer-onboarding': () => import('@mattermost/compass-ui/illustrations/customer-onboarding'),

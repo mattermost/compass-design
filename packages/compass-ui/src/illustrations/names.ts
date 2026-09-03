@@ -16,7 +16,6 @@ export const ILLUSTRATION_NAMES = [
   'collaborate',
   'compliance-exports',
   'copilot-bot',
-  'copilot-bot-1',
   'custom-branding',
   'custom-terms',
   'customer-onboarding',

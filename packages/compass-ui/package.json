@@ -424,9 +424,6 @@
       "illustrations/copilot-bot": [
         "./dist/illustrations/copilot-bot.d.ts"
       ],
-      "illustrations/copilot-bot-1": [
-        "./dist/illustrations/copilot-bot-1.d.ts"
-      ],
       "illustrations/custom-branding": [
         "./dist/illustrations/custom-branding.d.ts"
       ],
