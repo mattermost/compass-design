@@ -26,7 +26,7 @@ export default function PaginationDotsLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            On primary (info)
+            On primary
           </span>
           <span className={styles['components__on-primary-dots']}>
             <PaginationDots pages={5} activePage={2} dotStyle="on-primary" />
