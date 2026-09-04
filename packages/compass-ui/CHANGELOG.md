@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **Tour Point:** panel, pointer, and inverted Next label use `--button-bg` instead of the fixed `--color-info` semantic, so the callout follows the product theme.
+
 ## [0.1.0-alpha.6] - 2026-09-03
 
 ### Added
