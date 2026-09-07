@@ -139,6 +139,9 @@
       "components/button": [
         "./dist/components/button/index.d.ts"
       ],
+      "components/card-button": [
+        "./dist/components/card-button/index.d.ts"
+      ],
       "components/channel-category-menu": [
         "./dist/components/channel-category-menu/index.d.ts"
       ],

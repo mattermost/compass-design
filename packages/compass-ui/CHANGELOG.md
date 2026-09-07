@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **Card Button** (`@mattermost/compass-ui/components/card-button`): selectable choice card with leading icon, title, description, and selected check. Includes `CardButtonGroup` for side-by-side radiogroups (Figma Card Button Group).
+
 ### Changed
 
 - **Tour Point:** panel, pointer, and inverted Next label use `--button-bg` instead of the fixed `--color-info` semantic, so the callout follows the product theme.

@@ -294,6 +294,18 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/button/button.specimen'),
   },
   {
+    slug: 'card-button',
+    name: 'Card Button',
+    category: 'components',
+    status: 'stable',
+    description:
+      'Selectable choice card with icon, title, description, and selected check — for visibility and access-style options.',
+    guidelinePage: () =>
+      import('@/guidelines/components/card-button/card-button.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/card-button/card-button.specimen'),
+  },
+  {
     slug: 'call-participant-avatar',
     name: 'Call Participant Avatar',
     category: 'components',

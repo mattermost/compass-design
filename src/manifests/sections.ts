@@ -103,6 +103,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     {
       label: 'Forms and Input',
       slugs: [
+        'card-button',
         'checkbox',
         'chip',
         'combobox',
