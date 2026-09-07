@@ -83,6 +83,15 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    bodyPadding: {
+      control: 'select',
+      options: ['default', 'menu', 'none'],
+    },
+    subtitlePlacement: {
+      control: 'select',
+      options: ['below', 'beside'],
+    },
+    scrollable: { control: 'boolean' },
   },
 } satisfies Meta<typeof Modal>;
 
@@ -125,6 +134,79 @@ export const WithSubtitle: Story = {
   ),
 };
 
+export const SubtitleBeside: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Agent Settings"
+        subtitle="Matty"
+        subtitlePlacement="beside"
+        size="large"
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Save</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Settings body with an inline header subtitle (Figma Subtitle = Beside).
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const WithHeaderAction: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Browse channels"
+        size="medium"
+        headerAction={
+          <Button emphasis="secondary" size="small">
+            Create
+          </Button>
+        }
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Done</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <TextInput label="Search" placeholder="Find a channel" />
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const CloseOnlyHeader: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="New agent"
+        hideTitle
+        headerDivider={false}
+        footerDivider={false}
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Create</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Close-only header (Figma Title = Off). Title stays for screen readers.
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
 export const WithBackButton: Story = {
   render: () => (
     <ModalCanvas>
@@ -154,6 +236,57 @@ export const WithoutDividers: Story = {
         onClose={fn()}
       >
         {modalBody}
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const FooterSeparated: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Share"
+        size="small"
+        footerType="2-actions-separated"
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Share</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Footer actions spread to opposite edges.
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const FooterPagination: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Members"
+        size="medium"
+        footerType="pagination"
+        footerLeading="Showing 1–30 of 132"
+        footer={
+          <>
+            <Button emphasis="tertiary" size="small">
+              Previous
+            </Button>
+            <Button emphasis="tertiary" size="small">
+              Next
+            </Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Pagination footer with status on the left.
+        </p>
       </Modal>
     </ModalCanvas>
   ),

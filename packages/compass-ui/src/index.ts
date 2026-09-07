@@ -42,6 +42,8 @@ export * from './components/MessageMoreOptionsMenu/index';
 export * from './components/MessageReactions/index';
 export * from './components/MessageSeparator/index';
 export * from './components/Modal/index';
+export * from './components/ModalFooter/index';
+export * from './components/ModalHeader/index';
 export * from './components/MoreUnreadsBanner/index';
 export * from './components/NewMessageBanner/index';
 export * from './components/PaginationDots/index';

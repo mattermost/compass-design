@@ -39,18 +39,26 @@ header and body, an optional footer, and the dimmed overlay behind the dialog.
   on the modal (black at 64% opacity in Compass).
 
 The title should be a short statement or question; add a subtitle only when
-users need more guidance. Reserve a header action for related work that is not
-one of the modal's primary outcomes. Use a header input (small) when the body
-shows long lists — search is the common case. Keep that list a stable height
-while filtering (see Searchable lists). Body padding is 32px horizontal and
-28px vertical by default. When header and footer dividers are off, remove the
-header’s bottom padding and the footer’s top padding. For `MenuItem` lists, set
-`bodyPadding="menu"` (typically with dividers off) so rows bleed and labels line
-up with the 32px horizontal margins. In
-the footer, pair primary (confirming) and secondary (dismissive) actions,
-right-aligned with primary on the right; pagination keeps the page count on the
-left and prev/next on the right; stepped flows add previous/next plus dots; a
-spacer footer can be small or large when blank space balances the dialog.
+users need more guidance. Use `subtitlePlacement="beside"` for an inline
+context label (settings-style headers); default is `below`. Pass
+`headerAction` for a control before close; use `hideTitle` for close-only
+chrome (keep `title` for accessibility). Header and footer are also available
+as standalone `ModalHeader` / `ModalFooter` imports. Reserve a header action
+for related work that is not one of the modal's primary outcomes. Use a header
+input (via `headerAction`) when the body shows long lists — search is the
+common case. Keep that list a stable height while filtering (see Searchable
+lists). Body padding is 32px horizontal and 28px vertical by default. When
+header and footer dividers are off, remove the header’s bottom padding and the
+footer’s top padding. For `MenuItem` lists, set `bodyPadding="menu"`
+(typically with dividers off) so rows bleed and labels line up with the 32px
+horizontal margins. For host-owned layouts, set `bodyPadding="none"` and
+`scrollable={false}`; size the dialog with `className` / `style`. In the
+footer, pair primary (confirming) and secondary (dismissive) actions,
+right-aligned with primary on the right (`footerType="2-actions"`); use
+`2-actions-separated` to spread Cancel/Save; pagination keeps status on the
+left (`footerLeading`) and prev/next on the right; stepped flows add
+previous/next plus dots; a spacer footer can be small or large when blank
+space balances the dialog.
 
 <Divider />
 
