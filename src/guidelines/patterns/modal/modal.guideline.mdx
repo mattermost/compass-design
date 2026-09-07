@@ -46,7 +46,11 @@ while filtering (see Searchable lists). Body padding is 32px horizontal and
 28px vertical by default. When header and footer dividers are off, remove the
 header’s bottom padding and the footer’s top padding. For `MenuItem` lists, set
 `bodyPadding="menu"` (typically with dividers off) so rows bleed and labels line
-up with the 32px horizontal margins. In
+up with the 32px horizontal margins. For host-owned layouts (settings sidebar +
+content panes), set `bodyPadding="none"` and `scrollable={false}` so padding and
+scroll live in the panes, not the dialog body. Pass `className` (or `style`) on
+`Modal` for height / max-height — do not target internal BEM classes with
+substring selectors. In
 the footer, pair primary (confirming) and secondary (dismissive) actions,
 right-aligned with primary on the right; pagination keeps the page count on the
 left and prev/next on the right; stepped flows add previous/next plus dots; a

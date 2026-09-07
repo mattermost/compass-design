@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { useId } from 'react';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
@@ -10,10 +10,18 @@ import styles from './Modal.module.scss';
 
 export type ModalSize = 'small' | 'medium' | 'large';
 
-/** Body inset. `menu` is for MenuItem lists — 8px vertical / 16px horizontal so row labels align with the 32px header/footer margins. */
-export type ModalBodyPadding = 'default' | 'menu';
+/**
+ * Body inset. `menu` is for MenuItem lists — 8px vertical / 16px horizontal so
+ * row labels align with the 32px header/footer margins. `none` removes inset
+ * for host-owned full-bleed layouts (e.g. settings sidebars).
+ */
+export type ModalBodyPadding = 'default' | 'menu' | 'none';
 
 export interface ModalProps {
+  /** Extra class on the dialog root (size + chrome classes still apply). */
+  className?: string;
+  /** Inline style on the dialog root — prefer `className` for layout overrides. */
+  style?: CSSProperties;
   /** Width variant. Figma: Size — Small 600px, Medium 704px, Large 832px. */
   size?: ModalSize;
   /** Modal heading text. Always visible. */
@@ -31,9 +39,15 @@ export interface ModalProps {
   /**
    * Body inset. Default is 32px horizontal / 28px vertical. Use `menu` for
    * MenuItem lists (8px vertical / 16px horizontal so row labels align with
-   * the 32px header/footer margins).
+   * the 32px header/footer margins). Use `none` when the host owns padding
+   * (sidebar + content panes, full-bleed media).
    */
   bodyPadding?: ModalBodyPadding;
+  /**
+   * When true (default), wraps body content in Scrollbar. Set false when the
+   * host manages scroll inside panes (e.g. settings with a fixed sidebar).
+   */
+  scrollable?: boolean;
   /** Body content. */
   children: ReactNode;
   /** Footer slot — typically a group of Buttons, right-aligned by default. */
@@ -43,6 +57,8 @@ export interface ModalProps {
 }
 
 export default function Modal({
+  className = '',
+  style,
   size = 'small',
   title,
   subtitle,
@@ -51,17 +67,27 @@ export default function Modal({
   onClose,
   headerDivider = true,
   bodyPadding = 'default',
+  scrollable = true,
   children,
   footer,
   footerDivider = true,
 }: ModalProps) {
   const titleId = useId();
   const sizeClass = styles[`modal--size-${toKebab(size)}`];
-  const menuBody = bodyPadding === 'menu';
+  const bodyInnerClass = [
+    styles['modal__body-inner'],
+    bodyPadding === 'menu' && styles['modal__body-inner--menu'],
+    bodyPadding === 'none' && styles['modal__body-inner--none'],
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const bodyInner = <div className={bodyInnerClass}>{children}</div>;
 
   return (
     <div
-      className={[styles.modal, sizeClass].filter(Boolean).join(' ')}
+      className={[styles.modal, sizeClass, className].filter(Boolean).join(' ')}
+      style={style}
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -100,18 +126,7 @@ export default function Modal({
       </div>
 
       <div className={styles['modal__body']}>
-        <Scrollbar>
-          <div
-            className={[
-              styles['modal__body-inner'],
-              menuBody && styles['modal__body-inner--menu'],
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {children}
-          </div>
-        </Scrollbar>
+        {scrollable ? <Scrollbar>{bodyInner}</Scrollbar> : bodyInner}
       </div>
 
       {footer && (

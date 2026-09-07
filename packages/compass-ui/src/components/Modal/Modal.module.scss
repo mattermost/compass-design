@@ -85,6 +85,16 @@
     &--menu {
       padding: var(--spacing-xs) var(--spacing-l);
     }
+
+    // Host owns inset (sidebar + content panes, full-bleed layouts).
+    &--none {
+      padding: 0;
+    }
+  }
+
+  // When scrollable=false, body-inner fills the flex body so host panes can stretch.
+  &__body > &__body-inner {
+    height: 100%;
   }
 
   // ── Footer ────────────────────────────────────────────────

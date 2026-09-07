@@ -6,6 +6,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **Modal:** `className` and `style` on the dialog root so hosts can set height/max-height without brittle `:global([class*='modal'])` overrides.
+- **Modal:** `bodyPadding="none"` for host-owned full-bleed body layouts (settings sidebars, custom panes).
+- **Modal:** `scrollable` (default `true`). Set `false` when the host manages scroll inside panes instead of the built-in body Scrollbar.
+
 ### Changed
 
 - **Tour Point:** panel, pointer, and inverted Next label use `--button-bg` instead of the fixed `--color-info` semantic, so the callout follows the product theme.

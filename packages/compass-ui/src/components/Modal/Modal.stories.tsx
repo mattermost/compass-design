@@ -83,6 +83,11 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    bodyPadding: {
+      control: 'select',
+      options: ['default', 'menu', 'none'],
+    },
+    scrollable: { control: 'boolean' },
   },
 } satisfies Meta<typeof Modal>;
 
@@ -187,6 +192,81 @@ export const MenuItemList: Story = {
             }
           />
         ))}
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+/** Host owns body padding + scroll (settings-style sidebar layout). */
+export const HostOwnedLayout: Story = {
+  render: () => (
+    <ModalCanvas tall>
+      <Modal
+        title="Agent Settings"
+        subtitle="Matty"
+        size="large"
+        style={{ height: '100%', maxHeight: '100%' }}
+        bodyPadding="none"
+        scrollable={false}
+        footerDivider={false}
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Save</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <div
+          style={{
+            display: 'flex',
+            height: '100%',
+            minHeight: 0,
+          }}
+        >
+          <nav
+            style={{
+              width: 200,
+              flexShrink: 0,
+              padding: 'var(--spacing-l)',
+              borderRight: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-xs)',
+            }}
+          >
+            {['Info', 'Model & Instructions', 'Access & sharing'].map((label) => (
+              <button
+                key={label}
+                type="button"
+                style={{
+                  textAlign: 'left',
+                  padding: 'var(--spacing-xs) var(--spacing-s)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-s)',
+                  background:
+                    label === 'Info'
+                      ? 'rgba(var(--button-bg-rgb), 0.08)'
+                      : 'transparent',
+                  color: 'var(--center-channel-color)',
+                  cursor: 'pointer',
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+          <div
+            style={{
+              flex: 1,
+              minWidth: 0,
+              padding: 'var(--spacing-xxl) var(--spacing-xxxl)',
+              overflow: 'auto',
+            }}
+          >
+            <TextInput label="Display name" placeholder="Matty" />
+          </div>
+        </div>
       </Modal>
     </ModalCanvas>
   ),
