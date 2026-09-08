@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
-import LockIcon from '@mattermost/compass-icons/components/lock';
+import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
 import {
   CardButton,
   CardButtonGroup,
@@ -17,7 +17,7 @@ function VisibilityDemo() {
         role="radio"
         title="Private agent"
         description="Only invited members"
-        icon={<Icon glyph={<LockIcon />} size="24" />}
+        icon={<Icon glyph={<LockOutlineIcon />} size="24" />}
         selected={value === 'private'}
         onClick={() => setValue('private')}
       />
@@ -52,7 +52,7 @@ export default function CardButtonLibrary() {
           <CardButton
             title="Private agent"
             description="Only invited members"
-            icon={<Icon glyph={<LockIcon />} size="24" />}
+            icon={<Icon glyph={<LockOutlineIcon />} size="24" />}
             selected
           />
         </div>

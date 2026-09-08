@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
-import LockIcon from '@mattermost/compass-icons/components/lock';
+import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
 import Icon from '@/components/Icon/Icon';
 import CardButton from './CardButton';
+import type { CardButtonProps } from './CardButton';
 import CardButtonGroup from './CardButtonGroup';
+import { iconSelectArgType, resolveStoryIcon } from '../../storybook/icons';
+
+type CardButtonStoryArgs = Omit<CardButtonProps, 'icon'> & {
+  icon: string;
+};
 
 const meta = {
   title: 'Components/Forms and Input/Card Button',
@@ -14,8 +20,17 @@ const meta = {
   argTypes: {
     selected: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    icon: iconSelectArgType({
+      description: 'Leading icon glyph from @mattermost/compass-icons.',
+    }),
   },
-} satisfies Meta<typeof CardButton>;
+  render: ({ icon, ...rest }) => (
+    <CardButton
+      {...rest}
+      icon={resolveStoryIcon(icon, { wrapSize: '24' }) as ReactNode}
+    />
+  ),
+} satisfies Meta<CardButtonStoryArgs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -24,7 +39,7 @@ export const Default: Story = {
   args: {
     title: 'Private agent',
     description: 'Only invited members',
-    icon: <Icon glyph={<LockIcon />} size="24" />,
+    icon: 'lock-outline',
     selected: false,
     onClick: fn(),
   },
@@ -34,7 +49,7 @@ export const Selected: Story = {
   args: {
     title: 'Private agent',
     description: 'Only invited members',
-    icon: <Icon glyph={<LockIcon />} size="24" />,
+    icon: 'lock-outline',
     selected: true,
     onClick: fn(),
   },
@@ -50,7 +65,7 @@ export const Group: Story = {
           role="radio"
           title="Private agent"
           description="Only invited members"
-          icon={<Icon glyph={<LockIcon />} size="24" />}
+          icon={<Icon glyph={<LockOutlineIcon />} size="24" />}
           selected={value === 'private'}
           onClick={() => setValue('private')}
         />
@@ -71,7 +86,7 @@ export const Disabled: Story = {
   args: {
     title: 'Public agent',
     description: 'Any member can use',
-    icon: <Icon glyph={<GlobeIcon />} size="24" />,
+    icon: 'globe',
     disabled: true,
     onClick: fn(),
   },
