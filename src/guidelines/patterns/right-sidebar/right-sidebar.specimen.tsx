@@ -5,6 +5,7 @@ import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
 import { RightSidebarThread } from '@mattermost/compass-proto';
 import { RightSidebarChannelInfo } from '@mattermost/compass-proto';
+import { RightSidebarChannelMembers } from '@mattermost/compass-proto';
 import { RightSidebar } from '@mattermost/compass-proto';
 
 export default function RightSidebarLibrary() {
@@ -107,6 +108,28 @@ export default function RightSidebarLibrary() {
           }
         >
           <RightSidebarChannelInfo />
+        </RightSidebar>
+      </div>
+
+      <p
+        className={styles['patterns__variant-label']}
+        style={{ marginTop: 'var(--spacing-xl)' }}
+      >
+        Full sidebar — channel members
+      </p>
+      <div className={styles['patterns__rsb-shell']}>
+        <RightSidebar
+          header={
+            <RightSidebarHeader
+              title="Members"
+              secondaryTitle="UX Design"
+              onBack={() => {}}
+              onExpand={() => {}}
+              onClose={() => {}}
+            />
+          }
+        >
+          <RightSidebarChannelMembers />
         </RightSidebar>
       </div>
     </>
