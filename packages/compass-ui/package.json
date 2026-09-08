@@ -235,6 +235,12 @@
       "components/modal": [
         "./dist/components/modal/index.d.ts"
       ],
+      "components/modal-footer": [
+        "./dist/components/modal-footer/index.d.ts"
+      ],
+      "components/modal-header": [
+        "./dist/components/modal-header/index.d.ts"
+      ],
       "components/more-unreads-banner": [
         "./dist/components/more-unreads-banner/index.d.ts"
       ],

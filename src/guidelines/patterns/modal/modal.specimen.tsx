@@ -46,6 +46,13 @@ const listFooter = (
   </>
 );
 
+const settingsFooter = (
+  <>
+    <Button emphasis="tertiary">Cancel</Button>
+    <Button emphasis="primary">Save</Button>
+  </>
+);
+
 function ModalCanvas({
   children,
   tall = false,
@@ -118,6 +125,43 @@ export default function ModalLibrary() {
                 }
               />
             ))}
+          </Modal>
+        </ModalCanvas>
+      </div>
+      <div>
+        <p className={styles['patterns__variant-label']}>
+          Host-owned body (none + scrollable false)
+        </p>
+        <ModalCanvas tall>
+          <Modal
+            title="Agent Settings"
+            subtitle="Matty"
+            size="large"
+            style={{ height: '100%', maxHeight: '100%' }}
+            bodyPadding="none"
+            scrollable={false}
+            footerDivider={false}
+            footer={settingsFooter}
+          >
+            <div className={styles['patterns__modal-host-body']}>
+              <nav className={styles['patterns__modal-host-nav']} aria-label="Sections">
+                <span className={styles['patterns__modal-host-nav-item']}>Info</span>
+                <span>Model &amp; Instructions</span>
+                <span>Access &amp; sharing</span>
+              </nav>
+              <div className={styles['patterns__modal-host-pane']}>
+                <div className={styles['patterns__modal-host-pane-stack']}>
+                  <TextInput label="Display name" placeholder="Matty" />
+                  <TextInput label="Username" placeholder="matty" />
+                  <TextInput label="Description" placeholder="Helpful teammate agent" />
+                  <TextInput label="Default model" placeholder="GPT-4o" />
+                  <TextInput label="System instructions" placeholder="You are a helpful assistant…" />
+                  <TextInput label="Temperature" placeholder="0.7" />
+                  <TextInput label="Max tokens" placeholder="2048" />
+                  <TextInput label="Knowledge sources" placeholder="Team wiki, design docs" />
+                </div>
+              </div>
+            </div>
           </Modal>
         </ModalCanvas>
       </div>

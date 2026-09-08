@@ -83,6 +83,15 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    bodyPadding: {
+      control: 'select',
+      options: ['default', 'menu', 'none'],
+    },
+    subtitlePlacement: {
+      control: 'select',
+      options: ['below', 'beside'],
+    },
+    scrollable: { control: 'boolean' },
   },
 } satisfies Meta<typeof Modal>;
 
@@ -125,6 +134,79 @@ export const WithSubtitle: Story = {
   ),
 };
 
+export const SubtitleBeside: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Agent Settings"
+        subtitle="Matty"
+        subtitlePlacement="beside"
+        size="large"
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Save</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Settings body with an inline header subtitle (Figma Subtitle = Beside).
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const WithHeaderAction: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Browse channels"
+        size="medium"
+        headerAction={
+          <Button emphasis="secondary" size="small">
+            Create
+          </Button>
+        }
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Done</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <TextInput label="Search" placeholder="Find a channel" />
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const CloseOnlyHeader: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="New agent"
+        hideTitle
+        headerDivider={false}
+        footerDivider={false}
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Create</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Close-only header (Figma Title = Off). Title stays for screen readers.
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
 export const WithBackButton: Story = {
   render: () => (
     <ModalCanvas>
@@ -159,6 +241,57 @@ export const WithoutDividers: Story = {
   ),
 };
 
+export const FooterSeparated: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Share"
+        size="small"
+        footerType="2-actions-separated"
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Share</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Footer actions spread to opposite edges.
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const FooterPagination: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Members"
+        size="medium"
+        footerType="pagination"
+        footerLeading="Showing 1–30 of 132"
+        footer={
+          <>
+            <Button emphasis="tertiary" size="small">
+              Previous
+            </Button>
+            <Button emphasis="tertiary" size="small">
+              Next
+            </Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          Pagination footer with status on the left.
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
 export const MenuItemList: Story = {
   render: () => (
     <ModalCanvas tall>
@@ -187,6 +320,96 @@ export const MenuItemList: Story = {
             }
           />
         ))}
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+/** Host owns body padding + scroll (settings-style sidebar layout). */
+export const HostOwnedLayout: Story = {
+  render: () => (
+    <ModalCanvas tall>
+      <Modal
+        title="Agent Settings"
+        subtitle="Matty"
+        size="large"
+        style={{ height: '100%', maxHeight: '100%' }}
+        bodyPadding="none"
+        scrollable={false}
+        footerDivider={false}
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Save</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <div
+          style={{
+            display: 'flex',
+            height: '100%',
+            minHeight: 0,
+          }}
+        >
+          <nav
+            style={{
+              width: 200,
+              flexShrink: 0,
+              padding: 'var(--spacing-l)',
+              borderRight: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-xs)',
+            }}
+          >
+            {['Info', 'Model & Instructions', 'Access & sharing'].map((label) => (
+              <button
+                key={label}
+                type="button"
+                style={{
+                  textAlign: 'left',
+                  padding: 'var(--spacing-xs) var(--spacing-s)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-s)',
+                  background:
+                    label === 'Info'
+                      ? 'rgba(var(--button-bg-rgb), 0.08)'
+                      : 'transparent',
+                  color: 'var(--center-channel-color)',
+                  cursor: 'pointer',
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+          <div
+            style={{
+              flex: 1,
+              minWidth: 0,
+              padding: 'var(--spacing-xxl) var(--spacing-xxxl)',
+              overflow: 'auto',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--spacing-l)',
+              }}
+            >
+              <TextInput label="Display name" placeholder="Matty" />
+              <TextInput label="Username" placeholder="matty" />
+              <TextInput label="Description" placeholder="Helpful teammate agent" />
+              <TextInput label="Default model" placeholder="GPT-4o" />
+              <TextInput label="System instructions" placeholder="You are a helpful assistant…" />
+              <TextInput label="Temperature" placeholder="0.7" />
+              <TextInput label="Max tokens" placeholder="2048" />
+              <TextInput label="Knowledge sources" placeholder="Team wiki, design docs" />
+            </div>
+          </div>
+        </div>
       </Modal>
     </ModalCanvas>
   ),
