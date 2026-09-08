@@ -1,0 +1,13 @@
+.card-button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: var(--spacing-xs);
+  width: 100%;
+
+  // Equal-width cards in a row (Figma Card Button Group).
+  > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}

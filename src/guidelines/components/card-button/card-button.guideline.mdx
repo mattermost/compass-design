@@ -1,0 +1,59 @@
+import { CardButton } from '@mattermost/compass-ui/components/card-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
+
+Card Buttons present a discrete choice as a compact card — leading icon,
+title, optional description, and a check when selected. Use them when a
+radio or segmented control would undersell the option (visibility, access
+mode, plan tier).
+
+Import from `@mattermost/compass-ui/components/card-button`.
+
+<Divider />
+
+## Usage
+
+- Prefer a `CardButtonGroup` with `role="radiogroup"` and each card
+  `role="radio"` for mutually exclusive choices.
+- Keep titles short; put detail in the description line.
+- Pass the leading glyph through `Icon` at size `24`.
+- Selected state tints the icon well and border with `--button-bg` and shows
+  a trailing check — do not add a second custom check.
+
+Appropriate use cases:
+
+- Private vs public / shared visibility.
+- Access modes (invite-only vs open).
+- Choosing between a small set of equally weighted options in a form or
+  modal.
+
+Avoid Card Buttons for multi-select filters — use Checkbox or Chip instead.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <div style={{ maxWidth: 284, width: '100%' }}>
+    <CardButton
+      title="Private agent"
+      description="Only invited members"
+      icon={<Icon glyph={<LockOutlineIcon />} size="24" />}
+      selected
+    />
+  </div>
+</AnatomyStage>
+
+- <Num>1</Num> **Container** — Elevation 1; 4px radius; 1px border
+  (center-channel 16% idle, button-bg 32% selected).
+- <Num>2</Num> **Icon well** — 8px padding, full radius; center-channel 8%
+  fill idle, button-bg 8% when selected.
+- <Num>3</Num> **Title** — Body 100 semibold.
+- <Num>4</Num> **Description** — Body 75 at 72% center-channel.
+- <Num>5</Num> **Check** — 20px check-circle in `--button-bg` when selected.
+
+<Divider />
+
+## Live reference
+
+Use the Specimen tab for idle / selected and a live radiogroup.

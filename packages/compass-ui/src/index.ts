@@ -7,6 +7,7 @@ export * from './components/AdminPanelFooter/index';
 export * from './components/AdminPanelHeader/index';
 export * from './components/AttachmentCard/index';
 export * from './components/Button/index';
+export * from './components/CardButton/index';
 export * from './components/ChannelHeaderMenu/index';
 export * from './components/ChannelInfoMsgHeader/index';
 export * from './components/ChannelMenu/index';
