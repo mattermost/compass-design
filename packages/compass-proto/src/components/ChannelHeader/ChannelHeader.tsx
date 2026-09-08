@@ -54,6 +54,10 @@ export interface ChannelHeaderProps {
   onInfoClick?: () => void;
   /** Whether the info button is in a toggled (active) state. */
   infoToggled?: boolean;
+  /** Called when the members count button is clicked. */
+  onMembersClick?: () => void;
+  /** Whether the members button is in a toggled (active) state. */
+  membersToggled?: boolean;
   className?: string;
 }
 
@@ -73,6 +77,8 @@ export default function ChannelHeader({
   callButton,
   onInfoClick,
   infoToggled = false,
+  onMembersClick,
+  membersToggled = false,
   className = '',
 }: ChannelHeaderProps) {
   const isSimple = type === 'threads' || type === 'drafts';
@@ -187,6 +193,8 @@ export default function ChannelHeader({
                 size="x-small"
                 aria-label={`${memberCount} members`}
                 count={memberCount}
+                toggled={membersToggled}
+                onClick={onMembersClick}
                 icon={<Icon size="12" glyph={<AccountOutlineIcon />} />}
               />
             )}
