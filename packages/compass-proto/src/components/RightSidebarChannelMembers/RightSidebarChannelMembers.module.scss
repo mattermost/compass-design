@@ -66,5 +66,10 @@
     margin: 0;
     padding: 0;
     list-style: none;
+
+    // MenuItem defaults to flex-start; single-line name+handle should center on the avatar.
+    :global([class*='menu-item__content']) {
+      align-items: center;
+    }
   }
 }
