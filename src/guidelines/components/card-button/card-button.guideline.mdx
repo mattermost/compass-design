@@ -1,3 +1,7 @@
+import { CardButton } from '@mattermost/compass-ui/components/card-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
+
 Card Buttons present a discrete choice as a compact card — leading icon,
 title, optional description, and a check when selected. Use them when a
 radio or segmented control would undersell the option (visibility, access
@@ -28,6 +32,17 @@ Avoid Card Buttons for multi-select filters — use Checkbox or Chip instead.
 <Divider />
 
 ## Anatomy
+
+<AnatomyStage>
+  <div style={{ maxWidth: 284, width: '100%' }}>
+    <CardButton
+      title="Private agent"
+      description="Only invited members"
+      icon={<Icon glyph={<LockOutlineIcon />} size="24" />}
+      selected
+    />
+  </div>
+</AnatomyStage>
 
 - <Num>1</Num> **Container** — Elevation 1; 4px radius; 1px border
   (center-channel 16% idle, button-bg 32% selected).
