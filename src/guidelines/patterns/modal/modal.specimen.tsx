@@ -150,7 +150,16 @@ export default function ModalLibrary() {
                 <span>Access &amp; sharing</span>
               </nav>
               <div className={styles['patterns__modal-host-pane']}>
-                <TextInput label="Display name" placeholder="Matty" />
+                <div className={styles['patterns__modal-host-pane-stack']}>
+                  <TextInput label="Display name" placeholder="Matty" />
+                  <TextInput label="Username" placeholder="matty" />
+                  <TextInput label="Description" placeholder="Helpful teammate agent" />
+                  <TextInput label="Default model" placeholder="GPT-4o" />
+                  <TextInput label="System instructions" placeholder="You are a helpful assistant…" />
+                  <TextInput label="Temperature" placeholder="0.7" />
+                  <TextInput label="Max tokens" placeholder="2048" />
+                  <TextInput label="Knowledge sources" placeholder="Team wiki, design docs" />
+                </div>
               </div>
             </div>
           </Modal>

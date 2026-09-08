@@ -163,6 +163,12 @@
     overflow: auto;
   }
 
+  &__modal-host-pane-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-l);
+  }
+
   // ── Team Sidebar demo ───────────────────────────────────────
   &__team-sidebar-demo {
     display: inline-flex;

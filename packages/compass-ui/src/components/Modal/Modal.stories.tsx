@@ -392,7 +392,22 @@ export const HostOwnedLayout: Story = {
               overflow: 'auto',
             }}
           >
-            <TextInput label="Display name" placeholder="Matty" />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--spacing-l)',
+              }}
+            >
+              <TextInput label="Display name" placeholder="Matty" />
+              <TextInput label="Username" placeholder="matty" />
+              <TextInput label="Description" placeholder="Helpful teammate agent" />
+              <TextInput label="Default model" placeholder="GPT-4o" />
+              <TextInput label="System instructions" placeholder="You are a helpful assistant…" />
+              <TextInput label="Temperature" placeholder="0.7" />
+              <TextInput label="Max tokens" placeholder="2048" />
+              <TextInput label="Knowledge sources" placeholder="Team wiki, design docs" />
+            </div>
           </div>
         </div>
       </Modal>
