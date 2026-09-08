@@ -63,11 +63,9 @@ export default function CardButton({
           </span>
         )}
       </span>
-      {selected ? (
-        <span className={styles['card-button__check']} aria-hidden>
-          <Icon glyph={<CheckCircleIcon />} size="20" />
-        </span>
-      ) : null}
+      <span className={styles['card-button__check']} aria-hidden>
+        <Icon glyph={<CheckCircleIcon />} size="20" />
+      </span>
     </button>
   );
 }

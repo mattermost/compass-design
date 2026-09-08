@@ -43,6 +43,10 @@
       background-color: rgba(var(--button-bg-rgb), 0.08);
       color: var(--button-bg);
     }
+
+    .card-button__check {
+      visibility: visible;
+    }
   }
 
   &__icon {
@@ -86,5 +90,6 @@
     display: inline-flex;
     align-items: center;
     color: var(--button-bg);
+    visibility: hidden;
   }
 }
