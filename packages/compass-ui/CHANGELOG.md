@@ -9,10 +9,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **Card Button** (`@mattermost/compass-ui/components/card-button`): selectable choice card with leading icon, title, description, and selected check. Includes `CardButtonGroup` for side-by-side radiogroups (Figma Card Button Group).
+- **ModalHeader** (`@mattermost/compass-ui/components/modal-header`): extracted header with subtitle below/beside, optional back, optional `headerAction`, close-only (`hideTitle`), and divider. Figma [Patterns — Modals / Modal Header](https://www.figma.com/design/qdm5tKododENqnTvjLovDT/Patterns---Modals?node-id=789-15921).
+- **ModalFooter** (`@mattermost/compass-ui/components/modal-footer`): footer chrome with types `2-actions`, `2-actions-separated`, `1-action`, `pagination`, `stepped-progress`, `spacer-small`, `spacer-large`, plus optional `leading` slot. Figma [Modal Footer](https://www.figma.com/design/qdm5tKododENqnTvjLovDT/Patterns---Modals?node-id=797-8156).
+- **Modal:** composes ModalHeader / ModalFooter; adds `subtitlePlacement`, `hideTitle`, `headerAction`, `footerType`, `footerLeading`, `className` / `style`, `bodyPadding="none"`, and `scrollable`.
 
 ### Changed
 
 - **Tour Point:** panel, pointer, and inverted Next label use `--button-bg` instead of the fixed `--color-info` semantic, so the callout follows the product theme.
+- **Modal:** header/footer markup and styles move into ModalHeader / ModalFooter; subtitle typography aligns to Figma Body 75.
 
 ## [0.1.0-alpha.6] - 2026-09-03
 
