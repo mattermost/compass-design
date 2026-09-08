@@ -46,6 +46,13 @@ const listFooter = (
   </>
 );
 
+const settingsFooter = (
+  <>
+    <Button emphasis="tertiary">Cancel</Button>
+    <Button emphasis="primary">Save</Button>
+  </>
+);
+
 function ModalCanvas({
   children,
   tall = false,
@@ -134,7 +141,7 @@ export default function ModalLibrary() {
             bodyPadding="none"
             scrollable={false}
             footerDivider={false}
-            footer={listFooter}
+            footer={settingsFooter}
           >
             <div className={styles['patterns__modal-host-body']}>
               <nav className={styles['patterns__modal-host-nav']} aria-label="Sections">
