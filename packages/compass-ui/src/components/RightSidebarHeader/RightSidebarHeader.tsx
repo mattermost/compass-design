@@ -17,7 +17,7 @@ export interface RightSidebarHeaderProps {
   tag?: string;
   /** Tag visual style. Default: Info. */
   tagType?: TagType;
-  /** Optional leading element shown before the title — typically a UserAvatar or Icon. */
+  /** Optional leading element shown before the title — typically a `UserAvatar` or an icon. When passing an icon, use `<Icon glyph={<SomeIcon />} size="20" />` to align with the title text. */
   leadingIcon?: ReactNode;
   /** When set, shows a back button and calls this on click. */
   onBack?: () => void;
