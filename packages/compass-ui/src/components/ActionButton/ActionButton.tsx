@@ -2,6 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import styles from './ActionButton.module.scss';
 
 export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Pass `<Icon glyph={<SomeIcon />} size="20" />` — the slot is 20×20px and does not resize its children. */
   icon: ReactNode;
   label: string;
   /** When set, this is a toggle; maps to `aria-pressed`. */
