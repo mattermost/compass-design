@@ -17,11 +17,11 @@ export interface MobileMenuItemProps
    * Figma “Stacked” maps to 'below'.
    */
   secondaryLabelPosition?: 'inline' | 'below';
-  /** Custom content for the leading slot. When omitted, shows placeholder icon. */
+  /** Custom content for the leading slot. When omitted, shows placeholder icon. When passing an icon, use `<Icon glyph={<SomeIcon />} size="20" />`. */
   leadingVisual?: ReactNode;
   /** Show the leading visual slot. Default: true. */
   leadingElement?: boolean;
-  /** Custom content for the trailing slot. When omitted with trailingElement=true, shows check icon. */
+  /** Custom content for the trailing slot. When omitted with trailingElement=true, shows check icon. When passing an icon, use `<Icon glyph={<SomeIcon />} size="20" />`. */
   trailingVisual?: ReactNode;
   /** Show the trailing visual slot. Default: false. */
   trailingElement?: boolean;

@@ -4,7 +4,7 @@ import styles from './AppBarItem.module.scss';
 export type AppBarItemState = 'default' | 'selected';
 
 export interface AppBarItemProps {
-  /** Icon element (image or SVG) representing the app. */
+  /** Icon for the 24×24 slot — an `<img>`, custom SVG, or (for compass glyphs) `<Icon glyph={<SomeIcon />} size="24" />`. The slot does not resize its children. */
   icon: ReactNode;
   /** Accessible label for the app item. */
   label: string;

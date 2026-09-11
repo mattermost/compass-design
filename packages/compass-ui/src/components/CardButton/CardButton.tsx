@@ -5,7 +5,7 @@ import styles from './CardButton.module.scss';
 
 export interface CardButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'title'> {
-  /** Leading icon (typically `<Icon glyph={…} size="24" />`). */
+  /** Leading icon. Pass `<Icon glyph={<SomeIcon />} size="24" />` — the slot does not resize raw SVG children. */
   icon: ReactNode;
   /** Primary label. */
   title: ReactNode;

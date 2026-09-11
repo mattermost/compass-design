@@ -17,7 +17,7 @@ export interface TooltipProps {
   hint?: string;
   /** Optional keyboard shortcut keys shown below label. */
   shortcutKeys?: TooltipShortcutKey[];
-  /** Optional leading icon node. */
+  /** Optional leading icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). The slot does not resize raw SVG children. */
   icon?: ReactNode;
   /** Optional CSS class name. */
   className?: string;

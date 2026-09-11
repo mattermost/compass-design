@@ -21,6 +21,7 @@ export interface AdminPanelHeaderProps {
   /** Trailing accessory actions rendered after Switch / Primary button and before expand. */
   headerActions?: ReactNode;
   iconLeft?: boolean;
+  /** Icon for the 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} size="20" />` — the pill does not resize raw SVG children. */
   leadingIcon?: ReactNode;
   showBeta?: boolean;
   betaLabel?: string;

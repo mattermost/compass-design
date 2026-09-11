@@ -28,7 +28,7 @@ export interface TextInputProps extends Omit<
   showCharacterCount?: boolean;
   /** Size variant. Figma: Small (32px), Medium (40px), Large (48px). Default: Medium. */
   size?: TextInputSize;
-  /** Trailing icon. */
+  /** Trailing icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). */
   trailingIcon?: ReactNode;
 }
 

@@ -28,7 +28,7 @@ export interface PopoverNoticeProps {
    * Ignored if `icon` is also provided.
    */
   variant?: PopoverNoticeVariant;
-  /** Optional icon shown to the left of the title. Overrides variant icon. */
+  /** Optional icon shown to the left of the title. Overrides the variant icon. Pass `<Icon glyph={<SomeIcon />} size="20" />` — the slot does not resize raw SVG children. */
   icon?: ReactNode;
   /** Action buttons rendered below the body. */
   actions?: PopoverNoticeAction[];
