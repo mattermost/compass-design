@@ -19,7 +19,7 @@ export interface GlobalBannerProps {
   message: string;
   /** Optional type for color-coding. Default: General. */
   type?: GlobalBannerType;
-  /** Optional leading icon. */
+  /** Optional leading icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). The slot does not resize raw SVG children. */
   leadingIcon?: ReactNode;
   /** Label for the optional action button. */
   actionLabel?: string;

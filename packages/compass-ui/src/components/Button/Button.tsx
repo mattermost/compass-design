@@ -29,7 +29,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leadingIcon?: ReactNode;
   /** Size variant. Default: medium. */
   size?: ButtonSize;
-  /** Trailing icon. */
+  /** Trailing icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). Icon size should match button size. */
   trailingIcon?: ReactNode;
 }
 

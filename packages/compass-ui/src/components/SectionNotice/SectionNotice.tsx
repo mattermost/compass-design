@@ -21,7 +21,7 @@ export interface SectionNoticeProps {
   className?: string;
   /** Type controls color-coding. Default: Info. */
   type?: SectionNoticeType;
-  /** Optional leading icon. When omitted a default type icon is shown. */
+  /** Optional leading icon. When omitted a default type icon is shown. Pass `<Icon glyph={<SomeIcon />} size="20" />` — the slot does not resize raw SVG children. */
   icon?: ReactNode;
   /** Title / headline text. */
   title: string;

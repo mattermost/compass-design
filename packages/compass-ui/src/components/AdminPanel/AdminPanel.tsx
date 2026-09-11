@@ -13,6 +13,7 @@ export interface AdminPanelProps {
   className?: string;
   headerActions?: ReactNode;
   iconLeft?: boolean;
+  /** Icon forwarded to `AdminPanelHeader`'s 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} size="20" />`. */
   leadingIcon?: ReactNode;
   showBeta?: boolean;
   betaLabel?: string;

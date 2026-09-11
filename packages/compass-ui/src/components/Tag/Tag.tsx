@@ -21,7 +21,7 @@ export type TagProps = {
   size?: TagSize;
   /** Text casing. Default: Title Case. */
   casing?: TagCasing;
-  /** Optional leading icon node. */
+  /** Raw SVG glyph from `@mattermost/compass-icons` — e.g. `<GlobeIcon size={10} />` for `size="x-small"` or `<GlobeIcon size={12} />` for `size="small"`. Do not wrap in `<Icon>`. */
   leadingIcon?: ReactNode;
   /** Merged onto the root after variant classes (e.g. layout overrides in a parent row). */
   className?: string;
