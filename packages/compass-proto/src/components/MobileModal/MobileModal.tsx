@@ -18,7 +18,7 @@ export interface MobileModalProps {
   /** Text action on the right (e.g. Done, Save). */
   actionLabel?: string;
   onActionClick?: () => void;
-  /** Optional trailing icon button (e.g. Send). */
+  /** Optional trailing icon passed to an `IconButton` (medium). Pass `<Icon glyph={<SomeIcon />} size="20" />`. */
   trailingIcon?: ReactNode;
   onTrailingIconClick?: () => void;
   /** Parent — close control. */
