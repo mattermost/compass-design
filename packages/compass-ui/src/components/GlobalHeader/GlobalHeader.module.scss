@@ -4,6 +4,8 @@
   align-items: center;
   width: 100%;
   height: 40px;
+  // Prevents flex parents from shrinking the header below its design height.
+  flex-shrink: 0;
   padding: 0 var(--spacing-xxxxs);
   background: var(--sidebar-header-bg);
 
