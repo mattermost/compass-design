@@ -364,6 +364,8 @@ export default function EmojiPopover({
                   emoji={SKIN_TONES[skinToneIndex]}
                   size="small"
                   aria-label="Select skin tone"
+                  aria-expanded={showSkinTonePicker}
+                  aria-controls="emoji-popover-skin-tone-picker"
                   onClick={() => setShowSkinTonePicker(true)}
                 />
               )}
@@ -371,6 +373,7 @@ export default function EmojiPopover({
           </div>
 
           <div
+            id="emoji-popover-skin-tone-picker"
             className={[
               styles['emoji-popover__skin-tone-picker'],
               showSkinTonePicker ? styles['emoji-popover__skin-tone-picker--visible'] : '',
