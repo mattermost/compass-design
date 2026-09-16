@@ -3,6 +3,7 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
 import type { ButtonAppearance, ButtonEmphasis, ButtonSize } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import type { IconSize } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/components.module.scss';
 
 const EMPHASES: ButtonEmphasis[] = [
@@ -10,9 +11,19 @@ const EMPHASES: ButtonEmphasis[] = [
   'secondary',
   'tertiary',
   'quaternary',
+  'link',
 ];
 
 const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
+
+const ICON_EMPHASES = EMPHASES.filter((e) => e !== 'link');
+
+const SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
+  'x-small': '12',
+  small: '16',
+  medium: '16',
+  large: '20',
+};
 
 function VariantCell({
   label,
@@ -171,20 +182,88 @@ export default function ButtonLibrary() {
 
       <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>
-          Icon slots — Primary · Medium
+          Icon slots — leading icon, all emphases × sizes
         </h3>
-        <div className={styles['components__button-variant-grid']}>
-          <VariantCell label="Leading">
-            <Button leadingIcon={icon16}>Label</Button>
-          </VariantCell>
-          <VariantCell label="Trailing">
-            <Button trailingIcon={icon16}>Label</Button>
-          </VariantCell>
-          <VariantCell label="Both">
-            <Button leadingIcon={icon16} trailingIcon={icon16}>
-              Label
-            </Button>
-          </VariantCell>
+        <div className={styles['components__button-variant-matrix']}>
+          <div className={styles['components__button-variant-matrix__head']}>
+            <span
+              className={styles['components__button-variant-matrix__corner']}
+              aria-hidden
+            />
+            {SIZES.map((size) => (
+              <span
+                key={size}
+                className={styles['components__button-variant-matrix__size-heading']}
+              >
+                {size}
+              </span>
+            ))}
+          </div>
+          {ICON_EMPHASES.map((emphasis) => (
+            <div
+              key={emphasis}
+              className={styles['components__button-variant-matrix__row']}
+            >
+              <span className={styles['components__button-variant-matrix__emphasis-label']}>
+                {emphasis}
+              </span>
+              {SIZES.map((size) => {
+                const iconSize = SIZE_ICON_MAP[size];
+                return (
+                  <div key={size} className={styles['components__button-variant-matrix__cell']}>
+                    <Button
+                      emphasis={emphasis}
+                      size={size}
+                      leadingIcon={<Icon glyph={<GlobeIcon />} size={iconSize} />}
+                    >
+                      Label
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles['components__section']}>
+        <h3 className={styles['components__section-title']}>
+          Icon placement — all emphases · Medium
+        </h3>
+        <div className={styles['components__button-variant-matrix']}>
+          <div className={styles['components__button-variant-matrix__head']}>
+            <span
+              className={styles['components__button-variant-matrix__corner']}
+              aria-hidden
+            />
+            {(['Leading', 'Trailing', 'Both'] as const).map((label) => (
+              <span
+                key={label}
+                className={styles['components__button-variant-matrix__size-heading']}
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+          {ICON_EMPHASES.map((emphasis) => (
+            <div
+              key={emphasis}
+              className={styles['components__button-variant-matrix__row']}
+            >
+              <span className={styles['components__button-variant-matrix__emphasis-label']}>
+                {emphasis}
+              </span>
+              <div className={styles['components__button-variant-matrix__cell']}>
+                <Button emphasis={emphasis} leadingIcon={icon16}>Label</Button>
+              </div>
+              <div className={styles['components__button-variant-matrix__cell']}>
+                <Button emphasis={emphasis} trailingIcon={icon16}>Label</Button>
+              </div>
+              <div className={styles['components__button-variant-matrix__cell']}>
+                <Button emphasis={emphasis} leadingIcon={icon16} trailingIcon={icon16}>Label</Button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

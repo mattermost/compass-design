@@ -8,7 +8,8 @@ export type ButtonEmphasis =
   | 'primary'
   | 'secondary'
   | 'tertiary'
-  | 'quaternary';
+  | 'quaternary'
+  | 'link';
 
 export type ButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 
@@ -76,9 +77,11 @@ export default function Button({
     .filter(Boolean)
     .join(' ');
 
+  const supportsIcons = emphasis !== 'link';
+
   return (
     <button className={rootClass} type={type} disabled={disabled} {...rest}>
-      {leadingIcon != null ? (
+      {supportsIcons && leadingIcon != null ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           {typeof leadingIcon === 'boolean' ? (
             <Icon size={iconSize} />
@@ -88,7 +91,7 @@ export default function Button({
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
-      {trailingIcon != null ? (
+      {supportsIcons && trailingIcon != null ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           {typeof trailingIcon === 'boolean' ? (
             <Icon size={iconSize} />

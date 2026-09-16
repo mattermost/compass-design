@@ -13,6 +13,7 @@ const EMPHASES: ButtonEmphasis[] = [
   'secondary',
   'tertiary',
   'quaternary',
+  'link',
 ];
 
 const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];

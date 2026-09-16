@@ -152,6 +152,23 @@
     }
   }
 
+  &--emphasis-link {
+    --focus-ring-color: var(--link-color);
+
+    padding: 0;
+    background-color: transparent;
+    color: var(--link-color);
+
+    &:hover:not(:disabled) {
+      .button__label {
+        text-decoration: underline;
+      }
+    }
+    &:disabled {
+      color: rgba(var(--center-channel-color-rgb), 0.32);
+    }
+  }
+
   // ---------------------------------------------------------------------------
   // Destructive + emphasis
   // ---------------------------------------------------------------------------
@@ -228,6 +245,14 @@
       }
     }
 
+    &.button--emphasis-link {
+      color: var(--error-text, var(--color-danger));
+
+      &:disabled {
+        color: rgba(var(--center-channel-color-rgb), 0.32);
+      }
+    }
+
   }
 
   // ---------------------------------------------------------------------------
@@ -291,6 +316,14 @@
       &:active:not(:disabled) {
         background-color: rgba(var(--sidebar-text-rgb), 0.2);
       }
+      &:disabled {
+        color: rgba(var(--sidebar-text-rgb), 0.32);
+      }
+    }
+
+    &.button--emphasis-link {
+      color: var(--sidebar-text);
+
       &:disabled {
         color: rgba(var(--sidebar-text-rgb), 0.32);
       }
