@@ -91,11 +91,6 @@
     }
   }
 
-  // ── Rounded modifier ────────────────────────────────────────────
-  &--rounded {
-    border-radius: var(--radius-full);
-  }
-
   // ── Active / forced pressed ─────────────────────────────────────
   &--active:not(:disabled) {
     background-color: rgba(var(--button-bg-rgb), 0.08);

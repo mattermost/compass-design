@@ -404,6 +404,15 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/emoji/emoji.specimen'),
   },
   {
+    slug: 'emoji-button',
+    name: 'Emoji Button',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/emoji-button/emoji-button.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/components/emoji-button/emoji-button.specimen'),
+  },
+  {
     slug: 'empty-state',
     name: 'Empty State',
     category: 'components',

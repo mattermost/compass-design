@@ -29,8 +29,6 @@ export interface EmojiButtonProps extends ButtonHTMLAttributes<HTMLButtonElement
   active?: boolean;
   /** When true, shows toggled/selected state. */
   toggled?: boolean;
-  /** When true, uses full border radius (pill). */
-  rounded?: boolean;
 }
 
 /**
@@ -48,7 +46,6 @@ export default function EmojiButton({
   padding = 'default',
   active = false,
   toggled,
-  rounded = false,
   type = 'button',
   ...rest
 }: EmojiButtonProps) {
@@ -56,7 +53,6 @@ export default function EmojiButton({
   const paddingClass = padding === 'compact' ? styles['emoji-button--padding-compact'] : '';
   const activeClass = active ? styles['emoji-button--active'] : '';
   const toggledClass = toggled ? styles['emoji-button--toggled'] : '';
-  const roundedClass = rounded ? styles['emoji-button--rounded'] : '';
 
   const rootClass = [
     styles['emoji-button'],
@@ -64,7 +60,6 @@ export default function EmojiButton({
     paddingClass,
     activeClass,
     toggledClass,
-    roundedClass,
     className,
   ]
     .filter(Boolean)
