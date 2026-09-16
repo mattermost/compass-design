@@ -2,7 +2,6 @@ import { useState } from 'react';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import AirplaneIcon from '@mattermost/compass-icons/components/airplane';
 import ClockOutlineIcon from '@mattermost/compass-icons/components/clock-outline';
-import CloseIcon from '@mattermost/compass-icons/components/close';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import EmoticonOutlineIcon from '@mattermost/compass-icons/components/emoticon-outline';
 import FlagOutlineIcon from '@mattermost/compass-icons/components/flag-outline';
@@ -10,17 +9,20 @@ import FoodAppleIcon from '@mattermost/compass-icons/components/food-apple';
 import HeartOutlineIcon from '@mattermost/compass-icons/components/heart-outline';
 import LeafOutlineIcon from '@mattermost/compass-icons/components/leaf-outline';
 import LightbulbOutlineIcon from '@mattermost/compass-icons/components/lightbulb-outline';
-import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
+import { Emoji } from '@mattermost/compass-ui/components/emoji';
+import { EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
+import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import { SearchInput } from '@mattermost/compass-ui/components/search-input';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import styles from './EmojiPopover.module.scss';
 
-export type EmojiPopoverTab = 'emojis' | 'gifs';
 export type EmojiPopoverState = 'default' | 'search-results' | 'empty';
 
 export interface EmojiPopoverProps {
   className?: string;
-  /** Starting active tab. The component manages tab switching internally. */
-  defaultTab?: EmojiPopoverTab;
   /** Content-area state to display. @default 'default' */
   state?: EmojiPopoverState;
 }
@@ -142,29 +144,101 @@ const SEARCH_RESULTS = [
   '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '😐', '😑',
 ];
 
-const GIF_TILE_HEIGHTS = ['', '--tall', '', '--tall', '--tall', '', '--tall', '', '', '--tall', '', ''];
+const SKIN_TONES = ['✋', '✋🏻', '✋🏼', '✋🏽', '✋🏾', '✋🏿'];
+
+const SHORTCODES: Record<string, string> = {
+  '😀': 'grinning', '😃': 'smiley', '😄': 'smile', '😁': 'grin',
+  '😆': 'laughing', '😅': 'sweat_smile', '🤣': 'rofl', '😂': 'joy',
+  '🙂': 'slightly_smiling_face', '🙃': 'upside_down_face',
+  '😉': 'wink', '😊': 'blush', '😇': 'innocent', '🥰': 'smiling_face_with_three_hearts',
+  '😍': 'heart_eyes', '🤩': 'star_struck', '😘': 'kissing_heart',
+  '😗': 'kissing', '😚': 'kissing_closed_eyes', '😙': 'kissing_smiling_eyes',
+  '🥲': 'smiling_face_with_tear', '😋': 'yum', '😛': 'stuck_out_tongue',
+  '😜': 'stuck_out_tongue_winking_eye', '🤪': 'zany_face',
+  '😝': 'stuck_out_tongue_closed_eyes', '🤑': 'money_mouth_face',
+  '🤗': 'hugs', '🤭': 'hand_over_mouth', '🤫': 'shushing_face',
+  '🤔': 'thinking', '🤐': 'zipper_mouth_face', '🤨': 'raised_eyebrow',
+  '😐': 'neutral_face', '😑': 'expressionless', '😶': 'no_mouth',
+  '😏': 'smirk', '😒': 'unamused', '🙄': 'roll_eyes', '😬': 'grimacing',
+  '🤥': 'lying_face', '😌': 'relieved', '😔': 'pensive',
+  '😪': 'sleepy', '🤤': 'drooling_face', '😴': 'sleeping',
+  '😷': 'mask', '🤒': 'face_with_thermometer', '🤕': 'face_with_head_bandage',
+  '🤢': 'nauseated_face', '🤮': 'face_vomiting', '🤧': 'sneezing_face',
+  '🥵': 'hot_face', '🥶': 'cold_face', '🥴': 'woozy_face',
+  '😵': 'dizzy_face', '🤯': 'exploding_head', '🤠': 'cowboy_hat_face',
+  '🥳': 'partying_face', '🥸': 'disguised_face', '😎': 'sunglasses',
+  '🤓': 'nerd_face', '🧐': 'monocle_face', '😕': 'confused',
+  '😟': 'worried', '🙁': 'slightly_frowning_face', '☹️': 'frowning_face',
+  '😮': 'open_mouth', '😯': 'hushed', '😲': 'astonished',
+  '😳': 'flushed', '🥺': 'pleading_face', '😦': 'frowning',
+  '😧': 'anguished', '😨': 'fearful', '😰': 'cold_sweat',
+  '😥': 'disappointed_relieved', '😢': 'cry', '😭': 'sob',
+  '😱': 'scream', '😖': 'confounded', '😣': 'persevere',
+  '😞': 'disappointed', '😓': 'sweat', '😩': 'weary', '😫': 'tired_face',
+  '🥱': 'yawning_face', '😤': 'triumph', '😡': 'rage', '😠': 'angry',
+  '👋': 'wave', '✋': 'raised_hand', '👌': 'ok_hand', '✌️': 'v',
+  '🤞': 'crossed_fingers', '🤟': 'love_you_gesture', '🤘': 'metal',
+  '🤙': 'call_me_hand', '👈': 'point_left', '👉': 'point_right',
+  '👆': 'point_up_2', '👇': 'point_down', '☝️': 'point_up',
+  '👍': '+1', '👎': '-1', '✊': 'fist', '👊': 'oncoming_fist',
+  '👏': 'clap', '🙌': 'raised_hands', '👐': 'open_hands',
+  '🙏': 'pray', '🤝': 'handshake', '💅': 'nail_care', '💪': 'muscle',
+  '🐶': 'dog', '🐱': 'cat', '🐭': 'mouse', '🐹': 'hamster',
+  '🐰': 'rabbit', '🦊': 'fox_face', '🐻': 'bear', '🐼': 'panda_face',
+  '🐨': 'koala', '🐯': 'tiger', '🦁': 'lion', '🐮': 'cow',
+  '🐷': 'pig', '🐸': 'frog', '🐵': 'monkey_face', '🙈': 'see_no_evil',
+  '🙉': 'hear_no_evil', '🙊': 'speak_no_evil', '🐔': 'chicken',
+  '🐧': 'penguin', '🐦': 'bird', '🐤': 'baby_chick', '🦆': 'duck',
+  '🦅': 'eagle', '🦉': 'owl', '🦇': 'bat', '🐺': 'wolf',
+  '🐗': 'boar', '🐴': 'horse', '🦄': 'unicorn',
+  '🍎': 'apple', '🍊': 'tangerine', '🍋': 'lemon', '🍇': 'grapes',
+  '🍓': 'strawberry', '🫐': 'blueberries', '🍒': 'cherries',
+  '🍑': 'peach', '🥭': 'mango', '🍍': 'pineapple', '🥥': 'coconut',
+  '🥝': 'kiwi_fruit', '🍅': 'tomato', '🥑': 'avocado',
+  '🥦': 'broccoli', '🥬': 'leafy_green', '🥒': 'cucumber',
+  '✈️': 'airplane', '🚀': 'rocket', '🛸': 'flying_saucer',
+  '🚁': 'helicopter', '⛵': 'sailboat', '🚢': 'ship', '🚂': 'steam_locomotive',
+  '🚄': 'bullettrain_side', '🚅': 'bullettrain_front', '🚗': 'car',
+  '⚽': 'soccer', '🏀': 'basketball', '🏈': 'football', '⚾': 'baseball',
+  '🎾': 'tennis', '🏐': 'volleyball', '🏓': 'table_tennis_paddle_and_ball',
+  '❤️': 'heart', '🧡': 'orange_heart', '💛': 'yellow_heart',
+  '💚': 'green_heart', '💙': 'blue_heart', '💜': 'purple_heart',
+  '🖤': 'black_heart', '💔': 'broken_heart', '💕': 'two_hearts',
+  '💖': 'sparkling_heart', '💘': 'cupid', '💌': 'love_letter',
+  '💋': 'kiss', '💍': 'ring', '💎': 'gem', '🏆': 'trophy',
+  '🏁': 'checkered_flag', '🚩': 'triangular_flag_on_post', '🎌': 'crossed_flags',
+  '🏴': 'black_flag', '🏳️': 'white_flag',
+  '🎉': 'tada',
+};
+
+function getShortcode(emoji: string): string {
+  return SHORTCODES[emoji] ? `:${SHORTCODES[emoji]}:` : emoji;
+}
 
 export default function EmojiPopover({
   className = '',
-  defaultTab = 'emojis',
   state = 'default',
 }: EmojiPopoverProps) {
-  const [activeTab, setActiveTab] = useState<EmojiPopoverTab>(defaultTab);
   const [activeCategoryId, setActiveCategoryId] = useState('recent');
   const [hoveredEmoji, setHoveredEmoji] = useState<string | null>(null);
 
   const rootClass = [styles['emoji-popover'], className].filter(Boolean).join(' ');
 
-  const renderEmojis = () => {
+  const emptyIllustration = {
+    'aria-label': '' as const,
+    width: '80px',
+    height: '60px',
+    children: <SearchIllustration />,
+  };
+
+  const renderBody = () => {
     if (state === 'empty') {
       return (
-        <div className={styles['emoji-popover__empty']}>
-          <div className={styles['emoji-popover__empty-icon']}>😔</div>
-          <p className={styles['emoji-popover__empty-title']}>No emojis found</p>
-          <p className={styles['emoji-popover__empty-description']}>
-            Try a different search term.
-          </p>
-        </div>
+        <EmptyState
+          illustration={emptyIllustration}
+          title="No emojis found"
+          description="Try a different search term."
+        />
       );
     }
 
@@ -175,16 +249,15 @@ export default function EmojiPopover({
             <div className={styles['emoji-popover__group-title']}>Search Results</div>
             <div className={styles['emoji-popover__emoji-row']}>
               {SEARCH_RESULTS.map((emoji) => (
-                <button
+                <EmojiButton
                   key={emoji}
-                  type="button"
-                  className={styles['emoji-popover__emoji-btn']}
+                  emoji={emoji}
+                  size="medium"
+                  padding="compact"
                   aria-label={emoji}
                   onMouseEnter={() => setHoveredEmoji(emoji)}
                   onMouseLeave={() => setHoveredEmoji(null)}
-                >
-                  {emoji}
-                </button>
+                />
               ))}
             </div>
           </div>
@@ -200,22 +273,21 @@ export default function EmojiPopover({
             <div
               className={[
                 styles['emoji-popover__emoji-row'],
-                !cat.wrap ? styles['emoji-popover__emoji-row--recent'] : '',
+                !cat.wrap ? styles['emoji-popover__emoji-row--nowrap'] : '',
               ]
                 .filter(Boolean)
                 .join(' ')}
             >
               {cat.emojis.map((emoji, i) => (
-                <button
+                <EmojiButton
                   key={`${cat.id}-${i}`}
-                  type="button"
-                  className={styles['emoji-popover__emoji-btn']}
+                  emoji={emoji}
+                  size="medium"
+                  padding="compact"
                   aria-label={emoji}
                   onMouseEnter={() => setHoveredEmoji(emoji)}
                   onMouseLeave={() => setHoveredEmoji(null)}
-                >
-                  {emoji}
-                </button>
+                />
               ))}
             </div>
           </div>
@@ -224,145 +296,62 @@ export default function EmojiPopover({
     );
   };
 
-  const renderGifs = () => {
-    if (state === 'empty') {
-      return (
-        <div className={styles['emoji-popover__empty']}>
-          <div className={styles['emoji-popover__empty-icon']}>🔍</div>
-          <p className={styles['emoji-popover__empty-title']}>No GIFs found</p>
-          <p className={styles['emoji-popover__empty-description']}>
-            Try a different search term.
-          </p>
-        </div>
-      );
-    }
-
-    const tileCount = state === 'search-results' ? 12 : 8;
-
-    return (
-      <>
-        <div className={styles['emoji-popover__gif-grid']}>
-          {Array.from({ length: tileCount }).map((_, i) => (
-            <div
-              key={i}
-              className={[
-                styles['emoji-popover__gif-tile'],
-                GIF_TILE_HEIGHTS[i % GIF_TILE_HEIGHTS.length]
-                  ? styles[`emoji-popover__gif-tile${GIF_TILE_HEIGHTS[i % GIF_TILE_HEIGHTS.length]}`]
-                  : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-            />
-          ))}
-        </div>
-        <div className={styles['emoji-popover__gif-branding']}>
-          Powered by GIPHY
-        </div>
-      </>
-    );
-  };
-
-  const footerLabel =
-    hoveredEmoji ?? (activeTab === 'emojis' ? 'Select an Emoji' : 'Search for a GIF');
-
   return (
     <div className={rootClass}>
       <div className={styles['emoji-popover__header']}>
-        {/* Tabs */}
-        <div className={styles['emoji-popover__tabs']}>
-          <button
-            type="button"
-            className={[
-              styles['emoji-popover__tab'],
-              activeTab === 'emojis' ? styles['emoji-popover__tab--active'] : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-            onClick={() => setActiveTab('emojis')}
-          >
-            Emojis
-          </button>
-          <button
-            type="button"
-            className={[
-              styles['emoji-popover__tab'],
-              activeTab === 'gifs' ? styles['emoji-popover__tab--active'] : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-            onClick={() => setActiveTab('gifs')}
-          >
-            GIFs
-          </button>
-        </div>
-
-        {/* Search bar */}
         <div className={styles['emoji-popover__search-row']}>
-          <div className={styles['emoji-popover__search-input-wrapper']}>
-            <span className={styles['emoji-popover__search-icon']}>
-              <Icon glyph={<MagnifyIcon />} size="16" />
-            </span>
-            <input
-              type="text"
-              className={styles['emoji-popover__search-input']}
-              placeholder={activeTab === 'emojis' ? 'Search emojis' : 'Search GIFs'}
-              aria-label={activeTab === 'emojis' ? 'Search emojis' : 'Search GIFs'}
-              defaultValue={state !== 'default' ? 'smile' : ''}
-            />
-          </div>
-          {activeTab === 'emojis' && state === 'default' && (
-            <button
-              type="button"
-              className={styles['emoji-popover__skin-tone-btn']}
+          <SearchInput
+            placeholder="Search emojis"
+            size="small"
+            className={styles['emoji-popover__search-input']}
+            defaultValue={state !== 'default' ? 'smile' : ''}
+          />
+          {state === 'default' && (
+            <EmojiButton
+              emoji={SKIN_TONES[0]}
+              size="small"
               aria-label="Select skin tone"
-            >
-              ✋
-            </button>
-          )}
-          {state !== 'default' && (
-            <button
-              type="button"
-              className={styles['emoji-popover__skin-tone-btn']}
-              aria-label="Clear search"
-            >
-              <Icon glyph={<CloseIcon />} size="16" />
-            </button>
+            />
           )}
         </div>
 
-        {/* Category navigation — Emojis tab only */}
-        {activeTab === 'emojis' && (
-          <div className={styles['emoji-popover__categories']}>
-            {EMOJI_CATEGORIES.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                className={[
-                  styles['emoji-popover__category-btn'],
-                  activeCategoryId === cat.id
-                    ? styles['emoji-popover__category-btn--active']
-                    : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                aria-label={cat.label}
-                onClick={() => setActiveCategoryId(cat.id)}
-              >
-                <Icon glyph={<cat.Icon />} size="16" />
-              </button>
-            ))}
-          </div>
+        <div className={styles['emoji-popover__categories']}>
+          {EMOJI_CATEGORIES.map((cat) => (
+            <IconButton
+              key={cat.id}
+              size="small"
+              padding="compact"
+              icon={<Icon glyph={<cat.Icon />} size="16" />}
+              aria-label={cat.label}
+              active={activeCategoryId === cat.id}
+              onClick={() => setActiveCategoryId(cat.id)}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className={styles['emoji-popover__scroll-view']}>
+        {state === 'empty' ? (
+          renderBody()
+        ) : (
+          <Scrollbar alwaysVisible>{renderBody()}</Scrollbar>
         )}
       </div>
 
-      {/* Content area */}
-      <div className={styles['emoji-popover__scroll-view']}>
-        {activeTab === 'emojis' ? renderEmojis() : renderGifs()}
+      <div className={styles['emoji-popover__footer']}>
+        {hoveredEmoji ? (
+          <>
+            <Emoji emoji={hoveredEmoji} size='32' />
+            <span className={styles['emoji-popover__footer-shortcode']}>
+              {getShortcode(hoveredEmoji)}
+            </span>
+          </>
+        ) : (
+          <span className={styles['emoji-popover__footer-hint']}>
+            Select an Emoji
+          </span>
+        )}
       </div>
-
-      {/* Footer */}
-      <div className={styles['emoji-popover__footer']}>{footerLabel}</div>
     </div>
   );
 }

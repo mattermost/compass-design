@@ -22,6 +22,7 @@ export { default as Divider } from './components/Divider/Divider';
 export type * from './components/Divider/Divider';
 export * from './components/Dropdown/index';
 export * from './components/Emoji/index';
+export * from './components/EmojiButton/index';
 export * from './components/EmptyState/index';
 export * from './components/ErrorMessage/index';
 export * from './components/FeatureDiscoveryPanel/index';
