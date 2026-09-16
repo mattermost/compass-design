@@ -133,9 +133,8 @@
     }
   }
 
-  // Medium Compact — 24px total height (2px + 20px + 2px), larger font, tighter padding
-  &--size-medium-compact {
-    gap: var(--spacing-xxxs);
+  // Medium + compact — 24px total height (2px + 20px + 2px), larger font, tighter padding
+  #{&}--size-medium#{&}--compact {
     padding: var(--spacing-xxxxs) var(--spacing-xxs);
 
     &:has(.chip__remove) {
@@ -145,10 +144,6 @@
     .chip__label {
       font-size: var(--font-size-100);
       line-height: var(--line-height-100);
-    }
-
-    .chip__remove {
-      padding: 2px;
     }
   }
 

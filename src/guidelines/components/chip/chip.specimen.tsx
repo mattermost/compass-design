@@ -44,7 +44,7 @@ export default function ChipLibrary() {
           <Chip size="medium" onRemove={() => {}}>
             Label
           </Chip>
-          <Chip size="medium-compact" onRemove={() => {}}>
+          <Chip size="medium" compact onRemove={() => {}}>
             Label
           </Chip>
           <Chip size="large" onRemove={() => {}}>

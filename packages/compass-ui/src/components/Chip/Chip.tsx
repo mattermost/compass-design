@@ -8,7 +8,7 @@ import { toKebab } from '@/utils/string';
 import { activateChip, ChipGroupContext } from './ChipGroup';
 import styles from './Chip.module.scss';
 
-export type ChipSize = 'small' | 'medium' | 'medium-compact' | 'large';
+export type ChipSize = 'small' | 'medium' | 'large';
 
 export interface ChipProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -18,6 +18,8 @@ export interface ChipProps extends Omit<
   children: ReactNode;
   /** Visual size. Default: Medium. */
   size?: ChipSize;
+  /** Reduces vertical and horizontal padding. */
+  compact?: boolean;
   /** Leading icon from @mattermost/compass-icons. */
   leadingIcon?: ReactNode;
   /** Leading avatar. Overrides leading-icon when both are provided. */
@@ -34,14 +36,12 @@ export interface ChipProps extends Omit<
 const ICON_SIZE_MAP: Record<ChipSize, IconSize> = {
   small: '10',
   medium: '12',
-  'medium-compact': '12',
   large: '16',
 };
 
 const AVATAR_SIZE_MAP: Record<ChipSize, UserAvatarSize> = {
   small: '12',
   medium: '16',
-  'medium-compact': '16',
   large: '20',
 };
 
@@ -103,6 +103,7 @@ function focusTargetAfterRemove(chipEl: HTMLElement): HTMLElement | null {
 export default function Chip({
   children,
   size = 'medium',
+  compact = false,
   leadingIcon,
   leadingAvatar,
   onRemove,
@@ -144,6 +145,7 @@ export default function Chip({
   const rootClass = [
     styles.chip,
     styles[`chip--size-${toKebab(size)}`],
+    compact && styles['chip--compact'],
     error && styles['chip--error'],
     colored && styles['chip--colored'],
     className,
