@@ -242,6 +242,7 @@ export default function EmojiPopover({
 }: EmojiPopoverProps) {
   const [activeCategoryId, setActiveCategoryId] = useState('recent');
   const [hoveredEmoji, setHoveredEmoji] = useState<string | null>(null);
+  const [hoveredBase, setHoveredBase] = useState<string | null>(null);
   const [skinToneIndex, setSkinToneIndex] = useState(0);
   const [showSkinTonePicker, setShowSkinTonePicker] = useState(false);
 
@@ -292,8 +293,8 @@ export default function EmojiPopover({
                     size="medium"
                     padding="compact"
                     aria-label={emoji}
-                    onMouseEnter={() => setHoveredEmoji(displayed)}
-                    onMouseLeave={() => setHoveredEmoji(null)}
+                    onMouseEnter={() => { setHoveredEmoji(displayed); setHoveredBase(emoji); }}
+                    onMouseLeave={() => { setHoveredEmoji(null); setHoveredBase(null); }}
                     onClick={() => onEmojiSelect?.(displayed)}
                   />
                 );
@@ -326,8 +327,8 @@ export default function EmojiPopover({
                     size="medium"
                     padding="compact"
                     aria-label={emoji}
-                    onMouseEnter={() => setHoveredEmoji(displayed)}
-                    onMouseLeave={() => setHoveredEmoji(null)}
+                    onMouseEnter={() => { setHoveredEmoji(displayed); setHoveredBase(emoji); }}
+                    onMouseLeave={() => { setHoveredEmoji(null); setHoveredBase(null); }}
                     onClick={() => onEmojiSelect?.(displayed)}
                   />
                 );
@@ -348,6 +349,8 @@ export default function EmojiPopover({
               styles['emoji-popover__header-main'],
               showSkinTonePicker ? styles['emoji-popover__header-main--hidden'] : '',
             ].filter(Boolean).join(' ')}
+            inert={showSkinTonePicker}
+            aria-hidden={showSkinTonePicker || undefined}
           >
             <div className={styles['emoji-popover__search-row']}>
               <SearchInput
@@ -372,6 +375,8 @@ export default function EmojiPopover({
               styles['emoji-popover__skin-tone-picker'],
               showSkinTonePicker ? styles['emoji-popover__skin-tone-picker--visible'] : '',
             ].filter(Boolean).join(' ')}
+            inert={!showSkinTonePicker}
+            aria-hidden={!showSkinTonePicker || undefined}
           >
             <span className={styles['emoji-popover__skin-tone-label']}>Skin tone</span>
             <div className={styles['emoji-popover__skin-tone-options']}>
@@ -424,7 +429,7 @@ export default function EmojiPopover({
           <>
             <Emoji emoji={hoveredEmoji} size='32' />
             <span className={styles['emoji-popover__footer-shortcode']}>
-              {getShortcode(hoveredEmoji)}
+              {getShortcode(hoveredBase ?? '')}
             </span>
           </>
         ) : (

@@ -57,7 +57,11 @@ function EmojiPopoverTriggerDemo() {
   useEffect(() => {
     if (!isOpen) return;
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+        triggerRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
+      }
     }
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
