@@ -90,7 +90,7 @@ function EmojiPopoverTriggerDemo() {
             exiting ? styles['popover-anchor--exiting'] : '',
           ].filter(Boolean).join(' ')}
         >
-          <EmojiPopover />
+          <EmojiPopover onCustomEmojiClick={() => {}} />
         </div>,
         document.body,
       )}
@@ -124,7 +124,7 @@ export default function EmojiPopoverSpecimen() {
           Full emoji grid grouped by category; skin-tone selector in search bar
         </p>
         <div className={patternStyles['patterns__popover-menu-demo']}>
-          <EmojiPopover state="default" />
+          <EmojiPopover onCustomEmojiClick={() => {}} />
         </div>
       </section>
 
@@ -134,7 +134,7 @@ export default function EmojiPopoverSpecimen() {
           Flat results group replacing the category grid
         </p>
         <div className={patternStyles['patterns__popover-menu-demo']}>
-          <EmojiPopover state="search-results" />
+          <EmojiPopover defaultQuery="smile" />
         </div>
       </section>
 
@@ -144,7 +144,7 @@ export default function EmojiPopoverSpecimen() {
           No results; centered empty state
         </p>
         <div className={patternStyles['patterns__popover-menu-demo']}>
-          <EmojiPopover state="empty" />
+          <EmojiPopover defaultQuery="zzz" />
         </div>
       </section>
     </div>

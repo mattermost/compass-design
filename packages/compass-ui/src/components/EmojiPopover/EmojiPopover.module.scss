@@ -139,6 +139,14 @@
     background-color: var(--center-channel-bg);
   }
 
+  &__footer-preview {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex: 1;
+    min-width: 0;
+  }
+
   &__footer-hint {
     font-size: var(--font-size-100);
     font-weight: var(--font-weight-semibold);

@@ -47,7 +47,7 @@ appears at the top; all other categories follow in order.
     justifyContent: 'center',
   }}
 >
-  <EmojiPopover state="default" />
+  <EmojiPopover />
 </AnatomyStage>
 
 ### Search results
@@ -61,7 +61,7 @@ group showing a filtered set of emojis.
     justifyContent: 'center',
   }}
 >
-  <EmojiPopover state="search-results" />
+  <EmojiPopover defaultQuery="smile" />
 </AnatomyStage>
 
 ### Empty search
@@ -74,7 +74,7 @@ When a search returns no matches the grid is replaced by a centered empty-state 
     justifyContent: 'center',
   }}
 >
-  <EmojiPopover state="empty" />
+  <EmojiPopover defaultQuery="zzz" />
 </AnatomyStage>
 
 <Divider />

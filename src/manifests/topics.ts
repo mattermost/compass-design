@@ -837,7 +837,7 @@ export const TOPICS: Topic[] = [
     name: 'Emoji Popover',
     category: 'patterns',
     description:
-      'Tabbed popover for browsing, searching, and inserting emojis or GIFs into messages.',
+      'Popover for browsing, searching, and inserting emojis into messages.',
     status: 'beta',
     guidelinePage: () =>
       import('@/guidelines/patterns/emoji-popover/emoji-popover.guideline.mdx'),
