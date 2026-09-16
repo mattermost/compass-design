@@ -1,0 +1,106 @@
+import { EmojiPopover } from '@mattermost/compass-proto';
+
+The Emoji Popover lets users browse, search, and insert emojis or GIFs into messages.
+It lives in `@mattermost/compass-proto` as a prototyping surface — not yet published
+to `@mattermost/compass-ui`.
+
+<Divider />
+
+## Anatomy
+
+The Emoji Popover is a fixed-size container (348 × 436px) divided into three structural
+zones: a header, a scrollable content area, and a footer.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto var(--spacing-m)',
+  }}
+>
+  <EmojiPopover />
+</AnatomyStage>
+
+- <Num>1</Num> **Tab bar** — switches between the Emojis and GIFs views. The active
+  tab is underlined with the button-background color. Tabs share a bottom divider with
+  the header.
+- <Num>2</Num> **Search bar** — a full-width text input for filtering emojis or searching
+  GIFs. On the Emojis tab in the default state, a skin-tone selector button sits to its
+  right; in any active-search state this becomes a clear button.
+- <Num>3</Num> **Category navigation** — a row of icon buttons, one per emoji category
+  (recently used, smileys, people, nature, food, travel, activities, objects, flags,
+  custom). Visible on the Emojis tab only. The active category is highlighted with the
+  button-background color.
+- <Num>4</Num> **Emoji grid** — grouped emoji buttons in a wrapping grid. Each group
+  starts with an uppercase category label. Recently Used emojis appear as a single
+  non-wrapping row at the top.
+- <Num>5</Num> **Footer** — a 56px bar that shows "Select an Emoji" (or "Search for a
+  GIF") at rest, and updates to display the emoji or GIF name while the user hovers.
+
+<Divider />
+
+## States
+
+### Default — Emojis tab
+
+The default state shows the full emoji grid sorted by category. The Recently Used group
+appears at the top; all other categories follow in order.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <EmojiPopover state="default" />
+</AnatomyStage>
+
+### Search results — Emojis tab
+
+When the user types in the search field the grid is replaced by a flat "Search Results"
+group showing only matching emojis. The skin-tone button becomes a close/clear button.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <EmojiPopover state="search-results" />
+</AnatomyStage>
+
+### Empty search — Emojis tab
+
+When a search returns no matches the grid is replaced by a centered empty-state message.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <EmojiPopover state="empty" />
+</AnatomyStage>
+
+### GIFs tab
+
+The GIFs tab replaces the emoji grid with a two-column GIF grid powered by GIPHY.
+The category navigation is hidden; search behavior follows the same default / results /
+empty pattern as the Emojis tab.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <EmojiPopover defaultTab="gifs" state="default" />
+</AnatomyStage>
+
+<Divider />
+
+## Implementation
+
+See the live specimen on the [Specimen tab](/patterns/emoji-popover?tab=specimen) for
+interactive state exploration. The `EmojiPopover` component is exported from
+`@mattermost/compass-proto`.

@@ -40,6 +40,10 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 - Variant props in specimens, `_components/*Samples.tsx`, and MDX `<Preview>` blocks must use the same **lowercase kebab-case** literals as `@mattermost/compass-ui` (e.g. `size="medium"`, `emphasis="tertiary"`). See [AGENTS.md](../../AGENTS.md#variant-prop-string-values).
 - Matrix headings and button labels may stay human-readable (Title Case); prop values must not.
 
+## Guideline MDX page structure
+
+Component guideline pages cover **anatomy** and **states** only. Do not add Usage, When to use, or implementation guidance sections — those belong in the specimen or are implied by the component API. End with a short `## Implementation` paragraph that links to the specimen page.
+
 ## Guideline MDX voice
 
 - **Bold sparingly** — in anatomy lists, bold only the short label before the em dash; otherwise prefer `` `backticks` `` for components/props/paths.

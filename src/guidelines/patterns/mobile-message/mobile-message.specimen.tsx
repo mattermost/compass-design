@@ -1,4 +1,4 @@
-import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
+import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { MobileMessage, mobileMessageStyles } from '@mattermost/compass-proto';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
@@ -69,7 +69,7 @@ export default function MobileMessageLibrary() {
             username='Leonard Riley'
             timestamp='10:12 AM'
             footer={
-              <MessageReactions
+              <ReactionsRow
                 reactions={[
                   {emoji: '👍', count: 2, byCurrentUser: true},
                   {emoji: '🎉', count: 1},

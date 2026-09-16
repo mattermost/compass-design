@@ -217,6 +217,9 @@
       "components/mention-badge": [
         "./dist/components/mention-badge/index.d.ts"
       ],
+      "components/menu-group-heading": [
+        "./dist/components/menu-group-heading/index.d.ts"
+      ],
       "components/menu-item": [
         "./dist/components/menu-item/index.d.ts"
       ],
@@ -228,9 +231,6 @@
       ],
       "components/message-more-options-menu": [
         "./dist/components/message-more-options-menu/index.d.ts"
-      ],
-      "components/message-reactions": [
-        "./dist/components/message-reactions/index.d.ts"
       ],
       "components/message-separator": [
         "./dist/components/message-separator/index.d.ts"
@@ -279,6 +279,12 @@
       ],
       "components/radio": [
         "./dist/components/radio/index.d.ts"
+      ],
+      "components/reaction-button": [
+        "./dist/components/reaction-button/index.d.ts"
+      ],
+      "components/reactions-row": [
+        "./dist/components/reactions-row/index.d.ts"
       ],
       "components/right-sidebar-header": [
         "./dist/components/right-sidebar-header/index.d.ts"

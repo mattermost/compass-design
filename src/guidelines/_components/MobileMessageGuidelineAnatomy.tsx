@@ -3,7 +3,7 @@ import sampleImage from '@/assets/images/sample-image.jpg';
 import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-card';
 import { ImagePreview } from '@mattermost/compass-ui/components/image-preview';
 import { LinkPreview } from '@mattermost/compass-ui/components/link-preview';
-import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
+import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { MobileMessage, mobileMessageStyles } from '@mattermost/compass-proto';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import styles from './MobileMessageGuidelineAnatomy.module.scss';
@@ -50,7 +50,7 @@ export function MobileMessageAnatomyStage() {
                 fileMeta='PDF 248KB'
                 fileType='pdf'
               />
-              <MessageReactions
+              <ReactionsRow
                 reactions={[
                   {emoji: '👍', count: 2, byCurrentUser: true},
                   {emoji: '🎉', count: 1},

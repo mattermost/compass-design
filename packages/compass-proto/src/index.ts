@@ -1,4 +1,5 @@
 export * from './components/CallInfoPanel/index';
+export * from './components/EmojiPopover/index';
 export * from './components/CallParticipantAvatar/index';
 export * from './components/CallPopout/index';
 export * from './components/CallWidget/index';

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
+import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { Modal } from '@mattermost/compass-ui/components/modal';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
@@ -140,7 +140,7 @@ export default function ModalLayout() {
                   Nice work Marco 🎉 I can take a pass after standup. The new
                   illustrations really tie the whole flow together.
                 </p>
-                <MessageReactions
+                <ReactionsRow
                   reactions={[
                     { emoji: '🎉', count: 4, byCurrentUser: true },
                     { emoji: '👀', count: 2 },
