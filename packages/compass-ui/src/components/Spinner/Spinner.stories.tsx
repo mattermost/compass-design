@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Spinner from './Spinner';
 import type { SpinnerSize } from './Spinner';
 
-const SIZES: SpinnerSize[] = [10, 12, 16, 20, 24, 28, 32];
+const SIZES: SpinnerSize[] = ['10', '12', '16', '20', '24', '28', '32'];
 
 const meta = {
   title: 'Components/Progress Indicators/Spinner',
@@ -18,14 +18,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    size: 16,
+    size: '16',
   },
 };
 
 export const Inverted: Story = {
   args: {
     inverted: true,
-    size: 20,
+    size: '20',
   },
   decorators: [
     (Story) => (
