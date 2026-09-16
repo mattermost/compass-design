@@ -26,7 +26,7 @@ export default function ReactionButton({
   ...rest
 }: ReactionButtonProps) {
   const prevCountRef = useRef(count);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [countAnim, setCountAnim] = useState<'up' | 'down' | null>(null);
 
   useEffect(() => {
