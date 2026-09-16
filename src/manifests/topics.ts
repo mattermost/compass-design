@@ -404,6 +404,15 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/emoji/emoji.specimen'),
   },
   {
+    slug: 'emoji-button',
+    name: 'Emoji Button',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/emoji-button/emoji-button.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/components/emoji-button/emoji-button.specimen'),
+  },
+  {
     slug: 'empty-state',
     name: 'Empty State',
     category: 'components',
@@ -484,6 +493,17 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/mention-badge/mention-badge.specimen'),
   },
   {
+    slug: 'menu-group-heading',
+    name: 'Menu Group Heading',
+    category: 'components',
+    description: 'Optional all-caps section label that titles a grouped set of Menu Items in a dropdown or context menu.',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/menu-group-heading/menu-group-heading.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/menu-group-heading/menu-group-heading.specimen'),
+  },
+  {
     slug: 'menu-item',
     name: 'Menu Item',
     category: 'components',
@@ -536,12 +556,20 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/message-header/message-header.specimen'),
   },
   {
-    slug: 'message-reactions',
-    name: 'Message Reactions',
+    slug: 'reaction-button',
+    name: 'Reaction Button',
     category: 'components',
     status: 'stable',
-    guidelinePage: () => import('@/guidelines/components/message-reactions/message-reactions.guideline.mdx'),
-    specimenPage: () => import('@/guidelines/components/message-reactions/message-reactions.specimen'),
+    guidelinePage: () => import('@/guidelines/components/reaction-button/reaction-button.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/components/reaction-button/reaction-button.specimen'),
+  },
+  {
+    slug: 'reactions-row',
+    name: 'Reactions Row',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () => import('@/guidelines/components/reactions-row/reactions-row.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/components/reactions-row/reactions-row.specimen'),
   },
   {
     slug: 'message-separator',
@@ -812,6 +840,18 @@ export const TOPICS: Topic[] = [
     status: 'stable',
     guidelinePage: () => import('@/guidelines/patterns/call-widget/call-widget.guideline.mdx'),
     specimenPage: () => import('@/guidelines/patterns/call-widget/call-widget.specimen'),
+  },
+  {
+    slug: 'emoji-popover',
+    name: 'Emoji Popover',
+    category: 'patterns',
+    description:
+      'Popover for browsing, searching, and inserting emojis into messages.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/emoji-popover/emoji-popover.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/emoji-popover/emoji-popover.specimen'),
   },
   {
     slug: 'channel-header',

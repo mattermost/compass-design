@@ -1,0 +1,37 @@
+import { MenuGroupHeading } from '@mattermost/compass-ui/components/menu-group-heading';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+
+Menu Group Heading is an optional all-caps label that titles a grouped section
+of Menu Items inside a dropdown or context menu.
+
+Use it when a menu contains multiple distinct groups and the category name
+provides meaningful context. Omit it when the grouping is obvious from the
+items themselves or when the menu is short enough to scan without headings.
+
+<Divider />
+
+## Anatomy
+
+One part: the label text, which is always rendered in all-caps to distinguish
+it from the selectable rows below.
+
+- <Num>1</Num> **Label** — the category name. Keep it short (one or two
+  words). Required.
+
+<AnatomyStage style={{flexDirection:'column',gap:'0',alignItems:'stretch',maxWidth:'320px',margin:'0 auto var(--spacing-m)'}}>
+  <MenuGroupHeading label="Preferences" />
+  <MenuItem label="Theme" leadingElement={false} />
+  <MenuItem label="Language" leadingElement={false} />
+  <MenuGroupHeading label="Notifications" />
+  <MenuItem label="Desktop alerts" leadingElement={false} />
+</AnatomyStage>
+
+Menu Group Heading is non-interactive. It has no hover, focus, or pressed
+states — keyboard navigation skips it and moves directly between Menu Items.
+
+<Divider />
+
+## Implementation
+
+For copy-ready examples, see the
+[Menu Group Heading specimen page](/components/menu-group-heading/specimen).

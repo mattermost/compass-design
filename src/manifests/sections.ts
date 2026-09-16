@@ -53,7 +53,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
   components: [
     {
       label: 'Actions',
-      slugs: ['action-button', 'button', 'icon-button'],
+      slugs: ['action-button', 'button', 'emoji-button', 'icon-button'],
     },
     {
       label: 'Banners',
@@ -138,7 +138,8 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'channel-info-msg-header',
         'message-actions',
         'message-header',
-        'message-reactions',
+        'reaction-button',
+        'reactions-row',
         'message-separator',
         'thread-footer',
         'thread-list-item',
@@ -154,7 +155,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Navigation',
-      slugs: ['channel-sidebar-item', 'menu-item'],
+      slugs: ['channel-sidebar-item', 'menu-group-heading', 'menu-item'],
     },
     {
       label: 'Progress Indicators',
@@ -187,6 +188,10 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     {
       label: 'Onboarding',
       slugs: ['tour-point'],
+    },
+    {
+      label: 'Overlays',
+      slugs: ['emoji-popover', 'popover-menu', 'profile-popover'],
     },
   ],
   layouts: [

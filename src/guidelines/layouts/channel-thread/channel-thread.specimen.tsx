@@ -1,5 +1,5 @@
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
+import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
@@ -109,7 +109,7 @@ export default function ChannelThreadLayout() {
                   Nice work Marco 🎉 I can take a pass after standup. The new
                   illustrations really tie the whole flow together.
                 </p>
-                <MessageReactions
+                <ReactionsRow
                   reactions={[
                     { emoji: '🎉', count: 4, byCurrentUser: true },
                     { emoji: '👀', count: 2 },

@@ -1,0 +1,119 @@
+.emoji-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-body);
+  border-radius: var(--radius-s);
+  border: 0;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-quick) var(--ease-transition),
+    outline-color var(--duration-quick) var(--ease-transition),
+    outline-offset var(--duration-quick) var(--ease-transition);
+  background-color: transparent;
+  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+  outline-offset: 0;
+
+  &:focus-visible {
+    outline-color: var(--focus-ring-color);
+    outline-offset: 3px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:hover:not(:disabled):not(:active):not(.emoji-button--active):not(.emoji-button--toggled) {
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+  }
+
+  &__emoji {
+    display: inline-flex;
+    transition: transform var(--duration-quick) var(--ease-transition);
+  }
+
+  &:hover:not(:disabled) &__emoji {
+    transform: scale(1.2);
+  }
+
+  &:active:not(:disabled):not(.emoji-button--toggled) {
+    background-color: rgba(var(--button-bg-rgb), 0.08);
+  }
+
+  // ── Size modifiers ──────────────────────────────────────────────
+  &--size-x-small {
+    width: 24px;
+    height: 24px;
+    padding: var(--spacing-xxxs);
+
+    &.emoji-button--padding-compact {
+      width: 20px;
+      height: 20px;
+      padding: 2px;
+    }
+  }
+
+  &--size-small {
+    width: 32px;
+    height: 32px;
+    padding: var(--spacing-xxs);
+
+    &.emoji-button--padding-compact {
+      width: 28px;
+      height: 28px;
+      padding: var(--spacing-xxxs);
+    }
+  }
+
+  &--size-medium {
+    width: 40px;
+    height: 40px;
+    padding: var(--spacing-xs);
+
+    &.emoji-button--padding-compact {
+      width: 36px;
+      height: 36px;
+      padding: var(--spacing-xxs);
+    }
+  }
+
+  &--size-large {
+    width: 48px;
+    height: 48px;
+    padding: var(--spacing-s);
+
+    &.emoji-button--padding-compact {
+      width: 44px;
+      height: 44px;
+      padding: var(--spacing-xs);
+    }
+  }
+
+  // ── Active / forced pressed ─────────────────────────────────────
+  &--active:not(:disabled) {
+    background-color: rgba(var(--button-bg-rgb), 0.08);
+
+    &:hover:not(:disabled):not(:active) {
+      background-color: rgba(var(--button-bg-rgb), 0.12);
+    }
+
+    &:active:not(:disabled) {
+      background-color: rgba(var(--button-bg-rgb), 0.16);
+    }
+  }
+
+  // ── Toggled / selected ──────────────────────────────────────────
+  &--toggled {
+    background-color: var(--button-bg);
+
+    &:hover:not(:disabled):not(:active) {
+      background-color: color-mix(in srgb, black 8%, var(--button-bg));
+    }
+
+    &:active:not(:disabled) {
+      background-color: color-mix(in srgb, black 16%, var(--button-bg));
+    }
+  }
+}

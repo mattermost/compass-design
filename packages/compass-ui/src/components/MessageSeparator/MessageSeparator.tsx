@@ -8,7 +8,7 @@ export type MessageSeparatorType = 'date' | 'new-messages' | 'reply-count';
 export interface MessageSeparatorProps extends HTMLAttributes<HTMLDivElement> {
   /** Separator variant. Default: Date. */
   type?: MessageSeparatorType;
-  /** Label text. Defaults: 'Today' / 'new-messages' / '4 replies'. */
+  /** Label text. Defaults: 'Today' / 'New messages' / '4 replies'. */
   label?: string;
   /** Show AI summarize button (New Messages type only). Default: false. */
   showAiSummary?: boolean;
@@ -20,7 +20,7 @@ export interface MessageSeparatorProps extends HTMLAttributes<HTMLDivElement> {
 
 const DEFAULT_LABELS: Record<MessageSeparatorType, string> = {
   date: 'Today',
-  'new-messages': 'new-messages',
+  'new-messages': 'New messages',
   'reply-count': '4 replies',
 };
 

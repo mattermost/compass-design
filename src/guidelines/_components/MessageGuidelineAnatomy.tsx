@@ -5,7 +5,7 @@ import { ImagePreview } from '@mattermost/compass-ui/components/image-preview';
 import { LinkPreview } from '@mattermost/compass-ui/components/link-preview';
 import { Message } from '@mattermost/compass-proto';
 import { messageStyles } from '@mattermost/compass-proto';
-import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
+import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import styles from './MessageGuidelineAnatomy.module.scss';
 
@@ -51,7 +51,7 @@ export function MessageGuidelineAnatomyStage() {
                 fileMeta="PDF 248KB"
                 fileType="pdf"
               />
-              <MessageReactions
+              <ReactionsRow
                 reactions={[
                   { emoji: '👍', count: 2, byCurrentUser: true },
                   { emoji: '🎉', count: 1 },

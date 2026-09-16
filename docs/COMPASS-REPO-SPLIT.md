@@ -53,6 +53,7 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | **2 — Slim playground** | Done | Flows + chrome only; depend on published core + packed proto; rewrite README for catalog role |
 | **3 — Alpha release** | Done | `@mattermost/compass-ui@0.1.0-alpha.0` on npm (`alpha` tag); GitHub pre-release; webapp npm consumption validated — no mergeable PR merged yet |
 | **7 — Subpath imports** | Done (design repo); proto-playground PR | Multi-entry packaging + subpath exports in `@mattermost/compass-ui@0.1.0-alpha.3`. Docs/playground in this repo migrated; [`mattermost-proto-playground`](https://github.com/mattermost/mattermost-proto-playground) follows in a companion PR. Webapp migration documented in INTEGRATION.md. |
+| **Later — Webapp i18n** | Deferred | Host-owned copy can be translated at the call site today. Compass chrome is English-only. Do not ship locale JSON from this package. Revisit after the webapp localization pipeline (extract, Weblate, in-repo translations, ICU checks) is stable — see INTEGRATION.md Translation. |
 
 Stop after each phase; verify before starting the next.
 

@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/compass-ui",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.7",
   "description": "Compass design system UI components for Mattermost products",
   "repository": {
     "type": "git",
@@ -181,6 +181,12 @@
       "components/emoji": [
         "./dist/components/emoji/index.d.ts"
       ],
+      "components/emoji-button": [
+        "./dist/components/emoji-button/index.d.ts"
+      ],
+      "components/emoji-popover": [
+        "./dist/components/emoji-popover/index.d.ts"
+      ],
       "components/empty-state": [
         "./dist/components/empty-state/index.d.ts"
       ],
@@ -217,6 +223,9 @@
       "components/mention-badge": [
         "./dist/components/mention-badge/index.d.ts"
       ],
+      "components/menu-group-heading": [
+        "./dist/components/menu-group-heading/index.d.ts"
+      ],
       "components/menu-item": [
         "./dist/components/menu-item/index.d.ts"
       ],
@@ -228,9 +237,6 @@
       ],
       "components/message-more-options-menu": [
         "./dist/components/message-more-options-menu/index.d.ts"
-      ],
-      "components/message-reactions": [
-        "./dist/components/message-reactions/index.d.ts"
       ],
       "components/message-separator": [
         "./dist/components/message-separator/index.d.ts"
@@ -279,6 +285,12 @@
       ],
       "components/radio": [
         "./dist/components/radio/index.d.ts"
+      ],
+      "components/reaction-button": [
+        "./dist/components/reaction-button/index.d.ts"
+      ],
+      "components/reactions-row": [
+        "./dist/components/reactions-row/index.d.ts"
       ],
       "components/right-sidebar-header": [
         "./dist/components/right-sidebar-header/index.d.ts"

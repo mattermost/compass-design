@@ -397,7 +397,7 @@ Import convention matches webapp and docs: `@mattermost/compass-ui/components/<k
 
 1. Add `@mattermost/compass-ui` alongside legacy package.
 2. New code uses compass-ui **subpath imports** (`components/button`, not the root barrel).
-3. Replace compass-components usages file-by-file (Button, Text equivalents, etc.).
+3. Replace compass-components usages file-by-file (Button, Text equivalents, etc.). Prefer call sites whose copy is host-owned until [Translation (i18n)](#translation-i18n) lands.
 4. Storybook is the variant reference — link from internal docs.
 
 ### Button and shared package prop mapping
@@ -444,6 +444,22 @@ Compass uses the **same semantic names** as webapp:
 - **Components**: error / destructive UI uses `var(--error-text, var(--color-danger))`. Presence uses `--online-indicator` / `--away-indicator` / `--dnd-indicator`. Calls surfaces use `var(--calls-bg, var(--color-indigo-600))` until the host defines `--calls-bg`. Toasts / global banners use `--color-*` (fixed semantics).
 
 Confirm host vars match Compass theme role names before wide rollout. Spike with `Button` destructive / `SectionNotice` danger / `Toast` first.
+
+### Translation (i18n)
+
+Compass does **not** integrate with `react-intl` today. There is no `react-intl` peer, no `MessageDescriptor` / `Translatable` types, and no locale catalog. Copy is expected as already-resolved strings or `ReactNode`.
+
+**Host-owned copy** (product chooses the text) works if the webapp translates at the call site:
+
+- `ReactNode` props (`Button` `children`, `Modal` / `ModalHeader` `title` / `subtitle`) can take `<FormattedMessage />`.
+- `string` props (`Tooltip` `label` / `hint`, placeholders, `aria-label`) can take `intl.formatMessage(...)` — a string, not a descriptor object.
+- Some English defaults are overridable (`AdminPanelFooter` `saveLabel` / `cancelLabel`, `Combobox` `emptyMessage`, `Spinner` `aria-label`).
+
+**Compass-owned chrome** is hardcoded English and will not follow the user's locale: `ModalHeader` `"Close"` / `"Go back"`, dismiss/clear labels on `Toast` / `SectionNotice` / `GlobalBanner` / `SearchInput`, `Combobox` `"No results"`, `DateRangePicker` month/weekday names, and many composite `aria-label`s. Prefer leafs whose visible copy is host-owned (e.g. ConfirmModal buttons) until chrome is localizable. Do not adopt those chrome surfaces in localized product UI without an override prop or a follow-up in this package.
+
+`@mattermost/shared` is the model to copy later: `defineMessage` in source, `react-intl` as a peer, English extracted into `webapp/channels/src/i18n/en.json`. Shared does **not** ship its own locale files — channels extract scans `platform/shared` into that one catalog; Weblate fills the other 21 languages.
+
+**Deferred:** do not invent a Compass-only i18n system or ship `es.json` / `fr.json` / etc. from this package. The webapp localization pipeline is in flux (FormatJS extract, Weblate, in-repo translation PRs, ICU catalog checks). After that pipeline is stable, decide how Compass English source joins it — likely `defineMessage` + `defaultMessage` in compass-ui, extract or merge into channels `en.json` only. Until then, English chrome still works via hardcoded defaults / `defaultMessage`; other locales fall back to English for any Compass-owned ids.
 
 ### Overlays
 

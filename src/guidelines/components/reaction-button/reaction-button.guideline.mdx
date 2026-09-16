@@ -1,0 +1,47 @@
+import { ReactionButton } from '@mattermost/compass-ui/components/reaction-button';
+
+Reaction Button is a single emoji button — it shows the emoji, the count of users who chose it,
+and highlights when the current user has reacted. It is the individual building block that
+`ReactionsRow` composes into the reaction strip below a message.
+
+<Divider />
+
+## Anatomy
+
+A compact button with two text nodes.
+
+- <Num>1</Num> **Emoji** — the emoji character, rendered at `font-size-200` and hidden from
+  assistive technology (`aria-hidden`).
+- <Num>2</Num> **Count** — the number of users who reacted, in semibold body text.
+
+The accessible name is built from both: `"👍 3 reactions"`.
+
+<AnatomyStage>
+  <ReactionButton emoji="👍" count={3} />
+</AnatomyStage>
+
+<Divider />
+
+## States
+
+Reaction Button has two visual variants plus the standard interactive states.
+
+| State   | `byCurrentUser` | Use when |
+| ------- | --------------- | -------- |
+| Default | `false`         | At least one other user reacted; the current user has not. |
+| Mine    | `true`          | The current user has reacted. Button takes a brand-colour outline and soft fill; the count turns brand-colour. |
+
+<div style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'1rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+  <ReactionButton emoji="👍" count={3} />
+  <ReactionButton emoji="🎉" count={1} byCurrentUser />
+</div>
+
+On hover the background deepens slightly to preview intent. On focus the button receives a
+brand-colour focus ring via `outline-offset`.
+
+<Divider />
+
+## Implementation
+
+For props and copy-ready examples, see the
+[Reaction Button specimen page](/components/reaction-button/specimen).

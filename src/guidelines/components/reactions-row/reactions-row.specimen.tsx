@@ -1,19 +1,19 @@
-import { MessageReactions } from '@mattermost/compass-ui/components/message-reactions';
+import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import styles from '@/styles/library-demo/components.module.scss';
 
-export default function MessageReactionsLibrary() {
+export default function ReactionsRowLibrary() {
   return (
     <>
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Default</span>
-          <MessageReactions />
+          <ReactionsRow />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
             With add button
           </span>
-          <MessageReactions
+          <ReactionsRow
             reactions={[
               { emoji: '👍', count: 5, byCurrentUser: true },
               { emoji: '🎉', count: 2 },
@@ -25,7 +25,7 @@ export default function MessageReactionsLibrary() {
           <span className={styles['components__instance-label']}>
             Acknowledge — unclicked
           </span>
-          <MessageReactions
+          <ReactionsRow
             reactions={[]}
             acknowledged
             acknowledgeCount={0}
@@ -36,7 +36,7 @@ export default function MessageReactionsLibrary() {
           <span className={styles['components__instance-label']}>
             Acknowledge — clicked
           </span>
-          <MessageReactions
+          <ReactionsRow
             reactions={[]}
             acknowledged
             acknowledgeCount={3}

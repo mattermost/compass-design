@@ -36,9 +36,13 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 
 ## Specimens and MDX code samples
 
-- **Import convention:** always use subpath imports from `@mattermost/compass-ui` — never the root barrel. Map PascalCase component names to kebab-case segments: `Button` → `@mattermost/compass-ui/components/button`, `useExitAnimation` → `@mattermost/compass-ui/hooks/use-exit-animation`. Style sub-exports (`btnStyles`, `channelsSidebarStyles`) come from the owning component subpath (e.g. `@mattermost/compass-ui/components/button`). Proto pieces import from `@mattermost/compass-proto` (root barrel only). Split multi-component imports into separate lines.
+- **Import convention:** always use subpath imports from `@mattermost/compass-ui` — never the root barrel. Map PascalCase component names to kebab-case segments: `Button` → `@mattermost/compass-ui/components/button`, `useExitAnimation` → `@mattermost/compass-ui/hooks/use-exit-animation`. Style sub-exports (`btnStyles`, `channelsSidebarStyles`) come from the owning component subpath (e.g. `@mattermost/compass-ui/components/button`). Proto pieces import from `@mattermost/compass-proto` (root barrel only). Split multi-component imports into separate lines. All compass-ui subpath `index.ts` files use **named** re-exports (`export { default as Foo }`), so always use named imports — `import { Divider } from '…/divider'`, never `import Divider from '…/divider'`.
 - Variant props in specimens, `_components/*Samples.tsx`, and MDX `<Preview>` blocks must use the same **lowercase kebab-case** literals as `@mattermost/compass-ui` (e.g. `size="medium"`, `emphasis="tertiary"`). See [AGENTS.md](../../AGENTS.md#variant-prop-string-values).
 - Matrix headings and button labels may stay human-readable (Title Case); prop values must not.
+
+## Guideline MDX page structure
+
+Component guideline pages cover **anatomy** and **states** only. Do not add Usage, When to use, or implementation guidance sections — those belong in the specimen or are implied by the component API. End with a short `## Implementation` paragraph that links to the specimen page.
 
 ## Guideline MDX voice
 

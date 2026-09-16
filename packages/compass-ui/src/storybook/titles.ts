@@ -87,6 +87,8 @@ export const TITLE_MESSAGING_THREAD_FOOTER =
 
 export const TITLE_NAVIGATION_CHANNEL_SIDEBAR_ITEM =
   'Components/Navigation/Channel Sidebar Item';
+export const TITLE_NAVIGATION_MENU_GROUP_HEADING =
+  'Components/Navigation/Menu Group Heading';
 export const TITLE_NAVIGATION_MENU_ITEM = 'Components/Navigation/Menu Item';
 
 export const TITLE_PATTERNS_POPOVER_MENU = 'Patterns/Popover Menu';

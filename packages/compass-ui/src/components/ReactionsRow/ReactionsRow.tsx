@@ -1,9 +1,10 @@
 import type { HTMLAttributes } from 'react';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
+import ReactionButton from '@/components/ReactionButton/ReactionButton';
 import CheckCircleOutlineIcon from '@mattermost/compass-icons/components/check-circle-outline';
 import EmoticonPlusOutlineIcon from '@mattermost/compass-icons/components/emoticon-plus-outline';
-import styles from './MessageReactions.module.scss';
+import styles from './ReactionsRow.module.scss';
 
 export interface ReactionItem {
   emoji: string;
@@ -12,7 +13,7 @@ export interface ReactionItem {
   byCurrentUser?: boolean;
 }
 
-export interface MessageReactionsProps extends HTMLAttributes<HTMLDivElement> {
+export interface ReactionsRowProps extends HTMLAttributes<HTMLDivElement> {
   /** List of reactions to display. */
   reactions?: ReactionItem[];
   /** Whether to show the add-reaction button. Default: false. */
@@ -25,7 +26,7 @@ export interface MessageReactionsProps extends HTMLAttributes<HTMLDivElement> {
   currentUserAcknowledged?: boolean;
   /** Called when add-reaction is clicked. */
   onAddReaction?: () => void;
-  /** Called when a reaction pill is clicked. */
+  /** Called when a Reaction Button is clicked. */
   onReactionClick?: (emoji: string) => void;
   /** Called when the acknowledge button is clicked. */
   onAcknowledge?: () => void;
@@ -40,11 +41,11 @@ const DEFAULT_REACTIONS: ReactionItem[] = [
 ];
 
 /**
- * Message Reactions are the row of emoji pills below a message — the lightest weight way to
+ * Reactions Row is the strip of Reaction Buttons below a message — the lightest weight way to
  * respond, applaud, or acknowledge without adding to the thread. The component handles the
  * count, the "this is mine" highlight, and the add-reaction affordance.
  */
-export default function MessageReactions({
+export default function ReactionsRow({
   reactions = DEFAULT_REACTIONS,
   showAddReaction = false,
   acknowledged = false,
@@ -55,8 +56,8 @@ export default function MessageReactions({
   onAcknowledge,
   className = '',
   ...rest
-}: MessageReactionsProps) {
-  const rootClass = [styles['message-reactions'], className]
+}: ReactionsRowProps) {
+  const rootClass = [styles['reactions-row'], className]
     .filter(Boolean)
     .join(' ');
 
@@ -67,9 +68,9 @@ export default function MessageReactions({
         <button
           type="button"
           className={[
-            styles['message-reactions__ack'],
+            styles['reactions-row__ack'],
             currentUserAcknowledged
-              ? styles['message-reactions__ack--active']
+              ? styles['reactions-row__ack--active']
               : '',
           ]
             .filter(Boolean)
@@ -78,54 +79,38 @@ export default function MessageReactions({
           aria-pressed={currentUserAcknowledged}
           aria-label="Acknowledge message"
         >
-          <span className={styles['message-reactions__ack-icon']} aria-hidden>
+          <span className={styles['reactions-row__ack-icon']} aria-hidden>
             <Icon size="16" glyph={<CheckCircleOutlineIcon />} />
           </span>
           {currentUserAcknowledged ? (
-            <span className={styles['message-reactions__ack-count']}>
+            <span className={styles['reactions-row__ack-count']}>
               {acknowledgeCount}
             </span>
           ) : (
-            <span className={styles['message-reactions__ack-label']}>
+            <span className={styles['reactions-row__ack-label']}>
               Acknowledge
             </span>
           )}
         </button>
       )}
 
-      {/* Reaction pills */}
-      <div className={styles['message-reactions__pills']}>
+      {/* Reaction buttons */}
+      <div className={styles['reactions-row__buttons']}>
         {reactions.map(({ emoji, count, byCurrentUser }) => (
-          <button
+          <ReactionButton
             key={emoji}
-            type="button"
-            className={[
-              styles['message-reactions__pill'],
-              byCurrentUser ? styles['message-reactions__pill--mine'] : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
+            emoji={emoji}
+            count={count}
+            byCurrentUser={byCurrentUser}
             onClick={() => onReactionClick?.(emoji)}
-            aria-label={`${emoji} ${count} reaction${count !== 1 ? 's' : ''}`}
-            aria-pressed={byCurrentUser}
-          >
-            <span
-              className={styles['message-reactions__pill-emoji']}
-              aria-hidden
-            >
-              {emoji}
-            </span>
-            <span className={styles['message-reactions__pill-count']}>
-              {count}
-            </span>
-          </button>
+          />
         ))}
 
         {/* Add reaction button */}
         {showAddReaction && (
           <IconButton
             aria-label="Add reaction"
-            className={styles['message-reactions__add-reaction']}
+            className={styles['reactions-row__add-reaction']}
             size="x-small"
             onClick={onAddReaction}
             icon={<Icon size="16" glyph={<EmoticonPlusOutlineIcon />} />}

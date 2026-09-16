@@ -1,0 +1,96 @@
+import { EMOJI_BUTTON_EMOJI_SIZES, EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
+
+Emoji Buttons are compact, label-free actions that render an emoji as their
+visual — the emoji counterpart to Icon Button. Use them in emoji selection
+grids, skin-tone selectors, and any surface where an emoji character is the
+primary affordance.
+
+<Divider />
+
+## Anatomy
+
+A square (or pill) target wrapping a single Emoji. The emoji scales slightly
+on hover to confirm interactivity.
+
+<AnatomyStage style={{gap:'1rem'}}>
+  <EmojiButton aria-label="Thumbs up" emoji="👍" size="medium" />
+  <EmojiButton aria-label="Thumbs up, toggled" emoji="👍" size="medium" toggled />
+</AnatomyStage>
+
+- <Num>1</Num> **Container** — square (or pill when `rounded`) target. Sized
+  to the chosen size token; defaults to 4px corner radius.
+- <Num>2</Num> **Emoji** — the action's visual. Scales up on hover via a CSS
+  transform so the target size stays stable.
+
+<Divider />
+
+## Sizes
+
+Four sizes, each with a matching default emoji size. **Compact** padding is
+available where the surrounding rhythm calls for a tighter target — dense
+grids, picker headers.
+
+<div style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
+  <EmojiButton aria-label="X-Small" size="x-small" emoji="🎉" />
+  <EmojiButton aria-label="Small" size="small" emoji="🎉" />
+  <EmojiButton aria-label="Medium" size="medium" emoji="🎉" />
+  <EmojiButton aria-label="Large" size="large" emoji="🎉" />
+</div>
+
+| Size    | Container | Emoji | Use when                                                |
+| ------- | --------- | ----- | ------------------------------------------------------- |
+| X-Small | 24px      | 12px  | Inline reactions, compact action rows.                  |
+| Small   | 32px      | 20px  | Default for emoji grids and skin-tone selectors.        |
+| Medium  | 40px      | 24px  | Prominent emoji controls, toolbar slots.                |
+| Large   | 48px      | 28px  | Mobile, featured emoji pickers.                         |
+
+<Divider />
+
+## States
+
+Emoji Buttons share the standard interactive states — Default, Hover, Focus,
+Active, Disabled — and add **Toggled** for selected/on controls.
+
+<div style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
+  <EmojiButton aria-label="Default" emoji="👍" />
+  <EmojiButton aria-label="Toggled" emoji="👍" toggled />
+  <EmojiButton aria-label="Disabled" emoji="👍" disabled />
+</div>
+
+**Focus** uses the same `outline` + `outline-offset` ring as
+[Icon Button](/components/icon-button) — a 3px gap showing the surface, then
+a 2px coloured outer ring. Other compact emoji controls should follow this
+ring rather than inventing a separate overlay.
+
+**Toggled** fills the container with the active button colour to communicate
+"selected" — a reaction the current user has added, or a chosen skin tone.
+The component sets `aria-pressed` automatically.
+
+**Active** (the `active` prop) forces the subtler pressed tint without
+toggling the fully filled state. Use it for intermediate pressed appearances
+when the host manages animation separately.
+
+<Divider />
+
+## Accessibility
+
+- **Always provide an `aria-label`.** Emoji Buttons have no visible text; the
+  label is what screen readers announce. Describe the action, not just the
+  emoji — prefer `"React with thumbs up"` over `"👍"`.
+- **Pair with a Tooltip.** A 400ms hover-delay Tooltip should appear on every
+  Emoji Button, repeating the `aria-label` text so sighted users can confirm
+  the action.
+- **`aria-pressed` is automatic.** Pass `toggled` and the button handles the
+  ARIA attribute — don't set `aria-pressed` manually.
+
+<Divider />
+
+## Implementation
+
+In prototypes and layout specimens, wrap Emoji Buttons with `WithTooltip`
+from `@mattermost/compass-proto` so hover delay and placement stay out of the
+button itself. The product uses the webapp `WithTooltip` around the same
+`EmojiButton`.
+
+For props, variants, and copy-ready examples, see the
+[Emoji Button specimen page](/components/emoji-button/specimen).

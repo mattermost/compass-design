@@ -1,0 +1,95 @@
+import { EmojiPopover } from '@mattermost/compass-proto';
+
+The Emoji Popover lets users browse, search, and insert emojis into messages.
+It lives in `@mattermost/compass-proto` as a prototyping surface — not yet published
+to `@mattermost/compass-ui`.
+
+<Divider />
+
+## Anatomy
+
+The Emoji Popover is a fixed-size container (348 × 436px) divided into three structural
+zones: a header, a scrollable content area, and a footer.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto var(--spacing-m)',
+  }}
+>
+  <EmojiPopover />
+</AnatomyStage>
+
+- <Num>1</Num> **Search bar** — a full-width text input for filtering emojis. In the
+  default state, a skin-tone selector button sits to its right.
+- <Num>2</Num> **Category navigation** — a row of icon buttons, one per emoji category
+  (recently used, smileys, people, nature, food, travel, activities, objects, flags,
+  custom). The active category is highlighted with the button-background color.
+- <Num>3</Num> **Emoji grid** — grouped emoji buttons in a wrapping grid. Each group
+  starts with an uppercase category label. Recently Used emojis appear as a single
+  non-wrapping row at the top.
+- <Num>4</Num> **Footer** — a 56px bar that shows "Select an Emoji" at rest, and updates
+  to display the hovered emoji at a larger size alongside its markdown shortcode.
+
+<Divider />
+
+## States
+
+### Default
+
+The default state shows the full emoji grid sorted by category. The Recently Used group
+appears at the top; all other categories follow in order.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <EmojiPopover />
+</AnatomyStage>
+
+### Search results
+
+In the search-results state the category grid is replaced by a flat "Search Results"
+group showing a filtered set of emojis.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <EmojiPopover defaultQuery="smile" />
+</AnatomyStage>
+
+### Empty search
+
+When a search returns no matches the grid is replaced by a centered empty-state message.
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <EmojiPopover defaultQuery="zzz" />
+</AnatomyStage>
+
+<Divider />
+
+## Animation
+
+The Emoji Popover follows the same open/close motion standard as [Popover Menu](/patterns/popover-menu#animation).
+It opens below its trigger at full opacity and natural scale, entering from 90% scale and 0% opacity
+(`--ease-entrance`, `--duration-quick`). On close the motion reverses (`--ease-exit`).
+Set `transform-origin` to the top edge of the surface, toward the anchor point.
+
+<Divider />
+
+## Implementation
+
+See the live specimen on the [Specimen tab](/patterns/emoji-popover?tab=specimen) for
+interactive state exploration. The `EmojiPopover` component is exported from
+`@mattermost/compass-proto`.
