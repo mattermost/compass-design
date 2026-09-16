@@ -181,6 +181,9 @@
       "components/emoji": [
         "./dist/components/emoji/index.d.ts"
       ],
+      "components/emoji-button": [
+        "./dist/components/emoji-button/index.d.ts"
+      ],
       "components/empty-state": [
         "./dist/components/empty-state/index.d.ts"
       ],

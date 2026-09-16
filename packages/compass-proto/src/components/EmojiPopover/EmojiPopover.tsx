@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import AirplaneIcon from '@mattermost/compass-icons/components/airplane';
 import ClockOutlineIcon from '@mattermost/compass-icons/components/clock-outline';
+import CloseIcon from '@mattermost/compass-icons/components/close';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import EmoticonOutlineIcon from '@mattermost/compass-icons/components/emoticon-outline';
 import FlagOutlineIcon from '@mattermost/compass-icons/components/flag-outline';
@@ -11,6 +12,7 @@ import LeafOutlineIcon from '@mattermost/compass-icons/components/leaf-outline';
 import LightbulbOutlineIcon from '@mattermost/compass-icons/components/lightbulb-outline';
 import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import { EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
+import { MenuGroupHeading } from '@mattermost/compass-ui/components/menu-group-heading';
 import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
@@ -25,6 +27,8 @@ export interface EmojiPopoverProps {
   className?: string;
   /** Content-area state to display. @default 'default' */
   state?: EmojiPopoverState;
+  /** Called with the emoji character when the user selects an emoji. */
+  onEmojiSelect?: (emoji: string) => void;
 }
 
 const EMOJI_CATEGORIES = [
@@ -144,7 +148,10 @@ const SEARCH_RESULTS = [
   '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '😐', '😑',
 ];
 
-const SKIN_TONES = ['✋', '✋🏻', '✋🏼', '✋🏽', '✋🏾', '✋🏿'];
+const SKIN_TONES = ['🖐️', '🖐🏻', '🖐🏼', '🖐🏽', '🖐🏾', '🖐🏿'];
+
+const SKIN_TONE_MODIFIERS = ['', '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}'];
+
 
 const SHORTCODES: Record<string, string> = {
   '😀': 'grinning', '😃': 'smiley', '😄': 'smile', '😁': 'grin',
@@ -215,12 +222,40 @@ function getShortcode(emoji: string): string {
   return SHORTCODES[emoji] ? `:${SHORTCODES[emoji]}:` : emoji;
 }
 
+const MODIFIER_BASES = new Set([
+  '👋', '🤚', '✋', '🖐️', '🖖', '👌', '🤌', '🤏', '✌️', '🤞', '🫰',
+  '🤟', '🤘', '🤙', '👈', '👉', '👆', '👇', '☝️', '🫵', '👍', '👎',
+  '✊', '👊', '🤛', '🤜', '👏', '🙌', '🫶', '👐', '🤲', '🙏', '💅',
+  '🤳', '💪', '🦵', '🦶', '👂', '🦻', '👃',
+]);
+
+function applyModifier(emoji: string, modifier: string): string {
+  if (!modifier || !MODIFIER_BASES.has(emoji)) return emoji;
+  // Strip VS16 before the modifier so composed sequences render correctly
+  return emoji.replace('️', '') + modifier;
+}
+
 export default function EmojiPopover({
   className = '',
   state = 'default',
+  onEmojiSelect,
 }: EmojiPopoverProps) {
   const [activeCategoryId, setActiveCategoryId] = useState('recent');
   const [hoveredEmoji, setHoveredEmoji] = useState<string | null>(null);
+  const [skinToneIndex, setSkinToneIndex] = useState(0);
+  const [showSkinTonePicker, setShowSkinTonePicker] = useState(false);
+
+  const skinToneModifier = SKIN_TONE_MODIFIERS[skinToneIndex];
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const groupRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  function scrollToCategory(id: string) {
+    const group = groupRefs.current[id];
+    const scroller = scrollRef.current;
+    if (!group || !scroller) return;
+    const top = group.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
+    scroller.scrollTo({ top, behavior: 'smooth' });
+  }
 
   const rootClass = [styles['emoji-popover'], className].filter(Boolean).join(' ');
 
@@ -246,19 +281,23 @@ export default function EmojiPopover({
       return (
         <div className={styles['emoji-popover__emoji-list']}>
           <div className={styles['emoji-popover__group']}>
-            <div className={styles['emoji-popover__group-title']}>Search Results</div>
+            <MenuGroupHeading label="Search Results" />
             <div className={styles['emoji-popover__emoji-row']}>
-              {SEARCH_RESULTS.map((emoji) => (
-                <EmojiButton
-                  key={emoji}
-                  emoji={emoji}
-                  size="medium"
-                  padding="compact"
-                  aria-label={emoji}
-                  onMouseEnter={() => setHoveredEmoji(emoji)}
-                  onMouseLeave={() => setHoveredEmoji(null)}
-                />
-              ))}
+              {SEARCH_RESULTS.map((emoji) => {
+                const displayed = applyModifier(emoji, skinToneModifier);
+                return (
+                  <EmojiButton
+                    key={emoji}
+                    emoji={displayed}
+                    size="medium"
+                    padding="compact"
+                    aria-label={emoji}
+                    onMouseEnter={() => setHoveredEmoji(displayed)}
+                    onMouseLeave={() => setHoveredEmoji(null)}
+                    onClick={() => onEmojiSelect?.(displayed)}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -268,8 +307,8 @@ export default function EmojiPopover({
     return (
       <div className={styles['emoji-popover__emoji-list']}>
         {EMOJI_CATEGORIES.map((cat) => (
-          <div key={cat.id} className={styles['emoji-popover__group']}>
-            <div className={styles['emoji-popover__group-title']}>{cat.label}</div>
+          <div key={cat.id} ref={(el) => { groupRefs.current[cat.id] = el; }} className={styles['emoji-popover__group']}>
+            <MenuGroupHeading label={cat.label} />
             <div
               className={[
                 styles['emoji-popover__emoji-row'],
@@ -278,17 +317,21 @@ export default function EmojiPopover({
                 .filter(Boolean)
                 .join(' ')}
             >
-              {cat.emojis.map((emoji, i) => (
-                <EmojiButton
-                  key={`${cat.id}-${i}`}
-                  emoji={emoji}
-                  size="medium"
-                  padding="compact"
-                  aria-label={emoji}
-                  onMouseEnter={() => setHoveredEmoji(emoji)}
-                  onMouseLeave={() => setHoveredEmoji(null)}
-                />
-              ))}
+              {cat.emojis.map((emoji, i) => {
+                const displayed = applyModifier(emoji, skinToneModifier);
+                return (
+                  <EmojiButton
+                    key={`${cat.id}-${i}`}
+                    emoji={displayed}
+                    size="medium"
+                    padding="compact"
+                    aria-label={emoji}
+                    onMouseEnter={() => setHoveredEmoji(displayed)}
+                    onMouseLeave={() => setHoveredEmoji(null)}
+                    onClick={() => onEmojiSelect?.(displayed)}
+                  />
+                );
+              })}
             </div>
           </div>
         ))}
@@ -299,20 +342,58 @@ export default function EmojiPopover({
   return (
     <div className={rootClass}>
       <div className={styles['emoji-popover__header']}>
-        <div className={styles['emoji-popover__search-row']}>
-          <SearchInput
-            placeholder="Search emojis"
-            size="small"
-            className={styles['emoji-popover__search-input']}
-            defaultValue={state !== 'default' ? 'smile' : ''}
-          />
-          {state === 'default' && (
-            <EmojiButton
-              emoji={SKIN_TONES[0]}
+        <div className={styles['emoji-popover__header-panels']}>
+          <div
+            className={[
+              styles['emoji-popover__header-main'],
+              showSkinTonePicker ? styles['emoji-popover__header-main--hidden'] : '',
+            ].filter(Boolean).join(' ')}
+          >
+            <div className={styles['emoji-popover__search-row']}>
+              <SearchInput
+                placeholder="Search emojis"
+                size="small"
+                className={styles['emoji-popover__search-input']}
+                defaultValue={state !== 'default' ? 'smile' : ''}
+              />
+              {state === 'default' && (
+                <EmojiButton
+                  emoji={SKIN_TONES[skinToneIndex]}
+                  size="small"
+                  aria-label="Select skin tone"
+                  onClick={() => setShowSkinTonePicker(true)}
+                />
+              )}
+            </div>
+          </div>
+
+          <div
+            className={[
+              styles['emoji-popover__skin-tone-picker'],
+              showSkinTonePicker ? styles['emoji-popover__skin-tone-picker--visible'] : '',
+            ].filter(Boolean).join(' ')}
+          >
+            <span className={styles['emoji-popover__skin-tone-label']}>Skin tone</span>
+            <div className={styles['emoji-popover__skin-tone-options']}>
+              {SKIN_TONES.map((emoji, i) => (
+                <EmojiButton
+                  key={i}
+                  emoji={emoji}
+                  size="small"
+                  toggled={skinToneIndex === i}
+                  aria-label={i === 0 ? 'Default skin tone' : `Skin tone ${i}`}
+                  onClick={() => { setSkinToneIndex(i); setShowSkinTonePicker(false); }}
+                />
+              ))}
+            </div>
+            <IconButton
               size="small"
-              aria-label="Select skin tone"
+              padding="compact"
+              icon={<Icon glyph={<CloseIcon />} size="16" />}
+              aria-label="Close skin tone picker"
+              onClick={() => setShowSkinTonePicker(false)}
             />
-          )}
+          </div>
         </div>
 
         <div className={styles['emoji-popover__categories']}>
@@ -324,7 +405,7 @@ export default function EmojiPopover({
               icon={<Icon glyph={<cat.Icon />} size="16" />}
               aria-label={cat.label}
               active={activeCategoryId === cat.id}
-              onClick={() => setActiveCategoryId(cat.id)}
+              onClick={() => { setActiveCategoryId(cat.id); scrollToCategory(cat.id); }}
             />
           ))}
         </div>
@@ -334,7 +415,7 @@ export default function EmojiPopover({
         {state === 'empty' ? (
           renderBody()
         ) : (
-          <Scrollbar alwaysVisible>{renderBody()}</Scrollbar>
+          <Scrollbar alwaysVisible ref={scrollRef}>{renderBody()}</Scrollbar>
         )}
       </div>
 

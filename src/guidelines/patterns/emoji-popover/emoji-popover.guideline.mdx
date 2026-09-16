@@ -52,8 +52,8 @@ appears at the top; all other categories follow in order.
 
 ### Search results
 
-When the user types in the search field the grid is replaced by a flat "Search Results"
-group showing only matching emojis.
+In the search-results state the category grid is replaced by a flat "Search Results"
+group showing a filtered set of emojis.
 
 <AnatomyStage
   style={{
@@ -76,6 +76,15 @@ When a search returns no matches the grid is replaced by a centered empty-state 
 >
   <EmojiPopover state="empty" />
 </AnatomyStage>
+
+<Divider />
+
+## Animation
+
+The Emoji Popover follows the same open/close motion standard as [Popover Menu](/patterns/popover-menu#animation).
+It opens below its trigger at full opacity and natural scale, entering from 90% scale and 0% opacity
+(`--ease-entrance`, `--duration-quick`). On close the motion reverses (`--ease-exit`).
+Set `transform-origin` to the top edge of the surface, toward the anchor point.
 
 <Divider />
 

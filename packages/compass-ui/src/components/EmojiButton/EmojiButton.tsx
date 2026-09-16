@@ -71,7 +71,7 @@ export default function EmojiButton({
     .join(' ');
 
   return (
-    <button type={type} className={rootClass} {...rest}>
+    <button type={type} className={rootClass} aria-pressed={toggled !== undefined ? toggled : undefined} {...rest}>
       <span className={styles['emoji-button__emoji']}>
         <Emoji emoji={emoji} size={EMOJI_BUTTON_EMOJI_SIZES[size]} />
       </span>
