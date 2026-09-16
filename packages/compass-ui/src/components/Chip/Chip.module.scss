@@ -133,20 +133,6 @@
     }
   }
 
-  // Medium + compact — 24px total height (2px + 20px + 2px), larger font, tighter padding
-  #{&}--size-medium#{&}--compact {
-    padding: var(--spacing-xxxxs) var(--spacing-xxs);
-
-    &:has(.chip__remove) {
-      padding-right: var(--spacing-xxxs);
-    }
-
-    .chip__label {
-      font-size: var(--font-size-100);
-      line-height: var(--line-height-100);
-    }
-  }
-
   // Large — 32px total height (6px + 20px + 6px)
   &--size-large {
     gap: var(--spacing-xxs);
@@ -163,6 +149,24 @@
 
     .chip__remove {
       padding: 2px;
+    }
+  }
+
+  // Compact — reduces padding density; works with any size.
+  // Small/medium (4px 8px) → 2px 6px; large (6px 12px) → 4px 8px.
+  &--compact {
+    padding: var(--spacing-xxxxs) var(--spacing-xxs);
+
+    &:has(.chip__remove) {
+      padding-right: var(--spacing-xxxs);
+    }
+  }
+
+  &--size-large#{&}--compact {
+    padding: var(--spacing-xxxs) var(--spacing-xs);
+
+    &:has(.chip__remove) {
+      padding-right: var(--spacing-xxs);
     }
   }
 }
