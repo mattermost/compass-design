@@ -239,10 +239,12 @@ function bundleComponentStylesCss() {
     cssChunks.push(fs.readFileSync(simplebarCss, 'utf8'));
   }
 
-  const moduleCssFiles = walkFiles(distRoot)
-    .filter((file) => file.endsWith('.module.css'))
+  // Collect component CSS files from dist/components/ — works whether files
+  // are still named *.module.css (pre-rename) or *.css (post-rename).
+  const componentCssFiles = walkFiles(path.join(distRoot, 'components'))
+    .filter((file) => file.endsWith('.css'))
     .sort();
-  for (const file of moduleCssFiles) {
+  for (const file of componentCssFiles) {
     cssChunks.push(fs.readFileSync(file, 'utf8'));
   }
 
@@ -268,10 +270,10 @@ function main() {
     );
   }
 
+  renameCssModuleFiles();
+
   bundleComponentStylesCss();
   console.log('[normalize-compass-ui-dist] Wrote dist/index.css component-styles bundle');
-
-  renameCssModuleFiles();
 }
 
 main();
