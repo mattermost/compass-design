@@ -152,18 +152,21 @@
     padding: var(--spacing-xl) var(--spacing-xl) 0;
   }
 
-  &__header &__close {
+  & &__panel &__header &__close {
     --focus-ring-color: var(--button-color);
 
-    color: rgba(var(--button-color-rgb), 0.88);
+    position: relative;
+    top: -4px;
+    right: -4px;
+    color: color-mix(in srgb, var(--button-color) 64%, transparent);
 
-    &:hover:not(:disabled) {
-      background-color: rgba(var(--button-color-rgb), 0.12);
-      color: var(--button-color);
+    &:hover:not(:disabled):not(:active) {
+      background-color: color-mix(in srgb, var(--button-color) 8%, transparent);
+      color: color-mix(in srgb, var(--button-color) 75%, transparent);
     }
 
     &:active:not(:disabled) {
-      background-color: rgba(var(--button-color-rgb), 0.2);
+      background-color: color-mix(in srgb, var(--button-color) 20%, transparent);
     }
   }
 
