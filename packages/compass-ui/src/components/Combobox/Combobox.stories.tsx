@@ -162,7 +162,7 @@ export const AllVariants: Story = {
       />
       <Combobox
         label="With icon"
-        leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+        leadingIcon={<Icon glyph={<GlobeIcon />} />}
         options={CHANNEL_OPTIONS}
       />
     </div>

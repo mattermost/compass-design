@@ -45,7 +45,7 @@ const meta = {
     <Select
       {...rest}
       leadingIcon={
-        resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+        resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
       }
     />
   ),
@@ -180,14 +180,14 @@ export const AllVariants: Story = {
       <Row label="Leading icon">
         <Select
           label="Workspace"
-          leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
           options={DEFAULT_OPTIONS}
           placeholder="Select..."
         />
         <Select
           label="Selected workspace"
           defaultValue="a"
-          leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
           options={DEFAULT_OPTIONS}
           placeholder="Select..."
         />

@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import IconButton, {
-  ICON_BUTTON_ICON_SIZES,
   type IconButtonPadding,
   type IconButtonProps,
   type IconButtonSize,
@@ -47,11 +46,7 @@ const meta = {
     <IconButton
       {...rest}
       size={size}
-      icon={
-        resolveStoryIcon(icon, {
-          wrapSize: ICON_BUTTON_ICON_SIZES[size],
-        }) as ReactNode
-      }
+      icon={resolveStoryIcon(icon, { wrapIcon: true }) as ReactNode}
     />
   ),
 } satisfies Meta<IconButtonStoryArgs>;
@@ -192,12 +187,7 @@ function PermutationGrid({
               size={size}
               padding={row.padding}
               rounded={row.rounded}
-              icon={
-                <Icon
-                  glyph={<GlobeIcon />}
-                  size={ICON_BUTTON_ICON_SIZES[size]}
-                />
-              }
+              icon={<Icon glyph={<GlobeIcon />} />}
             />
           ))}
         </div>
@@ -253,10 +243,7 @@ export const AllVariants: Story = {
                 size={size}
                 toggled
                 icon={
-                  <Icon
-                    glyph={<GlobeIcon />}
-                    size={ICON_BUTTON_ICON_SIZES[size]}
-                  />
+                  <Icon glyph={<GlobeIcon />} />
                 }
               />
             ))}
@@ -269,10 +256,7 @@ export const AllVariants: Story = {
                 size={size}
                 active
                 icon={
-                  <Icon
-                    glyph={<GlobeIcon />}
-                    size={ICON_BUTTON_ICON_SIZES[size]}
-                  />
+                  <Icon glyph={<GlobeIcon />} />
                 }
               />
             ))}
@@ -287,24 +271,24 @@ export const AllVariants: Story = {
               aria-label="12 notifications"
               count={12}
               size="x-small"
-              icon={<Icon glyph={<GlobeIcon />} size="12" />}
+              icon={<Icon glyph={<GlobeIcon />} />}
             />
             <IconButton
               aria-label="48 notifications"
               count={48}
               size="small"
-              icon={<Icon glyph={<GlobeIcon />} size="16" />}
+              icon={<Icon glyph={<GlobeIcon />} />}
             />
             <IconButton
               aria-label="425 notifications"
               count={425}
-              icon={<Icon glyph={<GlobeIcon />} size="20" />}
+              icon={<Icon glyph={<GlobeIcon />} />}
             />
             <IconButton
               aria-label="9 notifications"
               count={9}
               size="large"
-              icon={<Icon glyph={<GlobeIcon />} size="24" />}
+              icon={<Icon glyph={<GlobeIcon />} />}
             />
           </Row>
           <Row label="Unread">
@@ -315,10 +299,7 @@ export const AllVariants: Story = {
                 size={size}
                 unreadBadge
                 icon={
-                  <Icon
-                    glyph={<GlobeIcon />}
-                    size={ICON_BUTTON_ICON_SIZES[size]}
-                  />
+                  <Icon glyph={<GlobeIcon />} />
                 }
               />
             ))}
@@ -326,7 +307,7 @@ export const AllVariants: Story = {
               aria-label="Unread with count"
               count={3}
               unreadBadge
-              icon={<Icon glyph={<GlobeIcon />} size="20" />}
+              icon={<Icon glyph={<GlobeIcon />} />}
             />
           </Row>
         </div>

@@ -8,6 +8,7 @@ import StarIcon from '@mattermost/compass-icons/components/star';
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
 import ActionButton from './ActionButton';
+import Icon from '@/components/Icon/Icon';
 import type { ActionButtonProps } from './ActionButton';
 import { iconSelectArgType, resolveStoryIcon } from '../../storybook/icons';
 
@@ -30,7 +31,7 @@ const meta = {
   render: ({ icon, ...rest }) => (
     <ActionButton
       {...rest}
-      icon={resolveStoryIcon(icon, { glyphSize: 20 }) as ReactNode}
+      icon={resolveStoryIcon(icon, { wrapIcon: true }) as ReactNode}
     />
   ),
 } satisfies Meta<ActionButtonStoryArgs>;
@@ -74,41 +75,41 @@ export const AllVariants: Story = {
     <div style={{ display: 'grid', gap: 20 }}>
       <Row label="Default">
         <ActionButton
-          icon={<EmoticonHappyOutlineIcon size={20} />}
+          icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
           label="Action"
           aria-label="Action"
         />
         <ActionButton
-          icon={<StarOutlineIcon size={20} />}
+          icon={<Icon glyph={<StarOutlineIcon />} />}
           label="Favorite"
           aria-label="Favorite"
         />
         <ActionButton
-          icon={<BellOutlineIcon size={20} />}
+          icon={<Icon glyph={<BellOutlineIcon />} />}
           label="Mute"
           aria-label="Mute"
         />
         <ActionButton
-          icon={<LinkVariantIcon size={20} />}
+          icon={<Icon glyph={<LinkVariantIcon />} />}
           label="Copy Link"
           aria-label="Copy link"
         />
       </Row>
       <Row label="Active">
         <ActionButton
-          icon={<EmoticonHappyOutlineIcon size={20} />}
+          icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
           label="Action"
           aria-label="Action"
           active
         />
         <ActionButton
-          icon={<StarIcon size={20} />}
+          icon={<Icon glyph={<StarIcon />} />}
           label="Favorited"
           aria-label="Favorited"
           active
         />
         <ActionButton
-          icon={<BellOffOutlineIcon size={20} />}
+          icon={<Icon glyph={<BellOffOutlineIcon />} />}
           label="Muted"
           aria-label="Muted"
           active
@@ -116,7 +117,7 @@ export const AllVariants: Story = {
       </Row>
       <Row label="Destructive">
         <ActionButton
-          icon={<TrashCanOutlineIcon size={20} />}
+          icon={<Icon glyph={<TrashCanOutlineIcon />} />}
           label="Delete"
           aria-label="Delete"
           destructive
@@ -124,7 +125,7 @@ export const AllVariants: Story = {
       </Row>
       <Row label="Disabled">
         <ActionButton
-          icon={<EmoticonHappyOutlineIcon size={20} />}
+          icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
           label="Action"
           aria-label="Action"
           disabled

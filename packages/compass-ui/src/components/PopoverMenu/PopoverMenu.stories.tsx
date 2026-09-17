@@ -97,7 +97,7 @@ export const ChildMenu: Story = {
         <MenuItem
           label="Channel settings"
           trailingElement
-          trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
+          trailingVisual={<Icon glyph={<ChevronRightIcon />} />}
         />
       </PopoverMenu>
       <PopoverMenu variant="child">
@@ -252,7 +252,7 @@ export const AllVariants: Story = {
             <MenuItem
               label="Channel settings"
               trailingElement
-              trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
+              trailingVisual={<Icon glyph={<ChevronRightIcon />} />}
             />
           </PopoverMenu>
           <PopoverMenu variant="child">

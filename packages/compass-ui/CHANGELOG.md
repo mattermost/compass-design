@@ -8,15 +8,60 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **`IconSlotContext`** and **`useIconSlotContext`** exported from `@mattermost/compass-ui/components/icon`. Host components publish their required slot size via `<IconSlotContext.Provider value={{ size }}>`; `<Icon>` reads it as a fallback when no explicit `size` prop is passed (resolution: prop → context → `'24'`).
+- **`Toast` `icon` prop**: optional `ReactNode` to override the default type glyph. Toast provides the correct size via context.
+
+### Changed
+
+- **Icon slots** — all compass-ui components that accept icon slot props (`leadingIcon`, `trailingIcon`, `icon`, etc.) now size icons automatically via `IconSlotContext`. Pass `<Icon glyph={<YourIcon />} />` with no `size` prop; the hosting component injects the correct size. Explicit `size` props still take precedence (non-breaking). Affected: `Button`, `IconButton`, `MenuItem`, `TextInput`, `SectionNotice`, `ActionButton`, `CardButton`, `GlobalBanner`, `Tooltip`, `Dropdown`, `Combobox`, `Select`, `AdminPanelHeader`, `Tag`, `Toast`, `PopoverNotice`.
+- **`ICON_BUTTON_ICON_SIZES`** deprecated — callers no longer need to look up icon sizes for `IconButton` slots manually. The constant remains exported for migration; it will be removed in a future minor.
+- **`Button`** leading/trailing icon slots no longer use `React.cloneElement` to inject size — sizing moves to `IconSlotContext`.
+- **`PopoverNotice`** adds `popover-notice--no-icon` modifier when no icon is present, increasing left padding so body text is not flush to the edge.
+
+### Fixed
+
+- **Themes** (`Denim`, `Sapphire`, `Quartz`): `--link-color` and `--link-color-rgb` corrected to `--color-blue-500` (was incorrectly `--color-blue-600` after a merge conflict).
+
+## [0.1.0-alpha.9] - 2026-09-17
+
+### Changed
+
+- **`PopoverMenu` min-width** increased to 212px (was 160px); per-component inline width overrides removed — use the cascade default.
+- **Dist CSS modules** renamed to kebab-case (`.module.css` suffix). Class hashes change; override via component props or host wrappers, not hard-coded module class names.
+
+## [0.1.0-alpha.8] - 2026-09-16
+
+### Changed
+
+- **`Spinner`** `size` prop standardized to string literals (`'small'`, `'medium'`, `'large'`); consistent with other compass-ui size props.
+- **`Chip`** `compact` prop added for reduced-padding chip rows.
+- **`Button`** leading/trailing icon slots previously used `React.cloneElement` to inject the size onto the consumer's `<Icon>`; size injection is now internal. Existing `<Icon size="N" />` calls continue to work — the explicit prop overrides context.
+- **`IconButton`** loading state added.
+
+## [0.1.0-alpha.7] - 2026-09-16
+
+### Added
+
 - **Card Button** (`@mattermost/compass-ui/components/card-button`): selectable choice card with leading icon, title, description, and selected check. Includes `CardButtonGroup` for side-by-side radiogroups (Figma Card Button Group).
 - **ModalHeader** (`@mattermost/compass-ui/components/modal-header`): extracted header with subtitle below/beside, optional back, optional `headerAction`, close-only (`hideTitle`), and divider. Figma [Patterns — Modals / Modal Header](https://www.figma.com/design/qdm5tKododENqnTvjLovDT/Patterns---Modals?node-id=789-15921).
 - **ModalFooter** (`@mattermost/compass-ui/components/modal-footer`): footer chrome with types `2-actions`, `2-actions-separated`, `1-action`, `pagination`, `stepped-progress`, `spacer-small`, `spacer-large`, plus optional `leading` slot. Figma [Modal Footer](https://www.figma.com/design/qdm5tKododENqnTvjLovDT/Patterns---Modals?node-id=797-8156).
 - **Modal:** composes ModalHeader / ModalFooter; adds `subtitlePlacement`, `hideTitle`, `headerAction`, `footerType`, `footerLeading`, `className` / `style`, `bodyPadding="none"`, and `scrollable`.
+- **RightSidebarChannelMembers** (`@mattermost/compass-ui/components/right-sidebar-channel-members`): channel members panel for the right sidebar.
+- **ReactionButton** (`@mattermost/compass-ui/components/reaction-button`): emoji + count toggle button for message reactions.
+- **ReactionsRow** (`@mattermost/compass-ui/components/reactions-row`): lays out a set of `ReactionButton`s plus an add-reaction affordance.
+- **MenuGroupHeading** (`@mattermost/compass-ui/components/menu-group-heading`): labelled group header for use between `Divider`-separated sections in `PopoverMenu`.
+- **EmojiPopover** (`@mattermost/compass-ui/components/emoji-popover`): data-driven emoji picker popover; accepts `emojis` array and fires `onSelect`.
 
 ### Changed
 
 - **Tour Point:** panel, pointer, and inverted Next label use `--button-bg` instead of the fixed `--color-info` semantic, so the callout follows the product theme.
 - **Modal:** header/footer markup and styles move into ModalHeader / ModalFooter; subtitle typography aligns to Figma Body 75.
+- **MessageReactions** replaced by `ReactionsRow` + `ReactionButton`. Import from `@mattermost/compass-ui/components/reactions-row` and `…/reaction-button`.
+
+### Fixed
+
+- **`GlobalBanner`**: add `flex-shrink: 0` to prevent height collapse when the banner is a flex child.
+- **`ThreadFooter`**: remove vertical padding from root element that caused double-spacing in thread list rows.
 
 ## [0.1.0-alpha.6] - 2026-09-03
 
@@ -152,7 +197,10 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.6...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.9...HEAD
+[0.1.0-alpha.9]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.8...0.1.0-alpha.9
+[0.1.0-alpha.8]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.7...0.1.0-alpha.8
+[0.1.0-alpha.7]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.6...0.1.0-alpha.7
 [0.1.0-alpha.6]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.5...0.1.0-alpha.6
 [0.1.0-alpha.5]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.4...0.1.0-alpha.5
 [0.1.0-alpha.4]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.3...0.1.0-alpha.4

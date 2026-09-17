@@ -114,17 +114,17 @@ export const AllVariants: Story = {
         <TextInput
           label="Search"
           placeholder="Search..."
-          leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
         />
         <TextInput
           placeholder="Trailing only"
-          trailingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+          trailingIcon={<Icon glyph={<GlobeIcon />} />}
         />
         <TextInput
           label="Both"
           placeholder="Leading and trailing"
-          leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
-          trailingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
+          trailingIcon={<Icon glyph={<GlobeIcon />} />}
         />
       </Row>
       <Row label="Invalid">

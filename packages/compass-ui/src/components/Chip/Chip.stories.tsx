@@ -151,7 +151,7 @@ export const AllVariants: Story = {
         </Chip>
         <Chip
           size="medium"
-          leadingIcon={<EmoticonHappyOutlineIcon size={12} />}
+          leadingIcon={<EmoticonHappyOutlineIcon />}
           onRemove={fn()}
         >
           With icon
