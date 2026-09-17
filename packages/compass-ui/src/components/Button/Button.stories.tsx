@@ -20,7 +20,7 @@ const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 const BUTTON_SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
   'x-small': '12',
-  small: '16',
+  small: '12',
   medium: '16',
   large: '20',
 };
