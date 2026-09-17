@@ -14,6 +14,17 @@ When adding a component:
 
 See also the repo-wide rule in [AGENTS.md](../../AGENTS.md#variant-prop-string-values).
 
+## Icon slots
+
+All compass-ui components that accept icon slot props (`leadingIcon`, `trailingIcon`, `icon`, etc.) size icons via `IconSlotContext`. Callers pass `<Icon glyph={<YourIcon />} />` with **no `size` prop** — the hosting component injects the correct size via context. Explicit `size` still takes precedence (non-breaking), but the recommended pattern omits it.
+
+**When building a new component with an icon slot:**
+1. Import `IconSlotContext` from `@/components/Icon/Icon`.
+2. Wrap the slot render: `<IconSlotContext.Provider value={{ size: '16' }}>{iconProp}</IconSlotContext.Provider>` (use the correct size for the component).
+3. JSDoc the prop: `"Pass \`<Icon glyph={<SomeIcon />} />\`; ComponentName provides the correct size via context."`
+
+**Storybook stories** for icon slot props: use `iconSelectArgType` + `resolveStoryIcon(icon, { wrapIcon: true })` so the select control renders `<Icon glyph={...} />` without an explicit size. Use `wrapSize` only when the component does NOT use context. For raw-glyph slots (e.g. `Chip`, which wraps the glyph internally), omit both options.
+
 ## Overlay components
 
 Published overlay primitives (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover`, …) ship **chrome only**. Do not add portals, focus traps, hover triggers, or backdrop/scrim logic to these components — the host product wires open/close and accessibility orchestration. Panel-level ARIA on the surface is fine.

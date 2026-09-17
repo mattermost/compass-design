@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import styles from './GlobalBanner.module.scss';
 
@@ -19,7 +20,7 @@ export interface GlobalBannerProps {
   message: string;
   /** Optional type for color-coding. Default: General. */
   type?: GlobalBannerType;
-  /** Optional leading icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). The slot does not resize raw SVG children. */
+  /** Optional leading icon — pass `<Icon glyph={<SomeIcon />} />`; GlobalBanner provides the correct size via context. */
   leadingIcon?: ReactNode;
   /** Label for the optional action button. */
   actionLabel?: string;
@@ -58,7 +59,9 @@ export default function GlobalBanner({
       <div className={styles['global-banner__content']}>
         {leadingIcon != null && (
           <span className={styles['global-banner__icon']} aria-hidden>
-            {leadingIcon}
+            <IconSlotContext.Provider value={{ size: '16' }}>
+              {leadingIcon}
+            </IconSlotContext.Provider>
           </span>
         )}
         <span className={styles['global-banner__message']}>{message}</span>

@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import type { IconSize } from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import styles from './Tag.module.scss';
 
 export type TagType =
@@ -21,10 +23,15 @@ export type TagProps = {
   size?: TagSize;
   /** Text casing. Default: Title Case. */
   casing?: TagCasing;
-  /** Raw SVG glyph from `@mattermost/compass-icons` — e.g. `<GlobeIcon size={10} />` for `size="x-small"` or `<GlobeIcon size={12} />` for `size="small"`. Do not wrap in `<Icon>`. */
+  /** Leading icon — pass `<Icon glyph={<SomeIcon />} />`; Tag provides the correct size via context (`"10"` for x-small, `"12"` for small). */
   leadingIcon?: ReactNode;
   /** Merged onto the root after variant classes (e.g. layout overrides in a parent row). */
   className?: string;
+};
+
+const TAG_ICON_SIZE: Record<TagSize, IconSize> = {
+  'x-small': '10',
+  small: '12',
 };
 
 const TYPE_CLASS: Record<TagType, string> = {
@@ -65,7 +72,9 @@ export default function Tag({
     <span className={classes}>
       {leadingIcon && (
         <span className={styles['tag__icon']} aria-hidden>
-          {leadingIcon}
+          <IconSlotContext.Provider value={{ size: TAG_ICON_SIZE[size] }}>
+            {leadingIcon}
+          </IconSlotContext.Provider>
         </span>
       )}
       <span className={styles['tag__label']}>{label}</span>

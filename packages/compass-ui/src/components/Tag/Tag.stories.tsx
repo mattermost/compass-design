@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import Icon from '@/components/Icon/Icon';
 import Tag from './Tag';
 import type { TagCasing, TagProps, TagSize, TagType } from './Tag';
 import {
@@ -42,9 +43,7 @@ const meta = {
       {...rest}
       size={size}
       leadingIcon={
-        resolveStoryIcon(leadingIcon, {
-          glyphSize: size === 'small' ? 12 : 10,
-        }) as ReactNode
+        resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
       }
     />
   ),
@@ -112,17 +111,17 @@ export const AllVariants: Story = {
         <Tag
           label="Professional"
           casing="all-caps"
-          leadingIcon={<GlobeIcon size={10} />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
           type="default"
         />
         <Tag
           label="info"
-          leadingIcon={<GlobeIcon size={10} />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
           type="info"
         />
         <Tag
           label="success"
-          leadingIcon={<GlobeIcon size={12} />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
           size="small"
           type="success"
         />

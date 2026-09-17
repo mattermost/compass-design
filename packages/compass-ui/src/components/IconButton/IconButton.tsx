@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import Spinner from '@/components/Spinner/Spinner';
 import { toKebab } from '@/utils/string';
 import styles from './IconButton.module.scss';
@@ -22,7 +23,7 @@ export interface IconButtonProps extends Omit<
   count?: number;
   /** When true, uses destructive (danger) styling. Figma: Destructive. */
   destructive?: boolean;
-  /** Icon to show. Size the glyph via SVG_SIZE_MAP: e.g. `<Icon glyph={<GlobeIcon size={SVG_SIZE_MAP['16']} />} size="16" />`. */
+  /** Icon to show. Pass `<Icon glyph={<YourIcon />} />` — IconButton provides the correct size via context; no `size` prop needed on the Icon. */
   icon: ReactNode;
   /** When true, shows a Spinner in place of the icon and disables the button. */
   loading?: boolean;
@@ -40,7 +41,10 @@ export interface IconButtonProps extends Omit<
   unreadBadge?: boolean;
 }
 
-/** Icon size (px) per IconButton size. Use with Icon: size="12" | "16" | "20" | "24". */
+/**
+ * @deprecated No longer needed — IconButton sets the icon size via context.
+ * Pass `<Icon glyph={<YourIcon />} />` without a size prop.
+ */
 export const ICON_BUTTON_ICON_SIZES: Record<
   IconButtonSize,
   '12' | '16' | '20' | '24'
@@ -119,7 +123,7 @@ export default function IconButton({
       <span className={styles['icon-button__icon-slot']} aria-hidden>
         {loading
           ? <Spinner size={spinnerSize} inverted={style === 'inverted'} />
-          : icon}
+          : <IconSlotContext.Provider value={{ size: spinnerSize }}>{icon}</IconSlotContext.Provider>}
         {unreadBadge && !loading && (
           <span className={styles['icon-button__unread-badge']} />
         )}

@@ -65,7 +65,7 @@ export const Group: Story = {
           role="radio"
           title="Private agent"
           description="Only invited members"
-          icon={<Icon glyph={<LockOutlineIcon />} size="24" />}
+          icon={<Icon glyph={<LockOutlineIcon />} />}
           selected={value === 'private'}
           onClick={() => setValue('private')}
         />
@@ -73,7 +73,7 @@ export const Group: Story = {
           role="radio"
           title="Public agent"
           description="Any member can use"
-          icon={<Icon glyph={<GlobeIcon />} size="24" />}
+          icon={<Icon glyph={<GlobeIcon />} />}
           selected={value === 'public'}
           onClick={() => setValue('public')}
         />

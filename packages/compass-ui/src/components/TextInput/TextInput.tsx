@@ -5,6 +5,7 @@ import type {
   RefCallback,
 } from 'react';
 import { forwardRef, useId, useState, useCallback, useRef } from 'react';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import { toKebab } from '@/utils/string';
 import styles from './TextInput.module.scss';
 
@@ -20,7 +21,7 @@ export interface TextInputProps extends Omit<
   invalid?: boolean;
   /** Floating label content. When provided, label floats on focus or when value is non-empty. */
   label?: ReactNode;
-  /** Leading icon (e.g. <Icon glyph={<SearchIcon />} size="16" />). */
+  /** Leading icon — pass `<Icon glyph={<SearchIcon />} />`; TextInput provides the correct size via context. */
   leadingIcon?: ReactNode;
   /** Max length for the input; used with showCharacterCount for counter. */
   maxLength?: number;
@@ -28,7 +29,7 @@ export interface TextInputProps extends Omit<
   showCharacterCount?: boolean;
   /** Size variant. Figma: Small (32px), Medium (40px), Large (48px). Default: Medium. */
   size?: TextInputSize;
-  /** Trailing icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). */
+  /** Trailing icon — pass `<Icon glyph={<SomeIcon />} />`; TextInput provides the correct size via context. */
   trailingIcon?: ReactNode;
 }
 
@@ -146,7 +147,9 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             )}
             {leadingIcon != null && (
               <span className={styles['text-input__leading-icon']}>
-                {leadingIcon}
+                <IconSlotContext.Provider value={{ size: '16' }}>
+                  {leadingIcon}
+                </IconSlotContext.Provider>
               </span>
             )}
             <input
@@ -170,7 +173,9 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             />
             {trailingIcon != null && (
               <span className={styles['text-input__trailing-icon']}>
-                {trailingIcon}
+                <IconSlotContext.Provider value={{ size: '16' }}>
+                  {trailingIcon}
+                </IconSlotContext.Provider>
               </span>
             )}
           </label>

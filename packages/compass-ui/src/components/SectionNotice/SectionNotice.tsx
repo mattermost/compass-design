@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
 import AlertOutlineIcon from '@mattermost/compass-icons/components/alert-outline';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
@@ -21,7 +22,7 @@ export interface SectionNoticeProps {
   className?: string;
   /** Type controls color-coding. Default: Info. */
   type?: SectionNoticeType;
-  /** Optional leading icon. When omitted a default type icon is shown. Pass `<Icon glyph={<SomeIcon />} size="20" />` — the slot does not resize raw SVG children. */
+  /** Optional leading icon. When omitted a default type icon is shown. Pass `<Icon glyph={<SomeIcon />} />` — SectionNotice provides the correct size via context. */
   icon?: ReactNode;
   /** Title / headline text. */
   title: string;
@@ -79,7 +80,9 @@ export default function SectionNotice({
       <div className={styles['section-notice__content']}>
         {resolvedIcon != null && (
           <span className={styles['section-notice__icon']} aria-hidden>
-            {resolvedIcon}
+            <IconSlotContext.Provider value={{ size: '20' }}>
+              {resolvedIcon}
+            </IconSlotContext.Provider>
           </span>
         )}
         <div className={styles['section-notice__body']}>

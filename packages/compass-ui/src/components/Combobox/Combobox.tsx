@@ -19,6 +19,7 @@ import Chip from '@/components/Chip/Chip';
 import ChipGroup from '@/components/Chip/ChipGroup';
 import type { ChipSize } from '@/components/Chip/Chip';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuScroll,
@@ -511,7 +512,9 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         >
           {leadingIcon != null && (
             <span className={styles['combobox__leading-icon']} aria-hidden>
-              {leadingIcon}
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {leadingIcon}
+              </IconSlotContext.Provider>
             </span>
           )}
           <div className={styles.combobox__value}>

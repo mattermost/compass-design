@@ -123,7 +123,7 @@ export const ControlledExpand: Story = {
           title="Section Title"
           subtitle="Section sub-title"
           iconLeft
-          leadingIcon={<Icon size="20" glyph={<GlobeIcon />} />}
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
           expandable
           isExpanded={expanded === 'expanded'}
           onToggleExpand={() =>
@@ -138,7 +138,7 @@ export const ControlledExpand: Story = {
               style="default"
               size="medium"
               aria-label="Help"
-              icon={<Icon size="20" glyph={<InformationOutlineIcon />} />}
+              icon={<Icon glyph={<InformationOutlineIcon />} />}
             />
           }
         />

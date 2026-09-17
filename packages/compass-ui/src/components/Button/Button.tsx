@@ -1,5 +1,6 @@
 import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import type { IconSize } from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import Spinner from '@/components/Spinner/Spinner';
 import type { SpinnerSize } from '@/components/Spinner/Spinner';
 import { toKebab } from '@/utils/string';
@@ -27,13 +28,13 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   destructive?: boolean;
   /** Visual emphasis. Default: primary. */
   emphasis?: ButtonEmphasis;
-  /** Leading icon — pass `<Icon glyph={<YourIcon />} />`. Button injects the correct size. */
+  /** Leading icon — pass `<Icon glyph={<YourIcon />} />`. Button provides the correct size via context; no `size` prop needed on the Icon. */
   leadingIcon?: ReactNode;
   /** When true, shows a Spinner in the leading slot and disables the button. */
   loading?: boolean;
   /** Size variant. Default: medium. */
   size?: ButtonSize;
-  /** Trailing icon — pass `<Icon glyph={<YourIcon />} />`. Button injects the correct size. */
+  /** Trailing icon — pass `<Icon glyph={<YourIcon />} />`. Button provides the correct size via context; no `size` prop needed on the Icon. */
   trailingIcon?: ReactNode;
 }
 
@@ -90,13 +91,13 @@ export default function Button({
         <span className={styles['button__icon-slot']} aria-hidden>
           {loading
             ? <Spinner size={iconSize as SpinnerSize} inverted={appearance === 'inverted'} />
-            : React.cloneElement(leadingIcon as React.ReactElement<{ size?: string }>, { size: iconSize })}
+            : <IconSlotContext.Provider value={{ size: iconSize }}>{leadingIcon}</IconSlotContext.Provider>}
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
       {supportsIcons && !loading && React.isValidElement(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
-          {React.cloneElement(trailingIcon as React.ReactElement<{ size?: string }>, { size: iconSize })}
+          <IconSlotContext.Provider value={{ size: iconSize }}>{trailingIcon}</IconSlotContext.Provider>
         </span>
       ) : null}
     </button>

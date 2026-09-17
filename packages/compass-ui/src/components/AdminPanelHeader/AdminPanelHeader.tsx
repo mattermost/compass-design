@@ -5,6 +5,7 @@ import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import MattermostIcon from '@mattermost/compass-icons/components/mattermost';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
 import Switch from '@/components/Switch/Switch';
@@ -21,7 +22,7 @@ export interface AdminPanelHeaderProps {
   /** Trailing accessory actions rendered after Switch / Primary button and before expand. */
   headerActions?: ReactNode;
   iconLeft?: boolean;
-  /** Icon for the 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} size="20" />` — the pill does not resize raw SVG children. */
+  /** Icon for the 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} />` — AdminPanelHeader provides the correct size via context. */
   leadingIcon?: ReactNode;
   showBeta?: boolean;
   betaLabel?: string;
@@ -99,7 +100,9 @@ export default function AdminPanelHeader({
               className={styles['admin-panel-header__leading']}
               aria-hidden
             >
-              {leadingIcon ?? defaultLeading}
+              <IconSlotContext.Provider value={{ size: '20' }}>
+                {leadingIcon ?? defaultLeading}
+              </IconSlotContext.Provider>
             </div>
           ) : null}
           <div className={styles['admin-panel-header__title-stack']}>

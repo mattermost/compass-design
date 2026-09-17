@@ -45,7 +45,7 @@ export function renderGlyph(
 /** Compass Icon wrapper around a named glyph. */
 export function renderIcon(
   name: StorybookIconName,
-  size: IconSize = '16',
+  size?: IconSize,
 ): ReactElement {
   return <Icon glyph={renderGlyph(name)} size={size} />;
 }
@@ -53,6 +53,8 @@ export function renderIcon(
 export type ResolveIconOptions = {
   /** When set, wrap the glyph in `Icon` at this size. */
   wrapSize?: IconSize;
+  /** Wrap the glyph in `<Icon>` without an explicit size — uses IconSlotContext from the host. */
+  wrapIcon?: boolean;
   /** Pixel size on the raw compass-icons component (ActionButton, Tag, Chip). */
   glyphSize?: number;
   /**
@@ -82,11 +84,15 @@ export function resolveStoryIcon(
     if (mode === 'glyph') {
       return renderGlyph('emoticon-happy-outline', options.glyphSize);
     }
-    return <Icon size={options.wrapSize ?? '16'} />;
+    return <Icon size={options.wrapIcon ? undefined : (options.wrapSize ?? '16')} />;
   }
 
   if (!isIconName(value)) {
     return undefined;
+  }
+
+  if (options.wrapIcon) {
+    return renderIcon(value);
   }
 
   if (options.wrapSize != null) {
