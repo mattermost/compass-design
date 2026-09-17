@@ -1,5 +1,4 @@
 import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
-import Icon from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
 import Spinner from '@/components/Spinner/Spinner';
 import type { SpinnerSize } from '@/components/Spinner/Spinner';
@@ -83,7 +82,7 @@ export default function Button({
     .join(' ');
 
   const supportsIcons = emphasis !== 'link';
-  const showLeadingSlot = supportsIcons && (loading || React.isValidElement(leadingIcon));
+  const showLeadingSlot = loading || (supportsIcons && React.isValidElement(leadingIcon));
 
   return (
     <button className={rootClass} type={type} disabled={disabled || loading} {...rest}>

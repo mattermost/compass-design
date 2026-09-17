@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button';
 import type { ButtonAppearance, ButtonEmphasis, ButtonProps, ButtonSize } from './Button';
-import Icon from '../Icon/Icon';
 import {
   ICON_NONE,
   iconSelectArgType,
