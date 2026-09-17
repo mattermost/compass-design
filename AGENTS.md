@@ -51,5 +51,6 @@ Prefer design tokens from `src/styles/tokens.scss` over hardcoded px/hex/ms. Ful
 - [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md) — Compass UI Storybook
 - [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md) — Proto composites, `WithTooltip`
 - [.claude/rules/styling.md](.claude/rules/styling.md) / [.cursor/rules/styling.mdc](.cursor/rules/styling.mdc) — Styling (keep both files in sync)
+- [.claude/rules/version-bumps.md](.claude/rules/version-bumps.md) — Version bump procedure: consumer reminders + compass-ui/compass-proto coupling
 - [.cursor/skills/add-docs-topic/SKILL.md](.cursor/skills/add-docs-topic/SKILL.md) — Adding a docs topic (procedure)
 - [.cursor/rules/creating-agent-rules.mdc](.cursor/rules/creating-agent-rules.mdc) — Adding or changing agent guidance
