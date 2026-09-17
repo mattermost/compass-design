@@ -29,7 +29,7 @@ export default function ThreadActionsMenu({
   return (
     <PopoverMenu
       className={className}
-      style={{ width: '268px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>

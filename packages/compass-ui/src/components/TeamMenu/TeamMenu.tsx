@@ -39,7 +39,7 @@ export default function TeamMenu({
   return (
     <PopoverMenu
       className={rootClass}
-      style={{ width: '260px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>

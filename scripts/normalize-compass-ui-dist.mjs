@@ -194,6 +194,41 @@ function fixComponentIndexRequires(componentMap) {
   }
 }
 
+function renameCssModuleFiles() {
+  const cssFiles = walkFiles(distRoot).filter(
+    (f) => f.endsWith('.module.css') && !f.includes('node_modules'),
+  );
+
+  for (const oldPath of cssFiles) {
+    const newPath = oldPath.replace(/\.module\.css$/, '.css');
+    fs.renameSync(oldPath, newPath);
+
+    const oldMap = `${oldPath}.map`;
+    const newMap = `${newPath}.map`;
+    if (fs.existsSync(oldMap)) {
+      let mapContent = fs.readFileSync(oldMap, 'utf8');
+      mapContent = mapContent.replaceAll('.module.css', '.css');
+      fs.writeFileSync(newMap, mapContent);
+      fs.rmSync(oldMap);
+    }
+
+    // Update sourceMappingURL inside the renamed CSS file
+    let cssContent = fs.readFileSync(newPath, 'utf8');
+    cssContent = cssContent.replaceAll('.module.css.map', '.css.map');
+    fs.writeFileSync(newPath, cssContent);
+  }
+
+  // Update import statements in JS/CJS files
+  for (const file of walkFiles(distRoot)) {
+    if (!file.endsWith('.js') && !file.endsWith('.cjs') && !file.endsWith('.map')) continue;
+    const original = fs.readFileSync(file, 'utf8');
+    const updated = original.replaceAll('.module.css', '.css');
+    if (updated !== original) fs.writeFileSync(file, updated);
+  }
+
+  console.log(`[normalize-compass-ui-dist] Renamed ${cssFiles.length} .module.css files to .css`);
+}
+
 function bundleComponentStylesCss() {
   const cssChunks = [];
   const simplebarCss = path.join(
@@ -204,10 +239,12 @@ function bundleComponentStylesCss() {
     cssChunks.push(fs.readFileSync(simplebarCss, 'utf8'));
   }
 
-  const moduleCssFiles = walkFiles(distRoot)
-    .filter((file) => file.endsWith('.module.css'))
+  // Collect component CSS files from dist/components/ — works whether files
+  // are still named *.module.css (pre-rename) or *.css (post-rename).
+  const componentCssFiles = walkFiles(path.join(distRoot, 'components'))
+    .filter((file) => file.endsWith('.css'))
     .sort();
-  for (const file of moduleCssFiles) {
+  for (const file of componentCssFiles) {
     cssChunks.push(fs.readFileSync(file, 'utf8'));
   }
 
@@ -232,6 +269,8 @@ function main() {
       `[normalize-compass-ui-dist] Renamed ${componentMap.size} component and ${hookMap.size} hook paths to kebab-case`,
     );
   }
+
+  renameCssModuleFiles();
 
   bundleComponentStylesCss();
   console.log('[normalize-compass-ui-dist] Wrote dist/index.css component-styles bundle');

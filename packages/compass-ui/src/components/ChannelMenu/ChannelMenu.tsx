@@ -17,7 +17,7 @@ import PopoverMenu, {
 export interface ChannelMenuProps extends HTMLAttributes<HTMLDivElement> {}
 
 /**
- * Narrow channel sidebar context menu (174px).
+ * Narrow channel sidebar context menu.
  */
 export default function ChannelMenu({
   className = '',
@@ -27,7 +27,7 @@ export default function ChannelMenu({
   return (
     <PopoverMenu
       className={className}
-      style={{ width: '174px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>

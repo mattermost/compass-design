@@ -23,7 +23,7 @@ export default function HelpMenu({
   return (
     <PopoverMenu
       className={className}
-      style={{ width: '232px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>
