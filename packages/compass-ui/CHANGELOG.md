@@ -35,7 +35,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`Spinner`** `size` prop standardized to string literals (`'small'`, `'medium'`, `'large'`); consistent with other compass-ui size props.
 - **`Chip`** `compact` prop added for reduced-padding chip rows.
-- **`Button`** leading/trailing icon slots previously used `React.cloneElement` to inject the size onto the consumer's `<Icon>`; size injection is now internal. Existing `<Icon size="N" />` calls continue to work — the explicit prop overrides context.
 - **`IconButton`** loading state added.
 
 ## [0.1.0-alpha.7] - 2026-09-16
