@@ -12,4 +12,4 @@ When any package version is bumped (`packages/compass-ui/package.json` or `packa
 - **Plugins** — any plugin that imports from these packages needs the same dep bump.
 - **proto-playground** — update its local dependency reference if it pins a version.
 
-Also enforce the in-repo coupling: bumping `compass-ui` requires updating the matching peer dep in `packages/compass-proto/package.json` in the same commit — the smoke-test script (`scripts/smoke-test-compass-proto-pack.mjs`) will fail with `ERESOLVE` otherwise.
+Also enforce the in-repo coupling: bumping `compass-ui` requires updating the matching `@mattermost/compass-ui` peer dependency in `packages/compass-proto/package.json` on the same branch before validation — the smoke-test script (`scripts/smoke-test-compass-proto-pack.mjs`) will fail with `ERESOLVE` otherwise.
