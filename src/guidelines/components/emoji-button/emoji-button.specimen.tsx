@@ -1,5 +1,4 @@
 import {
-  EMOJI_BUTTON_EMOJI_SIZES,
   type EmojiButtonPadding,
   type EmojiButtonSize,
   EmojiButton,
