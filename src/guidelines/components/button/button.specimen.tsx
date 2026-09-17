@@ -173,6 +173,17 @@ export default function ButtonLibrary() {
       </div>
 
       <div className={styles['components__section']}>
+        <h3 className={styles['components__section-title']}>Loading</h3>
+        <div className={styles['components__button-row']}>
+          {EMPHASES.filter((e) => e !== 'link').map((emphasis) => (
+            <Button key={emphasis} emphasis={emphasis} loading>
+              Saving
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>
           Icon slots — leading icon, all emphases × sizes
         </h3>

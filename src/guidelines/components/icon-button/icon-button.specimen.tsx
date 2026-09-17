@@ -160,6 +160,21 @@ export default function IconButtonLibrary() {
       </div>
 
       <div className={styles['components__section']}>
+        <h3 className={styles['components__section-title']}>Loading</h3>
+        <div className={styles['components__button-row']}>
+          {SIZES.map((size) => (
+            <IconButton
+              key={size}
+              aria-label={`Loading, ${size}`}
+              size={size}
+              loading
+              icon={<Icon glyph={<GlobeIcon />} size={ICON_BUTTON_ICON_SIZES[size]} />}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>Count</h3>
         <div className={styles['components__button-row']}>
           <IconButton

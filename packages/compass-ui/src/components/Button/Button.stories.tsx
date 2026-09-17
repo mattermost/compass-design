@@ -30,6 +30,7 @@ const meta = {
   argTypes: {
     appearance: { control: 'select', options: ['default', 'inverted'] },
     emphasis: { control: 'select', options: EMPHASES },
+    loading: { control: 'boolean' },
     size: { control: 'select', options: SIZES },
     'leadingIcon': iconSelectArgType({
       optional: true,
@@ -70,6 +71,15 @@ export const Primary: Story = {
     children: 'Label',
     emphasis: 'primary',
     size: 'medium',
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    children: 'Saving',
+    emphasis: 'primary',
+    size: 'medium',
+    loading: true,
   },
 };
 
