@@ -45,21 +45,12 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 
 Prefer design tokens from `src/styles/tokens.scss` over hardcoded px/hex/ms. Full BEM, tokens, motion, opacity, and Scrollbars rules load when editing styles — see the styling rule pair below.
 
-## Version bumps
-
-When any package version is bumped (`packages/compass-ui/package.json` or `packages/compass-proto/package.json`), **remind the user to update downstream consumers**:
-
-- **mattermost-webapp** — update the `@mattermost/compass-ui` (and/or `@mattermost/compass-proto`) dependency and re-test affected components.
-- **Plugins** — any plugin that imports from these packages needs the same dep bump.
-- **proto-playground** — update its local dependency reference if it pins a version.
-
-Also enforce the in-repo coupling: bumping `compass-ui` requires updating the matching peer dep in `packages/compass-proto/package.json` in the same commit — the smoke-test script (`scripts/smoke-test-compass-proto-pack.mjs`) will fail with `ERESOLVE` otherwise.
-
 ## Area-specific guidance
 
 - [src/guidelines/AGENTS.md](src/guidelines/AGENTS.md) — Docs guidelines, specimens, MDX
 - [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md) — Compass UI Storybook
 - [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md) — Proto composites, `WithTooltip`
 - [.claude/rules/styling.md](.claude/rules/styling.md) / [.cursor/rules/styling.mdc](.cursor/rules/styling.mdc) — Styling (keep both files in sync)
+- [.claude/rules/version-bumps.md](.claude/rules/version-bumps.md) — Version bump procedure: consumer reminders + compass-ui/compass-proto coupling
 - [.cursor/skills/add-docs-topic/SKILL.md](.cursor/skills/add-docs-topic/SKILL.md) — Adding a docs topic (procedure)
 - [.cursor/rules/creating-agent-rules.mdc](.cursor/rules/creating-agent-rules.mdc) — Adding or changing agent guidance
