@@ -13,10 +13,10 @@ import {
   resolveStoryIcon,
 } from '../../storybook/icons';
 
-const SIZES: ChipSize[] = ['small', 'medium', 'medium-compact', 'large'];
+const SIZES: ChipSize[] = ['small', 'medium', 'large'];
 
 type ChipStoryArgs = Omit<ChipProps, 'leadingIcon'> & {
-  'leadingIcon'?: string;
+  leadingIcon?: string;
 };
 
 const meta = {
@@ -25,16 +25,17 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
-    'leadingIcon': iconSelectArgType({
+    compact: { control: 'boolean' },
+    leadingIcon: iconSelectArgType({
       optional: true,
       description:
         'Leading icon glyph. Chip wraps it in Icon at the size for the chip.',
     }),
   },
   args: {
-    'leadingIcon': ICON_NONE,
+    leadingIcon: ICON_NONE,
   },
-  render: ({ 'leadingIcon': leadingIcon, ...rest }) => (
+  render: ({ leadingIcon, ...rest }) => (
     <Chip
       {...rest}
       leadingIcon={resolveStoryIcon(leadingIcon) as ReactNode}
@@ -58,6 +59,18 @@ export const Sizes: Story = {
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
       {SIZES.map((size) => (
         <Chip key={size} size={size} onRemove={fn()}>
+          Label
+        </Chip>
+      ))}
+    </div>
+  ),
+};
+
+export const Compact: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+      {SIZES.map((size) => (
+        <Chip key={size} size={size} compact onRemove={fn()}>
           Label
         </Chip>
       ))}

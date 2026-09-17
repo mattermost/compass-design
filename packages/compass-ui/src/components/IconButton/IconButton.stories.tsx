@@ -34,6 +34,7 @@ const meta = {
   argTypes: {
     style: { control: 'select', options: ['default', 'inverted'] },
     size: { control: 'select', options: SIZES },
+    loading: { control: 'boolean' },
     padding: { control: 'select', options: ['default', 'compact'] },
     icon: iconSelectArgType({
       description: 'Icon glyph shown inside the button.',
@@ -63,6 +64,14 @@ export const Default: Story = {
     'aria-label': 'Open menu',
     size: 'medium',
     style: 'default',
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    'aria-label': 'Saving',
+    size: 'medium',
+    loading: true,
   },
 };
 

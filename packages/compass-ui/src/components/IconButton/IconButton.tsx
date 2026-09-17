@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import Spinner from '@/components/Spinner/Spinner';
 import { toKebab } from '@/utils/string';
 import styles from './IconButton.module.scss';
 
@@ -23,6 +24,8 @@ export interface IconButtonProps extends Omit<
   destructive?: boolean;
   /** Icon to show. Size the glyph via SVG_SIZE_MAP: e.g. `<Icon glyph={<GlobeIcon size={SVG_SIZE_MAP['16']} />} size="16" />`. */
   icon: ReactNode;
+  /** When true, shows a Spinner in place of the icon and disables the button. */
+  loading?: boolean;
   /** Padding variant. Figma: Padding = Default | Compact. */
   padding?: IconButtonPadding;
   /** When true, uses full border radius (pill). Figma: Rounded = On. */
@@ -60,6 +63,7 @@ export default function IconButton({
   count,
   destructive = false,
   icon,
+  loading = false,
   padding = 'default',
   rounded = false,
   size = 'medium',
@@ -100,19 +104,23 @@ export default function IconButton({
     .filter(Boolean)
     .join(' ');
 
+  const spinnerSize = ICON_BUTTON_ICON_SIZES[size];
+
   return (
     <button
       className={rootClass}
       type={type}
-      disabled={disabled}
+      disabled={disabled || loading}
       aria-label={ariaLabel}
       aria-pressed={toggled === undefined ? undefined : toggled}
       data-active={active ? 'true' : undefined}
       {...rest}
     >
       <span className={styles['icon-button__icon-slot']} aria-hidden>
-        {icon}
-        {unreadBadge && (
+        {loading
+          ? <Spinner size={spinnerSize} inverted={style === 'inverted'} />
+          : icon}
+        {unreadBadge && !loading && (
           <span className={styles['icon-button__unread-badge']} />
         )}
       </span>

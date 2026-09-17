@@ -79,11 +79,10 @@ icon-only actions) should use this same ring, not a unique overlay.
 
 <ButtonStates />
 
-**Loading.** When a button kicks off async work, transition it to a disabled
-state with a 250ms ease-out. If the server hasn't responded after **500ms**,
-swap the label to a verb form (e.g. _Saving…_) and show a spinner alongside
-it. If no result has returned by **3000ms**, return the button to its default
-state and surface an error.
+**Loading.** Pass `loading` to show a Spinner in the leading slot and
+disable the button. Use it when the action triggers async work — swap the
+label to a verb form (e.g. _Saving…_) so intent stays clear while the
+response is in flight.
 
 <Divider />
 

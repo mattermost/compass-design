@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from 'react';
 import styles from './Spinner.module.scss';
 
-export type SpinnerSize = 10 | 12 | 16 | 20 | 24 | 28 | 32;
+export type SpinnerSize = '10' | '12' | '16' | '20' | '24' | '28' | '32';
 
 export interface SpinnerProps extends Omit<
   HTMLAttributes<HTMLSpanElement>,
@@ -17,14 +17,15 @@ export interface SpinnerProps extends Omit<
  * unknown. It signals "wait" without claiming to know how long the wait will be.
  */
 export default function Spinner({
-  size = 16,
+  size = '16',
   inverted = false,
   className = '',
   'aria-label': ariaLabel = 'Loading',
   style,
   ...htmlProps
 }: SpinnerProps) {
-  const strokeWidth = Math.max(1, Math.min(3, Math.round(size * 0.1)));
+  const sizePx = Number(size);
+  const strokeWidth = Math.max(1, Math.min(3, Math.round(sizePx * 0.1)));
 
   const rootClass = [
     styles.spinner,
@@ -40,8 +41,8 @@ export default function Spinner({
       role="status"
       aria-label={ariaLabel}
       style={{
-        width: `${size}px`,
-        height: `${size}px`,
+        width: `${sizePx}px`,
+        height: `${sizePx}px`,
         ['--spinner-stroke-width' as string]: `${strokeWidth}px`,
         ...style,
       }}

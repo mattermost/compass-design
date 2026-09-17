@@ -38,18 +38,29 @@ when you're labeling content (Bot, Guest, severity), not selecting it.
 Sizes line up with the Text Input scale so chips drop into inputs without
 adjusting padding.
 
-| Size           | Use when                                                  |
-| -------------- | --------------------------------------------------------- |
-| Small          | Dense filter rows, table cells.                           |
-| Medium         | Default. Composer fields, search filters.                 |
-| Medium Compact | Inside compact inputs and tight toolbars.                 |
-| Large          | Touch-first inputs and accessibility-led surfaces.        |
+| Size   | Use when                                           |
+| ------ | -------------------------------------------------- |
+| Small  | Dense filter rows, table cells.                    |
+| Medium | Default. Composer fields, search filters.          |
+| Large  | Touch-first inputs and accessibility-led surfaces. |
 
 <div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
   <Chip size="small">Small</Chip>
   <Chip size="medium">Medium</Chip>
-  <Chip size="medium-compact">Medium Compact</Chip>
   <Chip size="large">Large</Chip>
+</div>
+
+<Divider />
+
+## Compact
+
+Add `compact` to reduce vertical and horizontal padding within the chip.
+Use it when chips sit inside compact inputs or tight toolbars where the
+standard medium padding is too generous.
+
+<div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
+  <Chip size="medium">Medium</Chip>
+  <Chip size="medium" compact>Medium compact</Chip>
 </div>
 
 <Divider />

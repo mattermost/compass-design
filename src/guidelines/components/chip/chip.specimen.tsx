@@ -44,10 +44,19 @@ export default function ChipLibrary() {
           <Chip size="medium" onRemove={() => {}}>
             Label
           </Chip>
-          <Chip size="medium-compact" onRemove={() => {}}>
+          <Chip size="large" onRemove={() => {}}>
             Label
           </Chip>
-          <Chip size="large" onRemove={() => {}}>
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>Compact</span>
+          <Chip size="small" compact onRemove={() => {}}>
+            Label
+          </Chip>
+          <Chip size="medium" compact onRemove={() => {}}>
+            Label
+          </Chip>
+          <Chip size="large" compact onRemove={() => {}}>
             Label
           </Chip>
         </div>
