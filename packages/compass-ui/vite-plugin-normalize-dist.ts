@@ -17,16 +17,20 @@ function runNormalizeDist() {
  * Re-run kebab-case normalization after every build, including --watch.
  *
  * closeBundle does not fire per watch rebuild. dts writeBundle is async and
- * can finish after the CJS output, so wait for both lib outputs and dts.
+ * can finish after the CJS output, so wait for both lib outputs and dts in
+ * full builds. In watch mode dts.afterBuild does not fire reliably on
+ * rebuilds, so normalize as soon as both lib outputs are written.
  */
 const LIB_OUTPUT_COUNT = 2;
+const isWatchMode = process.argv.includes('--watch');
 
 let completedOutputs = 0;
 let dtsFinished = false;
 let normalized = false;
 
 function flushNormalize() {
-  if (normalized || !dtsFinished || completedOutputs < LIB_OUTPUT_COUNT) return;
+  if (normalized || completedOutputs < LIB_OUTPUT_COUNT) return;
+  if (!isWatchMode && !dtsFinished) return;
   normalized = true;
   runNormalizeDist();
 }
