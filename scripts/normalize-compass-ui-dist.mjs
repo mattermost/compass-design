@@ -274,6 +274,8 @@ function main() {
 
   bundleComponentStylesCss();
   console.log('[normalize-compass-ui-dist] Wrote dist/index.css component-styles bundle');
+
+  renameCssModuleFiles();
 }
 
 main();
