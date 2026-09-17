@@ -53,10 +53,10 @@ const meta = {
       {...rest}
       size={size}
       leadingIcon={
-        resolveStoryIcon(leadingIcon, { defaultMode: 'wrapped' }) as ButtonProps['leadingIcon']
+        resolveStoryIcon(leadingIcon, { defaultMode: 'wrapped', wrapIcon: true }) as ButtonProps['leadingIcon']
       }
       trailingIcon={
-        resolveStoryIcon(trailingIcon, { defaultMode: 'wrapped' }) as ButtonProps['trailingIcon']
+        resolveStoryIcon(trailingIcon, { defaultMode: 'wrapped', wrapIcon: true }) as ButtonProps['trailingIcon']
       }
     />
   ),
