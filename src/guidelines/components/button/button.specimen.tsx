@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
 import type { ButtonAppearance, ButtonEmphasis, ButtonSize } from '@mattermost/compass-ui/components/button';
@@ -16,21 +15,6 @@ const EMPHASES: ButtonEmphasis[] = [
 const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 const ICON_EMPHASES = EMPHASES.filter((e) => e !== 'link');
-
-function VariantCell({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className={styles['components__button-variant-cell']}>
-      <span className={styles['components__instance-label']}>{label}</span>
-      {children}
-    </div>
-  );
-}
 
 function ButtonPermutationGrid({
   appearance,
