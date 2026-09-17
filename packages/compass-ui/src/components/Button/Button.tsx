@@ -1,6 +1,8 @@
 import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
+import Spinner from '@/components/Spinner/Spinner';
+import type { SpinnerSize } from '@/components/Spinner/Spinner';
 import { toKebab } from '@/utils/string';
 import styles from './Button.module.scss';
 
@@ -28,6 +30,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   emphasis?: ButtonEmphasis;
   /** Leading icon — pass `<Icon glyph={<YourIcon />} />`. Button injects the correct size. */
   leadingIcon?: ReactNode;
+  /** When true, shows a Spinner in the leading slot and disables the button. */
+  loading?: boolean;
   /** Size variant. Default: medium. */
   size?: ButtonSize;
   /** Trailing icon — pass `<Icon glyph={<YourIcon />} />`. Button injects the correct size. */
@@ -53,6 +57,7 @@ export default function Button({
   emphasis = 'primary',
   children,
   leadingIcon,
+  loading = false,
   size = 'medium',
   trailingIcon,
   disabled,
@@ -78,16 +83,19 @@ export default function Button({
     .join(' ');
 
   const supportsIcons = emphasis !== 'link';
+  const showLeadingSlot = supportsIcons && (loading || React.isValidElement(leadingIcon));
 
   return (
-    <button className={rootClass} type={type} disabled={disabled} {...rest}>
-      {supportsIcons && React.isValidElement(leadingIcon) ? (
+    <button className={rootClass} type={type} disabled={disabled || loading} {...rest}>
+      {showLeadingSlot ? (
         <span className={styles['button__icon-slot']} aria-hidden>
-          {React.cloneElement(leadingIcon as React.ReactElement<{ size?: string }>, { size: iconSize })}
+          {loading
+            ? <Spinner size={iconSize as SpinnerSize} inverted={appearance === 'inverted'} />
+            : React.cloneElement(leadingIcon as React.ReactElement<{ size?: string }>, { size: iconSize })}
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
-      {supportsIcons && React.isValidElement(trailingIcon) ? (
+      {supportsIcons && !loading && React.isValidElement(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           {React.cloneElement(trailingIcon as React.ReactElement<{ size?: string }>, { size: iconSize })}
         </span>
