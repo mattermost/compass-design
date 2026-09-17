@@ -11,7 +11,7 @@ Prototype flows live in [`mattermost-proto-playground`](https://github.com/matte
 | `@mattermost/compass-ui` | Yes (`alpha`) | Foundations, primitives, props-driven web chrome |
 | `@mattermost/compass-proto` | No | Mobile*, `ChannelShell`, Call* composites, demo fixtures |
 
-See [docs/COMPASS-REPO-SPLIT.md](./docs/COMPASS-REPO-SPLIT.md) for the full split plan and phase status.
+See [docs/ROADMAP.md](./docs/ROADMAP.md) for the repo structure, ownership, and phase plan.
 
 ## Setup
 
