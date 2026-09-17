@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React, { type ReactNode, createContext, useContext } from 'react';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import styles from './Icon.module.scss';
 
@@ -35,6 +35,14 @@ export const SVG_SIZE_MAP: Record<IconSize, number> = {
   '104': 120,
 };
 
+/**
+ * Context published by components that host an icon slot (Button, IconButton,
+ * MenuItem, etc.). Icon reads this as a fallback when no `size` prop is passed,
+ * so consumers can pass `<Icon glyph={<X />} />` without specifying a size.
+ */
+export const IconSlotContext = createContext<{ size: IconSize } | null>(null);
+export const useIconSlotContext = () => useContext(IconSlotContext);
+
 export interface IconProps {
   /** Optional CSS class name applied to the container. */
   className?: string;
@@ -70,14 +78,16 @@ const SIZE_CLASS_MAP: Record<IconSize, string> = {
 export default function Icon({
   className = '',
   glyph = null,
-  size = '24',
+  size,
 }: IconProps) {
-  const sizeClass = SIZE_CLASS_MAP[size];
+  const contextSize = useIconSlotContext()?.size;
+  const resolvedSize: IconSize = size ?? contextSize ?? '24';
+  const sizeClass = SIZE_CLASS_MAP[resolvedSize];
   const rootClass = [styles.icon, sizeClass, className]
     .filter(Boolean)
     .join(' ');
 
-  const svgSize = SVG_SIZE_MAP[size];
+  const svgSize = SVG_SIZE_MAP[resolvedSize];
   const glyphContent = (() => {
     if (glyph === undefined || glyph === null) {
       return <EmoticonHappyOutlineIcon size={svgSize} aria-hidden />;

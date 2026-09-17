@@ -2,6 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import CheckIcon from '@mattermost/compass-icons/components/check';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import Tag from '@/components/Tag/Tag';
 import MentionBadge from '@/components/MentionBadge/MentionBadge';
 import styles from './MenuItem.module.scss';
@@ -13,11 +14,11 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   secondaryLabel?: ReactNode;
   /** Where the secondary label appears. Default: 'below'. */
   secondaryLabelPosition?: 'inline' | 'below';
-  /** Custom content for the leading slot. When omitted, shows placeholder icon. When passing an icon, use `<Icon glyph={<SomeIcon />} size="16" />`. */
+  /** Custom content for the leading slot. When omitted, shows placeholder icon. When passing an icon, use `<Icon glyph={<SomeIcon />} />` — MenuItem provides the correct size via context. */
   leadingVisual?: ReactNode;
   /** Show the leading visual slot. Default: true. */
   leadingElement?: boolean;
-  /** Custom content for the trailing slot. When omitted with trailingElement=true, shows check icon. When passing an icon, use `<Icon glyph={<SomeIcon />} size="16" />`. */
+  /** Custom content for the trailing slot. When omitted with trailingElement=true, shows check icon. When passing an icon, use `<Icon glyph={<SomeIcon />} />` — MenuItem provides the correct size via context. */
   trailingVisual?: ReactNode;
   /** Show the trailing visual slot. Default: false. */
   trailingElement?: boolean;
@@ -70,9 +71,11 @@ export default function MenuItem({
         {leadingElement && (
           <div className={styles['menu-item__left']}>
             <span className={styles['menu-item__leading-visual']} aria-hidden>
-              {leadingVisual ?? (
-                <Icon glyph={<EmoticonHappyOutlineIcon />} size="16" />
-              )}
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {leadingVisual ?? (
+                  <Icon glyph={<EmoticonHappyOutlineIcon />} size="16" />
+                )}
+              </IconSlotContext.Provider>
             </span>
           </div>
         )}
@@ -118,7 +121,9 @@ export default function MenuItem({
                 .filter(Boolean)
                 .join(' ')}
             >
-              {trailingVisual ?? <Icon glyph={<CheckIcon />} size="16" />}
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {trailingVisual ?? <Icon glyph={<CheckIcon />} size="16" />}
+              </IconSlotContext.Provider>
             </span>
           </div>
         )}

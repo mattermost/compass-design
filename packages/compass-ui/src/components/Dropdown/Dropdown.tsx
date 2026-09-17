@@ -2,6 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import Button from '@/components/Button/Button';
 import { toKebab } from '@/utils/string';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import styles from './Dropdown.module.scss';
 
@@ -17,7 +18,7 @@ export interface DropdownProps extends Omit<
   className?: string;
   /** Label text shown in the trigger. */
   children: ReactNode;
-  /** Optional leading icon. */
+  /** Optional leading icon — pass `<Icon glyph={<SomeIcon />} />`; Dropdown provides the correct size via context. */
   leadingIcon?: ReactNode;
   /** Trigger inset. Tight is default; Compact adds more padding (Figma). Default: Tight. */
   padding?: DropdownPadding;
@@ -78,7 +79,9 @@ export default function Dropdown({
         <span className={styles.dropdown__content}>
           {leadingIcon != null && (
             <span className={styles['dropdown__leading-icon']} aria-hidden>
-              {leadingIcon}
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {leadingIcon}
+              </IconSlotContext.Provider>
             </span>
           )}
           <span className={styles.dropdown__label}>{children}</span>

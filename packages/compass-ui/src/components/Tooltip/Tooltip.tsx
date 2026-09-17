@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import { ShortcutTagGroup } from '@/components/ShortcutTag/ShortcutTag';
 import styles from './Tooltip.module.scss';
 
@@ -17,7 +18,7 @@ export interface TooltipProps {
   hint?: string;
   /** Optional keyboard shortcut keys shown below label. */
   shortcutKeys?: TooltipShortcutKey[];
-  /** Optional leading icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). The slot does not resize raw SVG children. */
+  /** Optional leading icon — pass `<Icon glyph={<SomeIcon />} />`; Tooltip provides the correct size via context. */
   icon?: ReactNode;
   /** Optional CSS class name. */
   className?: string;
@@ -48,7 +49,9 @@ export default function Tooltip({
         <div className={styles['tooltip__content']}>
           {icon != null && (
             <span className={styles['tooltip__icon']} aria-hidden>
-              {icon}
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {icon}
+              </IconSlotContext.Provider>
             </span>
           )}
           <span className={styles['tooltip__label']}>{label}</span>

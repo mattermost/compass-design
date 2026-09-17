@@ -1,8 +1,9 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import styles from './ActionButton.module.scss';
 
 export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Pass `<Icon glyph={<SomeIcon />} size="20" />` — the slot is 20×20px and does not resize its children. */
+  /** Pass `<Icon glyph={<SomeIcon />} />` — ActionButton provides the correct size (20) via context. */
   icon: ReactNode;
   label: string;
   /** When set, this is a toggle; maps to `aria-pressed`. */
@@ -41,7 +42,9 @@ export default function ActionButton({
       {...htmlProps}
     >
       <span className={styles['action-button__icon']} aria-hidden>
-        {icon}
+        <IconSlotContext.Provider value={{ size: '20' }}>
+          {icon}
+        </IconSlotContext.Provider>
       </span>
       <span className={styles['action-button__label']}>{label}</span>
     </button>

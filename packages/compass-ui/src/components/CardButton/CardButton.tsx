@@ -1,11 +1,12 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import CheckCircleIcon from '@mattermost/compass-icons/components/check-circle';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import styles from './CardButton.module.scss';
 
 export interface CardButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'title'> {
-  /** Leading icon. Pass `<Icon glyph={<SomeIcon />} size="24" />` — the slot does not resize raw SVG children. */
+  /** Leading icon. Pass `<Icon glyph={<SomeIcon />} />` — CardButton provides the correct size (24) via context. */
   icon: ReactNode;
   /** Primary label. */
   title: ReactNode;
@@ -53,7 +54,9 @@ export default function CardButton({
       {...rest}
     >
       <span className={styles['card-button__icon']} aria-hidden>
-        {icon}
+        <IconSlotContext.Provider value={{ size: '24' }}>
+          {icon}
+        </IconSlotContext.Provider>
       </span>
       <span className={styles['card-button__text']}>
         <span className={styles['card-button__title']}>{title}</span>
