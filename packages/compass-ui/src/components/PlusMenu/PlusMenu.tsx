@@ -24,7 +24,7 @@ export default function PlusMenu({
   return (
     <PopoverMenu
       className={className}
-      style={{ width: '260px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>

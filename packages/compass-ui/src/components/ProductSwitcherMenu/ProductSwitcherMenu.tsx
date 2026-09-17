@@ -105,7 +105,7 @@ export default function ProductSwitcherMenu({
   return (
     <PopoverMenu
       className={rootClass}
-      style={{ width: '273px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>

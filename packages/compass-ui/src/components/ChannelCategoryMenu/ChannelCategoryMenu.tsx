@@ -37,7 +37,7 @@ export default function ChannelCategoryMenu({
   return (
     <PopoverMenu
       className={rootClass}
-      style={{ width: '247px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>

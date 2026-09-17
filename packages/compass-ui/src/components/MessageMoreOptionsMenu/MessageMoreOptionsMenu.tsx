@@ -46,7 +46,7 @@ export default function MessageMoreOptionsMenu({
   return (
     <PopoverMenu
       className={className}
-      style={{ width: '236px', ...style }}
+      style={style}
       {...rest}
     >
       <PopoverMenuGroup>
