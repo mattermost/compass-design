@@ -580,4 +580,4 @@ Until trusted publishing is configured, the Release → CI job will fail at `npm
 - [README.md](./README.md) — quick start
 - [CHANGELOG.md](./CHANGELOG.md) — release history
 - [Storybook](./README.md#storybook) — component variant catalog (`npm run storybook`)
-- [Compass repo split](../../docs/COMPASS-REPO-SPLIT.md) — two-repo architecture and phase plan
+- [Roadmap](../../docs/ROADMAP.md) — repo structure, ownership, and phase plan

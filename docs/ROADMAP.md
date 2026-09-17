@@ -1,6 +1,6 @@
-# Compass repo split
+# Compass Design roadmap
 
-How we are splitting Compass UI work across two repositories. Replaces the earlier three-repo extraction plan.
+Repo structure, package ownership, and phase plan for the Compass Design system. Replaces the earlier three-repo extraction plan.
 
 ## Repositories
 
@@ -9,7 +9,7 @@ How we are splitting Compass UI work across two repositories. Replaces the earli
 | Design system repo | `mattermost/compass-design` (this repo) | `@mattermost/compass-ui` (published), `@mattermost/compass-proto` (unpublished), docs + Storybook, GitHub Pages |
 | Prototypes catalog | `mattermost/mattermost-proto-playground` | Multi-scene prototype flows, device chrome (`PrototypeTopNav`, `DeviceFrame`), registry |
 
-Icons stay in [`mattermost/compass-icons`](https://github.com/mattermost/compass-icons) for now (peer dependency; may move into `compass-design` later).
+Icons currently live in [`mattermost/compass-icons`](https://github.com/mattermost/compass-icons) as a peer dependency. **The intention is to bring `compass-icons` into this repo** — consolidating icon source, build pipeline, and releases alongside `compass-ui`. See [Phases](#phases) below.
 
 ## Packages (today, in this monorepo)
 
@@ -53,6 +53,8 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | **2 — Slim playground** | Done | Flows + chrome only; depend on published core + packed proto; rewrite README for catalog role |
 | **3 — Alpha release** | Done | `@mattermost/compass-ui@0.1.0-alpha.0` on npm (`alpha` tag); GitHub pre-release; webapp npm consumption validated — no mergeable PR merged yet |
 | **7 — Subpath imports** | Done (design repo); proto-playground PR | Multi-entry packaging + subpath exports in `@mattermost/compass-ui@0.1.0-alpha.3`. Docs/playground in this repo migrated; [`mattermost-proto-playground`](https://github.com/mattermost/mattermost-proto-playground) follows in a companion PR. Webapp migration documented in INTEGRATION.md. |
+| **Later — Bring `compass-icons` into this repo** | Planned | Move the `mattermost/compass-icons` source and build pipeline into `compass-design` as a workspace package (`@mattermost/compass-icons`). Consolidates icon authoring, versioning, and CI alongside `compass-ui`. Consumers continue to import from the same npm package name; only the publish pipeline and source location change. |
+| **Later — Drop `@mattermost/shared` Button type dependency in webapp** | Planned | The webapp currently imports `ButtonVariant = '' \| 'destructive' \| 'inverted'` from `@mattermost/shared/components/button` as a bridge type after migrating `Button` itself to `@mattermost/compass-ui`. This type is an app-level adapter concept (flattening compass-ui's separate `destructive` bool and `appearance` string into one string), not a design system type — it should not be added to compass-ui. The fix is to define the type locally in the webapp (inline or in a shared adapter util) and remove the `@mattermost/shared` import site-wide. Scope: audit all webapp files that import `ButtonVariant` from shared and migrate each to a local definition. |
 | **Later — Webapp i18n** | Deferred | Host-owned copy can be translated at the call site today. Compass chrome is English-only. Do not ship locale JSON from this package. Revisit after the webapp localization pipeline (extract, Weblate, in-repo translations, ICU checks) is stable — see INTEGRATION.md Translation. |
 
 Stop after each phase; verify before starting the next.
