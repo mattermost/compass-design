@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
 import { toKebab } from '@/utils/string';
@@ -26,11 +26,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   destructive?: boolean;
   /** Visual emphasis. Default: primary. */
   emphasis?: ButtonEmphasis;
-  /** Leading icon (e.g. <Icon glyph={<SomeIcon />} size="16" />). Icon size should match button size. */
+  /** Leading icon — pass `<Icon glyph={<YourIcon />} />`. Button injects the correct size. */
   leadingIcon?: ReactNode;
   /** Size variant. Default: medium. */
   size?: ButtonSize;
-  /** Trailing icon (e.g. `<Icon glyph={<SomeIcon />} size="16" />`). Icon size should match button size. */
+  /** Trailing icon — pass `<Icon glyph={<YourIcon />} />`. Button injects the correct size. */
   trailingIcon?: ReactNode;
 }
 
@@ -81,23 +81,15 @@ export default function Button({
 
   return (
     <button className={rootClass} type={type} disabled={disabled} {...rest}>
-      {supportsIcons && leadingIcon != null ? (
+      {supportsIcons && React.isValidElement(leadingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
-          {typeof leadingIcon === 'boolean' ? (
-            <Icon size={iconSize} />
-          ) : (
-            leadingIcon
-          )}
+          {React.cloneElement(leadingIcon as React.ReactElement<{ size?: string }>, { size: iconSize })}
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
-      {supportsIcons && trailingIcon != null ? (
+      {supportsIcons && React.isValidElement(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
-          {typeof trailingIcon === 'boolean' ? (
-            <Icon size={iconSize} />
-          ) : (
-            trailingIcon
-          )}
+          {React.cloneElement(trailingIcon as React.ReactElement<{ size?: string }>, { size: iconSize })}
         </span>
       ) : null}
     </button>

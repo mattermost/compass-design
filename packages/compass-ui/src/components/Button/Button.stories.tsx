@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button';
 import type { ButtonAppearance, ButtonEmphasis, ButtonProps, ButtonSize } from './Button';
-import type { IconSize } from '../Icon/Icon';
+import Icon from '../Icon/Icon';
 import {
   ICON_NONE,
   iconSelectArgType,
@@ -17,13 +17,6 @@ const EMPHASES: ButtonEmphasis[] = [
 ];
 
 const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
-
-const BUTTON_SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
-  'x-small': '12',
-  small: '12',
-  medium: '16',
-  large: '20',
-};
 
 type ButtonStoryArgs = Omit<ButtonProps, 'leadingIcon' | 'trailingIcon'> & {
   'leadingIcon'?: string;
@@ -55,27 +48,18 @@ const meta = {
     'leadingIcon': ICON_NONE,
     'trailingIcon': ICON_NONE,
   },
-  render: ({ 'leadingIcon': leadingIcon, 'trailingIcon': trailingIcon, size = 'medium', ...rest }) => {
-    const iconSize = BUTTON_SIZE_ICON_MAP[size];
-    return (
-      <Button
-        {...rest}
-        size={size}
-        leadingIcon={
-          resolveStoryIcon(leadingIcon, {
-            wrapSize: iconSize,
-            defaultMode: 'boolean',
-          }) as ButtonProps['leadingIcon']
-        }
-        trailingIcon={
-          resolveStoryIcon(trailingIcon, {
-            wrapSize: iconSize,
-            defaultMode: 'boolean',
-          }) as ButtonProps['trailingIcon']
-        }
-      />
-    );
-  },
+  render: ({ 'leadingIcon': leadingIcon, 'trailingIcon': trailingIcon, size = 'medium', ...rest }) => (
+    <Button
+      {...rest}
+      size={size}
+      leadingIcon={
+        resolveStoryIcon(leadingIcon, { defaultMode: 'wrapped' }) as ButtonProps['leadingIcon']
+      }
+      trailingIcon={
+        resolveStoryIcon(trailingIcon, { defaultMode: 'wrapped' }) as ButtonProps['trailingIcon']
+      }
+    />
+  ),
 } satisfies Meta<ButtonStoryArgs>;
 
 export default meta;

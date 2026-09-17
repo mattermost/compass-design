@@ -3,7 +3,6 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
 import type { ButtonAppearance, ButtonEmphasis, ButtonSize } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
-import type { IconSize } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/components.module.scss';
 
 const EMPHASES: ButtonEmphasis[] = [
@@ -17,13 +16,6 @@ const EMPHASES: ButtonEmphasis[] = [
 const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 const ICON_EMPHASES = EMPHASES.filter((e) => e !== 'link');
-
-const SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
-  'x-small': '12',
-  small: '12',
-  medium: '16',
-  large: '20',
-};
 
 function VariantCell({
   label,
@@ -102,7 +94,7 @@ function ButtonPermutationGrid({
 }
 
 export default function ButtonLibrary() {
-  const icon16 = <Icon glyph={<GlobeIcon />} size="16" />;
+  const icon = <Icon glyph={<GlobeIcon />} />;
 
   return (
     <div className={styles['components__button-block']}>
@@ -207,20 +199,17 @@ export default function ButtonLibrary() {
               <span className={styles['components__button-variant-matrix__emphasis-label']}>
                 {emphasis}
               </span>
-              {SIZES.map((size) => {
-                const iconSize = SIZE_ICON_MAP[size];
-                return (
-                  <div key={size} className={styles['components__button-variant-matrix__cell']}>
-                    <Button
-                      emphasis={emphasis}
-                      size={size}
-                      leadingIcon={<Icon glyph={<GlobeIcon />} size={iconSize} />}
-                    >
-                      Label
-                    </Button>
-                  </div>
-                );
-              })}
+              {SIZES.map((size) => (
+                <div key={size} className={styles['components__button-variant-matrix__cell']}>
+                  <Button
+                    emphasis={emphasis}
+                    size={size}
+                    leadingIcon={<Icon glyph={<GlobeIcon />} />}
+                  >
+                    Label
+                  </Button>
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -254,13 +243,13 @@ export default function ButtonLibrary() {
                 {emphasis}
               </span>
               <div className={styles['components__button-variant-matrix__cell']}>
-                <Button emphasis={emphasis} leadingIcon={icon16}>Label</Button>
+                <Button emphasis={emphasis} leadingIcon={icon}>Label</Button>
               </div>
               <div className={styles['components__button-variant-matrix__cell']}>
-                <Button emphasis={emphasis} trailingIcon={icon16}>Label</Button>
+                <Button emphasis={emphasis} trailingIcon={icon}>Label</Button>
               </div>
               <div className={styles['components__button-variant-matrix__cell']}>
-                <Button emphasis={emphasis} leadingIcon={icon16} trailingIcon={icon16}>Label</Button>
+                <Button emphasis={emphasis} leadingIcon={icon} trailingIcon={icon}>Label</Button>
               </div>
             </div>
           ))}
