@@ -8,6 +8,7 @@ import Button from '@/components/Button/Button';
 import Checkbox from '@/components/Checkbox/Checkbox';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import styles from './PopoverNotice.module.scss';
 
 export type PopoverNoticeVariant = 'info' | 'success' | 'warning' | 'danger';
@@ -28,7 +29,7 @@ export interface PopoverNoticeProps {
    * Ignored if `icon` is also provided.
    */
   variant?: PopoverNoticeVariant;
-  /** Optional icon shown to the left of the title. Overrides the variant icon. Pass `<Icon glyph={<SomeIcon />} size="20" />` — the slot does not resize raw SVG children. */
+  /** Optional icon shown to the left of the title. Overrides the variant icon. Pass `<Icon glyph={<SomeIcon />} />` — PopoverNotice provides the correct size via context. */
   icon?: ReactNode;
   /** Action buttons rendered below the body. */
   actions?: PopoverNoticeAction[];
@@ -73,12 +74,16 @@ export default function PopoverNotice({
   onClose,
   className = '',
 }: PopoverNoticeProps) {
-  const rootClass = [styles['popover-notice'], className]
-    .filter(Boolean)
-    .join(' ');
-
   const resolvedIcon = icon ?? (variant ? VARIANT_ICONS[variant] : null);
   const iconColorClass = !icon && variant ? VARIANT_ICON_CLASS[variant] : '';
+
+  const rootClass = [
+    styles['popover-notice'],
+    resolvedIcon == null ? styles['popover-notice--no-icon'] : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={rootClass}>
@@ -90,7 +95,9 @@ export default function PopoverNotice({
               .join(' ')}
             aria-hidden
           >
-            {resolvedIcon}
+            <IconSlotContext.Provider value={{ size: '20' }}>
+              {resolvedIcon}
+            </IconSlotContext.Provider>
           </div>
         )}
 

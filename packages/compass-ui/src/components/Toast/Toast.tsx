@@ -6,6 +6,7 @@ import CloseIcon from '@mattermost/compass-icons/components/close';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import styles from './Toast.module.scss';
 
@@ -20,6 +21,8 @@ export interface ToastProps {
   className?: string;
   message: string;
   type?: ToastType;
+  /** Optional icon override — pass `<Icon glyph={<SomeIcon />} />`; replaces the default type icon. Toast provides the correct size via context. */
+  icon?: ReactNode;
   actionLabel?: string;
   onAction?: () => void;
   onDismiss?: () => void;
@@ -42,6 +45,7 @@ export default function Toast({
   className = '',
   message,
   type = 'general',
+  icon,
   actionLabel,
   onAction,
   onDismiss,
@@ -56,7 +60,9 @@ export default function Toast({
     <div className={rootClass} role="status" aria-live="polite">
       <div className={styles['toast__content']}>
         <span className={styles['toast__icon']} aria-hidden>
-          <Icon glyph={TYPE_ICONS[type]} size="16" />
+          <IconSlotContext.Provider value={{ size: '16' }}>
+            {icon ?? <Icon glyph={TYPE_ICONS[type]} />}
+          </IconSlotContext.Provider>
         </span>
         <span className={styles['toast__message']}>{message}</span>
         {actionLabel != null && (

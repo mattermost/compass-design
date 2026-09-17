@@ -9,12 +9,12 @@ import {
   useState,
 } from 'react';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
-import CheckIcon from '@mattermost/compass-icons/components/check';
 import Icon from '@/components/Icon/Icon';
+import { IconSlotContext } from '@/components/Icon/Icon';
+import MenuItem from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuScroll,
 } from '@/components/PopoverMenu/PopoverMenu';
-import menuItemStyles from '@/components/MenuItem/MenuItem.module.scss';
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
@@ -39,6 +39,7 @@ export interface SelectProps {
   /** Shown on the trigger when no value is selected. Empty-value options are not listed in the menu. */
   placeholder?: string;
   label?: ReactNode;
+  /** Leading icon — pass `<Icon glyph={<SomeIcon />} />`; Select provides the correct size via context. */
   leadingIcon?: ReactNode;
   size?: SelectSize;
   invalid?: boolean;
@@ -70,68 +71,25 @@ function SelectOptionRow({
   onSelect: (option: SelectOption) => void;
   onHover: () => void;
 }) {
-  const rowClass = [
-    menuItemStyles['menu-item'],
-    active ? menuItemStyles['menu-item--active'] : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   return (
-    <li
-      id={`${listboxId}-option-${option.value}`}
-      role="option"
-      className={[styles.select__option, rowClass].filter(Boolean).join(' ')}
-      aria-selected={selected}
-      aria-disabled={option.disabled || undefined}
-      onMouseDown={(ev) => ev.preventDefault()}
-      onMouseEnter={onHover}
-      onPointerUp={() => {
-        if (!option.disabled) onSelect(option);
-      }}
-    >
-      <div
-        className={[
-          menuItemStyles['menu-item__content'],
-          option.disabled ? styles['select__option-content--disabled'] : '',
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        {option.leadingVisual != null && (
-          <div className={menuItemStyles['menu-item__left']}>
-            <span className={menuItemStyles['menu-item__leading-visual']}>
-              {option.leadingVisual}
-            </span>
-          </div>
-        )}
-        <div className={menuItemStyles['menu-item__middle']}>
-          <div className={menuItemStyles['menu-item__top-row']}>
-            <span className={menuItemStyles['menu-item__label']}>
-              {option.label}
-            </span>
-          </div>
-          {option.secondaryLabel != null && (
-            <div className={menuItemStyles['menu-item__bottom-row']}>
-              <span className={menuItemStyles['menu-item__secondary-label-below']}>
-                {option.secondaryLabel}
-              </span>
-            </div>
-          )}
-        </div>
-        {selected && (
-          <div className={menuItemStyles['menu-item__right']}>
-            <span
-              className={[
-                menuItemStyles['menu-item__trailing-visual'],
-                menuItemStyles['menu-item__trailing-visual--check'],
-              ].join(' ')}
-            >
-              <Icon glyph={<CheckIcon />} size="16" />
-            </span>
-          </div>
-        )}
-      </div>
+    <li className={styles.select__option} role="presentation">
+      <MenuItem
+        id={`${listboxId}-option-${option.value}`}
+        role="option"
+        label={option.label}
+        secondaryLabel={option.secondaryLabel}
+        leadingElement={option.leadingVisual != null}
+        leadingVisual={option.leadingVisual}
+        trailingElement={selected}
+        active={active}
+        disabled={option.disabled}
+        aria-selected={selected}
+        onMouseDown={(ev) => ev.preventDefault()}
+        onMouseEnter={onHover}
+        onPointerUp={() => {
+          if (!option.disabled) onSelect(option);
+        }}
+      />
     </li>
   );
 }
@@ -402,7 +360,9 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
         >
           {leadingIcon != null && (
             <span className={styles['select__leading-icon']} aria-hidden>
-              {leadingIcon}
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {leadingIcon}
+              </IconSlotContext.Provider>
             </span>
           )}
           <span className={styles.select__value}>{displayLabel}</span>
