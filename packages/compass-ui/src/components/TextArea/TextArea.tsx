@@ -1,5 +1,5 @@
-import type { TextareaHTMLAttributes, ReactNode, ChangeEvent } from 'react';
-import { forwardRef, useId, useState, useCallback } from 'react';
+import type { TextareaHTMLAttributes, ReactNode, ChangeEvent, Ref } from 'react';
+import { useId, useState, useCallback } from 'react';
 import { toKebab } from '@/utils/string';
 import styles from './TextArea.module.scss';
 
@@ -28,30 +28,29 @@ export interface TextAreaProps extends Omit<
  * channel purposes, message drafts, admin notes. They share their visual rhythm with Text
  * Input but trade the single-line constraint for room to breathe.
  */
-const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  function TextArea(
-    {
-      className = '',
-      size = 'medium',
-      label,
-      invalid = false,
-      maxLength,
-      showCharacterCount = false,
-      id: idProp,
-      value: valueProp,
-      defaultValue,
-      placeholder,
-      onFocus,
-      onBlur,
-      onChange,
-      disabled,
-      readOnly,
-      rows = 3,
-      'aria-describedby': describedBy,
-      ...rest
-    },
+function TextArea(
+  {
     ref,
-  ) {
+    className = '',
+    size = 'medium',
+    label,
+    invalid = false,
+    maxLength,
+    showCharacterCount = false,
+    id: idProp,
+    value: valueProp,
+    defaultValue,
+    placeholder,
+    onFocus,
+    onBlur,
+    onChange,
+    disabled,
+    readOnly,
+    rows = 3,
+    'aria-describedby': describedBy,
+    ...rest
+  }: TextAreaProps & { ref?: Ref<HTMLTextAreaElement> },
+) {
     const generatedId = useId();
     const id = idProp ?? generatedId;
 
@@ -146,7 +145,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         )}
       </div>
     );
-  },
-);
+}
 
 export default TextArea;

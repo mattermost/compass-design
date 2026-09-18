@@ -4,9 +4,9 @@ import type {
   KeyboardEvent,
   MouseEvent,
   ReactNode,
+  Ref,
 } from 'react';
 import {
-  forwardRef,
   useCallback,
   useEffect,
   useId,
@@ -123,8 +123,9 @@ function optionLeadingVisual(option: ComboboxOption): ReactNode | undefined {
  * }, { value: 'design', label: 'Design' }, { value: 'engineering', label: 'Engineering' }, {
  * value: 'releases', label: 'Releases' }, ];
  */
-const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
+function Combobox(
   {
+    ref,
     options,
     multiple = false,
     value: valueProp,
@@ -146,8 +147,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     'aria-label': ariaLabel,
     portalContainer = null,
     zIndex,
-  },
-  ref,
+  }: ComboboxProps & { ref?: Ref<HTMLInputElement> },
 ) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
@@ -650,6 +650,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         )}
     </div>
   );
-});
+}
 
 export default Combobox;

@@ -1,6 +1,5 @@
-import type { KeyboardEvent, ReactNode } from 'react';
+import type { KeyboardEvent, ReactNode, Ref } from 'react';
 import {
-  forwardRef,
   useCallback,
   useEffect,
   useId,
@@ -98,8 +97,9 @@ function SelectOptionRow({
  * { value: 'town-square', label: 'Town Square' }, { value: 'off-topic', label: 'Off-Topic'
  * }, { value: 'design', label: 'Design' }, ];
  */
-const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
+function Select(
   {
+    ref,
     options,
     value: valueProp,
     defaultValue = '',
@@ -116,8 +116,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
     'aria-label': ariaLabel,
     portalContainer = null,
     zIndex,
-  },
-  ref,
+  }: SelectProps & { ref?: Ref<HTMLButtonElement> },
 ) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
@@ -417,6 +416,6 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
         )}
     </div>
   );
-});
+}
 
 export default Select;

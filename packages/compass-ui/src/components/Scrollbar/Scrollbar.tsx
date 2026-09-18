@@ -1,9 +1,9 @@
 import {
-  forwardRef,
   useCallback,
   useRef,
   type CSSProperties,
   type ReactNode,
+  type Ref,
 } from 'react';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
@@ -37,9 +37,8 @@ export interface ScrollbarProps {
  * track with a thin, translucent thumb — so the scrollbar reads as a position indicator
  * first and a control second.
  */
-const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
-  { children, color, alwaysVisible = false, className, style, onScroll },
-  ref,
+function Scrollbar(
+  { ref, children, color, alwaysVisible = false, className, style, onScroll }: ScrollbarProps & { ref?: Ref<HTMLDivElement> },
 ) {
   const cleanup = useRef<(() => void) | undefined>(undefined);
 
@@ -56,7 +55,7 @@ const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
       if (typeof ref === 'function') {
         ref(el);
       } else if (ref) {
-        (ref as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        ref.current = el;
       }
     },
     [onScroll, ref],
@@ -82,6 +81,6 @@ const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
       {children}
     </SimpleBar>
   );
-});
+}
 
 export default Scrollbar;

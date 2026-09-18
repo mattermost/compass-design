@@ -6,6 +6,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.11] - 2026-09-17
+
+### Changed
+
+- **React 19**: peer dependency range narrowed from `^18.2.0 || ^19.0.0` to `^19.2.0`. React 18 is no longer supported.
+- **`forwardRef` removed**: `TextInput`, `SearchInput`, `TextArea`, `Combobox`, `Select`, and `Scrollbar` now accept `ref` as a regular prop (React 19 ref-as-prop pattern). Callers using `useRef`-created refs or callback refs are unaffected; the prop type is `Ref<T>`.
+
+## [0.1.0-alpha.10] - 2026-09-17
+
 ### Added
 
 - **`IconSlotContext`** and **`useIconSlotContext`** exported from `@mattermost/compass-ui/components/icon`. Host components publish their required slot size via `<IconSlotContext.Provider value={{ size }}>`; `<Icon>` reads it as a fallback when no explicit `size` prop is passed (resolution: prop → context → `'24'`).
@@ -196,7 +205,9 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.9...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.11...HEAD
+[0.1.0-alpha.11]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.10...0.1.0-alpha.11
+[0.1.0-alpha.10]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.9...0.1.0-alpha.10
 [0.1.0-alpha.9]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.8...0.1.0-alpha.9
 [0.1.0-alpha.8]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.7...0.1.0-alpha.8
 [0.1.0-alpha.7]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.6...0.1.0-alpha.7

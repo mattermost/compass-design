@@ -1,8 +1,8 @@
 import {
-  forwardRef,
   useId,
   type ChangeEvent,
   type InputHTMLAttributes,
+  type Ref,
 } from 'react';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -22,18 +22,17 @@ export interface MobileSearchFieldProps
  *
  * @see Figma Patterns — Mobile — Top Nav Bar — Search
  */
-const MobileSearchField = forwardRef<HTMLInputElement, MobileSearchFieldProps>(
-  function MobileSearchField(
-    {
-      className = '',
-      id: idProp,
-      placeholder = 'Search messages & files',
-      'aria-label': ariaLabel,
-      onChange,
-      ...rest
-    },
+function MobileSearchField(
+  {
     ref,
-  ) {
+    className = '',
+    id: idProp,
+    placeholder = 'Search messages & files',
+    'aria-label': ariaLabel,
+    onChange,
+    ...rest
+  }: MobileSearchFieldProps & { ref?: Ref<HTMLInputElement> },
+) {
     const generatedId = useId();
     const id = idProp ?? generatedId;
     const rootClass = [styles['mobile-search-field'], className]
@@ -61,7 +60,6 @@ const MobileSearchField = forwardRef<HTMLInputElement, MobileSearchFieldProps>(
         />
       </label>
     );
-  },
-);
+}
 
 export default MobileSearchField;

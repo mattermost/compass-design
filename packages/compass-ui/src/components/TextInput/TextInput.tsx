@@ -2,9 +2,10 @@ import type {
   InputHTMLAttributes,
   ReactNode,
   ChangeEvent,
+  Ref,
   RefCallback,
 } from 'react';
-import { forwardRef, useId, useState, useCallback, useRef } from 'react';
+import { useId, useState, useCallback, useRef } from 'react';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import { toKebab } from '@/utils/string';
 import styles from './TextInput.module.scss';
@@ -37,31 +38,30 @@ export interface TextInputProps extends Omit<
  * Text Inputs let people enter and edit a single line of text — names, emails, search
  * queries, channel titles. They're the workhorse of every form and modal in Mattermost.
  */
-const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  function TextInput(
-    {
-      className = '',
-      size = 'medium',
-      label,
-      leadingIcon,
-      trailingIcon,
-      invalid = false,
-      maxLength,
-      showCharacterCount = false,
-      id: idProp,
-      value: valueProp,
-      defaultValue,
-      placeholder,
-      onFocus,
-      onBlur,
-      onChange,
-      disabled,
-      readOnly,
-      'aria-describedby': describedBy,
-      ...rest
-    },
+function TextInput(
+  {
     ref,
-  ) {
+    className = '',
+    size = 'medium',
+    label,
+    leadingIcon,
+    trailingIcon,
+    invalid = false,
+    maxLength,
+    showCharacterCount = false,
+    id: idProp,
+    value: valueProp,
+    defaultValue,
+    placeholder,
+    onFocus,
+    onBlur,
+    onChange,
+    disabled,
+    readOnly,
+    'aria-describedby': describedBy,
+    ...rest
+  }: TextInputProps & { ref?: Ref<HTMLInputElement> },
+) {
     const generatedId = useId();
     const id = idProp ?? generatedId;
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -191,7 +191,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         )}
       </div>
     );
-  },
-);
+}
 
 export default TextInput;

@@ -3,9 +3,9 @@ import type {
   InputHTMLAttributes,
   KeyboardEvent,
   ReactNode,
+  Ref,
 } from 'react';
 import {
-  forwardRef,
   useId,
   useState,
   useCallback,
@@ -53,27 +53,26 @@ export interface SearchInputProps extends Omit<
  * switcher, member picker, file finder. They look like a text input with a leading magnifier
  * so the affordance is obvious before the user reads a single word.
  */
-const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  function SearchInput(
-    {
-      className = '',
-      size = 'medium',
-      label,
-      invalid = false,
-      onClear,
-      id: idProp,
-      value: valueProp,
-      defaultValue,
-      placeholder,
-      onFocus,
-      onBlur,
-      onChange,
-      disabled,
-      onKeyDown,
-      ...rest
-    },
+function SearchInput(
+  {
     ref,
-  ) {
+    className = '',
+    size = 'medium',
+    label,
+    invalid = false,
+    onClear,
+    id: idProp,
+    value: valueProp,
+    defaultValue,
+    placeholder,
+    onFocus,
+    onBlur,
+    onChange,
+    disabled,
+    onKeyDown,
+    ...rest
+  }: SearchInputProps & { ref?: Ref<HTMLInputElement> },
+) {
     const generatedId = useId();
     const id = idProp ?? generatedId;
     const inputRef = useRef<HTMLInputElement>(null);
@@ -227,7 +226,6 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         </div>
       </div>
     );
-  },
-);
+}
 
 export default SearchInput;
