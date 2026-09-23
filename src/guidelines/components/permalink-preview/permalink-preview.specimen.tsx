@@ -24,6 +24,7 @@ const richContent = (
       style={{
         margin: 0,
         fontSize: 'var(--font-size-100)',
+        lineHeight: 'var(--line-height-100)',
         color: 'rgba(var(--center-channel-color-rgb), 0.72)',
       }}
     >
