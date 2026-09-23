@@ -111,7 +111,7 @@ export default function TopNav({ onOpenQuickSwitcher }: TopNavProps) {
         ))}
 
         <a
-          href={import.meta.env.VITE_STORYBOOK_URL}
+          href={import.meta.env.VITE_STORYBOOK_URL || `${import.meta.env.BASE_URL}storybook/`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open Storybook"
