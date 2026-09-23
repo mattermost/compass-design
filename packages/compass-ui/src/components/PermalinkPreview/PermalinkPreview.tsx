@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import MessageHeader from '@/components/MessageHeader/MessageHeader';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import styles from './PermalinkPreview.module.scss';
+
+// Keep in sync with max-height in PermalinkPreview.module.scss __body-clip
+const TRUNCATION_HEIGHT_PX = 100;
 
 export interface PermalinkPreviewProps {
   /** Sender's display name. */
@@ -44,7 +47,33 @@ export default function PermalinkPreview({
   onDismiss,
   className = '',
 }: PermalinkPreviewProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [needsTruncation, setNeedsTruncation] = useState(false);
+  const [bodyHeight, setBodyHeight] = useState(0);
+  const clipRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = clipRef.current;
+    if (!el) return;
+    const measure = () => {
+      const full = el.scrollHeight;
+      setBodyHeight(full);
+      setNeedsTruncation(full > TRUNCATION_HEIGHT_PX);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   const rootClass = [styles['permalink-preview'], className]
+    .filter(Boolean)
+    .join(' ');
+
+  const clipClass = [
+    styles['permalink-preview__body-clip'],
+    isExpanded ? styles['permalink-preview__body-clip--expanded'] : '',
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -74,8 +103,31 @@ export default function PermalinkPreview({
             <MessageHeader username={authorName} timestamp={timestamp} />
           </div>
           <div className={styles['permalink-preview__body']}>
-            {children ?? (
-              <p className={styles['permalink-preview__text']}>{messageText}</p>
+            <div
+              ref={clipRef}
+              className={clipClass}
+              style={
+                {
+                  '--permalink-preview-body-height': `${bodyHeight}px`,
+                } as React.CSSProperties
+              }
+            >
+              {children ?? (
+                <p className={styles['permalink-preview__text']}>
+                  {messageText}
+                </p>
+              )}
+            </div>
+            {needsTruncation && (
+              <button
+                className={styles['permalink-preview__show-more']}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsExpanded((prev) => !prev);
+                }}
+              >
+                {isExpanded ? 'Show less' : 'Show more'}
+              </button>
             )}
           </div>
         </div>

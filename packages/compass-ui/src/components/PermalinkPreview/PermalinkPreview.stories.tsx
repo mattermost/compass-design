@@ -20,6 +20,26 @@ export const Default: Story = {
 };
 
 /**
+ * When the message body exceeds 100px the preview clips the content and reveals
+ * a "Show more" toggle. Clicking it expands to full height; clicking again
+ * collapses. Click is scoped to the button so card navigation isn't triggered.
+ */
+export const Truncated: Story = {
+  args: {
+    avatarSrc: avatarLeonard,
+    authorName: 'Leonard Riley',
+    timestamp: '10:43 AM',
+    originalChannel: '~Engineering',
+    onDismiss: fn(),
+    messageText:
+      'We shipped the new search indexing pipeline last night and initial numbers look really positive — p95 latency dropped from 420ms to 180ms on the staging cluster. ' +
+      'The change also removed the synchronous re-index on every channel save, which was the main cause of the write spikes we kept seeing during peak hours. ' +
+      'Full rollout is gated behind the feature flag until QA signs off, but the plan is to enable it for all workspaces by end of week. ' +
+      'More details in the runbook linked below — let me know if you have questions before the review call.',
+  },
+};
+
+/**
  * Pass `children` to render rich content — such as an attachment card — in the
  * message body instead of the plain `messageText` string. The `messageText` prop
  * is ignored when `children` is present.
