@@ -14,7 +14,7 @@ const richContent = (
       style={{
         margin: 0,
         fontWeight: 'var(--font-weight-semibold)',
-        fontSize: 'var(--font-size-100)',
+        fontSize: 'var(--font-size-200)',
         color: 'var(--center-channel-color)',
       }}
     >
@@ -23,7 +23,7 @@ const richContent = (
     <p
       style={{
         margin: 0,
-        fontSize: 'var(--font-size-75)',
+        fontSize: 'var(--font-size-100)',
         color: 'rgba(var(--center-channel-color-rgb), 0.72)',
       }}
     >
