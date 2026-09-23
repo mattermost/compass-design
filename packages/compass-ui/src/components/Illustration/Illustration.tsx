@@ -2,8 +2,16 @@ import type { ReactNode } from 'react';
 import styles from './Illustration.module.scss';
 
 export interface IllustrationProps {
-  /** SVG component from `@mattermost/compass-ui/illustrations/<name>`. */
-  children: ReactNode;
+  /**
+   * SVG component from `@mattermost/compass-ui/illustrations/<name>`
+   * (e.g. `<SearchIllustration />`). Takes precedence over `children`.
+   */
+  glyph?: ReactNode;
+  /**
+   * SVG component from `@mattermost/compass-ui/illustrations/<name>`.
+   * Prefer `glyph` when both are available; either may be used.
+   */
+  children?: ReactNode;
   /** Optional CSS class name. */
   className?: string;
   /** Optional inline width (e.g. "100%", "320px"). */
@@ -21,6 +29,7 @@ export interface IllustrationProps {
  * skip it when it's purely decorative).
  */
 export default function Illustration({
+  glyph,
   children,
   className = '',
   width,
@@ -29,6 +38,7 @@ export default function Illustration({
 }: IllustrationProps) {
   const rootClass = [styles.illustration, className].filter(Boolean).join(' ');
   const hasLabel = ariaLabel !== undefined && ariaLabel !== '';
+  const content = glyph ?? children;
 
   return (
     <span
@@ -38,7 +48,7 @@ export default function Illustration({
       aria-label={hasLabel ? ariaLabel : undefined}
       aria-hidden={!hasLabel}
     >
-      {children}
+      {content}
     </span>
   );
 }

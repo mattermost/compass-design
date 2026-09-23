@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Writes TypeScript wrappers + name catalog for Compass illustration SVGs,
- * plus lazy loaders for the guidelines specimen grid.
+ * plus lazy loaders for the guidelines specimen grid and a sync Storybook
+ * registry for illustration select controls.
  *
  * Source of truth: packages/compass-ui/src/illustrations/*.svg
  */
@@ -81,6 +82,52 @@ ${loadersBody}
   'utf8',
 );
 
+const storybookDir = join(
+  repoRoot,
+  'packages/compass-ui/src/storybook',
+);
+mkdirSync(storybookDir, { recursive: true });
+
+function toPascalIllustrationName(name) {
+  return (
+    name
+      .split('-')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('') + 'Illustration'
+  );
+}
+
+const storybookImports = names
+  .map((n) => {
+    const ident = toPascalIllustrationName(n);
+    return `import ${ident} from '@/illustrations/${n}';`;
+  })
+  .join('\n');
+
+const storybookEntries = names
+  .map((n) => `  '${n}': ${toPascalIllustrationName(n)},`)
+  .join('\n');
+
+writeFileSync(
+  join(storybookDir, 'compassIllustrations.generated.ts'),
+  `${header}import type { ComponentType, SVGProps } from 'react';
+${storybookImports}
+
+export type CompassIllustration = ComponentType<SVGProps<SVGSVGElement>>;
+
+export const STORYBOOK_ILLUSTRATIONS = {
+${storybookEntries}
+} as const satisfies Record<string, CompassIllustration>;
+
+export type StorybookIllustrationName = keyof typeof STORYBOOK_ILLUSTRATIONS;
+
+export const STORYBOOK_ILLUSTRATION_NAMES = Object.keys(
+  STORYBOOK_ILLUSTRATIONS,
+) as StorybookIllustrationName[];
+`,
+  'utf8',
+);
+
 console.log(
-  `Wrote ${names.length} illustration wrappers, names.ts, and docs loaders`,
+  `Wrote ${names.length} illustration wrappers, names.ts, docs loaders, and Storybook registry`,
 );

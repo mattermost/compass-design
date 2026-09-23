@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Brand SVG artwork shipped from @mattermost/compass-ui/illustrations.',
+          'Brand SVG artwork shipped from `@mattermost/compass-ui/illustrations/<name>`. For sizing, accessibility, and Controls to swap artwork, see the [Illustration](?path=/docs/components-images-and-icons-illustration--docs) component.',
       },
     },
   },

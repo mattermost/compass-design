@@ -1,7 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import GroupsIllustration from '@/illustrations/groups';
+import type { ReactNode } from 'react';
 import FeatureDiscoveryPanel from './FeatureDiscoveryPanel';
+import type { FeatureDiscoveryPanelProps } from './FeatureDiscoveryPanel';
+import {
+  ILLUSTRATION_NONE,
+  illustrationSelectArgType,
+  resolveStoryIllustration,
+  renderIllustrationGlyph,
+} from '../../storybook/illustrations';
+
+type FeatureDiscoveryStoryArgs = Omit<
+  FeatureDiscoveryPanelProps,
+  'illustration'
+> & {
+  illustrationName?: string;
+};
 
 const meta = {
   title: 'Components/Admin Console/Feature Discovery Panel',
@@ -17,7 +31,38 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof FeatureDiscoveryPanel>;
+  argTypes: {
+    illustrationName: illustrationSelectArgType({
+      optional: true,
+      description:
+        'Illustration from @mattermost/compass-ui/illustrations/<name>.',
+    }),
+  },
+  render: ({ illustrationName, ...rest }) => {
+    const glyph = resolveStoryIllustration(illustrationName) as
+      | ReactNode
+      | undefined;
+    return (
+      <FeatureDiscoveryPanel
+        {...rest}
+        illustration={
+          glyph != null
+            ? {
+                glyph,
+                width: '276px',
+                height: '170px',
+                'aria-label':
+                  illustrationName != null &&
+                  illustrationName !== ILLUSTRATION_NONE
+                    ? illustrationName
+                    : '',
+              }
+            : undefined
+        }
+      />
+    );
+  },
+} satisfies Meta<FeatureDiscoveryStoryArgs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -34,17 +79,13 @@ export const WithIllustration: Story = {
       children: 'Learn more',
       onClick: fn(),
     },
-    illustration: {
-      children: <GroupsIllustration />,
-      width: '276px',
-      height: '170px',
-      'aria-label': 'Groups illustration',
-    },
+    illustrationName: 'groups',
   },
 };
 
 export const TextOnly: Story = {
   args: {
+    illustrationName: ILLUSTRATION_NONE,
     skuLabel: 'PROFESSIONAL',
     title: 'Unlock advanced reporting',
     description:
@@ -60,6 +101,7 @@ export const TextOnly: Story = {
 
 export const NoSkuTag: Story = {
   args: {
+    illustrationName: ILLUSTRATION_NONE,
     skuLabel: null,
     title: 'Enable compliance exports',
     description:
@@ -82,7 +124,7 @@ export const AllVariants: Story = {
           onClick: fn(),
         }}
         illustration={{
-          children: <GroupsIllustration />,
+          glyph: renderIllustrationGlyph('groups'),
           width: '276px',
           height: '170px',
           'aria-label': 'Groups illustration',
