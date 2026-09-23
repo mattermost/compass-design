@@ -30,7 +30,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "storybook": "npm run storybook --workspace=@mattermost/compass-ui"
+    "storybook": "npm run storybook --workspace=@mattermost/compass-ui",
+    "build-storybook": "npm run build-storybook --workspace=@mattermost/compass-ui"
   },
   "dependencies": {
     "@fontsource/metropolis": "^5.2.5",
