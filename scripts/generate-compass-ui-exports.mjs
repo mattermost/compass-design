@@ -114,10 +114,6 @@ function buildExports() {
       import: './dist/compass-ui-standalone.css',
       default: './dist/compass-ui-standalone.css',
     },
-    './component-styles': {
-      import: './dist/index.css',
-      default: './dist/index.css',
-    },
   };
 }
 
