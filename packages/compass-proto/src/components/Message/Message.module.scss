@@ -116,6 +116,10 @@
     min-width: 0;
   }
 
+  &__thread-footer-slot {
+    min-width: 0;
+  }
+
   &__images-slot {
     position: relative;
     /* Above Message Actions (z-index 1) so Image Preview hover targets aren’t blocked */
