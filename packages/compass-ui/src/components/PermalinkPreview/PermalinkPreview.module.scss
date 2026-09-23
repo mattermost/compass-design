@@ -95,10 +95,32 @@
     overflow: hidden;
     max-height: 100px;
     width: 100%;
+    position: relative;
     transition: max-height var(--duration-moderate) var(--ease-transition);
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--center-channel-bg));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity var(--duration-quick) var(--ease-transition);
+    }
+
+    &--truncated::after {
+      opacity: 1;
+    }
 
     &--expanded {
       max-height: var(--permalink-preview-body-height);
+    }
+
+    &--expanded::after {
+      opacity: 0;
     }
   }
 

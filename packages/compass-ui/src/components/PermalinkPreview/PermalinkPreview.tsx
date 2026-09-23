@@ -72,6 +72,7 @@ export default function PermalinkPreview({
 
   const clipClass = [
     styles['permalink-preview__body-clip'],
+    needsTruncation ? styles['permalink-preview__body-clip--truncated'] : '',
     isExpanded ? styles['permalink-preview__body-clip--expanded'] : '',
   ]
     .filter(Boolean)
