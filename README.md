@@ -30,6 +30,7 @@ Open the URL shown in the terminal for the guidelines site.
 npm run dev              # docs app + package watch
 npm run build            # production docs build
 npm run storybook        # component catalog (compass-ui)
+npm run build-storybook  # static Storybook build (CI uses /compass-design/storybook/)
 npm run build:ui         # build @mattermost/compass-ui dist
 npm run build:proto      # build @mattermost/compass-proto dist
 npm run smoke-test:packages
@@ -44,4 +45,4 @@ npm run smoke-test:packages
 
 ## Docs hosting
 
-GitHub Pages deploys from `main` via `.github/workflows/deploy.yml` (canonical Compass docs site).
+GitHub Pages deploys from `main` via `.github/workflows/deploy.yml` (canonical Compass docs site). The same deploy builds Storybook into `/storybook/` on that site.

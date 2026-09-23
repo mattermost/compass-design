@@ -12,6 +12,9 @@ const config: StorybookConfig = {
     options: {},
   },
   async viteFinal(viteConfig) {
+    // CI sets STORYBOOK_BASE_PATH=/compass-design/storybook/ for GitHub Pages.
+    viteConfig.base = process.env.STORYBOOK_BASE_PATH ?? '/';
+
     viteConfig.plugins = [...(viteConfig.plugins ?? []), compassUiSvgrPlugin()];
 
     viteConfig.resolve ??= {};
