@@ -24,7 +24,6 @@ const requiredProtoDist = [
 const requiredUiDist = [
   'dist/index.js',
   'dist/compass-ui.css',
-  'dist/index.css',
 ];
 
 function run(cmd, cwd = root) {
@@ -99,8 +98,6 @@ import { createRoot } from 'react-dom/client';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { RecordingPill } from '@mattermost/compass-proto';
 import '@mattermost/compass-ui/styles';
-import '@mattermost/compass-ui/component-styles';
-import '@mattermost/compass-proto/component-styles';
 
 function App() {
   return (

@@ -15,7 +15,6 @@ const requiredDistFiles = [
   'dist/index.js',
   'dist/index.cjs',
   'dist/index.d.ts',
-  'dist/index.css',
   'dist/compass-ui.css',
   'dist/compass-ui-standalone.css',
 ];
@@ -30,7 +29,6 @@ function assertTarballContents(tarballPath) {
     'package/package.json',
     'package/dist/index.js',
     'package/dist/index.cjs',
-    'package/dist/index.css',
     'package/dist/compass-ui.css',
     'package/dist/compass-ui-standalone.css',
     'package/dist/components/button/index.js',
@@ -103,7 +101,6 @@ import { Illustration } from '@mattermost/compass-ui/components/illustration';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import '@mattermost/compass-ui/styles';
-import '@mattermost/compass-ui/component-styles';
 
 function App() {
   const items = Array.from({ length: 20 }, (_, i) => \`Row \${i + 1}\`);

@@ -229,31 +229,6 @@ function renameCssModuleFiles() {
   console.log(`[normalize-compass-ui-dist] Renamed ${cssFiles.length} .module.css files to .css`);
 }
 
-function bundleComponentStylesCss() {
-  const cssChunks = [];
-  const simplebarCss = path.join(
-    packageRoot,
-    'node_modules/simplebar-react/dist/simplebar.min.css',
-  );
-  if (fs.existsSync(simplebarCss)) {
-    cssChunks.push(fs.readFileSync(simplebarCss, 'utf8'));
-  }
-
-  // Collect component CSS files from dist/components/ — works whether files
-  // are still named *.module.css (pre-rename) or *.css (post-rename).
-  const componentCssFiles = walkFiles(path.join(distRoot, 'components'))
-    .filter((file) => file.endsWith('.css'))
-    .sort();
-  for (const file of componentCssFiles) {
-    cssChunks.push(fs.readFileSync(file, 'utf8'));
-  }
-
-  fs.writeFileSync(
-    path.join(distRoot, 'index.css'),
-    `${cssChunks.join('\n')}\n`,
-  );
-}
-
 function main() {
   const componentMap = buildComponentRenameMap();
   const hookMap = buildHookRenameMap();
@@ -271,9 +246,6 @@ function main() {
   }
 
   renameCssModuleFiles();
-
-  bundleComponentStylesCss();
-  console.log('[normalize-compass-ui-dist] Wrote dist/index.css component-styles bundle');
 }
 
 main();

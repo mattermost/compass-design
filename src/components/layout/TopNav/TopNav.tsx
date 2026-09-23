@@ -1,6 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import MattermostIcon from '@mattermost/compass-icons/components/mattermost';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
+import StorybookIcon from '@/assets/storybook-icon.svg?react';
 import { categoryFirstTopicPath } from '@/manifests/categoryFirstTopicPath';
 import ThemeSwitcherControl from '@/components/layout/ThemeSwitcherControl/ThemeSwitcherControl';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -108,6 +109,16 @@ export default function TopNav({ onOpenQuickSwitcher }: TopNavProps) {
         {NAV_ITEMS.map((item) => (
           <TopNavLink key={item.label} item={item} />
         ))}
+
+        <a
+          href={import.meta.env.VITE_STORYBOOK_URL || `${import.meta.env.BASE_URL}storybook/`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Storybook"
+          className={styles['top-nav__storybook-link']}
+        >
+          <StorybookIcon width={20} height={20} />
+        </a>
 
         {onOpenQuickSwitcher != null && (
           <IconButton
