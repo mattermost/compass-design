@@ -28,8 +28,10 @@ Open the URL shown in the terminal for the guidelines site.
 
 ```bash
 npm run dev              # docs app + package watch
+npm run dev:all          # docs app + Storybook + package watch (all together)
 npm run build            # production docs build
-npm run storybook        # component catalog (compass-ui)
+
+npm run storybook        # component catalog (compass-ui) only
 npm run build-storybook  # static Storybook build (CI uses /compass-design/storybook/)
 npm run build:ui         # build @mattermost/compass-ui dist
 npm run build:proto      # build @mattermost/compass-proto dist
