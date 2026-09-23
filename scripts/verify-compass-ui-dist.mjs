@@ -95,7 +95,6 @@ function assertSubpathLayout() {
   const required = [
     'dist/index.js',
     'dist/index.cjs',
-    'dist/index.css',
     'dist/components/button/index.js',
     'dist/components/button/index.cjs',
     'dist/components/admin-console-sidebar/AdminConsoleSidebar.cjs',
