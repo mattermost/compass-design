@@ -32,7 +32,28 @@ const richContent = (
     >
       Highlights include improved search performance, a refreshed sidebar, and
       several accessibility fixes across the desktop and mobile clients.
-      The release also ships a new onboarding checklist for first-time users,
+    </p>
+    <p
+      style={{
+        margin: 0,
+        fontFamily: 'var(--font-family-heading)',
+        fontWeight: 'var(--font-weight-semibold)',
+        fontSize: 'var(--font-size-300)',
+        lineHeight: 'var(--line-height-300)',
+        color: 'var(--center-channel-color)',
+      }}
+    >
+      What&apos;s changed
+    </p>
+    <p
+      style={{
+        margin: 0,
+        fontSize: 'var(--font-size-100)',
+        lineHeight: 'var(--line-height-100)',
+        color: 'rgba(var(--center-channel-color-rgb), 0.72)',
+      }}
+    >
+      The release ships a new onboarding checklist for first-time users,
       expanded keyboard shortcut coverage, and a set of API changes detailed
       in the migration guide. Performance benchmarks show a 30% reduction in
       time-to-interactive on slow networks compared to v9.10.
