@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-ios';
+import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import ArrowExpandIcon from '@mattermost/compass-icons/components/arrow-expand';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import Icon from '@/components/Icon/Icon';
@@ -21,8 +22,10 @@ export interface RightSidebarHeaderProps {
   leadingIcon?: ReactNode;
   /** When set, shows a back button and calls this on click. */
   onBack?: () => void;
-  /** When set, shows an expand button and calls this on click. */
+  /** When set, shows an expand/collapse button and calls this on click. */
   onExpand?: () => void;
+  /** When true, the expand button shows the collapse icon. Requires `onExpand`. */
+  expanded?: boolean;
   /** When set, shows a close button and calls this on click. */
   onClose?: () => void;
   /** Optional inline action label (e.g. "Follow"). */
@@ -42,6 +45,7 @@ export default function RightSidebarHeader({
   leadingIcon,
   onBack,
   onExpand,
+  expanded = false,
   onClose,
   actionLabel,
   onActionClick,
@@ -112,9 +116,9 @@ export default function RightSidebarHeader({
         {onExpand && (
           <IconButton
             size="small"
-            aria-label="Expand"
+            aria-label={expanded ? 'Collapse' : 'Expand'}
             onClick={onExpand}
-            icon={<Icon size="16" glyph={<ArrowExpandIcon />} />}
+            icon={<Icon size="16" glyph={expanded ? <ArrowCollapseIcon /> : <ArrowExpandIcon />} />}
           />
         )}
         {onClose && (
