@@ -47,7 +47,7 @@
     "./styles/standalone": {
       "import": "./dist/compass-ui-standalone.css",
       "default": "./dist/compass-ui-standalone.css"
-    },
+    }
   },
   "files": [
     "dist"
