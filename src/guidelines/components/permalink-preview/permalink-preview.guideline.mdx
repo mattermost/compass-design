@@ -16,7 +16,8 @@ on top, the message body in the middle, and an origin footer at the bottom.
   700px. Elevates to Elevation 2 on hover.
 - <Num>2</Num> **Message Header** — author avatar, name, timestamp. Avatar
   displays inline (smaller than in the main stream).
-- <Num>3</Num> **Body** — the quoted message text. Truncated past ~100px;
+- <Num>3</Num> **Body** — the quoted message text, or rich content passed via
+  the `children` slot (e.g. an attachment card). Truncated past ~100px;
   show a `Show more` affordance to expand.
 - <Num>4</Num> **Origin** — `Originally posted in ~Channel` footer that
   links back to the source.
@@ -40,9 +41,12 @@ real message.
 
 ## Attachments
 
-When the linked message contains attachments, render them inside the
-preview body using the same components as the main stream — at reduced
-density.
+When the linked message contains attachments, pass structured content via
+the `children` prop instead of `messageText`. `PermalinkPreview` renders
+whatever is passed as children in the message body area; `messageText` is
+ignored when children are present.
+
+Use the same components as the main stream at reduced density:
 
 | Attachment    | Treatment                                                                |
 | ------------- | ------------------------------------------------------------------------ |
