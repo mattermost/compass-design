@@ -28,6 +28,9 @@ jobs:
 
       - run: npm run build
 
+      - name: Build Storybook
+        run: npm run build-storybook --workspace=@mattermost/compass-ui -- --output-dir ../../dist/storybook --quiet
+
       - name: Add SPA 404 fallback
         run: cp dist/index.html dist/404.html
 
