@@ -17,10 +17,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./component-styles": {
-      "import": "./dist/index.css",
-      "default": "./dist/index.css"
-    }
   },
   "files": [
     "dist"
