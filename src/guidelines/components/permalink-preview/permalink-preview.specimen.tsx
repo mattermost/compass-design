@@ -29,6 +29,10 @@ const richContent = (
     >
       Highlights include improved search performance, a refreshed sidebar, and
       several accessibility fixes across the desktop and mobile clients.
+      The release also ships a new onboarding checklist for first-time users,
+      expanded keyboard shortcut coverage, and a set of API changes detailed
+      in the migration guide. Performance benchmarks show a 30% reduction in
+      time-to-interactive on slow networks compared to v9.10.
     </p>
   </div>
 );
