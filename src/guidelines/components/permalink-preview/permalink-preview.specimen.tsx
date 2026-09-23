@@ -2,17 +2,12 @@ import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import { PermalinkPreview } from '@mattermost/compass-ui/components/permalink-preview';
 import styles from '@/styles/library-demo/components.module.scss';
 
-const attachmentCard = (
+const richContent = (
   <div
     style={{
-      border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-      borderRadius: 'var(--radius-s)',
-      padding: 'var(--spacing-m) var(--spacing-l)',
       display: 'flex',
       flexDirection: 'column',
       gap: 'var(--spacing-xs)',
-      width: '100%',
-      background: 'rgba(var(--center-channel-color-rgb), 0.04)',
     }}
   >
     <p
@@ -23,24 +18,18 @@ const attachmentCard = (
         color: 'var(--center-channel-color)',
       }}
     >
-      Incident Report #4821
+      Release notes for v9.11
     </p>
-    <div
+    <p
       style={{
-        display: 'grid',
-        gridTemplateColumns: 'max-content 1fr',
-        gap: 'var(--spacing-xxs) var(--spacing-m)',
+        margin: 0,
         fontSize: 'var(--font-size-75)',
         color: 'rgba(var(--center-channel-color-rgb), 0.72)',
       }}
     >
-      <span>Severity</span>
-      <span>P1 — Critical</span>
-      <span>Status</span>
-      <span>Investigating</span>
-      <span>Assignee</span>
-      <span>@on-call-team</span>
-    </div>
+      Highlights include improved search performance, a refreshed sidebar, and
+      several accessibility fixes across the desktop and mobile clients.
+    </p>
   </div>
 );
 
@@ -66,7 +55,7 @@ export default function PermalinkPreviewLibrary() {
             originalChannel="~Incidents"
             onDismiss={() => {}}
           >
-            {attachmentCard}
+            {richContent}
           </PermalinkPreview>
         </div>
       </div>
