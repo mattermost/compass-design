@@ -13,8 +13,10 @@ const richContent = (
     <p
       style={{
         margin: 0,
+        fontFamily: 'var(--font-family-heading)',
         fontWeight: 'var(--font-weight-semibold)',
-        fontSize: 'var(--font-size-200)',
+        fontSize: 'var(--font-size-500)',
+        lineHeight: 'var(--line-height-500)',
         color: 'var(--center-channel-color)',
       }}
     >
