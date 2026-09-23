@@ -21,6 +21,9 @@ function compassUiDistReload(): Plugin {
     }, 500);
   };
 
+  const isDistRoot = (file: string) =>
+    /\/(index\.(js|css)|compass-ui\.css)$/.test(file);
+
   return {
     name: 'compass-ui-dist-reload',
     configureServer(server) {
@@ -28,14 +31,23 @@ function compassUiDistReload(): Plugin {
       server.watcher.add(compassProtoDist);
       server.watcher.on('change', (file) => {
         if (
-          (file.startsWith(compassUiDist) &&
-            /\/(index\.(js|css)|compass-ui\.css)$/.test(file)) ||
-          (file.startsWith(compassProtoDist) &&
-            /\/index\.(js|css)$/.test(file))
+          (file.startsWith(compassUiDist) && isDistRoot(file)) ||
+          (file.startsWith(compassProtoDist) && isDistRoot(file))
         ) {
           scheduleReload(server);
         }
       });
+    },
+    // Suppress Vite's own HMR for individual dist files (e.g. illustrations/*.svg.js).
+    // Those files may be partially written mid-rebuild, causing "no default export"
+    // errors. The full-reload above fires once the build completes (index.js lands).
+    handleHotUpdate({ file }) {
+      if (
+        (file.startsWith(compassUiDist) && !isDistRoot(file)) ||
+        (file.startsWith(compassProtoDist) && !isDistRoot(file))
+      ) {
+        return [];
+      }
     },
   };
 }
