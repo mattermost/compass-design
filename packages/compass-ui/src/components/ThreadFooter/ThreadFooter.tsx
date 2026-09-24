@@ -76,23 +76,21 @@ export default function ThreadFooter({
               {badgeStatusHint}
             </span>
           )}
-          {badge === 'unread' && (
-            <span
-              className={styles['thread-footer__unread-dot']}
-              aria-hidden
-            />
-          )}
-          {badge === 'mention' && (
-            <span
-              className={styles['thread-footer__mention-badge']}
-              aria-hidden
-            >
-              <MentionBadge
-                count={mentionCount}
-                location="channel"
-                size="medium"
-              />
-            </span>
+          {(badge === 'unread' || badge === 'mention') && (
+            <div className={styles['thread-footer__badge-container']} aria-hidden>
+              {badge === 'unread' && (
+                <span className={styles['thread-footer__unread-dot']} />
+              )}
+              {badge === 'mention' && (
+                <span className={styles['thread-footer__mention-badge']}>
+                  <MentionBadge
+                    count={mentionCount}
+                    location="channel"
+                    size="medium"
+                  />
+                </span>
+              )}
+            </div>
           )}
 
           {avatars.length > 0 && (

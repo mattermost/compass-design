@@ -36,6 +36,11 @@ type MessageProps = {
   imagePreviews?: React.ReactNode;
   /** Trailing body content — e.g. attachments and reactions — renders last. */
   footer?: React.ReactNode;
+  /**
+   * Thread footer — renders a `<ThreadFooter>` when this is a root post with replies.
+   * Pass `<ThreadFooter .../>` directly; Message renders it flush (no extra padding).
+   */
+  threadFooter?: React.ReactNode;
 };
 
 export default function Message({
@@ -53,6 +58,7 @@ export default function Message({
   linkPreview,
   imagePreviews,
   footer,
+  threadFooter,
 }: MessageProps) {
   const rootClass = [styles.message, className].filter(Boolean).join(' ');
 
@@ -97,6 +103,9 @@ export default function Message({
               <div className={styles['message__footer-slot']}>{footer}</div>
             )}
           </div>
+          {threadFooter != null && (
+            <div className={styles['message__thread-footer-slot']}>{threadFooter}</div>
+          )}
         </div>
       </div>
     </div>
