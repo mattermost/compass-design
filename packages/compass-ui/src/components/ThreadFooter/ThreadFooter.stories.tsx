@@ -37,18 +37,23 @@ const meta = {
     onFollowToggle: fn(),
   },
   decorators: [
-    (Story, context) => (
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, maxWidth: 560 }}>
-        <UserAvatar src={avatarEmma} name="Emma Novak" size="36" />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1, minWidth: 0 }}>
-          <MessageHeader username="Emma Novak" timestamp="9:41 AM" />
-          <p style={{ margin: 0, fontSize: 'var(--font-size-100)', lineHeight: 'var(--line-height-400)', color: 'var(--center-channel-color)' }}>
-            This sprint we should prioritise the sidebar redesign — thoughts on timeline?
-          </p>
-          <Story {...context.args} />
+    (Story, context) => {
+      if (context.name === 'All Variants') {
+        return <Story {...context.args} />;
+      }
+      return (
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, maxWidth: 560 }}>
+          <UserAvatar src={avatarEmma} name="Emma Novak" size="32" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1, minWidth: 0 }}>
+            <MessageHeader username="Emma Novak" timestamp="9:41 AM" />
+            <p style={{ margin: 0, fontSize: 'var(--font-size-100)', lineHeight: 'var(--line-height-400)', color: 'var(--center-channel-color)' }}>
+              This sprint we should prioritise the sidebar redesign — thoughts on timeline?
+            </p>
+            <Story {...context.args} />
+          </div>
         </div>
-      </div>
-    ),
+      );
+    },
   ],
 } satisfies Meta<typeof ThreadFooter>;
 
@@ -96,35 +101,48 @@ export const ReplyHovered: Story = {
   },
 };
 
+const variantLabelStyle = {
+  display: 'block',
+  fontSize: 12,
+  color: 'rgba(var(--center-channel-color-rgb), 0.72)',
+  marginBottom: 8,
+} as const;
+
 export const AllVariants: Story = {
   render: () => {
     const messageRow = (
+      label: string,
       author: string,
       avatarSrc: string,
       text: string,
       footer: ReactNode,
     ) => (
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-        <UserAvatar src={avatarSrc} name={author} size="36" />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1, minWidth: 0 }}>
-          <MessageHeader username={author} timestamp="9:41 AM" />
-          <p style={{ margin: 0, fontSize: 'var(--font-size-100)', lineHeight: 'var(--line-height-400)', color: 'var(--center-channel-color)' }}>
-            {text}
-          </p>
-          {footer}
+      <section>
+        <span style={variantLabelStyle}>{label}</span>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+          <UserAvatar src={avatarSrc} name={author} size="32" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1, minWidth: 0 }}>
+            <MessageHeader username={author} timestamp="9:41 AM" />
+            <p style={{ margin: 0, fontSize: 'var(--font-size-100)', lineHeight: 'var(--line-height-400)', color: 'var(--center-channel-color)' }}>
+              {text}
+            </p>
+            {footer}
+          </div>
         </div>
-      </div>
+      </section>
     );
 
     return (
       <div style={{ display: 'grid', gap: 24, maxWidth: 560 }}>
         {messageRow(
+          'Default',
           'Emma Novak',
           avatarEmma,
           'This sprint we should prioritise the sidebar redesign — thoughts on timeline?',
           <ThreadFooter replyCount={5} avatars={DEMO_AVATARS} />,
         )}
         {messageRow(
+          'Following',
           'Leonard Riley',
           avatarLeonard,
           'Agreed. I can have the wireframes ready by end of week.',
@@ -136,13 +154,18 @@ export const AllVariants: Story = {
           />,
         )}
         {messageRow(
+          'Unread',
           'Danielle Okoro',
           avatarDanielle,
           'Can someone send over the latest design tokens?',
-          <div style={{ display: 'grid', gap: 12 }}>
-            <ThreadFooter replyCount={3} badge="unread" avatars={[DEMO_AVATARS[0]]} />
-            <ThreadFooter replyCount={1} badge="mention" mentionCount={2} avatars={[DEMO_AVATARS[1]]} />
-          </div>,
+          <ThreadFooter replyCount={3} badge="unread" avatars={[DEMO_AVATARS[0]]} />,
+        )}
+        {messageRow(
+          'Mention',
+          'Marco Rinaldi',
+          avatarMarco,
+          'Just pushed an update to the tokens doc.',
+          <ThreadFooter replyCount={1} badge="mention" mentionCount={2} avatars={[DEMO_AVATARS[1]]} />,
         )}
       </div>
     );
