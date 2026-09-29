@@ -22,6 +22,10 @@
       "types": "./build/components/index.d.ts",
       "default": "./build/components/index.js"
     },
+    "./components/*.js": {
+      "types": "./build/components/*.d.ts",
+      "default": "./build/components/*.js"
+    },
     "./components/*": {
       "types": "./build/components/*.d.ts",
       "default": "./build/components/*.js"

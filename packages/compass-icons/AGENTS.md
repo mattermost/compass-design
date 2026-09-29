@@ -27,6 +27,8 @@ Do not put Fontello on the default `prebuild` path.
 
 ## Consumer import paths (do not break)
 
-`./components`, `./components/*`, `./IconGlyphs`, `./css/*`, `./font/*`, `./config.json`.
+`./components`, `./components/*`, `./components/*.js` (compass-ui dist), `./IconGlyphs`, `./IconGlyphs.js`, `./css/*`, `./font/*`, `./config.json`.
+
+Keep both `./components/*.js` and `./components/*` in the exports map — the `.js` form is required by published compass-ui (webpack fullySpecified rewrite).
 
 See [docs/compass-icons-integration.md](../../docs/compass-icons-integration.md).

@@ -174,6 +174,13 @@ async function createPackageFile() {
                 types: './components/index.d.ts',
                 default: './components/index.js',
             },
+            // Explicit *.js pattern: compass-ui dist (vite plugin) appends .js for
+            // webpack fullySpecified. Without this, ./components/* maps
+            // close.js → close.js.js and breaks every compass-ui consumer.
+            './components/*.js': {
+                types: './components/*.d.ts',
+                default: './components/*.js',
+            },
             './components/*': {
                 types: './components/*.d.ts',
                 default: './components/*.js',

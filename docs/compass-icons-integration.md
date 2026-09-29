@@ -42,6 +42,7 @@ Move icon source, build pipeline, and publish CI into `compass-design` so Compas
 {
   ".": "./css/compass-icons.css",
   "./components": { "types": "./components/index.d.ts", "default": "./components/index.js" },
+  "./components/*.js": { "types": "./components/*.d.ts", "default": "./components/*.js" },
   "./components/*": { "types": "./components/*.d.ts", "default": "./components/*.js" },
   "./IconGlyphs": { "types": "./IconGlyphs.d.ts", "default": "./IconGlyphs.js" },
   "./IconGlyphs.js": { "types": "./IconGlyphs.d.ts", "default": "./IconGlyphs.js" },
@@ -51,6 +52,8 @@ Move icon source, build pipeline, and publish CI into `compass-design` so Compas
   "./package.json": "./package.json"
 }
 ```
+
+`./components/*.js` is required: published `@mattermost/compass-ui` rewrites icon imports to add a `.js` suffix (webpack fullySpecified). A lone `./components/*` pattern would map `close.js` → `close.js.js` and break every compass-ui consumer.
 
 The workspace package.json mirrors these paths under `./build/…` so monorepo consumers resolve the same import strings.
 

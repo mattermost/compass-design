@@ -71,6 +71,9 @@ function assertResolutions(extractDir) {
   const paths = [
     '@mattermost/compass-icons/components',
     '@mattermost/compass-icons/components/check',
+    // compass-ui dist appends .js (vite-plugin-compass-icons-ext) — must resolve
+    '@mattermost/compass-icons/components/check.js',
+    '@mattermost/compass-icons/components/close.js',
     '@mattermost/compass-icons/IconGlyphs',
     '@mattermost/compass-icons/IconGlyphs.js',
     '@mattermost/compass-icons/config.json',
