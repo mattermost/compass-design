@@ -63,15 +63,10 @@ export const TITLE_STATUS_SHORTCUT_TAG =
   'Components/Status Indicators/Shortcut Tag';
 export const TITLE_STATUS_MENTION_BADGE =
   'Components/Status Indicators/Mention Badge';
-export const TITLE_CALLS_RECORDING_PILL =
-  'Components/Calls/Recording Pill';
 export const TITLE_STATUS_STATUS_BADGE =
   'Components/Status Indicators/Status Badge';
 export const TITLE_STATUS_UNREAD_BADGE =
   'Components/Status Indicators/Unread Badge';
-
-export const TITLE_CALLS_CALL_PARTICIPANT_AVATAR =
-  'Components/Calls/Call Participant Avatar';
 
 export const TITLE_CARDS_ATTACHMENT_CARD =
   'Components/Cards and Previews/Attachment Card';

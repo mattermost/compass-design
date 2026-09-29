@@ -3,7 +3,7 @@ import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import AdminConsoleSidebar from './AdminConsoleSidebar';
 import type { AdminConsoleSidebarGroupModel } from './adminConsoleSidebarModel';
 
-/** Story-only fixture — full default tree lives in @mattermost/compass-proto. */
+/** Story-only fixture — a minimal nav group for canvas preview. */
 const DEMO_GROUPS: AdminConsoleSidebarGroupModel[] = [
   {
     key: 'users',
