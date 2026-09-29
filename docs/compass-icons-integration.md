@@ -65,7 +65,7 @@ The workspace package.json mirrors these paths under `./build/…` so monorepo c
 | `npm run build:icons:font` | Full rebuild including Fontello (needs network). Syncs generated fonts back to committed `css/` / `font/` |
 | Root `prebuild` | `build:icons` → generate manifests → `build:ui` → `build:proto` |
 
-Fontello remains a known network dependency. Everyday CI uses committed fonts only. The old Fontello demo gh-pages deploy was **not** ported — it would conflict with this repo's docs GitHub Pages deploy.
+Fontello remains a known network dependency. Everyday CI uses committed fonts only. The old Fontello demo gh-pages deploy was **not** ported — it would conflict with this repo's docs GitHub Pages deploy. Icon browsing and Unicode codepoints live in the docs Iconography specimen (**Show codes** toggle) instead.
 
 ## Internal wiring
 

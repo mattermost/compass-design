@@ -44,7 +44,7 @@ npm run build:icons:font
 
 ### Adding an icon
 
-1. Add an SVG under `svgs/` named `{icon-name}_{CODEPOINT}.svg` (for example `dialpad_F061C.svg`). Prefer outline MDI names and codepoints when replacing an MDI icon. Custom icons use the `E8xx` block; jumbo icons use `E9xx` and a `jumbo-` name prefix.
+1. Add an SVG under `svgs/` named `{icon-name}_{CODEPOINT}.svg` (for example `dialpad_F061C.svg`). Prefer outline MDI names and codepoints when replacing an MDI icon. Custom icons use the `E8xx` block; jumbo icons use `E9xx` and a `jumbo-` name prefix. To see which codes are already taken, open the docs [Iconography specimen](https://mattermost.github.io/compass-design/foundations/iconography/specimen) and turn on **Show codes** (or inspect `config.json` / the `_CODEPOINT` suffix in `svgs/`).
 2. Use a 24×24 viewBox and a single compound path:
 
 ```svg
