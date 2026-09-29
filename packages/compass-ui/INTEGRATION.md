@@ -526,7 +526,9 @@ Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.
 | Beta | `0.1.0-beta.0` | `beta` |
 | Stable | `0.1.0` | `latest` |
 
-Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.2`. GitHub Release title: `v0.1.0-alpha.2`. Mark pre-release versions as **pre-release** on GitHub for alpha/beta.
+Git tag format for **compass-ui**: plain semver, e.g. `0.1.0-alpha.2`. GitHub Release title: `v0.1.0-alpha.2`. Mark pre-release versions as **pre-release** on GitHub for alpha/beta.
+
+Icons releases (after cutover) use a separate tag prefix: `compass-icons-<version>` — see [compass-icons-integration.md](../../docs/compass-icons-integration.md).
 
 ### Release flow (automated)
 
@@ -548,7 +550,7 @@ npm publish --access=public --tag alpha --workspace=@mattermost/compass-ui
 
 ### npm trusted publishing (one-time setup)
 
-Publishing uses npm [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers) (no long-lived `NPM_TOKEN` in GitHub secrets), same pattern as compass-icons.
+Publishing uses npm [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers) (no long-lived `NPM_TOKEN` in GitHub secrets). The same pattern is used for `@mattermost/compass-icons` once cutover completes.
 
 1. On npmjs.com → `@mattermost/compass-ui` → **Trusted Publisher**
 2. Link this GitHub repo and workflow file: `publish-compass-ui.yml`

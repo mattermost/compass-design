@@ -10,6 +10,7 @@ Package split (in-repo):
 
 - **`@mattermost/compass-ui`** — [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md)
 - **`@mattermost/compass-proto`** — [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md)
+- **`@mattermost/compass-icons`** — [packages/compass-icons/AGENTS.md](packages/compass-icons/AGENTS.md)
 
 ## Building new components
 

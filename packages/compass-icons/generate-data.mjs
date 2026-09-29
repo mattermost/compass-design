@@ -54,7 +54,7 @@ writeToDisk('./IconGlyphs.ts', iconGlyphsData);
 const componentTemplate = ({ name, content }) => `import React from 'react';
 import IconProps from './props';
 
-const ${name}Icon: React.FC<IconProps> = ({ size, color, ...rest}: IconProps): JSX.Element => (
+const ${name}Icon: React.FC<IconProps> = ({ size, color, ...rest}: IconProps): React.ReactElement => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         version="1.1"
@@ -154,13 +154,43 @@ async function createPackageFile() {
         'lint-staged': lintStaged,
         files,
         main,
+        exports: _sourceExports,
+        private: _private,
         ...packageDataOther
     } = JSON.parse(packageData);
 
+    // Published from build/ — paths are relative to that directory.
+    // Keep main pointing at the CSS file (historical; no consumer uses the bare import).
     const newPackageData = {
         ...packageDataOther,
-        main: 'css/compass-icons.css',
         private: false,
+        main: 'css/compass-icons.css',
+        peerDependencies: {
+            react: '^18.0.0 || ^19.0.0',
+        },
+        exports: {
+            '.': './css/compass-icons.css',
+            './components': {
+                types: './components/index.d.ts',
+                default: './components/index.js',
+            },
+            './components/*': {
+                types: './components/*.d.ts',
+                default: './components/*.js',
+            },
+            './IconGlyphs': {
+                types: './IconGlyphs.d.ts',
+                default: './IconGlyphs.js',
+            },
+            './IconGlyphs.js': {
+                types: './IconGlyphs.d.ts',
+                default: './IconGlyphs.js',
+            },
+            './css/*': './css/*',
+            './font/*': './font/*',
+            './config.json': './config.json',
+            './package.json': './package.json',
+        },
     };
 
     const targetPath = path.resolve(buildPath, './package.json');

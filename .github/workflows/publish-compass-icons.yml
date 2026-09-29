@@ -1,7 +1,8 @@
-name: Publish compass-ui
+name: Publish compass-icons
 
-# Ship @mattermost/compass-ui when a GitHub Release is published (compass-icons pattern).
-# Version bump + CHANGELOG land on main first; the Release/tag is the intentional publish signal.
+# Ship @mattermost/compass-icons when a GitHub Release is published.
+# Use a release tag of the form compass-icons-0.1.64 (optional leading v on the
+# version segment) so it does not collide with compass-ui release tags.
 on:
   release:
     types: [published]
@@ -23,10 +24,8 @@ jobs:
           node-version: 24
           cache: npm
           # Do not set registry-url: it writes .npmrc with an empty
-          # NODE_AUTH_TOKEN and npm then skips OIDC trusted-publisher auth
-          # (manifests as a misleading E404 on PUT).
+          # NODE_AUTH_TOKEN and npm then skips OIDC trusted-publisher auth.
 
-      # Trusted publishing requires npm >= 11.5.1
       - name: Install npm with trusted publishing support
         run: |
           npm install -g npm@^11.5.1
@@ -39,21 +38,21 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          version=$(node -p "require('./packages/compass-ui/package.json').version")
+          version=$(node -p "require('./packages/compass-icons/package.json').version")
           tag_name="$RELEASE_TAG"
 
-          # Icons releases use compass-icons-* tags — skip those here.
-          if [[ "$tag_name" == compass-icons-* ]]; then
+          # Accept compass-icons-0.1.64 or compass-icons-v0.1.64
+          if [[ "$tag_name" != compass-icons-* ]]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "Release tag ($tag_name) is a compass-icons tag — skipping"
+            echo "Release tag ($tag_name) is not a compass-icons tag — skipping"
             exit 0
           fi
 
-          # Tags are plain semver (e.g. 0.1.0-alpha.2); strip optional leading v
-          release_version="${tag_name#v}"
+          release_version="${tag_name#compass-icons-}"
+          release_version="${release_version#v}"
 
           if [ "$version" != "$release_version" ]; then
-            echo "::error::Release tag ($tag_name) does not match packages/compass-ui version ($version)"
+            echo "::error::Release tag ($tag_name) does not match packages/compass-icons version ($version)"
             exit 1
           fi
 
@@ -68,22 +67,18 @@ jobs:
           echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
-          echo "Publishing @mattermost/compass-ui@$version with --tag $dist_tag"
+          echo "Publishing @mattermost/compass-icons@$version with --tag $dist_tag"
 
-      - name: Typecheck compass-ui
+      - name: Build compass-icons (offline)
         if: steps.meta.outputs.skip != 'true'
-        run: npm run typecheck --workspace=@mattermost/compass-ui
-
-      - name: Build compass-ui
-        if: steps.meta.outputs.skip != 'true'
-        run: npm run build --workspace=@mattermost/compass-ui
+        run: npm run build:icons
 
       - name: Skip if version already on npm
         id: check
         if: steps.meta.outputs.skip != 'true'
         run: |
           version="${{ steps.meta.outputs.version }}"
-          on_reg=$(npm view "@mattermost/compass-ui@$version" version 2>/dev/null || true)
+          on_reg=$(npm view "@mattermost/compass-icons@$version" version 2>/dev/null || true)
           if [ "$on_reg" = "$version" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "Version $version is already on npm — skipping publish"
@@ -93,9 +88,9 @@ jobs:
 
       - name: Publish to npm
         if: steps.meta.outputs.skip != 'true' && steps.check.outputs.exists != 'true'
+        working-directory: ./packages/compass-icons/build
         run: >
           npm publish
           --access public
           --tag ${{ steps.meta.outputs.dist_tag }}
-          --workspace=@mattermost/compass-ui
           --provenance

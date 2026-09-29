@@ -1,124 +1,139 @@
 # Bringing `compass-icons` into `compass-design`
 
-Reference doc for the planned consolidation of `mattermost/compass-icons` into this monorepo.
+Reference for consolidating `mattermost/compass-icons` into this monorepo as `packages/compass-icons`.
 
 ## Goal
 
-Move icon source, build pipeline, and publish CI into `compass-design` so that all Compass work lives in one repo. External consumers (`@mattermost/compass-icons` importers in the webapp, mobile app, etc.) require zero code changes — the npm package name and all import paths stay identical.
+Move icon source, build pipeline, and publish CI into `compass-design` so Compass work lives in one repo. External consumers keep the same npm package name and import paths — no consumer code changes.
 
-## Current state
+## Current state (after import)
 
 | What | Where |
 |------|-------|
-| Icon source (`config.json` — IcoMoon project) | `mattermost/compass-icons` repo |
-| Published package | `@mattermost/compass-icons` on npm |
-| Package structure | CJS-only, no `exports` map, `main` → CSS (incorrect), React not in `peerDependencies` |
-| Used in compass-design as | `dependencies` (root/docs), `peerDependencies` + `devDependencies` (compass-ui, compass-proto) |
-| `.js`-extension workaround | Two identical copies of `vite-plugin-compass-icons-ext.ts` in compass-ui and compass-proto |
+| Icon source (`svgs/` — 326 SVG files) | `packages/compass-icons/svgs/` |
+| Generated `config.json` | Built from `svgs/` by `generate-data.mjs` (gitignored at package root; published from `build/`) |
+| Font + CSS | Committed under `packages/compass-icons/{css,font}/`; copied into `build/` on offline builds. Regenerated via Fontello (`build:with-font`) when icons change |
+| Published package | `@mattermost/compass-icons` on npm (still published from the old repo until cutover) |
+| Package structure | CJS-only + `exports` map. `main` still points at CSS (historical; no consumer uses the bare import). React is a peer dependency |
+| Used in compass-design as | Workspace package (`^0.1.63` range links to `packages/compass-icons`) |
+| `.js`-extension workaround | Two copies of `vite-plugin-compass-icons-ext.ts` remain (ESM output is a follow-up) |
 
-## What moves
+## What moved
 
-- `config.json` (IcoMoon project — authoritative source of all 326 icon SVG paths + Unicode code points)
-- Any build scripts from the compass-icons repo (to be audited in Phase 0)
-- Publish CI (new workflow in this repo)
+- `svgs/` — authoritative source of every icon
+- `generate-data.mjs`, `utils.mjs`, `tsconfig.json`, package `package.json`
+- Committed `css/` and `font/` assets (from the last Fontello build)
+- Publish CI — `.github/workflows/publish-compass-icons.yml` in this repo
 
-Font files and generated component files are build artifacts — they are produced from `config.json` and committed as dist output in the workspace package.
+`config.json`, `components/*.tsx`, and `IconGlyphs.ts` are generated. `config.json` **must** stay in the published tarball (mobile reads it). Font files are committed so everyday CI and docs builds stay offline.
 
-## Planned package improvements (during migration)
+## Package improvements (this migration)
 
-| Issue | Fix |
-|-------|-----|
-| CJS-only | Add ESM output (`components/<name>.mjs`, barrel `index.mjs`) |
-| No `exports` map | Add full exports map (`.`, `./components/*`, `./IconGlyphs`, `./css/*`) |
-| `main` → CSS | Fix `main` → `./components/index.js` |
-| React not in `peerDependencies` | Declare `react: "^18.0.0 \|\| ^19.0.0"` |
+| Issue | Decision |
+|-------|----------|
+| No `exports` map | Added full CJS `exports` covering every consumer path (see below) |
+| `main` → CSS | **Left unchanged.** No audited consumer imports the bare package name |
+| React not in `peerDependencies` | Declared `react: "^18.0.0 \|\| ^19.0.0"` |
+| CJS-only | **Kept CJS-only** for this migration. ESM is a follow-up; the Vite plugin stays until then |
 
-Adding ESM + exports map removes the need for the `.js`-extension / CJS-default-unwrap Vite plugin in compass-ui and compass-proto — the two copies of `vite-plugin-compass-icons-ext.ts` can be removed or reduced.
-
-## Phases
-
-### Phase 0 — Audit compass-icons source repo (prerequisite)
-
-Explore `github.com/mattermost/compass-icons` before writing any code:
-
-- What generates `components/*.js` from `config.json`? (IcoMoon CLI, custom Node script, or something else?)
-- How are font files (woff/woff2/eot/ttf) generated?
-- Does a publish workflow already exist there, and what triggers it?
-- Are there source files beyond `config.json` (raw SVGs, templates)?
-
-The font generation step is the biggest unknown — it may require a specific CLI or service that needs to be replicated or substituted.
-
-### Phase 1 — Create `packages/compass-icons` workspace
-
-Add the workspace package to this monorepo. Key `package.json` shape:
+### Exports map (published from `build/`)
 
 ```json
 {
-  "name": "@mattermost/compass-icons",
-  "version": "0.1.64",
-  "main": "./components/index.js",
-  "module": "./components/index.mjs",
-  "types": "./components/index.d.ts",
-  "exports": {
-    ".": { "types": "...", "import": "...", "require": "..." },
-    "./components/*": { "types": "...", "import": "...", "require": "..." },
-    "./IconGlyphs": { "types": "...", "import": "...", "require": "..." },
-    "./css/*": "./css/*"
-  },
-  "files": ["components", "css", "font", "IconGlyphs.js", "IconGlyphs.mjs", "IconGlyphs.d.ts"],
-  "peerDependencies": { "react": "^18.0.0 || ^19.0.0" }
+  ".": "./css/compass-icons.css",
+  "./components": { "types": "./components/index.d.ts", "default": "./components/index.js" },
+  "./components/*": { "types": "./components/*.d.ts", "default": "./components/*.js" },
+  "./IconGlyphs": { "types": "./IconGlyphs.d.ts", "default": "./IconGlyphs.js" },
+  "./IconGlyphs.js": { "types": "./IconGlyphs.d.ts", "default": "./IconGlyphs.js" },
+  "./css/*": "./css/*",
+  "./font/*": "./font/*",
+  "./config.json": "./config.json",
+  "./package.json": "./package.json"
 }
 ```
 
-`config.json` and build scripts are in the package source but excluded from the published tarball via `files`.
+The workspace package.json mirrors these paths under `./build/…` so monorepo consumers resolve the same import strings.
 
-### Phase 2 — Build pipeline
+## Build pipeline
 
-Add a build script that reads `config.json` and generates all component files (CJS + ESM + `.d.ts`), the glyph barrel, font files, and CSS. Wire into the monorepo:
+| Script | What it does |
+|--------|----------------|
+| `npm run build:icons` | Offline: generate data → prettier → `tsc` → copy committed `css/` + `font/` into `build/` |
+| `npm run build:icons:font` | Full rebuild including Fontello (needs network). Syncs generated fonts back to committed `css/` / `font/` |
+| Root `prebuild` | `build:icons` → generate manifests → `build:ui` → `build:proto` |
 
-- `build:icons` script in root `package.json`
-- Prepend to the `prebuild` chain: `build:icons` → `build:ui` → `build:proto`
+Fontello remains a known network dependency. Everyday CI uses committed fonts only. The old Fontello demo gh-pages deploy was **not** ported — it would conflict with this repo's docs GitHub Pages deploy.
 
-### Phase 3 — Update internal wiring
+## Internal wiring
 
-- Change `devDependencies` in compass-ui, compass-proto, and root from `"^0.1.63"` to `"workspace:*"`
-- Keep semver range in `peerDependencies` entries (consumers still resolve from npm)
-- Evaluate and remove `vite-plugin-compass-icons-ext.ts` from both compass-ui and compass-proto once ESM output is confirmed working against webpack 5
+- Root, `compass-ui`, and `compass-proto` keep `@mattermost/compass-icons: ^0.1.63` (npm workspaces link the local package; do **not** use `workspace:*`)
+- Peer dependency ranges on published packages stay as semver for external consumers
+- `vite-plugin-compass-icons-ext.ts` copies stay until an ESM follow-up
 
-### Phase 4 — Publish CI
+## Publish CI
 
-Add `.github/workflows/publish-compass-icons.yml` mirroring `publish-compass-ui.yml`:
+- `.github/workflows/publish-compass-icons.yml` — triggers on GitHub Release tags named `compass-icons-<version>` (e.g. `compass-icons-0.1.64`)
+- Publishes from `packages/compass-icons/build/` with OIDC `--provenance`
+- `.github/workflows/compass-packages.yml` builds icons offline and runs `smoke-test:icons` on every push / PR to main
+- Before the first release from this repo: repoint the npm Trusted Publisher to this workflow, confirm maintainer access, and bump past the last published version on npm
 
-- Triggers on GitHub Release published
-- Asserts release tag matches `packages/compass-icons/package.json` version
-- Publishes with `--workspace=@mattermost/compass-icons --provenance`
-- Uses npm OIDC trusted publishing (no long-lived token)
-- Set up Trusted Publisher for `@mattermost/compass-icons` on npmjs.com pointing to this workflow before the first release
+## Consumer contract
 
-### Phase 5 — Cutover
+No audited repo imports the bare `@mattermost/compass-icons` package name. Paths in use:
 
-1. Agree on cutover version with compass-icons repo maintainers (e.g. `0.1.64`)
-2. Freeze old repo — no new releases after agreed cutover point
-3. Publish first release from compass-design
-4. Update old repo README: "Maintained in compass-design"
-5. Archive old repo to prevent accidental publishes
+| Path | Consumers |
+|------|-----------|
+| `components` barrel (named icons + default `glyphMap`) | webapp, playbooks, ai, agents, desktop, boards |
+| `components/<name>` | weave, proto-playground, blocks-prototype, compass-ui plugin, webapp |
+| `IconGlyphs` | webapp (types) |
+| `css/compass-icons.css` | desktop, boards, calls |
+| `font/compass-icons.ttf`, `config.json` | mobile build scripts |
+| `font-family: 'compass-icons'` | webapp, ai, agents, mobile (requires font CSS loaded) |
 
-Do not run a dual-publish period — it creates version confusion.
+Consumers pin versions from `0.1.31` to `0.1.63`. Compatibility must be kept for every path above.
 
-## Consumer impact
+## Acceptance check before cutover
 
-| Consumer | Change required |
-|----------|----------------|
-| Mattermost webapp | None |
-| Mobile app | None |
-| Proto playground | None |
-| compass-design (internal) | `workspace:*` dev link; no source changes |
+Pack from `build/` (`npm run smoke-test:icons` covers the contract paths) and additionally install the tarball into:
 
-## Key risks
+- `mattermost/webapp`
+- `mattermost-plugin-playbooks`
+- `mattermost-plugin-boards`
+- `mattermost-desktop`
+- `mattermost-mobile` scripts
+
+Diff the tarball file list and glyph list against published `0.1.63`.
+
+## Cutover
+
+### Remaining manual steps (not done by this PR)
+
+1. Agree version (next free after npm's latest — currently `0.1.63`, so `0.1.64` or later) and freeze date with compass-icons maintainers
+2. Freeze the old repo — no new releases
+3. Confirm npm owner/maintainer access on `@mattermost/compass-icons`
+4. Repoint the npm Trusted Publisher to `compass-design` / `publish-compass-icons.yml` (verify whether only one publisher is allowed — if so, this also blocks the old repo)
+5. Bump `packages/compass-icons/package.json` version, merge, tag `compass-icons-<version>`, publish
+6. Install the published tarball into webapp, playbooks, boards, desktop, and mobile scripts and run their builds (acceptance check)
+7. Update the old repo README ("Maintained in compass-design"), then archive it
+
+Do not dual-publish.
+
+### In-repo acceptance already covered
+
+- `npm run smoke-test:icons` — packs from `build/`, asserts tarball contents and every consumer-contract resolution path
+- Glyph list and Unicode codepoints diffed against published `0.1.63` (326 icons, 0 mismatches)
+- `compass-ui` / `compass-proto` build and typecheck against the workspace package
+
+## Risks
 
 | Risk | Mitigation |
 |------|-----------|
-| Font generation tooling unknown | Must resolve in Phase 0 before writing build scripts |
-| Vite plugin removal breaks webpack 5 | Test against webapp webpack config before removing; keep as no-op if needed |
-| Old repo publishes after cutover | Coordinate explicitly; archive immediately after cutover |
-| ESM output causes unexpected resolution in strict consumers | New exports are additive; CJS path unchanged; smoke-test against webpack consumer |
+| Fontello unavailable | Committed fonts keep offline builds working; only icon changes and releases need Fontello |
+| Font drift | Tarball / glyph diff against published `0.1.63` before cutover |
+| `exports` map omits a path | Consumer-contract smoke test; acceptance builds against webapp / plugins / desktop / mobile |
+| Old repo publishes after cutover | Archive immediately; Trusted Publisher repoint also blocks the old workflow if npm allows only one publisher |
+| Icon PR ownership | Point design/dev at `compass-design` after cutover |
+
+## ESM follow-up (not in this migration)
+
+A second `tsc` pass (`module: ESNext`) plus rewriting the barrel's extensionless imports would unlock removing `vite-plugin-compass-icons-ext.ts`. Defer until after cutover is stable.

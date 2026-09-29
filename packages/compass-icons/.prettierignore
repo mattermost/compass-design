@@ -1,7 +1,0 @@
-build
-node_modules
-svgs
-.github
-
-*.json
-*.md
