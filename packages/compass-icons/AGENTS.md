@@ -4,7 +4,7 @@ Workspace package `@mattermost/compass-icons`. Follow this when adding icons or 
 
 ## Source of truth
 
-- **`svgs/`** — one SVG per icon (`{name}_{CODEPOINT}.svg`). This is the only hand-edited icon source.
+- **`svgs/`** — one SVG per icon (`{name}_{CODEPOINT}.svg`). This is the only hand-edited icon source. Keep each file on the README SVG template (UTF-8 XML decl, 24×24 `svg`, single compound `path`).
 - Generated and gitignored: `components/`, `IconGlyphs.ts`, `config.json`, `build/`.
 - Fonts/CSS are **not** committed. Fontello writes them into `build/` on release (and when you run `build:icons:font`).
 

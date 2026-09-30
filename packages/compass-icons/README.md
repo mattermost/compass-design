@@ -49,7 +49,7 @@ Do not edit `components/`, `IconGlyphs.ts`, or `config.json` by hand — they ar
 
 Stick to **outline** styles per the [Iconography](https://mattermost.github.io/compass-design/foundations/iconography) guide. Prefer icons from the open-source [Material Design Icons (Pictogrammers) library](https://pictogrammers.com/library/mdi/).
 
-Every SVG must use a 24×24 viewBox and a single compound path:
+Every SVG in `svgs/` must match this shell exactly — XML declaration, those four `svg` attributes only, and one compound `<path>` (no DOCTYPE, `xlink`, groups, fills, comments, or empty rects):
 
 ```svg
 <?xml version="1.0" encoding="UTF-8"?>
