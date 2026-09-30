@@ -151,7 +151,7 @@ Webapp product code should use `@mattermost/compass-ui` only.
 | `react` | Yes | `^18.2.0` for webapp parity; `^19.0.0` works in Vite consumers |
 | `react-dom` | Yes | Same range as React |
 | `@mattermost/compass-icons` | Yes | Icon glyphs for `Icon`, `IconButton`, etc. |
-| `simplebar-react` | Yes* | Required for `Scrollbars`; listed optional in peer meta but needed if you use scroll regions |
+| `simplebar-react` | Yes* | Required for `Scrollbar`; listed optional in peer meta but needed if you use scroll regions |
 
 Ensure a single React version in the app — no duplicate React trees when linking locally.
 
@@ -386,7 +386,7 @@ Import convention matches webapp and docs: `@mattermost/compass-ui/components/<k
 - [ ] CSS modules: co-located `.css` next to each component chunk is pulled in by the component import (hashed class names match).
 - [ ] No duplicate React — webpack aliases when using `file:`; one version across workspaces.
 - [ ] `@mattermost/compass-icons` already external in webapp; keep as peer, do not bundle twice. Dist ESM imports use `.js` extensions for webpack fullySpecified.
-- [ ] `simplebar-react` installed if using `Scrollbars` or layout specimens that include scroll regions.
+- [ ] `simplebar-react` installed if using `Scrollbar` or layout specimens that include scroll regions.
 - [ ] Source maps enabled for debugging (`dist/*.map` shipped).
 
 ### Migration strategy
@@ -561,7 +561,7 @@ Until trusted publishing is configured, the Release → CI job will fail at `npm
 |---------|-----|
 | `Failed to resolve @mattermost/compass-ui/styles` | Run `npm run build:ui` — `dist/compass-ui.css` must exist |
 | Unstyled components (flat gray UI) | Import `/styles` at app entry; ensure the bundler follows CSS side-effect imports from component modules |
-| Scrollbars missing thumb/track | Ensure `simplebar-react` is installed; `Scrollbar` imports SimpleBar CSS with the component |
+| Scrollbar missing thumb/track | Ensure `simplebar-react` is installed; `Scrollbar` imports SimpleBar CSS with the component |
 | `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
 | Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
 | Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page. Do not set `registry-url` / `NODE_AUTH_TOKEN` on the publish job — empty token auth blocks OIDC and surfaces as E404. |
