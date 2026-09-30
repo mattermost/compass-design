@@ -68,7 +68,7 @@ Save under `svgs/` as `{icon-name}_{CODEPOINT}.svg` (for example `account-outlin
 
 ### Custom icons
 
-1. Follow the design rules under [Foundations / Iconography](https://mattermost.github.io/compass-design/foundations/iconography) (and the legacy [Zeroheight iconography notes](https://zeroheight.com/29be2c109/p/19c648-iconography) where helpful). In Illustrator, keep a single compound path — no extra layers or groups.
+1. Follow the design rules under [Foundations / Iconography](https://mattermost.github.io/compass-design/foundations/iconography). In Illustrator, keep a single compound path — no extra layers or groups.
 2. Save as SVG with **decimal places = 3**, open **SVG Code…**, and copy the `<path>` into the template above.
 3. **Naming:** match [MDI naming](https://pictogrammers.com/library/mdi/) when the concept is the same (drop any `mdi-` prefix). For new concepts, prefer names like `someconcept-outline`.
 4. **Character code:**
