@@ -54,23 +54,23 @@ npm run smoke-test:ui
 
 ## Required setup (all consumers)
 
-### 1. Import styles once at app entry
+### 1. Import global styles once at app entry
 
 ```tsx
 // main.tsx or app entry
 import '@mattermost/compass-ui/styles';
-import '@mattermost/compass-ui/component-styles';
 ```
 
 | Export | Contents |
 |--------|----------|
 | `@mattermost/compass-ui/styles` | CSS variables (tokens) + webapp-compat defaults |
 | `@mattermost/compass-ui/styles/standalone` | Theme presets (`data-theme`), CSS reset, and document `body` / heading chrome for Storybook and other **standalone** hosts only |
-| `@mattermost/compass-ui/component-styles` | Component CSS modules, SimpleBar base CSS |
+
+Component CSS modules (and SimpleBar base CSS for `Scrollbar`) ship **with each component** — importing a component pulls in its styles. Do **not** import a separate `component-styles` entry; that export no longer exists.
 
 Components assume CSS variables are present — they do not import tokens directly.
 
-**Mattermost webapp:** import `/styles` and `/component-styles` only. Do **not** import `/styles/standalone` — webapp already owns themes, reset, and document styles.
+**Mattermost webapp:** import `/styles` only. Do **not** import `/styles/standalone` — webapp already owns themes, reset, and document styles.
 
 **Standalone hosts** (playground, Storybook, local demos): also import `/styles/standalone` after `/styles`.
 
@@ -151,7 +151,7 @@ Webapp product code should use `@mattermost/compass-ui` only.
 | `react` | Yes | `^18.2.0` for webapp parity; `^19.0.0` works in Vite consumers |
 | `react-dom` | Yes | Same range as React |
 | `@mattermost/compass-icons` | Yes | Icon glyphs for `Icon`, `IconButton`, etc. |
-| `simplebar-react` | Yes* | Required for `Scrollbars`; listed optional in peer meta but needed if you use scroll regions |
+| `simplebar-react` | Yes* | Required for `Scrollbar`; listed optional in peer meta but needed if you use scroll regions |
 
 Ensure a single React version in the app — no duplicate React trees when linking locally.
 
@@ -167,7 +167,6 @@ import { createRoot } from 'react-dom/client';
 import { Button } from '@mattermost/compass-ui/components/button';
 import '@mattermost/compass-ui/styles';
 import '@mattermost/compass-ui/styles/standalone';
-import '@mattermost/compass-ui/component-styles';
 import './app.scss';
 
 createRoot(document.getElementById('root')!).render(
@@ -210,12 +209,12 @@ npm install
 npm run dev-server
 ```
 
-**App entry** (`channels/src/entry.tsx`) — import styles once next to other global CSS:
+**App entry** (`channels/src/entry.tsx`) — import global styles once next to other global CSS:
 
 ```tsx
 import '@mattermost/compass-ui/styles';
-import '@mattermost/compass-ui/component-styles';
 // Do not import /styles/standalone — webapp owns themes, reset, and document styles
+// Component CSS ships with each component import — no separate component-styles entry
 ```
 
 Use components as usual:
@@ -313,11 +312,10 @@ npm install @mattermost/compass-ui@alpha
 ```tsx
 import { Button } from '@mattermost/compass-ui/components/button';
 import '@mattermost/compass-ui/styles';
-import '@mattermost/compass-ui/component-styles';
 // Do not import /styles/standalone — webapp owns themes, reset, and document styles
 ```
 
-Load `/styles` once at the app bootstrap (same entry that loads global webapp SCSS).
+Load `/styles` once at the app bootstrap (same entry that loads global webapp SCSS). Component CSS is included when you import the component.
 
 ### Jest (unit tests)
 
@@ -384,11 +382,11 @@ Import convention matches webapp and docs: `@mattermost/compass-ui/components/<k
 ### Webpack checklist
 
 - [ ] ESM + CJS: package ships both (`module` / `main` fields).
-- [ ] CSS: `@mattermost/compass-ui/styles` and `/component-styles` resolve without extra loaders beyond existing CSS pipeline.
-- [ ] CSS modules: hashed class names from `component-styles` match rendered components.
+- [ ] CSS: `@mattermost/compass-ui/styles` resolves without extra loaders beyond existing CSS pipeline.
+- [ ] CSS modules: co-located `.css` next to each component chunk is pulled in by the component import (hashed class names match).
 - [ ] No duplicate React — webpack aliases when using `file:`; one version across workspaces.
 - [ ] `@mattermost/compass-icons` already external in webapp; keep as peer, do not bundle twice. Dist ESM imports use `.js` extensions for webpack fullySpecified.
-- [ ] `simplebar-react` installed if using `Scrollbars` or layout specimens that include scroll regions.
+- [ ] `simplebar-react` installed if using `Scrollbar` or layout specimens that include scroll regions.
 - [ ] Source maps enabled for debugging (`dist/*.map` shipped).
 
 ### Migration strategy
@@ -505,10 +503,9 @@ Only `dist/` is published (`files: ["dist"]`):
 ```
 dist/index.js / index.cjs     # legacy root barrel (re-exports all symbols)
 dist/index.d.ts
-dist/index.css                # component-styles
 dist/compass-ui.css           # styles (tokens + webapp-compat)
 dist/compass-ui-standalone.css
-dist/components/<name>/       # per-component ESM + CJS + .d.ts (subpath imports)
+dist/components/<name>/       # per-component ESM + CJS + .d.ts + co-located .css
 dist/hooks/                   # hook modules
 dist/illustrations/            # brand SVG artwork as React components
 dist/utils/string.*           # string helpers
@@ -563,8 +560,8 @@ Until trusted publishing is configured, the Release → CI job will fail at `npm
 | Symptom | Fix |
 |---------|-----|
 | `Failed to resolve @mattermost/compass-ui/styles` | Run `npm run build:ui` — `dist/compass-ui.css` must exist |
-| Unstyled components (flat gray UI) | Import both `/styles` and `/component-styles` at app entry |
-| Scrollbars missing thumb/track | Ensure `simplebar-react` is installed; `component-styles` includes SimpleBar CSS |
+| Unstyled components (flat gray UI) | Import `/styles` at app entry; ensure the bundler follows CSS side-effect imports from component modules |
+| Scrollbar missing thumb/track | Ensure `simplebar-react` is installed; `Scrollbar` imports SimpleBar CSS with the component |
 | `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
 | Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
 | Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page. Do not set `registry-url` / `NODE_AUTH_TOKEN` on the publish job — empty token auth blocks OIDC and surfaces as E404. |

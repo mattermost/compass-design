@@ -12,12 +12,13 @@ Peer dependencies: `react`, `react-dom`, `@mattermost/compass-icons`, and option
 
 ## Usage
 
-Import styles once at your app entry:
+Import global styles once at your app entry:
 
 ```tsx
 import '@mattermost/compass-ui/styles';
-import '@mattermost/compass-ui/component-styles';
 ```
+
+Component CSS ships with each component import — no separate `component-styles` entry.
 
 Standalone hosts (Storybook, playground) also need theme presets and document chrome:
 
@@ -58,7 +59,7 @@ npm run storybook     # component catalog on :6006
 - `dist/index.js` / `dist/index.cjs` — legacy root barrel (ESM + CJS)
 - `dist/compass-ui.css` — tokens and webapp-compat defaults (`./styles`)
 - `dist/compass-ui-standalone.css` — theme presets + CSS reset + `body` / heading chrome for standalone hosts (`./styles/standalone`)
-- `dist/index.css` — component CSS modules (injected at build; also available as `./component-styles`)
+- `dist/components/<name>/*.css` — per-component CSS modules (side-effect imported with the component)
 
 ## Storybook
 
