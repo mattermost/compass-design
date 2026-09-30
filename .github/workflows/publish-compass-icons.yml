@@ -1,8 +1,7 @@
 name: Publish compass-icons
 
 # Ship @mattermost/compass-icons when a GitHub Release is published.
-# Use a release tag of the form compass-icons-0.1.64 (optional leading v on the
-# version segment) so it does not collide with compass-ui release tags.
+# Tag format: compass-icons@<version> (e.g. compass-icons@0.1.64)
 on:
   release:
     types: [published]
@@ -41,15 +40,18 @@ jobs:
           version=$(node -p "require('./packages/compass-icons/package.json').version")
           tag_name="$RELEASE_TAG"
 
-          # Accept compass-icons-0.1.64 or compass-icons-v0.1.64
-          if [[ "$tag_name" != compass-icons-* ]]; then
+          if [[ "$tag_name" == compass-ui@* ]]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "Release tag ($tag_name) is not a compass-icons tag — skipping"
+            echo "Release tag ($tag_name) is a compass-ui release — skipping"
             exit 0
           fi
 
-          release_version="${tag_name#compass-icons-}"
-          release_version="${release_version#v}"
+          if [[ "$tag_name" != compass-icons@* ]]; then
+            echo "::error::Expected tag compass-icons@<version> (got '$tag_name'). Example: compass-icons@$version"
+            exit 1
+          fi
+
+          release_version="${tag_name#compass-icons@}"
 
           if [ "$version" != "$release_version" ]; then
             echo "::error::Release tag ($tag_name) does not match packages/compass-icons version ($version)"

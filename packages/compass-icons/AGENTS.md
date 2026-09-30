@@ -20,7 +20,7 @@ Do not put Fontello on the default `prebuild` path.
 ## Publishing
 
 - Output that ships is under `packages/compass-icons/build/` (including generated `package.json` with the `exports` map).
-- Release tag format: `compass-icons-<version>` (see `.github/workflows/publish-compass-icons.yml`).
+- Release tag format: `compass-icons@<version>` (UI: `compass-ui@<version>`). See `.github/workflows/publish-compass-icons.yml`.
 - Keep `config.json` and `font/*` in the published tarball — mobile depends on them.
 - Leave `main` as `css/compass-icons.css`. No consumer imports the bare package name.
 - CJS only for now. Do not remove `vite-plugin-compass-icons-ext.ts` from compass-ui / compass-proto until an ESM follow-up lands.

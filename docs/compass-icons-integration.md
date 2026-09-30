@@ -75,7 +75,7 @@ Fontello remains a known network dependency. Everyday CI uses committed fonts on
 
 ## Publish CI
 
-- `.github/workflows/publish-compass-icons.yml` — triggers on GitHub Release tags named `compass-icons-<version>` (e.g. `compass-icons-0.1.64`)
+- `.github/workflows/publish-compass-icons.yml` — triggers on GitHub Release tags named `compass-icons@<version>` (e.g. `compass-icons@0.1.64`). UI uses `compass-ui@<version>` the same way.
 - Publishes from `packages/compass-icons/build/` with OIDC `--provenance`
 - `.github/workflows/compass-packages.yml` builds icons offline and runs `smoke-test:icons` on every push / PR to main
 - Before the first release from this repo: repoint the npm Trusted Publisher to this workflow, confirm maintainer access, and bump past the last published version on npm
@@ -115,7 +115,7 @@ Diff the tarball file list and glyph list against published `0.1.63`.
 2. Freeze the old repo — no new releases
 3. Confirm npm owner/maintainer access on `@mattermost/compass-icons`
 4. Repoint the npm Trusted Publisher to `compass-design` / `publish-compass-icons.yml` (verify whether only one publisher is allowed — if so, this also blocks the old repo)
-5. Bump `packages/compass-icons/package.json` version, merge, tag `compass-icons-<version>`, publish
+5. Bump `packages/compass-icons/package.json` version, merge, tag `compass-icons@<version>`, publish
 6. Install the published tarball into webapp, playbooks, boards, desktop, and mobile scripts and run their builds (acceptance check)
 7. Update the old repo README ("Maintained in compass-design"), then archive it
 

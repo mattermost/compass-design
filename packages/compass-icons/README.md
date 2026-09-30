@@ -68,7 +68,7 @@ Do not edit `components/`, `IconGlyphs.ts`, or `config.json` by hand — they ar
 | `generate-data.mjs`, `utils.mjs` | Generate `config.json`, `IconGlyphs.ts`, `components/*.tsx`, and `build/package.json` |
 | `build/` | Publishable output (gitignored except via the copy-from-committed-fonts step) |
 
-Publishing is from `build/` (see `.github/workflows/publish-compass-icons.yml`). Release tags use the form `compass-icons-<version>`.
+Publishing is from `build/` (see `.github/workflows/publish-compass-icons.yml`). Release tags use the form `compass-icons@<version>` (UI uses `compass-ui@<version>`).
 
 ## Related
 
