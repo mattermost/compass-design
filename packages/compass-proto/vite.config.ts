@@ -52,7 +52,8 @@ export default defineConfig({
         return false;
       },
     },
-    cssCodeSplit: false,
+    // Required by vite-plugin-lib-inject-css (plugin also forces this).
+    cssCodeSplit: true,
     sourcemap: true,
   },
 });
