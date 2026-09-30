@@ -31,6 +31,7 @@ jobs:
       - run: npm ci
 
       - name: Check release tag matches package version
+        id: meta
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
@@ -40,9 +41,23 @@ jobs:
             echo "::error::Expected tag $expected (got '$RELEASE_TAG')"
             exit 1
           fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - run: npm run build:icons:font
 
+      - name: Skip if version already on npm
+        id: check
+        run: |
+          version="${{ steps.meta.outputs.version }}"
+          on_reg=$(npm view "@mattermost/compass-icons@$version" version 2>/dev/null || true)
+          if [ "$on_reg" = "$version" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Version $version is already on npm — skipping publish"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish to npm
+        if: steps.check.outputs.exists != 'true'
         working-directory: ./packages/compass-icons/build
         run: npm publish --access public --provenance
