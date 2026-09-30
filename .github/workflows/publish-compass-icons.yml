@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   publish:
+    if: startsWith(github.event.release.tag_name, 'compass-icons@')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,18 +40,6 @@ jobs:
         run: |
           version=$(node -p "require('./packages/compass-icons/package.json').version")
           tag_name="$RELEASE_TAG"
-
-          if [[ "$tag_name" == compass-ui@* ]]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "Release tag ($tag_name) is a compass-ui release — skipping"
-            exit 0
-          fi
-
-          if [[ "$tag_name" != compass-icons@* ]]; then
-            echo "::error::Expected tag compass-icons@<version> (got '$tag_name'). Example: compass-icons@$version"
-            exit 1
-          fi
-
           release_version="${tag_name#compass-icons@}"
 
           if [ "$version" != "$release_version" ]; then
@@ -66,18 +55,15 @@ jobs:
             dist_tag=latest
           fi
 
-          echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
           echo "Publishing @mattermost/compass-icons@$version with --tag $dist_tag"
 
       - name: Build compass-icons (including Fontello)
-        if: steps.meta.outputs.skip != 'true'
         run: npm run build:icons:font
 
       - name: Skip if version already on npm
         id: check
-        if: steps.meta.outputs.skip != 'true'
         run: |
           version="${{ steps.meta.outputs.version }}"
           on_reg=$(npm view "@mattermost/compass-icons@$version" version 2>/dev/null || true)
@@ -89,7 +75,7 @@ jobs:
           fi
 
       - name: Publish to npm
-        if: steps.meta.outputs.skip != 'true' && steps.check.outputs.exists != 'true'
+        if: steps.check.outputs.exists != 'true'
         working-directory: ./packages/compass-icons/build
         run: >
           npm publish

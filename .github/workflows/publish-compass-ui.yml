@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   publish:
+    if: startsWith(github.event.release.tag_name, 'compass-ui@')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,18 +43,6 @@ jobs:
         run: |
           version=$(node -p "require('./packages/compass-ui/package.json').version")
           tag_name="$RELEASE_TAG"
-
-          if [[ "$tag_name" == compass-icons@* ]]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "Release tag ($tag_name) is a compass-icons release — skipping"
-            exit 0
-          fi
-
-          if [[ "$tag_name" != compass-ui@* ]]; then
-            echo "::error::Expected tag compass-ui@<version> (got '$tag_name'). Example: compass-ui@$version"
-            exit 1
-          fi
-
           release_version="${tag_name#compass-ui@}"
 
           if [ "$version" != "$release_version" ]; then
@@ -69,22 +58,18 @@ jobs:
             dist_tag=latest
           fi
 
-          echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
           echo "Publishing @mattermost/compass-ui@$version with --tag $dist_tag"
 
       - name: Typecheck compass-ui
-        if: steps.meta.outputs.skip != 'true'
         run: npm run typecheck --workspace=@mattermost/compass-ui
 
       - name: Build compass-ui
-        if: steps.meta.outputs.skip != 'true'
         run: npm run build --workspace=@mattermost/compass-ui
 
       - name: Skip if version already on npm
         id: check
-        if: steps.meta.outputs.skip != 'true'
         run: |
           version="${{ steps.meta.outputs.version }}"
           on_reg=$(npm view "@mattermost/compass-ui@$version" version 2>/dev/null || true)
@@ -96,7 +81,7 @@ jobs:
           fi
 
       - name: Publish to npm
-        if: steps.meta.outputs.skip != 'true' && steps.check.outputs.exists != 'true'
+        if: steps.check.outputs.exists != 'true'
         run: >
           npm publish
           --access public
