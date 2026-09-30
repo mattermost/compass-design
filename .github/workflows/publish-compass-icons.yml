@@ -22,63 +22,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
           # Do not set registry-url: it writes .npmrc with an empty
           # NODE_AUTH_TOKEN and npm then skips OIDC trusted-publisher auth.
 
       - name: Install npm with trusted publishing support
-        run: |
-          npm install -g npm@^11.5.1
-          npm --version
+        run: npm install -g npm@^11.5.1
 
       - run: npm ci
 
-      - name: Resolve version and dist-tag
-        id: meta
+      - name: Check release tag matches package version
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           version=$(node -p "require('./packages/compass-icons/package.json').version")
-          tag_name="$RELEASE_TAG"
-          release_version="${tag_name#compass-icons@}"
-
-          if [ "$version" != "$release_version" ]; then
-            echo "::error::Release tag ($tag_name) does not match packages/compass-icons version ($version)"
+          expected="compass-icons@$version"
+          if [ "$RELEASE_TAG" != "$expected" ]; then
+            echo "::error::Expected tag $expected (got '$RELEASE_TAG')"
             exit 1
           fi
 
-          if [[ "$version" == *"-alpha"* ]]; then
-            dist_tag=alpha
-          elif [[ "$version" == *"-beta"* ]]; then
-            dist_tag=beta
-          else
-            dist_tag=latest
-          fi
-
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
-          echo "Publishing @mattermost/compass-icons@$version with --tag $dist_tag"
-
-      - name: Build compass-icons (including Fontello)
-        run: npm run build:icons:font
-
-      - name: Skip if version already on npm
-        id: check
-        run: |
-          version="${{ steps.meta.outputs.version }}"
-          on_reg=$(npm view "@mattermost/compass-icons@$version" version 2>/dev/null || true)
-          if [ "$on_reg" = "$version" ]; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "Version $version is already on npm — skipping publish"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
+      - run: npm run build:icons:font
 
       - name: Publish to npm
-        if: steps.check.outputs.exists != 'true'
         working-directory: ./packages/compass-icons/build
-        run: >
-          npm publish
-          --access public
-          --tag ${{ steps.meta.outputs.dist_tag }}
-          --provenance
+        run: npm publish --access public --provenance
