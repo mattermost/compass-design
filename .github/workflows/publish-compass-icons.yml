@@ -71,9 +71,9 @@ jobs:
           echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
           echo "Publishing @mattermost/compass-icons@$version with --tag $dist_tag"
 
-      - name: Build compass-icons (offline)
+      - name: Build compass-icons (including Fontello)
         if: steps.meta.outputs.skip != 'true'
-        run: npm run build:icons
+        run: npm run build:icons:font
 
       - name: Skip if version already on npm
         id: check

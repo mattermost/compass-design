@@ -122,8 +122,9 @@ function assertResolutions(extractDir) {
 }
 
 function main() {
-  console.log('Building @mattermost/compass-icons…');
-  run('npm run build --workspace=@mattermost/compass-icons');
+  console.log('Building @mattermost/compass-icons (with Fontello)…');
+  // Fonts are not committed — same as the old repo. Fontello runs here and on publish.
+  run('npm run build:with-font --workspace=@mattermost/compass-icons');
 
   if (!fs.existsSync(path.join(buildRoot, 'package.json'))) {
     throw new Error('build/package.json missing after build');

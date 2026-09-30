@@ -47,11 +47,9 @@
     "build:data": "node generate-data.mjs",
     "build:prettify": "prettier --write components IconGlyphs.ts",
     "build:typescript": "tsc",
-    "build:copy-font": "node ./scripts/copy-committed-fonts.mjs",
     "build:font": "fontello-cli --css ./build/css --font ./build/font install",
-    "build:sync-font": "node ./scripts/sync-font-assets.mjs",
-    "build": "npm run build:data && npm run build:prettify && npm run build:typescript && npm run build:copy-font",
-    "build:with-font": "npm run build:data && npm run build:prettify && npm run build:typescript && npm run build:font && npm run build:sync-font",
+    "build": "npm run build:data && npm run build:prettify && npm run build:typescript",
+    "build:with-font": "npm run build && npm run build:font",
     "open": "npm run build:data && fontello-cli open",
     "clean": "rm -rf config.json build components IconGlyphs.ts .fontello-session fontello*"
   },

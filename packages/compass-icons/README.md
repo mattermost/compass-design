@@ -35,14 +35,15 @@ Mobile / native consumers copy `font/compass-icons.ttf` and may read `config.jso
 ## Development (this monorepo)
 
 ```bash
-# Offline build (uses committed css/ + font/)
+# Offline build — React components / glyphs only (no Fontello)
 npm run build:icons
 
-# Regenerate fonts via Fontello (network required), then sync committed assets
+# Full build including fonts via Fontello (network required) — use when
+# adding/changing icons and for publish
 npm run build:icons:font
 ```
 
-Do not edit `components/`, `IconGlyphs.ts`, or `config.json` by hand — they are generated.
+Do not edit `components/`, `IconGlyphs.ts`, or `config.json` by hand — they are generated. Fonts/CSS are not committed; Fontello produces them under `build/` at release time (same as the old `compass-icons` repo).
 
 ## Adding icons
 
@@ -85,18 +86,17 @@ Save under `svgs/` as `{icon-name}_{CODEPOINT}.svg` (for example `account-outlin
 ### Land the change
 
 1. Add the SVG under [`packages/compass-icons/svgs/`](./svgs).
-2. Run `npm run build:icons:font` (Fontello must be reachable). Commit updated `svgs/` plus regenerated `css/` and `font/`.
+2. Run `npm run build:icons:font` locally if you want to verify fonts (Fontello must be reachable). Commit the new/changed files under `svgs/` only — do not commit `build/`.
 3. Open a PR against `compass-design` and request review from the UX / design team.
-4. When ready to publish, bump `packages/compass-icons/package.json`, merge, then create a GitHub Release tagged `compass-icons@<version>` (see [INTEGRATION.md](../compass-ui/INTEGRATION.md) for the shared `package@version` convention).
+4. When ready to publish, bump `packages/compass-icons/package.json`, merge, then create a GitHub Release tagged `compass-icons@<version>` (see [INTEGRATION.md](../compass-ui/INTEGRATION.md) for the shared `package@version` convention). CI runs Fontello and publishes from `build/`.
 
 ## Package layout
 
 | Path | Role |
 |------|------|
 | `svgs/` | Source SVGs (committed) |
-| `css/`, `font/` | Committed Fontello output for offline builds |
 | `generate-data.mjs`, `utils.mjs` | Generate `config.json`, `IconGlyphs.ts`, `components/*.tsx`, and `build/package.json` |
-| `build/` | Publishable output (gitignored; fonts copied in from committed `css/` / `font/` on offline builds) |
+| `build/` | Publishable output (gitignored) — components from `tsc`; `css/` + `font/` from Fontello at publish |
 
 Publishing is from `build/` (see `.github/workflows/publish-compass-icons.yml`).
 
