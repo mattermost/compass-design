@@ -13,6 +13,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **CSS packaging:** component CSS modules (and SimpleBar CSS for `Scrollbar`) ship with each component via `vite-plugin-lib-inject-css`. Consumers only need `@mattermost/compass-ui/styles` (plus `/styles/standalone` for standalone hosts). Drop any `@mattermost/compass-ui/component-styles` import — that entry is no longer exported.
 - **Icon slots** — all compass-ui components that accept icon slot props (`leadingIcon`, `trailingIcon`, `icon`, etc.) now size icons automatically via `IconSlotContext`. Pass `<Icon glyph={<YourIcon />} />` with no `size` prop; the hosting component injects the correct size. Explicit `size` props still take precedence (non-breaking). Affected: `Button`, `IconButton`, `MenuItem`, `TextInput`, `SectionNotice`, `ActionButton`, `CardButton`, `GlobalBanner`, `Tooltip`, `Dropdown`, `Combobox`, `Select`, `AdminPanelHeader`, `Tag`, `Toast`, `PopoverNotice`.
 - **`ICON_BUTTON_ICON_SIZES`** deprecated — callers no longer need to look up icon sizes for `IconButton` slots manually. The constant remains exported for migration; it will be removed in a future minor.
 - **`Button`** leading/trailing icon slots no longer use `React.cloneElement` to inject size — sizing moves to `IconSlotContext`.
