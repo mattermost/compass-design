@@ -122,7 +122,17 @@
   &__icon-toolbar {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     margin-bottom: var(--spacing-m);
+  }
+
+  // Switch defaults to width:100% + flex-growing labels — hug content here.
+  &__icon-codes-switch {
+    width: fit-content;
+
+    > span:first-child {
+      flex: 0 0 auto;
+    }
   }
 
   &__icon-grid {

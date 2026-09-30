@@ -34,6 +34,7 @@ export function IconographyGridContent() {
       <div className={styles['foundations__icon-library']}>
         <div className={styles['foundations__icon-toolbar']}>
           <Switch
+            className={styles['foundations__icon-codes-switch']}
             size="small"
             checked={showCodes}
             onChange={(event) => setShowCodes(event.target.checked)}
