@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import CheckIcon from '@mattermost/compass-icons/components/check';
 import Icon from '@/components/Icon/Icon';
@@ -8,8 +8,8 @@ import MentionBadge from '@/components/MentionBadge/MentionBadge';
 import styles from './MenuItem.module.scss';
 
 export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Primary label text. */
-  label: string;
+  /** Primary label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   /** Optional secondary label. */
   secondaryLabel?: ReactNode;
   /** Where the secondary label appears. Default: 'below'. */
@@ -38,24 +38,27 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * Menu Items are the rows inside a Menu — the smallest selectable unit in any dropdown,
  * kebab, or context menu. One label, optional supporting visuals, and a clear hit target.
  */
-export default function MenuItem({
-  label,
-  secondaryLabel,
-  secondaryLabelPosition = 'below',
-  leadingVisual,
-  leadingElement = true,
-  trailingVisual,
-  trailingElement = false,
-  customStatusEmoji,
-  tag = false,
-  mentionCount,
-  destructive = false,
-  active = false,
-  className = '',
-  disabled,
-  type = 'button',
-  ...rest
-}: MenuItemProps) {
+const MenuItem = forwardRef<HTMLButtonElement, MenuItemProps>(function MenuItem(
+  {
+    label,
+    secondaryLabel,
+    secondaryLabelPosition = 'below',
+    leadingVisual,
+    leadingElement = true,
+    trailingVisual,
+    trailingElement = false,
+    customStatusEmoji,
+    tag = false,
+    mentionCount,
+    destructive = false,
+    active = false,
+    className = '',
+    disabled,
+    type = 'button',
+    ...rest
+  },
+  ref,
+) {
   const rootClass = [
     styles['menu-item'],
     destructive ? styles['menu-item--destructive'] : '',
@@ -66,7 +69,13 @@ export default function MenuItem({
     .join(' ');
 
   return (
-    <button className={rootClass} type={type} disabled={disabled} {...rest}>
+    <button
+      ref={ref}
+      className={rootClass}
+      type={type}
+      disabled={disabled}
+      {...rest}
+    >
       <div className={styles['menu-item__content']}>
         {leadingElement && (
           <div className={styles['menu-item__left']}>
@@ -130,4 +139,8 @@ export default function MenuItem({
       </div>
     </button>
   );
-}
+});
+
+MenuItem.displayName = 'MenuItem';
+
+export default MenuItem;

@@ -24,16 +24,16 @@ export interface SectionNoticeProps {
   type?: SectionNoticeType;
   /** Optional leading icon. When omitted a default type icon is shown. Pass `<Icon glyph={<SomeIcon />} />` — SectionNotice provides the correct size via context. */
   icon?: ReactNode;
-  /** Title / headline text. */
-  title: string;
+  /** Title / headline. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  title: ReactNode;
   /** Optional body description. */
   description?: ReactNode;
   /** Primary action button label. */
-  primaryButtonLabel?: string;
+  primaryButtonLabel?: ReactNode;
   /** Primary action callback. */
   onPrimaryAction?: () => void;
   /** Secondary action button label. */
-  secondaryButtonLabel?: string;
+  secondaryButtonLabel?: ReactNode;
   /** Secondary action callback. */
   onSecondaryAction?: () => void;
   /** Called when dismiss (×) button is clicked. When omitted, dismiss button is hidden. */

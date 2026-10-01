@@ -25,6 +25,13 @@ export default function ProgressBarLibrary() {
           <ProgressBar value={75} semanticColors aria-label="75% warning" />
           <ProgressBar value={95} semanticColors aria-label="95% danger" />
         </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Indeterminate
+          </span>
+          <ProgressBar indeterminate size="small" aria-label="Reindexing" />
+          <ProgressBar indeterminate aria-label="Reindexing" />
+        </div>
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import CheckCircleIcon from '@mattermost/compass-icons/components/check-circle';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
@@ -25,52 +25,62 @@ export interface CardButtonProps extends Omit<
  * Pair with `CardButtonGroup` for side-by-side radiogroups (visibility,
  * access mode, etc.).
  */
-export default function CardButton({
-  icon,
-  title,
-  description,
-  selected = false,
-  className = '',
-  type = 'button',
-  role,
-  disabled,
-  ...rest
-}: CardButtonProps) {
-  const isRadio = role === 'radio';
-  const rootClass = [
-    styles['card-button'],
-    selected && styles['card-button--selected'],
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+const CardButton = forwardRef<HTMLButtonElement, CardButtonProps>(
+  function CardButton(
+    {
+      icon,
+      title,
+      description,
+      selected = false,
+      className = '',
+      type = 'button',
+      role,
+      disabled,
+      ...rest
+    },
+    ref,
+  ) {
+    const isRadio = role === 'radio';
+    const rootClass = [
+      styles['card-button'],
+      selected && styles['card-button--selected'],
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ');
 
-  return (
-    <button
-      type={type}
-      role={role}
-      disabled={disabled}
-      className={rootClass}
-      aria-checked={isRadio ? selected : undefined}
-      aria-pressed={!isRadio ? selected : undefined}
-      {...rest}
-    >
-      <span className={styles['card-button__icon']} aria-hidden>
-        <IconSlotContext.Provider value={{ size: '24' }}>
-          {icon}
-        </IconSlotContext.Provider>
-      </span>
-      <span className={styles['card-button__text']}>
-        <span className={styles['card-button__title']}>{title}</span>
-        {description != null && (
-          <span className={styles['card-button__description']}>
-            {description}
-          </span>
-        )}
-      </span>
-      <span className={styles['card-button__check']} aria-hidden>
-        <Icon glyph={<CheckCircleIcon />} size="20" />
-      </span>
-    </button>
-  );
-}
+    return (
+      <button
+        ref={ref}
+        type={type}
+        role={role}
+        disabled={disabled}
+        className={rootClass}
+        aria-checked={isRadio ? selected : undefined}
+        aria-pressed={!isRadio ? selected : undefined}
+        {...rest}
+      >
+        <span className={styles['card-button__icon']} aria-hidden>
+          <IconSlotContext.Provider value={{ size: '24' }}>
+            {icon}
+          </IconSlotContext.Provider>
+        </span>
+        <span className={styles['card-button__text']}>
+          <span className={styles['card-button__title']}>{title}</span>
+          {description != null && (
+            <span className={styles['card-button__description']}>
+              {description}
+            </span>
+          )}
+        </span>
+        <span className={styles['card-button__check']} aria-hidden>
+          <Icon glyph={<CheckCircleIcon />} size="20" />
+        </span>
+      </button>
+    );
+  },
+);
+
+CardButton.displayName = 'CardButton';
+
+export default CardButton;

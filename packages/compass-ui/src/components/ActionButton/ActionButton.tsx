@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import styles from './ActionButton.module.scss';
 
@@ -16,37 +16,47 @@ export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElemen
  * profile popover, a channel info panel, a card. They sit close to the content they act on
  * and read as a row of equal-weight choices.
  */
-export default function ActionButton({
-  icon,
-  label,
-  active,
-  destructive = false,
-  className,
-  type = 'button',
-  ...htmlProps
-}: ActionButtonProps) {
-  const rootClass = [
-    styles['action-button'],
-    active ? styles['action-button--active'] : '',
-    destructive ? styles['action-button--destructive'] : '',
-    className ?? '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
+  function ActionButton(
+    {
+      icon,
+      label,
+      active,
+      destructive = false,
+      className,
+      type = 'button',
+      ...htmlProps
+    },
+    ref,
+  ) {
+    const rootClass = [
+      styles['action-button'],
+      active ? styles['action-button--active'] : '',
+      destructive ? styles['action-button--destructive'] : '',
+      className ?? '',
+    ]
+      .filter(Boolean)
+      .join(' ');
 
-  return (
-    <button
-      className={rootClass}
-      type={type}
-      aria-pressed={active === undefined ? undefined : active}
-      {...htmlProps}
-    >
-      <span className={styles['action-button__icon']} aria-hidden>
-        <IconSlotContext.Provider value={{ size: '20' }}>
-          {icon}
-        </IconSlotContext.Provider>
-      </span>
-      <span className={styles['action-button__label']}>{label}</span>
-    </button>
-  );
-}
+    return (
+      <button
+        ref={ref}
+        className={rootClass}
+        type={type}
+        aria-pressed={active === undefined ? undefined : active}
+        {...htmlProps}
+      >
+        <span className={styles['action-button__icon']} aria-hidden>
+          <IconSlotContext.Provider value={{ size: '20' }}>
+            {icon}
+          </IconSlotContext.Provider>
+        </span>
+        <span className={styles['action-button__label']}>{label}</span>
+      </button>
+    );
+  },
+);
+
+ActionButton.displayName = 'ActionButton';
+
+export default ActionButton;

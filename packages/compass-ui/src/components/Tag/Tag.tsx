@@ -15,8 +15,8 @@ export type TagSize = 'small' | 'x-small';
 export type TagCasing = 'title-case' | 'all-caps';
 
 export type TagProps = {
-  /** Tag label text. */
-  label: string;
+  /** Tag label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   /** Semantic colour type. Default: Default. */
   type?: TagType;
   /** Size variant. Default: X-Small. */

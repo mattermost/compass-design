@@ -19,22 +19,22 @@ export default function RightSidebarChannelInfo() {
       <div className={styles['right-sidebar-channel-info__actions']}>
         <ActionButton
           className={styles['right-sidebar-channel-info__action']}
-          icon={<Icon size="20" glyph={<StarOutlineIcon />} />}
+          icon={<Icon glyph={<StarOutlineIcon />} />}
           label="Favorite"
         />
         <ActionButton
           className={styles['right-sidebar-channel-info__action']}
-          icon={<Icon size="20" glyph={<BellOutlineIcon />} />}
+          icon={<Icon glyph={<BellOutlineIcon />} />}
           label="Mute"
         />
         <ActionButton
           className={styles['right-sidebar-channel-info__action']}
-          icon={<Icon size="20" glyph={<AccountPlusOutlineIcon />} />}
+          icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
           label="Add people"
         />
         <ActionButton
           className={styles['right-sidebar-channel-info__action']}
-          icon={<Icon size="20" glyph={<LinkVariantIcon />} />}
+          icon={<Icon glyph={<LinkVariantIcon />} />}
           label="Copy Link"
         />
       </div>

@@ -40,7 +40,7 @@
       outline-offset: 3px;
     }
 
-    &:hover:not(&--active) {
+    &:hover:not(&--active):not(&--disabled) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
@@ -54,6 +54,15 @@
       .tabs__count-badge {
         background-color: rgba(var(--link-color-rgb), 0.12);
         color: var(--link-color);
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+
+      .tabs__tab-label,
+      .tabs__count-badge {
+        color: rgba(var(--center-channel-color-rgb), 0.4);
       }
     }
   }

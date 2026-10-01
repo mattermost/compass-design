@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import Spinner from '@/components/Spinner/Spinner';
 import { toKebab } from '@/utils/string';
@@ -61,80 +61,90 @@ export const ICON_BUTTON_ICON_SIZES: Record<
  * intent, so every Icon Button must pair with a tooltip or `aria-label` that makes the
  * action explicit.
  */
-export default function IconButton({
-  active = false,
-  className = '',
-  count,
-  destructive = false,
-  icon,
-  loading = false,
-  padding = 'default',
-  rounded = false,
-  size = 'medium',
-  style = 'default',
-  toggled,
-  unreadBadge = false,
-  disabled,
-  type = 'button',
-  'aria-label': ariaLabel,
-  ...rest
-}: IconButtonProps) {
-  const sizeClass = styles[`icon-button--size-${toKebab(size)}`];
-  const paddingClass =
-    padding === 'compact' ? styles['icon-button--padding-compact'] : '';
-  const styleClass =
-    style === 'inverted' ? styles['icon-button--style-inverted'] : '';
-  const destructiveClass = destructive
-    ? styles['icon-button--destructive']
-    : '';
-  const roundedClass = rounded ? styles['icon-button--rounded'] : '';
-  const toggledClass = toggled ? styles['icon-button--toggled'] : '';
-  const activeClass = active ? styles['icon-button--active'] : '';
-  const hasCount = count !== undefined;
-  const hasCountClass = hasCount ? styles['icon-button--has-count'] : '';
+const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  function IconButton(
+    {
+      active = false,
+      className = '',
+      count,
+      destructive = false,
+      icon,
+      loading = false,
+      padding = 'default',
+      rounded = false,
+      size = 'medium',
+      style = 'default',
+      toggled,
+      unreadBadge = false,
+      disabled,
+      type = 'button',
+      'aria-label': ariaLabel,
+      ...rest
+    },
+    ref,
+  ) {
+    const sizeClass = styles[`icon-button--size-${toKebab(size)}`];
+    const paddingClass =
+      padding === 'compact' ? styles['icon-button--padding-compact'] : '';
+    const styleClass =
+      style === 'inverted' ? styles['icon-button--style-inverted'] : '';
+    const destructiveClass = destructive
+      ? styles['icon-button--destructive']
+      : '';
+    const roundedClass = rounded ? styles['icon-button--rounded'] : '';
+    const toggledClass = toggled ? styles['icon-button--toggled'] : '';
+    const activeClass = active ? styles['icon-button--active'] : '';
+    const hasCount = count !== undefined;
+    const hasCountClass = hasCount ? styles['icon-button--has-count'] : '';
 
-  const rootClass = [
-    styles['icon-button'],
-    sizeClass,
-    paddingClass,
-    styleClass,
-    destructiveClass,
-    roundedClass,
-    toggledClass,
-    activeClass,
-    hasCountClass,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    const rootClass = [
+      styles['icon-button'],
+      sizeClass,
+      paddingClass,
+      styleClass,
+      destructiveClass,
+      roundedClass,
+      toggledClass,
+      activeClass,
+      hasCountClass,
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ');
 
-  const spinnerSize = ICON_BUTTON_ICON_SIZES[size];
+    const spinnerSize = ICON_BUTTON_ICON_SIZES[size];
 
-  return (
-    <button
-      className={rootClass}
-      type={type}
-      disabled={disabled || loading}
-      aria-label={ariaLabel}
-      aria-pressed={toggled === undefined ? undefined : toggled}
-      data-active={active ? 'true' : undefined}
-      {...rest}
-    >
-      <span className={styles['icon-button__icon-slot']} aria-hidden>
-        {loading ? (
-          <Spinner size={spinnerSize} inverted={style === 'inverted'} />
-        ) : (
-          <IconSlotContext.Provider value={{ size: spinnerSize }}>
-            {icon}
-          </IconSlotContext.Provider>
+    return (
+      <button
+        ref={ref}
+        className={rootClass}
+        type={type}
+        disabled={disabled || loading}
+        aria-label={ariaLabel}
+        aria-pressed={toggled === undefined ? undefined : toggled}
+        data-active={active ? 'true' : undefined}
+        {...rest}
+      >
+        <span className={styles['icon-button__icon-slot']} aria-hidden>
+          {loading ? (
+            <Spinner size={spinnerSize} inverted={style === 'inverted'} />
+          ) : (
+            <IconSlotContext.Provider value={{ size: spinnerSize }}>
+              {icon}
+            </IconSlotContext.Provider>
+          )}
+          {unreadBadge && !loading && (
+            <span className={styles['icon-button__unread-badge']} />
+          )}
+        </span>
+        {hasCount && (
+          <span className={styles['icon-button__count']}>{count}</span>
         )}
-        {unreadBadge && !loading && (
-          <span className={styles['icon-button__unread-badge']} />
-        )}
-      </span>
-      {hasCount && (
-        <span className={styles['icon-button__count']}>{count}</span>
-      )}
-    </button>
-  );
-}
+      </button>
+    );
+  },
+);
+
+IconButton.displayName = 'IconButton';
+
+export default IconButton;

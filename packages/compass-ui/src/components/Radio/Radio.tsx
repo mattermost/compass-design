@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes } from 'react';
-import { useId } from 'react';
+import { forwardRef, useId } from 'react';
 import { useControllable } from '@/hooks/useControllable';
 import { toKebab } from '@/utils/string';
 import styles from './Radio.module.scss';
@@ -25,20 +25,23 @@ export interface RadioProps extends Omit<
  * workspace plan, a notification cadence, a default theme. Use a Radio when the choices are
  * few enough to show at once and the user benefits from seeing every option side-by-side.
  */
-export default function Radio({
-  className = '',
-  size = 'medium',
-  invalid = false,
-  children,
-  id: idProp,
-  checked,
-  defaultChecked,
-  disabled,
-  onChange,
-  name,
-  value,
-  ...rest
-}: RadioProps) {
+const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
+  {
+    className = '',
+    size = 'medium',
+    invalid = false,
+    children,
+    id: idProp,
+    checked,
+    defaultChecked,
+    disabled,
+    onChange,
+    name,
+    value,
+    ...rest
+  },
+  ref,
+) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const [, handleChange] = useControllable(checked, defaultChecked, onChange);
@@ -54,6 +57,7 @@ export default function Radio({
     <label className={rootClass} htmlFor={id}>
       {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props -- invalid form contract; radio has no supported invalid ARIA */}
       <input
+        ref={ref}
         id={id}
         type="radio"
         name={name}
@@ -74,4 +78,8 @@ export default function Radio({
       )}
     </label>
   );
-}
+});
+
+Radio.displayName = 'Radio';
+
+export default Radio;

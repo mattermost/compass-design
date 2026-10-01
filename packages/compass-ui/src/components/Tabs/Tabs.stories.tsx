@@ -35,6 +35,29 @@ export const Static: Story = {
   },
 };
 
+export const WithDisabledTab: Story = {
+  render: function Render() {
+    const [activeKey, setActiveKey] = useState('general');
+    return (
+      <Tabs
+        tabs={[
+          { key: 'general', label: 'General' },
+          { key: 'tools', label: 'Tools' },
+          {
+            key: 'mcps',
+            label: 'MCPs',
+            disabled: true,
+            title: 'Enable tools to configure MCPs',
+          },
+          { key: 'access', label: 'Access' },
+        ]}
+        activeKey={activeKey}
+        onChange={setActiveKey}
+      />
+    );
+  },
+};
+
 export const WithControls: Story = {
   render: function Render() {
     const [activeKey, setActiveKey] = useState('files');

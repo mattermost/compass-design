@@ -10,8 +10,8 @@ import styles from './Tabs.module.scss';
 export interface TabItem {
   /** Unique key for this tab. */
   key: string;
-  /** Tab label text. */
-  label: string;
+  /** Tab label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   /** Optional count badge number. */
   countBadge?: number;
   /** When true, shows an unread dot badge. */
@@ -20,6 +20,10 @@ export interface TabItem {
   id?: string;
   /** Optional id of the host tabpanel this tab controls. */
   panelId?: string;
+  /** When true, the tab can't be selected and arrow-key navigation skips it. */
+  disabled?: boolean;
+  /** Native tooltip text, e.g. to explain why the tab is disabled. */
+  title?: string;
 }
 
 export interface TabsProps {
@@ -56,7 +60,12 @@ export default function Tabs({
   }, [activeKey]);
 
   const keys = tabs.map((tab) => tab.key);
-  const focusKey = keys.includes(focusedKey) ? focusedKey : activeKey;
+  const enabledKeys = tabs.filter((tab) => !tab.disabled).map((tab) => tab.key);
+  const focusKey = enabledKeys.includes(focusedKey)
+    ? focusedKey
+    : enabledKeys.includes(activeKey)
+      ? activeKey
+      : enabledKeys[0];
 
   const moveFocus = (key: string) => {
     setFocusedKey(key);
@@ -68,24 +77,27 @@ export default function Tabs({
     event: KeyboardEvent<HTMLButtonElement>,
     key: string,
   ) => {
-    const index = keys.indexOf(key);
-    if (index < 0 || keys.length === 0) return;
+    const count = enabledKeys.length;
+    if (count === 0) return;
+    const index = enabledKeys.indexOf(key);
 
     if (event.key === 'ArrowRight') {
       event.preventDefault();
-      moveFocus(keys[(index + 1) % keys.length]);
+      moveFocus(enabledKeys[(index + 1) % count]);
     } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
-      moveFocus(keys[(index - 1 + keys.length) % keys.length]);
+      moveFocus(
+        enabledKeys[index < 0 ? count - 1 : (index - 1 + count) % count],
+      );
     } else if (event.key === 'Home') {
       event.preventDefault();
-      moveFocus(keys[0]);
+      moveFocus(enabledKeys[0]);
     } else if (event.key === 'End') {
       event.preventDefault();
-      moveFocus(keys[keys.length - 1]);
+      moveFocus(enabledKeys[count - 1]);
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      onChange(key);
+      if (index >= 0) onChange(key);
     }
   };
 
@@ -94,9 +106,11 @@ export default function Tabs({
       <div className={styles['tabs__tab-list']} role="tablist">
         {tabs.map((tab, index) => {
           const isActive = tab.key === activeKey;
+          const isDisabled = tab.disabled === true;
           const tabClass = [
             styles['tabs__tab'],
             isActive ? styles['tabs__tab--active'] : '',
+            isDisabled ? styles['tabs__tab--disabled'] : '',
           ]
             .filter(Boolean)
             .join(' ');
@@ -113,8 +127,14 @@ export default function Tabs({
               tabIndex={focusKey === tab.key ? 0 : -1}
               aria-selected={isActive}
               aria-controls={tab.panelId}
+              aria-disabled={isDisabled || undefined}
+              title={tab.title}
               className={tabClass}
+              onMouseDown={
+                isDisabled ? (event) => event.preventDefault() : undefined
+              }
               onClick={() => {
+                if (isDisabled) return;
                 setFocusedKey(tab.key);
                 onChange(tab.key);
               }}

@@ -1,6 +1,7 @@
 /**
  * Smoke test: build @mattermost/compass-ui, pack a tarball, install it in a
- * minimal Vite consumer, and verify the app builds with styles + components.
+ * minimal Vite consumer, type-check the public API contract, and verify the
+ * app builds with styles + components.
  */
 import fs from 'fs';
 import path from 'path';
@@ -62,7 +63,7 @@ function writeConsumer(tempDir, tarballPath) {
         name: 'compass-ui-smoke-consumer',
         private: true,
         type: 'module',
-        scripts: { build: 'vite build' },
+        scripts: { build: 'vite build', typecheck: 'tsc -p tsconfig.json' },
         dependencies: {
           '@mattermost/compass-icons': '^0.1.53',
           '@mattermost/compass-ui': `file:./${tgzName}`,
@@ -71,7 +72,10 @@ function writeConsumer(tempDir, tarballPath) {
           'simplebar-react': '^3.3.2',
         },
         devDependencies: {
+          '@types/react': '^19.0.0',
+          '@types/react-dom': '^19.0.0',
           '@vitejs/plugin-react': '^4.3.4',
+          typescript: '~5.7.2',
           vite: '^6.0.5',
         },
       },
@@ -129,6 +133,64 @@ createRoot(document.getElementById('root')!).render(
 );`,
   );
 
+  // Classic "node" resolution goes through typesVersions and has no synthetic
+  // default imports, so a declaration that needs either fails here.
+  fs.writeFileSync(
+    path.join(tempDir, 'tsconfig.json'),
+    JSON.stringify(
+      {
+        compilerOptions: {
+          target: 'ES2022',
+          lib: ['ES2022', 'DOM'],
+          module: 'ESNext',
+          moduleResolution: 'node',
+          jsx: 'react-jsx',
+          strict: true,
+          noEmit: true,
+          skipLibCheck: true,
+        },
+        include: ['src/api-contract.tsx'],
+      },
+      null,
+      2,
+    ),
+  );
+
+  fs.writeFileSync(
+    path.join(tempDir, 'src', 'api-contract.tsx'),
+    `import { useRef, type ReactNode } from 'react';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Checkbox } from '@mattermost/compass-ui/components/checkbox';
+import { Tag } from '@mattermost/compass-ui/components/tag';
+
+function Message({ children }: { children: ReactNode }) {
+  return <span>{children}</span>;
+}
+
+export function ExistingUsage({ onConfirm }: { onConfirm: () => void }) {
+  return (
+    <Button emphasis="primary" destructive id="x" autoFocus onClick={onConfirm}>
+      Delete
+    </Button>
+  );
+}
+
+export function NewUsage() {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  return (
+    <>
+      <Button ref={buttonRef}>Focus me</Button>
+      <Checkbox ref={inputRef}>Remember</Checkbox>
+      <Tag label={<Message>Beta</Message>} />
+      {/* @ts-expect-error Button refs must target HTMLButtonElement */}
+      <Button ref={inputRef}>Wrong ref</Button>
+    </>
+  );
+}
+`,
+  );
+
   fs.writeFileSync(
     path.join(tempDir, 'vite.config.ts'),
     `import { defineConfig } from 'vite';
@@ -174,6 +236,8 @@ try {
   writeConsumer(consumerDir, tarballPath);
   console.log('[smoke] Installing tarball in minimal Vite consumer…');
   run('npm install', consumerDir);
+  console.log('[smoke] Type-checking public API contract…');
+  run('npm run typecheck', consumerDir);
   console.log('[smoke] Building consumer…');
   run('npm run build', consumerDir);
 

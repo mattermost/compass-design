@@ -1,4 +1,5 @@
 import { ActionButton } from '@mattermost/compass-ui/components/action-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
 import AccountPlusOutlineIcon from '@mattermost/compass-icons/components/account-plus-outline';
 import AtIcon from '@mattermost/compass-icons/components/at';
@@ -24,9 +25,15 @@ Three parts — container, icon, and label — stacked vertically.
 - <Num>3</Num> **Label** — required. Action verb, four words or fewer.
 
 <AnatomyStage style={{ gap: '1rem', flexWrap: 'wrap' }}>
-  <ActionButton icon={<MessageTextOutlineIcon size={20} />} label="Message" />
-  <ActionButton icon={<AtIcon size={20} />} label="Mention" />
-  <ActionButton icon={<AccountPlusOutlineIcon size={20} />} label="Add" />
+  <ActionButton
+    icon={<Icon glyph={<MessageTextOutlineIcon />} />}
+    label="Message"
+  />
+  <ActionButton icon={<Icon glyph={<AtIcon />} />} label="Mention" />
+  <ActionButton
+    icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
+    label="Add"
+  />
 </AnatomyStage>
 
 <Divider />
@@ -38,14 +45,17 @@ plus a Destructive variant. The Active state signals that the action is
 toggled on (e.g. "Following").
 
 <SampleRow>
-  <ActionButton icon={<MessageTextOutlineIcon size={20} />} label="Default" />
   <ActionButton
-    icon={<AccountPlusOutlineIcon size={20} />}
+    icon={<Icon glyph={<MessageTextOutlineIcon />} />}
+    label="Default"
+  />
+  <ActionButton
+    icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
     label="Active"
     active
   />
   <ActionButton
-    icon={<MessageTextOutlineIcon size={20} />}
+    icon={<Icon glyph={<MessageTextOutlineIcon />} />}
     label="Disabled"
     disabled
   />
@@ -61,7 +71,7 @@ Pair it with a confirmation step; the button itself isn't a confirmation.
 
 <SampleRow>
   <ActionButton
-    icon={<TrashCanOutlineIcon size={20} />}
+    icon={<Icon glyph={<TrashCanOutlineIcon />} />}
     label="Remove"
     destructive
   />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarArjun from '@/assets/avatars/Arjun Patel.png';
@@ -57,6 +57,90 @@ function MultiPeopleCombobox() {
   );
 }
 
+function searchPeople(query: string): Promise<ComboboxOption[]> {
+  const q = query.trim().toLowerCase();
+  return new Promise((resolve) => {
+    setTimeout(
+      () =>
+        resolve(
+          PEOPLE_OPTIONS.filter(
+            (person) =>
+              q === '' ||
+              person.label.toLowerCase().includes(q) ||
+              person.secondaryLabel?.includes(q),
+          ),
+        ),
+      600,
+    );
+  });
+}
+
+function AsyncPeopleCombobox() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<ComboboxOption[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState<ComboboxOption[]>([
+    PEOPLE_OPTIONS[0],
+  ]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    searchPeople(query).then((next) => {
+      if (cancelled) return;
+      setResults(next);
+      setLoading(false);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [query]);
+
+  return (
+    <Combobox
+      label="Allowed users"
+      placeholder="Search people…"
+      multiple
+      filter={false}
+      loading={loading}
+      options={results}
+      inputValue={query}
+      onInputChange={setQuery}
+      value={selected.map((option) => option.value)}
+      selectedOptions={selected}
+      onChange={(next) => {
+        const values = (next as string[]) ?? [];
+        const known = [...selected, ...results];
+        setSelected(
+          values
+            .map((value) => known.find((option) => option.value === value))
+            .filter((option): option is ComboboxOption => option != null),
+        );
+      }}
+    />
+  );
+}
+
+const MODEL_OPTIONS: ComboboxOption[] = [
+  { value: 'gpt-4o', label: 'gpt-4o' },
+  { value: 'gpt-4o-mini', label: 'gpt-4o-mini' },
+  { value: 'claude-sonnet-4', label: 'claude-sonnet-4' },
+];
+
+function CreatableModelCombobox() {
+  const [value, setValue] = useState<string | null>('my-fine-tune');
+  return (
+    <Combobox
+      label="Model"
+      placeholder="Pick or type a model name…"
+      creatable
+      options={MODEL_OPTIONS}
+      value={value}
+      onChange={(next) => setValue(next as string | null)}
+    />
+  );
+}
+
 export default function ComboboxLibrary() {
   return (
     <>
@@ -82,6 +166,16 @@ export default function ComboboxLibrary() {
           <MultiPeopleCombobox />
         </div>
         <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>Async</span>
+          <AsyncPeopleCombobox />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Creatable
+          </span>
+          <CreatableModelCombobox />
+        </div>
+        <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>
           <Combobox
             label="Invalid"
@@ -95,6 +189,7 @@ export default function ComboboxLibrary() {
             defaultValue="design"
             options={CHANNEL_OPTIONS}
           />
+          <Combobox label="Loading" loading options={[]} />
         </div>
       </div>
     </>
