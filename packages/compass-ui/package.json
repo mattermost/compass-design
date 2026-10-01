@@ -315,6 +315,9 @@
       "components/tooltip": [
         "./dist/components/tooltip/index.d.ts"
       ],
+      "components/tour-point": [
+        "./dist/components/tour-point/index.d.ts"
+      ],
       "components/unread-badge": [
         "./dist/components/unread-badge/index.d.ts"
       ],
