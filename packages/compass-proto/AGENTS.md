@@ -9,12 +9,12 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 - Mobile\* shells and patterns
 - `ChannelShell`
 - Call\* composites (`CallWidget`, `CallPopout`, `CallParticipantAvatar`, `RecordingPill`, panels)
-- Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `RightSidebar` (shell), `ReactionPill`, `AppBarItem`, `TourPoint`
+- Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `RightSidebar` (shell), `ReactionPill`, `AppBarItem`
 - Hardcoded menu recipes: `PlusMenu`, `HelpMenu`, `ChannelMenu`, `TeamMenu`, `ChannelCategoryMenu`, `ChannelHeaderMenu`, `ThreadActionsMenu`, `MessageMoreOptionsMenu`, `ProductSwitcherMenu`
 - Demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`) and sidebar fixture helpers
 - `WithTooltip` (prototype tooltip host)
 
-Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `TeamSidebar`, `ChannelSidebarItem`, `PopoverMenu` / `MenuItem`, etc.
+Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `TeamSidebar`, `ChannelSidebarItem`, `TourPoint`, `PopoverMenu` / `MenuItem`, etc.
 
 ## Icon Buttons need tooltips
 

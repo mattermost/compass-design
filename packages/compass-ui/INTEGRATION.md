@@ -2,7 +2,7 @@
 
 Guide for consuming the Compass UI library in Vite apps (docs, prototypes catalog) and the Mattermost webapp (`webapp/channels`).
 
-Mobile shells, `ChannelShell`, Call\* composites, `ParticipantsPanel`, `RecordingPill`, `ReactionPill`, `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `RightSidebar` (shell), `AppBarItem`, `TourPoint`, hardcoded `*Menu` recipes, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only. Published chrome includes `RightSidebarHeader`, Message leaves, `Modal`, `TeamSidebar`, and `ChannelSidebarItem`.
+Mobile shells, `ChannelShell`, Call\* composites, `ParticipantsPanel`, `RecordingPill`, `ReactionPill`, `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `RightSidebar` (shell), `AppBarItem`, hardcoded `*Menu` recipes, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only. Published chrome includes `RightSidebarHeader`, Message leaves, `Modal`, `TeamSidebar`, `ChannelSidebarItem`, and `TourPoint`.
 
 ## Install
 

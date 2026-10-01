@@ -72,6 +72,7 @@ export * from './components/ThreadFooter/index';
 export * from './components/ThreadListItem/index';
 export * from './components/Toast/index';
 export * from './components/Tooltip/index';
+export * from './components/TourPoint/index';
 export * from './components/UnreadBadge/index';
 export * from './components/UserAvatar/index';
 export * from './components/UserAvatarGroup/index';
