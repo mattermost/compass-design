@@ -58,11 +58,7 @@
       color: var(--button-color);
 
       &:hover {
-        background-color: color-mix(
-          in srgb,
-          black 8%,
-          var(--color-success)
-        );
+        background-color: color-mix(in srgb, black 8%, var(--color-success));
       }
     }
 

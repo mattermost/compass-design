@@ -142,18 +142,16 @@ let skipped = 0;
 for (const componentPath of componentFiles) {
   const componentName = path.basename(componentPath, '.tsx');
   const slug = toKebabSlug(componentName);
-  const guidelinePath = path.join(
-    guidelinesDir,
-    slug,
-    `${slug}.guideline.mdx`,
-  );
+  const guidelinePath = path.join(guidelinesDir, slug, `${slug}.guideline.mdx`);
 
   if (!fs.existsSync(guidelinePath)) {
     skipped++;
     continue;
   }
 
-  const paragraph = extractFirstParagraph(fs.readFileSync(guidelinePath, 'utf8'));
+  const paragraph = extractFirstParagraph(
+    fs.readFileSync(guidelinePath, 'utf8'),
+  );
   if (!paragraph) {
     console.warn(`Skip (empty paragraph): ${slug}`);
     skipped++;

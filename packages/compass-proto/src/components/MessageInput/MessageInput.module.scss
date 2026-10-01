@@ -313,9 +313,7 @@
     width: 100%;
 
     .message-input__container {
-      padding-bottom: calc(
-        var(--spacing-xxxxxl) - var(--spacing-xxs)
-      );
+      padding-bottom: calc(var(--spacing-xxxxxl) - var(--spacing-xxs));
     }
 
     .message-input__body {

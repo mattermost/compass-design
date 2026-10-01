@@ -18,7 +18,7 @@ export function MobileModalAnatomyStage() {
       }}
     >
       <div className={styles['mobile-modal-anatomy__frame']}>
-        <MobileModal title='Settings'>
+        <MobileModal title="Settings">
           <div className={styles['mobile-modal-anatomy__slot']}>
             Content slot
           </div>

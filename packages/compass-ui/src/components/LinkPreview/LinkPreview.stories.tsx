@@ -62,9 +62,7 @@ export const LargeImage: Story = {
 };
 
 export const CollapsedLargeImage: Story = {
-  render: (args) => (
-    <InteractiveLargeImagePreview {...args} defaultCollapsed />
-  ),
+  render: (args) => <InteractiveLargeImagePreview {...args} defaultCollapsed />,
 };
 
 export const WithDismiss: Story = {

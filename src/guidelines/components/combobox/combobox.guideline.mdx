@@ -52,8 +52,8 @@ don't capture a form value.
 
 ## Anatomy
 
-<AnatomyStage style={{flexDirection:'column',gap:'0.75rem'}}>
-  <div style={{width:'100%',maxWidth:'320px'}}>
+<AnatomyStage style={{ flexDirection: 'column', gap: '0.75rem' }}>
+  <div style={{ width: '100%', maxWidth: '320px' }}>
     <Combobox
       label="Channel"
       placeholder="Search channels…"
@@ -64,10 +64,9 @@ don't capture a form value.
   </div>
 </AnatomyStage>
 
-- <Num>1</Num> **Border** — the field surface; signals interactivity and
-  state.
-- <Num>2</Num> **Label** — optional floating label. Floats above the border
-  once the field is focused, filled, or has chips.
+- <Num>1</Num> **Border** — the field surface; signals interactivity and state.
+- <Num>2</Num> **Label** — optional floating label. Floats above the border once
+  the field is focused, filled, or has chips.
 - <Num>3</Num> **Leading icon** — optional. Reinforce the field's meaning.
 - <Num>4</Num> **Value** — the chosen option label, or a row of chips when
   multi-select is on.
@@ -82,7 +81,7 @@ don't capture a form value.
 Type to filter, then choose one option. Selecting closes the list and shows
 the chosen label in the field.
 
-<div style={{maxWidth:'320px',padding:'1rem 0'}}>
+<div style={{ maxWidth: '320px', padding: '1rem 0' }}>
   <Combobox
     label="Default channel"
     placeholder="Search channels…"
@@ -98,7 +97,7 @@ With `multiple`, each choice becomes a removable chip inside the field.
 Selecting an option closes the list. Backspace on an empty filter removes
 the last chip.
 
-<div style={{maxWidth:'360px',padding:'1rem 0'}}>
+<div style={{ maxWidth: '360px', padding: '1rem 0' }}>
   <Combobox
     label="Invite people"
     placeholder="Search people…"
@@ -114,7 +113,15 @@ the last chip.
 
 Three sizes — pick the one that matches the surrounding form rhythm.
 
-<div style={{display:'flex',flexDirection:'column',gap:'0.75rem',padding:'1rem 0',maxWidth:'320px'}}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    padding: '1rem 0',
+    maxWidth: '320px',
+  }}
+>
   <Combobox size="small" label="Small" options={CHANNEL_OPTIONS} />
   <Combobox size="medium" label="Medium" options={CHANNEL_OPTIONS} />
   <Combobox size="large" label="Large" options={CHANNEL_OPTIONS} />
@@ -126,32 +133,50 @@ Three sizes — pick the one that matches the surrounding form rhythm.
 
 Comboboxes share their state model with the rest of the input family.
 
-| State    | What it shows                                                       |
-| -------- | ------------------------------------------------------------------- |
-| Default  | Empty or placeholder text.                                          |
-| Focus    | Blue ring; filter input is active.                                  |
-| Filled   | A value or chips are present; the floating label settles above.     |
-| Open     | The popover list is visible; the chevron flips.                     |
-| Disabled | Greyed out; non-interactive.                                        |
-| Invalid  | Red border; pair with an inline error message below.                |
+| State    | What it shows                                                   |
+| -------- | --------------------------------------------------------------- |
+| Default  | Empty or placeholder text.                                      |
+| Focus    | Blue ring; filter input is active.                              |
+| Filled   | A value or chips are present; the floating label settles above. |
+| Open     | The popover list is visible; the chevron flips.                 |
+| Disabled | Greyed out; non-interactive.                                    |
+| Invalid  | Red border; pair with an inline error message below.            |
 
-<div style={{display:'flex',flexDirection:'column',gap:'0.75rem',padding:'1rem 0',maxWidth:'320px'}}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    padding: '1rem 0',
+    maxWidth: '320px',
+  }}
+>
   <Combobox label="Default" options={CHANNEL_OPTIONS} />
   <Combobox label="Filled" defaultValue="design" options={CHANNEL_OPTIONS} />
-  <Combobox label="Invalid" invalid defaultValue="design" options={CHANNEL_OPTIONS} />
-  <Combobox label="Disabled" disabled defaultValue="design" options={CHANNEL_OPTIONS} />
+  <Combobox
+    label="Invalid"
+    invalid
+    defaultValue="design"
+    options={CHANNEL_OPTIONS}
+  />
+  <Combobox
+    label="Disabled"
+    disabled
+    defaultValue="design"
+    options={CHANNEL_OPTIONS}
+  />
 </div>
 
 <Divider />
 
 ## Keyboard
 
-| Key        | Action                                              |
-| ---------- | --------------------------------------------------- |
-| ↓ / ↑      | On the filter: open the list (if closed) and move the highlight. On a chip: previous or next chip. |
-| ← / →      | On a chip: move between chips.                      |
-| Enter / Space | Enter: select the highlighted option. On a chip: Enter or Space remove it. |
-| Escape     | Close the list.                                     |
-| Home / End | On the list: first or last enabled option. On a chip: first or last chip. |
-| Delete / Backspace | On a chip: remove it. On an empty filter in multi-select: remove the last chip. |
-| Tab        | Into the field: the active chip (if any), then the filter. On the filter: close the list and move onward. |
+| Key                | Action                                                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------------------------- |
+| ↓ / ↑              | On the filter: open the list (if closed) and move the highlight. On a chip: previous or next chip.        |
+| ← / →              | On a chip: move between chips.                                                                            |
+| Enter / Space      | Enter: select the highlighted option. On a chip: Enter or Space remove it.                                |
+| Escape             | Close the list.                                                                                           |
+| Home / End         | On the list: first or last enabled option. On a chip: first or last chip.                                 |
+| Delete / Backspace | On a chip: remove it. On an empty filter in multi-select: remove the last chip.                           |
+| Tab                | Into the field: the active chip (if any), then the filter. On the filter: close the list and move onward. |

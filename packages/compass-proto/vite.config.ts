@@ -34,7 +34,11 @@ export default defineConfig({
     },
     rollupOptions: {
       external: (id) => {
-        if (id === 'react' || id === 'react-dom' || id === 'react/jsx-runtime') {
+        if (
+          id === 'react' ||
+          id === 'react-dom' ||
+          id === 'react/jsx-runtime'
+        ) {
           return true;
         }
         if (/^@mattermost\/compass-icons/.test(id)) {

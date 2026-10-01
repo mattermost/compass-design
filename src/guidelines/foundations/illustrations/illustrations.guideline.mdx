@@ -46,7 +46,7 @@ import { Illustration } from '@mattermost/compass-ui/components/illustration';
 
 <Illustration aria-label="No results">
   <SearchIllustration />
-</Illustration>
+</Illustration>;
 ```
 
 Do not copy SVGs into product apps. Add new artwork to the Compass UI package
@@ -66,22 +66,21 @@ over drawing a one-off.
     Do not pack multiple product stories into one frame.
   </Principle>
   <Principle title="Stay at scene scale">
-    These drawings are meant for empty states and hero slots, not toolbars.
-    If it has to work at 16 px, draw an icon instead.
+    These drawings are meant for empty states and hero slots, not toolbars. If
+    it has to work at 16 px, draw an icon instead.
   </Principle>
   <Principle title="Keep detail in check">
     Strip anything that is not load-bearing for recognition. Dense decoration
     falls apart when the artwork is sized down for a compact empty state.
   </Principle>
   <Principle title="Match the family">
-    Stroke, corner treatment, and colour should sit next to search, groups,
-    and the empty-state set without looking like a different product.
+    Stroke, corner treatment, and colour should sit next to search, groups, and
+    the empty-state set without looking like a different product.
   </Principle>
   <Principle title="Follow the theme">
-    Line art, paper fills, and product accents bind to theme roles so the
-    scene inverts with Denim, Quartz, Indigo, and Onyx. Keep a fixed hex
-    only for partner logos and a few decorative hues that are not theme
-    surfaces.
+    Line art, paper fills, and product accents bind to theme roles so the scene
+    inverts with Denim, Quartz, Indigo, and Onyx. Keep a fixed hex only for
+    partner logos and a few decorative hues that are not theme surfaces.
   </Principle>
 </PrincipleList>
 
@@ -102,16 +101,16 @@ names what it depicts.
 Illustrations are product UI, not a frozen Denim export. Bind fills and
 strokes to theme roles so ink, paper, and accents follow the active theme:
 
-| Role | Token |
-| --- | --- |
-| Line art / ink | `--center-channel-color` |
-| Paper surfaces | `--center-channel-bg` |
-| Accent washes | `--button-bg` (keep `fill-opacity` for tints) |
-| Success / warning / error | `--color-success`, `--color-warning`, `--error-text` |
-| Depicted sidebar chrome | `--sidebar-bg`, `--sidebar-header-bg` |
-| Solid indigo fills (bubbles, cards, accents) | `--color-indigo-500` (fixed palette, not a theme role) |
-| Line art / detail on indigo-500 shapes | `--color-neutral-0` (always white on indigo; keep opacity) |
-| Artwork drawn for the sidebar | `--sidebar-text` on `--sidebar-bg` (files named `*-on-sidebar-bg`) |
+| Role                                         | Token                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------ |
+| Line art / ink                               | `--center-channel-color`                                           |
+| Paper surfaces                               | `--center-channel-bg`                                              |
+| Accent washes                                | `--button-bg` (keep `fill-opacity` for tints)                      |
+| Success / warning / error                    | `--color-success`, `--color-warning`, `--error-text`               |
+| Depicted sidebar chrome                      | `--sidebar-bg`, `--sidebar-header-bg`                              |
+| Solid indigo fills (bubbles, cards, accents) | `--color-indigo-500` (fixed palette, not a theme role)             |
+| Line art / detail on indigo-500 shapes       | `--color-neutral-0` (always white on indigo; keep opacity)         |
+| Artwork drawn for the sidebar                | `--sidebar-text` on `--sidebar-bg` (files named `*-on-sidebar-bg`) |
 
 Leave luminance maps inside `<mask>` as `white` / `black`. Partner logos
 (Intune, GitLab, Jira, GitHub) and a few decorative hues (rating stars)

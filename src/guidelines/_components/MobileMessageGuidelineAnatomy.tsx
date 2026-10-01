@@ -24,20 +24,20 @@ export function MobileMessageAnatomyStage() {
         <MobileMessage
           showPinnedSavedIndicators
           avatarSrc={avatarLeonard}
-          avatarAlt='Leonard Riley'
-          username='Leonard Riley'
-          timestamp='9:41 AM'
+          avatarAlt="Leonard Riley"
+          username="Leonard Riley"
+          timestamp="9:41 AM"
           linkPreview={
             <LinkPreview
-              siteName='mattermost.com'
-              title='Mattermost: Open source collaboration'
-              description='Secure team messaging and workflow orchestration for technical teams.'
+              siteName="mattermost.com"
+              title="Mattermost: Open source collaboration"
+              description="Secure team messaging and workflow orchestration for technical teams."
             />
           }
           imagePreviews={
             <ImagePreview
               src={sampleImage}
-              alt='Sample image'
+              alt="Sample image"
               onCopyLink={() => {}}
               onDownload={() => {}}
               onToggleCollapse={() => {}}
@@ -46,14 +46,14 @@ export function MobileMessageAnatomyStage() {
           footer={
             <>
               <AttachmentCard
-                fileName='Q2-roadmap-draft.pdf'
-                fileMeta='PDF 248KB'
-                fileType='pdf'
+                fileName="Q2-roadmap-draft.pdf"
+                fileMeta="PDF 248KB"
+                fileType="pdf"
               />
               <ReactionsRow
                 reactions={[
-                  {emoji: '👍', count: 2, byCurrentUser: true},
-                  {emoji: '🎉', count: 1},
+                  { emoji: '👍', count: 2, byCurrentUser: true },
+                  { emoji: '🎉', count: 1 },
                 ]}
                 showAddReaction
               />

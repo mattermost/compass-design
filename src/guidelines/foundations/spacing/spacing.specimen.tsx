@@ -7,8 +7,16 @@ interface SpacingToken {
 }
 
 const SPACING_TOKENS: SpacingToken[] = [
-  { token: '--spacing-xxxxs', px: 2, desc: 'Hairline gaps inside dense controls' },
-  { token: '--spacing-xxxs', px: 4, desc: '4px sub-unit — small elements, type, icons' },
+  {
+    token: '--spacing-xxxxs',
+    px: 2,
+    desc: 'Hairline gaps inside dense controls',
+  },
+  {
+    token: '--spacing-xxxs',
+    px: 4,
+    desc: '4px sub-unit — small elements, type, icons',
+  },
   { token: '--spacing-xxs', px: 6 },
   { token: '--spacing-xs', px: 8, desc: '8px base unit — default rhythm' },
   { token: '--spacing-s', px: 10 },
@@ -34,7 +42,9 @@ export function SpacingScaleContent() {
               style={{ width: `${px}px` }}
             />
           </div>
-          <span className={styles['foundations__spacing-desc']}>{desc ?? ''}</span>
+          <span className={styles['foundations__spacing-desc']}>
+            {desc ?? ''}
+          </span>
         </div>
       ))}
     </div>

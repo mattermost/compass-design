@@ -198,7 +198,9 @@ export default function AttachmentCard({
               {fileIdentity}
             </button>
           ) : (
-            <div className={styles['attachment-card__left']}>{fileIdentity}</div>
+            <div className={styles['attachment-card__left']}>
+              {fileIdentity}
+            </div>
           )}
 
           <div className={styles['attachment-card__right']}>

@@ -80,7 +80,10 @@ function rewriteOutsideMasks(svg, paper) {
     const next = mapPaint(val, paper);
     return next === val ? full : `${attr}="${next}"`;
   });
-  return rewritten.replace(/__COMPASS_MASK_(\d+)__/g, (_, i) => masks[Number(i)]);
+  return rewritten.replace(
+    /__COMPASS_MASK_(\d+)__/g,
+    (_, i) => masks[Number(i)],
+  );
 }
 
 function postProcess(filename, svg) {
@@ -106,7 +109,10 @@ let changed = 0;
 for (const name of files) {
   const path = join(illustrationsDir, name);
   const before = readFileSync(path, 'utf8');
-  const after = postProcess(name, rewriteOutsideMasks(before, whiteToken(name)));
+  const after = postProcess(
+    name,
+    rewriteOutsideMasks(before, whiteToken(name)),
+  );
   if (after !== before) {
     writeFileSync(path, after);
     changed += 1;

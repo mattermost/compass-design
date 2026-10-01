@@ -16,7 +16,7 @@ import { createRequire } from 'module';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
 const mod = require('@mattermost/compass-icons/IconGlyphs.js');
-const glyphs = Array.isArray(mod) ? mod : mod.default ?? [];
+const glyphs = Array.isArray(mod) ? mod : (mod.default ?? []);
 
 function toPascalIconName(glyph) {
   return (
@@ -57,10 +57,7 @@ ${loadersBody}
 writeFileSync(loadersPath, loadersContent, 'utf8');
 console.log(`Wrote ${glyphs.length} compass icon loaders to ${loadersPath}`);
 
-const storybookDir = join(
-  __dirname,
-  '../packages/compass-ui/src/storybook',
-);
+const storybookDir = join(__dirname, '../packages/compass-ui/src/storybook');
 mkdirSync(storybookDir, { recursive: true });
 
 const storybookPath = join(storybookDir, 'compassIcons.generated.ts');

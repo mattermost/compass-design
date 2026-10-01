@@ -29,15 +29,15 @@ export function MobileBottomSheetAnatomyStage() {
       <div className={styles['mobile-bottom-sheet-anatomy__frame']}>
         <MobileBottomSheet
           open
-          title='Bottom sheet title'
-          subtitle='Bottom sheet subtitle'
+          title="Bottom sheet title"
+          subtitle="Bottom sheet subtitle"
           leadingVisual={
-            <TeamAvatar src={avatarStaffTeam} alt='Team' size='72' />
+            <TeamAvatar src={avatarStaffTeam} alt="Team" size="72" />
           }
           footer={
             <Button
-              emphasis='primary'
-              size='large'
+              emphasis="primary"
+              size="large"
               className={styles['mobile-bottom-sheet-anatomy__footer-btn']}
             >
               Primary Button
@@ -45,27 +45,27 @@ export function MobileBottomSheetAnatomyStage() {
           }
         >
           <MobileMenuItem
-            label='Menu Item Label'
+            label="Menu Item Label"
             leadingVisual={
-              <Icon glyph={<EmoticonHappyOutlineIcon />} size='20' />
+              <Icon glyph={<EmoticonHappyOutlineIcon />} size="20" />
             }
           />
           <MobileMenuItem
-            label='Menu Item Label'
-            leadingVisual={<Icon glyph={<AccountOutlineIcon />} size='20' />}
+            label="Menu Item Label"
+            leadingVisual={<Icon glyph={<AccountOutlineIcon />} size="20" />}
           />
           <MobileMenuItem
-            label='Menu Item Label'
+            label="Menu Item Label"
             active
-            leadingVisual={<Icon glyph={<BellOutlineIcon />} size='20' />}
+            leadingVisual={<Icon glyph={<BellOutlineIcon />} size="20" />}
           />
           <MobileMenuItem
-            label='Menu Item Label'
-            leadingVisual={<Icon glyph={<CogOutlineIcon />} size='20' />}
+            label="Menu Item Label"
+            leadingVisual={<Icon glyph={<CogOutlineIcon />} size="20" />}
           />
           <MobileMenuItem
-            label='Menu Item Label'
-            leadingVisual={<Icon glyph={<LogoutVariantIcon />} size='20' />}
+            label="Menu Item Label"
+            leadingVisual={<Icon glyph={<LogoutVariantIcon />} size="20" />}
           />
         </MobileBottomSheet>
       </div>

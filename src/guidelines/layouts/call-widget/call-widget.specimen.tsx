@@ -91,9 +91,9 @@ export default function CallWidgetLayout() {
               timestamp="9:02 AM"
             >
               <p className={shellStyles['channel-shell__post-text']}>
-                We&rsquo;re jumping on the call with the partner team in a few minutes
-                — sharing the external link so Priya can join without a Mattermost
-                account.
+                We&rsquo;re jumping on the call with the partner team in a few
+                minutes — sharing the external link so Priya can join without a
+                Mattermost account.
               </p>
             </Message>
 
@@ -104,8 +104,8 @@ export default function CallWidgetLayout() {
               timestamp="9:14 AM"
             >
               <p className={shellStyles['channel-shell__post-text']}>
-                I&rsquo;ll dial in from the shop floor — no browser there. Drop the
-                SIP number and PIN in the thread please.
+                I&rsquo;ll dial in from the shop floor — no browser there. Drop
+                the SIP number and PIN in the thread please.
               </p>
             </Message>
           </div>

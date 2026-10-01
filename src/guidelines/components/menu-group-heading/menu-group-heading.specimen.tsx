@@ -14,7 +14,9 @@ export default function MenuGroupHeadingLibrary() {
           </div>
         </div>
         <div className={styles['components__button-row']}>
-          <span className={styles['components__instance-label']}>In a menu</span>
+          <span className={styles['components__instance-label']}>
+            In a menu
+          </span>
           <div className={styles['components__menu-demo']}>
             <MenuGroupHeading label="Preferences" />
             <MenuItem label="Theme" leadingElement={false} />

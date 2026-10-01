@@ -1,4 +1,4 @@
-import {MobileTabBar} from '@mattermost/compass-proto';
+import { MobileTabBar } from '@mattermost/compass-proto';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 
 The Mobile Tab Bar is the primary bottom navigation on Mobile Home. Five
@@ -23,8 +23,21 @@ Use the Specimen tab for active states.
 - <Num>3</Num> **Mention badge** — Optional count on Mentions.
 - <Num>4</Num> **Safe area** — Bottom padding clears the home indicator.
 
-<AnatomyStage style={{maxWidth:'393px',margin:'0 auto',overflow:'hidden',borderRadius:'8px',boxShadow:'var(--elevation-2)'}}>
-  <MobileTabBar activeTab="home" profileSrc={avatarLeonard} profileAlt="Leonard Riley" mentionsBadge={3} />
+<AnatomyStage
+  style={{
+    maxWidth: '393px',
+    margin: '0 auto',
+    overflow: 'hidden',
+    borderRadius: '8px',
+    boxShadow: 'var(--elevation-2)',
+  }}
+>
+  <MobileTabBar
+    activeTab="home"
+    profileSrc={avatarLeonard}
+    profileAlt="Leonard Riley"
+    mentionsBadge={3}
+  />
 </AnatomyStage>
 
 <Divider />

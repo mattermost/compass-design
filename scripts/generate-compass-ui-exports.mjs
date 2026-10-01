@@ -6,7 +6,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const repoRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+);
 const packageRoot = path.join(repoRoot, 'packages/compass-ui');
 const packageJsonPath = path.join(packageRoot, 'package.json');
 const distComponents = path.join(packageRoot, 'dist/components');
@@ -49,10 +52,7 @@ function listIllustrations() {
   return fs
     .readdirSync(distIllustrations)
     .filter(
-      (f) =>
-        f.endsWith('.js') &&
-        !f.endsWith('.cjs') &&
-        !f.includes('.svg.'),
+      (f) => f.endsWith('.js') && !f.endsWith('.cjs') && !f.includes('.svg.'),
     )
     .map((f) => f.replace(/\.js$/, ''))
     .sort();

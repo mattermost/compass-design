@@ -16,7 +16,7 @@ A single inline-block that takes the SVG as its child. The component
 constrains the SVG to fit inside an explicit width and height, preserving
 aspect ratio.
 
-<AnatomyStage style={{gap:'1.5rem',flexWrap:'wrap'}}>
+<AnatomyStage style={{ gap: '1.5rem', flexWrap: 'wrap' }}>
   <Illustration aria-label="Search" width="160px" height="100px">
     <SearchIllustration />
   </Illustration>
@@ -28,10 +28,10 @@ aspect ratio.
   </Illustration>
 </AnatomyStage>
 
-- <Num>1</Num> **Container** — inline-block with explicit width and
-  height. Prevents the SVG from overflowing or stretching.
+- <Num>1</Num> **Container** — inline-block with explicit width and height.
+  Prevents the SVG from overflowing or stretching.
 - <Num>2</Num> **SVG** — passed in as `children`. Import the artwork from
-  `@mattermost/compass-ui/illustrations/<name>`.
+`@mattermost/compass-ui/illustrations/<name>`.
 
 <Divider />
 
@@ -70,7 +70,7 @@ import { Illustration } from '@mattermost/compass-ui/components/illustration';
 
 <Illustration aria-label="No results">
   <SearchIllustration />
-</Illustration>
+</Illustration>;
 ```
 
 For props, variants, and copy-ready examples, see the

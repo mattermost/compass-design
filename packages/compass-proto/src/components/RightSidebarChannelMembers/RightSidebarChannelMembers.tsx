@@ -121,8 +121,7 @@ export default function RightSidebarChannelMembers({
   }, [groups, query]);
 
   const totalCount =
-    memberCount ??
-    groups.reduce((sum, group) => sum + group.members.length, 0);
+    memberCount ?? groups.reduce((sum, group) => sum + group.members.length, 0);
 
   const rootClass = [styles['right-sidebar-channel-members'], className]
     .filter(Boolean)
@@ -167,7 +166,9 @@ export default function RightSidebarChannelMembers({
             className={styles['right-sidebar-channel-members__group']}
             aria-label={group.title}
           >
-            <h3 className={styles['right-sidebar-channel-members__group-title']}>
+            <h3
+              className={styles['right-sidebar-channel-members__group-title']}
+            >
               {group.title}
             </h3>
             <ul className={styles['right-sidebar-channel-members__group-list']}>
@@ -194,9 +195,7 @@ export default function RightSidebarChannelMembers({
                       ) : undefined
                     }
                     onClick={
-                      onMemberClick
-                        ? () => onMemberClick(member)
-                        : undefined
+                      onMemberClick ? () => onMemberClick(member) : undefined
                     }
                   />
                 </li>

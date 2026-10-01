@@ -91,7 +91,9 @@ export default function Message({
               </div>
             )}
             {imagePreviews != null && (
-              <div className={styles['message__images-slot']}>{imagePreviews}</div>
+              <div className={styles['message__images-slot']}>
+                {imagePreviews}
+              </div>
             )}
             {footer != null && (
               <div className={styles['message__footer-slot']}>{footer}</div>

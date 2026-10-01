@@ -13,8 +13,8 @@ export default function MobileChannelsSidebarLibrary() {
     <div className={styles['mcs-specimen']}>
       <div className={styles['mcs-specimen__frame']}>
         <MobileChannelsSidebar
-          teamName='Contributors'
-          subtitle='Community'
+          teamName="Contributors"
+          subtitle="Community"
           showUnreadsCategory
           avatarAikoTan={avatarAikoTan}
           avatarArjunPatel={avatarArjunPatel}

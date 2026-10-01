@@ -35,31 +35,55 @@ information someone needs to decide whether to dive in.
 
 - <Num>1</Num> **Avatars** — a User Avatar Group of up to three participants,
   plus a `+N` overflow when more than three users have replied.
-- <Num>2</Num> **Reply count** — quaternary button labelled "N replies"; this
-  is the primary entry point into the thread.
+- <Num>2</Num> **Reply count** — quaternary button labelled "N replies"; this is
+  the primary entry point into the thread.
 - <Num>3</Num> **Follow toggle** — quaternary button that toggles between
   "Follow" and "Following".
 - <Num>4</Num> **Last reply time** — relative timestamp ("5m ago"), revealed on
   row hover or keyboard focus when the user is following the thread.
-- <Num>5</Num> **Badge slot** — optional unread dot or [Mention Badge](/components/mention-badge)
-  to the left of the avatar stack.
+- <Num>5</Num> **Badge slot** — optional unread dot or [Mention
+  Badge](/components/mention-badge) to the left of the avatar stack.
 
 <Divider />
 
 ## Variants
 
-| Variant     | Use when                                                                          |
-| ----------- | --------------------------------------------------------------------------------- |
-| Default     | The user hasn't followed this thread and has no unread state on it.               |
-| Following   | The user is following the thread; last reply time appears on row hover.         |
-| Unread      | The user is following and has unread replies; show the unread dot badge.         |
-| Mention     | The user has unread `@`mentions in the thread; show a Mention Badge count.            |
+| Variant   | Use when                                                                   |
+| --------- | -------------------------------------------------------------------------- |
+| Default   | The user hasn't followed this thread and has no unread state on it.        |
+| Following | The user is following the thread; last reply time appears on row hover.    |
+| Unread    | The user is following and has unread replies; show the unread dot badge.   |
+| Mention   | The user has unread `@`mentions in the thread; show a Mention Badge count. |
 
-<div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '560px' }}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    maxWidth: '560px',
+  }}
+>
   <ThreadFooter replyCount={5} avatars={threadAvatars} />
-  <ThreadFooter replyCount={5} avatars={threadAvatars} following lastReplyTime="5m ago" />
-  <ThreadFooter replyCount={5} avatars={threadAvatars} following lastReplyTime="5m ago" badge="unread" />
-  <ThreadFooter replyCount={5} avatars={threadAvatars} following lastReplyTime="5m ago" badge="mention" />
+  <ThreadFooter
+    replyCount={5}
+    avatars={threadAvatars}
+    following
+    lastReplyTime="5m ago"
+  />
+  <ThreadFooter
+    replyCount={5}
+    avatars={threadAvatars}
+    following
+    lastReplyTime="5m ago"
+    badge="unread"
+  />
+  <ThreadFooter
+    replyCount={5}
+    avatars={threadAvatars}
+    following
+    lastReplyTime="5m ago"
+    badge="mention"
+  />
 </div>
 
 <Divider />

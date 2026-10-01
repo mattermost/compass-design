@@ -101,10 +101,7 @@ export default function AdminPanelFooter({
           </Button>
         </div>
         {statusUi != null ? (
-          <div
-            className={styles['admin-panel-footer__status']}
-            role="alert"
-          >
+          <div className={styles['admin-panel-footer__status']} role="alert">
             {statusUi}
           </div>
         ) : null}

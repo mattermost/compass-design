@@ -22,7 +22,7 @@ export const WithIllustration: Story = {
     },
     title: 'No results found',
     description:
-      'Try adjusting your search or filters to find what you\'re looking for.',
+      "Try adjusting your search or filters to find what you're looking for.",
     action: { children: 'Clear filters', onClick: fn() },
   },
 };

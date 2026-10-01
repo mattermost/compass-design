@@ -12,7 +12,7 @@ import {
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
 
-export interface PlusMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type PlusMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Channel sidebar “+” menu — browse/create channels, DM, category, invite.
@@ -23,11 +23,7 @@ export default function PlusMenu({
   ...rest
 }: PlusMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Browse channels"

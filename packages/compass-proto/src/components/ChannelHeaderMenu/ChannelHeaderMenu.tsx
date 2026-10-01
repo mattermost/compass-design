@@ -18,7 +18,7 @@ import {
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
 
-export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type ChannelHeaderMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Channel header overflow menu — settings, members, more actions, and archive.

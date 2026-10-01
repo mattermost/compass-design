@@ -1,4 +1,4 @@
-import {useMemo, type ReactNode} from 'react';
+import { useMemo, type ReactNode } from 'react';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import MobileChannelSidebarItem from '@/components/MobileChannelSidebarItem/MobileChannelSidebarItem';
@@ -19,7 +19,8 @@ function applyInteractivity(
   onItemClick?: (name: string) => void,
 ): ChannelsSidebarModel {
   const mapRow = (row: ChannelsSidebarItemModel) => {
-    const {active: _active, ...rest} = row;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- strip `active` from the row
+    const { active: _active, ...rest } = row;
     return {
       ...rest,
       onClick: onItemClick ? () => onItemClick(row.name) : undefined,
@@ -125,7 +126,7 @@ export default function MobileChannelsSidebar({
       <div className={styles['mobile-channels-sidebar__header']}>
         <div className={styles['mobile-channels-sidebar__header-text']}>
           <button
-            type='button'
+            type="button"
             className={styles['mobile-channels-sidebar__team-dropdown']}
           >
             <span className={styles['mobile-channels-sidebar__team-name']}>
@@ -143,11 +144,11 @@ export default function MobileChannelsSidebar({
         </div>
         {headerAction ?? (
           <IconButton
-            aria-label='Add channels'
-            size='medium'
-            style='inverted'
+            aria-label="Add channels"
+            size="medium"
+            style="inverted"
             rounded
-            icon={<Icon size='20' glyph={<PlusIcon />} />}
+            icon={<Icon size="20" glyph={<PlusIcon />} />}
             className={styles['mobile-channels-sidebar__add']}
           />
         )}
@@ -157,7 +158,7 @@ export default function MobileChannelsSidebar({
         <MobileSearchField
           value={findChannelsValue}
           placeholder={findChannelsPlaceholder}
-          aria-label='Find channels'
+          aria-label="Find channels"
           onChange={(event) => onFindChannelsChange?.(event.target.value)}
         />
       </div>
@@ -169,7 +170,7 @@ export default function MobileChannelsSidebar({
       </div>
 
       <div className={styles['mobile-channels-sidebar__scroll-view']}>
-        <Scrollbar color='--sidebar-text-rgb'>
+        <Scrollbar color="--sidebar-text-rgb">
           <div className={styles['mobile-channels-sidebar__channel-groups']}>
             {model.groups.map((group) => (
               <div
@@ -187,9 +188,7 @@ export default function MobileChannelsSidebar({
                     .join(' ')}
                 >
                   <div
-                    className={
-                      styles['mobile-channels-sidebar__category-left']
-                    }
+                    className={styles['mobile-channels-sidebar__category-left']}
                   >
                     {group.category.showChevron !== false && (
                       <span
@@ -224,4 +223,4 @@ export default function MobileChannelsSidebar({
   );
 }
 
-export type {ChannelsSidebarModel as MobileChannelsSidebarModel};
+export type { ChannelsSidebarModel as MobileChannelsSidebarModel };

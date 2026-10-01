@@ -4,8 +4,10 @@ import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import styles from './CardButton.module.scss';
 
-export interface CardButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'title'> {
+export interface CardButtonProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'children' | 'title'
+> {
   /** Leading icon. Pass `<Icon glyph={<SomeIcon />} />` — CardButton provides the correct size (24) via context. */
   icon: ReactNode;
   /** Primary label. */

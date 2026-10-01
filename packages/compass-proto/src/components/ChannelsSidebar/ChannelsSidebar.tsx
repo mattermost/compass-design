@@ -43,7 +43,9 @@ export interface ChannelsSidebarHeaderProps {
 }
 
 /** Team row + Add control; same markup as the top of `ChannelsSidebar`. */
-export function ChannelsSidebarHeader({ teamName }: ChannelsSidebarHeaderProps) {
+export function ChannelsSidebarHeader({
+  teamName,
+}: ChannelsSidebarHeaderProps) {
   return (
     <div className={styles['channels-sidebar__header']}>
       <div className={styles['channels-sidebar__team-dropdown']}>
@@ -126,7 +128,9 @@ export function ChannelsSidebarCategory({
 
   const categoryClass = [
     styles['channels-sidebar__category'],
-    hasLeadingIcon ? styles['channels-sidebar__category--with-leading-icon'] : '',
+    hasLeadingIcon
+      ? styles['channels-sidebar__category--with-leading-icon']
+      : '',
     opaqueCategory ? styles['channels-sidebar__category--opaque'] : '',
     !showChevronRow && !hasLeadingIcon
       ? styles['channels-sidebar__category--no-chevron']
@@ -210,18 +214,16 @@ export default function ChannelsSidebar({
 }: ChannelsSidebarProps) {
   const model = useMemo(() => {
     const baseModel = modelProp ?? { topGroupItems: [], groups: [] };
-    const withOverrides = applyChannelNameOverrides(baseModel, channelNameOverrides);
+    const withOverrides = applyChannelNameOverrides(
+      baseModel,
+      channelNameOverrides,
+    );
     return applyChannelSidebarInteractivity(
       withOverrides,
       activeChannelName,
       onItemClick,
     );
-  }, [
-    modelProp,
-    channelNameOverrides,
-    activeChannelName,
-    onItemClick,
-  ]);
+  }, [modelProp, channelNameOverrides, activeChannelName, onItemClick]);
 
   return (
     <div className={styles['channels-sidebar']}>

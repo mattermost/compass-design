@@ -63,13 +63,11 @@ export default function TourPoint({
   const showPointer = pointerPosition !== 'none';
   const pointerModifier =
     showPointer &&
-    styles[`tour-point--pointer-${toKebab(pointerPosition as TourPointPointerPosition)}`];
+    styles[
+      `tour-point--pointer-${toKebab(pointerPosition as TourPointPointerPosition)}`
+    ];
 
-  const rootClass = [
-    styles['tour-point'],
-    pointerModifier,
-    className,
-  ]
+  const rootClass = [styles['tour-point'], pointerModifier, className]
     .filter(Boolean)
     .join(' ');
 
@@ -130,7 +128,10 @@ export default function TourPoint({
                 onPageChange={progress.onPageChange}
               />
             ) : (
-              <span className={styles['tour-point__footer-spacer']} aria-hidden />
+              <span
+                className={styles['tour-point__footer-spacer']}
+                aria-hidden
+              />
             )}
 
             {primaryAction != null ? (
@@ -138,9 +139,7 @@ export default function TourPoint({
                 <Button
                   emphasis="primary"
                   size="small"
-                  trailingIcon={
-                    <Icon size="16" glyph={<ChevronRightIcon />} />
-                  }
+                  trailingIcon={<Icon size="16" glyph={<ChevronRightIcon />} />}
                   onClick={primaryAction.onClick}
                 >
                   {primaryAction.label}

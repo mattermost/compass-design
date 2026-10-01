@@ -125,7 +125,11 @@ export default function ImagePreview({
               .join(' ')}
           >
             <div className={styles['image-preview__media']}>
-              <img src={src} alt={alt} className={styles['image-preview__img']} />
+              <img
+                src={src}
+                alt={alt}
+                className={styles['image-preview__img']}
+              />
             </div>
 
             {onToggleCollapse != null && (

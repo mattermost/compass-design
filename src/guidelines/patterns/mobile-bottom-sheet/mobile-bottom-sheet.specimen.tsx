@@ -1,4 +1,4 @@
-import { useState, type ReactNode} from 'react';
+import { useState, type ReactNode } from 'react';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
@@ -15,7 +15,7 @@ import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import styles from './mobile-bottom-sheet.specimen.module.scss';
 
-function Stage({label, children}: {label: string; children: ReactNode}) {
+function Stage({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className={styles['mbs-specimen__stage']}>
       <p className={styles['mbs-specimen__label']}>{label}</p>
@@ -28,25 +28,25 @@ function MenuRows() {
   return (
     <>
       <MobileMenuItem
-        label='Menu Item Label'
-        leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} size='20' />}
+        label="Menu Item Label"
+        leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} size="20" />}
       />
       <MobileMenuItem
-        label='Menu Item Label'
-        leadingVisual={<Icon glyph={<AccountOutlineIcon />} size='20' />}
+        label="Menu Item Label"
+        leadingVisual={<Icon glyph={<AccountOutlineIcon />} size="20" />}
       />
       <MobileMenuItem
-        label='Menu Item Label'
+        label="Menu Item Label"
         active
-        leadingVisual={<Icon glyph={<BellOutlineIcon />} size='20' />}
+        leadingVisual={<Icon glyph={<BellOutlineIcon />} size="20" />}
       />
       <MobileMenuItem
-        label='Menu Item Label'
-        leadingVisual={<Icon glyph={<CogOutlineIcon />} size='20' />}
+        label="Menu Item Label"
+        leadingVisual={<Icon glyph={<CogOutlineIcon />} size="20" />}
       />
       <MobileMenuItem
-        label='Menu Item Label'
-        leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} size='20' />}
+        label="Menu Item Label"
+        leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} size="20" />}
       />
     </>
   );
@@ -56,24 +56,24 @@ function InteractiveSheet() {
   const [open, setOpen] = useState(false);
 
   return (
-    <DeviceFrame insetContent={false} statusBarStyle='dark'>
+    <DeviceFrame insetContent={false} statusBarStyle="dark">
       <div className={styles['mbs-specimen__device']}>
         <div className={styles['mbs-specimen__device-body']}>
           <p className={styles['mbs-specimen__device-copy']}>
             Channel content behind the sheet.
           </p>
-          <Button emphasis='primary' onClick={() => setOpen(true)}>
+          <Button emphasis="primary" onClick={() => setOpen(true)}>
             Open bottom sheet
           </Button>
         </div>
         <MobileBottomSheet
           open={open}
           onClose={() => setOpen(false)}
-          title='Files and media'
+          title="Files and media"
           footer={
             <Button
-              emphasis='primary'
-              size='large'
+              emphasis="primary"
+              size="large"
               className={styles['mbs-specimen__footer-btn']}
               onClick={() => setOpen(false)}
             >
@@ -82,23 +82,23 @@ function InteractiveSheet() {
           }
         >
           <MobileMenuItem
-            label='Photo Library'
-            leadingVisual={<Icon glyph={<ImageOutlineIcon />} size='20' />}
+            label="Photo Library"
+            leadingVisual={<Icon glyph={<ImageOutlineIcon />} size="20" />}
             onClick={() => setOpen(false)}
           />
           <MobileMenuItem
-            label='Take Photo or Video'
-            leadingVisual={<Icon glyph={<CameraOutlineIcon />} size='20' />}
+            label="Take Photo or Video"
+            leadingVisual={<Icon glyph={<CameraOutlineIcon />} size="20" />}
             onClick={() => setOpen(false)}
           />
           <MobileMenuItem
-            label='Browse Files'
-            leadingVisual={<Icon glyph={<FolderOutlineIcon />} size='20' />}
+            label="Browse Files"
+            leadingVisual={<Icon glyph={<FolderOutlineIcon />} size="20" />}
             onClick={() => setOpen(false)}
           />
           <MobileMenuItem
-            label='Record Video'
-            leadingVisual={<Icon glyph={<VideoOutlineIcon />} size='20' />}
+            label="Record Video"
+            leadingVisual={<Icon glyph={<VideoOutlineIcon />} size="20" />}
             onClick={() => setOpen(false)}
           />
         </MobileBottomSheet>
@@ -110,8 +110,8 @@ function InteractiveSheet() {
 export default function MobileBottomSheetLibrary() {
   return (
     <div className={styles['mbs-specimen']}>
-      <Stage label='Full standard'>
-        <DeviceFrame insetContent={false} statusBarStyle='dark'>
+      <Stage label="Full standard">
+        <DeviceFrame insetContent={false} statusBarStyle="dark">
           <div className={styles['mbs-specimen__device']}>
             <div className={styles['mbs-specimen__device-body']}>
               <p className={styles['mbs-specimen__device-copy']}>
@@ -120,15 +120,15 @@ export default function MobileBottomSheetLibrary() {
             </div>
             <MobileBottomSheet
               open
-              title='Bottom sheet title'
-              subtitle='Bottom sheet subtitle'
+              title="Bottom sheet title"
+              subtitle="Bottom sheet subtitle"
               leadingVisual={
-                <TeamAvatar src={avatarStaffTeam} alt='Team' size='72' />
+                <TeamAvatar src={avatarStaffTeam} alt="Team" size="72" />
               }
               footer={
                 <Button
-                  emphasis='primary'
-                  size='large'
+                  emphasis="primary"
+                  size="large"
                   className={styles['mbs-specimen__footer-btn']}
                 >
                   Primary Button
@@ -141,22 +141,22 @@ export default function MobileBottomSheetLibrary() {
         </DeviceFrame>
       </Stage>
 
-      <Stage label='Title + body only'>
-        <DeviceFrame insetContent={false} statusBarStyle='dark'>
+      <Stage label="Title + body only">
+        <DeviceFrame insetContent={false} statusBarStyle="dark">
           <div className={styles['mbs-specimen__device']}>
             <div className={styles['mbs-specimen__device-body']}>
               <p className={styles['mbs-specimen__device-copy']}>
                 Simpler sheet without avatar or footer.
               </p>
             </div>
-            <MobileBottomSheet open title='Choose an action'>
+            <MobileBottomSheet open title="Choose an action">
               <MenuRows />
             </MobileBottomSheet>
           </div>
         </DeviceFrame>
       </Stage>
 
-      <Stage label='Interactive'>
+      <Stage label="Interactive">
         <InteractiveSheet />
       </Stage>
     </div>

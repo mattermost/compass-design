@@ -105,9 +105,7 @@ export function RadiusRamp() {
                 <span className={styles['radius-ramp__pill']}>Default</span>
               )}
             </div>
-            {note && (
-              <div className={styles['radius-ramp__note']}>{note}</div>
-            )}
+            {note && <div className={styles['radius-ramp__note']}>{note}</div>}
           </div>
         </div>
       ))}
@@ -122,7 +120,11 @@ interface ShapeExampleProps {
   children: ReactNode;
 }
 
-function ShapeExample({ label, inverted = false, children }: ShapeExampleProps) {
+function ShapeExample({
+  label,
+  inverted = false,
+  children,
+}: ShapeExampleProps) {
   const stageClass = [
     styles['example__stage'],
     inverted ? styles['example__stage--inverted'] : '',

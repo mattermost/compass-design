@@ -25,7 +25,9 @@ export default function PopoverMenuLibrary() {
       </header>
 
       <section className={styles['patterns__section']}>
-        <h2 className={styles['patterns__section-title']}>Channel header menu</h2>
+        <h2 className={styles['patterns__section-title']}>
+          Channel header menu
+        </h2>
         <p className={styles['patterns__variant-label']}>
           Header overflow pattern: settings, members, more actions, archive
         </p>
@@ -35,7 +37,9 @@ export default function PopoverMenuLibrary() {
       </section>
 
       <section className={styles['patterns__section']}>
-        <h2 className={styles['patterns__section-title']}>Product switcher menu</h2>
+        <h2 className={styles['patterns__section-title']}>
+          Product switcher menu
+        </h2>
         <p className={styles['patterns__variant-label']}>
           Built-in products plus Agents via additionalProducts; trailing check
           on the active product
@@ -107,7 +111,9 @@ export default function PopoverMenuLibrary() {
       </section>
 
       <section className={styles['patterns__section']}>
-        <h2 className={styles['patterns__section-title']}>Channel category menu</h2>
+        <h2 className={styles['patterns__section-title']}>
+          Channel category menu
+        </h2>
         <p className={styles['patterns__variant-label']}>
           Category actions, sort row with trailing detail and chevron, browse /
           create channels, create new category
@@ -122,8 +128,8 @@ export default function PopoverMenuLibrary() {
           Message more options menu
         </h2>
         <p className={styles['patterns__variant-label']}>
-          Keyboard hints, remind submenu chevron, copy actions, optional edit and
-          flag rows
+          Keyboard hints, remind submenu chevron, copy actions, optional edit
+          and flag rows
         </p>
         <div className={styles['patterns__popover-menu-demo']}>
           <MessageMoreOptionsMenu />
@@ -143,7 +149,9 @@ export default function PopoverMenuLibrary() {
       </section>
 
       <section className={styles['patterns__section']}>
-        <h2 className={styles['patterns__section-title']}>Thread actions menu</h2>
+        <h2 className={styles['patterns__section-title']}>
+          Thread actions menu
+        </h2>
         <p className={styles['patterns__variant-label']}>
           Thread follow and open actions, shortcuts on unread/save, copy link
           group

@@ -36,7 +36,9 @@ export function IconographyGridContent() {
                 >
                   <LazyIcon size={24} />
                 </span>
-                <span className={styles['foundations__icon-token']}>{glyph}</span>
+                <span className={styles['foundations__icon-token']}>
+                  {glyph}
+                </span>
               </div>
             );
           })}

@@ -36,14 +36,13 @@ export default function AdminConsoleHeader({
   trailing,
   className = '',
 }: AdminConsoleHeaderProps) {
-  const enterpriseChip =
-    enterpriseBadge ? (
-      <Tag
-        label={enterpriseBadgeLabel}
-        size="x-small"
-        leadingIcon={<Icon size="12" glyph={<MattermostIcon />} />}
-      />
-    ) : null;
+  const enterpriseChip = enterpriseBadge ? (
+    <Tag
+      label={enterpriseBadgeLabel}
+      size="x-small"
+      leadingIcon={<Icon size="12" glyph={<MattermostIcon />} />}
+    />
+  ) : null;
 
   return (
     <header

@@ -343,10 +343,13 @@ export default function DateRangePicker({
         return;
       }
       if (next < 1) {
-        goToAdjacentMonth(-1, getDaysInMonth(
-          displayMonth === 0 ? displayYear - 1 : displayYear,
-          displayMonth === 0 ? 11 : displayMonth - 1,
-        ) + next);
+        goToAdjacentMonth(
+          -1,
+          getDaysInMonth(
+            displayMonth === 0 ? displayYear - 1 : displayYear,
+            displayMonth === 0 ? 11 : displayMonth - 1,
+          ) + next,
+        );
       } else {
         goToAdjacentMonth(1, next - daysInMonth);
       }
@@ -497,7 +500,10 @@ export default function DateRangePicker({
         onClick={handleToggle}
         onKeyDown={handleTriggerKeyDown}
       >
-        <span className={styles['date-range-picker__calendar-icon']} aria-hidden>
+        <span
+          className={styles['date-range-picker__calendar-icon']}
+          aria-hidden
+        >
           <Icon size="16" glyph={<CalendarOutlineIcon />} />
         </span>
         <span className={styles['date-range-picker__value']}>
@@ -530,150 +536,157 @@ export default function DateRangePicker({
             aria-modal="false"
             aria-label="Date picker"
           >
-          {/* Header */}
-          <div className={styles['date-range-picker__header']}>
-            <span className={styles['date-range-picker__month-label']} aria-live="polite">
-              {MONTHS[displayMonth]} {displayYear}
-            </span>
-            <div className={styles['date-range-picker__header-actions']}>
-              <Button
-                emphasis="quaternary"
-                size="small"
-                leadingIcon={<Icon size="16" glyph={<CalendarOutlineIcon />} />}
-                onClick={handleToday}
+            {/* Header */}
+            <div className={styles['date-range-picker__header']}>
+              <span
+                className={styles['date-range-picker__month-label']}
+                aria-live="polite"
               >
-                Today
-              </Button>
-              <div className={styles['date-range-picker__nav-buttons']}>
-                <IconButton
-                  size="medium"
-                  padding="compact"
-                  icon={
-                    <Icon
-                      size={ICON_BUTTON_ICON_SIZES['medium']}
-                      glyph={<ChevronLeftIcon />}
-                    />
+                {MONTHS[displayMonth]} {displayYear}
+              </span>
+              <div className={styles['date-range-picker__header-actions']}>
+                <Button
+                  emphasis="quaternary"
+                  size="small"
+                  leadingIcon={
+                    <Icon size="16" glyph={<CalendarOutlineIcon />} />
                   }
-                  onClick={handlePrevMonth}
-                  aria-label="Previous month"
-                />
-                <IconButton
-                  size="medium"
-                  padding="compact"
-                  icon={
-                    <Icon
-                      size={ICON_BUTTON_ICON_SIZES['medium']}
-                      glyph={<ChevronRightIcon />}
-                    />
-                  }
-                  onClick={handleNextMonth}
-                  aria-label="Next month"
-                />
+                  onClick={handleToday}
+                >
+                  Today
+                </Button>
+                <div className={styles['date-range-picker__nav-buttons']}>
+                  <IconButton
+                    size="medium"
+                    padding="compact"
+                    icon={
+                      <Icon
+                        size={ICON_BUTTON_ICON_SIZES['medium']}
+                        glyph={<ChevronLeftIcon />}
+                      />
+                    }
+                    onClick={handlePrevMonth}
+                    aria-label="Previous month"
+                  />
+                  <IconButton
+                    size="medium"
+                    padding="compact"
+                    icon={
+                      <Icon
+                        size={ICON_BUTTON_ICON_SIZES['medium']}
+                        glyph={<ChevronRightIcon />}
+                      />
+                    }
+                    onClick={handleNextMonth}
+                    aria-label="Next month"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Weekday headers */}
-          <div className={styles['date-range-picker__weekdays']} aria-hidden>
-            {WEEKDAYS.map((d) => (
-              <span key={d} className={styles['date-range-picker__weekday']}>
-                {d}
-              </span>
-            ))}
-          </div>
+            {/* Weekday headers */}
+            <div className={styles['date-range-picker__weekdays']} aria-hidden>
+              {WEEKDAYS.map((d) => (
+                <span key={d} className={styles['date-range-picker__weekday']}>
+                  {d}
+                </span>
+              ))}
+            </div>
 
-          {/* Date grid */}
-          <div
-            ref={gridRef}
-            className={styles['date-range-picker__grid']}
-            role="grid"
-            aria-label={`${MONTHS[displayMonth]} ${displayYear}`}
-          >
-            {weeks.map((week, wi) => (
-              <div
-                key={wi}
-                className={styles['date-range-picker__week']}
-                role="row"
-              >
-                {week.map((day, di) => {
-                  if (day == null) {
+            {/* Date grid */}
+            <div
+              ref={gridRef}
+              className={styles['date-range-picker__grid']}
+              role="grid"
+              aria-label={`${MONTHS[displayMonth]} ${displayYear}`}
+            >
+              {weeks.map((week, wi) => (
+                <div
+                  key={wi}
+                  className={styles['date-range-picker__week']}
+                  role="row"
+                >
+                  {week.map((day, di) => {
+                    if (day == null) {
+                      return (
+                        <span
+                          key={di}
+                          className={styles['date-range-picker__day-empty']}
+                          role="gridcell"
+                        />
+                      );
+                    }
+                    const iso = toIso(displayYear, displayMonth, day);
+                    const isToday = iso === todayIso;
+                    const isRangeStart =
+                      mode === 'range' && isSameDay(iso, selectedStart);
+                    const isRangeEnd =
+                      mode === 'range' &&
+                      Boolean(selectedEnd) &&
+                      isSameDay(iso, selectedEnd);
+                    const isSelected =
+                      mode === 'date'
+                        ? isSameDay(iso, selectedDate)
+                        : isRangeStart || isRangeEnd;
+                    const isInRange =
+                      mode === 'range' &&
+                      isBetween(iso, selectedStart, selectedEnd);
+                    const hasRangeSpan =
+                      mode === 'range' &&
+                      Boolean(selectedStart) &&
+                      Boolean(selectedEnd) &&
+                      selectedStart !== selectedEnd;
+
+                    const cellClass = [
+                      styles['date-range-picker__day-cell'],
+                      isInRange
+                        ? styles['date-range-picker__day-cell--in-range']
+                        : '',
+                      hasRangeSpan && isRangeStart
+                        ? styles['date-range-picker__day-cell--range-start']
+                        : '',
+                      hasRangeSpan && isRangeEnd
+                        ? styles['date-range-picker__day-cell--range-end']
+                        : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ');
+
+                    const dayClass = [
+                      styles['date-range-picker__day'],
+                      isSelected
+                        ? styles['date-range-picker__day--selected']
+                        : '',
+                      isToday && !isSelected
+                        ? styles['date-range-picker__day--today']
+                        : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ');
+
                     return (
-                      <span
-                        key={di}
-                        className={styles['date-range-picker__day-empty']}
-                        role="gridcell"
-                      />
+                      <div key={di} className={cellClass} role="gridcell">
+                        <button
+                          type="button"
+                          className={dayClass}
+                          data-day={day}
+                          tabIndex={focusedDay === day ? 0 : -1}
+                          onClick={() => handleDayClick(iso, day)}
+                          onFocus={() => setFocusedDay(day)}
+                          onKeyDown={(e) => handleDayKeyDown(e, day)}
+                          aria-label={iso}
+                          aria-pressed={isSelected}
+                          aria-current={isToday ? 'date' : undefined}
+                        >
+                          {day}
+                        </button>
+                      </div>
                     );
-                  }
-                  const iso = toIso(displayYear, displayMonth, day);
-                  const isToday = iso === todayIso;
-                  const isRangeStart =
-                    mode === 'range' && isSameDay(iso, selectedStart);
-                  const isRangeEnd =
-                    mode === 'range' &&
-                    Boolean(selectedEnd) &&
-                    isSameDay(iso, selectedEnd);
-                  const isSelected =
-                    mode === 'date'
-                      ? isSameDay(iso, selectedDate)
-                      : isRangeStart || isRangeEnd;
-                  const isInRange =
-                    mode === 'range' &&
-                    isBetween(iso, selectedStart, selectedEnd);
-                  const hasRangeSpan =
-                    mode === 'range' &&
-                    Boolean(selectedStart) &&
-                    Boolean(selectedEnd) &&
-                    selectedStart !== selectedEnd;
-
-                  const cellClass = [
-                    styles['date-range-picker__day-cell'],
-                    isInRange
-                      ? styles['date-range-picker__day-cell--in-range']
-                      : '',
-                    hasRangeSpan && isRangeStart
-                      ? styles['date-range-picker__day-cell--range-start']
-                      : '',
-                    hasRangeSpan && isRangeEnd
-                      ? styles['date-range-picker__day-cell--range-end']
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ');
-
-                  const dayClass = [
-                    styles['date-range-picker__day'],
-                    isSelected ? styles['date-range-picker__day--selected'] : '',
-                    isToday && !isSelected
-                      ? styles['date-range-picker__day--today']
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ');
-
-                  return (
-                    <div key={di} className={cellClass} role="gridcell">
-                      <button
-                        type="button"
-                        className={dayClass}
-                        data-day={day}
-                        tabIndex={focusedDay === day ? 0 : -1}
-                        onClick={() => handleDayClick(iso, day)}
-                        onFocus={() => setFocusedDay(day)}
-                        onKeyDown={(e) => handleDayKeyDown(e, day)}
-                        aria-label={iso}
-                        aria-pressed={isSelected}
-                        aria-current={isToday ? 'date' : undefined}
-                      >
-                        {day}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-        </div>,
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>,
         )}
     </div>
   );

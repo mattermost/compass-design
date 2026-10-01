@@ -14,9 +14,9 @@ export default function MobileMessageLibrary() {
         <div className={styles['mm-specimen__frame']}>
           <MobileMessage
             avatarSrc={avatarLeonard}
-            avatarAlt='Leonard Riley'
-            username='Leonard Riley'
-            timestamp='9:41 AM'
+            avatarAlt="Leonard Riley"
+            username="Leonard Riley"
+            timestamp="9:41 AM"
           >
             <p className={bodyTextClass}>
               Hey team, the new components are looking great!
@@ -31,9 +31,9 @@ export default function MobileMessageLibrary() {
           <MobileMessage
             className={mobileMessageStyles['mobile-message--state-active']}
             avatarSrc={avatarLeonard}
-            avatarAlt='Leonard Riley'
-            username='Leonard Riley'
-            timestamp='9:41 AM'
+            avatarAlt="Leonard Riley"
+            username="Leonard Riley"
+            timestamp="9:41 AM"
           >
             <p className={bodyTextClass}>
               Hey team, the new components are looking great!
@@ -47,9 +47,9 @@ export default function MobileMessageLibrary() {
         <div className={styles['mm-specimen__frame']}>
           <MobileMessage
             avatarSrc={avatarDanielle}
-            avatarAlt='Mattermost'
-            username='Mattermost'
-            timestamp='9:45 AM'
+            avatarAlt="Mattermost"
+            username="Mattermost"
+            timestamp="9:45 AM"
             isBot
           >
             <p className={bodyTextClass}>
@@ -65,14 +65,14 @@ export default function MobileMessageLibrary() {
           <MobileMessage
             showPinnedSavedIndicators
             avatarSrc={avatarLeonard}
-            avatarAlt='Leonard Riley'
-            username='Leonard Riley'
-            timestamp='10:12 AM'
+            avatarAlt="Leonard Riley"
+            username="Leonard Riley"
+            timestamp="10:12 AM"
             footer={
               <ReactionsRow
                 reactions={[
-                  {emoji: '👍', count: 2, byCurrentUser: true},
-                  {emoji: '🎉', count: 1},
+                  { emoji: '👍', count: 2, byCurrentUser: true },
+                  { emoji: '🎉', count: 1 },
                 ]}
                 showAddReaction
               />

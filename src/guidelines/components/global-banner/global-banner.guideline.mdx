@@ -15,7 +15,7 @@ condition resolves.
 A fixed 40px-tall band, full width, with the message centred and dismiss /
 action controls anchored to the right edge.
 
-<AnatomyStage style={{flexDirection:'column',gap:'0.5rem'}}>
+<AnatomyStage style={{ flexDirection: 'column', gap: '0.5rem' }}>
   <GlobalBanner
     message="Your license expires in 14 days."
     type="general"
@@ -26,8 +26,8 @@ action controls anchored to the right edge.
   />
 </AnatomyStage>
 
-- <Num>1</Num> **Container** — full-width strip, fixed at 40px, coloured by
-  the banner type.
+- <Num>1</Num> **Container** — full-width strip, fixed at 40px, coloured by the
+  banner type.
 - <Num>2</Num> **Leading icon** — optional. Reinforces the banner type at a
   glance.
 - <Num>3</Num> **Message** — the headline. One short sentence, semibold,
@@ -36,8 +36,8 @@ action controls anchored to the right edge.
   next step (_Renew_, _Update now_, _Learn more_), tinted for light ink on the
   banner surface.
 - <Num>5</Num> **Dismiss** — optional Icon Button anchored to the right edge,
-  using the same light-on-banner treatment. Omit for banners the user can't
-  act on.
+  using the same light-on-banner treatment. Omit for banners the user can't act
+  on.
 
 <Divider />
 
@@ -47,7 +47,16 @@ Five colour-coded types map to the semantic intent of the banner. The
 container colour comes from the matching semantic token; the message and
 icon are inverted to maintain contrast.
 
-<div style={{padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px',display:'flex',flexDirection:'column',gap:'0.5rem'}}>
+<div
+  style={{
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+  }}
+>
   <GlobalBanner
     message="Your license expires in 14 days."
     type="general"
@@ -82,13 +91,13 @@ icon are inverted to maintain contrast.
   />
 </div>
 
-| Type    | Use when                                                                              |
-| ------- | ------------------------------------------------------------------------------------- |
-| General | Neutral system notices — licence reminders, scheduled changes that aren't urgent.     |
-| Info    | A new release, a feature change, or an opt-in announcement.                           |
-| Success | The result of a global action the admin took (data export ready, migration complete). |
+| Type    | Use when                                                                                |
+| ------- | --------------------------------------------------------------------------------------- |
+| General | Neutral system notices — licence reminders, scheduled changes that aren't urgent.       |
+| Info    | A new release, a feature change, or an opt-in announcement.                             |
+| Success | The result of a global action the admin took (data export ready, migration complete).   |
 | Warning | Something is about to go wrong — maintenance imminent, capacity nearing, expiring soon. |
-| Danger  | Something is broken or requires immediate action — security update, outage.           |
+| Danger  | Something is broken or requires immediate action — security update, outage.             |
 
 <Divider />
 

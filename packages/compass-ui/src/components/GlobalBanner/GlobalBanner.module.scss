@@ -42,12 +42,20 @@
     color: color-mix(in srgb, var(--neutral-0) 92%, transparent) !important;
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 12%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 12%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 
     &:active:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 20%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 20%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 
@@ -60,17 +68,29 @@
 
   &__action {
     flex-shrink: 0;
-    background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent) !important;
+    background-color: color-mix(
+      in srgb,
+      var(--neutral-0) 8%,
+      transparent
+    ) !important;
     color: var(--neutral-0) !important;
     border-color: transparent !important;
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 12%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 12%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 
     &:active:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 16%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 16%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 
@@ -82,7 +102,11 @@
 
     &:disabled {
       color: color-mix(in srgb, var(--neutral-0) 40%, transparent) !important;
-      background-color: color-mix(in srgb, var(--neutral-0) 6%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 6%,
+        transparent
+      ) !important;
     }
   }
 

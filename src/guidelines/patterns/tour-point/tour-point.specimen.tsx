@@ -52,8 +52,8 @@ export default function TourPointLibrary() {
                 progress={{ pages: 3, activePage: 1 }}
                 primaryAction={{ label: 'Next', onClick: () => {} }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel
-                orci id urna facilisis luctus.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+                vel orci id urna facilisis luctus.
               </TourPoint>
             </div>
           ))}
@@ -72,8 +72,8 @@ export default function TourPointLibrary() {
             onClose={() => {}}
             primaryAction={{ label: 'Got it', onClick: () => {} }}
           >
-            Set pointerPosition to none when the card is shown without an on-canvas
-            anchor.
+            Set pointerPosition to none when the card is shown without an
+            on-canvas anchor.
           </TourPoint>
         </div>
       </section>

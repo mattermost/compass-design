@@ -117,11 +117,7 @@ export default function ModalLibrary() {
                 label={person.name}
                 secondaryLabel={person.handle}
                 leadingVisual={
-                  <UserAvatar
-                    src={person.src}
-                    alt={person.name}
-                    size="24"
-                  />
+                  <UserAvatar src={person.src} alt={person.name} size="24" />
                 }
               />
             ))}
@@ -144,8 +140,13 @@ export default function ModalLibrary() {
             footer={settingsFooter}
           >
             <div className={styles['patterns__modal-host-body']}>
-              <nav className={styles['patterns__modal-host-nav']} aria-label="Sections">
-                <span className={styles['patterns__modal-host-nav-item']}>Info</span>
+              <nav
+                className={styles['patterns__modal-host-nav']}
+                aria-label="Sections"
+              >
+                <span className={styles['patterns__modal-host-nav-item']}>
+                  Info
+                </span>
                 <span>Model &amp; Instructions</span>
                 <span>Access &amp; sharing</span>
               </nav>
@@ -153,12 +154,21 @@ export default function ModalLibrary() {
                 <div className={styles['patterns__modal-host-pane-stack']}>
                   <TextInput label="Display name" placeholder="Matty" />
                   <TextInput label="Username" placeholder="matty" />
-                  <TextInput label="Description" placeholder="Helpful teammate agent" />
+                  <TextInput
+                    label="Description"
+                    placeholder="Helpful teammate agent"
+                  />
                   <TextInput label="Default model" placeholder="GPT-4o" />
-                  <TextInput label="System instructions" placeholder="You are a helpful assistant…" />
+                  <TextInput
+                    label="System instructions"
+                    placeholder="You are a helpful assistant…"
+                  />
                   <TextInput label="Temperature" placeholder="0.7" />
                   <TextInput label="Max tokens" placeholder="2048" />
-                  <TextInput label="Knowledge sources" placeholder="Team wiki, design docs" />
+                  <TextInput
+                    label="Knowledge sources"
+                    placeholder="Team wiki, design docs"
+                  />
                 </div>
               </div>
             </div>

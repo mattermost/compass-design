@@ -17,20 +17,24 @@ and search hits inside the message stream.
 A pill-shaped container with a label, optional leading icon, and a colour
 that signals the tag's intent.
 
-<AnatomyStage style={{gap:'0.5rem',flexWrap:'wrap'}}>
+<AnatomyStage style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
   <Tag label="BOT" type="info-dim" casing="all-caps" />
   <Tag label="Guest" type="default" />
   <Tag label="Beta" type="info" />
-  <Tag label="PROFESSIONAL" type="default" casing="all-caps" leadingIcon={<GlobeIcon size={10} />} />
+  <Tag
+    label="PROFESSIONAL"
+    type="default"
+    casing="all-caps"
+    leadingIcon={<GlobeIcon size={10} />}
+  />
 </AnatomyStage>
 
-- <Num>1</Num> **Container** — rounded rectangle. Background and text
-  colour map to the chosen `type`.
-- <Num>2</Num> **Label** — the tag text. Sentence case by default;
-  switch to all-caps for system-level markers like _BOT_ or
-  _PROFESSIONAL_.
-- <Num>3</Num> **Leading icon** — optional 10–12px glyph, useful when
-  the tag represents a recognisable concept.
+- <Num>1</Num> **Container** — rounded rectangle. Background and text colour map
+  to the chosen `type`.
+- <Num>2</Num> **Label** — the tag text. Sentence case by default; switch to
+  all-caps for system-level markers like _BOT_ or _PROFESSIONAL_.
+- <Num>3</Num> **Leading icon** — optional 10–12px glyph, useful when the tag
+  represents a recognisable concept.
 
 <Divider />
 
@@ -40,15 +44,24 @@ Two sizes. Reach for **X-Small** by default — tags are meant to sit
 quietly inside a row of text. Use **Small** when the tag stands alone or
 sits in a target where the smaller form would be hard to hit.
 
-<div style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+  }}
+>
   <Tag label="X-Small" type="default" size="x-small" />
   <Tag label="Small" type="default" size="small" />
 </div>
 
-| Size    | Use when                                                               |
-| ------- | ---------------------------------------------------------------------- |
-| X-Small | Inline next to a name or title (Bot tag in a Message Header).          |
-| Small   | Standalone in cards, lists, and Feature Discovery surfaces.            |
+| Size    | Use when                                                      |
+| ------- | ------------------------------------------------------------- |
+| X-Small | Inline next to a name or title (Bot tag in a Message Header). |
+| Small   | Standalone in cards, lists, and Feature Discovery surfaces.   |
 
 <Divider />
 
@@ -58,7 +71,17 @@ Six type variants, each with a distinct colour treatment. Pick the type
 that matches the tag's semantic intent — don't choose a colour because it
 looks nice.
 
-<div style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px',flexWrap:'wrap'}}>
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+    flexWrap: 'wrap',
+  }}
+>
   <Tag label="Default" type="default" />
   <Tag label="Info" type="info" />
   <Tag label="Info Dim" type="info-dim" />
@@ -67,14 +90,14 @@ looks nice.
   <Tag label="Warning" type="warning" />
 </div>
 
-| Type      | Use when                                                                                |
-| --------- | --------------------------------------------------------------------------------------- |
-| Default   | Neutral identifiers — _Guest_, _Bot_, generic categories.                               |
-| Info      | A high-emphasis informational badge — _New_, _Beta_, _Updated_.                         |
-| Info Dim  | A subtle informational badge for SKU labels and meta callouts.                          |
-| Danger    | Failure or restricted state — _Failed_, _Suspended_.                                    |
-| Success   | Positive state — _Active_, _Verified_, _Connected_.                                     |
-| Warning   | Cautionary state — _Expiring_, _Read-only_.                                             |
+| Type     | Use when                                                        |
+| -------- | --------------------------------------------------------------- |
+| Default  | Neutral identifiers — _Guest_, _Bot_, generic categories.       |
+| Info     | A high-emphasis informational badge — _New_, _Beta_, _Updated_. |
+| Info Dim | A subtle informational badge for SKU labels and meta callouts.  |
+| Danger   | Failure or restricted state — _Failed_, _Suspended_.            |
+| Success  | Positive state — _Active_, _Verified_, _Connected_.             |
+| Warning  | Cautionary state — _Expiring_, _Read-only_.                     |
 
 <Divider />
 
@@ -84,7 +107,16 @@ The default casing is sentence case. Switch to **All Caps** for system-level
 labels where the all-caps form is the convention — Bot tag, SKU labels,
 role badges in admin contexts.
 
-<div style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+  }}
+>
   <Tag label="New" type="info" />
   <Tag label="NEW" type="info" casing="all-caps" />
 </div>

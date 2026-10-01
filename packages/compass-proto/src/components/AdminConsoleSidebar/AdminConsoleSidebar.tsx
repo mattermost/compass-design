@@ -90,7 +90,10 @@ export default function AdminConsoleSidebar({
           className={styles['admin-console-sidebar__find']}
           htmlFor={findSettingsId}
         >
-          <span className={styles['admin-console-sidebar__find-icon']} aria-hidden>
+          <span
+            className={styles['admin-console-sidebar__find-icon']}
+            aria-hidden
+          >
             <MagnifyIcon size={12} />
           </span>
           <input

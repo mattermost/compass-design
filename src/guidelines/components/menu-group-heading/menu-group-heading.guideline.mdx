@@ -15,10 +15,18 @@ items themselves or when the menu is short enough to scan without headings.
 One part: the label text, which is always rendered in all-caps to distinguish
 it from the selectable rows below.
 
-- <Num>1</Num> **Label** — the category name. Keep it short (one or two
-  words). Required.
+- <Num>1</Num> **Label** — the category name. Keep it short (one or two words).
+  Required.
 
-<AnatomyStage style={{flexDirection:'column',gap:'0',alignItems:'stretch',maxWidth:'320px',margin:'0 auto var(--spacing-m)'}}>
+<AnatomyStage
+  style={{
+    flexDirection: 'column',
+    gap: '0',
+    alignItems: 'stretch',
+    maxWidth: '320px',
+    margin: '0 auto var(--spacing-m)',
+  }}
+>
   <MenuGroupHeading label="Preferences" />
   <MenuItem label="Theme" leadingElement={false} />
   <MenuItem label="Language" leadingElement={false} />

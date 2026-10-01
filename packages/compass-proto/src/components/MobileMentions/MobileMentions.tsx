@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import MobileTabScreen from '@/components/MobileTabScreen/MobileTabScreen';
 import styles from './MobileMentions.module.scss';
 

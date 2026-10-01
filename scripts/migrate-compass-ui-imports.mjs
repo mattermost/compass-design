@@ -7,7 +7,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildExportManifest } from './compass-ui-export-manifest.mjs';
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const repoRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+);
 
 function resolveTargets() {
   const consumerRoot = process.env.COMPASS_UI_CONSUMER_ROOT;
@@ -56,7 +59,8 @@ function specifierExportName(spec) {
   const typePrefix = trimmed.startsWith('type ') ? 'type ' : '';
   const body = typePrefix ? trimmed.slice(5).trim() : trimmed;
   const asMatch = body.match(/^(\w+)\s+as\s+(\w+)$/);
-  if (asMatch) return { exportName: asMatch[1], localName: asMatch[2], typePrefix };
+  if (asMatch)
+    return { exportName: asMatch[1], localName: asMatch[2], typePrefix };
   return { exportName: body, localName: body, typePrefix };
 }
 
@@ -67,7 +71,9 @@ function groupBySubpath(specs, manifest) {
     const { exportName, localName, typePrefix } = specifierExportName(spec);
     const subpath = manifest.get(exportName);
     if (!subpath) {
-      throw new Error(`Unknown export "${exportName}" — update compass-ui-export-manifest`);
+      throw new Error(
+        `Unknown export "${exportName}" — update compass-ui-export-manifest`,
+      );
     }
     const rendered =
       localName === exportName
@@ -81,18 +87,21 @@ function groupBySubpath(specs, manifest) {
 }
 
 function rewriteNamedImports(source, manifest) {
-  return source.replace(IMPORT_RE, (full, typeKeyword, specifiersRaw, quote) => {
-    const specs = splitSpecifiers(specifiersRaw);
-    const groups = groupBySubpath(specs, manifest);
-    const lines = [];
-    for (const [subpath, specsForPath] of groups) {
-      const typePart = typeKeyword ?? '';
-      lines.push(
-        `import ${typePart}{ ${specsForPath.join(', ')} } from ${quote}${subpath}${quote};`,
-      );
-    }
-    return lines.join('\n');
-  });
+  return source.replace(
+    IMPORT_RE,
+    (full, typeKeyword, specifiersRaw, quote) => {
+      const specs = splitSpecifiers(specifiersRaw);
+      const groups = groupBySubpath(specs, manifest);
+      const lines = [];
+      for (const [subpath, specsForPath] of groups) {
+        const typePart = typeKeyword ?? '';
+        lines.push(
+          `import ${typePart}{ ${specsForPath.join(', ')} } from ${quote}${subpath}${quote};`,
+        );
+      }
+      return lines.join('\n');
+    },
+  );
 }
 
 function walkFiles(dir, acc = []) {
@@ -131,7 +140,9 @@ function main() {
 
   console.log(`[migrate-compass-ui-imports] Updated ${changed} files`);
   if (process.env.COMPASS_UI_CONSUMER_ROOT) {
-    console.log(`  Consumer: ${path.resolve(process.env.COMPASS_UI_CONSUMER_ROOT)}`);
+    console.log(
+      `  Consumer: ${path.resolve(process.env.COMPASS_UI_CONSUMER_ROOT)}`,
+    );
   }
 }
 

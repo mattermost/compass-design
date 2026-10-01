@@ -64,7 +64,10 @@ export default function Tabs({
     tabRefs.current[index]?.focus();
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, key: string) => {
+  const handleKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    key: string,
+  ) => {
     const index = keys.indexOf(key);
     if (index < 0 || keys.length === 0) return;
 
@@ -134,7 +137,9 @@ export default function Tabs({
 
               {tab.unreadBadge && !isActive && (
                 <span className={styles['tabs__unread-badge']}>
-                  <span className={styles['tabs__unread-label']}>{'Unread'}</span>
+                  <span className={styles['tabs__unread-label']}>
+                    {'Unread'}
+                  </span>
                 </span>
               )}
             </button>

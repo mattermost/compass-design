@@ -113,10 +113,7 @@ describe('getAnchoredPopupContainerFrame', () => {
 
     const mapped = frame.anchorInContainer(anchorRect);
     expect(mapped.left).toBe(
-      anchorRect.left -
-        borderRect.left -
-        mount.clientLeft +
-        mount.scrollLeft,
+      anchorRect.left - borderRect.left - mount.clientLeft + mount.scrollLeft,
     );
     expect(mapped.top).toBe(
       anchorRect.top - borderRect.top - mount.clientTop + mount.scrollTop,
@@ -131,7 +128,11 @@ describe('getAnchoredPopupContainerFrame', () => {
       containerFrame: frame,
     });
     const visibleTop = mapped.top - frame.scrollTop;
-    expect(above.bottom).toBe(frame.clientHeight - visibleTop + ANCHORED_POPUP_GAP);
-    expect(above.bottom).not.toBe(mount.scrollHeight - mapped.top + ANCHORED_POPUP_GAP);
+    expect(above.bottom).toBe(
+      frame.clientHeight - visibleTop + ANCHORED_POPUP_GAP,
+    );
+    expect(above.bottom).not.toBe(
+      mount.scrollHeight - mapped.top + ANCHORED_POPUP_GAP,
+    );
   });
 });

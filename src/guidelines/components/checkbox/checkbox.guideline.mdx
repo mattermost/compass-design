@@ -17,7 +17,9 @@ effect right away, use a Switch.
 - <Num>2</Num> **Label** — sits to the right of the box. Click target spans
   both, so users don't have to land on the box itself.
 
-<AnatomyStage style={{flexDirection:'column',gap:'0.5rem',alignItems:'flex-start'}}>
+<AnatomyStage
+  style={{ flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}
+>
   <Checkbox defaultChecked>Notify me about replies</Checkbox>
   <Checkbox>Notify me about reactions</Checkbox>
   <Checkbox indeterminate>Some items selected</Checkbox>
@@ -27,16 +29,29 @@ effect right away, use a Switch.
 
 ## Sizes
 
-| Size   | Box  | Use when                                              |
-| ------ | ---- | ----------------------------------------------------- |
-| Small  | 12px | Dense lists, table rows, compact filters.             |
-| Medium | 16px | Default. Forms, settings, modal bodies.               |
-| Large  | 20px | Touch-first surfaces and accessibility-led contexts.  |
+| Size   | Box  | Use when                                             |
+| ------ | ---- | ---------------------------------------------------- |
+| Small  | 12px | Dense lists, table rows, compact filters.            |
+| Medium | 16px | Default. Forms, settings, modal bodies.              |
+| Large  | 20px | Touch-first surfaces and accessibility-led contexts. |
 
-<div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap',alignItems:'center'}}>
-  <Checkbox size="small" defaultChecked>Small</Checkbox>
-  <Checkbox size="medium" defaultChecked>Medium</Checkbox>
-  <Checkbox size="large" defaultChecked>Large</Checkbox>
+<div
+  style={{
+    display: 'flex',
+    gap: '1.5rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  }}
+>
+  <Checkbox size="small" defaultChecked>
+    Small
+  </Checkbox>
+  <Checkbox size="medium" defaultChecked>
+    Medium
+  </Checkbox>
+  <Checkbox size="large" defaultChecked>
+    Large
+  </Checkbox>
 </div>
 
 <Divider />
@@ -46,21 +61,25 @@ effect right away, use a Switch.
 The checkbox renders three logical states — Off, On, and Indeterminate —
 each with hover, focus, disabled, and invalid treatments.
 
-| State         | Use when                                                       |
-| ------------- | -------------------------------------------------------------- |
-| Off           | The default unchecked state.                                   |
-| On            | The user (or a default) has selected the option.               |
-| Indeterminate | A parent reflecting partial selection of its children.         |
-| Disabled      | The choice exists but isn't currently available.               |
-| Invalid       | The selection is required and missing, or fails validation.    |
+| State         | Use when                                                    |
+| ------------- | ----------------------------------------------------------- |
+| Off           | The default unchecked state.                                |
+| On            | The user (or a default) has selected the option.            |
+| Indeterminate | A parent reflecting partial selection of its children.      |
+| Disabled      | The choice exists but isn't currently available.            |
+| Invalid       | The selection is required and missing, or fails validation. |
 
-<div style={{display:'flex',flexDirection:'column',gap:'0.5rem'}}>
+<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
   <Checkbox>Off</Checkbox>
   <Checkbox defaultChecked>On</Checkbox>
   <Checkbox indeterminate>Indeterminate</Checkbox>
   <Checkbox disabled>Disabled</Checkbox>
-  <Checkbox defaultChecked disabled>Disabled (on)</Checkbox>
-  <Checkbox invalid defaultChecked>Invalid</Checkbox>
+  <Checkbox defaultChecked disabled>
+    Disabled (on)
+  </Checkbox>
+  <Checkbox invalid defaultChecked>
+    Invalid
+  </Checkbox>
 </div>
 
 <Divider />

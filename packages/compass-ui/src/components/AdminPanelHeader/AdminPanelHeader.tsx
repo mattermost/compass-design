@@ -35,7 +35,10 @@ export interface AdminPanelHeaderProps {
   switchLabel?: ReactNode;
   switchChecked?: boolean;
   defaultSwitchChecked?: boolean;
-  onSwitchChange?: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+  onSwitchChange?: (
+    checked: boolean,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => void;
   switchDisabled?: boolean;
   expandable?: boolean;
   isExpanded?: boolean;
@@ -96,10 +99,7 @@ export default function AdminPanelHeader({
       <div className={styles['admin-panel-header__main']}>
         <div className={styles['admin-panel-header__start']}>
           {iconLeft ? (
-            <div
-              className={styles['admin-panel-header__leading']}
-              aria-hidden
-            >
+            <div className={styles['admin-panel-header__leading']} aria-hidden>
               <IconSlotContext.Provider value={{ size: '20' }}>
                 {leadingIcon ?? defaultLeading}
               </IconSlotContext.Provider>
@@ -107,10 +107,7 @@ export default function AdminPanelHeader({
           ) : null}
           <div className={styles['admin-panel-header__title-stack']}>
             <div className={styles['admin-panel-header__title-row']}>
-              <h2
-                id={titleId}
-                className={styles['admin-panel-header__title']}
-              >
+              <h2 id={titleId} className={styles['admin-panel-header__title']}>
                 {title}
               </h2>
               {showEnterpriseLabel ? (

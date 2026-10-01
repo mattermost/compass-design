@@ -11,28 +11,25 @@ scrolling.
 
 A blue pill with a leading arrow, a label, and an optional dismiss button.
 
-- <Num>1</Num> **Container** — `Elevation 1` pill on the brand blue
-  surface. Floats above the message stream.
+- <Num>1</Num> **Container** — `Elevation 1` pill on the brand blue surface.
+  Floats above the message stream.
 - <Num>2</Num> **Arrow icon** — visually anchors the action to a direction
   (jumping down to unreads).
 - <Num>3</Num> **Label** — `Jump to unreads` for the full variant or `New
   replies` for the compact one.
-- <Num>4</Num> **Count** — optional. Shows the unread count and time
-  reference (e.g. _21 new messages since Saturday_).
+- <Num>4</Num> **Count** — optional. Shows the unread count and time reference
+  (e.g. _21 new messages since Saturday_).
 - <Num>5</Num> **Dismiss** — optional `×` button. Closes the banner without
   jumping.
 
-<AnatomyStage style={{flexDirection:'column',gap:'1rem'}}>
+<AnatomyStage style={{ flexDirection: 'column', gap: '1rem' }}>
   <NewMessageBanner
     type="jump-to-unreads"
     countLabel="21 new messages since Saturday"
     onClick={() => {}}
     onDismiss={() => {}}
   />
-  <NewMessageBanner
-    type="new-replies"
-    onClick={() => {}}
-  />
+  <NewMessageBanner type="new-replies" onClick={() => {}} />
 </AnatomyStage>
 
 <Divider />
@@ -41,10 +38,10 @@ A blue pill with a leading arrow, a label, and an optional dismiss button.
 
 Two variants — pick by surface, not preference.
 
-| Variant         | Use when                                                                       |
-| --------------- | ------------------------------------------------------------------------------ |
-| Jump to unreads | Channel view — banner is wide, includes a count, and lives at the top.         |
-| New replies     | RHS / thread view — compact, no count, floats over the most recent reply.      |
+| Variant         | Use when                                                                  |
+| --------------- | ------------------------------------------------------------------------- |
+| Jump to unreads | Channel view — banner is wide, includes a count, and lives at the top.    |
+| New replies     | RHS / thread view — compact, no count, floats over the most recent reply. |
 
 <Divider />
 
@@ -53,11 +50,11 @@ Two variants — pick by surface, not preference.
 Three interactive states matching the [Button](/components/button)
 spec.
 
-| State    | Use when                                          |
-| -------- | ------------------------------------------------- |
-| Default  | The banner is visible and waiting.                |
-| Hover    | Pointer is over the banner.                       |
-| Active   | The banner is being clicked.                      |
+| State   | Use when                           |
+| ------- | ---------------------------------- |
+| Default | The banner is visible and waiting. |
+| Hover   | Pointer is over the banner.        |
+| Active  | The banner is being clicked.       |
 
 The banner should fade in when new activity arrives and fade out when the
 user catches up — never blink or animate aggressively.

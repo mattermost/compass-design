@@ -38,11 +38,7 @@ export default function TeamMenu({
   const rootClass = [styles['team-menu'], className].filter(Boolean).join(' ');
 
   return (
-    <PopoverMenu
-      className={rootClass}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={rootClass} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Invite people"

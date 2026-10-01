@@ -15,9 +15,7 @@ export default function SwitchLibrary() {
       </p>
       <div className={styles['components__settings-demo']}>
         <section className={styles['components__settings-group']}>
-          <h3 className={styles['components__settings-group-label']}>
-            States
-          </h3>
+          <h3 className={styles['components__settings-group-label']}>States</h3>
           <div className={styles['components__settings-stack']}>
             <Switch size="medium">Unchecked</Switch>
             <Switch size="medium" defaultChecked>
@@ -44,9 +42,7 @@ export default function SwitchLibrary() {
         <Divider />
 
         <section className={styles['components__settings-group']}>
-          <h3 className={styles['components__settings-group-label']}>
-            Labels
-          </h3>
+          <h3 className={styles['components__settings-group-label']}>Labels</h3>
           <div className={styles['components__settings-stack']}>
             <Switch size="medium">Default label</Switch>
             <Switch size="medium" semiBold>

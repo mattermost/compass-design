@@ -22,8 +22,7 @@ import {
 } from '@mattermost/compass-ui/components/popover-menu';
 import { ShortcutTag } from '@mattermost/compass-ui/components/shortcut-tag';
 
-export interface MessageMoreOptionsMenuProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface MessageMoreOptionsMenuProps extends HTMLAttributes<HTMLDivElement> {
   /** Shows Edit and Delete rows. Default: true. */
   permissionToEdit?: boolean;
   /** Shows Flag message row. Default: true. */
@@ -45,11 +44,7 @@ export default function MessageMoreOptionsMenu({
   ...rest
 }: MessageMoreOptionsMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Reply"

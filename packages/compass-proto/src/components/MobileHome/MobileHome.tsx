@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import styles from './MobileHome.module.scss';
 
 export interface MobileHomeProps {
@@ -20,7 +20,9 @@ export default function MobileHome({
   tabBar,
   className = '',
 }: MobileHomeProps) {
-  const rootClass = [styles['mobile-home'], className].filter(Boolean).join(' ');
+  const rootClass = [styles['mobile-home'], className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={rootClass}>

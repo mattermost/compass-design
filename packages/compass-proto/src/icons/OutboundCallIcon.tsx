@@ -1,6 +1,9 @@
 import type { SVGAttributes } from 'react';
 
-interface OutboundCallIconProps extends Omit<SVGAttributes<SVGSVGElement>, 'color'> {
+interface OutboundCallIconProps extends Omit<
+  SVGAttributes<SVGSVGElement>,
+  'color'
+> {
   size?: number | string;
   color?: string;
 }

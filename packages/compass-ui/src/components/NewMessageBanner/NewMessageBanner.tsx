@@ -35,11 +35,7 @@ export default function NewMessageBanner({
       `new-message-banner--type-${type === 'jump-to-unreads' ? 'jump-to-unreads' : 'new-replies'}`
     ];
 
-  const rootClass = [
-    styles['new-message-banner'],
-    typeClass,
-    className,
-  ]
+  const rootClass = [styles['new-message-banner'], typeClass, className]
     .filter(Boolean)
     .join(' ');
 

@@ -39,16 +39,14 @@ function copyDir(src, dest, exclude = []) {
 }
 
 function rewriteContent(content) {
-  return (
-    content
-      .replace(/@\/components\/ui\//g, '@/components/')
-      .replace(/@\/components\/icons\//g, '@/icons/')
-      .replace(/@\/hooks\//g, '@/hooks/')
-      .replace(/@\/utils\//g, '@/utils/')
-      .replace(/@\/types\//g, '@/types/')
-      .replace(/@\/styles\//g, '@/styles/')
-      .replace(/@\/assets\//g, '@/assets/')
-  );
+  return content
+    .replace(/@\/components\/ui\//g, '@/components/')
+    .replace(/@\/components\/icons\//g, '@/icons/')
+    .replace(/@\/hooks\//g, '@/hooks/')
+    .replace(/@\/utils\//g, '@/utils/')
+    .replace(/@\/types\//g, '@/types/')
+    .replace(/@\/styles\//g, '@/styles/')
+    .replace(/@\/assets\//g, '@/assets/');
 }
 
 function rewriteTree(dir) {
@@ -135,4 +133,6 @@ rewriteTree(pkgSrc);
 writeStylesEntry();
 writeIndex();
 
-console.log(`Migrated ${componentDirs().length} components to packages/compass-ui`);
+console.log(
+  `Migrated ${componentDirs().length} components to packages/compass-ui`,
+);

@@ -7,7 +7,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const repoRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+);
 const packageRoot = path.join(repoRoot, 'packages/compass-ui');
 const distRoot = path.join(packageRoot, 'dist');
 const srcComponentsDir = path.join(packageRoot, 'src/components');
@@ -145,17 +148,21 @@ function replaceFile(oldPath, newPath) {
 function renameDistDirs(componentMap, hookMap) {
   const componentsDist = path.join(distRoot, 'components');
   for (const [from, to] of componentMap) {
-    renameDir(
-      path.join(componentsDist, from),
-      path.join(componentsDist, to),
-    );
+    renameDir(path.join(componentsDist, from), path.join(componentsDist, to));
   }
 
   const hooksDist = path.join(distRoot, 'hooks');
   for (const [from, to] of hookMap) {
     const oldFile = path.join(hooksDist, from);
     const newFile = path.join(hooksDist, to);
-    for (const ext of ['.js', '.js.map', '.cjs', '.cjs.map', '.d.ts', '.d.ts.map']) {
+    for (const ext of [
+      '.js',
+      '.js.map',
+      '.cjs',
+      '.cjs.map',
+      '.d.ts',
+      '.d.ts.map',
+    ]) {
       replaceFile(`${oldFile}${ext}`, `${newFile}${ext}`);
     }
   }
@@ -220,13 +227,20 @@ function renameCssModuleFiles() {
 
   // Update import statements in JS/CJS files
   for (const file of walkFiles(distRoot)) {
-    if (!file.endsWith('.js') && !file.endsWith('.cjs') && !file.endsWith('.map')) continue;
+    if (
+      !file.endsWith('.js') &&
+      !file.endsWith('.cjs') &&
+      !file.endsWith('.map')
+    )
+      continue;
     const original = fs.readFileSync(file, 'utf8');
     const updated = original.replaceAll('.module.css', '.css');
     if (updated !== original) fs.writeFileSync(file, updated);
   }
 
-  console.log(`[normalize-compass-ui-dist] Renamed ${cssFiles.length} .module.css files to .css`);
+  console.log(
+    `[normalize-compass-ui-dist] Renamed ${cssFiles.length} .module.css files to .css`,
+  );
 }
 
 function main() {

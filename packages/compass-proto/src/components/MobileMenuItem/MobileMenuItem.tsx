@@ -1,4 +1,4 @@
-import type {ButtonHTMLAttributes, ReactNode} from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import CheckIcon from '@mattermost/compass-icons/components/check';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -6,8 +6,7 @@ import { Tag } from '@mattermost/compass-ui/components/tag';
 import { MentionBadge } from '@mattermost/compass-ui/components/mention-badge';
 import styles from './MobileMenuItem.module.scss';
 
-export interface MobileMenuItemProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface MobileMenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Primary label text (string or rich content, e.g. bold modifiers). */
   label: ReactNode;
   /** Optional secondary label. */
@@ -80,7 +79,7 @@ export default function MobileMenuItem({
           <div className={styles['mobile-menu-item__left']}>
             <span className={styles['mobile-menu-item__leading-visual']}>
               {leadingVisual ?? (
-                <Icon glyph={<EmoticonHappyOutlineIcon />} size='20' />
+                <Icon glyph={<EmoticonHappyOutlineIcon />} size="20" />
               )}
             </span>
           </div>
@@ -89,7 +88,9 @@ export default function MobileMenuItem({
           <div className={styles['mobile-menu-item__top-row']}>
             <span className={styles['mobile-menu-item__label']}>{label}</span>
             {secondaryLabel && secondaryLabelPosition === 'inline' && (
-              <span className={styles['mobile-menu-item__secondary-label-inline']}>
+              <span
+                className={styles['mobile-menu-item__secondary-label-inline']}
+              >
                 {secondaryLabel}
               </span>
             )}
@@ -101,18 +102,20 @@ export default function MobileMenuItem({
                 {customStatusEmoji}
               </span>
             )}
-            {tag && <Tag label='NEW' />}
+            {tag && <Tag label="NEW" />}
             {mentionCount != null && mentionCount > 0 && (
               <MentionBadge
                 count={mentionCount}
-                location='menu-item'
-                size='small'
+                location="menu-item"
+                size="small"
               />
             )}
           </div>
           {secondaryLabel && secondaryLabelPosition === 'below' && (
             <div className={styles['mobile-menu-item__bottom-row']}>
-              <span className={styles['mobile-menu-item__secondary-label-below']}>
+              <span
+                className={styles['mobile-menu-item__secondary-label-below']}
+              >
                 {secondaryLabel}
               </span>
             </div>
@@ -130,7 +133,7 @@ export default function MobileMenuItem({
                 .filter(Boolean)
                 .join(' ')}
             >
-              {trailingVisual ?? <Icon glyph={<CheckIcon />} size='20' />}
+              {trailingVisual ?? <Icon glyph={<CheckIcon />} size="20" />}
             </span>
           </div>
         )}

@@ -17,13 +17,7 @@ function SwitchFrame({
   return <div style={{ width, maxWidth: '100%' }}>{children}</div>;
 }
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section style={{ display: 'grid', gap: 12 }}>
       <h3

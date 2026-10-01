@@ -59,9 +59,7 @@ export default function Tag({
   const classes = [
     styles.tag,
     TYPE_CLASS[type],
-    size === 'small'
-      ? styles['tag--size-small']
-      : styles['tag--size-x-small'],
+    size === 'small' ? styles['tag--size-small'] : styles['tag--size-x-small'],
     casing === 'all-caps' ? styles['tag--casing-all-caps'] : '',
     className,
   ]

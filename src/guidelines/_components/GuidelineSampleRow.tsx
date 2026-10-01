@@ -6,8 +6,8 @@ interface GuidelineSampleRowProps {
 }
 
 /** Horizontal wrap row for inline MDX examples (icons, toggles, pills). */
-export default function GuidelineSampleRow({ children }: GuidelineSampleRowProps) {
-  return (
-    <div className={styles['guideline-sample-row']}>{children}</div>
-  );
+export default function GuidelineSampleRow({
+  children,
+}: GuidelineSampleRowProps) {
+  return <div className={styles['guideline-sample-row']}>{children}</div>;
 }

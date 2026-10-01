@@ -50,7 +50,8 @@ export default function EmojiButton({
   ...rest
 }: EmojiButtonProps) {
   const sizeClass = styles[`emoji-button--size-${toKebab(size)}`];
-  const paddingClass = padding === 'compact' ? styles['emoji-button--padding-compact'] : '';
+  const paddingClass =
+    padding === 'compact' ? styles['emoji-button--padding-compact'] : '';
   const activeClass = active ? styles['emoji-button--active'] : '';
   const toggledClass = toggled ? styles['emoji-button--toggled'] : '';
 
@@ -66,7 +67,12 @@ export default function EmojiButton({
     .join(' ');
 
   return (
-    <button type={type} className={rootClass} aria-pressed={toggled !== undefined ? toggled : undefined} {...rest}>
+    <button
+      type={type}
+      className={rootClass}
+      aria-pressed={toggled !== undefined ? toggled : undefined}
+      {...rest}
+    >
       <span className={styles['emoji-button__emoji']}>
         <Emoji emoji={emoji} size={EMOJI_BUTTON_EMOJI_SIZES[size]} />
       </span>

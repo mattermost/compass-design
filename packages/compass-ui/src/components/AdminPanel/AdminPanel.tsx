@@ -26,7 +26,10 @@ export interface AdminPanelProps {
   switchLabel?: ReactNode;
   switchChecked?: boolean;
   defaultSwitchChecked?: boolean;
-  onSwitchChange?: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+  onSwitchChange?: (
+    checked: boolean,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => void;
   switchDisabled?: boolean;
   expandable?: boolean;
   expandedState?: AdminPanelExpandedState;

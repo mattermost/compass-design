@@ -40,9 +40,7 @@ function cssColorToHex(computed: string): string {
     }
     return t.length === 7 ? t.toUpperCase() : t.toUpperCase();
   }
-  const m = t.match(
-    /^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i,
-  );
+  const m = t.match(/^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i);
   if (!m) return t.toUpperCase();
   const r = Math.round(Number(m[1]));
   const g = Math.round(Number(m[2]));
@@ -57,7 +55,10 @@ function hexToRgbTriplet(hex: string): string | null {
   return `${parseInt(m[1], 10)}, ${parseInt(m[2], 10)}, ${parseInt(m[3], 10)}`;
 }
 
-function formatRgbForDisplay(rgbTokenValue: string, computedColor: string): string {
+function formatRgbForDisplay(
+  rgbTokenValue: string,
+  computedColor: string,
+): string {
   const triplet = rgbTokenValue.trim();
   if (/^\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}/.test(triplet)) {
     return `rgb(${triplet})`;

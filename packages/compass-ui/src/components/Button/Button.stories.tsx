@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button';
-import type { ButtonAppearance, ButtonEmphasis, ButtonProps, ButtonSize } from './Button';
+import type {
+  ButtonAppearance,
+  ButtonEmphasis,
+  ButtonProps,
+  ButtonSize,
+} from './Button';
 import {
   ICON_NONE,
   iconSelectArgType,
@@ -18,8 +23,8 @@ const EMPHASES: ButtonEmphasis[] = [
 const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
 
 type ButtonStoryArgs = Omit<ButtonProps, 'leadingIcon' | 'trailingIcon'> & {
-  'leadingIcon'?: string;
-  'trailingIcon'?: string;
+  leadingIcon?: string;
+  trailingIcon?: string;
 };
 
 const meta = {
@@ -31,13 +36,13 @@ const meta = {
     emphasis: { control: 'select', options: EMPHASES },
     loading: { control: 'boolean' },
     size: { control: 'select', options: SIZES },
-    'leadingIcon': iconSelectArgType({
+    leadingIcon: iconSelectArgType({
       optional: true,
       includeDefault: true,
       description:
         'Leading icon. None hides it; Default uses the built-in Icon glyph.',
     }),
-    'trailingIcon': iconSelectArgType({
+    trailingIcon: iconSelectArgType({
       optional: true,
       includeDefault: true,
       description:
@@ -45,18 +50,29 @@ const meta = {
     }),
   },
   args: {
-    'leadingIcon': ICON_NONE,
-    'trailingIcon': ICON_NONE,
+    leadingIcon: ICON_NONE,
+    trailingIcon: ICON_NONE,
   },
-  render: ({ 'leadingIcon': leadingIcon, 'trailingIcon': trailingIcon, size = 'medium', ...rest }) => (
+  render: ({
+    leadingIcon: leadingIcon,
+    trailingIcon: trailingIcon,
+    size = 'medium',
+    ...rest
+  }) => (
     <Button
       {...rest}
       size={size}
       leadingIcon={
-        resolveStoryIcon(leadingIcon, { defaultMode: 'wrapped', wrapIcon: true }) as ButtonProps['leadingIcon']
+        resolveStoryIcon(leadingIcon, {
+          defaultMode: 'wrapped',
+          wrapIcon: true,
+        }) as ButtonProps['leadingIcon']
       }
       trailingIcon={
-        resolveStoryIcon(trailingIcon, { defaultMode: 'wrapped', wrapIcon: true }) as ButtonProps['trailingIcon']
+        resolveStoryIcon(trailingIcon, {
+          defaultMode: 'wrapped',
+          wrapIcon: true,
+        }) as ButtonProps['trailingIcon']
       }
     />
   ),
@@ -85,7 +101,7 @@ export const Loading: Story = {
 export const WithLeadingIcon: Story = {
   args: {
     children: 'Label',
-    'leadingIcon': 'globe',
+    leadingIcon: 'globe',
   },
 };
 

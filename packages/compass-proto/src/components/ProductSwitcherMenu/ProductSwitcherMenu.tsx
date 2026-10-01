@@ -23,7 +23,9 @@ export type BuiltInProductSwitcherProduct = 'channels' | 'boards' | 'playbooks';
  * Product id for selection. Built-ins use their labels; prototypes use any
  * string id from {@link ProductSwitcherProductItem.id}.
  */
-export type ProductSwitcherProduct = BuiltInProductSwitcherProduct | (string & {});
+export type ProductSwitcherProduct =
+  | BuiltInProductSwitcherProduct
+  | (string & {});
 
 export interface ProductSwitcherProductItem {
   /** Stable id used for `selectedProduct` and `onProductSelect`. */
@@ -101,14 +103,13 @@ export default function ProductSwitcherMenu({
     .filter(Boolean)
     .join(' ');
 
-  const products = [...DEFAULT_PRODUCT_SWITCHER_PRODUCTS, ...additionalProducts];
+  const products = [
+    ...DEFAULT_PRODUCT_SWITCHER_PRODUCTS,
+    ...additionalProducts,
+  ];
 
   return (
-    <PopoverMenu
-      className={rootClass}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={rootClass} style={style} {...rest}>
       <PopoverMenuGroup>
         {products.map((product) => (
           <MenuItem

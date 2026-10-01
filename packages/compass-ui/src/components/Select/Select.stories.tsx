@@ -21,13 +21,14 @@ const DEFAULT_OPTIONS: SelectOption[] = [
 const LONG_LABEL_OPTIONS: SelectOption[] = [
   {
     value: 'a',
-    label: 'A very long option label that should truncate within the menu width',
+    label:
+      'A very long option label that should truncate within the menu width',
   },
   { value: 'b', label: 'Option B' },
 ];
 
 type SelectStoryArgs = Omit<SelectProps, 'leadingIcon'> & {
-  'leadingIcon'?: string;
+  leadingIcon?: string;
 };
 
 const meta = {
@@ -36,12 +37,12 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
-    'leadingIcon': iconSelectArgType({ optional: true }),
+    leadingIcon: iconSelectArgType({ optional: true }),
   },
   args: {
-    'leadingIcon': ICON_NONE,
+    leadingIcon: ICON_NONE,
   },
-  render: ({ 'leadingIcon': leadingIcon, ...rest }) => (
+  render: ({ leadingIcon: leadingIcon, ...rest }) => (
     <Select
       {...rest}
       leadingIcon={
@@ -109,7 +110,7 @@ export const WithValue: Story = {
 export const WithLeadingIcon: Story = {
   args: {
     label: 'Workspace',
-    'leadingIcon': 'globe',
+    leadingIcon: 'globe',
     options: DEFAULT_OPTIONS,
     placeholder: 'Select...',
   },

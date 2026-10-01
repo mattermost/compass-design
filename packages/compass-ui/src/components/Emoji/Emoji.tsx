@@ -48,11 +48,7 @@ export default function Emoji({
   size = '24',
 }: EmojiProps) {
   const sizeClass = SIZE_CLASS_MAP[size];
-  const rootClass = [
-    styles.emoji,
-    sizeClass,
-    className,
-  ]
+  const rootClass = [styles.emoji, sizeClass, className]
     .filter(Boolean)
     .join(' ');
 

@@ -10,9 +10,10 @@ and highlights when the current user has reacted. It is the individual building 
 
 A compact button with two text nodes.
 
-- <Num>1</Num> **Emoji** — the emoji character, rendered at `font-size-200` and hidden from
-  assistive technology (`aria-hidden`).
-- <Num>2</Num> **Count** — the number of users who reacted, in semibold body text.
+- <Num>1</Num> **Emoji** — the emoji character, rendered at `font-size-200` and
+  hidden from assistive technology (`aria-hidden`).
+- <Num>2</Num> **Count** — the number of users who reacted, in semibold body
+  text.
 
 The accessible name is built from both: `"👍 3 reactions"`.
 
@@ -26,12 +27,22 @@ The accessible name is built from both: `"👍 3 reactions"`.
 
 Reaction Button has two visual variants plus the standard interactive states.
 
-| State   | `byCurrentUser` | Use when |
-| ------- | --------------- | -------- |
-| Default | `false`         | At least one other user reacted; the current user has not. |
+| State   | `byCurrentUser` | Use when                                                                                                       |
+| ------- | --------------- | -------------------------------------------------------------------------------------------------------------- |
+| Default | `false`         | At least one other user reacted; the current user has not.                                                     |
 | Mine    | `true`          | The current user has reacted. Button takes a brand-colour outline and soft fill; the count turns brand-colour. |
 
-<div style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'1rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+  }}
+>
   <ReactionButton emoji="👍" count={3} />
   <ReactionButton emoji="🎉" count={1} byCurrentUser />
 </div>

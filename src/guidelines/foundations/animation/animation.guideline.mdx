@@ -44,10 +44,10 @@ transition stitches the before and after into a single, understandable moment.
 Compass exposes two duration tokens. Together they cover almost every motion
 in the product.
 
-| Token                   | Value | Use for                                                                |
-| ----------------------- | ----- | ---------------------------------------------------------------------- |
-| `--duration-quick`      | 150ms | On-screen micro-transitions — hover states, color changes, small moves |
-| `--duration-moderate`   | 300ms | Entrances, exits, and larger movements — panels, drawers, popovers     |
+| Token                 | Value | Use for                                                                |
+| --------------------- | ----- | ---------------------------------------------------------------------- |
+| `--duration-quick`    | 150ms | On-screen micro-transitions — hover states, color changes, small moves |
+| `--duration-moderate` | 300ms | Entrances, exits, and larger movements — panels, drawers, popovers     |
 
 Quick is the default for elements already on screen. Reach for moderate
 whenever an element is entering or leaving the viewport, or travelling a
@@ -61,11 +61,11 @@ Easing controls the **shape** of a motion — whether it accelerates,
 decelerates, or moves at a constant rate. Compass uses three easing tokens,
 each tuned to a specific kind of moment.
 
-| Token                | Curve         | Use for                                                            |
-| -------------------- | ------------- | ------------------------------------------------------------------ |
-| `--ease-transition`  | ease-in-out   | Element already on screen — moving, expanding, changing color      |
-| `--ease-entrance`    | ease-out      | Element entering the screen — settles softly into place            |
-| `--ease-exit`        | ease-in       | Element leaving the screen — accelerates away                      |
+| Token               | Curve       | Use for                                                       |
+| ------------------- | ----------- | ------------------------------------------------------------- |
+| `--ease-transition` | ease-in-out | Element already on screen — moving, expanding, changing color |
+| `--ease-entrance`   | ease-out    | Element entering the screen — settles softly into place       |
+| `--ease-exit`       | ease-in     | Element leaving the screen — accelerates away                 |
 
 The asymmetry between entrance and exit matters: things should arrive gently
 and leave decisively. Inverting that — sharp entrances, sluggish exits — makes
@@ -91,10 +91,10 @@ Popovers — menus, info popovers, dropdowns — animate on open and close with 
 combined **scale + fade**. The scale grows the panel out from its anchor; the
 fade prevents the appearance from feeling abrupt.
 
-| Phase    | Scale         | Opacity   | Duration            | Easing               |
-| -------- | ------------- | --------- | ------------------- | -------------------- |
-| Opening  | 90% → 100%    | 0 → 1     | `--duration-quick`  | `--ease-entrance`    |
-| Closing  | 100% → 90%    | 1 → 0     | `--duration-quick`  | `--ease-exit`        |
+| Phase   | Scale      | Opacity | Duration           | Easing            |
+| ------- | ---------- | ------- | ------------------ | ----------------- |
+| Opening | 90% → 100% | 0 → 1   | `--duration-quick` | `--ease-entrance` |
+| Closing | 100% → 90% | 1 → 0   | `--duration-quick` | `--ease-exit`     |
 
 Popovers are a short-distance entrance/exit, so they use `--duration-quick`
 rather than the moderate timing reserved for full-size panels and drawers.

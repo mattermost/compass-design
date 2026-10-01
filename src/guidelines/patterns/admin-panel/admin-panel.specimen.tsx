@@ -75,18 +75,13 @@ export default function AdminPanelPatternSpecimen() {
       </div>
       <div>
         <p className={styles['components__instance-label']}>With subtitle</p>
-        <AdminPanel
-          title="Section Title"
-          subtitle="Section sub-title"
-        >
+        <AdminPanel title="Section Title" subtitle="Section sub-title">
           Section content
         </AdminPanel>
       </div>
       <div>
         <p className={styles['components__instance-label']}>Title only</p>
-        <AdminPanel title="Section Title">
-          Section content
-        </AdminPanel>
+        <AdminPanel title="Section Title">Section content</AdminPanel>
       </div>
     </div>
   );

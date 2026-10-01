@@ -201,11 +201,7 @@ export const AllVariants: Story = {
     <div style={{ display: 'grid', gap: 32 }}>
       <section>
         <h3 style={{ marginBottom: 12 }}>Default</h3>
-        <PermutationGrid
-          style="default"
-          destructive={false}
-          disabled={false}
-        />
+        <PermutationGrid style="default" destructive={false} disabled={false} />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Destructive</h3>
@@ -242,9 +238,7 @@ export const AllVariants: Story = {
                 aria-label={`Toggled, ${size}`}
                 size={size}
                 toggled
-                icon={
-                  <Icon glyph={<GlobeIcon />} />
-                }
+                icon={<Icon glyph={<GlobeIcon />} />}
               />
             ))}
           </Row>
@@ -255,9 +249,7 @@ export const AllVariants: Story = {
                 aria-label={`Active, ${size}`}
                 size={size}
                 active
-                icon={
-                  <Icon glyph={<GlobeIcon />} />
-                }
+                icon={<Icon glyph={<GlobeIcon />} />}
               />
             ))}
           </Row>
@@ -298,9 +290,7 @@ export const AllVariants: Story = {
                 aria-label={`Unread, ${size}`}
                 size={size}
                 unreadBadge
-                icon={
-                  <Icon glyph={<GlobeIcon />} />
-                }
+                icon={<Icon glyph={<GlobeIcon />} />}
               />
             ))}
             <IconButton

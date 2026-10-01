@@ -77,10 +77,7 @@ export default function ThreadFooter({
             </span>
           )}
           {badge === 'unread' && (
-            <span
-              className={styles['thread-footer__unread-dot']}
-              aria-hidden
-            />
+            <span className={styles['thread-footer__unread-dot']} aria-hidden />
           )}
           {badge === 'mention' && (
             <span

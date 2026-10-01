@@ -165,7 +165,11 @@ export default function ThreadsViewLayout() {
                         timestamp="Yesterday"
                         replyCount={1}
                         participants={[
-                          { key: 'e', name: 'Emma Novak', src: avatarEmmaNovak },
+                          {
+                            key: 'e',
+                            name: 'Emma Novak',
+                            src: avatarEmmaNovak,
+                          },
                         ]}
                         onClick={() => setSelectedIndex(4)}
                       />
@@ -178,8 +182,16 @@ export default function ThreadsViewLayout() {
                         timestamp="Mon"
                         replyCount={12}
                         participants={[
-                          { key: 'e', name: 'Ethan Brooks', src: avatarEthanBrooks },
-                          { key: 'd', name: 'David Liang', src: avatarDavidLiang },
+                          {
+                            key: 'e',
+                            name: 'Ethan Brooks',
+                            src: avatarEthanBrooks,
+                          },
+                          {
+                            key: 'd',
+                            name: 'David Liang',
+                            src: avatarDavidLiang,
+                          },
                         ]}
                         onClick={() => setSelectedIndex(5)}
                       />
@@ -207,10 +219,7 @@ export default function ThreadsViewLayout() {
             }
             footer={
               <div className={shellStyles['channel-shell__message-input']}>
-                <MessageInput
-                  placeholder="Reply to thread…"
-                  width="narrow"
-                />
+                <MessageInput placeholder="Reply to thread…" width="narrow" />
               </div>
             }
           >

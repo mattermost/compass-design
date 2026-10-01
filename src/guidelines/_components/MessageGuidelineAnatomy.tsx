@@ -62,8 +62,8 @@ export function MessageGuidelineAnatomyStage() {
           }
         >
           <p className={messageStyles['message__body-text']}>
-            Here’s the latest mock for the onboarding flow — feedback welcome before
-            we lock copy.
+            Here’s the latest mock for the onboarding flow — feedback welcome
+            before we lock copy.
           </p>
         </Message>
       </div>

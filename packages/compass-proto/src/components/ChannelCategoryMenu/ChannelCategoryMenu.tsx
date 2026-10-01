@@ -16,8 +16,7 @@ import {
 } from '@mattermost/compass-ui/components/popover-menu';
 import styles from './ChannelCategoryMenu.module.scss';
 
-export interface ChannelCategoryMenuProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface ChannelCategoryMenuProps extends HTMLAttributes<HTMLDivElement> {
   /** Label shown in the Sort row trailing detail. Default: Alphabetically. */
   sortLabel?: string;
 }
@@ -36,11 +35,7 @@ export default function ChannelCategoryMenu({
     .join(' ');
 
   return (
-    <PopoverMenu
-      className={rootClass}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={rootClass} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Mute category"
@@ -66,9 +61,7 @@ export default function ChannelCategoryMenu({
           trailingElement
           trailingVisual={
             <span className={styles['channel-category-menu__sort-trailing']}>
-              <span
-                className={styles['channel-category-menu__sort-label']}
-              >
+              <span className={styles['channel-category-menu__sort-label']}>
                 {sortLabel}
               </span>
               <Icon glyph={<ChevronRightIcon />} size="16" />

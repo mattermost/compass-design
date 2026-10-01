@@ -19,6 +19,7 @@ See also the repo-wide rule in [AGENTS.md](../../AGENTS.md#variant-prop-string-v
 All compass-ui components that accept icon slot props (`leadingIcon`, `trailingIcon`, `icon`, etc.) size icons via `IconSlotContext`. Callers pass `<Icon glyph={<YourIcon />} />` with **no `size` prop** — the hosting component injects the correct size via context. Explicit `size` still takes precedence (non-breaking), but the recommended pattern omits it.
 
 **When building a new component with an icon slot:**
+
 1. Import `IconSlotContext` from `@/components/Icon/Icon`.
 2. Wrap the slot render: `<IconSlotContext.Provider value={{ size: '16' }}>{iconProp}</IconSlotContext.Provider>` (use the correct size for the component).
 3. JSDoc the prop: `"Pass \`<Icon glyph={<SomeIcon />} />\`; ComponentName provides the correct size via context."`

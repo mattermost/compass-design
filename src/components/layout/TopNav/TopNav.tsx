@@ -100,7 +100,11 @@ interface TopNavProps {
 export default function TopNav({ onOpenQuickSwitcher }: TopNavProps) {
   return (
     <div className={styles['top-nav']}>
-      <NavLink to="/" className={styles['top-nav__logo']} aria-label="Compass home">
+      <NavLink
+        to="/"
+        className={styles['top-nav__logo']}
+        aria-label="Compass home"
+      >
         <MattermostIcon size={28} />
         <span className={styles['top-nav__wordmark']}>Compass</span>
       </NavLink>
@@ -111,7 +115,10 @@ export default function TopNav({ onOpenQuickSwitcher }: TopNavProps) {
         ))}
 
         <a
-          href={import.meta.env.VITE_STORYBOOK_URL || `${import.meta.env.BASE_URL}storybook/`}
+          href={
+            import.meta.env.VITE_STORYBOOK_URL ||
+            `${import.meta.env.BASE_URL}storybook/`
+          }
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open Storybook"

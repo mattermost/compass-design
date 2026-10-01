@@ -1,8 +1,6 @@
 import { ChannelsSidebar } from '@mattermost/compass-proto';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
-import {
-  defaultChannelsSidebarDemoModel,
-} from '@/fixtures/channelsSidebarDemo';
+import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
 import patternsStyles from '@/styles/library-demo/patterns.module.scss';
 
 /**
@@ -12,10 +10,7 @@ export function ChannelSidebarAnatomyStage() {
   return (
     <AnatomyStage style={{ alignItems: 'stretch' }}>
       <div className={patternsStyles['patterns__team-sidebar-demo']}>
-        <ChannelsSidebar
-          showFilter
-          model={defaultChannelsSidebarDemoModel}
-        />
+        <ChannelsSidebar showFilter model={defaultChannelsSidebarDemoModel} />
       </div>
     </AnatomyStage>
   );

@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { MobileTabBar } from '@mattermost/compass-proto';
 import type { MobileTabBarTab } from '@mattermost/compass-proto';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
@@ -16,7 +16,7 @@ export default function MobileTabBarLibrary() {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             profileSrc={avatarLeonard}
-            profileAlt='Leonard Riley'
+            profileAlt="Leonard Riley"
             mentionsBadge={3}
           />
         </div>
@@ -25,9 +25,9 @@ export default function MobileTabBarLibrary() {
         <p className={styles['mtb-specimen__label']}>Search active</p>
         <div className={styles['mtb-specimen__frame']}>
           <MobileTabBar
-            activeTab='search'
+            activeTab="search"
             profileSrc={avatarLeonard}
-            profileAlt='Leonard Riley'
+            profileAlt="Leonard Riley"
           />
         </div>
       </div>
@@ -35,9 +35,9 @@ export default function MobileTabBarLibrary() {
         <p className={styles['mtb-specimen__label']}>Profile active</p>
         <div className={styles['mtb-specimen__frame']}>
           <MobileTabBar
-            activeTab='profile'
+            activeTab="profile"
             profileSrc={avatarLeonard}
-            profileAlt='Leonard Riley'
+            profileAlt="Leonard Riley"
           />
         </div>
       </div>

@@ -1,6 +1,10 @@
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
-import type { ButtonAppearance, ButtonEmphasis, ButtonSize } from '@mattermost/compass-ui/components/button';
+import type {
+  ButtonAppearance,
+  ButtonEmphasis,
+  ButtonSize,
+} from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -89,9 +93,7 @@ export default function ButtonLibrary() {
       </p>
 
       <div className={styles['components__section']}>
-        <h3 className={styles['components__section-title']}>
-          Default
-        </h3>
+        <h3 className={styles['components__section-title']}>Default</h3>
         <ButtonPermutationGrid
           appearance="default"
           destructive={false}
@@ -100,9 +102,7 @@ export default function ButtonLibrary() {
       </div>
 
       <div className={styles['components__section']}>
-        <h3 className={styles['components__section-title']}>
-          Destructive
-        </h3>
+        <h3 className={styles['components__section-title']}>Destructive</h3>
         <ButtonPermutationGrid
           appearance="default"
           destructive
@@ -111,9 +111,7 @@ export default function ButtonLibrary() {
       </div>
 
       <div className={styles['components__section']}>
-        <h3 className={styles['components__section-title']}>
-          Disabled
-        </h3>
+        <h3 className={styles['components__section-title']}>Disabled</h3>
         <ButtonPermutationGrid
           appearance="default"
           destructive={false}
@@ -123,9 +121,7 @@ export default function ButtonLibrary() {
 
       <div className={styles['components__button-surface--inverted']}>
         <div className={styles['components__section']}>
-          <h3 className={styles['components__section-title']}>
-            Inverted
-          </h3>
+          <h3 className={styles['components__section-title']}>Inverted</h3>
           <ButtonPermutationGrid
             appearance="inverted"
             destructive={false}
@@ -180,7 +176,9 @@ export default function ButtonLibrary() {
             {SIZES.map((size) => (
               <span
                 key={size}
-                className={styles['components__button-variant-matrix__size-heading']}
+                className={
+                  styles['components__button-variant-matrix__size-heading']
+                }
               >
                 {size}
               </span>
@@ -191,11 +189,18 @@ export default function ButtonLibrary() {
               key={emphasis}
               className={styles['components__button-variant-matrix__row']}
             >
-              <span className={styles['components__button-variant-matrix__emphasis-label']}>
+              <span
+                className={
+                  styles['components__button-variant-matrix__emphasis-label']
+                }
+              >
                 {emphasis}
               </span>
               {SIZES.map((size) => (
-                <div key={size} className={styles['components__button-variant-matrix__cell']}>
+                <div
+                  key={size}
+                  className={styles['components__button-variant-matrix__cell']}
+                >
                   <Button
                     emphasis={emphasis}
                     size={size}
@@ -223,7 +228,9 @@ export default function ButtonLibrary() {
             {(['Leading', 'Trailing', 'Both'] as const).map((label) => (
               <span
                 key={label}
-                className={styles['components__button-variant-matrix__size-heading']}
+                className={
+                  styles['components__button-variant-matrix__size-heading']
+                }
               >
                 {label}
               </span>
@@ -234,17 +241,37 @@ export default function ButtonLibrary() {
               key={emphasis}
               className={styles['components__button-variant-matrix__row']}
             >
-              <span className={styles['components__button-variant-matrix__emphasis-label']}>
+              <span
+                className={
+                  styles['components__button-variant-matrix__emphasis-label']
+                }
+              >
                 {emphasis}
               </span>
-              <div className={styles['components__button-variant-matrix__cell']}>
-                <Button emphasis={emphasis} leadingIcon={icon}>Label</Button>
+              <div
+                className={styles['components__button-variant-matrix__cell']}
+              >
+                <Button emphasis={emphasis} leadingIcon={icon}>
+                  Label
+                </Button>
               </div>
-              <div className={styles['components__button-variant-matrix__cell']}>
-                <Button emphasis={emphasis} trailingIcon={icon}>Label</Button>
+              <div
+                className={styles['components__button-variant-matrix__cell']}
+              >
+                <Button emphasis={emphasis} trailingIcon={icon}>
+                  Label
+                </Button>
               </div>
-              <div className={styles['components__button-variant-matrix__cell']}>
-                <Button emphasis={emphasis} leadingIcon={icon} trailingIcon={icon}>Label</Button>
+              <div
+                className={styles['components__button-variant-matrix__cell']}
+              >
+                <Button
+                  emphasis={emphasis}
+                  leadingIcon={icon}
+                  trailingIcon={icon}
+                >
+                  Label
+                </Button>
               </div>
             </div>
           ))}

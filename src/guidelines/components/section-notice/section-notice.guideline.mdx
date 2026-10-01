@@ -14,8 +14,8 @@ area of the page. For transient confirmation, use a
 
 ## Anatomy
 
-<AnatomyStage style={{flexDirection:'column',gap:'0.75rem'}}>
-  <div style={{width:'100%',maxWidth:'480px'}}>
+<AnatomyStage style={{ flexDirection: 'column', gap: '0.75rem' }}>
+  <div style={{ width: '100%', maxWidth: '480px' }}>
     <SectionNotice
       type="info"
       title="Two-factor authentication is now required"
@@ -27,13 +27,13 @@ area of the page. For transient confirmation, use a
   </div>
 </AnatomyStage>
 
-- <Num>1</Num> **Icon** — optional. Defaults to a glyph that matches the
-  notice type. Hide it only if the notice sits next to another icon already.
+- <Num>1</Num> **Icon** — optional. Defaults to a glyph that matches the notice
+  type. Hide it only if the notice sits next to another icon already.
 - <Num>2</Num> **Title** — required. State the situation in one sentence.
 - <Num>3</Num> **Description** — optional. Add context or next steps.
 - <Num>4</Num> **Primary action** — optional. The recommended next step.
-- <Num>5</Num> **Secondary action** — optional. A supporting alternative
-  (e.g. "Learn more").
+- <Num>5</Num> **Secondary action** — optional. A supporting alternative (e.g.
+  "Learn more").
 - <Num>6</Num> **Dismiss** — optional. Use only when the notice is genuinely
   optional reading.
 
@@ -44,18 +44,38 @@ area of the page. For transient confirmation, use a
 Four severities. Pick the one that matches the user's situation; don't pick
 the one that matches your tone of voice.
 
-| Type    | Use when                                                                 |
-| ------- | ------------------------------------------------------------------------ |
-| Info    | Neutral context — a setting changed, a new feature is available.         |
-| Success | An action just completed and the result is visible in this section.     |
-| Warning | Something needs attention soon, but nothing is broken yet.               |
-| Danger  | A blocking problem the user must resolve to continue.                    |
+| Type    | Use when                                                            |
+| ------- | ------------------------------------------------------------------- |
+| Info    | Neutral context — a setting changed, a new feature is available.    |
+| Success | An action just completed and the result is visible in this section. |
+| Warning | Something needs attention soon, but nothing is broken yet.          |
+| Danger  | A blocking problem the user must resolve to continue.               |
 
-<div style={{display:'flex',flexDirection:'column',gap:'0.75rem',padding:'1rem 0',maxWidth:'480px'}}>
-  <SectionNotice type="info" title="Info" description="Your channel is being indexed." />
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    padding: '1rem 0',
+    maxWidth: '480px',
+  }}
+>
+  <SectionNotice
+    type="info"
+    title="Info"
+    description="Your channel is being indexed."
+  />
   <SectionNotice type="success" title="Success" description="Settings saved." />
-  <SectionNotice type="warning" title="Warning" description="Your trial ends in 3 days." />
-  <SectionNotice type="danger" title="Danger" description="We couldn't connect to the server." />
+  <SectionNotice
+    type="warning"
+    title="Warning"
+    description="Your trial ends in 3 days."
+  />
+  <SectionNotice
+    type="danger"
+    title="Danger"
+    description="We couldn't connect to the server."
+  />
 </div>
 
 <Divider />

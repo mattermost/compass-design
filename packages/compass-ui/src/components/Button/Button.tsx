@@ -83,21 +83,36 @@ export default function Button({
     .join(' ');
 
   const supportsIcons = emphasis !== 'link';
-  const showLeadingSlot = loading || (supportsIcons && React.isValidElement(leadingIcon));
+  const showLeadingSlot =
+    loading || (supportsIcons && React.isValidElement(leadingIcon));
 
   return (
-    <button className={rootClass} type={type} disabled={disabled || loading} {...rest}>
+    <button
+      className={rootClass}
+      type={type}
+      disabled={disabled || loading}
+      {...rest}
+    >
       {showLeadingSlot ? (
         <span className={styles['button__icon-slot']} aria-hidden>
-          {loading
-            ? <Spinner size={iconSize as SpinnerSize} inverted={appearance === 'inverted'} />
-            : <IconSlotContext.Provider value={{ size: iconSize }}>{leadingIcon}</IconSlotContext.Provider>}
+          {loading ? (
+            <Spinner
+              size={iconSize as SpinnerSize}
+              inverted={appearance === 'inverted'}
+            />
+          ) : (
+            <IconSlotContext.Provider value={{ size: iconSize }}>
+              {leadingIcon}
+            </IconSlotContext.Provider>
+          )}
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
       {supportsIcons && !loading && React.isValidElement(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
-          <IconSlotContext.Provider value={{ size: iconSize }}>{trailingIcon}</IconSlotContext.Provider>
+          <IconSlotContext.Provider value={{ size: iconSize }}>
+            {trailingIcon}
+          </IconSlotContext.Provider>
         </span>
       ) : null}
     </button>

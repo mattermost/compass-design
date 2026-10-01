@@ -60,10 +60,26 @@ export function PaddingExample() {
             Body copy fills the container while padding holds it off the edges.
           </div>
         </div>
-        <div className={`${styles['padding-demo__label']} ${styles['padding-demo__label--top']}`}>16px</div>
-        <div className={`${styles['padding-demo__label']} ${styles['padding-demo__label--right']}`}>16px</div>
-        <div className={`${styles['padding-demo__label']} ${styles['padding-demo__label--bottom']}`}>16px</div>
-        <div className={`${styles['padding-demo__label']} ${styles['padding-demo__label--left']}`}>16px</div>
+        <div
+          className={`${styles['padding-demo__label']} ${styles['padding-demo__label--top']}`}
+        >
+          16px
+        </div>
+        <div
+          className={`${styles['padding-demo__label']} ${styles['padding-demo__label--right']}`}
+        >
+          16px
+        </div>
+        <div
+          className={`${styles['padding-demo__label']} ${styles['padding-demo__label--bottom']}`}
+        >
+          16px
+        </div>
+        <div
+          className={`${styles['padding-demo__label']} ${styles['padding-demo__label--left']}`}
+        >
+          16px
+        </div>
       </div>
     </div>
   );
@@ -93,13 +109,19 @@ export function GridOverlay({ size, caption }: GridOverlayProps) {
         <div className={styles['grid-overlay__sample']}>
           <div className={styles['grid-overlay__avatar']} />
           <div className={styles['grid-overlay__lines']}>
-            <div className={`${styles['grid-overlay__line']} ${styles['grid-overlay__line--strong']}`} />
+            <div
+              className={`${styles['grid-overlay__line']} ${styles['grid-overlay__line--strong']}`}
+            />
             <div className={styles['grid-overlay__line']} />
-            <div className={`${styles['grid-overlay__line']} ${styles['grid-overlay__line--short']}`} />
+            <div
+              className={`${styles['grid-overlay__line']} ${styles['grid-overlay__line--short']}`}
+            />
           </div>
         </div>
       </div>
-      <figcaption className={styles['grid-overlay__caption']}>{caption}</figcaption>
+      <figcaption className={styles['grid-overlay__caption']}>
+        {caption}
+      </figcaption>
     </figure>
   );
 }
@@ -122,11 +144,19 @@ export function GridAnatomy({
   return (
     <div className={styles['anatomy']}>
       <div className={styles['anatomy__frame']}>
-        <span className={`${styles['anatomy__edge']} ${styles['anatomy__edge--left']}`}>
-          <span className={styles['anatomy__edge-label']}>Margin {margins}px</span>
+        <span
+          className={`${styles['anatomy__edge']} ${styles['anatomy__edge--left']}`}
+        >
+          <span className={styles['anatomy__edge-label']}>
+            Margin {margins}px
+          </span>
         </span>
-        <span className={`${styles['anatomy__edge']} ${styles['anatomy__edge--right']}`}>
-          <span className={styles['anatomy__edge-label']}>Margin {margins}px</span>
+        <span
+          className={`${styles['anatomy__edge']} ${styles['anatomy__edge--right']}`}
+        >
+          <span className={styles['anatomy__edge-label']}>
+            Margin {margins}px
+          </span>
         </span>
         <div
           className={styles['anatomy__columns']}
@@ -169,11 +199,32 @@ const BREAKPOINTS: BreakpointRow[] = [
   { name: 'XS', range: '320 – 575', columns: 4, gutter: 16, margin: 16 },
   { name: 'S', range: '576 – 767', columns: 8, gutter: 16, margin: 16 },
   { name: 'M', range: '768 – 991', columns: 8, gutter: 24, margin: 24 },
-  { name: 'M (sidebar)', range: '768 – 991', columns: 4, gutter: 24, margin: 24, withSidebar: true },
+  {
+    name: 'M (sidebar)',
+    range: '768 – 991',
+    columns: 4,
+    gutter: 24,
+    margin: 24,
+    withSidebar: true,
+  },
   { name: 'L', range: '992 – 1199', columns: 12, gutter: 24, margin: 24 },
-  { name: 'L (sidebar)', range: '992 – 1199', columns: 8, gutter: 24, margin: 24, withSidebar: true },
+  {
+    name: 'L (sidebar)',
+    range: '992 – 1199',
+    columns: 8,
+    gutter: 24,
+    margin: 24,
+    withSidebar: true,
+  },
   { name: 'XL', range: '1200+', columns: 12, gutter: 24, margin: 24 },
-  { name: 'XL (sidebar)', range: '1200+', columns: 8, gutter: 24, margin: 24, withSidebar: true },
+  {
+    name: 'XL (sidebar)',
+    range: '1200+',
+    columns: 8,
+    gutter: 24,
+    margin: 24,
+    withSidebar: true,
+  },
 ];
 
 export function BreakpointTable() {
@@ -224,7 +275,11 @@ const RATIOS: RatioCard[] = [
   { label: '1:1', ratio: '1 / 1', use: 'Avatars and square thumbnails.' },
   { label: '4:3', ratio: '4 / 3', use: 'Image attachments and previews.' },
   { label: '3:2', ratio: '3 / 2', use: 'Marketing and onboarding canvases.' },
-  { label: '16:9', ratio: '16 / 9', use: 'Video embeds and full-width hero media.' },
+  {
+    label: '16:9',
+    ratio: '16 / 9',
+    use: 'Video embeds and full-width hero media.',
+  },
 ];
 
 export function AspectRatios() {
@@ -256,7 +311,12 @@ interface InteractionTargetProps {
   label: string;
 }
 
-function InteractionTarget({ size, spacing, caption, label }: InteractionTargetProps) {
+function InteractionTarget({
+  size,
+  spacing,
+  caption,
+  label,
+}: InteractionTargetProps) {
   return (
     <figure className={styles['target']}>
       <div className={styles['target__stage']}>
@@ -287,18 +347,8 @@ function InteractionTarget({ size, spacing, caption, label }: InteractionTargetP
 export function InteractionTargets() {
   return (
     <div className={styles['targets']}>
-      <InteractionTarget
-        size={24}
-        spacing={8}
-        label="Click"
-        caption="Mouse"
-      />
-      <InteractionTarget
-        size={40}
-        spacing={8}
-        label="Tap"
-        caption="Touch"
-      />
+      <InteractionTarget size={24} spacing={8} label="Click" caption="Mouse" />
+      <InteractionTarget size={40} spacing={8} label="Tap" caption="Touch" />
     </div>
   );
 }

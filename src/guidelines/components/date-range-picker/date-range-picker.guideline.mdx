@@ -12,8 +12,8 @@ calendar date matters more than typing a string. For relative ranges
 
 ## Anatomy
 
-- <Num>1</Num> **Trigger** — input-style field with a calendar icon, the
-  current value (or `mm/dd/yyyy` placeholder), and a chevron.
+- <Num>1</Num> **Trigger** — input-style field with a calendar icon, the current
+  value (or `mm/dd/yyyy` placeholder), and a chevron.
 - <Num>2</Num> **Month header** — the displayed month and year, plus
   previous/next navigation and a Today shortcut.
 - <Num>3</Num> **Day grid** — seven-column grid with weekday headers.
@@ -21,7 +21,7 @@ calendar date matters more than typing a string. For relative ranges
   today states.
 
 <AnatomyStage>
-  <div style={{width:'100%',maxWidth:'320px'}}>
+  <div style={{ width: '100%', maxWidth: '320px' }}>
     <DateRangePicker />
   </div>
 </AnatomyStage>
@@ -32,20 +32,20 @@ calendar date matters more than typing a string. For relative ranges
 
 Two selection modes:
 
-| Mode    | Use when                                                              |
-| ------- | --------------------------------------------------------------------- |
-| `date`  | Single point in time — due date, scheduled send, birthday.            |
-| `range` | A start-and-end window — report range, leave dates, event window.     |
+| Mode    | Use when                                                          |
+| ------- | ----------------------------------------------------------------- |
+| `date`  | Single point in time — due date, scheduled send, birthday.        |
+| `range` | A start-and-end window — report range, leave dates, event window. |
 
 In range mode the first click sets the start, the second sets the end. Days
 between the two are highlighted as in-range. A third click starts a new
 range from scratch.
 
-<div style={{display:'flex',gap:'1rem',flexWrap:'wrap'}}>
-  <div style={{maxWidth:'320px',flex:'1 1 240px'}}>
+<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+  <div style={{ maxWidth: '320px', flex: '1 1 240px' }}>
     <DateRangePicker mode="date" />
   </div>
-  <div style={{maxWidth:'320px',flex:'1 1 240px'}}>
+  <div style={{ maxWidth: '320px', flex: '1 1 240px' }}>
     <DateRangePicker mode="range" />
   </div>
 </div>
@@ -54,13 +54,13 @@ range from scratch.
 
 ## Day states
 
-| State       | Treatment                                                       |
-| ----------- | --------------------------------------------------------------- |
-| Available   | Default day. Hover shows a soft background.                     |
-| Today       | Carries a today indicator until selected.                       |
-| Selected    | Filled day cell. End-cap shape in range mode.                   |
-| In range    | Soft connector fill between the two range endpoints.            |
-| Unavailable | Dimmed and non-interactive. Used for disabled dates.            |
+| State       | Treatment                                            |
+| ----------- | ---------------------------------------------------- |
+| Available   | Default day. Hover shows a soft background.          |
+| Today       | Carries a today indicator until selected.            |
+| Selected    | Filled day cell. End-cap shape in range mode.        |
+| In range    | Soft connector fill between the two range endpoints. |
+| Unavailable | Dimmed and non-interactive. Used for disabled dates. |
 
 <Divider />
 

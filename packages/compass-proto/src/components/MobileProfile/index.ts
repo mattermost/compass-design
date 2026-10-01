@@ -1,2 +1,2 @@
-export {default as MobileProfile} from './MobileProfile';
-export type {MobileProfileProps} from './MobileProfile';
+export { default as MobileProfile } from './MobileProfile';
+export type { MobileProfileProps } from './MobileProfile';

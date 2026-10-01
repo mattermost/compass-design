@@ -13,7 +13,7 @@ import {
 } from '@mattermost/compass-ui/components/popover-menu';
 import { ShortcutTag } from '@mattermost/compass-ui/components/shortcut-tag';
 
-export interface ThreadActionsMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type ThreadActionsMenuProps = HTMLAttributes<HTMLDivElement>;
 
 function shortcutLabel(text: string) {
   return <ShortcutTag label={text} size="small" />;
@@ -28,11 +28,7 @@ export default function ThreadActionsMenu({
   ...rest
 }: ThreadActionsMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Unfollow thread"

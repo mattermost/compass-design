@@ -46,11 +46,10 @@ export default function MobileBottomSheet({
   className = '',
 }: MobileBottomSheetProps) {
   const titleId = useId();
-  const {rendered, exiting} = useExitAnimation(open, EXIT_MS);
+  const { rendered, exiting } = useExitAnimation(open, EXIT_MS);
   const [animateIn, setAnimateIn] = useState(false);
 
-  const hasHeader =
-    leadingVisual != null || title != null || subtitle != null;
+  const hasHeader = leadingVisual != null || title != null || subtitle != null;
 
   useLayoutEffect(() => {
     if (open) {
@@ -91,9 +90,9 @@ export default function MobileBottomSheet({
   return (
     <div className={rootClass}>
       <button
-        type='button'
+        type="button"
         className={styles['mobile-bottom-sheet__backdrop']}
-        aria-label='Dismiss'
+        aria-label="Dismiss"
         onClick={() => onClose?.()}
       />
       <div className={styles['mobile-bottom-sheet__panel']}>
@@ -102,8 +101,8 @@ export default function MobileBottomSheet({
         </div>
         <div
           className={styles['mobile-bottom-sheet__card']}
-          role='dialog'
-          aria-modal='true'
+          role="dialog"
+          aria-modal="true"
           aria-labelledby={title != null ? titleId : undefined}
         >
           {hasHeader && (
@@ -129,10 +128,14 @@ export default function MobileBottomSheet({
             </div>
           )}
           {children != null && (
-            <div className={styles['mobile-bottom-sheet__body']}>{children}</div>
+            <div className={styles['mobile-bottom-sheet__body']}>
+              {children}
+            </div>
           )}
           {footer != null && (
-            <div className={styles['mobile-bottom-sheet__footer']}>{footer}</div>
+            <div className={styles['mobile-bottom-sheet__footer']}>
+              {footer}
+            </div>
           )}
         </div>
       </div>

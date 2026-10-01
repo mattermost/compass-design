@@ -94,7 +94,9 @@ export default function ThreadListItem({
     if (
       selection?.type === 'Range' &&
       selection.toString().length > 0 &&
-      event.currentTarget.contains(selection.getRangeAt(0).commonAncestorContainer)
+      event.currentTarget.contains(
+        selection.getRangeAt(0).commonAncestorContainer,
+      )
     ) {
       return;
     }

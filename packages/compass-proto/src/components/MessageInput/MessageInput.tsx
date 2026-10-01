@@ -64,7 +64,8 @@ export default function MessageInput({
   const setTextareaRef = (node: HTMLTextAreaElement | null) => {
     internalRef.current = node;
     if (inputRef) {
-      (inputRef as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+      (inputRef as React.MutableRefObject<HTMLTextAreaElement | null>).current =
+        node;
     }
   };
 
@@ -96,9 +97,7 @@ export default function MessageInput({
           formattingOpen ? 'message-input__format-btn--active' : '',
         )}
         aria-label={
-          formattingOpen
-            ? 'Hide formatting toolbar'
-            : 'Show formatting toolbar'
+          formattingOpen ? 'Hide formatting toolbar' : 'Show formatting toolbar'
         }
         aria-pressed={formattingOpen}
         onClick={() => setFormattingOpen((prev) => !prev)}
@@ -120,10 +119,7 @@ export default function MessageInput({
         )}
       </button>
 
-      <span
-        className={styles['message-input__actions-divider']}
-        aria-hidden
-      />
+      <span className={styles['message-input__actions-divider']} aria-hidden />
 
       <IconButton
         icon={<Icon glyph={<PaperclipIcon />} size="16" />}
@@ -401,7 +397,9 @@ export default function MessageInput({
             </div>
           </div>
         ) : (
-          <div className={styles['message-input__actions']}>{composerActions}</div>
+          <div className={styles['message-input__actions']}>
+            {composerActions}
+          </div>
         )}
       </div>
     </div>

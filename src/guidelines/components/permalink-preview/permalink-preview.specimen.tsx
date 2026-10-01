@@ -54,8 +54,8 @@ const richContent = (
       }}
     >
       The release ships a new onboarding checklist for first-time users,
-      expanded keyboard shortcut coverage, and a set of API changes detailed
-      in the migration guide. Performance benchmarks show a 30% reduction in
+      expanded keyboard shortcut coverage, and a set of API changes detailed in
+      the migration guide. Performance benchmarks show a 30% reduction in
       time-to-interactive on slow networks compared to v9.10.
     </p>
   </div>
@@ -67,10 +67,7 @@ export default function PermalinkPreviewLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Default</span>
-          <PermalinkPreview
-            avatarSrc={avatarLeonard}
-            onDismiss={() => {}}
-          />
+          <PermalinkPreview avatarSrc={avatarLeonard} onDismiss={() => {}} />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>

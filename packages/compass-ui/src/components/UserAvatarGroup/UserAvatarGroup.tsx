@@ -73,10 +73,7 @@ export default function UserAvatarGroup({
       aria-label={`${avatars.length} participants`}
     >
       {visible.map((avatar) => (
-        <span
-          key={avatar.key}
-          className={styles['user-avatar-group__item']}
-        >
+        <span key={avatar.key} className={styles['user-avatar-group__item']}>
           <span className={styles['user-avatar-group__trigger']}>
             <UserAvatar
               src={avatar.src}

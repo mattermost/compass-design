@@ -11,7 +11,7 @@ import {
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
 
-export interface HelpMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type HelpMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Global header help menu — docs, community, and shortcuts.
@@ -22,11 +22,7 @@ export default function HelpMenu({
   ...rest
 }: HelpMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Mattermost user guide"

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import ClockOutlineIcon from '@mattermost/compass-icons/components/clock-outline';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import PlusBoxOutlineIcon from '@mattermost/compass-icons/components/plus-box-outline';
@@ -31,15 +31,15 @@ export interface MobileSearchSuggestionsProps {
 }
 
 const DEFAULT_OPTIONS: MobileSearchOption[] = [
-  {id: 'from', modifier: 'From:', description: ' a specific user'},
-  {id: 'in', modifier: 'In:', description: ' a specific channel'},
-  {id: 'on', modifier: 'On:', description: ' a specific date'},
+  { id: 'from', modifier: 'From:', description: ' a specific user' },
+  { id: 'in', modifier: 'In:', description: ' a specific channel' },
+  { id: 'on', modifier: 'On:', description: ' a specific date' },
 ];
 
 const DEFAULT_RECENT: MobileSearchRecentItem[] = [
-  {id: '1', query: 'Welcome in:town-square'},
-  {id: '2', query: 'Figma'},
-  {id: '3', query: 'RC Test from:amy.blais'},
+  { id: '1', query: 'Welcome in:town-square' },
+  { id: '2', query: 'Figma' },
+  { id: '3', query: 'RC Test from:amy.blais' },
 ];
 
 function OptionLabel({
@@ -102,12 +102,12 @@ export default function MobileSearchSuggestions({
                 description={option.description}
               />
             }
-            leadingVisual={<Icon size='20' glyph={<PlusBoxOutlineIcon />} />}
+            leadingVisual={<Icon size="20" glyph={<PlusBoxOutlineIcon />} />}
             onClick={option.onClick}
           />
         ))}
         <button
-          type='button'
+          type="button"
           className={styles['mobile-search-suggestions__show-more']}
           onClick={onShowMore}
         >
@@ -117,7 +117,7 @@ export default function MobileSearchSuggestions({
 
       <div
         className={styles['mobile-search-suggestions__divider']}
-        role='separator'
+        role="separator"
       >
         <hr className={styles['mobile-search-suggestions__divider-line']} />
       </div>
@@ -130,7 +130,7 @@ export default function MobileSearchSuggestions({
           <MobileMenuItem
             key={item.id}
             label={item.query}
-            leadingVisual={<Icon size='20' glyph={<ClockOutlineIcon />} />}
+            leadingVisual={<Icon size="20" glyph={<ClockOutlineIcon />} />}
             trailingElement
             trailingVisual={
               <span
@@ -138,7 +138,7 @@ export default function MobileSearchSuggestions({
                 data-remove
                 aria-hidden
               >
-                <Icon size='16' glyph={<CloseIcon />} />
+                <Icon size="16" glyph={<CloseIcon />} />
               </span>
             }
             aria-label={item.query}

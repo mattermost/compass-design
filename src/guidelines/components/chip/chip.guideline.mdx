@@ -20,14 +20,21 @@ when you're labeling content (Bot, Guest, severity), not selecting it.
 ## Anatomy
 
 - <Num>1</Num> **Container** — pill-shaped surface with a subtle background.
-- <Num>2</Num> **Supporting visual** — optional. An avatar for people, an
-  icon for filters or properties.
+- <Num>2</Num> **Supporting visual** — optional. An avatar for people, an icon
+  for filters or properties.
 - <Num>3</Num> **Label** — required text describing the value.
 - <Num>4</Num> **Remove button** — the control that removes an input chip.
 
-<AnatomyStage style={{gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
-  <Chip leadingAvatar={{ src: avatarEmmaNovak, alt: 'Emma Novak' }} onRemove={() => {}}>Emma Novak</Chip>
-  <Chip leadingIcon={<GlobeIcon />} onRemove={() => {}}>design</Chip>
+<AnatomyStage style={{ gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+  <Chip
+    leadingAvatar={{ src: avatarEmmaNovak, alt: 'Emma Novak' }}
+    onRemove={() => {}}
+  >
+    Emma Novak
+  </Chip>
+  <Chip leadingIcon={<GlobeIcon />} onRemove={() => {}}>
+    design
+  </Chip>
   <Chip leadingIcon={<AccountOutlineIcon />}>From: Mira</Chip>
 </AnatomyStage>
 
@@ -44,7 +51,14 @@ adjusting padding.
 | Medium | Default. Composer fields, search filters.          |
 | Large  | Touch-first inputs and accessibility-led surfaces. |
 
-<div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  }}
+>
   <Chip size="small">Small</Chip>
   <Chip size="medium">Medium</Chip>
   <Chip size="large">Large</Chip>
@@ -58,9 +72,18 @@ Add `compact` to reduce vertical and horizontal padding within the chip.
 Use it when chips sit inside compact inputs or tight toolbars where the
 standard medium padding is too generous.
 
-<div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  }}
+>
   <Chip size="medium">Medium</Chip>
-  <Chip size="medium" compact>Medium compact</Chip>
+  <Chip size="medium" compact>
+    Medium compact
+  </Chip>
 </div>
 
 <Divider />
@@ -72,10 +95,32 @@ standard medium padding is too generous.
 Input chips appear inside a tokenizing input — adding members to a channel,
 filtering a list, picking tags. Each chip carries a remove (×) control.
 
-<div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
-  <Chip leadingAvatar={{ src: avatarEmmaNovak, alt: 'Emma Novak' }} onRemove={() => {}}>Emma Novak</Chip>
-  <Chip leadingAvatar={{ src: avatarArjunPatel, alt: 'Arjun Patel' }} onRemove={() => {}}>Arjun Patel</Chip>
-  <Chip leadingAvatar={{ src: avatarSofiaBauer, alt: 'Sofia Bauer' }} onRemove={() => {}}>Sofia Bauer</Chip>
+<div
+  style={{
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  }}
+>
+  <Chip
+    leadingAvatar={{ src: avatarEmmaNovak, alt: 'Emma Novak' }}
+    onRemove={() => {}}
+  >
+    Emma Novak
+  </Chip>
+  <Chip
+    leadingAvatar={{ src: avatarArjunPatel, alt: 'Arjun Patel' }}
+    onRemove={() => {}}
+  >
+    Arjun Patel
+  </Chip>
+  <Chip
+    leadingAvatar={{ src: avatarSofiaBauer, alt: 'Sofia Bauer' }}
+    onRemove={() => {}}
+  >
+    Sofia Bauer
+  </Chip>
 </div>
 
 ### Choice chips
@@ -83,9 +128,18 @@ filtering a list, picking tags. Each chip carries a remove (×) control.
 Choice chips are selectable filters. They toggle on and off but don't get
 removed — keep the remove control off.
 
-<div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  }}
+>
   <Chip leadingIcon={<GlobeIcon />}>All channels</Chip>
-  <Chip leadingIcon={<AccountOutlineIcon />} colored>Direct messages</Chip>
+  <Chip leadingIcon={<AccountOutlineIcon />} colored>
+    Direct messages
+  </Chip>
 </div>
 
 <Divider />
@@ -96,8 +150,10 @@ Use the error variant when an input chip fails validation — for example, an
 email that didn't resolve to a member. Pair it with field-level error text
 so the cause is explicit.
 
-<div style={{display:'flex',gap:'0.5rem'}}>
-  <Chip error onRemove={() => {}}>{'not-a-member@example.com'}</Chip>
+<div style={{ display: 'flex', gap: '0.5rem' }}>
+  <Chip error onRemove={() => {}}>
+    {'not-a-member@example.com'}
+  </Chip>
 </div>
 
 <Divider />
@@ -117,7 +173,14 @@ the × is mouse-only.
   collide with a surrounding input. The × never takes a ring.
 - **Mouse.** Click the × to remove, same as Delete.
 
-<div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',alignItems:'center'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  }}
+>
   <RemovableChipsDemo />
 </div>
 

@@ -304,8 +304,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
   const displayLabel = selectedOption?.label ?? placeholder ?? '';
   const showPlaceholderStyle = !hasValue && displayLabel !== '';
 
-  const activeOption =
-    activeIndex >= 0 ? listOptions[activeIndex] : undefined;
+  const activeOption = activeIndex >= 0 ? listOptions[activeIndex] : undefined;
   const activeDescendant =
     isOpen && activeOption != null
       ? `${listboxId}-option-${activeOption.value}`

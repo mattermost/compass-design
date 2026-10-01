@@ -15,7 +15,7 @@ import {
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
 
-export interface ChannelMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type ChannelMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Narrow channel sidebar context menu.
@@ -26,11 +26,7 @@ export default function ChannelMenu({
   ...rest
 }: ChannelMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Mark as read"

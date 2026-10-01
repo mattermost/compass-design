@@ -16,7 +16,7 @@ instead.
 A single rotating arc, sized to the surface that hosts it. No label, no
 container, no decoration.
 
-<AnatomyStage style={{gap:'1rem',flexWrap:'wrap'}}>
+<AnatomyStage style={{ gap: '1rem', flexWrap: 'wrap' }}>
   <Spinner size={20} />
 </AnatomyStage>
 
@@ -31,7 +31,15 @@ so the wait has a name.
 Spinner sizes track the [Icon](/components/icon) scale, so the
 spinner replaces an icon at the same dimensions without shifting layout.
 
-<div style={{display:'flex',gap:'1rem',flexWrap:'wrap',alignItems:'center',padding:'1rem 0'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    padding: '1rem 0',
+  }}
+>
   <Spinner size={10} />
   <Spinner size={12} />
   <Spinner size={16} />
@@ -41,12 +49,12 @@ spinner replaces an icon at the same dimensions without shifting layout.
   <Spinner size={32} />
 </div>
 
-| Size  | Use when                                                            |
-| ----- | ------------------------------------------------------------------- |
-| 10–12 | Inline with body text or inside small pills (e.g. Recording Pill).  |
-| 16    | Inside compact controls and toolbars.                               |
-| 20–24 | Buttons in a loading state; row-level loaders.                      |
-| 28–32 | Card or section loaders that anchor a larger empty area.            |
+| Size  | Use when                                                           |
+| ----- | ------------------------------------------------------------------ |
+| 10–12 | Inline with body text or inside small pills (e.g. Recording Pill). |
+| 16    | Inside compact controls and toolbars.                              |
+| 20–24 | Buttons in a loading state; row-level loaders.                     |
+| 28–32 | Card or section loaders that anchor a larger empty area.           |
 
 <Divider />
 
@@ -55,9 +63,24 @@ spinner replaces an icon at the same dimensions without shifting layout.
 Two appearances: **Default** (theme-coloured arc) and **Inverted** for use
 on dark or saturated surfaces.
 
-<div style={{display:'flex',gap:'1rem',flexWrap:'wrap',alignItems:'center',padding:'1rem 0'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    padding: '1rem 0',
+  }}
+>
   <Spinner size={24} />
-  <div style={{display:'inline-flex',padding:'0.5rem',borderRadius:'4px',background:'var(--button-bg)'}}>
+  <div
+    style={{
+      display: 'inline-flex',
+      padding: '0.5rem',
+      borderRadius: '4px',
+      background: 'var(--button-bg)',
+    }}
+  >
     <Spinner size={24} inverted />
   </div>
 </div>

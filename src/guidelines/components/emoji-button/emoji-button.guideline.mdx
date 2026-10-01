@@ -1,4 +1,7 @@
-import { EMOJI_BUTTON_EMOJI_SIZES, EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
+import {
+  EMOJI_BUTTON_EMOJI_SIZES,
+  EmojiButton,
+} from '@mattermost/compass-ui/components/emoji-button';
 
 Emoji Buttons are compact, label-free actions that render an emoji as their
 visual — the emoji counterpart to Icon Button. Use them in emoji selection
@@ -12,13 +15,18 @@ primary affordance.
 A square (or pill) target wrapping a single Emoji. The emoji scales slightly
 on hover to confirm interactivity.
 
-<AnatomyStage style={{gap:'1rem'}}>
+<AnatomyStage style={{ gap: '1rem' }}>
   <EmojiButton aria-label="Thumbs up" emoji="👍" size="medium" />
-  <EmojiButton aria-label="Thumbs up, toggled" emoji="👍" size="medium" toggled />
+  <EmojiButton
+    aria-label="Thumbs up, toggled"
+    emoji="👍"
+    size="medium"
+    toggled
+  />
 </AnatomyStage>
 
-- <Num>1</Num> **Container** — square (or pill when `rounded`) target. Sized
-  to the chosen size token; defaults to 4px corner radius.
+- <Num>1</Num> **Container** — square (or pill when `rounded`) target. Sized to
+  the chosen size token; defaults to 4px corner radius.
 - <Num>2</Num> **Emoji** — the action's visual. Scales up on hover via a CSS
   transform so the target size stays stable.
 
@@ -30,19 +38,28 @@ Four sizes, each with a matching default emoji size. **Compact** padding is
 available where the surrounding rhythm calls for a tighter target — dense
 grids, picker headers.
 
-<div style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+  }}
+>
   <EmojiButton aria-label="X-Small" size="x-small" emoji="🎉" />
   <EmojiButton aria-label="Small" size="small" emoji="🎉" />
   <EmojiButton aria-label="Medium" size="medium" emoji="🎉" />
   <EmojiButton aria-label="Large" size="large" emoji="🎉" />
 </div>
 
-| Size    | Container | Emoji | Use when                                                |
-| ------- | --------- | ----- | ------------------------------------------------------- |
-| X-Small | 24px      | 12px  | Inline reactions, compact action rows.                  |
-| Small   | 32px      | 20px  | Default for emoji grids and skin-tone selectors.        |
-| Medium  | 40px      | 24px  | Prominent emoji controls, toolbar slots.                |
-| Large   | 48px      | 28px  | Mobile, featured emoji pickers.                         |
+| Size    | Container | Emoji | Use when                                         |
+| ------- | --------- | ----- | ------------------------------------------------ |
+| X-Small | 24px      | 12px  | Inline reactions, compact action rows.           |
+| Small   | 32px      | 20px  | Default for emoji grids and skin-tone selectors. |
+| Medium  | 40px      | 24px  | Prominent emoji controls, toolbar slots.         |
+| Large   | 48px      | 28px  | Mobile, featured emoji pickers.                  |
 
 <Divider />
 
@@ -51,7 +68,16 @@ grids, picker headers.
 Emoji Buttons share the standard interactive states — Default, Hover, Focus,
 Active, Disabled — and add **Toggled** for selected/on controls.
 
-<div style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+  }}
+>
   <EmojiButton aria-label="Default" emoji="👍" />
   <EmojiButton aria-label="Toggled" emoji="👍" toggled />
   <EmojiButton aria-label="Disabled" emoji="👍" disabled />

@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react';
-import { TeamSidebar, type TeamSidebarItem } from '@mattermost/compass-ui/components/team-sidebar';
+import {
+  TeamSidebar,
+  type TeamSidebarItem,
+} from '@mattermost/compass-ui/components/team-sidebar';
 import { ChannelsSidebar } from '../ChannelsSidebar';
 import type { ChannelsSidebarModel } from '../ChannelsSidebar';
 import { GlobalHeader } from '../GlobalHeader';
@@ -62,7 +65,9 @@ export default function ChannelShell({
   overlay,
   className = '',
 }: ChannelShellProps) {
-  const rootClass = [styles['channel-shell'], className].filter(Boolean).join(' ');
+  const rootClass = [styles['channel-shell'], className]
+    .filter(Boolean)
+    .join(' ');
   const useInnerOnly = innerContent != null;
 
   const sidebarContent =
@@ -102,7 +107,9 @@ export default function ChannelShell({
           </div>
 
           {useInnerOnly ? (
-            <div className={styles['channel-shell__inner-panel']}>{innerContent}</div>
+            <div className={styles['channel-shell__inner-panel']}>
+              {innerContent}
+            </div>
           ) : (
             <div className={styles['channel-shell__inner-panel']}>
               <div className={styles['channel-shell__center']}>

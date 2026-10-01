@@ -39,7 +39,8 @@ const DESTINATIONS: {
   {
     label: 'Layouts',
     path: categoryFirstTopicPath('layouts'),
-    description: 'Complete screens—sidebars, headers, and primary content working together.',
+    description:
+      'Complete screens—sidebars, headers, and primary content working together.',
     Illustration: LayoutsCardArt,
   },
 ];
@@ -47,20 +48,26 @@ const DESTINATIONS: {
 export default function Home() {
   return (
     <div className={styles.home}>
-      <section className={styles['home__hero']} aria-labelledby="home-hero-heading">
+      <section
+        className={styles['home__hero']}
+        aria-labelledby="home-hero-heading"
+      >
         <div className={styles['home__hero-inner']}>
           <div className={styles['home__hero-main']}>
             <div className={styles['home__hero-copy']}>
               <div className={styles['home__hero-head']}>
                 <p className={styles['home__hero-eyebrow']}>COMPASS</p>
-                <h1 id="home-hero-heading" className={styles['home__hero-title']}>
-                  Explore the Mattermost Design System
+                <h1
+                  id="home-hero-heading"
+                  className={styles['home__hero-title']}
+                >
+                  Explore the Mattermost Design{'\u00a0'}System
                 </h1>
               </div>
               <p className={styles['home__hero-lede']}>
-                Compass is the source of truth for styles, components, and patterns
-                in the Mattermost platform — built for teams who need data control,
-                speed, and clarity under pressure.
+                Compass is the source of truth for styles, components, and
+                patterns in the Mattermost platform — built for teams who need
+                data control, speed, and clarity under pressure.
               </p>
               <div className={styles['home__hero-ctas']}>
                 <Link

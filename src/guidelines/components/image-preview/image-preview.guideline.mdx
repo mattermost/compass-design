@@ -23,15 +23,14 @@ in the top-right corner of the frame.
   />
 </AnatomyStage>
 
-- <Num>1</Num> **Frame** — bordered, rounded container that holds the
-  image. The image is centred and cropped to the frame.
-- <Num>2</Num> **Image** — the source asset. Rendered with `object-fit:
-  cover` so it fills the frame without distortion.
-- <Num>3</Num> **Hover actions** — a small floating cluster that surfaces
-  Copy link and Download. Hidden until the user mouses over the frame.
-- <Num>4</Num> **Collapse toggle** — a circular control in the top-left
-  corner that hides the preview body when the user wants it out of the
-  way.
+- <Num>1</Num> **Frame** — bordered, rounded container that holds the image. The
+  image is centred and cropped to the frame.
+- <Num>2</Num> **Image** — the source asset. Rendered with `object-fit: cover`
+  so it fills the frame without distortion.
+- <Num>3</Num> **Hover actions** — a small floating cluster that surfaces Copy
+  link and Download. Hidden until the user mouses over the frame.
+- <Num>4</Num> **Collapse toggle** — a circular control in the top-left corner
+  that hides the preview body when the user wants it out of the way.
 
 <Divider />
 
@@ -40,17 +39,26 @@ in the top-right corner of the frame.
 Image Preview scales to fit within the message column. For single images,
 the component caps the frame so it doesn't dominate the conversation.
 
-| Layout         | Width                  | Height        |
-| -------------- | ---------------------- | ------------- |
-| Single image   | min 48px, max 700px    | min 48px, max 240px |
-| Gallery (4:3)  | Cropped to 4:3 ratio   | —             |
-| Gallery (3:4)  | Cropped to 3:4 ratio   | —             |
-| Gallery (1:1)  | Square                 | —             |
+| Layout        | Width                | Height              |
+| ------------- | -------------------- | ------------------- |
+| Single image  | min 48px, max 700px  | min 48px, max 240px |
+| Gallery (4:3) | Cropped to 4:3 ratio | —                   |
+| Gallery (3:4) | Cropped to 3:4 ratio | —                   |
+| Gallery (1:1) | Square               | —                   |
 
 The component exposes three preset aspect ratios — `16:9`, `4:3`, `1:1` —
 for cases where the consumer needs a fixed framing.
 
-<div style={{display:'flex',gap:'1rem',padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px',flexWrap:'wrap'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+    flexWrap: 'wrap',
+  }}
+>
   <ImagePreview
     src={sampleImage}
     alt="16:9"
@@ -77,7 +85,13 @@ for cases where the consumer needs a fixed framing.
   text — _Show image preview_ — that the user can click to restore the
   frame.
 
-<div style={{padding:'1.5rem',background:'rgba(0,0,0,0.04)',borderRadius:'8px'}}>
+<div
+  style={{
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+  }}
+>
   <ImagePreview
     src={sampleImage}
     alt="Collapsed image"

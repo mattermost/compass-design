@@ -23,14 +23,14 @@ after a short duration.
 
 - <Num>1</Num> **Container** — dark surface with rounded corners; a coloured
   variant is reserved for warnings.
-- <Num>2</Num> **Leading icon** — semantic icon that mirrors the toast's
-  type (general, success, error, warning, info).
+- <Num>2</Num> **Leading icon** — semantic icon that mirrors the toast's type
+  (general, success, error, warning, info).
 - <Num>3</Num> **Message** — the line of text. One sentence; complete and
   self-contained.
-- <Num>4</Num> **Action button** — optional; for "Retry", "Undo", "View",
-  and similar single-step recovery moves.
-- <Num>5</Num> **Dismiss button** — optional close affordance for users who
-  want to clear the toast immediately.
+- <Num>4</Num> **Action button** — optional; for "Retry", "Undo", "View", and
+  similar single-step recovery moves.
+- <Num>5</Num> **Dismiss button** — optional close affordance for users who want
+  to clear the toast immediately.
 
 <Divider />
 
@@ -38,20 +38,51 @@ after a short duration.
 
 Pick the type that matches the message's meaning, not the colour you want.
 
-| Type     | Use when                                                                          |
-| -------- | --------------------------------------------------------------------------------- |
-| General  | Neutral confirmation with no semantic state (e.g. "Link copied to clipboard").    |
-| Info     | Informational follow-up; usually paired with an action ("Refresh", "View").       |
-| Success  | A user-initiated action completed successfully.                                   |
-| Warning  | Something the user should notice but isn't blocking ("Session expires soon").     |
-| Danger   | An error or failure. Always pair with a recovery action when one exists.          |
+| Type    | Use when                                                                       |
+| ------- | ------------------------------------------------------------------------------ |
+| General | Neutral confirmation with no semantic state (e.g. "Link copied to clipboard"). |
+| Info    | Informational follow-up; usually paired with an action ("Refresh", "View").    |
+| Success | A user-initiated action completed successfully.                                |
+| Warning | Something the user should notice but isn't blocking ("Session expires soon").  |
+| Danger  | An error or failure. Always pair with a recovery action when one exists.       |
 
-<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxWidth: '480px' }}>
-  <Toast type="general" message="Link copied to clipboard." onDismiss={() => {}} />
-  <Toast type="info" message="New update available. Refresh to apply." actionLabel="Refresh" onAction={() => {}} onDismiss={() => {}} />
-  <Toast type="success" message="Message saved successfully." onDismiss={() => {}} />
-  <Toast type="warning" message="Your session will expire in 5 minutes." onDismiss={() => {}} />
-  <Toast type="danger" message="Failed to send message. Please try again." actionLabel="Retry" onAction={() => {}} onDismiss={() => {}} />
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+    maxWidth: '480px',
+  }}
+>
+  <Toast
+    type="general"
+    message="Link copied to clipboard."
+    onDismiss={() => {}}
+  />
+  <Toast
+    type="info"
+    message="New update available. Refresh to apply."
+    actionLabel="Refresh"
+    onAction={() => {}}
+    onDismiss={() => {}}
+  />
+  <Toast
+    type="success"
+    message="Message saved successfully."
+    onDismiss={() => {}}
+  />
+  <Toast
+    type="warning"
+    message="Your session will expire in 5 minutes."
+    onDismiss={() => {}}
+  />
+  <Toast
+    type="danger"
+    message="Failed to send message. Please try again."
+    actionLabel="Retry"
+    onAction={() => {}}
+    onDismiss={() => {}}
+  />
 </div>
 
 <Divider />
@@ -71,10 +102,10 @@ Pick the type that matches the message's meaning, not the colour you want.
 
 ## Width
 
-| Width      | Use when                                                                          |
-| ---------- | --------------------------------------------------------------------------------- |
-| Auto-width | The default. Width follows the message and any action.                            |
-| Fixed      | The toast lives inside a layout column where alignment with siblings matters.     |
+| Width      | Use when                                                                      |
+| ---------- | ----------------------------------------------------------------------------- |
+| Auto-width | The default. Width follows the message and any action.                        |
+| Fixed      | The toast lives inside a layout column where alignment with siblings matters. |
 
 <Divider />
 
