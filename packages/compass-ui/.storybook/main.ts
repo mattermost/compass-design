@@ -23,7 +23,8 @@ const config: StorybookConfig = {
     viteConfig.build ??= {};
     viteConfig.build.rollupOptions ??= {};
     const { output } = viteConfig.build.rollupOptions;
-    const outputs = output == null ? [{}] : Array.isArray(output) ? output : [output];
+    const outputs =
+      output == null ? [{}] : Array.isArray(output) ? output : [output];
     if (output == null) {
       viteConfig.build.rollupOptions.output = outputs[0];
     }

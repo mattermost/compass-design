@@ -5,3 +5,5 @@ dist
 node_modules
 # Prettier flattens the nested lists under <Num> items in this file
 src/guidelines/patterns/message-input/message-input.guideline.mdx
+# Rewritten by scripts/gen-*.mjs on every build
+*.generated.ts
