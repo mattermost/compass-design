@@ -66,17 +66,18 @@ export const WithBadge: Story = {
   },
 };
 
-function Row({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div style={{ display: 'grid', gap: 8 }}>
       <span style={labelStyle}>{label}</span>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 12,
+          alignItems: 'center',
+        }}
+      >
         {children}
       </div>
     </div>
@@ -124,9 +125,24 @@ export const AllVariants: Story = {
         ))}
       </Row>
       <Row label="Badge">
-        <TeamAvatar src={avatarStaffTeam} alt="Staff Team" size="32" badge={1} />
-        <TeamAvatar src={avatarStaffTeam} alt="Staff Team" size="40" badge={5} />
-        <TeamAvatar src={avatarStaffTeam} alt="Staff Team" size="56" badge={99} />
+        <TeamAvatar
+          src={avatarStaffTeam}
+          alt="Staff Team"
+          size="32"
+          badge={1}
+        />
+        <TeamAvatar
+          src={avatarStaffTeam}
+          alt="Staff Team"
+          size="40"
+          badge={5}
+        />
+        <TeamAvatar
+          src={avatarStaffTeam}
+          alt="Staff Team"
+          size="56"
+          badge={99}
+        />
       </Row>
     </div>
   ),

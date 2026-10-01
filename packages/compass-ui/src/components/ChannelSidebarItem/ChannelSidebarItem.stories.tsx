@@ -43,7 +43,11 @@ const meta = {
     },
     status: {
       control: 'select',
-      options: ['read', 'unread', 'mention'] satisfies ChannelSidebarItemStatus[],
+      options: [
+        'read',
+        'unread',
+        'mention',
+      ] satisfies ChannelSidebarItemStatus[],
     },
   },
   decorators: [
@@ -101,7 +105,11 @@ export const AllVariants: Story = {
       <section>
         <span style={labelStyle}>Leading visuals</span>
         <div style={{ display: 'grid', gap: 2 }}>
-          <ChannelSidebarItem leadingVisual="public" name="Design" onClick={fn()} />
+          <ChannelSidebarItem
+            leadingVisual="public"
+            name="Design"
+            onClick={fn()}
+          />
           <ChannelSidebarItem
             leadingVisual="private"
             name="Engineering"
@@ -121,8 +129,16 @@ export const AllVariants: Story = {
             showAvatarStatus
             onClick={fn()}
           />
-          <ChannelSidebarItem leadingVisual="threads" name="Threads" onClick={fn()} />
-          <ChannelSidebarItem leadingVisual="drafts" name="Drafts" onClick={fn()} />
+          <ChannelSidebarItem
+            leadingVisual="threads"
+            name="Threads"
+            onClick={fn()}
+          />
+          <ChannelSidebarItem
+            leadingVisual="drafts"
+            name="Drafts"
+            onClick={fn()}
+          />
           <ChannelSidebarItem
             leadingVisual="insights"
             name="Insights"

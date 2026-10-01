@@ -77,9 +77,7 @@ export const AllVariants: Story = {
             padding: location === 'tooltips' ? 16 : 0,
             borderRadius: location === 'tooltips' ? 8 : undefined,
             backgroundColor:
-              location === 'tooltips'
-                ? 'var(--neutral-1200)'
-                : undefined,
+              location === 'tooltips' ? 'var(--neutral-1200)' : undefined,
           }}
         >
           {SIZES.map((size) => (

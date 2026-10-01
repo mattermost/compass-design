@@ -15,8 +15,7 @@
     color var(--duration-quick) var(--ease-transition),
     outline-color var(--duration-quick) var(--ease-transition),
     outline-offset var(--duration-quick) var(--ease-transition);
-  outline: 2px solid
-    color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
 
   &:focus-visible {
@@ -59,16 +58,25 @@
   &--destructive {
     --focus-ring-color: var(--error-text, var(--color-danger));
 
-    background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.04);
+    background-color: rgba(
+      var(--error-text-color-rgb, var(--color-danger-rgb)),
+      0.04
+    );
     color: var(--error-text, var(--color-danger));
 
     &:hover:not(:disabled) {
-      background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.08);
+      background-color: rgba(
+        var(--error-text-color-rgb, var(--color-danger-rgb)),
+        0.08
+      );
       color: var(--error-text, var(--color-danger));
     }
 
     &:active:not(:disabled) {
-      background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.16);
+      background-color: rgba(
+        var(--error-text-color-rgb, var(--color-danger-rgb)),
+        0.16
+      );
       color: var(--error-text, var(--color-danger));
     }
   }

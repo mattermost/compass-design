@@ -2,7 +2,7 @@
 
 Guide for consuming the Compass UI library in Vite apps (docs, prototypes catalog) and the Mattermost webapp (`webapp/channels`).
 
-Mobile shells, `ChannelShell`, Call* composites, `ParticipantsPanel`, `RecordingPill`, `ReactionPill`, `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `AppBarItem`, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only. Published chrome includes `RightSidebarHeader`, Message leaves, `Modal`, and `TeamSidebar`.
+Mobile shells, `ChannelShell`, Call\* composites, `ParticipantsPanel`, `RecordingPill`, `ReactionPill`, `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `AppBarItem`, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only. Published chrome includes `RightSidebarHeader`, Message leaves, `Modal`, and `TeamSidebar`.
 
 ## Install
 
@@ -61,9 +61,9 @@ npm run smoke-test:ui
 import '@mattermost/compass-ui/styles';
 ```
 
-| Export | Contents |
-|--------|----------|
-| `@mattermost/compass-ui/styles` | CSS variables (tokens) + webapp-compat defaults |
+| Export                                     | Contents                                                                                                                        |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `@mattermost/compass-ui/styles`            | CSS variables (tokens) + webapp-compat defaults                                                                                 |
 | `@mattermost/compass-ui/styles/standalone` | Theme presets (`data-theme`), CSS reset, and document `body` / heading chrome for Storybook and other **standalone** hosts only |
 
 Component CSS modules (and SimpleBar base CSS for `Scrollbar`) ship **with each component** — importing a component pulls in its styles. Do **not** import a separate `component-styles` entry; that export no longer exists.
@@ -79,7 +79,7 @@ Components assume CSS variables are present — they do not import tokens direct
 Standalone hosts (with `/styles/standalone`):
 
 ```html
-<html data-theme="denim">
+<html data-theme="denim"></html>
 ```
 
 Supported presets: `denim`, `sapphire`, `quartz`, `indigo`, `onyx`. Toggle via `document.documentElement.setAttribute('data-theme', theme)` or your theme context.
@@ -115,13 +115,13 @@ import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import { useExitAnimation } from '@mattermost/compass-ui/hooks/use-exit-animation';
 ```
 
-| Import style | When to use |
-|--------------|-------------|
-| `@mattermost/compass-ui/components/<kebab-name>` | **Default** — components, types, and style sub-exports from that component |
-| `@mattermost/compass-ui/illustrations/<kebab-name>` | Brand SVG artwork as React components (`search`, `groups`, …) |
-| `@mattermost/compass-ui/hooks/<kebab-name>` | Shared hooks |
-| `@mattermost/compass-ui/utils/string` | `toKebab` and string helpers |
-| `@mattermost/compass-ui` (root barrel) | Legacy only — loads the full package; avoid in Jest |
+| Import style                                        | When to use                                                                |
+| --------------------------------------------------- | -------------------------------------------------------------------------- |
+| `@mattermost/compass-ui/components/<kebab-name>`    | **Default** — components, types, and style sub-exports from that component |
+| `@mattermost/compass-ui/illustrations/<kebab-name>` | Brand SVG artwork as React components (`search`, `groups`, …)              |
+| `@mattermost/compass-ui/hooks/<kebab-name>`         | Shared hooks                                                               |
+| `@mattermost/compass-ui/utils/string`               | `toKebab` and string helpers                                               |
+| `@mattermost/compass-ui` (root barrel)              | Legacy only — loads the full package; avoid in Jest                        |
 
 PascalCase component folders map to kebab-case subpaths: `AdminConsoleSidebar` → `components/admin-console-sidebar`.
 
@@ -146,12 +146,12 @@ Webapp product code should use `@mattermost/compass-ui` only.
 
 ## Peer dependencies
 
-| Package | Required | Notes |
-|---------|----------|-------|
-| `react` | Yes | `^18.2.0` for webapp parity; `^19.0.0` works in Vite consumers |
-| `react-dom` | Yes | Same range as React |
-| `@mattermost/compass-icons` | Yes | Icon glyphs for `Icon`, `IconButton`, etc. |
-| `simplebar-react` | Yes* | Required for `Scrollbar`; listed optional in peer meta but needed if you use scroll regions |
+| Package                     | Required | Notes                                                                                       |
+| --------------------------- | -------- | ------------------------------------------------------------------------------------------- |
+| `react`                     | Yes      | `^18.2.0` for webapp parity; `^19.0.0` works in Vite consumers                              |
+| `react-dom`                 | Yes      | Same range as React                                                                         |
+| `@mattermost/compass-icons` | Yes      | Icon glyphs for `Icon`, `IconButton`, etc.                                                  |
+| `simplebar-react`           | Yes\*    | Required for `Scrollbar`; listed optional in peer meta but needed if you use scroll regions |
 
 Ensure a single React version in the app — no duplicate React trees when linking locally.
 
@@ -232,8 +232,10 @@ import { Button } from '@mattermost/compass-ui/components/button';
     { value: 'a', label: 'Alpha' },
     { value: 'b', label: 'Bravo' },
   ]}
-  onChange={(value) => { /* … */ }}
-/>
+  onChange={(value) => {
+    /* … */
+  }}
+/>;
 ```
 
 Webapp already applies theme CSS variables; Compass components reuse the same role names (`--center-channel-bg`, `--button-bg`, etc.). Do not import `/styles/standalone` to supply Compass theme presets.
@@ -347,10 +349,10 @@ Order matters: list the `hooks/`, `illustrations/`, and `utils/string` patterns 
 
 **Symptoms fixed by subpaths + mapper (alpha.3+):**
 
-| Symptom | Cause |
-|---------|--------|
-| `React.jsx: type is invalid -- got: object` on icon props | CJS default export interop — fixed in dist chunks |
-| Warnings referencing `AdminConsoleSidebar`, `PopoverNotice`, etc. while testing unrelated files | Root barrel loads all components |
+| Symptom                                                                                         | Cause                                             |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `React.jsx: type is invalid -- got: object` on icon props                                       | CJS default export interop — fixed in dist chunks |
+| Warnings referencing `AdminConsoleSidebar`, `PopoverNotice`, etc. while testing unrelated files | Root barrel loads all components                  |
 
 **Webapp migration (separate PR in `mattermost/mattermost`):**
 
@@ -403,11 +405,11 @@ Import convention matches webapp and docs: `@mattermost/compass-ui/components/<k
 `@mattermost/shared` `Button` and Compass `Button` share emphasis names (`primary`, `secondary`, `tertiary`, `quaternary`) but **size literals differ**. Map at the adapter boundary when migrating call sites — do not pass shared sizes directly to Compass.
 
 | `@mattermost/shared` | Compass UI `Button` / `IconButton` |
-|----------------------|-------------------------------------|
-| `xs` | `x-small` |
-| `sm` | `small` |
-| `md` | `medium` |
-| `lg` | `large` |
+| -------------------- | ---------------------------------- |
+| `xs`                 | `x-small`                          |
+| `sm`                 | `small`                            |
+| `md`                 | `medium`                           |
+| `lg`                 | `large`                            |
 
 Example adapter:
 
@@ -419,10 +421,7 @@ const SHARED_TO_COMPASS_SIZE = {
   lg: 'large',
 } as const;
 
-<Button
-  emphasis={sharedEmphasis}
-  size={SHARED_TO_COMPASS_SIZE[sharedSize]}
-/>
+<Button emphasis={sharedEmphasis} size={SHARED_TO_COMPASS_SIZE[sharedSize]} />;
 ```
 
 Other intentional differences during migration:
@@ -489,7 +488,7 @@ const model = buildDefaultChannelsSidebarModel({
   // ...
 });
 
-<ChannelShell channelsSidebarModel={model} userAvatarSrc={leonardSrc} />
+<ChannelShell channelsSidebarModel={model} userAvatarSrc={leonardSrc} />;
 ```
 
 See `src/fixtures/rightSidebarThreadDemo.tsx` in the playground for a docs-side example.
@@ -517,11 +516,11 @@ Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.
 
 ## Versioning and releases
 
-| Channel | Version example | npm tag |
-|---------|-----------------|---------|
-| Alpha | `0.1.0-alpha.0` | `alpha` |
-| Beta | `0.1.0-beta.0` | `beta` |
-| Stable | `0.1.0` | `latest` |
+| Channel | Version example | npm tag  |
+| ------- | --------------- | -------- |
+| Alpha   | `0.1.0-alpha.0` | `alpha`  |
+| Beta    | `0.1.0-beta.0`  | `beta`   |
+| Stable  | `0.1.0`         | `latest` |
 
 Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.2`. GitHub Release title: `v0.1.0-alpha.2`. Mark pre-release versions as **pre-release** on GitHub for alpha/beta.
 
@@ -557,18 +556,18 @@ Until trusted publishing is configured, the Release → CI job will fail at `npm
 
 ## Troubleshooting
 
-| Symptom | Fix |
-|---------|-----|
-| `Failed to resolve @mattermost/compass-ui/styles` | Run `npm run build:ui` — `dist/compass-ui.css` must exist |
-| Unstyled components (flat gray UI) | Import `/styles` at app entry; ensure the bundler follows CSS side-effect imports from component modules |
-| Scrollbar missing thumb/track | Ensure `simplebar-react` is installed; `Scrollbar` imports SimpleBar CSS with the component |
-| `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
-| Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
-| Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page. Do not set `registry-url` / `NODE_AUTH_TOKEN` on the publish job — empty token auth blocks OIDC and surfaces as E404. |
-| Release tag ≠ package version | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.3`) |
-| Jest `type is invalid -- got: object` on icons | Upgrade to `0.1.0-alpha.3+`; use subpath imports + Jest mapper (see above) |
-| Jest warnings from unrelated compass-ui components | Stop importing from root barrel; use `@mattermost/compass-ui/components/<name>` |
-| Workspace link missing | Run `npm install` from repo root, not inside `packages/compass-ui` |
+| Symptom                                            | Fix                                                                                                                                                                                                              |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Failed to resolve @mattermost/compass-ui/styles`  | Run `npm run build:ui` — `dist/compass-ui.css` must exist                                                                                                                                                        |
+| Unstyled components (flat gray UI)                 | Import `/styles` at app entry; ensure the bundler follows CSS side-effect imports from component modules                                                                                                         |
+| Scrollbar missing thumb/track                      | Ensure `simplebar-react` is installed; `Scrollbar` imports SimpleBar CSS with the component                                                                                                                      |
+| `@/components/Icon` errors in dev                  | Do not alias package to source; use built `dist/`                                                                                                                                                                |
+| Wrong colors                                       | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>`                                                                                                 |
+| Release publish fails at npm                       | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page. Do not set `registry-url` / `NODE_AUTH_TOKEN` on the publish job — empty token auth blocks OIDC and surfaces as E404. |
+| Release tag ≠ package version                      | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.3`)                                                                                                                                         |
+| Jest `type is invalid -- got: object` on icons     | Upgrade to `0.1.0-alpha.3+`; use subpath imports + Jest mapper (see above)                                                                                                                                       |
+| Jest warnings from unrelated compass-ui components | Stop importing from root barrel; use `@mattermost/compass-ui/components/<name>`                                                                                                                                  |
+| Workspace link missing                             | Run `npm install` from repo root, not inside `packages/compass-ui`                                                                                                                                               |
 
 ---
 

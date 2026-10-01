@@ -1,4 +1,4 @@
-export {default as MobileSearchSuggestions} from './MobileSearchSuggestions';
+export { default as MobileSearchSuggestions } from './MobileSearchSuggestions';
 export type {
   MobileSearchSuggestionsProps,
   MobileSearchOption,

@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import AttachmentCard from './AttachmentCard';
-import type { AttachmentCardFileType, AttachmentCardState } from './AttachmentCard';
+import type {
+  AttachmentCardFileType,
+  AttachmentCardState,
+} from './AttachmentCard';
 
 const FILE_TYPES: AttachmentCardFileType[] = [
   'text',
@@ -27,7 +30,11 @@ const meta = {
     fileType: { control: 'select', options: FILE_TYPES },
     state: {
       control: 'select',
-      options: ['default', 'uploading', 'uploaded'] satisfies AttachmentCardState[],
+      options: [
+        'default',
+        'uploading',
+        'uploaded',
+      ] satisfies AttachmentCardState[],
     },
   },
 } satisfies Meta<typeof AttachmentCard>;

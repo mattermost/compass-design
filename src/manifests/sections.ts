@@ -66,11 +66,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Calls',
-      slugs: [
-        'call-participant-avatar',
-        'reaction-pill',
-        'recording-pill',
-      ],
+      slugs: ['call-participant-avatar', 'reaction-pill', 'recording-pill'],
     },
     {
       label: 'Admin Console',

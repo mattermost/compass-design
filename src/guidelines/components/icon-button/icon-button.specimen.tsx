@@ -1,5 +1,11 @@
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
-import { ICON_BUTTON_ICON_SIZES, type IconButtonPadding, type IconButtonSize, type IconButtonStyle, IconButton } from '@mattermost/compass-ui/components/icon-button';
+import {
+  ICON_BUTTON_ICON_SIZES,
+  type IconButtonPadding,
+  type IconButtonSize,
+  type IconButtonStyle,
+  IconButton,
+} from '@mattermost/compass-ui/components/icon-button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -39,7 +45,9 @@ function IconButtonPermutationGrid({
         {SIZES.map((size) => (
           <span
             key={size}
-            className={styles['components__button-variant-matrix__size-heading']}
+            className={
+              styles['components__button-variant-matrix__size-heading']
+            }
           >
             {size}
           </span>
@@ -92,9 +100,7 @@ export default function IconButtonLibrary() {
       </p>
 
       <div className={styles['components__section']}>
-        <h3 className={styles['components__section-title']}>
-          Default
-        </h3>
+        <h3 className={styles['components__section-title']}>Default</h3>
         <IconButtonPermutationGrid
           surfaceStyle="default"
           destructive={false}
@@ -103,9 +109,7 @@ export default function IconButtonLibrary() {
       </div>
 
       <div className={styles['components__section']}>
-        <h3 className={styles['components__section-title']}>
-          Destructive
-        </h3>
+        <h3 className={styles['components__section-title']}>Destructive</h3>
         <IconButtonPermutationGrid
           surfaceStyle="default"
           destructive
@@ -114,9 +118,7 @@ export default function IconButtonLibrary() {
       </div>
 
       <div className={styles['components__section']}>
-        <h3 className={styles['components__section-title']}>
-          Disabled
-        </h3>
+        <h3 className={styles['components__section-title']}>Disabled</h3>
         <IconButtonPermutationGrid
           surfaceStyle="default"
           destructive={false}
@@ -126,9 +128,7 @@ export default function IconButtonLibrary() {
 
       <div className={styles['components__button-surface--inverted']}>
         <div className={styles['components__section']}>
-          <h3 className={styles['components__section-title']}>
-            Inverted
-          </h3>
+          <h3 className={styles['components__section-title']}>Inverted</h3>
           <IconButtonPermutationGrid
             surfaceStyle="inverted"
             destructive={false}
@@ -168,7 +168,12 @@ export default function IconButtonLibrary() {
               aria-label={`Loading, ${size}`}
               size={size}
               loading
-              icon={<Icon glyph={<GlobeIcon />} size={ICON_BUTTON_ICON_SIZES[size]} />}
+              icon={
+                <Icon
+                  glyph={<GlobeIcon />}
+                  size={ICON_BUTTON_ICON_SIZES[size]}
+                />
+              }
             />
           ))}
         </div>

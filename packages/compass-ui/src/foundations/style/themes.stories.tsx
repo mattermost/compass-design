@@ -8,7 +8,8 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Role-based theme tokens across every built-in Compass theme.',
+        component:
+          'Role-based theme tokens across every built-in Compass theme.',
       },
     },
   },

@@ -83,9 +83,7 @@ export function useAnchoredPopupPortal(
 
   const portalRef = useRef<HTMLDivElement | null>(null);
   const [placement, setPlacement] = useState<PopupPlacement>(DEFAULT_PLACEMENT);
-  const [maxHeight, setMaxHeight] = useState(
-    maxHeightCap ?? preferredHeight,
-  );
+  const [maxHeight, setMaxHeight] = useState(maxHeightCap ?? preferredHeight);
   const [style, setStyle] = useState<CSSProperties>({
     position: 'fixed',
     top: 0,
@@ -109,9 +107,7 @@ export function useAnchoredPopupPortal(
       : getAnchoredPopupContainerFrame(mount);
 
     const measured =
-      contentRef?.current?.offsetHeight ??
-      portalRef.current?.offsetHeight ??
-      0;
+      contentRef?.current?.offsetHeight ?? portalRef.current?.offsetHeight ?? 0;
     const heightForFlip = measured > 0 ? measured : preferredHeight;
 
     const { placement: nextPlacement, maxHeight: nextMaxHeight } =

@@ -13,7 +13,10 @@ export interface DocUiEmbedProps {
  * typography and `.doc-page__prose` bare-tag rules do not leak into demos.
  * Uses the stable global class `compass-doc-embed` (see `DocPage.module.scss`).
  */
-export default function DocUiEmbed({ children, className = '' }: DocUiEmbedProps) {
+export default function DocUiEmbed({
+  children,
+  className = '',
+}: DocUiEmbedProps) {
   return (
     <div
       className={[styles['doc-ui-embed'], EMBED_GLOBAL, className]

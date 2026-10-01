@@ -14,7 +14,10 @@ export default function AppShell() {
         <TopNav onOpenQuickSwitcher={() => setQuickSwitcherOpen(true)} />
       )}
       {!isEmbedded && (
-        <QuickSwitcher open={quickSwitcherOpen} onOpenChange={setQuickSwitcherOpen} />
+        <QuickSwitcher
+          open={quickSwitcherOpen}
+          onOpenChange={setQuickSwitcherOpen}
+        />
       )}
       <div className={styles['app-shell__content']}>
         <Outlet />

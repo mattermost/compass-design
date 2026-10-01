@@ -28,9 +28,7 @@ export default function MessageLibrary() {
         timestamp="Today at 9:45 AM"
         isBot
       >
-        <p className={bodyTextClass}>
-          You have 3 unread messages in #general.
-        </p>
+        <p className={bodyTextClass}>You have 3 unread messages in #general.</p>
       </Message>
     </div>
   );

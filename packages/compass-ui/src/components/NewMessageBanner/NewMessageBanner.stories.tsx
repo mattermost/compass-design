@@ -10,7 +10,10 @@ const meta = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['jump-to-unreads', 'new-replies'] satisfies NewMessageBannerType[],
+      options: [
+        'jump-to-unreads',
+        'new-replies',
+      ] satisfies NewMessageBannerType[],
     },
   },
 } satisfies Meta<typeof NewMessageBanner>;

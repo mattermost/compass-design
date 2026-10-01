@@ -22,11 +22,7 @@ export default function PlusMenu({
   ...rest
 }: PlusMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Browse channels"

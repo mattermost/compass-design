@@ -1,4 +1,10 @@
-import { useContext, type HTMLAttributes, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react';
+import {
+  useContext,
+  type HTMLAttributes,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
+} from 'react';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import Icon from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
@@ -65,14 +71,13 @@ function focusTargetAfterRemove(chipEl: HTMLElement): HTMLElement | null {
       if (el instanceof HTMLElement && el.dataset.chip != null) {
         return el;
       }
-      if (
-        el instanceof HTMLInputElement ||
-        el instanceof HTMLTextAreaElement
-      ) {
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
         return el;
       }
       el =
-        direction === 'next' ? el.nextElementSibling : el.previousElementSibling;
+        direction === 'next'
+          ? el.nextElementSibling
+          : el.previousElementSibling;
     }
     return null;
   };

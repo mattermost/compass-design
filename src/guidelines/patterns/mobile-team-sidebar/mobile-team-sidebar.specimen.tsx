@@ -7,11 +7,11 @@ export default function MobileTeamSidebarLibrary() {
     <div className={styles['mts-specimen']}>
       <div className={styles['mts-specimen__frame']}>
         <MobileTeamSidebar
-          activeTeamId='contributors'
+          activeTeamId="contributors"
           teams={[
-            {id: 'contributors', name: 'Contributors', src: avatarStaffTeam},
-            {id: 'design', name: 'Design', initials: 'De', unread: true},
-            {id: 'acme', name: 'Acme', initials: 'Ac', mentions: 3},
+            { id: 'contributors', name: 'Contributors', src: avatarStaffTeam },
+            { id: 'design', name: 'Design', initials: 'De', unread: true },
+            { id: 'acme', name: 'Acme', initials: 'Ac', mentions: 3 },
           ]}
         />
       </div>

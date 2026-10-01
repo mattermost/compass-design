@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import { ChannelInfoMsgHeader } from '@mattermost/compass-ui/components/channel-info-msg-header';
 import { Tag } from '@mattermost/compass-ui/components/tag';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
@@ -59,7 +59,9 @@ export default function MobileMessage({
   imagePreviews,
   footer,
 }: MobileMessageProps) {
-  const rootClass = [styles['mobile-message'], className].filter(Boolean).join(' ');
+  const rootClass = [styles['mobile-message'], className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={rootClass}>
@@ -80,13 +82,17 @@ export default function MobileMessage({
       )}
       <div className={styles['mobile-message__layout']}>
         <div className={styles['mobile-message__avatar-col']}>
-          <UserAvatar src={avatarSrc} alt={avatarAlt} size='32' />
+          <UserAvatar src={avatarSrc} alt={avatarAlt} size="32" />
         </div>
         <div className={styles['mobile-message__content']}>
           <div className={styles['mobile-message__header']}>
-            <span className={styles['mobile-message__username']}>{username}</span>
+            <span className={styles['mobile-message__username']}>
+              {username}
+            </span>
             {isBot && <Tag label={botLabel} />}
-            <span className={styles['mobile-message__timestamp']}>{timestamp}</span>
+            <span className={styles['mobile-message__timestamp']}>
+              {timestamp}
+            </span>
           </div>
           <div className={styles['mobile-message__body']}>
             {children}
@@ -101,7 +107,9 @@ export default function MobileMessage({
               </div>
             )}
             {footer != null && (
-              <div className={styles['mobile-message__footer-slot']}>{footer}</div>
+              <div className={styles['mobile-message__footer-slot']}>
+                {footer}
+              </div>
             )}
           </div>
         </div>

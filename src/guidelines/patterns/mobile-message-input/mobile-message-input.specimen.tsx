@@ -1,4 +1,4 @@
-import { useState, type ReactNode} from 'react';
+import { useState, type ReactNode } from 'react';
 import { MobileMessageInput } from '@mattermost/compass-proto';
 import type { MobileMessageAttachment } from '@mattermost/compass-proto';
 import sampleImage from '@/assets/images/sample-image.jpg';
@@ -33,14 +33,12 @@ function Stage({
 function InteractiveRoot() {
   const [value, setValue] = useState('');
   const [expanded, setExpanded] = useState(false);
-  const [attachments, setAttachments] = useState<MobileMessageAttachment[]>(
-    [],
-  );
+  const [attachments, setAttachments] = useState<MobileMessageAttachment[]>([]);
 
   return (
     <MobileMessageInput
-      variant='Root'
-      placeholder='Write to UX Design…'
+      variant="Root"
+      placeholder="Write to UX Design…"
       value={value}
       onChange={setValue}
       expanded={expanded}
@@ -88,44 +86,41 @@ export default function MobileMessageInputLibrary() {
 
   return (
     <div className={styles['mmi-specimen']}>
-      <Stage label='Root — unfocused'>
-        <MobileMessageInput
-          variant='Root'
-          placeholder='Write to UX Design…'
-        />
+      <Stage label="Root — unfocused">
+        <MobileMessageInput variant="Root" placeholder="Write to UX Design…" />
       </Stage>
 
-      <Stage label='Root — focused (placeholder)'>
+      <Stage label="Root — focused (placeholder)">
         <MobileMessageInput
-          variant='Root'
-          placeholder='Write to UX Design…'
+          variant="Root"
+          placeholder="Write to UX Design…"
           defaultFocused
         />
       </Stage>
 
-      <Stage label='Root — focused with value (send)'>
+      <Stage label="Root — focused with value (send)">
         <MobileMessageInput
-          variant='Root'
-          placeholder='Write to UX Design…'
+          variant="Root"
+          placeholder="Write to UX Design…"
           value={focusedValue}
           onChange={setFocusedValue}
           defaultFocused
         />
       </Stage>
 
-      <Stage label='Reply — focused'>
+      <Stage label="Reply — focused">
         <MobileMessageInput
-          variant='Reply'
+          variant="Reply"
           value={replyValue}
           onChange={setReplyValue}
           defaultFocused
         />
       </Stage>
 
-      <Stage label='Root — expanded' tall>
+      <Stage label="Root — expanded" tall>
         <MobileMessageInput
-          variant='Root'
-          placeholder='Write to UX Design…'
+          variant="Root"
+          placeholder="Write to UX Design…"
           value={expandedValue}
           onChange={setExpandedValue}
           expanded={expanded}
@@ -134,10 +129,10 @@ export default function MobileMessageInputLibrary() {
         />
       </Stage>
 
-      <Stage label='Root — with attachments'>
+      <Stage label="Root — with attachments">
         <MobileMessageInput
-          variant='Root'
-          placeholder='Write to UX Design…'
+          variant="Root"
+          placeholder="Write to UX Design…"
           value={attachmentValue}
           onChange={setAttachmentValue}
           defaultFocused
@@ -150,7 +145,7 @@ export default function MobileMessageInputLibrary() {
         />
       </Stage>
 
-      <Stage label='Interactive (tap + to attach)' tall>
+      <Stage label="Interactive (tap + to attach)" tall>
         <InteractiveRoot />
       </Stage>
     </div>

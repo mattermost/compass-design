@@ -2,23 +2,43 @@
 // Keyframes — referenced by the motion-matrix demos
 // ============================================================
 @keyframes anim-slide-small {
-  from { transform: translateX(0); }
-  to   { transform: translateX(40px); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(40px);
+  }
 }
 
 @keyframes anim-slide-large {
-  from { transform: translateX(0); }
-  to   { transform: translateX(160px); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(160px);
+  }
 }
 
 @keyframes anim-entrance {
-  from { transform: translateX(-320px); opacity: 0; }
-  to   { transform: translateX(0);      opacity: 1; }
+  from {
+    transform: translateX(-320px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes anim-exit {
-  from { transform: translateX(0);      opacity: 1; }
-  to   { transform: translateX(-320px); opacity: 0; }
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-320px);
+    opacity: 0;
+  }
 }
 
 // ============================================================

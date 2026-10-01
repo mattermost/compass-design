@@ -305,10 +305,7 @@ export function ScaleTable({
             .filter(Boolean)
             .join(' ');
           return (
-            <tr
-              key={row.level}
-              className={rowClass || undefined}
-            >
+            <tr key={row.level} className={rowClass || undefined}>
               <td>
                 {row.level}
                 {row.level === base && (

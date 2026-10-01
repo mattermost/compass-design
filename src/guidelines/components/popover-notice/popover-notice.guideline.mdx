@@ -12,8 +12,8 @@ shorter, dismissable, and gone in five seconds unless the user engages.
 An icon, a title, body content, optional actions, and a close button — all
 on an `Elevation 3` rounded surface.
 
-- <Num>1</Num> **Icon** — semantic glyph that mirrors the variant.
-  Optional but recommended.
+- <Num>1</Num> **Icon** — semantic glyph that mirrors the variant. Optional but
+  recommended.
 - <Num>2</Num> **Title** — the headline. Sentence case, six words or fewer.
 - <Num>3</Num> **Body** — supporting copy. One or two short sentences.
 - <Num>4</Num> **Actions** — optional. Up to two buttons; Primary right-most.
@@ -24,9 +24,7 @@ on an `Elevation 3` rounded surface.
   <PopoverNotice
     variant="info"
     title="Threads can be muted"
-    actions={[
-      { label: 'Got it', emphasis: 'primary' },
-    ]}
+    actions={[{ label: 'Got it', emphasis: 'primary' }]}
     onClose={() => {}}
   >
     Mute a thread from its kebab menu to stop notifications without leaving the
@@ -71,12 +69,12 @@ Four semantic variants — pick by the meaning of the message, not by colour.
   </div>
 </DocUiEmbed>
 
-| Variant  | Use when                                                                     |
-| -------- | ---------------------------------------------------------------------------- |
-| Info     | Default — a tip, a feature discovery, a neutral confirmation.                |
-| Success  | Something completed and the user should know.                                |
-| Warning  | Something might go wrong soon — quota nearly hit, version going stale.       |
-| Danger   | Something has already broken and the user should act.                        |
+| Variant | Use when                                                               |
+| ------- | ---------------------------------------------------------------------- |
+| Info    | Default — a tip, a feature discovery, a neutral confirmation.          |
+| Success | Something completed and the user should know.                          |
+| Warning | Something might go wrong soon — quota nearly hit, version going stale. |
+| Danger  | Something has already broken and the user should act.                  |
 
 Use semantic colour tokens — `--color-info`, `--color-success`,
 `--color-warning`, `--color-danger` — never raw palette tokens.
@@ -89,12 +87,12 @@ Action layouts mirror the rest of the system: zero, one, or two buttons,
 Primary right-most. Reach for Primary only when there's a clear next step;
 otherwise lean on Tertiary.
 
-| Layout              | Use when                                                       |
-| ------------------- | -------------------------------------------------------------- |
-| No buttons          | Notice is informational — closes itself or via the `×`.        |
-| Primary only        | One unambiguous action ("Got it", "Take a tour").              |
-| Tertiary only       | Quiet acknowledgement ("Dismiss").                             |
-| Tertiary + Primary  | Cancel + confirm pairings.                                     |
+| Layout             | Use when                                                |
+| ------------------ | ------------------------------------------------------- |
+| No buttons         | Notice is informational — closes itself or via the `×`. |
+| Primary only       | One unambiguous action ("Got it", "Take a tour").       |
+| Tertiary only      | Quiet acknowledgement ("Dismiss").                      |
+| Tertiary + Primary | Cancel + confirm pairings.                              |
 
 <Divider />
 

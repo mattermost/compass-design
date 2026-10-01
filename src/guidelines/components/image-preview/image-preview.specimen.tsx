@@ -29,10 +29,7 @@ export default function ImagePreviewLibrary() {
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>16:9</span>
-          <InteractiveImagePreview
-            src={sampleImage}
-            alt="Sample image"
-          />
+          <InteractiveImagePreview src={sampleImage} alt="Sample image" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>1:1</span>

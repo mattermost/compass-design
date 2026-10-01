@@ -39,7 +39,9 @@ function EmojiButtonPermutationGrid({
         {SIZES.map((size) => (
           <span
             key={size}
-            className={styles['components__button-variant-matrix__size-heading']}
+            className={
+              styles['components__button-variant-matrix__size-heading']
+            }
           >
             {size}
           </span>
@@ -50,7 +52,11 @@ function EmojiButtonPermutationGrid({
           key={row.label}
           className={styles['components__button-variant-matrix__row']}
         >
-          <span className={styles['components__button-variant-matrix__emphasis-label']}>
+          <span
+            className={
+              styles['components__button-variant-matrix__emphasis-label']
+            }
+          >
             {row.label}
           </span>
           {SIZES.map((size) => (

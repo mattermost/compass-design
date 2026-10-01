@@ -17,12 +17,14 @@ A horizontal line broken by a centered label. The label sits inline with the
 line; nothing else competes with it.
 
 - <Num>1</Num> **Line** — full-width hairline, behind the label.
-- <Num>2</Num> **Label** — short text on top of the line. Date, "New
-  Messages", or a reply count.
-- <Num>3</Num> **AI Summarize** — optional button on the New Messages
-  variant that triggers an AI summary of unread activity.
+- <Num>2</Num> **Label** — short text on top of the line. Date, "New Messages",
+  or a reply count.
+- <Num>3</Num> **AI Summarize** — optional button on the New Messages variant
+  that triggers an AI summary of unread activity.
 
-<AnatomyStage style={{flexDirection:'column',gap:'1rem',alignItems:'stretch'}}>
+<AnatomyStage
+  style={{ flexDirection: 'column', gap: '1rem', alignItems: 'stretch' }}
+>
   <MessageSeparator type="date" label="Today" />
   <MessageSeparator type="new-messages" />
   <MessageSeparator type="reply-count" label="4 replies" />
@@ -35,11 +37,11 @@ line; nothing else competes with it.
 Three variants, three jobs. Don't combine them — pick the one the moment
 calls for.
 
-| Variant      | Use when                                                                 |
-| ------------ | ------------------------------------------------------------------------ |
-| Date         | Dividing messages by day in the stream.                                  |
-| New Messages | Marking the boundary between messages the user has read and new ones.    |
-| Reply Count  | Inside a thread, showing how many replies follow.                        |
+| Variant      | Use when                                                              |
+| ------------ | --------------------------------------------------------------------- |
+| Date         | Dividing messages by day in the stream.                               |
+| New Messages | Marking the boundary between messages the user has read and new ones. |
+| Reply Count  | Inside a thread, showing how many replies follow.                     |
 
 ### Date labels
 
@@ -60,7 +62,14 @@ The New Messages separator is a single, durable landmark that stays where the
 user left off until they scroll past it. Use the `Summarize` action only when
 AI summaries are enabled.
 
-<div style={{padding:'1rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+<div
+  style={{
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+  }}
+>
   <MessageSeparator type="new-messages" showAiSummary />
 </div>
 
@@ -101,8 +110,8 @@ not centered across the full width.
       showMessageActions={false}
     >
       <p className={messageStyles['message__body-text']}>
-        Quick gut-check on the thread header—should the parent channel always show
-        as a secondary title?
+        Quick gut-check on the thread header—should the parent channel always
+        show as a secondary title?
       </p>
     </Message>
     <MessageSeparator type="reply-count" label="7 replies" />
@@ -114,8 +123,8 @@ not centered across the full width.
       showMessageActions={false}
     >
       <p className={messageStyles['message__body-text']}>
-        I&apos;d show it whenever there&apos;s a meaningful parent—threads, pins,
-        files—and skip it for global views like Saved Messages.
+        I&apos;d show it whenever there&apos;s a meaningful parent—threads,
+        pins, files—and skip it for global views like Saved Messages.
       </p>
     </Message>
   </div>

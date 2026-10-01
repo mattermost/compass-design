@@ -1,6 +1,11 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { MobileSearch, type MobileTabBarTab, MobileSearchSuggestions, MobileTabBar } from '@mattermost/compass-proto';
+import {
+  MobileSearch,
+  type MobileTabBarTab,
+  MobileSearchSuggestions,
+  MobileTabBar,
+} from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from './mobile-search.specimen.module.scss';
@@ -11,7 +16,7 @@ export default function MobileSearchLibrary() {
 
   return (
     <div className={styles['mobile-search-layout']}>
-      <DeviceFrame insetContent={false} statusBarStyle='light'>
+      <DeviceFrame insetContent={false} statusBarStyle="light">
         <div className={styles['mobile-search-layout__shell']}>
           <MobileSearch value={query} onChange={setQuery}>
             <Scrollbar>
@@ -22,7 +27,7 @@ export default function MobileSearchLibrary() {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             profileSrc={avatarLeonard}
-            profileAlt='Leonard Riley'
+            profileAlt="Leonard Riley"
           />
         </div>
       </DeviceFrame>

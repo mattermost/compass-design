@@ -32,10 +32,12 @@ const config: StorybookConfig = {
       ...(Array.isArray(viteConfig.resolve.alias)
         ? viteConfig.resolve.alias
         : viteConfig.resolve.alias
-          ? Object.entries(viteConfig.resolve.alias).map(([find, replacement]) => ({
-              find,
-              replacement,
-            }))
+          ? Object.entries(viteConfig.resolve.alias).map(
+              ([find, replacement]) => ({
+                find,
+                replacement,
+              }),
+            )
           : []),
     ];
     viteConfig.css ??= {};

@@ -19,13 +19,17 @@ export const CHANNELS_SIDEBAR_DEMO_AVATARS = {
 } as const;
 
 /** Default docs/layout sidebar tree (unreads category off). */
-export const defaultChannelsSidebarDemoModel = buildDefaultChannelsSidebarModel({
-  showUnreadsCategory: false,
-  ...CHANNELS_SIDEBAR_DEMO_AVATARS,
-});
+export const defaultChannelsSidebarDemoModel = buildDefaultChannelsSidebarModel(
+  {
+    showUnreadsCategory: false,
+    ...CHANNELS_SIDEBAR_DEMO_AVATARS,
+  },
+);
 
 /** Docs variant with Unreads category on. */
-export const unreadsChannelsSidebarDemoModel = buildDefaultChannelsSidebarModel({
-  showUnreadsCategory: true,
-  ...CHANNELS_SIDEBAR_DEMO_AVATARS,
-});
+export const unreadsChannelsSidebarDemoModel = buildDefaultChannelsSidebarModel(
+  {
+    showUnreadsCategory: true,
+    ...CHANNELS_SIDEBAR_DEMO_AVATARS,
+  },
+);

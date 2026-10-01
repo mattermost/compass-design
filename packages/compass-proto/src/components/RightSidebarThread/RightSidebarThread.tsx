@@ -23,8 +23,9 @@ const DEFAULT_MESSAGES: RightSidebarThreadMessage[] = [
     timestamp: 'Today at 9:41 AM',
     body: (
       <p className={messageStyles['message__body-text']}>
-        Quick gut-check: should the sidebar header always show the parent channel
-        as a secondary title, or only when the content is scoped to a channel?
+        Quick gut-check: should the sidebar header always show the parent
+        channel as a secondary title, or only when the content is scoped to a
+        channel?
       </p>
     ),
   },

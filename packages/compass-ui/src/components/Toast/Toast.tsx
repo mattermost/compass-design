@@ -10,12 +10,7 @@ import { IconSlotContext } from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import styles from './Toast.module.scss';
 
-export type ToastType =
-  | 'general'
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'danger';
+export type ToastType = 'general' | 'info' | 'success' | 'warning' | 'danger';
 
 export interface ToastProps {
   className?: string;

@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-ios';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
@@ -61,7 +61,10 @@ export default function MobileNavigationBar({
   if (showCustomStatus) {
     subtitle = (
       <>
-        <span className={styles['mobile-navigation-bar__status-emoji']} aria-hidden>
+        <span
+          className={styles['mobile-navigation-bar__status-emoji']}
+          aria-hidden
+        >
           {customStatusEmoji}
         </span>
         <span className={styles['mobile-navigation-bar__subtitle-text']}>
@@ -103,7 +106,7 @@ export default function MobileNavigationBar({
         {subtitle}
         {showChevron && (
           <Icon
-            size='12'
+            size="12"
             className={styles['mobile-navigation-bar__chevron']}
             glyph={<ChevronRightIcon />}
           />
@@ -117,43 +120,49 @@ export default function MobileNavigationBar({
       <div className={styles['mobile-navigation-bar__bar']}>
         <div className={styles['mobile-navigation-bar__left']}>
           <IconButton
-            aria-label='Back'
-            size='medium'
-            style='inverted'
+            aria-label="Back"
+            size="medium"
+            style="inverted"
             onClick={onBackClick}
-            icon={<Icon size='20' glyph={<ArrowBackIosIcon />} />}
+            icon={<Icon size="20" glyph={<ArrowBackIosIcon />} />}
           />
           {mentionCount != null && mentionCount > 0 && (
-            <MentionBadge count={mentionCount} location='sidebar' size='large' />
+            <MentionBadge
+              count={mentionCount}
+              location="sidebar"
+              size="large"
+            />
           )}
         </div>
 
         {onTitleClick ? (
           <button
-            type='button'
+            type="button"
             className={styles['mobile-navigation-bar__titles']}
             onClick={onTitleClick}
           >
             {titleBlock}
           </button>
         ) : (
-          <div className={styles['mobile-navigation-bar__titles']}>{titleBlock}</div>
+          <div className={styles['mobile-navigation-bar__titles']}>
+            {titleBlock}
+          </div>
         )}
 
         <div className={styles['mobile-navigation-bar__right']}>
           <IconButton
-            aria-label='Search'
-            size='medium'
-            style='inverted'
+            aria-label="Search"
+            size="medium"
+            style="inverted"
             onClick={onSearchClick}
-            icon={<Icon size='20' glyph={<MagnifyIcon />} />}
+            icon={<Icon size="20" glyph={<MagnifyIcon />} />}
           />
           <IconButton
-            aria-label='More options'
-            size='medium'
-            style='inverted'
+            aria-label="More options"
+            size="medium"
+            style="inverted"
             onClick={onMoreClick}
-            icon={<Icon size='20' glyph={<DotsHorizontalIcon />} />}
+            icon={<Icon size="20" glyph={<DotsHorizontalIcon />} />}
           />
         </div>
       </div>

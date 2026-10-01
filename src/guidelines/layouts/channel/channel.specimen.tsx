@@ -64,8 +64,8 @@ export default function ChannelLayout() {
                 timestamp="9:02 AM"
               >
                 <p className={shellStyles['channel-shell__post-text']}>
-                  Morning everyone! Reminder that the Q2 roadmap review is at 10:30
-                  today. Agenda is in the thread below.
+                  Morning everyone! Reminder that the Q2 roadmap review is at
+                  10:30 today. Agenda is in the thread below.
                 </p>
               </Message>
 
@@ -76,8 +76,9 @@ export default function ChannelLayout() {
                 timestamp="9:14 AM"
               >
                 <p className={shellStyles['channel-shell__post-text']}>
-                  Just pushed the updated onboarding flow to staging — would love a
-                  second pair of eyes on the empty states before we cut a release.
+                  Just pushed the updated onboarding flow to staging — would
+                  love a second pair of eyes on the empty states before we cut a
+                  release.
                 </p>
               </Message>
 
@@ -120,8 +121,8 @@ export default function ChannelLayout() {
                 timestamp="9:47 AM"
               >
                 <p className={shellStyles['channel-shell__post-text']}>
-                  Heads up — I'll be out Friday afternoon. If anything urgent comes
-                  up with the ingest pipeline, ping Leila first.
+                  Heads up — I'll be out Friday afternoon. If anything urgent
+                  comes up with the ingest pipeline, ping Leila first.
                 </p>
               </Message>
 
@@ -134,8 +135,8 @@ export default function ChannelLayout() {
                 timestamp="10:12 AM"
               >
                 <p className={shellStyles['channel-shell__post-text']}>
-                  Design review is bumped to 2:00 PM today — conflict with the roadmap
-                  meeting. Same room.
+                  Design review is bumped to 2:00 PM today — conflict with the
+                  roadmap meeting. Same room.
                 </p>
               </Message>
             </div>

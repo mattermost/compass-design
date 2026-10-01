@@ -1,6 +1,6 @@
 ---
 paths:
-  - "src/guidelines/**"
+  - 'src/guidelines/**'
 ---
 
 # Guidelines area

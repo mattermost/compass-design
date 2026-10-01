@@ -21,11 +21,7 @@ export default function HelpMenu({
   ...rest
 }: HelpMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Mattermost user guide"

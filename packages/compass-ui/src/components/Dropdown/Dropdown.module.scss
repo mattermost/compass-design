@@ -12,8 +12,7 @@
   font-family: var(--font-family-body);
   font-weight: var(--font-weight-semibold);
   color: var(--center-channel-color);
-  outline: 2px solid
-    color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
   transition:
     background-color var(--duration-quick) var(--ease-transition),

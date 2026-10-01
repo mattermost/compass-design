@@ -14,15 +14,21 @@ For free-floating tabs elsewhere, reach for the Tabs component.
   active section in a multi-tab panel).
 - <Num>2</Num> **Divider** — Separates the channel label from the team when a
   team is shown.
-- <Num>3</Num> **Team name** — Optional passive label after the divider. Hide
-  it for single-team workspaces or when the team is already clear.
+- <Num>3</Num> **Team name** — Optional passive label after the divider. Hide it
+  for single-team workspaces or when the team is already clear.
 
 <AnatomyStage>
-  <div style={{width:'100%',maxWidth:'420px',border:'1px solid rgba(var(--center-channel-color-rgb),0.16)',borderRadius:'8px',overflow:'hidden',background:'var(--center-channel-bg)'}}>
-    <ChannelInfoMsgHeader
-      channelName="Spec Reviews"
-      teamName="Contributors"
-    />
+  <div
+    style={{
+      width: '100%',
+      maxWidth: '420px',
+      border: '1px solid rgba(var(--center-channel-color-rgb),0.16)',
+      borderRadius: '8px',
+      overflow: 'hidden',
+      background: 'var(--center-channel-bg)',
+    }}
+  >
+    <ChannelInfoMsgHeader channelName="Spec Reviews" teamName="Contributors" />
   </div>
 </AnatomyStage>
 

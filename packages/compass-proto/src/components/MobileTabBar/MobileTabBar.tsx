@@ -1,4 +1,4 @@
-import type {CSSProperties, ReactNode} from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import AtIcon from '@mattermost/compass-icons/components/at';
 import BookmarkOutlineIcon from '@mattermost/compass-icons/components/bookmark-outline';
 import HomeVariantOutlineIcon from '@mattermost/compass-icons/components/home-variant-outline';
@@ -79,7 +79,7 @@ export default function MobileTabBar({
   } as CSSProperties;
 
   return (
-    <nav className={rootClass} aria-label='primary'>
+    <nav className={rootClass} aria-label="primary">
       <div className={styles['mobile-tab-bar__row']} style={rowStyle}>
         <span className={styles['mobile-tab-bar__indicator']} aria-hidden>
           <span className={styles['mobile-tab-bar__indicator-bar']} />
@@ -89,7 +89,7 @@ export default function MobileTabBar({
           return (
             <button
               key={tab.id}
-              type='button'
+              type="button"
               className={[
                 styles['mobile-tab-bar__tab'],
                 active ? styles['mobile-tab-bar__tab--active'] : '',
@@ -109,18 +109,20 @@ export default function MobileTabBar({
                       <MentionBadge
                         className={styles['mobile-tab-bar__badge-pill']}
                         count={mentionsBadge}
-                        size='large'
-                        location='channel'
+                        size="large"
+                        location="channel"
                       />
                     </span>
                   )}
               </span>
-              <span className={styles['mobile-tab-bar__label']}>{tab.label}</span>
+              <span className={styles['mobile-tab-bar__label']}>
+                {tab.label}
+              </span>
             </button>
           );
         })}
         <button
-          type='button'
+          type="button"
           className={[
             styles['mobile-tab-bar__tab'],
             activeTab === 'profile'
@@ -133,12 +135,7 @@ export default function MobileTabBar({
           onClick={() => onTabChange?.('profile')}
         >
           <span className={styles['mobile-tab-bar__profile']}>
-            <UserAvatar
-              src={profileSrc}
-              alt=''
-              size='24'
-              status
-            />
+            <UserAvatar src={profileSrc} alt="" size="24" status />
           </span>
           <span className={styles['mobile-tab-bar__label']}>Profile</span>
         </button>

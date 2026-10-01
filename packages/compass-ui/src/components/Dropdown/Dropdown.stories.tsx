@@ -22,7 +22,7 @@ const SIZES: DropdownSize[] = [
 ];
 
 type DropdownStoryArgs = Omit<DropdownProps, 'leadingIcon'> & {
-  'leadingIcon'?: string;
+  leadingIcon?: string;
 };
 
 const meta = {
@@ -39,12 +39,12 @@ const meta = {
       control: 'select',
       options: ['default', 'inverted'] satisfies DropdownAppearance[],
     },
-    'leadingIcon': iconSelectArgType({ optional: true }),
+    leadingIcon: iconSelectArgType({ optional: true }),
   },
   args: {
-    'leadingIcon': ICON_NONE,
+    leadingIcon: ICON_NONE,
   },
-  render: ({ 'leadingIcon': leadingIcon, ...rest }) => (
+  render: ({ leadingIcon: leadingIcon, ...rest }) => (
     <Dropdown
       {...rest}
       leadingIcon={
@@ -67,7 +67,12 @@ export const Default: Story = {
 export const Sizes: Story = {
   render: () => (
     <div
-      style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 8,
+        alignItems: 'center',
+      }}
     >
       {SIZES.map((size) => (
         <Dropdown key={size} size={size}>
@@ -89,7 +94,7 @@ export const CompactPadding: Story = {
 export const WithLeadingIcon: Story = {
   args: {
     children: 'Workspace',
-    'leadingIcon': 'globe',
+    leadingIcon: 'globe',
     size: 'medium',
   },
 };
@@ -125,7 +130,12 @@ export const Inverted: Story = {
 export const AllStates: Story = {
   render: () => (
     <div
-      style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 8,
+        alignItems: 'center',
+      }}
     >
       <Dropdown>Default</Dropdown>
       <Dropdown isOpen>Open</Dropdown>

@@ -47,13 +47,56 @@ export interface EmojiPopoverProps {
 }
 
 const SKIN_TONES = ['🖐️', '🖐🏻', '🖐🏼', '🖐🏽', '🖐🏾', '🖐🏿'];
-const SKIN_TONE_MODIFIERS = ['', '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}'];
+const SKIN_TONE_MODIFIERS = [
+  '',
+  '\u{1F3FB}',
+  '\u{1F3FC}',
+  '\u{1F3FD}',
+  '\u{1F3FE}',
+  '\u{1F3FF}',
+];
 
 const MODIFIER_BASES = new Set([
-  '👋', '🤚', '✋', '🖐️', '🖖', '👌', '🤌', '🤏', '✌️', '🤞', '🫰',
-  '🤟', '🤘', '🤙', '👈', '👉', '👆', '👇', '☝️', '🫵', '👍', '👎',
-  '✊', '👊', '🤛', '🤜', '👏', '🙌', '🫶', '👐', '🤲', '🙏', '💅',
-  '🤳', '💪', '🦵', '🦶', '👂', '🦻', '👃',
+  '👋',
+  '🤚',
+  '✋',
+  '🖐️',
+  '🖖',
+  '👌',
+  '🤌',
+  '🤏',
+  '✌️',
+  '🤞',
+  '🫰',
+  '🤟',
+  '🤘',
+  '🤙',
+  '👈',
+  '👉',
+  '👆',
+  '👇',
+  '☝️',
+  '🫵',
+  '👍',
+  '👎',
+  '✊',
+  '👊',
+  '🤛',
+  '🤜',
+  '👏',
+  '🙌',
+  '🫶',
+  '👐',
+  '🤲',
+  '🙏',
+  '💅',
+  '🤳',
+  '💪',
+  '🦵',
+  '🦶',
+  '👂',
+  '🦻',
+  '👃',
 ]);
 
 function applyModifier(emoji: string, modifier: string): string {
@@ -74,7 +117,9 @@ export default function EmojiPopover({
   customEmojiLabel = 'Custom emoji',
 }: EmojiPopoverProps) {
   const [query, setQuery] = useState(defaultQuery);
-  const [activeCategoryId, setActiveCategoryId] = useState(categories[0]?.id ?? '');
+  const [activeCategoryId, setActiveCategoryId] = useState(
+    categories[0]?.id ?? '',
+  );
   const [hoveredEmoji, setHoveredEmoji] = useState<string | null>(null);
   const [hoveredBase, setHoveredBase] = useState<string | null>(null);
   const [skinToneIndex, setSkinToneIndex] = useState(0);
@@ -105,7 +150,9 @@ export default function EmojiPopover({
     : [];
 
   const computedState = query
-    ? searchResults.length > 0 ? 'search-results' : 'empty'
+    ? searchResults.length > 0
+      ? 'search-results'
+      : 'empty'
     : 'default';
 
   function getShortcode(emoji: string): string {
@@ -116,11 +163,16 @@ export default function EmojiPopover({
     const group = groupRefs.current[id];
     const scroller = scrollRef.current;
     if (!group || !scroller) return;
-    const top = group.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
+    const top =
+      group.getBoundingClientRect().top -
+      scroller.getBoundingClientRect().top +
+      scroller.scrollTop;
     scroller.scrollTo({ top, behavior: 'smooth' });
   }
 
-  const rootClass = [styles['emoji-popover'], className].filter(Boolean).join(' ');
+  const rootClass = [styles['emoji-popover'], className]
+    .filter(Boolean)
+    .join(' ');
 
   const emptyIllustration = {
     'aria-label': '' as const,
@@ -138,8 +190,14 @@ export default function EmojiPopover({
         size="medium"
         padding="compact"
         aria-label={displayed}
-        onMouseEnter={() => { setHoveredEmoji(displayed); setHoveredBase(emoji); }}
-        onMouseLeave={() => { setHoveredEmoji(null); setHoveredBase(null); }}
+        onMouseEnter={() => {
+          setHoveredEmoji(displayed);
+          setHoveredBase(emoji);
+        }}
+        onMouseLeave={() => {
+          setHoveredEmoji(null);
+          setHoveredBase(null);
+        }}
         onClick={() => onEmojiSelect?.(displayed)}
       />
     );
@@ -172,13 +230,23 @@ export default function EmojiPopover({
     return (
       <div className={styles['emoji-popover__emoji-list']}>
         {categories.map((cat) => (
-          <div key={cat.id} ref={(el) => { groupRefs.current[cat.id] = el; }} className={styles['emoji-popover__group']}>
+          <div
+            key={cat.id}
+            ref={(el) => {
+              groupRefs.current[cat.id] = el;
+            }}
+            className={styles['emoji-popover__group']}
+          >
             <MenuGroupHeading label={cat.label} />
             <div
               className={[
                 styles['emoji-popover__emoji-row'],
-                cat.wrap === false ? styles['emoji-popover__emoji-row--nowrap'] : '',
-              ].filter(Boolean).join(' ')}
+                cat.wrap === false
+                  ? styles['emoji-popover__emoji-row--nowrap']
+                  : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
             >
               {cat.emojis.map(renderEmoji)}
             </div>
@@ -195,8 +263,12 @@ export default function EmojiPopover({
           <div
             className={[
               styles['emoji-popover__header-main'],
-              showSkinTonePicker ? styles['emoji-popover__header-main--hidden'] : '',
-            ].filter(Boolean).join(' ')}
+              showSkinTonePicker
+                ? styles['emoji-popover__header-main--hidden']
+                : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
             inert={showSkinTonePicker}
             aria-hidden={showSkinTonePicker || undefined}
           >
@@ -227,12 +299,18 @@ export default function EmojiPopover({
             id={skinTonePickerId}
             className={[
               styles['emoji-popover__skin-tone-picker'],
-              showSkinTonePicker ? styles['emoji-popover__skin-tone-picker--visible'] : '',
-            ].filter(Boolean).join(' ')}
+              showSkinTonePicker
+                ? styles['emoji-popover__skin-tone-picker--visible']
+                : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
             inert={!showSkinTonePicker}
             aria-hidden={!showSkinTonePicker || undefined}
           >
-            <span className={styles['emoji-popover__skin-tone-label']}>Skin tone</span>
+            <span className={styles['emoji-popover__skin-tone-label']}>
+              Skin tone
+            </span>
             <div className={styles['emoji-popover__skin-tone-options']}>
               {SKIN_TONES.map((emoji, i) => (
                 <EmojiButton
@@ -241,7 +319,10 @@ export default function EmojiPopover({
                   size="small"
                   toggled={skinToneIndex === i}
                   aria-label={i === 0 ? 'Default skin tone' : `Skin tone ${i}`}
-                  onClick={() => { setSkinToneIndex(i); setShowSkinTonePicker(false); }}
+                  onClick={() => {
+                    setSkinToneIndex(i);
+                    setShowSkinTonePicker(false);
+                  }}
                 />
               ))}
             </div>
@@ -265,7 +346,10 @@ export default function EmojiPopover({
                 icon={<Icon glyph={<cat.icon />} size="16" />}
                 aria-label={cat.label}
                 active={activeCategoryId === cat.id}
-                onClick={() => { setActiveCategoryId(cat.id); scrollToCategory(cat.id); }}
+                onClick={() => {
+                  setActiveCategoryId(cat.id);
+                  scrollToCategory(cat.id);
+                }}
               />
             ))}
           </div>
@@ -276,7 +360,9 @@ export default function EmojiPopover({
         {computedState === 'empty' ? (
           renderBody()
         ) : (
-          <Scrollbar alwaysVisible ref={scrollRef}>{renderBody()}</Scrollbar>
+          <Scrollbar alwaysVisible ref={scrollRef}>
+            {renderBody()}
+          </Scrollbar>
         )}
       </div>
 
@@ -284,7 +370,7 @@ export default function EmojiPopover({
         <div className={styles['emoji-popover__footer-preview']}>
           {hoveredEmoji ? (
             <>
-              <Emoji emoji={hoveredEmoji} size='32' />
+              <Emoji emoji={hoveredEmoji} size="32" />
               <span className={styles['emoji-popover__footer-shortcode']}>
                 {getShortcode(hoveredBase ?? '')}
               </span>

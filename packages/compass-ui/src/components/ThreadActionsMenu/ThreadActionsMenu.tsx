@@ -27,11 +27,7 @@ export default function ThreadActionsMenu({
   ...rest
 }: ThreadActionsMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Unfollow thread"

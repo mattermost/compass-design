@@ -45,8 +45,8 @@ export default function ChannelInfoMsgHeader({
 }: ChannelInfoMsgHeaderProps) {
   const resolvedTabs: ChannelInfoMsgHeaderTab[] =
     channelName != null && channelName !== ''
-      ? [{label: channelName, onClick: onChannelClick}]
-      : (tabs ?? [{label: 'Spec Reviews', active: true}]);
+      ? [{ label: channelName, onClick: onChannelClick }]
+      : (tabs ?? [{ label: 'Spec Reviews', active: true }]);
 
   const rootClass = [styles['channel-info-msg-header'], className]
     .filter(Boolean)
@@ -68,7 +68,7 @@ export default function ChannelInfoMsgHeader({
               .join(' ')}
           >
             <button
-              type='button'
+              type="button"
               className={[
                 styles['channel-info-msg-header__tab'],
                 tab.active

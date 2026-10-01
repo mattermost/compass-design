@@ -33,7 +33,8 @@
   animation: profile-popover-enter var(--duration-quick) var(--ease-entrance);
 
   &--closing {
-    animation: profile-popover-exit var(--duration-quick) var(--ease-exit) forwards;
+    animation: profile-popover-exit var(--duration-quick) var(--ease-exit)
+      forwards;
   }
 
   &__role-tag {

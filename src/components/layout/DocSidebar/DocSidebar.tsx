@@ -31,7 +31,10 @@ export default function DocSidebar({ groups, header }: DocSidebarProps) {
       {header && <div className={styles['doc-sidebar__header']}>{header}</div>}
       {groups.map((group, i) =>
         group.items.length === 0 ? null : (
-          <div key={`${group.label}-${i}`} className={styles['doc-sidebar__group']}>
+          <div
+            key={`${group.label}-${i}`}
+            className={styles['doc-sidebar__group']}
+          >
             {group.label && (
               <div className={styles['doc-sidebar__group-header']}>
                 {group.label}

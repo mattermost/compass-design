@@ -13,18 +13,11 @@ export default function ThreadListItemLibrary() {
           <span className={styles['components__instance-label']}>
             Active (badge hidden)
           </span>
-          <ThreadListItem
-            active
-            badge="unread"
-            onClick={() => undefined}
-          />
+          <ThreadListItem active badge="unread" onClick={() => undefined} />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Unread</span>
-          <ThreadListItem
-            badge="unread"
-            onClick={() => undefined}
-          />
+          <ThreadListItem badge="unread" onClick={() => undefined} />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Mention</span>

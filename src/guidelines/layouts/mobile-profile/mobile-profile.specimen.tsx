@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import CheckCircleIcon from '@mattermost/compass-icons/components/check-circle';
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
@@ -6,7 +6,12 @@ import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoti
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { type MobileTabBarTab, MobileMenuItem, MobileProfile, MobileTabBar } from '@mattermost/compass-proto';
+import {
+  type MobileTabBarTab,
+  MobileMenuItem,
+  MobileProfile,
+  MobileTabBar,
+} from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from './mobile-profile.specimen.module.scss';
@@ -16,59 +21,55 @@ export default function MobileProfileLibrary() {
 
   return (
     <div className={styles['mobile-profile-layout']}>
-      <DeviceFrame insetContent={false} statusBarStyle='light'>
+      <DeviceFrame insetContent={false} statusBarStyle="light">
         <div className={styles['mobile-profile-layout__shell']}>
           <MobileProfile
             avatarSrc={avatarLeonard}
-            avatarAlt='Leonard Riley'
-            displayName='Leonard Riley'
-            username='@leonard.riley'
+            avatarAlt="Leonard Riley"
+            displayName="Leonard Riley"
+            username="@leonard.riley"
           >
             <Scrollbar>
               <div className={styles['mobile-profile-layout__menu']}>
                 <MobileMenuItem
-                  label='Online'
+                  label="Online"
                   leadingVisual={
                     <Icon
-                      size='20'
+                      size="20"
                       className={styles['mobile-profile-layout__status-icon']}
                       glyph={<CheckCircleIcon />}
                     />
                   }
                 />
                 <MobileMenuItem
-                  label='Set a Custom Status'
+                  label="Set a Custom Status"
                   leadingVisual={
-                    <Icon size='20' glyph={<EmoticonHappyOutlineIcon />} />
+                    <Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />
                   }
                 />
                 <div
                   className={styles['mobile-profile-layout__menu-divider']}
-                  role='separator'
+                  role="separator"
                 />
                 <MobileMenuItem
-                  label='Your Profile'
+                  label="Your Profile"
                   leadingVisual={
-                    <Icon size='20' glyph={<AccountOutlineIcon />} />
+                    <Icon size="20" glyph={<AccountOutlineIcon />} />
                   }
                 />
                 <MobileMenuItem
-                  label='Settings'
-                  leadingVisual={
-                    <Icon size='20' glyph={<CogOutlineIcon />} />
-                  }
+                  label="Settings"
+                  leadingVisual={<Icon size="20" glyph={<CogOutlineIcon />} />}
                 />
                 <div
                   className={styles['mobile-profile-layout__menu-divider']}
-                  role='separator'
+                  role="separator"
                 />
                 <MobileMenuItem
-                  label='Log out'
-                  secondaryLabel='Log out of Community Server'
+                  label="Log out"
+                  secondaryLabel="Log out of Community Server"
                   destructive
-                  leadingVisual={
-                    <Icon size='20' glyph={<ExitToAppIcon />} />
-                  }
+                  leadingVisual={<Icon size="20" glyph={<ExitToAppIcon />} />}
                 />
               </div>
             </Scrollbar>
@@ -77,7 +78,7 @@ export default function MobileProfileLibrary() {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             profileSrc={avatarLeonard}
-            profileAlt='Leonard Riley'
+            profileAlt="Leonard Riley"
           />
         </div>
       </DeviceFrame>

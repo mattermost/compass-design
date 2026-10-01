@@ -24,10 +24,17 @@ const modalFooter = (
 );
 
 const modalBody = (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-l)' }}>
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'var(--spacing-l)',
+    }}
+  >
     <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
-      This will permanently delete <strong>#design</strong> and all its messages.
-      Members will lose access immediately. This action cannot be undone.
+      This will permanently delete <strong>#design</strong> and all its
+      messages. Members will lose access immediately. This action cannot be
+      undone.
     </p>
     <TextInput label='Type "design" to confirm' placeholder="design" />
   </div>
@@ -151,7 +158,8 @@ export const SubtitleBeside: Story = {
         onClose={fn()}
       >
         <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
-          Settings body with an inline header subtitle (Figma Subtitle = Beside).
+          Settings body with an inline header subtitle (Figma Subtitle =
+          Beside).
         </p>
       </Modal>
     </ModalCanvas>
@@ -357,32 +365,35 @@ export const HostOwnedLayout: Story = {
               width: 200,
               flexShrink: 0,
               padding: 'var(--spacing-l)',
-              borderRight: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
+              borderRight:
+                '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
               display: 'flex',
               flexDirection: 'column',
               gap: 'var(--spacing-xs)',
             }}
           >
-            {['Info', 'Model & Instructions', 'Access & sharing'].map((label) => (
-              <button
-                key={label}
-                type="button"
-                style={{
-                  textAlign: 'left',
-                  padding: 'var(--spacing-xs) var(--spacing-s)',
-                  border: 'none',
-                  borderRadius: 'var(--radius-s)',
-                  background:
-                    label === 'Info'
-                      ? 'rgba(var(--button-bg-rgb), 0.08)'
-                      : 'transparent',
-                  color: 'var(--center-channel-color)',
-                  cursor: 'pointer',
-                }}
-              >
-                {label}
-              </button>
-            ))}
+            {['Info', 'Model & Instructions', 'Access & sharing'].map(
+              (label) => (
+                <button
+                  key={label}
+                  type="button"
+                  style={{
+                    textAlign: 'left',
+                    padding: 'var(--spacing-xs) var(--spacing-s)',
+                    border: 'none',
+                    borderRadius: 'var(--radius-s)',
+                    background:
+                      label === 'Info'
+                        ? 'rgba(var(--button-bg-rgb), 0.08)'
+                        : 'transparent',
+                    color: 'var(--center-channel-color)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {label}
+                </button>
+              ),
+            )}
           </nav>
           <div
             style={{
@@ -401,12 +412,21 @@ export const HostOwnedLayout: Story = {
             >
               <TextInput label="Display name" placeholder="Matty" />
               <TextInput label="Username" placeholder="matty" />
-              <TextInput label="Description" placeholder="Helpful teammate agent" />
+              <TextInput
+                label="Description"
+                placeholder="Helpful teammate agent"
+              />
               <TextInput label="Default model" placeholder="GPT-4o" />
-              <TextInput label="System instructions" placeholder="You are a helpful assistant…" />
+              <TextInput
+                label="System instructions"
+                placeholder="You are a helpful assistant…"
+              />
               <TextInput label="Temperature" placeholder="0.7" />
               <TextInput label="Max tokens" placeholder="2048" />
-              <TextInput label="Knowledge sources" placeholder="Team wiki, design docs" />
+              <TextInput
+                label="Knowledge sources"
+                placeholder="Team wiki, design docs"
+              />
             </div>
           </div>
         </div>

@@ -189,9 +189,7 @@ export default function CallWidget({
               />
             </WithTooltip>
             <WithTooltip
-              label={
-                overlay === 'menu' ? 'Close call menu' : 'Open call menu'
-              }
+              label={overlay === 'menu' ? 'Close call menu' : 'Open call menu'}
             >
               <IconButton
                 size="small"

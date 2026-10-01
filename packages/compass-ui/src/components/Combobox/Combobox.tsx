@@ -96,9 +96,7 @@ function toSingleValue(
   return value === '' ? null : value;
 }
 
-function toMultiValue(
-  value: string | string[] | null | undefined,
-): string[] {
+function toMultiValue(value: string | string[] | null | undefined): string[] {
   if (value == null) return [];
   if (Array.isArray(value)) return value;
   return value === '' ? [] : [value];
@@ -280,9 +278,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const isSelected = useCallback(
     (optionValue: string) =>
-      multiple
-        ? multiValue.includes(optionValue)
-        : singleValue === optionValue,
+      multiple ? multiValue.includes(optionValue) : singleValue === optionValue,
     [multiple, multiValue, singleValue],
   );
 
@@ -356,9 +352,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     if (!isOpen || activeIndex < 0) return;
     const option = filteredOptions[activeIndex];
     if (!option) return;
-    const el = document.getElementById(
-      `${listboxId}-option-${option.value}`,
-    );
+    const el = document.getElementById(`${listboxId}-option-${option.value}`);
     el?.scrollIntoView({ block: 'nearest' });
   }, [isOpen, activeIndex, filteredOptions, listboxId]);
 
@@ -435,11 +429,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         }
         break;
       case 'Backspace':
-        if (
-          multiple &&
-          displayInput === '' &&
-          multiValue.length > 0
-        ) {
+        if (multiple && displayInput === '' && multiValue.length > 0) {
           e.preventDefault();
           removeValue(multiValue[multiValue.length - 1]);
         }
@@ -472,7 +462,9 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   const activeOption =
     activeIndex >= 0 ? filteredOptions[activeIndex] : undefined;
   const activeDescendant =
-    activeOption != null ? `${listboxId}-option-${activeOption.value}` : undefined;
+    activeOption != null
+      ? `${listboxId}-option-${activeOption.value}`
+      : undefined;
 
   const selectedOptions = useMemo(
     () => options.filter((o) => multiValue.includes(o.value)),
@@ -497,10 +489,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   return (
     <div className={rootClass} ref={rootRef}>
-      <div
-        className={styles.combobox__wrapper}
-        ref={anchorRef}
-      >
+      <div className={styles.combobox__wrapper} ref={anchorRef}>
         {label != null && (
           <label className={styles.combobox__label} htmlFor={id}>
             {label}
@@ -560,9 +549,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               spellCheck={false}
               disabled={disabled}
               placeholder={
-                multiple && selectedOptions.length > 0
-                  ? undefined
-                  : placeholder
+                multiple && selectedOptions.length > 0 ? undefined : placeholder
               }
               value={displayInput}
               aria-label={ariaLabel}

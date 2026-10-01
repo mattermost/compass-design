@@ -42,10 +42,7 @@ export default function ToastLibrary() {
         <h3 className={styles['components__section-title']}>Without dismiss</h3>
         <div className={styles['components__button-block']}>
           <Toast message="Link copied to clipboard." type="general" />
-          <Toast
-            message="Message saved successfully."
-            type="success"
-          />
+          <Toast message="Message saved successfully." type="success" />
           <Toast
             message="Failed to send message. Please try again."
             type="danger"

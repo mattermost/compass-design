@@ -69,9 +69,7 @@ export default function ReactionsRow({
           type="button"
           className={[
             styles['reactions-row__ack'],
-            currentUserAcknowledged
-              ? styles['reactions-row__ack--active']
-              : '',
+            currentUserAcknowledged ? styles['reactions-row__ack--active'] : '',
           ]
             .filter(Boolean)
             .join(' ')}

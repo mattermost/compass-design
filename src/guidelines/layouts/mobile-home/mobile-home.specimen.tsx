@@ -1,5 +1,11 @@
-import { useState} from 'react';
-import { MobileChannelsSidebar, type MobileTabBarTab, MobileHome, MobileTabBar, MobileTeamSidebar } from '@mattermost/compass-proto';
+import { useState } from 'react';
+import {
+  MobileChannelsSidebar,
+  type MobileTabBarTab,
+  MobileHome,
+  MobileTabBar,
+  MobileTeamSidebar,
+} from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
 import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
@@ -18,7 +24,7 @@ export default function MobileHomeLibrary() {
 
   return (
     <div className={styles['mobile-home-layout']}>
-      <DeviceFrame insetContent={false} statusBarStyle='light'>
+      <DeviceFrame insetContent={false} statusBarStyle="light">
         <MobileHome
           teamSidebar={
             <MobileTeamSidebar
@@ -41,10 +47,8 @@ export default function MobileHomeLibrary() {
           }
           channelsSidebar={
             <MobileChannelsSidebar
-              teamName={
-                activeTeamId === 'design' ? 'Design' : 'Contributors'
-              }
-              subtitle='Community'
+              teamName={activeTeamId === 'design' ? 'Design' : 'Contributors'}
+              subtitle="Community"
               showUnreadsCategory
               avatarAikoTan={avatarAikoTan}
               avatarArjunPatel={avatarArjunPatel}
@@ -60,7 +64,7 @@ export default function MobileHomeLibrary() {
               activeTab={activeTab}
               onTabChange={setActiveTab}
               profileSrc={avatarLeonard}
-              profileAlt='Leonard Riley'
+              profileAlt="Leonard Riley"
               mentionsBadge={2}
             />
           }

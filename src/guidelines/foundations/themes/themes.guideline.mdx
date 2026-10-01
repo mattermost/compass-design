@@ -19,7 +19,10 @@ chrome.
 <SplitRow>
   <div>
     <h4>Denim</h4>
-    <p>Mattermost's signature look. Indigo sidebar, white center channel, blue accents. The default for new users.</p>
+    <p>
+      Mattermost's signature look. Indigo sidebar, white center channel, blue
+      accents. The default for new users.
+    </p>
   </div>
   <LayoutPreview theme="denim" />
 </SplitRow>
@@ -27,7 +30,11 @@ chrome.
 <SplitRow>
   <div>
     <h4>Sapphire</h4>
-    <p>A cooler, more saturated blue sidebar pairs with a white center channel and cyan accents. Good for users who want the brand feel with a lighter sidebar than Denim.</p>
+    <p>
+      A cooler, more saturated blue sidebar pairs with a white center channel
+      and cyan accents. Good for users who want the brand feel with a lighter
+      sidebar than Denim.
+    </p>
   </div>
   <LayoutPreview theme="sapphire" />
 </SplitRow>
@@ -35,7 +42,10 @@ chrome.
 <SplitRow>
   <div>
     <h4>Quartz</h4>
-    <p>Soft neutral sidebar with a white center channel. The lightest, lowest-contrast option for users who prefer minimal chrome.</p>
+    <p>
+      Soft neutral sidebar with a white center channel. The lightest,
+      lowest-contrast option for users who prefer minimal chrome.
+    </p>
   </div>
   <LayoutPreview theme="quartz" />
 </SplitRow>
@@ -47,7 +57,10 @@ chrome.
 <SplitRow>
   <div>
     <h4>Indigo</h4>
-    <p>Deep navy chrome with a near-black center channel. Reduces eye strain in dim environments while keeping a hint of brand color.</p>
+    <p>
+      Deep navy chrome with a near-black center channel. Reduces eye strain in
+      dim environments while keeping a hint of brand color.
+    </p>
   </div>
   <LayoutPreview theme="indigo" />
 </SplitRow>
@@ -55,7 +68,10 @@ chrome.
 <SplitRow>
   <div>
     <h4>Onyx</h4>
-    <p>Pure charcoal chrome with a near-black center channel. The most neutral dark theme, suited to OLED displays and high-focus work.</p>
+    <p>
+      Pure charcoal chrome with a near-black center channel. The most neutral
+      dark theme, suited to OLED displays and high-focus work.
+    </p>
   </div>
   <LayoutPreview theme="onyx" />
 </SplitRow>
@@ -66,8 +82,8 @@ chrome.
 
 Themes are a layer of **role-based tokens** that sit on top of the
 foundation palette. Foundation tokens (e.g. `--color-blue-500`) describe
-*what a color is*; theme tokens (e.g. `--button-bg`) describe *what role a
-color plays in the interface*. Each theme reassigns role tokens to
+_what a color is_; theme tokens (e.g. `--button-bg`) describe _what role a
+color plays in the interface_. Each theme reassigns role tokens to
 appropriate palette values for that look.
 
 Every theme token also exposes an `-rgb` counterpart for use inside
@@ -97,7 +113,11 @@ The team and channel navigation chrome.
   <Swatch token="sidebar-bg" label="Sidebar BG" size="medium" />
   <Swatch token="sidebar-text" label="Sidebar Text" size="medium" />
   <Swatch token="sidebar-text-hover-bg" label="Sidebar Hover" size="medium" />
-  <Swatch token="sidebar-text-active-border" label="Active Border" size="medium" />
+  <Swatch
+    token="sidebar-text-active-border"
+    label="Active Border"
+    size="medium"
+  />
   <Swatch token="sidebar-header-bg" label="Header BG" size="medium" />
   <Swatch token="sidebar-teambar-bg" label="Team Sidebar BG" size="medium" />
 </SwatchGrid>
@@ -109,7 +129,11 @@ on these.
 
 <SwatchGrid size="medium">
   <Swatch token="center-channel-bg" label="Center Channel BG" size="medium" />
-  <Swatch token="center-channel-color" label="Center Channel Text" size="medium" />
+  <Swatch
+    token="center-channel-color"
+    label="Center Channel Text"
+    size="medium"
+  />
 </SwatchGrid>
 
 ### Buttons
@@ -132,7 +156,11 @@ so they stay aligned with custom themes.
   <Swatch token="error-text" label="Error Text" size="medium" />
   <Swatch token="mention-bg" label="Mention BG" size="medium" />
   <Swatch token="mention-color" label="Mention Text" size="medium" />
-  <Swatch token="mention-highlight-bg" label="Mention Highlight" size="medium" />
+  <Swatch
+    token="mention-highlight-bg"
+    label="Mention Highlight"
+    size="medium"
+  />
   <Swatch token="new-message-separator" label="New Message" size="medium" />
 </SwatchGrid>
 

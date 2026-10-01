@@ -6,9 +6,9 @@ Follow this when working under `packages/compass-proto/` or composing proto UI i
 
 Unpublished prototyping surface (root barrel only — no component subpaths):
 
-- Mobile* shells and patterns
+- Mobile\* shells and patterns
 - `ChannelShell`
-- Call* composites (`CallWidget`, `CallPopout`, `CallParticipantAvatar`, `RecordingPill`, panels)
+- Call\* composites (`CallWidget`, `CallPopout`, `CallParticipantAvatar`, `RecordingPill`, panels)
 - Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `ReactionPill`, `AppBarItem`
 - Demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`) and sidebar fixture helpers
 - `WithTooltip` (prototype tooltip host)

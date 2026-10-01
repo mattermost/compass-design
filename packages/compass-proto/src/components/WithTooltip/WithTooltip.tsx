@@ -112,7 +112,10 @@ export default function WithTooltip({
   const scheduleHide = useCallback(() => {
     window.clearTimeout(showTimerRef.current);
     window.clearTimeout(hideTimerRef.current);
-    hideTimerRef.current = window.setTimeout(() => setOpen(false), HIDE_GRACE_MS);
+    hideTimerRef.current = window.setTimeout(
+      () => setOpen(false),
+      HIDE_GRACE_MS,
+    );
   }, []);
 
   useLayoutEffect(() => {

@@ -141,11 +141,13 @@
   }
 
   &--invalid &__input:focus-visible ~ &__circle {
-    box-shadow: 0 0 0 2px rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.56);
+    box-shadow: 0 0 0 2px
+      rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.56);
   }
 
   &--invalid &__input:focus-visible:checked ~ &__circle {
-    box-shadow: 0 0 0 2px rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.56);
+    box-shadow: 0 0 0 2px
+      rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.56);
   }
 
   // ---------------------------------------------------------------------------

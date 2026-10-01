@@ -11,12 +11,12 @@ next unread.
 
 A pill with a directional arrow and a single-line label.
 
-- <Num>1</Num> **Container** — pill surface. Sits at the top or bottom edge
-  of the sidebar viewport.
+- <Num>1</Num> **Container** — pill surface. Sits at the top or bottom edge of
+  the sidebar viewport.
 - <Num>2</Num> **Arrow** — points up or down to match where the unreads are.
 - <Num>3</Num> **Label** — `More unreads`. Don't customise.
 
-<AnatomyStage style={{gap:'1rem',flexWrap:'wrap'}}>
+<AnatomyStage style={{ gap: '1rem', flexWrap: 'wrap' }}>
   <MoreUnreadsBanner direction="up" />
   <MoreUnreadsBanner direction="down" />
 </AnatomyStage>
@@ -28,17 +28,28 @@ A pill with a directional arrow and a single-line label.
 Three sizes so the banner fits whatever sidebar density you're rendering.
 Pick to match the sidebar item size.
 
-<div style={{display:'flex',gap:'1rem',flexWrap:'wrap',alignItems:'center',padding:'1rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+  }}
+>
   <MoreUnreadsBanner size="small" />
   <MoreUnreadsBanner size="medium" />
   <MoreUnreadsBanner size="large" />
 </div>
 
-| Size   | Use when                                                            |
-| ------ | ------------------------------------------------------------------- |
-| Small  | Compact sidebars (mobile, dense desktop).                           |
-| Medium | Default — desktop sidebar.                                          |
-| Large  | High-density variants and accessibility-leaning surfaces.           |
+| Size   | Use when                                                  |
+| ------ | --------------------------------------------------------- |
+| Small  | Compact sidebars (mobile, dense desktop).                 |
+| Medium | Default — desktop sidebar.                                |
+| Large  | High-density variants and accessibility-leaning surfaces. |
 
 <Divider />
 
@@ -47,10 +58,10 @@ Pick to match the sidebar item size.
 Two interactive states. The banner is a button; clicking scrolls the sidebar
 to the next unread channel.
 
-| State    | Use when                                          |
-| -------- | ------------------------------------------------- |
-| Default  | At least one unread channel is off-screen.        |
-| Hover    | Pointer is over the banner.                       |
+| State   | Use when                                   |
+| ------- | ------------------------------------------ |
+| Default | At least one unread channel is off-screen. |
+| Hover   | Pointer is over the banner.                |
 
 The banner only renders when there is something to scroll to — hide it as
 soon as all unreads are in view.

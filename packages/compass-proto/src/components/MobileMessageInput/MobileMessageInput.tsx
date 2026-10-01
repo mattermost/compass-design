@@ -109,9 +109,7 @@ export default function MobileMessageInput({
   const setTextareaRef = (node: HTMLTextAreaElement | null) => {
     localRef.current = node;
     if (inputRef) {
-      (
-        inputRef as {current: HTMLTextAreaElement | null}
-      ).current = node;
+      (inputRef as { current: HTMLTextAreaElement | null }).current = node;
     }
   };
 
@@ -155,9 +153,7 @@ export default function MobileMessageInput({
     localRef.current?.focus();
   };
 
-  const toolbarIcon = (glyph: ReactNode) => (
-    <Icon size='20' glyph={glyph} />
-  );
+  const toolbarIcon = (glyph: ReactNode) => <Icon size="20" glyph={glyph} />;
 
   const rootClass = [
     styles['mobile-message-input'],
@@ -174,14 +170,14 @@ export default function MobileMessageInput({
 
     return (
       <button
-        type='button'
+        type="button"
         className={styles['mobile-message-input__send']}
-        aria-label='Send'
+        aria-label="Send"
         onClick={onSend}
         tabIndex={visible ? undefined : -1}
         aria-hidden={!visible}
       >
-        <Icon size='20' glyph={<SendIcon />} />
+        <Icon size="20" glyph={<SendIcon />} />
       </button>
     );
   };
@@ -191,12 +187,12 @@ export default function MobileMessageInput({
       <div className={styles['mobile-message-input__expand']}>
         <IconButton
           aria-label={isExpanded ? 'Collapse composer' : 'Expand composer'}
-          size='small'
+          size="small"
           onClick={handleExpandToggle}
           tabIndex={showFocusedChrome ? undefined : -1}
           icon={
             <Icon
-              size='16'
+              size="16"
               glyph={isExpanded ? <ArrowCollapseIcon /> : <ArrowExpandIcon />}
             />
           }
@@ -206,8 +202,8 @@ export default function MobileMessageInput({
       <div className={styles['mobile-message-input__top']}>
         <div className={styles['mobile-message-input__plus']}>
           <IconButton
-            aria-label='Add files and media'
-            size='medium'
+            aria-label="Add files and media"
+            size="medium"
             rounded
             className={styles['mobile-message-input__plus-button']}
             onClick={onPlusClick}
@@ -260,12 +256,12 @@ export default function MobileMessageInput({
                   alt={attachment.alt ?? ''}
                 />
                 <button
-                  type='button'
+                  type="button"
                   className={styles['mobile-message-input__attachment-remove']}
                   aria-label={`Remove ${attachment.alt ?? 'attachment'}`}
                   onClick={() => onRemoveAttachment?.(attachment.id)}
                 >
-                  <Icon size='20' glyph={<CloseCircleIcon />} />
+                  <Icon size="20" glyph={<CloseCircleIcon />} />
                 </button>
               </li>
             ))}
@@ -282,8 +278,8 @@ export default function MobileMessageInput({
             <div className={styles['mobile-message-input__action-group']}>
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
-                  aria-label='Add files and media'
-                  size='medium'
+                  aria-label="Add files and media"
+                  size="medium"
                   rounded
                   className={styles['mobile-message-input__plus-button']}
                   onClick={onPlusClick}
@@ -293,8 +289,8 @@ export default function MobileMessageInput({
               </div>
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
-                  aria-label='Mention someone'
-                  size='medium'
+                  aria-label="Mention someone"
+                  size="medium"
                   onClick={onMentionClick}
                   tabIndex={showFocusedChrome ? undefined : -1}
                   icon={toolbarIcon(<AtIcon />)}
@@ -302,8 +298,8 @@ export default function MobileMessageInput({
               </div>
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
-                  aria-label='Insert emoji'
-                  size='medium'
+                  aria-label="Insert emoji"
+                  size="medium"
                   onClick={onEmojiClick}
                   tabIndex={showFocusedChrome ? undefined : -1}
                   icon={toolbarIcon(<EmoticonOutlineIcon />)}
@@ -311,8 +307,8 @@ export default function MobileMessageInput({
               </div>
               <div className={styles['mobile-message-input__action']}>
                 <IconButton
-                  aria-label='Slash command'
-                  size='medium'
+                  aria-label="Slash command"
+                  size="medium"
                   onClick={onSlashClick}
                   tabIndex={showFocusedChrome ? undefined : -1}
                   icon={toolbarIcon(<SlashForwardBoxOutlineIcon />)}

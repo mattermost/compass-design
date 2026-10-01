@@ -31,14 +31,16 @@ export default function GuidelineNextTopicCard({
       aria-label={heading}
     >
       <div className={styles['guideline-next-topic-card__content']}>
-      <span className={styles['guideline-next-topic-card__header']}>
-        <span className={styles['guideline-next-topic-card__title']}>{heading}</span>
-      </span>
-      {desc ? (
-        <span className={styles['guideline-next-topic-card__description']}>
-          {desc}
+        <span className={styles['guideline-next-topic-card__header']}>
+          <span className={styles['guideline-next-topic-card__title']}>
+            {heading}
+          </span>
         </span>
-      ) : null}
+        {desc ? (
+          <span className={styles['guideline-next-topic-card__description']}>
+            {desc}
+          </span>
+        ) : null}
       </div>
       <span className={styles['guideline-next-topic-card__icon']} aria-hidden>
         <Icon glyph={<ArrowRightIcon size={SVG_SIZE_MAP['20']} />} size="20" />

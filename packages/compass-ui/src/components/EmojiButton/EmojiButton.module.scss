@@ -25,7 +25,9 @@
     opacity: 0.5;
   }
 
-  &:hover:not(:disabled):not(:active):not(.emoji-button--active):not(.emoji-button--toggled) {
+  &:hover:not(:disabled):not(:active):not(.emoji-button--active):not(
+      .emoji-button--toggled
+    ) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
   }
 

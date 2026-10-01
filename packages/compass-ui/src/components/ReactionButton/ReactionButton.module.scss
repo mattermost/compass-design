@@ -76,7 +76,8 @@
     }
 
     &--anim-down {
-      animation: reaction-count-down var(--duration-moderate) var(--ease-entrance);
+      animation: reaction-count-down var(--duration-moderate)
+        var(--ease-entrance);
     }
   }
 }

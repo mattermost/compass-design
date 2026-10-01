@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { MobileMessageInput } from '@mattermost/compass-proto';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import sampleImage from '@/assets/images/sample-image.jpg';
@@ -19,8 +19,8 @@ export function MobileMessageInputAnatomyStage() {
     >
       <div className={styles['mobile-message-input-anatomy__frame']}>
         <MobileMessageInput
-          variant='Root'
-          placeholder='Write to UX Design…'
+          variant="Root"
+          placeholder="Write to UX Design…"
           value={value}
           onChange={setValue}
           defaultFocused

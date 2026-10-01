@@ -114,12 +114,7 @@ export const AllVariants: Story = {
         <Radio name="radio-invalid" value="unchecked" invalid>
           Unchecked invalid
         </Radio>
-        <Radio
-          name="radio-invalid"
-          value="checked"
-          defaultChecked
-          invalid
-        >
+        <Radio name="radio-invalid" value="checked" defaultChecked invalid>
           Checked invalid
         </Radio>
       </div>

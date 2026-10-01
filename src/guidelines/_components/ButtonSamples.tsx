@@ -17,21 +17,37 @@ export function ButtonAnatomy() {
         >
           Button label
         </Button>
-        <span className={`${styles['anatomy__pin']} ${styles['anatomy__pin--label']}`}>
+        <span
+          className={`${styles['anatomy__pin']} ${styles['anatomy__pin--label']}`}
+        >
           <span className={styles['anatomy__pin-num']}>1</span>
-          <span className={`${styles['anatomy__line']} ${styles['anatomy__line--down']}`} />
+          <span
+            className={`${styles['anatomy__line']} ${styles['anatomy__line--down']}`}
+          />
         </span>
-        <span className={`${styles['anatomy__pin']} ${styles['anatomy__pin--container']}`}>
+        <span
+          className={`${styles['anatomy__pin']} ${styles['anatomy__pin--container']}`}
+        >
           <span className={styles['anatomy__pin-num']}>2</span>
-          <span className={`${styles['anatomy__line']} ${styles['anatomy__line--left']}`} />
+          <span
+            className={`${styles['anatomy__line']} ${styles['anatomy__line--left']}`}
+          />
         </span>
-        <span className={`${styles['anatomy__pin']} ${styles['anatomy__pin--leading']}`}>
+        <span
+          className={`${styles['anatomy__pin']} ${styles['anatomy__pin--leading']}`}
+        >
           <span className={styles['anatomy__pin-num']}>3</span>
-          <span className={`${styles['anatomy__line']} ${styles['anatomy__line--up']}`} />
+          <span
+            className={`${styles['anatomy__line']} ${styles['anatomy__line--up']}`}
+          />
         </span>
-        <span className={`${styles['anatomy__pin']} ${styles['anatomy__pin--trailing']}`}>
+        <span
+          className={`${styles['anatomy__pin']} ${styles['anatomy__pin--trailing']}`}
+        >
           <span className={styles['anatomy__pin-num']}>4</span>
-          <span className={`${styles['anatomy__line']} ${styles['anatomy__line--up']}`} />
+          <span
+            className={`${styles['anatomy__line']} ${styles['anatomy__line--up']}`}
+          />
         </span>
       </div>
     </div>
@@ -89,7 +105,10 @@ export function ButtonInverted() {
 export function ButtonDestructive() {
   return (
     <div className={styles['row']}>
-      <Button destructive leadingIcon={<Icon glyph={<TrashCanOutlineIcon />} size="16" />}>
+      <Button
+        destructive
+        leadingIcon={<Icon glyph={<TrashCanOutlineIcon />} size="16" />}
+      >
         Delete channel
       </Button>
       <Button destructive emphasis="secondary">
@@ -126,12 +145,11 @@ export function ButtonWidths() {
       </div>
       <div className={styles['widths__row']}>
         <span className={styles['widths__caption']}>Full-width</span>
-        <div className={`${styles['widths__stage']} ${styles['widths__stage--column']}`}>
+        <div
+          className={`${styles['widths__stage']} ${styles['widths__stage--column']}`}
+        >
           <Button className={styles['widths__full']}>Sign in</Button>
-          <Button
-            className={styles['widths__full']}
-            emphasis="tertiary"
-          >
+          <Button className={styles['widths__full']} emphasis="tertiary">
             Use a different account
           </Button>
         </div>
@@ -163,14 +181,20 @@ export function ButtonPositioning() {
             </p>
           </Modal>
         </div>
-        <figcaption>Modal — content left-aligned, primary action right.</figcaption>
+        <figcaption>
+          Modal — content left-aligned, primary action right.
+        </figcaption>
       </figure>
 
       <figure className={styles['positioning__case']}>
         <div className={`${styles['surface']} ${styles['surface--page']}`}>
           <div className={styles['surface__title']}>Channel settings</div>
-          <div className={styles['surface__body']}>Left-aligned page content.</div>
-          <div className={`${styles['surface__actions']} ${styles['surface__actions--start']}`}>
+          <div className={styles['surface__body']}>
+            Left-aligned page content.
+          </div>
+          <div
+            className={`${styles['surface__actions']} ${styles['surface__actions--start']}`}
+          >
             <Button emphasis="tertiary">Cancel</Button>
             <Button>Save</Button>
           </div>

@@ -69,7 +69,9 @@ function PlainCard({ entry, to }: PlainCardProps) {
       <span className={styles['bento-card__body']}>
         <span className={styles['bento-card__name']}>{entry.name}</span>
         {entry.description && (
-          <span className={styles['bento-card__desc']}>{entry.description}</span>
+          <span className={styles['bento-card__desc']}>
+            {entry.description}
+          </span>
         )}
       </span>
     </Link>
@@ -77,7 +79,13 @@ function PlainCard({ entry, to }: PlainCardProps) {
 }
 
 const STYLE_HEROES = ['color', 'typography'];
-const STYLE_MEDIUM = ['iconography', 'illustrations', 'spacing', 'themes', 'shape'];
+const STYLE_MEDIUM = [
+  'iconography',
+  'illustrations',
+  'spacing',
+  'themes',
+  'shape',
+];
 const STYLE_SMALL_WIDE = ['elevation', 'layout', 'animation'];
 
 const GUIDELINE_SLUGS = [
@@ -123,7 +131,12 @@ export default function FoundationsBento({
           {medium.length > 0 && (
             <div className={styles['foundations-bento__medium']}>
               {medium.map((e) => (
-                <BentoCard key={e.slug} entry={e} size="medium" to={pathFor(e)} />
+                <BentoCard
+                  key={e.slug}
+                  entry={e}
+                  size="medium"
+                  to={pathFor(e)}
+                />
               ))}
             </div>
           )}

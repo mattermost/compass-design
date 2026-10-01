@@ -9,7 +9,7 @@ import { Illustration } from '@mattermost/compass-ui/components/illustration';
 
 <Illustration aria-label="No results">
   <SearchIllustration />
-</Illustration>
+</Illustration>;
 ```
 
 The kebab-case filename is the subpath (`search.svg` → `illustrations/search`).

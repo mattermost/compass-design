@@ -1,7 +1,10 @@
 import { useId, useState, type ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
-import { type AdminPanelExpandedState, AdminPanelHeader } from '@mattermost/compass-ui/components/admin-panel-header';
+import {
+  type AdminPanelExpandedState,
+  AdminPanelHeader,
+} from '@mattermost/compass-ui/components/admin-panel-header';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import styles from '@/styles/library-demo/components.module.scss';
@@ -25,8 +28,7 @@ function HeaderChrome({ children }: { children: ReactNode }) {
 }
 
 export default function AdminPanelHeaderLibrary() {
-  const [expanded, setExpanded] =
-    useState<AdminPanelExpandedState>('expanded');
+  const [expanded, setExpanded] = useState<AdminPanelExpandedState>('expanded');
 
   const idFull = useId();
   const idCollapsed = useId();
@@ -88,7 +90,9 @@ export default function AdminPanelHeaderLibrary() {
             expandable
             isExpanded={expanded === 'expanded'}
             onToggleExpand={() =>
-              setExpanded((s: AdminPanelExpandedState) => (s === 'expanded' ? 'collapsed' : 'expanded'))
+              setExpanded((s: AdminPanelExpandedState) =>
+                s === 'expanded' ? 'collapsed' : 'expanded',
+              )
             }
             showDivider={expanded === 'expanded'}
             headerActions={
@@ -104,7 +108,9 @@ export default function AdminPanelHeaderLibrary() {
         </HeaderChrome>
       </div>
       <div>
-        <p className={styles['components__instance-label']}>Title + subtitle only</p>
+        <p className={styles['components__instance-label']}>
+          Title + subtitle only
+        </p>
         <HeaderChrome>
           <AdminPanelHeader
             titleId={idSubtitle}
@@ -117,7 +123,11 @@ export default function AdminPanelHeaderLibrary() {
       <div>
         <p className={styles['components__instance-label']}>Title only</p>
         <HeaderChrome>
-          <AdminPanelHeader titleId={idTitle} title="Section Title" showDivider />
+          <AdminPanelHeader
+            titleId={idTitle}
+            title="Section Title"
+            showDivider
+          />
         </HeaderChrome>
       </div>
     </div>

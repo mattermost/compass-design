@@ -120,8 +120,8 @@ export const AllVariants: Story = {
           onClose={fn()}
           primaryAction={{ label: 'Got it', onClick: fn() }}
         >
-          Set pointerPosition to none when the card is shown without an on-canvas
-          anchor.
+          Set pointerPosition to none when the card is shown without an
+          on-canvas anchor.
         </TourPoint>
       </section>
     </div>

@@ -1,6 +1,6 @@
 ---
 paths:
-  - "packages/compass-proto/**"
+  - 'packages/compass-proto/**'
 ---
 
 # Proto area

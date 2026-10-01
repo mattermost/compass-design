@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import EmoticonPlusOutlineIcon from '@mattermost/compass-icons/components/emoticon-plus-outline';
 import { EmojiPopover } from '@mattermost/compass-proto';
@@ -14,7 +20,10 @@ const EXIT_MS = 150;
 function EmojiPopoverTriggerDemo() {
   const [isOpen, setIsOpen] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
-  const [popoverPos, setPopoverPos] = useState<{ top: number; left: number } | null>(null);
+  const [popoverPos, setPopoverPos] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const { rendered, exiting } = useExitAnimation(isOpen, EXIT_MS);
@@ -80,20 +89,28 @@ function EmojiPopoverTriggerDemo() {
           onClick={() => setIsOpen((v) => !v)}
         />
       </div>
-      {rendered && popoverPos && createPortal(
-        <div
-          ref={popoverRef}
-          style={{ position: 'fixed', top: popoverPos.top, left: popoverPos.left }}
-          className={[
-            styles['popover-anchor'],
-            popoverVisible ? styles['popover-anchor--visible'] : '',
-            exiting ? styles['popover-anchor--exiting'] : '',
-          ].filter(Boolean).join(' ')}
-        >
-          <EmojiPopover onCustomEmojiClick={() => {}} />
-        </div>,
-        document.body,
-      )}
+      {rendered &&
+        popoverPos &&
+        createPortal(
+          <div
+            ref={popoverRef}
+            style={{
+              position: 'fixed',
+              top: popoverPos.top,
+              left: popoverPos.left,
+            }}
+            className={[
+              styles['popover-anchor'],
+              popoverVisible ? styles['popover-anchor--visible'] : '',
+              exiting ? styles['popover-anchor--exiting'] : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <EmojiPopover onCustomEmojiClick={() => {}} />
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
@@ -109,9 +126,12 @@ export default function EmojiPopoverSpecimen() {
       </header>
 
       <section className={patternStyles['patterns__section']}>
-        <h2 className={patternStyles['patterns__section-title']}>Open / close</h2>
+        <h2 className={patternStyles['patterns__section-title']}>
+          Open / close
+        </h2>
         <p className={patternStyles['patterns__variant-label']}>
-          Click the button to open the popover; click outside or press Escape to close
+          Click the button to open the popover; click outside or press Escape to
+          close
         </p>
         <div className={styles['trigger-demo']}>
           <EmojiPopoverTriggerDemo />
@@ -129,7 +149,9 @@ export default function EmojiPopoverSpecimen() {
       </section>
 
       <section className={patternStyles['patterns__section']}>
-        <h2 className={patternStyles['patterns__section-title']}>Search results</h2>
+        <h2 className={patternStyles['patterns__section-title']}>
+          Search results
+        </h2>
         <p className={patternStyles['patterns__variant-label']}>
           Flat results group replacing the category grid
         </p>
@@ -139,7 +161,9 @@ export default function EmojiPopoverSpecimen() {
       </section>
 
       <section className={patternStyles['patterns__section']}>
-        <h2 className={patternStyles['patterns__section-title']}>Empty search</h2>
+        <h2 className={patternStyles['patterns__section-title']}>
+          Empty search
+        </h2>
         <p className={patternStyles['patterns__variant-label']}>
           No results; centered empty state
         </p>

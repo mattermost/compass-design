@@ -1,7 +1,10 @@
 import { useState, type CSSProperties } from 'react';
 import PlayOutlineIcon from '@mattermost/compass-icons/components/play-outline';
 import { Icon } from '@mattermost/compass-ui/components/icon';
-import { IconButton, ICON_BUTTON_ICON_SIZES } from '@mattermost/compass-ui/components/icon-button';
+import {
+  IconButton,
+  ICON_BUTTON_ICON_SIZES,
+} from '@mattermost/compass-ui/components/icon-button';
 import styles from '@/styles/library-demo/foundations.module.scss';
 
 const DURATIONS = [
@@ -77,7 +80,10 @@ function AnimationRow({
       </div>
       <IconButton
         icon={
-          <Icon glyph={<PlayOutlineIcon />} size={ICON_BUTTON_ICON_SIZES['small']} />
+          <Icon
+            glyph={<PlayOutlineIcon />}
+            size={ICON_BUTTON_ICON_SIZES['small']}
+          />
         }
         size="small"
         aria-label={`Play ${token} preview`}

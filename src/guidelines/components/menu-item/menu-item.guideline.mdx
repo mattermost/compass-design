@@ -25,12 +25,20 @@ Four parts. Only the label is required — everything else is opt-in.
   ("English").
 - <Num>2</Num> **Leading element** — optional icon, avatar, or emoji that
   reinforces the label.
-- <Num>3</Num> **Secondary label** — optional metadata (e.g. an account
-  email, a hint). Place inline for short tags and below for longer copy.
+- <Num>3</Num> **Secondary label** — optional metadata (e.g. an account email, a
+  hint). Place inline for short tags and below for longer copy.
 - <Num>4</Num> **Trailing element** — optional check mark, chevron for a
   submenu, shortcut tag, or [Mention Badge](/components/mention-badge).
 
-<AnatomyStage style={{flexDirection:'column',gap:'0.25rem',alignItems:'stretch',maxWidth:'320px',margin:'0 auto var(--spacing-m)'}}>
+<AnatomyStage
+  style={{
+    flexDirection: 'column',
+    gap: '0.25rem',
+    alignItems: 'stretch',
+    maxWidth: '320px',
+    margin: '0 auto var(--spacing-m)',
+  }}
+>
   <MenuItem
     label="Profile"
     leadingVisual={<Icon glyph={<AccountOutlineIcon />} size="16" />}
@@ -80,7 +88,18 @@ Use the destructive variant for actions that remove or undo — leave a
 channel, delete a saved item, sign out of a workspace. Pair with confirmation
 where the action is irreversible.
 
-<div style={{display:'flex',flexDirection:'column',gap:'0.25rem',maxWidth:'320px',padding:'0.5rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.25rem',
+    maxWidth: '320px',
+    padding: '0.5rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+  }}
+>
   <MenuItem
     label="Sign out"
     destructive
@@ -94,7 +113,18 @@ Trailing elements pull double duty — they communicate state (`check` for
 selected, chevron for a submenu) or surface metadata (a shortcut, a mention
 count, a `NEW` tag).
 
-<div style={{display:'flex',flexDirection:'column',gap:'0.25rem',maxWidth:'320px',padding:'0.5rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.25rem',
+    maxWidth: '320px',
+    padding: '0.5rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+  }}
+>
   <MenuItem label="English" trailingElement />
   <MenuItem label="Threads" mentionCount={3} leadingElement={false} />
   <MenuItem label="What's new" tag leadingElement={false} />

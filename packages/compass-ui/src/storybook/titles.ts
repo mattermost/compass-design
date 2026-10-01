@@ -28,23 +28,28 @@ export const TITLE_FORMS_CHECKBOX = 'Components/Forms and Input/Checkbox';
 export const TITLE_FORMS_RADIO = 'Components/Forms and Input/Radio';
 export const TITLE_FORMS_SWITCH = 'Components/Forms and Input/Switch';
 export const TITLE_FORMS_SELECT = 'Components/Forms and Input/Select';
-export const TITLE_FORMS_SEARCH_INPUT = 'Components/Forms and Input/Search Input';
+export const TITLE_FORMS_SEARCH_INPUT =
+  'Components/Forms and Input/Search Input';
 export const TITLE_FORMS_TEXT_AREA = 'Components/Forms and Input/Text Area';
 export const TITLE_FORMS_TEXT_INPUT = 'Components/Forms and Input/Text Input';
 
 export const TITLE_IMAGES_EMOJI = 'Components/Images and Icons/Emoji';
 export const TITLE_IMAGES_ICON = 'Components/Images and Icons/Icon';
-export const TITLE_IMAGES_ILLUSTRATION = 'Components/Images and Icons/Illustration';
-export const TITLE_IMAGES_TEAM_AVATAR = 'Components/Images and Icons/Team Avatar';
-export const TITLE_IMAGES_USER_AVATAR = 'Components/Images and Icons/User Avatar';
+export const TITLE_IMAGES_ILLUSTRATION =
+  'Components/Images and Icons/Illustration';
+export const TITLE_IMAGES_TEAM_AVATAR =
+  'Components/Images and Icons/Team Avatar';
+export const TITLE_IMAGES_USER_AVATAR =
+  'Components/Images and Icons/User Avatar';
 export const TITLE_IMAGES_USER_AVATAR_GROUP =
   'Components/Images and Icons/User Avatar Group';
 
 export const TITLE_LAYOUT_DIVIDER = 'Components/Layout and Containers/Divider';
-export const TITLE_LAYOUT_EMPTY_STATE = 'Components/Layout and Containers/Empty State';
-export const TITLE_LAYOUT_SCROLLBAR = 'Components/Layout and Containers/Scrollbar';
+export const TITLE_LAYOUT_EMPTY_STATE =
+  'Components/Layout and Containers/Empty State';
+export const TITLE_LAYOUT_SCROLLBAR =
+  'Components/Layout and Containers/Scrollbar';
 export const TITLE_LAYOUT_TABS = 'Components/Layout and Containers/Tabs';
-
 
 export const TITLE_FORMS_CHIP = 'Components/Forms and Input/Chip';
 export const TITLE_FORMS_COMBOBOX = 'Components/Forms and Input/Combobox';

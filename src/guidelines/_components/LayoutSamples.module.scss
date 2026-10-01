@@ -73,14 +73,13 @@
     width: 100%;
     max-width: 480px;
     border-radius: var(--radius-m);
-    background:
-      repeating-linear-gradient(
-        45deg,
-        rgba(var(--button-bg-rgb), 0.06) 0,
-        rgba(var(--button-bg-rgb), 0.06) 6px,
-        transparent 6px,
-        transparent 12px
-      );
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(var(--button-bg-rgb), 0.06) 0,
+      rgba(var(--button-bg-rgb), 0.06) 6px,
+      transparent 6px,
+      transparent 12px
+    );
     outline: 1px dashed rgba(var(--button-bg-rgb), 0.4);
   }
 
@@ -492,12 +491,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image:
-      linear-gradient(
-        to right,
-        rgba(var(--button-bg-rgb), 0.12) 1px,
-        transparent 1px
-      );
+    background-image: linear-gradient(
+      to right,
+      rgba(var(--button-bg-rgb), 0.12) 1px,
+      transparent 1px
+    );
     background-size: 24px 100%;
     color: rgba(var(--center-channel-color-rgb), 0.72);
     font-size: var(--font-size-75);

@@ -75,7 +75,9 @@ export const WithStatus: Story = {
 
 export const ImageSizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'end' }}>
+    <div
+      style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'end' }}
+    >
       {IMAGE_SIZES.map((size) => (
         <div
           key={size}

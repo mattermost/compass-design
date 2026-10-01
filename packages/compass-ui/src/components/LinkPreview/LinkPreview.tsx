@@ -78,10 +78,7 @@ export default function LinkPreview({
     <div className={rootClass}>
       {onDismiss != null && (
         <>
-          <div
-            className={styles['link-preview__dismiss-bridge']}
-            aria-hidden
-          />
+          <div className={styles['link-preview__dismiss-bridge']} aria-hidden />
           <IconButton
             className={styles['link-preview__dismiss']}
             size="x-small"

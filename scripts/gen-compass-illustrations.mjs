@@ -52,10 +52,7 @@ export type IllustrationName = (typeof ILLUSTRATION_NAMES)[number];
   'utf8',
 );
 
-const loadersDir = join(
-  repoRoot,
-  'src/guidelines/foundations/illustrations',
-);
+const loadersDir = join(repoRoot, 'src/guidelines/foundations/illustrations');
 mkdirSync(loadersDir, { recursive: true });
 
 const loadersBody = names

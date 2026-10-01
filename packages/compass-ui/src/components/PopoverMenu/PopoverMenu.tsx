@@ -50,8 +50,7 @@ export function PopoverMenuScroll({
   children,
   className = '',
 }: PopoverMenuScrollProps) {
-  const maxH =
-    typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+  const maxH = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
   return (
     <Scrollbar
       className={[styles['popover-menu__scroll'], className]
@@ -76,7 +75,9 @@ export function PopoverMenuTitle({
 }: PopoverMenuTitleProps) {
   return (
     <p
-      className={[styles['popover-menu__title'], className].filter(Boolean).join(' ')}
+      className={[styles['popover-menu__title'], className]
+        .filter(Boolean)
+        .join(' ')}
       {...rest}
     >
       {children}
@@ -99,7 +100,9 @@ export function PopoverMenuGroup({
   return (
     <div
       role="group"
-      className={[styles['popover-menu__group'], className].filter(Boolean).join(' ')}
+      className={[styles['popover-menu__group'], className]
+        .filter(Boolean)
+        .join(' ')}
       {...rest}
     >
       {children}
@@ -138,7 +141,9 @@ export function PopoverMenuDivider({
 }: PopoverMenuDividerProps) {
   return (
     <div
-      className={[styles['popover-menu__divider'], className].filter(Boolean).join(' ')}
+      className={[styles['popover-menu__divider'], className]
+        .filter(Boolean)
+        .join(' ')}
       role="separator"
       {...rest}
     />

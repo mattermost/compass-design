@@ -1,4 +1,4 @@
-import {MobileChannelSidebarItem} from '@mattermost/compass-proto';
+import { MobileChannelSidebarItem } from '@mattermost/compass-proto';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 
 The Mobile Channel Sidebar Item is the touch-sized row for switching channels,
@@ -23,7 +23,8 @@ Use the Specimen tab for leading visuals, status, and decorations.
 - <Num>1</Num> **Leading visual** — icon or avatar for channel type (Public,
   Private, Group Message, Direct Message, Threads, Drafts, Insights).
 - <Num>2</Num> **Label** — Body 200 channel, group, or user name.
-- <Num>3</Num> **Mention badge** — numeric badge when the row has unread mentions.
+- <Num>3</Num> **Mention badge** — numeric badge when the row has unread
+  mentions.
 - <Num>4</Num> **Trailing decorations** — call-in-progress glyph, custom status
   emoji on DMs, shared-channel marker.
 
@@ -31,10 +32,31 @@ There is no channel menu on mobile — overflow actions live elsewhere (long-pre
 or sheets), not on hover.
 
 <AnatomyStage>
-  <div style={{width:'100%',maxWidth:'340px',padding:'0.75rem',background:'var(--sidebar-bg)',borderRadius:'8px',display:'flex',flexDirection:'column',gap:'0.25rem'}}>
+  <div
+    style={{
+      width: '100%',
+      maxWidth: '340px',
+      padding: '0.75rem',
+      background: 'var(--sidebar-bg)',
+      borderRadius: '8px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.25rem',
+    }}
+  >
     <MobileChannelSidebarItem name="Design" leadingVisual="public" />
-    <MobileChannelSidebarItem name="Design Leadership" leadingVisual="private" status="mention" mentionCount={3} />
-    <MobileChannelSidebarItem name="Avery, Mira" leadingVisual="group-message" memberCount={3} status="unread" />
+    <MobileChannelSidebarItem
+      name="Design Leadership"
+      leadingVisual="private"
+      status="mention"
+      mentionCount={3}
+    />
+    <MobileChannelSidebarItem
+      name="Avery, Mira"
+      leadingVisual="group-message"
+      memberCount={3}
+      status="unread"
+    />
     <MobileChannelSidebarItem
       name="Leonard Riley"
       leadingVisual="direct-message"
@@ -50,11 +72,11 @@ or sheets), not on hover.
 
 ## Status
 
-| Status  | Treatment                                      |
-| ------- | ---------------------------------------------- |
-| Read    | Resting weight; the row recedes.               |
-| Unread  | Semibold name; brighter sidebar text.          |
-| Mention | Semibold name; mention badge with count.       |
+| Status  | Treatment                                |
+| ------- | ---------------------------------------- |
+| Read    | Resting weight; the row recedes.         |
+| Unread  | Semibold name; brighter sidebar text.    |
+| Mention | Semibold name; mention badge with count. |
 
 Mute reduces opacity across the row regardless of status.
 

@@ -7,6 +7,12 @@ type EmojiPopoverDemoProps = Omit<EmojiPopoverProps, 'categories'> & {
 };
 
 /** Pre-filled wrapper around EmojiPopover for prototyping and guideline specimens. */
-export default function EmojiPopover({ categories = EMOJI_CATEGORIES, shortcodes = SHORTCODES, ...rest }: EmojiPopoverDemoProps) {
-  return <EmojiPopoverUI categories={categories} shortcodes={shortcodes} {...rest} />;
+export default function EmojiPopover({
+  categories = EMOJI_CATEGORIES,
+  shortcodes = SHORTCODES,
+  ...rest
+}: EmojiPopoverDemoProps) {
+  return (
+    <EmojiPopoverUI categories={categories} shortcodes={shortcodes} {...rest} />
+  );
 }

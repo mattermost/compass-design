@@ -24,8 +24,8 @@ single-select. For action menus that don't capture a value, use a
 
 ## Anatomy
 
-<AnatomyStage style={{flexDirection:'column',gap:'0.75rem'}}>
-  <div style={{width:'100%',maxWidth:'320px'}}>
+<AnatomyStage style={{ flexDirection: 'column', gap: '0.75rem' }}>
+  <div style={{ width: '100%', maxWidth: '320px' }}>
     <Select
       label="Default channel"
       defaultValue="town-square"
@@ -35,16 +35,14 @@ single-select. For action menus that don't capture a value, use a
   </div>
 </AnatomyStage>
 
-- <Num>1</Num> **Border** — the field surface; signals interactivity and
-  state.
-- <Num>2</Num> **Label** — optional floating label. Floats above the border
-  once a value is set.
-- <Num>3</Num> **Leading icon** — optional. Reinforce the field's meaning
-  (e.g. a globe for a region picker).
-- <Num>4</Num> **Value** — the currently chosen option, shown inside the
-  field.
-- <Num>5</Num> **Trailing icon** — always a chevron, signalling that the
-  field opens a list.
+- <Num>1</Num> **Border** — the field surface; signals interactivity and state.
+- <Num>2</Num> **Label** — optional floating label. Floats above the border once
+  a value is set.
+- <Num>3</Num> **Leading icon** — optional. Reinforce the field's meaning (e.g.
+  a globe for a region picker).
+- <Num>4</Num> **Value** — the currently chosen option, shown inside the field.
+- <Num>5</Num> **Trailing icon** — always a chevron, signalling that the field
+  opens a list.
 - <Num>6</Num> **Popover menu** — the list of options, shown on click.
 
 <Divider />
@@ -54,10 +52,36 @@ single-select. For action menus that don't capture a value, use a
 Three sizes — pick the one that matches the surrounding form rhythm.
 
 <DocUiEmbed>
-  <div style={{display:'flex',flexDirection:'column',gap:'0.75rem',padding:'1rem 0',maxWidth:'320px'}}>
-    <Select size="small" label="Small" defaultValue="a" options={SIMPLE_OPTIONS} placeholder="Select…" />
-    <Select size="medium" label="Medium" defaultValue="a" options={SIMPLE_OPTIONS} placeholder="Select…" />
-    <Select size="large" label="Large" defaultValue="a" options={SIMPLE_OPTIONS} placeholder="Select…" />
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.75rem',
+      padding: '1rem 0',
+      maxWidth: '320px',
+    }}
+  >
+    <Select
+      size="small"
+      label="Small"
+      defaultValue="a"
+      options={SIMPLE_OPTIONS}
+      placeholder="Select…"
+    />
+    <Select
+      size="medium"
+      label="Medium"
+      defaultValue="a"
+      options={SIMPLE_OPTIONS}
+      placeholder="Select…"
+    />
+    <Select
+      size="large"
+      label="Large"
+      defaultValue="a"
+      options={SIMPLE_OPTIONS}
+      placeholder="Select…"
+    />
   </div>
 </DocUiEmbed>
 
@@ -67,22 +91,52 @@ Three sizes — pick the one that matches the surrounding form rhythm.
 
 Selects share their state model with the rest of the input family.
 
-| State    | What it shows                                                          |
-| -------- | ---------------------------------------------------------------------- |
-| Default  | Empty or placeholder text.                                             |
-| Hover    | Slight border tint to invite interaction.                              |
-| Focus    | Blue ring around the border; keyboard interactions work.               |
-| Filled   | A value is chosen; the floating label settles above the field.        |
-| Disabled | Greyed out; non-interactive; not announced as form control.            |
-| Invalid  | Red border; pair with an inline error message below.                   |
-| Open     | The popover menu is visible; the chevron flips.                        |
+| State    | What it shows                                                  |
+| -------- | -------------------------------------------------------------- |
+| Default  | Empty or placeholder text.                                     |
+| Hover    | Slight border tint to invite interaction.                      |
+| Focus    | Blue ring around the border; keyboard interactions work.       |
+| Filled   | A value is chosen; the floating label settles above the field. |
+| Disabled | Greyed out; non-interactive; not announced as form control.    |
+| Invalid  | Red border; pair with an inline error message below.           |
+| Open     | The popover menu is visible; the chevron flips.                |
 
 <DocUiEmbed>
-  <div style={{display:'flex',flexDirection:'column',gap:'0.75rem',padding:'1rem 0',maxWidth:'320px'}}>
-    <Select label="Default" defaultValue="" options={SIMPLE_OPTIONS} placeholder="Select…" />
-    <Select label="Filled" defaultValue="a" options={SIMPLE_OPTIONS} placeholder="Select…" />
-    <Select label="Invalid" defaultValue="a" invalid options={SIMPLE_OPTIONS} placeholder="Select…" />
-    <Select label="Disabled" disabled defaultValue="" options={SIMPLE_OPTIONS} placeholder="Select…" />
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.75rem',
+      padding: '1rem 0',
+      maxWidth: '320px',
+    }}
+  >
+    <Select
+      label="Default"
+      defaultValue=""
+      options={SIMPLE_OPTIONS}
+      placeholder="Select…"
+    />
+    <Select
+      label="Filled"
+      defaultValue="a"
+      options={SIMPLE_OPTIONS}
+      placeholder="Select…"
+    />
+    <Select
+      label="Invalid"
+      defaultValue="a"
+      invalid
+      options={SIMPLE_OPTIONS}
+      placeholder="Select…"
+    />
+    <Select
+      label="Disabled"
+      disabled
+      defaultValue=""
+      options={SIMPLE_OPTIONS}
+      placeholder="Select…"
+    />
   </div>
 </DocUiEmbed>
 

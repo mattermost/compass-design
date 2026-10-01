@@ -16,7 +16,8 @@
     box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.16);
     transition: box-shadow var(--duration-quick) var(--ease-transition);
 
-    .text-area:has(.text-area__input:not(:disabled)):hover:not(:focus-within) & {
+    .text-area:has(.text-area__input:not(:disabled)):hover:not(:focus-within)
+      & {
       box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
     }
 
@@ -177,7 +178,8 @@
   }
 
   // Hide placeholder while the floating label is in the resting position to prevent overlap.
-  &:has(.text-area__label):not(&--label-floated) .text-area__input::placeholder {
+  &:has(.text-area__label):not(&--label-floated)
+    .text-area__input::placeholder {
     color: transparent;
   }
 
