@@ -61,7 +61,9 @@ export default function LayoutPreview({
           <ChannelLayout />
         </div>
       </div>
-      {label && <figcaption className={styles.preview__label}>{label}</figcaption>}
+      {label && (
+        <figcaption className={styles.preview__label}>{label}</figcaption>
+      )}
     </figure>
   );
 }

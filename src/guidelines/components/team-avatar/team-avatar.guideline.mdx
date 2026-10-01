@@ -8,28 +8,33 @@ different kind of subject.
 
 ## Anatomy
 
-<AnatomyStage surface="sidebar-header" style={{ gap: '1rem', flexWrap: 'wrap' }}>
+<AnatomyStage
+  surface="sidebar-header"
+  style={{ gap: '1rem', flexWrap: 'wrap' }}
+>
   <TeamAvatar initials="Ac" size="48" />
   <TeamAvatar initials="Mm" size="48" badge={3} />
 </AnatomyStage>
 
-- <Num>1</Num> **Container** — the rounded square that holds the avatar
-  content.
-- <Num>2</Num> **Image or initials** — a Team's uploaded image, or a
-  two-letter fallback on a coloured background.
-- <Num>3</Num> **Badge slot** — optional Mention Badge or Unread Badge
-  layered over the corner.
+- <Num>1</Num> **Container** — the rounded square that holds the avatar content.
+- <Num>2</Num> **Image or initials** — a Team's uploaded image, or a two-letter
+  fallback on a coloured background.
+- <Num>3</Num> **Badge slot** — optional Mention Badge or Unread Badge layered
+  over the corner.
 
 <Divider />
 
 ## Variants
 
-| Variant   | Use when                                                                          |
-| --------- | --------------------------------------------------------------------------------- |
-| Image     | The Team has uploaded an avatar. Always preferred when an image is available.     |
-| Fallback  | The Team has no image. Show the first two letters of the Team name on colour.     |
+| Variant  | Use when                                                                      |
+| -------- | ----------------------------------------------------------------------------- |
+| Image    | The Team has uploaded an avatar. Always preferred when an image is available. |
+| Fallback | The Team has no image. Show the first two letters of the Team name on colour. |
 
-<AnatomyStage surface="sidebar-header" style={{ gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+<AnatomyStage
+  surface="sidebar-header"
+  style={{ gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}
+>
   <TeamAvatar initials="Ac" size="48" />
   <TeamAvatar initials="Mm" size="48" />
   <TeamAvatar initials="Ds" size="48" />
@@ -42,7 +47,10 @@ different kind of subject.
 Team Avatars come in 10 sizes from 24px through 120px. The Team Sidebar uses
 40px; profile and settings surfaces use 48px and up.
 
-<AnatomyStage surface="sidebar-header" style={{ gap: '0.75rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+<AnatomyStage
+  surface="sidebar-header"
+  style={{ gap: '0.75rem', flexWrap: 'wrap', alignItems: 'flex-end' }}
+>
   <TeamAvatar initials="Ac" size="24" />
   <TeamAvatar initials="Ac" size="32" />
   <TeamAvatar initials="Ac" size="40" />
@@ -58,12 +66,15 @@ images both lose legibility below that size.
 
 ## States
 
-| State    | Use when                                                                                |
-| -------- | --------------------------------------------------------------------------------------- |
-| Default  | Resting state in the Team Sidebar or any inline reference to the Team.                  |
-| Active   | The Team is the currently selected Team in the Team Sidebar — visible left edge marker. |
+| State   | Use when                                                                                |
+| ------- | --------------------------------------------------------------------------------------- |
+| Default | Resting state in the Team Sidebar or any inline reference to the Team.                  |
+| Active  | The Team is the currently selected Team in the Team Sidebar — visible left edge marker. |
 
-<AnatomyStage surface="sidebar-header" style={{ gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+<AnatomyStage
+  surface="sidebar-header"
+  style={{ gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}
+>
   <TeamAvatar initials="Ac" size="40" state="default" />
   <TeamAvatar initials="Ac" size="40" state="active" />
 </AnatomyStage>
@@ -77,7 +88,10 @@ has unread mentions, or an **Unread Badge** dot when the Team has unread
 content but no mentions. Badges are not shown above 64px or in the Active
 state — once the Team is selected, the badge is no longer useful.
 
-<AnatomyStage surface="sidebar-header" style={{ gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+<AnatomyStage
+  surface="sidebar-header"
+  style={{ gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}
+>
   <TeamAvatar initials="Ac" size="40" badge={3} />
   <TeamAvatar initials="Mm" size="40" badge={12} />
   <TeamAvatar initials="Ds" size="40" badge={99} />

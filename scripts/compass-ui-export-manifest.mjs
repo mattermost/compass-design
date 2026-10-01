@@ -6,7 +6,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const repoRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+);
 const pkgSrc = path.join(repoRoot, 'packages/compass-ui/src');
 
 export function toKebabSegment(name) {
@@ -19,7 +22,9 @@ export function toKebabSegment(name) {
 function parseNamedExports(text) {
   const names = new Set();
 
-  for (const match of text.matchAll(/export\s+(?:type\s+)?(?:function|const|class|interface|type)\s+(\w+)/g)) {
+  for (const match of text.matchAll(
+    /export\s+(?:type\s+)?(?:function|const|class|interface|type)\s+(\w+)/g,
+  )) {
     names.add(match[1]);
   }
 
@@ -32,7 +37,9 @@ function parseNamedExports(text) {
     }
   }
 
-  for (const match of text.matchAll(/export\s+(?:type\s+)?(?:\{([^}]+)\}|\*\s+from)/g)) {
+  for (const match of text.matchAll(
+    /export\s+(?:type\s+)?(?:\{([^}]+)\}|\*\s+from)/g,
+  )) {
     if (!match[1]) continue;
     for (const part of match[1].split(',')) {
       const trimmed = part.trim();
@@ -74,7 +81,8 @@ export function buildExportManifest() {
         manifest.set(name, subpath);
       }
       if (text.includes('btnStyles')) manifest.set('btnStyles', subpath);
-      if (text.includes('messageStyles')) manifest.set('messageStyles', subpath);
+      if (text.includes('messageStyles'))
+        manifest.set('messageStyles', subpath);
       if (text.includes('channelsSidebarStyles')) {
         manifest.set('channelsSidebarStyles', subpath);
       }

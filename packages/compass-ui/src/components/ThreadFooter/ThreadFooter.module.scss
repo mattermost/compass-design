@@ -50,7 +50,10 @@
   }
 
   & &__reply-btn[class*='button--emphasis-quaternary'],
-  & &__follow-btn:not(#{&}__follow-btn--following)[class*='button--emphasis-quaternary'] {
+  &
+    &__follow-btn:not(
+      #{&}__follow-btn--following
+    )[class*='button--emphasis-quaternary'] {
     color: rgba(var(--center-channel-color-rgb), 0.75);
 
     &:hover:not(:disabled) {

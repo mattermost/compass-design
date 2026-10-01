@@ -1,4 +1,4 @@
-import {useState, type ChangeEvent} from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { MobileSearchField } from '@mattermost/compass-proto';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -27,7 +27,7 @@ export default function MobileSearchFieldLibrary() {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setQuery(event.target.value)
               }
-              placeholder='Search messages & files'
+              placeholder="Search messages & files"
             />
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function MobileSearchFieldLibrary() {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFind(event.target.value)
               }
-              placeholder='Find channels…'
+              placeholder="Find channels…"
             />
           </div>
         </div>

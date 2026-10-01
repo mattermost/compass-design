@@ -21,8 +21,7 @@ import PopoverMenu, {
 } from '@/components/PopoverMenu/PopoverMenu';
 import ShortcutTag from '@/components/ShortcutTag/ShortcutTag';
 
-export interface MessageMoreOptionsMenuProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface MessageMoreOptionsMenuProps extends HTMLAttributes<HTMLDivElement> {
   /** Shows Edit and Delete rows. Default: true. */
   permissionToEdit?: boolean;
   /** Shows Flag message row. Default: true. */
@@ -44,11 +43,7 @@ export default function MessageMoreOptionsMenu({
   ...rest
 }: MessageMoreOptionsMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Reply"

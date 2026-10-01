@@ -6,10 +6,10 @@ Prototype flows live in [`mattermost-proto-playground`](https://github.com/matte
 
 ## Packages
 
-| Package | Published | Role |
-| ------- | --------- | ---- |
-| `@mattermost/compass-ui` | Yes (`alpha`) | Foundations, primitives, props-driven web chrome |
-| `@mattermost/compass-proto` | No | Mobile*, `ChannelShell`, Call* composites, demo fixtures |
+| Package                     | Published     | Role                                                     |
+| --------------------------- | ------------- | -------------------------------------------------------- |
+| `@mattermost/compass-ui`    | Yes (`alpha`) | Foundations, primitives, props-driven web chrome         |
+| `@mattermost/compass-proto` | No            | Mobile*, `ChannelShell`, Call* composites, demo fixtures |
 
 See [docs/ROADMAP.md](./docs/ROADMAP.md) for the repo structure, ownership, and phase plan.
 

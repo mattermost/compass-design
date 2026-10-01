@@ -127,7 +127,8 @@ export default function ChipGroup({
       case 'Backspace':
       case 'Enter':
       case ' ': {
-        const btn = chip?.querySelector<HTMLButtonElement>('[data-chip-remove]');
+        const btn =
+          chip?.querySelector<HTMLButtonElement>('[data-chip-remove]');
         if (btn != null && !btn.disabled) {
           e.preventDefault();
           btn.click();

@@ -12,7 +12,9 @@ the scrollbar never competes with content for attention.
 
 ## Anatomy
 
-<AnatomyStage style={{gap:'1.5rem',flexWrap:'wrap',alignItems:'flex-start'}}>
+<AnatomyStage
+  style={{ gap: '1.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}
+>
   <div
     style={{
       width: '280px',
@@ -50,19 +52,19 @@ the scrollbar never competes with content for attention.
 
 - <Num>1</Num> **Track** — the transparent area that contains the thumb. Click
   the track to jump-scroll.
-- <Num>2</Num> **Thumb** — the visible indicator. Its length shows how much
-  of the content fits in the viewport; its position shows where you are.
-  Drag to reposition.
+- <Num>2</Num> **Thumb** — the visible indicator. Its length shows how much of
+  the content fits in the viewport; its position shows where you are. Drag to
+  reposition.
 
 <Divider />
 
 ## Variants
 
-| Option         | Values / behaviour                         | Use when                                                  |
-| -------------- | ------------------------------------------ | --------------------------------------------------------- |
-| Auto-hide      | On by default; thumb hides when idle       | Most product surfaces — keeps focus on content.           |
-| Always visible | `alwaysVisible`                            | Demos, or when the scroll affordance must stay on screen. |
-| Thumb colour   | `color="--sidebar-text-rgb"`               | Dark surfaces such as the channel sidebar.                |
+| Option         | Values / behaviour                   | Use when                                                  |
+| -------------- | ------------------------------------ | --------------------------------------------------------- |
+| Auto-hide      | On by default; thumb hides when idle | Most product surfaces — keeps focus on content.           |
+| Always visible | `alwaysVisible`                      | Demos, or when the scroll affordance must stay on screen. |
+| Thumb colour   | `color="--sidebar-text-rgb"`         | Dark surfaces such as the channel sidebar.                |
 
 A larger thumb means more of the content is visible. When the thumb fills the
 track, hide the scrollbar — there's nothing to scroll.
@@ -82,7 +84,7 @@ import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 
 <Scrollbar>
   <YourLongList />
-</Scrollbar>
+</Scrollbar>;
 ```
 
 What you get:

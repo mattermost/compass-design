@@ -12,7 +12,7 @@ import PopoverMenu, {
 } from '@/components/PopoverMenu/PopoverMenu';
 import ShortcutTag from '@/components/ShortcutTag/ShortcutTag';
 
-export interface ThreadActionsMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type ThreadActionsMenuProps = HTMLAttributes<HTMLDivElement>;
 
 function shortcutLabel(text: string) {
   return <ShortcutTag label={text} size="small" />;
@@ -27,11 +27,7 @@ export default function ThreadActionsMenu({
   ...rest
 }: ThreadActionsMenuProps) {
   return (
-    <PopoverMenu
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <PopoverMenu className={className} style={style} {...rest}>
       <PopoverMenuGroup>
         <MenuItem
           label="Unfollow thread"

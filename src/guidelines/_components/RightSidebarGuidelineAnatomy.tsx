@@ -44,9 +44,9 @@ export function RightSidebarAnatomyStage() {
           }
         >
           <div style={placeholderBodyStyle}>
-            Body content scrolls here — for example thread messages, channel info,
-            search hits, or plugin UI. Padding is owned by the content you compose
-            inside the body region.
+            Body content scrolls here — for example thread messages, channel
+            info, search hits, or plugin UI. Padding is owned by the content you
+            compose inside the body region.
           </div>
         </RightSidebar>
       </div>

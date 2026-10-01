@@ -8,8 +8,10 @@ import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from './MobileSearchField.module.scss';
 
-export interface MobileSearchFieldProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
+export interface MobileSearchFieldProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'type' | 'size'
+> {
   /** Optional CSS class name on the field wrapper. */
   className?: string;
   /** Accessible name when no visible label is present. */
@@ -47,14 +49,14 @@ const MobileSearchField = forwardRef<HTMLInputElement, MobileSearchFieldProps>(
     return (
       <label className={rootClass} htmlFor={id}>
         <span className={styles['mobile-search-field__icon']} aria-hidden>
-          <Icon size='20' glyph={<MagnifyIcon />} />
+          <Icon size="20" glyph={<MagnifyIcon />} />
         </span>
         <input
           {...rest}
           ref={ref}
           id={id}
           className={styles['mobile-search-field__input']}
-          type='search'
+          type="search"
           placeholder={placeholder}
           aria-label={ariaLabel ?? placeholder}
           onChange={handleChange}

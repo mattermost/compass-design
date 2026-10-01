@@ -50,7 +50,10 @@ export function computeAnchoredPopupPlacement(
     0,
     boundsBottom - anchorRect.bottom - gap - viewportMargin,
   );
-  const spaceAbove = Math.max(0, anchorRect.top - boundsTop - gap - viewportMargin);
+  const spaceAbove = Math.max(
+    0,
+    anchorRect.top - boundsTop - gap - viewportMargin,
+  );
 
   const placement: PopupPlacement =
     spaceBelow < preferredHeight && spaceAbove > spaceBelow ? 'above' : 'below';
@@ -109,22 +112,14 @@ export function getAnchoredPopupContainerFrame(
 
   return {
     bounds: { top: boundsTop, bottom: boundsBottom },
-    anchorInContainer: (anchorRect: Pick<DOMRect, 'top' | 'bottom' | 'left' | 'width'>) => ({
+    anchorInContainer: (
+      anchorRect: Pick<DOMRect, 'top' | 'bottom' | 'left' | 'width'>,
+    ) => ({
       left:
-        anchorRect.left -
-        borderRect.left -
-        mount.clientLeft +
-        mount.scrollLeft,
-      top:
-        anchorRect.top -
-        borderRect.top -
-        mount.clientTop +
-        mount.scrollTop,
+        anchorRect.left - borderRect.left - mount.clientLeft + mount.scrollLeft,
+      top: anchorRect.top - borderRect.top - mount.clientTop + mount.scrollTop,
       bottom:
-        anchorRect.bottom -
-        borderRect.top -
-        mount.clientTop +
-        mount.scrollTop,
+        anchorRect.bottom - borderRect.top - mount.clientTop + mount.scrollTop,
       width: anchorRect.width,
     }),
     clientHeight: mount.clientHeight,

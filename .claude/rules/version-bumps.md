@@ -1,7 +1,7 @@
 ---
 paths:
-  - "packages/compass-ui/package.json"
-  - "packages/compass-proto/package.json"
+  - 'packages/compass-ui/package.json'
+  - 'packages/compass-proto/package.json'
 ---
 
 # Version bumps

@@ -1,8 +1,14 @@
 import type { ReactNode } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import Preview from '@/guidelines/_components/Preview';
-import Swatch, { SwatchGrid, SwatchRamp } from '@/guidelines/_components/Swatch';
-import LayoutPreview, { LayoutPreviewGrid, SplitRow } from '@/guidelines/_components/LayoutPreview';
+import Swatch, {
+  SwatchGrid,
+  SwatchRamp,
+} from '@/guidelines/_components/Swatch';
+import LayoutPreview, {
+  LayoutPreviewGrid,
+  SplitRow,
+} from '@/guidelines/_components/LayoutPreview';
 import {
   TypefaceCard,
   TypeStack,

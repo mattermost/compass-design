@@ -4,9 +4,7 @@
 // ---------------------------------------------------------------------------
 .date-range-picker {
   // Day button / calendar slot: 36px via nearest icon box + spacing step.
-  --date-range-picker-day-size: calc(
-    var(--icon-size-32) + var(--spacing-xxxs)
-  );
+  --date-range-picker-day-size: calc(var(--icon-size-32) + var(--spacing-xxxs));
 
   display: flex;
   flex-direction: column;
@@ -28,9 +26,9 @@
     user-select: none;
     transition: box-shadow var(--duration-quick) var(--ease-transition);
 
-    .date-range-picker:not(.date-range-picker--disabled):not(.date-range-picker--open):not(
-        :focus-within
-      )
+    .date-range-picker:not(.date-range-picker--disabled):not(
+        .date-range-picker--open
+      ):not(:focus-within)
       &:hover {
       box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
     }

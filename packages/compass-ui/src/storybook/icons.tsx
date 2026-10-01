@@ -84,7 +84,9 @@ export function resolveStoryIcon(
     if (mode === 'glyph') {
       return renderGlyph('emoticon-happy-outline', options.glyphSize);
     }
-    return <Icon size={options.wrapIcon ? undefined : (options.wrapSize ?? '16')} />;
+    return (
+      <Icon size={options.wrapIcon ? undefined : (options.wrapSize ?? '16')} />
+    );
   }
 
   if (!isIconName(value)) {

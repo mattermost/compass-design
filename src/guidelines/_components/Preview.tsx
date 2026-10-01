@@ -13,7 +13,11 @@ interface PreviewProps {
  * Bordered, padded container for embedding live components inside a guideline
  * MDX page. Visually separates a working example from surrounding prose.
  */
-export default function Preview({ caption, center = false, children }: PreviewProps) {
+export default function Preview({
+  caption,
+  center = false,
+  children,
+}: PreviewProps) {
   const bodyClass = [
     styles['preview__body'],
     center ? styles['preview__body--center'] : '',

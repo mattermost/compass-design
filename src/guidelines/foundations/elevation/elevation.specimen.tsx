@@ -7,9 +7,13 @@ export function ElevationScaleContent() {
       {ELEVATION_STEPS.map(({ level, token, summary }) => (
         <div key={level} className={styles['foundations__elevation-row']}>
           {token ? (
-            <code className={styles['foundations__elevation-token']}>{token}</code>
+            <code className={styles['foundations__elevation-token']}>
+              {token}
+            </code>
           ) : (
-            <span className={styles['foundations__elevation-token-placeholder']}>
+            <span
+              className={styles['foundations__elevation-token-placeholder']}
+            >
               —
             </span>
           )}
@@ -23,7 +27,9 @@ export function ElevationScaleContent() {
               </span>
             </div>
           </div>
-          <span className={styles['foundations__elevation-desc']}>{summary}</span>
+          <span className={styles['foundations__elevation-desc']}>
+            {summary}
+          </span>
         </div>
       ))}
     </div>

@@ -222,17 +222,18 @@ export default function ChannelHeader({
       </div>
 
       <div className={styles['channel-header__right']}>
-        {showCallButton && (callButton ?? (
-          <Button
-            className={styles['channel-header__call-btn']}
-            emphasis="quaternary"
-            size="small"
-            leadingIcon={<Icon size="16" glyph={<PhoneIcon />} />}
-            onClick={onCallClick}
-          >
-            Start a Call
-          </Button>
-        ))}
+        {showCallButton &&
+          (callButton ?? (
+            <Button
+              className={styles['channel-header__call-btn']}
+              emphasis="quaternary"
+              size="small"
+              leadingIcon={<Icon size="16" glyph={<PhoneIcon />} />}
+              onClick={onCallClick}
+            >
+              Start a Call
+            </Button>
+          ))}
         <IconButton
           size="small"
           aria-label="Channel info"

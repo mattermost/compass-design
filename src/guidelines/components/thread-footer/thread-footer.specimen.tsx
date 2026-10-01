@@ -42,13 +42,17 @@ export default function ThreadFooterLibrary() {
           <ThreadFooter
             replyCount={3}
             badge="unread"
-            avatars={[{ key: 'leonard', src: avatarLeonard, name: 'Leonard Riley' }]}
+            avatars={[
+              { key: 'leonard', src: avatarLeonard, name: 'Leonard Riley' },
+            ]}
           />
           <ThreadFooter
             replyCount={1}
             badge="mention"
             mentionCount={2}
-            avatars={[{ key: 'danielle', src: avatarDanielle, name: 'Danielle Okoro' }]}
+            avatars={[
+              { key: 'danielle', src: avatarDanielle, name: 'Danielle Okoro' },
+            ]}
           />
         </div>
       </div>

@@ -11,8 +11,7 @@
   white-space: nowrap;
   overflow: visible;
   cursor: default;
-  outline: 2px solid
-    color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
   transition:
     background-color var(--duration-quick) var(--ease-transition),

@@ -111,11 +111,7 @@ export const AllVariants: Story = {
           disabled
           placeholder="Disabled search..."
         />
-        <SearchInput
-          label="Invalid"
-          defaultValue="bad query"
-          invalid
-        />
+        <SearchInput label="Invalid" defaultValue="bad query" invalid />
         <ClearableSearchInput />
       </Row>
     </div>

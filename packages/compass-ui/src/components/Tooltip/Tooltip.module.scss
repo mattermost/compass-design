@@ -91,8 +91,7 @@
       height: 0;
       transform: translateY(-50%);
       border-style: solid;
-      border-color: transparent transparent transparent
-        var(--neutral-1200);
+      border-color: transparent transparent transparent var(--neutral-1200);
       border-width: 4px 0 4px 4px;
     }
   }
@@ -111,8 +110,7 @@
 
   &--arrow-left &__arrow {
     &::before {
-      border-color: transparent var(--neutral-1200) transparent
-        transparent;
+      border-color: transparent var(--neutral-1200) transparent transparent;
       border-width: 4px 4px 4px 0;
       top: 50%;
       right: 0;
@@ -147,8 +145,7 @@
     height: 4px;
 
     &::before {
-      border-color: transparent transparent var(--neutral-1200)
-        transparent;
+      border-color: transparent transparent var(--neutral-1200) transparent;
       border-width: 0 4px 4px 4px;
       bottom: 0;
       left: 50%;

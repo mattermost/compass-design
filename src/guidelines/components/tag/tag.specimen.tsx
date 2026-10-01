@@ -61,11 +61,7 @@ export default function TagLibrary() {
             leadingIcon={<GlobeIcon size={10} />}
             type="default"
           />
-          <Tag
-            label="Info"
-            leadingIcon={<GlobeIcon size={10} />}
-            type="info"
-          />
+          <Tag label="Info" leadingIcon={<GlobeIcon size={10} />} type="info" />
           <Tag
             label="Success"
             leadingIcon={<GlobeIcon size={12} />}

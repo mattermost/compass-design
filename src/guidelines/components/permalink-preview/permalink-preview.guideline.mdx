@@ -12,15 +12,15 @@ context to recognise the quoted message without leaving where you are.
 An Elevation 1 card with a [Message Header](/components/message-header)
 on top, the message body in the middle, and an origin footer at the bottom.
 
-- <Num>1</Num> **Container** — Elevation 1 rounded surface. Max width
-  700px. Elevates to Elevation 2 on hover.
+- <Num>1</Num> **Container** — Elevation 1 rounded surface. Max width 700px.
+  Elevates to Elevation 2 on hover.
 - <Num>2</Num> **Message Header** — author avatar, name, timestamp. Avatar
   displays inline (smaller than in the main stream).
 - <Num>3</Num> **Body** — the quoted message text, or rich content passed via
-  the `children` slot (e.g. an attachment card). Truncated past ~100px;
-  show a `Show more` affordance to expand.
-- <Num>4</Num> **Origin** — `Originally posted in ~Channel` footer that
-  links back to the source.
+  the `children` slot (e.g. an attachment card). Truncated past ~100px; show a
+  `Show more` affordance to expand.
+- <Num>4</Num> **Origin** — `Originally posted in ~Channel` footer that links
+  back to the source.
 
 <AnatomyStage>
   <PermalinkPreview
@@ -48,11 +48,11 @@ ignored when children are present.
 
 Use the same components as the main stream at reduced density:
 
-| Attachment    | Treatment                                                                |
-| ------------- | ------------------------------------------------------------------------ |
-| File cards    | Below the body in a responsive grid with 12px spacing.                   |
-| Single image  | Max width 320px, max height 180px.                                       |
-| Link previews | Render without the associated image; cap the description at two lines.  |
+| Attachment    | Treatment                                                              |
+| ------------- | ---------------------------------------------------------------------- |
+| File cards    | Below the body in a responsive grid with 12px spacing.                 |
+| Single image  | Max width 320px, max height 180px.                                     |
+| Link previews | Render without the associated image; cap the description at two lines. |
 
 <Divider />
 

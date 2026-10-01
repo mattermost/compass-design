@@ -17,8 +17,7 @@
     outline-offset var(--duration-quick) var(--ease-transition);
   background-color: transparent;
   color: rgba(var(--center-channel-color-rgb), 0.64);
-  outline: 2px solid
-    color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
 
   &:focus-visible {
@@ -31,7 +30,9 @@
     opacity: 0.5;
   }
 
-  &:hover:not(:disabled):not(:active):not(.icon-button--active):not(.icon-button--toggled) {
+  &:hover:not(:disabled):not(:active):not(.icon-button--active):not(
+      .icon-button--toggled
+    ) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
     color: rgba(var(--center-channel-color-rgb), 0.75);
   }
@@ -207,7 +208,9 @@
       box-shadow: 0 0 0 2px var(--sidebar-header-bg);
     }
 
-    &:hover:not(:disabled):not(:active):not(.icon-button--toggled):not(.icon-button--active) {
+    &:hover:not(:disabled):not(:active):not(.icon-button--toggled):not(
+        .icon-button--active
+      ) {
       background-color: rgba(var(--sidebar-text-rgb), 0.08);
       color: var(--sidebar-text);
     }
@@ -257,11 +260,17 @@
       color: var(--error-text, var(--color-danger));
 
       &:hover:not(:disabled):not(:active) {
-        background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.08);
+        background-color: rgba(
+          var(--error-text-color-rgb, var(--color-danger-rgb)),
+          0.08
+        );
         color: var(--error-text, var(--color-danger));
       }
       &:active:not(:disabled):not(.icon-button--toggled) {
-        background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.16);
+        background-color: rgba(
+          var(--error-text-color-rgb, var(--color-danger-rgb)),
+          0.16
+        );
         color: var(--error-text, var(--color-danger));
       }
     }
@@ -278,11 +287,17 @@
     color: var(--error-text, var(--color-danger));
 
     &:hover:not(:disabled):not(:active) {
-      background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.08);
+      background-color: rgba(
+        var(--error-text-color-rgb, var(--color-danger-rgb)),
+        0.08
+      );
       color: var(--error-text, var(--color-danger));
     }
     &:active:not(:disabled):not(.icon-button--toggled) {
-      background-color: rgba(var(--error-text-color-rgb, var(--color-danger-rgb)), 0.16);
+      background-color: rgba(
+        var(--error-text-color-rgb, var(--color-danger-rgb)),
+        0.16
+      );
       color: var(--error-text, var(--color-danger));
     }
   }

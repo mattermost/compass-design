@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import MobileTabScreen from '@/components/MobileTabScreen/MobileTabScreen';
 import styles from './MobileProfile.module.scss';
@@ -41,7 +41,7 @@ export default function MobileProfile({
           <UserAvatar
             src={avatarSrc}
             alt={avatarAlt}
-            size='120'
+            size="120"
             status={status}
           />
           <div className={styles['mobile-profile__identity']}>

@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-ios';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -71,19 +71,19 @@ export default function MobileModalNavigationBar({
         <div className={styles['mobile-modal-navigation-bar__left']}>
           {isParent ? (
             <IconButton
-              aria-label='Close'
-              size='medium'
-              style='inverted'
+              aria-label="Close"
+              size="medium"
+              style="inverted"
               onClick={onCloseClick}
-              icon={<Icon size='20' glyph={<CloseIcon />} />}
+              icon={<Icon size="20" glyph={<CloseIcon />} />}
             />
           ) : (
             <IconButton
-              aria-label='Back'
-              size='medium'
-              style='inverted'
+              aria-label="Back"
+              size="medium"
+              style="inverted"
               onClick={onBackClick}
-              icon={<Icon size='20' glyph={<ArrowBackIosIcon />} />}
+              icon={<Icon size="20" glyph={<ArrowBackIosIcon />} />}
             />
           )}
         </div>
@@ -99,9 +99,11 @@ export default function MobileModalNavigationBar({
               </span>
             </>
           ) : (
-            <div className={styles['mobile-modal-navigation-bar__primary-title']}>
+            <div
+              className={styles['mobile-modal-navigation-bar__primary-title']}
+            >
               {avatarSrc && (
-                <UserAvatar src={avatarSrc} alt={avatarAlt} size='24' />
+                <UserAvatar src={avatarSrc} alt={avatarAlt} size="24" />
               )}
               <span className={styles['mobile-modal-navigation-bar__title']}>
                 {title}
@@ -113,7 +115,7 @@ export default function MobileModalNavigationBar({
         <div className={styles['mobile-modal-navigation-bar__right']}>
           {actionLabel && (
             <button
-              type='button'
+              type="button"
               className={styles['mobile-modal-navigation-bar__action']}
               onClick={onActionClick}
             >
@@ -122,9 +124,9 @@ export default function MobileModalNavigationBar({
           )}
           {trailingIcon && (
             <IconButton
-              aria-label='Action'
-              size='medium'
-              style='inverted'
+              aria-label="Action"
+              size="medium"
+              style="inverted"
               onClick={onTrailingIconClick}
               icon={trailingIcon}
             />

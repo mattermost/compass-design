@@ -72,11 +72,7 @@ export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
       <div style={footerSurface}>
-        <AdminPanelFooter
-          saveDisabled
-          onSave={fn()}
-          onCancel={fn()}
-        />
+        <AdminPanelFooter saveDisabled onSave={fn()} onCancel={fn()} />
       </div>
       <div style={footerSurface}>
         <AdminPanelFooter

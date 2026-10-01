@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid -- placeholder channel-header links in demo content */
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
 import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 import AccountPlusOutlineIcon from '@mattermost/compass-icons/components/account-plus-outline';
@@ -39,7 +40,9 @@ export default function RightSidebarChannelInfo() {
       </div>
 
       <div className={styles['right-sidebar-channel-info__about']}>
-        <h3 className={styles['right-sidebar-channel-info__name']}>UX Design</h3>
+        <h3 className={styles['right-sidebar-channel-info__name']}>
+          UX Design
+        </h3>
 
         <div className={styles['right-sidebar-channel-info__group']}>
           <span className={styles['right-sidebar-channel-info__group-title']}>

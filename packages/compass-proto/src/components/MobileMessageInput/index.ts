@@ -1,4 +1,4 @@
-export {default as MobileMessageInput} from './MobileMessageInput';
+export { default as MobileMessageInput } from './MobileMessageInput';
 export type {
   MobileMessageAttachment,
   MobileMessageInputProps,

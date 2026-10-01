@@ -127,7 +127,9 @@ interface PopoverProps {
 }
 
 function PopoverCard({ level, title, className, children }: PopoverProps) {
-  const wrapCls = [styles['popover-stack'], className].filter(Boolean).join(' ');
+  const wrapCls = [styles['popover-stack'], className]
+    .filter(Boolean)
+    .join(' ');
   return (
     <div className={wrapCls}>
       <div className={styles['popover-stack__label']}>Elevation {level}</div>

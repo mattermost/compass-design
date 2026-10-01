@@ -139,7 +139,9 @@
   padding: 1px;
 }
 
-.docblock-argstable label:has(> input[type='checkbox'][role='switch']) input[type='checkbox'] {
+.docblock-argstable
+  label:has(> input[type='checkbox'][role='switch'])
+  input[type='checkbox'] {
   border: none !important;
   background: transparent !important;
   box-shadow: none !important;

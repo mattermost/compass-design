@@ -1,7 +1,13 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { type MobileTabBarTab, MobileMentions, MobileMessage, MobileTabBar, mobileMessageStyles } from '@mattermost/compass-proto';
+import {
+  type MobileTabBarTab,
+  MobileMentions,
+  MobileMessage,
+  MobileTabBar,
+  mobileMessageStyles,
+} from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
@@ -16,19 +22,19 @@ export default function MobileMentionsLibrary() {
 
   return (
     <div className={styles['mobile-mentions-layout']}>
-      <DeviceFrame insetContent={false} statusBarStyle='light'>
+      <DeviceFrame insetContent={false} statusBarStyle="light">
         <div className={styles['mobile-mentions-layout__shell']}>
           <MobileMentions>
             <Scrollbar>
               <div className={styles['mobile-mentions-layout__list']}>
-                <MessageSeparator type='date' label='Today' />
+                <MessageSeparator type="date" label="Today" />
                 <MobileMessage
                   avatarSrc={avatarSofia}
-                  avatarAlt='Sofia Bauer'
-                  username='Sofia Bauer'
-                  timestamp='9:02 AM'
-                  channelName='UX Design'
-                  teamName='Contributors'
+                  avatarAlt="Sofia Bauer"
+                  username="Sofia Bauer"
+                  timestamp="9:02 AM"
+                  channelName="UX Design"
+                  teamName="Contributors"
                 >
                   <p className={bodyTextClass}>
                     @Leonard Riley can you join the Q2 roadmap review at 10:30?
@@ -36,25 +42,25 @@ export default function MobileMentionsLibrary() {
                 </MobileMessage>
                 <MobileMessage
                   avatarSrc={avatarMarco}
-                  avatarAlt='Marco Rinaldi'
-                  username='Marco Rinaldi'
-                  timestamp='9:14 AM'
-                  channelName='Onboarding'
-                  teamName='Design'
+                  avatarAlt="Marco Rinaldi"
+                  username="Marco Rinaldi"
+                  timestamp="9:14 AM"
+                  channelName="Onboarding"
+                  teamName="Design"
                 >
                   <p className={bodyTextClass}>
                     @Leonard Riley would love a second pair of eyes on the
                     onboarding flow before we cut a release.
                   </p>
                 </MobileMessage>
-                <MessageSeparator type='date' label='Yesterday' />
+                <MessageSeparator type="date" label="Yesterday" />
                 <MobileMessage
                   avatarSrc={avatarAikoTan}
-                  avatarAlt='Aiko Tan'
-                  username='Aiko Tan'
-                  timestamp='4:41 PM'
-                  channelName='UX Design'
-                  teamName='Contributors'
+                  avatarAlt="Aiko Tan"
+                  username="Aiko Tan"
+                  timestamp="4:41 PM"
+                  channelName="UX Design"
+                  teamName="Contributors"
                 >
                   <p className={bodyTextClass}>
                     Thanks @Leonard Riley — I’ll take a pass after standup.
@@ -67,7 +73,7 @@ export default function MobileMentionsLibrary() {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             profileSrc={avatarLeonard}
-            profileAlt='Leonard Riley'
+            profileAlt="Leonard Riley"
             mentionsBadge={2}
           />
         </div>

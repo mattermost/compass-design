@@ -231,8 +231,14 @@ export default function ProfilePopover({
                       styles['profile-popover__meta-item--stacked'],
                     ].join(' ')}
                   >
-                    <span className={styles['profile-popover__meta-icon']} aria-hidden>
-                      <Icon size="16" glyph={p.icon ?? phoneIcon ?? <PhoneIcon />} />
+                    <span
+                      className={styles['profile-popover__meta-icon']}
+                      aria-hidden
+                    >
+                      <Icon
+                        size="16"
+                        glyph={p.icon ?? phoneIcon ?? <PhoneIcon />}
+                      />
                     </span>
                     <div className={styles['profile-popover__phone-body']}>
                       {subText && (

@@ -1,6 +1,9 @@
 import type { SVGAttributes } from 'react';
 
-interface PhoneLockIconProps extends Omit<SVGAttributes<SVGSVGElement>, 'color'> {
+interface PhoneLockIconProps extends Omit<
+  SVGAttributes<SVGSVGElement>,
+  'color'
+> {
   size?: number | string;
   color?: string;
 }

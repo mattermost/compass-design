@@ -4,21 +4,9 @@ import { fn } from '@storybook/test';
 import Toast from './Toast';
 import type { ToastType } from './Toast';
 
-const TYPES: ToastType[] = [
-  'general',
-  'info',
-  'success',
-  'warning',
-  'danger',
-];
+const TYPES: ToastType[] = ['general', 'info', 'success', 'warning', 'danger'];
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section
       style={{
@@ -118,10 +106,7 @@ export const WithoutDismiss: Story = {
         actionLabel="Retry"
         onAction={fn()}
       />
-      <Toast
-        message="Your session will expire in 5 minutes."
-        type="warning"
-      />
+      <Toast message="Your session will expire in 5 minutes." type="warning" />
       <Toast
         message="New update available. Refresh to apply."
         type="info"

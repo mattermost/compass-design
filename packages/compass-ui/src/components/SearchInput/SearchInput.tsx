@@ -4,13 +4,7 @@ import type {
   KeyboardEvent,
   ReactNode,
 } from 'react';
-import {
-  forwardRef,
-  useId,
-  useState,
-  useCallback,
-  useRef,
-} from 'react';
+import { forwardRef, useId, useState, useCallback, useRef } from 'react';
 import { toKebab } from '@/utils/string';
 import type { IconSize } from '@/components/Icon/Icon';
 import Icon from '@/components/Icon/Icon';
@@ -162,7 +156,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     const sizeClass = styles[`search-input--size-${toKebab(size)}`];
     const invalidClass = invalid ? styles['search-input--invalid'] : '';
     const labelFloatedClass =
-      label != null && labelFloated ? styles['search-input--label-floated'] : '';
+      label != null && labelFloated
+        ? styles['search-input--label-floated']
+        : '';
     const hasLeadingClass = styles['search-input--has-leading-icon'];
     const hasTrailingClass = showClearButton
       ? styles['search-input--has-trailing-icon']

@@ -23,7 +23,8 @@ const config: StorybookConfig = {
     viteConfig.build ??= {};
     viteConfig.build.rollupOptions ??= {};
     const { output } = viteConfig.build.rollupOptions;
-    const outputs = output == null ? [{}] : Array.isArray(output) ? output : [output];
+    const outputs =
+      output == null ? [{}] : Array.isArray(output) ? output : [output];
     if (output == null) {
       viteConfig.build.rollupOptions.output = outputs[0];
     }
@@ -58,10 +59,12 @@ const config: StorybookConfig = {
       ...(Array.isArray(viteConfig.resolve.alias)
         ? viteConfig.resolve.alias
         : viteConfig.resolve.alias
-          ? Object.entries(viteConfig.resolve.alias).map(([find, replacement]) => ({
-              find,
-              replacement,
-            }))
+          ? Object.entries(viteConfig.resolve.alias).map(
+              ([find, replacement]) => ({
+                find,
+                replacement,
+              }),
+            )
           : []),
     ];
     viteConfig.css ??= {};

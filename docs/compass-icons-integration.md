@@ -8,13 +8,13 @@ Move icon source, build pipeline, and publish CI into `compass-design` so that a
 
 ## Current state
 
-| What | Where |
-|------|-------|
-| Icon source (`config.json` — IcoMoon project) | `mattermost/compass-icons` repo |
-| Published package | `@mattermost/compass-icons` on npm |
-| Package structure | CJS-only, no `exports` map, `main` → CSS (incorrect), React not in `peerDependencies` |
-| Used in compass-design as | `dependencies` (root/docs), `peerDependencies` + `devDependencies` (compass-ui, compass-proto) |
-| `.js`-extension workaround | Two identical copies of `vite-plugin-compass-icons-ext.ts` in compass-ui and compass-proto |
+| What                                          | Where                                                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Icon source (`config.json` — IcoMoon project) | `mattermost/compass-icons` repo                                                                |
+| Published package                             | `@mattermost/compass-icons` on npm                                                             |
+| Package structure                             | CJS-only, no `exports` map, `main` → CSS (incorrect), React not in `peerDependencies`          |
+| Used in compass-design as                     | `dependencies` (root/docs), `peerDependencies` + `devDependencies` (compass-ui, compass-proto) |
+| `.js`-extension workaround                    | Two identical copies of `vite-plugin-compass-icons-ext.ts` in compass-ui and compass-proto     |
 
 ## What moves
 
@@ -26,12 +26,12 @@ Font files and generated component files are build artifacts — they are produc
 
 ## Planned package improvements (during migration)
 
-| Issue | Fix |
-|-------|-----|
-| CJS-only | Add ESM output (`components/<name>.mjs`, barrel `index.mjs`) |
-| No `exports` map | Add full exports map (`.`, `./components/*`, `./IconGlyphs`, `./css/*`) |
-| `main` → CSS | Fix `main` → `./components/index.js` |
-| React not in `peerDependencies` | Declare `react: "^18.0.0 \|\| ^19.0.0"` |
+| Issue                           | Fix                                                                     |
+| ------------------------------- | ----------------------------------------------------------------------- |
+| CJS-only                        | Add ESM output (`components/<name>.mjs`, barrel `index.mjs`)            |
+| No `exports` map                | Add full exports map (`.`, `./components/*`, `./IconGlyphs`, `./css/*`) |
+| `main` → CSS                    | Fix `main` → `./components/index.js`                                    |
+| React not in `peerDependencies` | Declare `react: "^18.0.0 \|\| ^19.0.0"`                                 |
 
 Adding ESM + exports map removes the need for the `.js`-extension / CJS-default-unwrap Vite plugin in compass-ui and compass-proto — the two copies of `vite-plugin-compass-icons-ext.ts` can be removed or reduced.
 
@@ -65,7 +65,14 @@ Add the workspace package to this monorepo. Key `package.json` shape:
     "./IconGlyphs": { "types": "...", "import": "...", "require": "..." },
     "./css/*": "./css/*"
   },
-  "files": ["components", "css", "font", "IconGlyphs.js", "IconGlyphs.mjs", "IconGlyphs.d.ts"],
+  "files": [
+    "components",
+    "css",
+    "font",
+    "IconGlyphs.js",
+    "IconGlyphs.mjs",
+    "IconGlyphs.d.ts"
+  ],
   "peerDependencies": { "react": "^18.0.0 || ^19.0.0" }
 }
 ```
@@ -107,18 +114,18 @@ Do not run a dual-publish period — it creates version confusion.
 
 ## Consumer impact
 
-| Consumer | Change required |
-|----------|----------------|
-| Mattermost webapp | None |
-| Mobile app | None |
-| Proto playground | None |
+| Consumer                  | Change required                           |
+| ------------------------- | ----------------------------------------- |
+| Mattermost webapp         | None                                      |
+| Mobile app                | None                                      |
+| Proto playground          | None                                      |
 | compass-design (internal) | `workspace:*` dev link; no source changes |
 
 ## Key risks
 
-| Risk | Mitigation |
-|------|-----------|
-| Font generation tooling unknown | Must resolve in Phase 0 before writing build scripts |
-| Vite plugin removal breaks webpack 5 | Test against webapp webpack config before removing; keep as no-op if needed |
-| Old repo publishes after cutover | Coordinate explicitly; archive immediately after cutover |
+| Risk                                                        | Mitigation                                                                        |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Font generation tooling unknown                             | Must resolve in Phase 0 before writing build scripts                              |
+| Vite plugin removal breaks webpack 5                        | Test against webapp webpack config before removing; keep as no-op if needed       |
+| Old repo publishes after cutover                            | Coordinate explicitly; archive immediately after cutover                          |
 | ESM output causes unexpected resolution in strict consumers | New exports are additive; CJS path unchanged; smoke-test against webpack consumer |

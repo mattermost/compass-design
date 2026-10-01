@@ -20,13 +20,7 @@ const preview: Preview = {
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
     options: {
       storySort: {
-        order: [
-          'Foundations',
-          ['Style'],
-          'Components',
-          'Patterns',
-          '*',
-        ],
+        order: ['Foundations', ['Style'], 'Components', 'Patterns', '*'],
       },
     },
   },

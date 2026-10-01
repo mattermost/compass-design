@@ -36,7 +36,13 @@ const ICON_SET: IconComponent[] = [
   PencilOutlineIcon,
 ];
 
-const SPACING_TOKENS = ['--spacing-xs', '--spacing-m', '--spacing-l', '--spacing-xl', '--spacing-xxl'];
+const SPACING_TOKENS = [
+  '--spacing-xs',
+  '--spacing-m',
+  '--spacing-l',
+  '--spacing-xl',
+  '--spacing-xxl',
+];
 const RADIUS_TOKENS = ['--radius-s', '--radius-m', '--radius-l', '--radius-xl'];
 const ELEVATION_TOKENS = ['--elevation-1', '--elevation-3', '--elevation-5'];
 
@@ -58,7 +64,9 @@ function TypeSpecimen() {
   return (
     <div className={styles['visual-type']} aria-hidden="true">
       <span className={styles['visual-type__display']}>Aa</span>
-      <span className={styles['visual-type__caption']}>Metropolis · Open Sans</span>
+      <span className={styles['visual-type__caption']}>
+        Metropolis · Open Sans
+      </span>
     </div>
   );
 }
@@ -131,13 +139,21 @@ function ElevationStack() {
 function ThemeSplit() {
   return (
     <div className={styles['visual-theme']} aria-hidden="true">
-      <span className={`${styles['visual-theme__half']} ${styles['visual-theme__half--light']}`}>
+      <span
+        className={`${styles['visual-theme__half']} ${styles['visual-theme__half--light']}`}
+      >
         <span className={styles['visual-theme__line']} />
-        <span className={`${styles['visual-theme__line']} ${styles['visual-theme__line--short']}`} />
+        <span
+          className={`${styles['visual-theme__line']} ${styles['visual-theme__line--short']}`}
+        />
       </span>
-      <span className={`${styles['visual-theme__half']} ${styles['visual-theme__half--dark']}`}>
+      <span
+        className={`${styles['visual-theme__half']} ${styles['visual-theme__half--dark']}`}
+      >
         <span className={styles['visual-theme__line']} />
-        <span className={`${styles['visual-theme__line']} ${styles['visual-theme__line--short']}`} />
+        <span
+          className={`${styles['visual-theme__line']} ${styles['visual-theme__line--short']}`}
+        />
       </span>
     </div>
   );

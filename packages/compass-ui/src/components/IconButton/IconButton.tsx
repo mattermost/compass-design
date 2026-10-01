@@ -121,9 +121,13 @@ export default function IconButton({
       {...rest}
     >
       <span className={styles['icon-button__icon-slot']} aria-hidden>
-        {loading
-          ? <Spinner size={spinnerSize} inverted={style === 'inverted'} />
-          : <IconSlotContext.Provider value={{ size: spinnerSize }}>{icon}</IconSlotContext.Provider>}
+        {loading ? (
+          <Spinner size={spinnerSize} inverted={style === 'inverted'} />
+        ) : (
+          <IconSlotContext.Provider value={{ size: spinnerSize }}>
+            {icon}
+          </IconSlotContext.Provider>
+        )}
         {unreadBadge && !loading && (
           <span className={styles['icon-button__unread-badge']} />
         )}

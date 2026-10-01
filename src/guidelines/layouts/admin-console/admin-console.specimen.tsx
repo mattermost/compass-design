@@ -55,11 +55,17 @@ export default function AdminConsoleLayout() {
               >
                 <div className={styles['admin-console-layout__settings']}>
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Automatically Follow Threads
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__radio-row']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__radio-row']}
+                      >
                         <Radio
                           name={`${radioNs}-auto-follow`}
                           value="true"
@@ -89,8 +95,8 @@ export default function AdminConsoleLayout() {
                         <code className={styles['admin-console-layout__code']}>
                           ThreadMembership
                         </code>{' '}
-                        table tracks followed threads for each user and the read or
-                        unread state of each followed thread. When false, all
+                        table tracks followed threads for each user and the read
+                        or unread state of each followed thread. When false, all
                         backend operations to support Threaded Discussions are
                         disabled.
                       </p>
@@ -98,11 +104,17 @@ export default function AdminConsoleLayout() {
                   </div>
 
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Threaded Discussions
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__select-wrap']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__select-wrap']}
+                      >
                         <Select
                           label="Mode"
                           size="medium"
@@ -112,12 +124,12 @@ export default function AdminConsoleLayout() {
                         />
                       </div>
                       <p className={styles['admin-console-layout__help']}>
-                        When enabled (default off), users have the option to enable
-                        Threaded Discussions in Account Settings. When enabled
-                        (default on), users see Threaded Discussions by default and
-                        have the option to disable it in Account Settings. When
-                        always on, users are required to use Threaded Discussions
-                        and cannot disable it.
+                        When enabled (default off), users have the option to
+                        enable Threaded Discussions in Account Settings. When
+                        enabled (default on), users see Threaded Discussions by
+                        default and have the option to disable it in Account
+                        Settings. When always on, users are required to use
+                        Threaded Discussions and cannot disable it.
                       </p>
                     </div>
                   </div>
@@ -130,11 +142,17 @@ export default function AdminConsoleLayout() {
               >
                 <div className={styles['admin-console-layout__settings']}>
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Enable server syncing of message drafts
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__radio-row']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__radio-row']}
+                      >
                         <Radio
                           name={`${radioNs}-draft-sync`}
                           value="true"
@@ -152,19 +170,25 @@ export default function AdminConsoleLayout() {
                         </Radio>
                       </div>
                       <p className={styles['admin-console-layout__help']}>
-                        When enabled, users message drafts will sync with the server
-                        so they can be accessed from any device. Users may opt out
-                        of this behaviour in Account settings.
+                        When enabled, users message drafts will sync with the
+                        server so they can be accessed from any device. Users
+                        may opt out of this behaviour in Account settings.
                       </p>
                     </div>
                   </div>
 
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Scheduled Posts
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__radio-row']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__radio-row']}
+                      >
                         <Radio
                           name={`${radioNs}-scheduled`}
                           value="true"
@@ -182,8 +206,8 @@ export default function AdminConsoleLayout() {
                         </Radio>
                       </div>
                       <p className={styles['admin-console-layout__help']}>
-                        When enabled, users can schedule and send messages in the
-                        future.
+                        When enabled, users can schedule and send messages in
+                        the future.
                       </p>
                     </div>
                   </div>
@@ -196,11 +220,17 @@ export default function AdminConsoleLayout() {
               >
                 <div className={styles['admin-console-layout__settings']}>
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Message Priority
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__radio-row']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__radio-row']}
+                      >
                         <Radio
                           name={`${radioNs}-msg-priority`}
                           value="true"
@@ -235,11 +265,17 @@ export default function AdminConsoleLayout() {
                   </div>
 
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Persistent Notifications
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__radio-row']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__radio-row']}
+                      >
                         <Radio
                           name={`${radioNs}-persistent`}
                           value="true"
@@ -257,9 +293,9 @@ export default function AdminConsoleLayout() {
                         </Radio>
                       </div>
                       <p className={styles['admin-console-layout__help']}>
-                        When enabled, users can trigger repeating notifications for
-                        the recipients of urgent messages. Learn more about message
-                        priority and persistent notifications in our{' '}
+                        When enabled, users can trigger repeating notifications
+                        for the recipients of urgent messages. Learn more about
+                        message priority and persistent notifications in our{' '}
                         <a
                           className={styles['admin-console-layout__doc-link']}
                           href={DOC_PRIORITY}
@@ -274,11 +310,17 @@ export default function AdminConsoleLayout() {
                   </div>
 
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Maximum number of recipients for persistent notifications
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__input-wrap']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__input-wrap']}
+                      >
                         <TextInput
                           label="Value"
                           defaultValue="5"
@@ -288,9 +330,10 @@ export default function AdminConsoleLayout() {
                         />
                       </div>
                       <p className={styles['admin-console-layout__help']}>
-                        Configure the maximum number of recipients to which users may
-                        send persistent notifications. Learn more about message
-                        priority and persistent notifications in our{' '}
+                        Configure the maximum number of recipients to which
+                        users may send persistent notifications. Learn more
+                        about message priority and persistent notifications in
+                        our{' '}
                         <a
                           className={styles['admin-console-layout__doc-link']}
                           href={DOC_PRIORITY}
@@ -305,11 +348,17 @@ export default function AdminConsoleLayout() {
                   </div>
 
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Frequency of persistent notifications
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__input-wrap']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__input-wrap']}
+                      >
                         <TextInput
                           label="Minutes between repeats"
                           defaultValue="5"
@@ -337,11 +386,17 @@ export default function AdminConsoleLayout() {
                   </div>
 
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Total number of persistent notification per post
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__input-wrap']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__input-wrap']}
+                      >
                         <TextInput
                           label="Value"
                           defaultValue="6"
@@ -352,8 +407,8 @@ export default function AdminConsoleLayout() {
                       </div>
                       <p className={styles['admin-console-layout__help']}>
                         Configure the maximum number of times users may receive
-                        persistent notifications. Learn more about message priority
-                        and persistent notifications in our{' '}
+                        persistent notifications. Learn more about message
+                        priority and persistent notifications in our{' '}
                         <a
                           className={styles['admin-console-layout__doc-link']}
                           href={DOC_PRIORITY}
@@ -368,11 +423,17 @@ export default function AdminConsoleLayout() {
                   </div>
 
                   <div className={styles['admin-console-layout__setting']}>
-                    <div className={styles['admin-console-layout__setting-label']}>
+                    <div
+                      className={styles['admin-console-layout__setting-label']}
+                    >
                       Allow guests to send persistent notifications
                     </div>
-                    <div className={styles['admin-console-layout__setting-fields']}>
-                      <div className={styles['admin-console-layout__radio-row']}>
+                    <div
+                      className={styles['admin-console-layout__setting-fields']}
+                    >
+                      <div
+                        className={styles['admin-console-layout__radio-row']}
+                      >
                         <Radio
                           name={`${radioNs}-guest-persistent`}
                           value="true"
@@ -390,9 +451,9 @@ export default function AdminConsoleLayout() {
                         </Radio>
                       </div>
                       <p className={styles['admin-console-layout__help']}>
-                        Whether a guest is able to require persistent notifications.
-                        Learn more about message priority and persistent notifications
-                        in our{' '}
+                        Whether a guest is able to require persistent
+                        notifications. Learn more about message priority and
+                        persistent notifications in our{' '}
                         <a
                           className={styles['admin-console-layout__doc-link']}
                           href={DOC_PRIORITY}

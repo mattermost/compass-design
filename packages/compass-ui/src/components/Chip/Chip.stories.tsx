@@ -36,10 +36,7 @@ const meta = {
     leadingIcon: ICON_NONE,
   },
   render: ({ leadingIcon, ...rest }) => (
-    <Chip
-      {...rest}
-      leadingIcon={resolveStoryIcon(leadingIcon) as ReactNode}
-    />
+    <Chip {...rest} leadingIcon={resolveStoryIcon(leadingIcon) as ReactNode} />
   ),
 } satisfies Meta<ChipStoryArgs>;
 
@@ -56,7 +53,14 @@ export const Default: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 8,
+        alignItems: 'center',
+      }}
+    >
       {SIZES.map((size) => (
         <Chip key={size} size={size} onRemove={fn()}>
           Label
@@ -68,7 +72,14 @@ export const Sizes: Story = {
 
 export const Compact: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 8,
+        alignItems: 'center',
+      }}
+    >
       {SIZES.map((size) => (
         <Chip key={size} size={size} compact onRemove={fn()}>
           Label
@@ -82,7 +93,7 @@ export const WithLeadingIcon: Story = {
   args: {
     children: 'With icon',
     size: 'medium',
-    'leadingIcon': 'emoticon-happy-outline',
+    leadingIcon: 'emoticon-happy-outline',
     onRemove: fn(),
   },
 };
@@ -91,7 +102,7 @@ export const WithLeadingAvatar: Story = {
   args: {
     children: 'Leonard Riley',
     size: 'medium',
-    'leadingAvatar': { src: avatarLeonard, alt: 'Leonard Riley' },
+    leadingAvatar: { src: avatarLeonard, alt: 'Leonard Riley' },
     onRemove: fn(),
   },
 };

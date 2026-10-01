@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import MobileModalNavigationBar, {
   type MobileModalNavigationBarVariant,
@@ -51,14 +51,12 @@ export default function MobileModal({
   children,
   className = '',
 }: MobileModalProps) {
-  const rootClass = [styles['mobile-modal'], className].filter(Boolean).join(' ');
+  const rootClass = [styles['mobile-modal'], className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <div
-      className={rootClass}
-      role='dialog'
-      aria-label={title}
-    >
+    <div className={rootClass} role="dialog" aria-label={title}>
       <div className={styles['mobile-modal__nav']}>
         <MobileModalNavigationBar
           variant={variant}

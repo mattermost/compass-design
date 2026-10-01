@@ -1,4 +1,4 @@
-import {MobileTeamSidebar} from '@mattermost/compass-proto';
+import { MobileTeamSidebar } from '@mattermost/compass-proto';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 
 The Mobile Team Sidebar is the 72px-wide strip for switching teams on phones.
@@ -15,15 +15,23 @@ Use the Specimen tab for a live strip. Prefer desktop Team Sidebar on web.
 ## Anatomy
 
 - <Num>1</Num> **Servers button** — Opens or switches the multi-server picker
-  (affordance only in this prototype). Sits above the teams container, not inside
-  the rounded header surface.
+  (affordance only in this prototype). Sits above the teams container, not
+  inside the rounded header surface.
 - <Num>2</Num> **Team avatars** — One `TeamAvatar` per team with Active outline,
-  unread dot, or mention badge as needed. See [Team Avatar](/components/team-avatar).
+  unread dot, or mention badge as needed. See [Team
+  Avatar](/components/team-avatar).
 - <Num>3</Num> **Add team** — Medium inverted icon button with plus, when adding
   teams is allowed.
 
-<AnatomyStage style={{display:'flex',justifyContent:'center',padding:'1rem',background:'rgba(var(--center-channel-color-rgb),0.04)'}}>
-  <div style={{height:'480px'}}>
+<AnatomyStage
+  style={{
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '1rem',
+    background: 'rgba(var(--center-channel-color-rgb),0.04)',
+  }}
+>
+  <div style={{ height: '480px' }}>
     <MobileTeamSidebar
       activeTeamId="contributors"
       teams={[

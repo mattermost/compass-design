@@ -21,10 +21,7 @@ const requiredProtoDist = [
   'dist/index.css',
 ];
 
-const requiredUiDist = [
-  'dist/index.js',
-  'dist/compass-ui.css',
-];
+const requiredUiDist = ['dist/index.js', 'dist/compass-ui.css'];
 
 function run(cmd, cwd = root) {
   execSync(cmd, { cwd, stdio: 'inherit' });
@@ -159,11 +156,7 @@ function packWorkspace(workspace) {
     `npm pack --workspace=${workspace} --pack-destination "${packDir}"`,
     { cwd: root, encoding: 'utf8', stdio: ['inherit', 'pipe', 'inherit'] },
   );
-  const tarballName = out
-    .trim()
-    .split(/\r?\n/)
-    .filter(Boolean)
-    .at(-1);
+  const tarballName = out.trim().split(/\r?\n/).filter(Boolean).at(-1);
   if (!tarballName?.endsWith('.tgz')) {
     throw new Error(
       `npm pack (${workspace}) did not print a tarball name; got: ${JSON.stringify(out)}`,

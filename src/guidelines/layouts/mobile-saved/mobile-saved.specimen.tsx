@@ -1,6 +1,12 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { MobileMessage, type MobileTabBarTab, MobileSavedMessages, MobileTabBar, mobileMessageStyles } from '@mattermost/compass-proto';
+import {
+  MobileMessage,
+  type MobileTabBarTab,
+  MobileSavedMessages,
+  MobileTabBar,
+  mobileMessageStyles,
+} from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
@@ -14,18 +20,18 @@ export default function MobileSavedLibrary() {
 
   return (
     <div className={styles['mobile-saved-layout']}>
-      <DeviceFrame insetContent={false} statusBarStyle='light'>
+      <DeviceFrame insetContent={false} statusBarStyle="light">
         <div className={styles['mobile-saved-layout__shell']}>
           <MobileSavedMessages>
             <Scrollbar>
               <div className={styles['mobile-saved-layout__list']}>
                 <MobileMessage
                   avatarSrc={avatarLeonard}
-                  avatarAlt='Leonard Riley'
-                  username='Leonard Riley'
-                  timestamp='10:12 AM'
-                  channelName='UX Design'
-                  teamName='Contributors'
+                  avatarAlt="Leonard Riley"
+                  username="Leonard Riley"
+                  timestamp="10:12 AM"
+                  channelName="UX Design"
+                  teamName="Contributors"
                 >
                   <p className={bodyTextClass}>
                     Design review is bumped to 2:00 PM today — conflict with the
@@ -34,11 +40,11 @@ export default function MobileSavedLibrary() {
                 </MobileMessage>
                 <MobileMessage
                   avatarSrc={avatarMarco}
-                  avatarAlt='Marco Rinaldi'
-                  username='Marco Rinaldi'
-                  timestamp='Yesterday'
-                  channelName='Onboarding'
-                  teamName='Design'
+                  avatarAlt="Marco Rinaldi"
+                  username="Marco Rinaldi"
+                  timestamp="Yesterday"
+                  channelName="Onboarding"
+                  teamName="Design"
                 >
                   <p className={bodyTextClass}>
                     Just pushed the updated onboarding flow to staging — would
@@ -47,11 +53,11 @@ export default function MobileSavedLibrary() {
                 </MobileMessage>
                 <MobileMessage
                   avatarSrc={avatarSofia}
-                  avatarAlt='Sofia Bauer'
-                  username='Sofia Bauer'
-                  timestamp='Mon'
-                  channelName='Town Square'
-                  teamName='Contributors'
+                  avatarAlt="Sofia Bauer"
+                  username="Sofia Bauer"
+                  timestamp="Mon"
+                  channelName="Town Square"
+                  teamName="Contributors"
                 >
                   <p className={bodyTextClass}>
                     Morning everyone! Reminder that the Q2 roadmap review is at
@@ -65,7 +71,7 @@ export default function MobileSavedLibrary() {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             profileSrc={avatarLeonard}
-            profileAlt='Leonard Riley'
+            profileAlt="Leonard Riley"
           />
         </div>
       </DeviceFrame>

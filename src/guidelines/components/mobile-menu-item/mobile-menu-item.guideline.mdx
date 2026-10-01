@@ -22,7 +22,15 @@ mobile sheets and action lists.
 
 Four parts, same as desktop. Only the label is required.
 
-<AnatomyStage style={{flexDirection:'column',gap:'0',alignItems:'stretch',maxWidth:'414px',margin:'0 auto var(--spacing-m)'}}>
+<AnatomyStage
+  style={{
+    flexDirection: 'column',
+    gap: '0',
+    alignItems: 'stretch',
+    maxWidth: '414px',
+    margin: '0 auto var(--spacing-m)',
+  }}
+>
   <MobileMenuItem
     label="Profile"
     leadingVisual={<Icon glyph={<AccountOutlineIcon />} size="20" />}
@@ -57,12 +65,12 @@ Four parts, same as desktop. Only the label is required.
 Mobile Menu Items do not use hover. Tap feedback and selection use the Active
 fill.
 
-| State | Use when |
-| --- | --- |
-| Default | Resting row. |
-| Active | Row is pressed or selected (`active` prop or `:active`). |
-| Focus | Keyboard focus has landed on the row. |
-| Disabled | The action isn’t available right now. |
+| State    | Use when                                                 |
+| -------- | -------------------------------------------------------- |
+| Default  | Resting row.                                             |
+| Active   | Row is pressed or selected (`active` prop or `:active`). |
+| Focus    | Keyboard focus has landed on the row.                    |
+| Disabled | The action isn’t available right now.                    |
 
 Active (non-destructive) uses button-bg at 8% over the channel background.
 Destructive Active fills with danger color and inverts label and icons.
@@ -77,7 +85,7 @@ Use for irreversible actions — leave a channel, delete, sign out. Pair with
 confirmation where needed.
 
 <DocUiEmbed>
-  <div style={{display:'flex',flexDirection:'column',maxWidth:'414px'}}>
+  <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '414px' }}>
     <MobileMenuItem
       label="Sign out"
       destructive

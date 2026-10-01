@@ -1,4 +1,4 @@
-import {MobileSearchField} from '@mattermost/compass-proto';
+import { MobileSearchField } from '@mattermost/compass-proto';
 
 The Mobile Search Field is the sidebar-styled search control used on phones —
 magnifier icon and placeholder on a translucent sidebar fill. Use it on the
@@ -15,7 +15,15 @@ For desktop and light surfaces, prefer [Search Input](/components/search-input).
 - <Num>2</Num> **Input** — Body 200 field with sidebar-colored placeholder.
 
 <AnatomyStage>
-  <div style={{width:'100%',maxWidth:'360px',padding:'16px',background:'var(--sidebar-bg)',borderRadius:'8px'}}>
+  <div
+    style={{
+      width: '100%',
+      maxWidth: '360px',
+      padding: '16px',
+      background: 'var(--sidebar-bg)',
+      borderRadius: '8px',
+    }}
+  >
     <MobileSearchField placeholder="Search messages & files" />
   </div>
 </AnatomyStage>

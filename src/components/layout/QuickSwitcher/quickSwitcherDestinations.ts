@@ -34,13 +34,7 @@ function topicSortOrder(category: TopicCategory) {
 function topicToDestination(t: Topic): QuickSwitcherDestination {
   const categoryLabel = CATEGORY_LABEL[t.category];
   const path = `/${t.category}/${t.slug}`;
-  const searchText = [
-    t.name,
-    t.slug,
-    categoryLabel,
-    t.description ?? '',
-    path,
-  ]
+  const searchText = [t.name, t.slug, categoryLabel, t.description ?? '', path]
     .join(' ')
     .toLowerCase();
 
@@ -71,7 +65,8 @@ export function buildQuickSwitcherDestinations(): QuickSwitcherDestination[] {
         path,
         title: CATEGORY_LABEL[slug],
         breadcrumb: [CATEGORY_LABEL[slug]],
-        searchText: `${CATEGORY_LABEL[slug]} category ${slug} ${path}`.toLowerCase(),
+        searchText:
+          `${CATEGORY_LABEL[slug]} category ${slug} ${path}`.toLowerCase(),
         sortKey: 10,
       };
     }),

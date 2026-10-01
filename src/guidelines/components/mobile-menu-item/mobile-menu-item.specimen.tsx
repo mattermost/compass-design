@@ -1,4 +1,4 @@
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MobileMenuItem } from '@mattermost/compass-proto';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
@@ -6,13 +6,7 @@ import CheckIcon from '@mattermost/compass-icons/components/check';
 import LogoutVariantIcon from '@mattermost/compass-icons/components/logout-variant';
 import styles from './mobile-menu-item.specimen.module.scss';
 
-function Stage({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+function Stage({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className={styles['mmi-item-specimen__stage']}>
       <p className={styles['mmi-item-specimen__label']}>{label}</p>
@@ -24,86 +18,86 @@ function Stage({
 export default function MobileMenuItemLibrary() {
   return (
     <div className={styles['mmi-item-specimen']}>
-      <Stage label='Default — none / stacked / inline'>
-        <MobileMenuItem label='Menu Item Label' />
+      <Stage label="Default — none / stacked / inline">
+        <MobileMenuItem label="Menu Item Label" />
         <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
         />
         <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
-          secondaryLabelPosition='inline'
-        />
-      </Stage>
-
-      <Stage label='Active — none / stacked / inline'>
-        <MobileMenuItem label='Menu Item Label' active />
-        <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
-          active
-        />
-        <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
-          secondaryLabelPosition='inline'
-          active
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
+          secondaryLabelPosition="inline"
         />
       </Stage>
 
-      <Stage label='Destructive — default / active'>
-        <MobileMenuItem label='Menu Item Label' destructive />
+      <Stage label="Active — none / stacked / inline">
+        <MobileMenuItem label="Menu Item Label" active />
         <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
-          destructive
-        />
-        <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
-          secondaryLabelPosition='inline'
-          destructive
-        />
-        <MobileMenuItem label='Menu Item Label' destructive active />
-        <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
-          destructive
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
           active
         />
         <MobileMenuItem
-          label='Menu Item Label'
-          secondaryLabel='Secondary label'
-          secondaryLabelPosition='inline'
-          destructive
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
+          secondaryLabelPosition="inline"
           active
         />
       </Stage>
 
-      <Stage label='Trailing, tag, divider'>
-        <MobileMenuItem label='Selected option' trailingElement />
+      <Stage label="Destructive — default / active">
+        <MobileMenuItem label="Menu Item Label" destructive />
         <MobileMenuItem
-          label='What’s new'
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
+          destructive
+        />
+        <MobileMenuItem
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
+          secondaryLabelPosition="inline"
+          destructive
+        />
+        <MobileMenuItem label="Menu Item Label" destructive active />
+        <MobileMenuItem
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
+          destructive
+          active
+        />
+        <MobileMenuItem
+          label="Menu Item Label"
+          secondaryLabel="Secondary label"
+          secondaryLabelPosition="inline"
+          destructive
+          active
+        />
+      </Stage>
+
+      <Stage label="Trailing, tag, divider">
+        <MobileMenuItem label="Selected option" trailingElement />
+        <MobileMenuItem
+          label="What’s new"
           tag
           trailingElement
-          trailingVisual={<Icon glyph={<CheckIcon />} size='20' />}
+          trailingVisual={<Icon glyph={<CheckIcon />} size="20" />}
         />
         <MobileMenuItem
-          label='Profile'
-          leadingVisual={<Icon glyph={<AccountOutlineIcon />} size='20' />}
+          label="Profile"
+          leadingVisual={<Icon glyph={<AccountOutlineIcon />} size="20" />}
           divider
         />
         <MobileMenuItem
-          label='Sign out'
+          label="Sign out"
           destructive
-          leadingVisual={<Icon glyph={<LogoutVariantIcon />} size='20' />}
+          leadingVisual={<Icon glyph={<LogoutVariantIcon />} size="20" />}
         />
       </Stage>
 
-      <Stage label='Disabled'>
-        <MobileMenuItem label='Menu Item Label' disabled />
-        <MobileMenuItem label='Destructive' destructive disabled />
+      <Stage label="Disabled">
+        <MobileMenuItem label="Menu Item Label" disabled />
+        <MobileMenuItem label="Destructive" destructive disabled />
       </Stage>
     </div>
   );

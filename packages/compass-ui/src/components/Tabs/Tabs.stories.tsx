@@ -23,9 +23,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: function Render() {
     const [activeKey, setActiveKey] = useState('messages');
-    return (
-      <Tabs tabs={TABS} activeKey={activeKey} onChange={setActiveKey} />
-    );
+    return <Tabs tabs={TABS} activeKey={activeKey} onChange={setActiveKey} />;
   },
 };
 

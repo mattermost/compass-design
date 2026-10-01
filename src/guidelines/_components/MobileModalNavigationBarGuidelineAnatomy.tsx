@@ -17,11 +17,11 @@ export function MobileModalNavigationBarAnatomyStage() {
     >
       <div className={styles['mobile-modal-navigation-bar-anatomy__frame']}>
         <MobileModalNavigationBar
-          variant='child'
-          title='Modal'
-          subtitle='UX Design'
-          actionLabel='Action'
-          trailingIcon={<Icon size='20' glyph={<SendIcon />} />}
+          variant="child"
+          title="Modal"
+          subtitle="UX Design"
+          actionLabel="Action"
+          trailingIcon={<Icon size="20" glyph={<SendIcon />} />}
         />
       </div>
     </AnatomyStage>

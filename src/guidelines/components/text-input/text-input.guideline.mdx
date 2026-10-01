@@ -23,12 +23,12 @@ modal in Mattermost.
 </AnatomyStage>
 
 - <Num>1</Num> **Container** — rounded border with a 1px stroke.
-- <Num>2</Num> **Label** — floating label that sits inside the field at rest
-  and lifts above the border on focus or when the field has a value.
+- <Num>2</Num> **Label** — floating label that sits inside the field at rest and
+  lifts above the border on focus or when the field has a value.
 - <Num>3</Num> **Leading icon** — optional; reinforces the field's purpose
   (search, mail, calendar).
-- <Num>4</Num> **Trailing icon** — optional; signals validity, opens a
-  picker, clears the input, or indicates a dropdown.
+- <Num>4</Num> **Trailing icon** — optional; signals validity, opens a picker,
+  clears the input, or indicates a dropdown.
 - <Num>5</Num> **Placeholder** — brief sample or help statement; only visible
   when empty.
 - <Num>6</Num> **Value** — the text the user has entered.
@@ -40,15 +40,26 @@ modal in Mattermost.
 Pick a size to match the surface, not the content. Don't mix sizes inside the
 same form.
 
-| Size   | Use when                                                                          |
-| ------ | --------------------------------------------------------------------------------- |
-| Small  | Compact tables, toolbars, dense settings rows.                                    |
-| Medium | The default for forms and modals.                                                 |
-| Large  | Setup flows, mobile-leaning surfaces, hero forms.                                 |
+| Size   | Use when                                          |
+| ------ | ------------------------------------------------- |
+| Small  | Compact tables, toolbars, dense settings rows.    |
+| Medium | The default for forms and modals.                 |
+| Large  | Setup flows, mobile-leaning surfaces, hero forms. |
 
-<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '420px' }}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '420px',
+  }}
+>
   <TextInput size="small" label="Small" placeholder="example@mattermost.com" />
-  <TextInput size="medium" label="Medium" placeholder="example@mattermost.com" />
+  <TextInput
+    size="medium"
+    label="Medium"
+    placeholder="example@mattermost.com"
+  />
   <TextInput size="large" label="Large" placeholder="example@mattermost.com" />
 </div>
 
@@ -56,16 +67,23 @@ same form.
 
 ## States
 
-| State     | Description                                                                                  |
-| --------- | -------------------------------------------------------------------------------------------- |
-| Default   | Resting state.                                                                               |
-| Hover     | Subtle stroke darkening on pointer hover.                                                    |
-| Focus     | Active focus ring. The label floats above the border.                                        |
-| Read-only | Non-editable but visible — e.g. system-derived values the user can't change.                 |
-| Disabled  | Inactive state. The field is non-interactive and visually de-emphasised.                     |
-| Invalid   | Validation has failed; pair with an Error Message immediately below the field.               |
+| State     | Description                                                                    |
+| --------- | ------------------------------------------------------------------------------ |
+| Default   | Resting state.                                                                 |
+| Hover     | Subtle stroke darkening on pointer hover.                                      |
+| Focus     | Active focus ring. The label floats above the border.                          |
+| Read-only | Non-editable but visible — e.g. system-derived values the user can't change.   |
+| Disabled  | Inactive state. The field is non-interactive and visually de-emphasised.       |
+| Invalid   | Validation has failed; pair with an Error Message immediately below the field. |
 
-<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '420px' }}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '420px',
+  }}
+>
   <TextInput label="Default" placeholder="Type here…" />
   <TextInput label="With value" defaultValue="hello@mattermost.com" />
   <TextInput label="Disabled" placeholder="Type here…" disabled />
@@ -80,7 +98,14 @@ Use a leading icon to reinforce a recognisable input type — magnifier for
 search, mail icon for email. Reserve the trailing icon for affordances that
 relate to the field's value (clear, validity, dropdown chevron).
 
-<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '420px' }}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '420px',
+  }}
+>
   <TextInput
     label="Search"
     placeholder="Search channels"

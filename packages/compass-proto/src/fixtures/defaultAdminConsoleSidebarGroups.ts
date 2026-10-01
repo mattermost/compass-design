@@ -100,11 +100,7 @@ export const defaultAdminConsoleSidebarGroups: AdminConsoleSidebarGroupModel[] =
       key: 'integrations',
       categoryLabel: 'Integrations',
       categoryIconKey: 'integrations',
-      items: [
-        { name: 'Features' },
-        { name: 'GIF' },
-        { name: 'CORS' },
-      ],
+      items: [{ name: 'Features' }, { name: 'GIF' }, { name: 'CORS' }],
     },
     {
       key: 'compliance',

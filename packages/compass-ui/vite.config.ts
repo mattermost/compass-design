@@ -6,7 +6,10 @@ import path from 'path';
 import { collectLibEntries } from './build-entries';
 import { compassIconsJsExtensions } from './vite-plugin-compass-icons-ext';
 import { compassUiGlobalStyles } from './vite-plugin-global-styles';
-import { compassUiNormalizeDist, markCompassUiDtsFinished } from './vite-plugin-normalize-dist';
+import {
+  compassUiNormalizeDist,
+  markCompassUiDtsFinished,
+} from './vite-plugin-normalize-dist';
 import { compassUiSvgrPlugin } from './svgr-plugin';
 
 const isWatchBuild = process.argv.includes('--watch');
@@ -56,7 +59,11 @@ export default defineConfig({
     },
     rollupOptions: {
       external: (id) => {
-        if (id === 'react' || id === 'react-dom' || id === 'react/jsx-runtime') {
+        if (
+          id === 'react' ||
+          id === 'react-dom' ||
+          id === 'react/jsx-runtime'
+        ) {
           return true;
         }
         if (/^@mattermost\/compass-icons/.test(id)) {

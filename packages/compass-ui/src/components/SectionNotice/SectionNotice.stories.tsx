@@ -4,12 +4,7 @@ import { ShortcutTagGroup } from '@/components/ShortcutTag/ShortcutTag';
 import SectionNotice from './SectionNotice';
 import type { SectionNoticeType } from './SectionNotice';
 
-const TYPES: SectionNoticeType[] = [
-  'info',
-  'success',
-  'warning',
-  'danger',
-];
+const TYPES: SectionNoticeType[] = ['info', 'success', 'warning', 'danger'];
 
 const meta = {
   title: 'Components/Feedback and Notices/Section Notice',

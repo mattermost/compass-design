@@ -1,4 +1,4 @@
-import type {ChangeEvent, ReactNode} from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import MobileSearchField from '@/components/MobileSearchField/MobileSearchField';
 import MobileTabScreen from '@/components/MobileTabScreen/MobileTabScreen';
 import styles from './MobileSearch.module.scss';
@@ -43,7 +43,7 @@ export default function MobileSearch({
             value={value}
             placeholder={placeholder}
             onChange={handleChange}
-            aria-label='Search messages and files'
+            aria-label="Search messages and files"
           />
         </div>
       }

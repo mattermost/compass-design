@@ -31,7 +31,7 @@ Do not load `/styles/standalone` into Mattermost webapp (it already owns themes,
 Set a theme on `<html>` (standalone hosts):
 
 ```html
-<html data-theme="denim">
+<html data-theme="denim"></html>
 ```
 
 Import components from **subpaths** (one module graph per import — required for Jest and recommended for webpack):

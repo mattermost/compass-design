@@ -39,27 +39,44 @@
 
   &__action-btn--on-dark {
     flex-shrink: 0;
-    background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent) !important;
+    background-color: color-mix(
+      in srgb,
+      var(--neutral-0) 8%,
+      transparent
+    ) !important;
     color: var(--neutral-0) !important;
     border-color: transparent !important;
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 12%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 12%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 
     &:active:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 16%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 16%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 
     &:focus-visible {
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--neutral-0) 56%, transparent) !important;
+      box-shadow: 0 0 0 2px
+        color-mix(in srgb, var(--neutral-0) 56%, transparent) !important;
     }
 
     &:disabled {
       color: color-mix(in srgb, var(--neutral-0) 40%, transparent) !important;
-      background-color: color-mix(in srgb, var(--neutral-0) 6%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 6%,
+        transparent
+      ) !important;
     }
   }
 
@@ -68,12 +85,20 @@
     color: color-mix(in srgb, var(--neutral-0) 64%, transparent) !important;
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 12%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 12%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 
     &:active:not(:disabled) {
-      background-color: color-mix(in srgb, var(--neutral-0) 20%, transparent) !important;
+      background-color: color-mix(
+        in srgb,
+        var(--neutral-0) 20%,
+        transparent
+      ) !important;
       color: var(--neutral-0) !important;
     }
 

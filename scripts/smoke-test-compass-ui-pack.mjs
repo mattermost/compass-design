@@ -158,11 +158,7 @@ const packOutput = execSync(
   `npm pack --workspace=@mattermost/compass-ui --pack-destination "${packDir}"`,
   { cwd: root, encoding: 'utf8', stdio: ['inherit', 'pipe', 'inherit'] },
 );
-const tarballName = packOutput
-  .trim()
-  .split(/\r?\n/)
-  .filter(Boolean)
-  .at(-1);
+const tarballName = packOutput.trim().split(/\r?\n/).filter(Boolean).at(-1);
 if (!tarballName?.endsWith('.tgz')) {
   throw new Error(
     `npm pack did not print a tarball name; got: ${JSON.stringify(packOutput)}`,

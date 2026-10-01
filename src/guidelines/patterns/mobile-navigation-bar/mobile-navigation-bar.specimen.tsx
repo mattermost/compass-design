@@ -1,8 +1,8 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import { MobileNavigationBar } from '@mattermost/compass-proto';
 import styles from './mobile-navigation-bar.specimen.module.scss';
 
-function Stage({label, children}: {label: string; children: ReactNode}) {
+function Stage({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className={styles['mnb-specimen__stage']}>
       <p className={styles['mnb-specimen__label']}>{label}</p>
@@ -14,46 +14,46 @@ function Stage({label, children}: {label: string; children: ReactNode}) {
 export default function MobileNavigationBarLibrary() {
   return (
     <div className={styles['mnb-specimen']}>
-      <Stage label='Channel'>
+      <Stage label="Channel">
         <MobileNavigationBar
-          variant='channel'
-          name='UX Design'
+          variant="channel"
+          name="UX Design"
           memberCount={32}
         />
       </Stage>
 
-      <Stage label='Channel — mention badge'>
+      <Stage label="Channel — mention badge">
         <MobileNavigationBar
-          variant='channel'
-          name='UX Design'
+          variant="channel"
+          name="UX Design"
           memberCount={32}
           mentionCount={1}
         />
       </Stage>
 
-      <Stage label='DM'>
-        <MobileNavigationBar variant='dm' name='Norma Fletcher' />
+      <Stage label="DM">
+        <MobileNavigationBar variant="dm" name="Norma Fletcher" />
       </Stage>
 
-      <Stage label='DM — custom status'>
+      <Stage label="DM — custom status">
         <MobileNavigationBar
-          variant='dm'
-          name='Norma Fletcher'
-          customStatusEmoji='🙂'
-          customStatusText='Feeling happy'
+          variant="dm"
+          name="Norma Fletcher"
+          customStatusEmoji="🙂"
+          customStatusText="Feeling happy"
         />
       </Stage>
 
-      <Stage label='GM'>
+      <Stage label="GM">
         <MobileNavigationBar
-          variant='gm'
-          name='Hilda Martin, Steve Murphy'
+          variant="gm"
+          name="Hilda Martin, Steve Murphy"
           memberCount={4}
         />
       </Stage>
 
-      <Stage label='Bot'>
-        <MobileNavigationBar variant='bot' name='Jira' />
+      <Stage label="Bot">
+        <MobileNavigationBar variant="bot" name="Jira" />
       </Stage>
     </div>
   );

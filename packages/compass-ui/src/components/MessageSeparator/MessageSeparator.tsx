@@ -51,9 +51,7 @@ export default function MessageSeparator({
 
   const labelBlock = (
     <div className={styles['message-separator__label']}>
-      <span className={styles['message-separator__text']}>
-        {displayLabel}
-      </span>
+      <span className={styles['message-separator__text']}>{displayLabel}</span>
 
       {type === 'new-messages' && showAiSummary && (
         <button
@@ -78,7 +76,10 @@ export default function MessageSeparator({
     <div className={rootClass} role="separator" {...rest}>
       {type === 'reply-count' ? (
         <>
-          <div className={styles['message-separator__reply-gutter']} aria-hidden>
+          <div
+            className={styles['message-separator__reply-gutter']}
+            aria-hidden
+          >
             <div className={styles['message-separator__reply-line-start']} />
           </div>
           {labelBlock}

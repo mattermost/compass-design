@@ -82,7 +82,7 @@ function LeadingVisualContent({
         <UserAvatar
           src={avatarSrc ?? ''}
           alt={avatarAlt ?? ''}
-          size='24'
+          size="24"
           status={!!showAvatarStatus}
         />
       );
@@ -127,9 +127,7 @@ export default function MobileChannelSidebarItem({
 
   const rootClass = [
     styles['mobile-channel-sidebar-item'],
-    hideLeadingVisual
-      ? styles['mobile-channel-sidebar-item--text-only']
-      : '',
+    hideLeadingVisual ? styles['mobile-channel-sidebar-item--text-only'] : '',
     muted ? styles['mobile-channel-sidebar-item--muted'] : '',
     styles[
       `mobile-channel-sidebar-item--status-${effectiveStatus.toLowerCase()}`
@@ -149,7 +147,7 @@ export default function MobileChannelSidebarItem({
 
   return (
     <div
-      role='button'
+      role="button"
       tabIndex={0}
       className={rootClass}
       onClick={onClick}
@@ -177,7 +175,9 @@ export default function MobileChannelSidebarItem({
             {name}
           </span>
           {sharedChannel && (
-            <span className={styles['mobile-channel-sidebar-item__shared-icon']}>
+            <span
+              className={styles['mobile-channel-sidebar-item__shared-icon']}
+            >
               <CircleMultipleOutlineIcon size={16} />
             </span>
           )}
@@ -202,8 +202,8 @@ export default function MobileChannelSidebarItem({
           >
             <MentionBadge
               count={mentionCount ?? 1}
-              location='sidebar'
-              size='medium'
+              location="sidebar"
+              size="medium"
             />
           </span>
         )}

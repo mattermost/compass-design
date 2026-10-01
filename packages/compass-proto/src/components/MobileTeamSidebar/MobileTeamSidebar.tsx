@@ -1,7 +1,10 @@
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import ServerVariantIcon from '@mattermost/compass-icons/components/server-variant';
 import { Icon } from '@mattermost/compass-ui/components/icon';
-import { IconButton, ICON_BUTTON_ICON_SIZES } from '@mattermost/compass-ui/components/icon-button';
+import {
+  IconButton,
+  ICON_BUTTON_ICON_SIZES,
+} from '@mattermost/compass-ui/components/icon-button';
 import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
 import { UnreadBadge } from '@mattermost/compass-ui/components/unread-badge';
 import styles from './MobileTeamSidebar.module.scss';
@@ -52,9 +55,9 @@ export default function MobileTeamSidebar({
       {showServersButton && (
         <div className={styles['mobile-team-sidebar__servers']}>
           <IconButton
-            aria-label='Servers'
-            size='medium'
-            style='inverted'
+            aria-label="Servers"
+            size="medium"
+            style="inverted"
             active={serversActive}
             icon={
               <Icon
@@ -76,7 +79,7 @@ export default function MobileTeamSidebar({
             return (
               <button
                 key={team.id}
-                type='button'
+                type="button"
                 className={styles['mobile-team-sidebar__team']}
                 aria-label={team.name}
                 aria-current={active ? 'true' : undefined}
@@ -86,7 +89,7 @@ export default function MobileTeamSidebar({
                   src={team.src}
                   alt={team.name}
                   initials={team.initials}
-                  size='40'
+                  size="40"
                   state={active ? 'active' : 'default'}
                   badge={hasMentions ? team.mentions : undefined}
                 />
@@ -101,10 +104,10 @@ export default function MobileTeamSidebar({
           })}
           {showAddTeam && (
             <IconButton
-              aria-label='Add team'
-              size='medium'
-              style='inverted'
-              icon={<Icon size='20' glyph={<PlusIcon />} />}
+              aria-label="Add team"
+              size="medium"
+              style="inverted"
+              icon={<Icon size="20" glyph={<PlusIcon />} />}
               onClick={onAddTeam}
               className={styles['mobile-team-sidebar__add']}
             />

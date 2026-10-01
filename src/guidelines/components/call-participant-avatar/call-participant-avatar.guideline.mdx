@@ -16,9 +16,8 @@ sidebar, popouts, and recording previews.
 
 ## Anatomy
 
-- <Num>1</Num> **Image** — the user's avatar, cropped to a circle. Falls back
-  to a silhouette for external links and a phone glyph for dial-in
-  participants.
+- <Num>1</Num> **Image** — the user's avatar, cropped to a circle. Falls back to
+  a silhouette for external links and a phone glyph for dial-in participants.
 - <Num>2</Num> **Name label** — display name beneath the avatar.
 - <Num>3</Num> **Mute badge** — a corner pill showing the current mic state.
   Required during a call.
@@ -75,12 +74,12 @@ sidebar, popouts, and recording previews.
 Four sizes match the surfaces calls render on — from full-bleed grid tiles
 down to the call sidebar.
 
-| Size   | Avatar | Use when                                                  |
-| ------ | ------ | --------------------------------------------------------- |
-| Large  | 120px  | Call popout grid, single-participant focus.               |
-| Medium | 96px   | Multi-participant grid in the call window.                |
-| Small  | 72px   | Compact grid; sidebar previews.                           |
-| X-Small | 56px   | Roster lists; dense participant rows.                     |
+| Size    | Avatar | Use when                                    |
+| ------- | ------ | ------------------------------------------- |
+| Large   | 120px  | Call popout grid, single-participant focus. |
+| Medium  | 96px   | Multi-participant grid in the call window.  |
+| Small   | 72px   | Compact grid; sidebar previews.             |
+| X-Small | 56px   | Roster lists; dense participant rows.       |
 
 <div
   style={{
@@ -93,10 +92,34 @@ down to the call sidebar.
     borderRadius: 'var(--radius-m)',
   }}
 >
-  <CallParticipantAvatar src={avatarLeonard} alt="Large" name="Large" size="large" muteState="unmuted" />
-  <CallParticipantAvatar src={avatarLeonard} alt="Medium" name="Medium" size="medium" muteState="unmuted" />
-  <CallParticipantAvatar src={avatarLeonard} alt="Small" name="Small" size="small" muteState="unmuted" />
-  <CallParticipantAvatar src={avatarLeonard} alt="X-Small" name="X-Small" size="x-small" muteState="unmuted" />
+  <CallParticipantAvatar
+    src={avatarLeonard}
+    alt="Large"
+    name="Large"
+    size="large"
+    muteState="unmuted"
+  />
+  <CallParticipantAvatar
+    src={avatarLeonard}
+    alt="Medium"
+    name="Medium"
+    size="medium"
+    muteState="unmuted"
+  />
+  <CallParticipantAvatar
+    src={avatarLeonard}
+    alt="Small"
+    name="Small"
+    size="small"
+    muteState="unmuted"
+  />
+  <CallParticipantAvatar
+    src={avatarLeonard}
+    alt="X-Small"
+    name="X-Small"
+    size="x-small"
+    muteState="unmuted"
+  />
 </div>
 
 <Divider />
@@ -123,8 +146,22 @@ and dial-ins are unambiguous.
     borderRadius: 'var(--radius-m)',
   }}
 >
-  <CallParticipantAvatar alt="Guest" name="Guest" size="medium" kind="external-link" external muteState="muted" />
-  <CallParticipantAvatar alt="+1 555…" name="+1 555 0123" size="medium" kind="dial-in" external muteState="muted" />
+  <CallParticipantAvatar
+    alt="Guest"
+    name="Guest"
+    size="medium"
+    kind="external-link"
+    external
+    muteState="muted"
+  />
+  <CallParticipantAvatar
+    alt="+1 555…"
+    name="+1 555 0123"
+    size="medium"
+    kind="dial-in"
+    external
+    muteState="muted"
+  />
 </div>
 
 <Divider />

@@ -10,15 +10,15 @@ export default function ChannelInfoMsgHeaderLibrary() {
             Channel + team (Mentions / Saved)
           </span>
           <ChannelInfoMsgHeader
-            channelName='Spec Reviews'
-            teamName='Contributors'
+            channelName="Spec Reviews"
+            teamName="Contributors"
           />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
             Channel only
           </span>
-          <ChannelInfoMsgHeader channelName='UX Design' />
+          <ChannelInfoMsgHeader channelName="UX Design" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
@@ -30,7 +30,7 @@ export default function ChannelInfoMsgHeaderLibrary() {
               { label: 'Files' },
               { label: 'Pinned' },
             ]}
-            teamName='Contributors'
+            teamName="Contributors"
           />
         </div>
       </div>

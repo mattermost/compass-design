@@ -76,19 +76,19 @@ export default function TopicRoute() {
     return firstTopicInNextCategory(topic);
   }, [topic, nextTopic]);
 
-  if (topic?.category === 'layouts' && location.pathname.endsWith('/specimen')) {
-    return (
-      <Navigate to={`/${topic.category}/${topic.slug}`} replace />
-    );
+  if (
+    topic?.category === 'layouts' &&
+    location.pathname.endsWith('/specimen')
+  ) {
+    return <Navigate to={`/${topic.category}/${topic.slug}`} replace />;
   }
 
   if (topic?.category === 'layouts' && SpecimenPage) {
     return (
       <div
-        className={[
-          styles['doc-shell'],
-          styles['doc-shell--layout-only'],
-        ].join(' ')}
+        className={[styles['doc-shell'], styles['doc-shell--layout-only']].join(
+          ' ',
+        )}
       >
         <Suspense fallback={null}>
           <SpecimenPage />

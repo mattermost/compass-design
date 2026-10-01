@@ -38,7 +38,10 @@ function rewriteCjsIconSpecs(code: string): string {
 
 function rewriteBundle(bundle: OutputBundle) {
   for (const item of Object.values(bundle)) {
-    if (item.type !== 'chunk' || !item.code.includes('@mattermost/compass-icons/')) {
+    if (
+      item.type !== 'chunk' ||
+      !item.code.includes('@mattermost/compass-icons/')
+    ) {
       continue;
     }
     if (item.fileName.endsWith('.cjs')) {

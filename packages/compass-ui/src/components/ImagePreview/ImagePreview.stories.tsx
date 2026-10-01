@@ -3,7 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import sampleImage from '@/assets/images/sample-image.jpg';
 import ImagePreview from './ImagePreview';
-import type { ImagePreviewAspectRatio, ImagePreviewProps } from './ImagePreview';
+import type {
+  ImagePreviewAspectRatio,
+  ImagePreviewProps,
+} from './ImagePreview';
 
 const RATIOS: ImagePreviewAspectRatio[] = ['16:9', '4:3', '1:1'];
 
@@ -58,9 +61,7 @@ export const Square: Story = {
 };
 
 export const Collapsed: Story = {
-  render: (args) => (
-    <InteractiveImagePreview {...args} defaultCollapsed />
-  ),
+  render: (args) => <InteractiveImagePreview {...args} defaultCollapsed />,
   args: {
     src: sampleImage,
     alt: 'Collapsed image',
@@ -80,10 +81,7 @@ export const AllVariants: Story = {
         >
           16:9
         </h3>
-        <InteractiveImagePreview
-          src={sampleImage}
-          alt="Sample image"
-        />
+        <InteractiveImagePreview src={sampleImage} alt="Sample image" />
       </section>
       <section>
         <h3

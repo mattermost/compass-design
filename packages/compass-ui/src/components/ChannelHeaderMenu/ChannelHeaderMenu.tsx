@@ -17,7 +17,7 @@ import PopoverMenu, {
   PopoverMenuGroup,
 } from '@/components/PopoverMenu/PopoverMenu';
 
-export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type ChannelHeaderMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Channel header overflow menu — settings, members, more actions, and archive.

@@ -105,7 +105,11 @@
       left: 0;
       right: 0;
       height: 40px;
-      background: linear-gradient(to bottom, transparent, var(--center-channel-bg));
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--center-channel-bg)
+      );
       pointer-events: none;
       opacity: 0;
       transition: opacity var(--duration-quick) var(--ease-transition);

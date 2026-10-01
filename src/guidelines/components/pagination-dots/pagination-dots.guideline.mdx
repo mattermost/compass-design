@@ -30,15 +30,25 @@ instead.
 Default to horizontal. Reach for vertical only when the layout already
 flows that way (e.g. a side-rail of steps).
 
-<div style={{display:'flex',gap:'2rem',alignItems:'center',padding:'1rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '2rem',
+    alignItems: 'center',
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+  }}
+>
   <PaginationDots pages={4} activePage={2} orientation="horizontal" />
   <PaginationDots pages={4} activePage={2} orientation="vertical" />
 </div>
 
-| Orientation | Use when                                                                   |
-| ----------- | -------------------------------------------------------------------------- |
-| Horizontal  | Default — onboarding modals, carousels, mobile flows.                      |
-| Vertical    | Sparingly — when the surrounding layout is vertical (e.g. a step rail).    |
+| Orientation | Use when                                                                |
+| ----------- | ----------------------------------------------------------------------- |
+| Horizontal  | Default — onboarding modals, carousels, mobile flows.                   |
+| Vertical    | Sparingly — when the surrounding layout is vertical (e.g. a step rail). |
 
 <Divider />
 
@@ -48,20 +58,46 @@ Three colour styles. Inverted is for sidebar-style chrome. On primary is for
 the Tour Point pattern and other panels on the primary button colour, where
 dots should read with the same contrast as primary button labels.
 
-<div style={{display:'flex',flexDirection:'column',gap:'1rem',padding:'1rem',background:'var(--center-channel-bg)',border:'1px solid rgba(var(--center-channel-color-rgb),0.08)',borderRadius:'8px'}}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+  }}
+>
   <PaginationDots pages={4} activePage={2} dotStyle="default" />
-  <div style={{padding:'0.75rem',background:'var(--sidebar-bg)',borderRadius:'4px',display:'flex',justifyContent:'center'}}>
+  <div
+    style={{
+      padding: '0.75rem',
+      background: 'var(--sidebar-bg)',
+      borderRadius: '4px',
+      display: 'flex',
+      justifyContent: 'center',
+    }}
+  >
     <PaginationDots pages={4} activePage={2} dotStyle="inverted" />
   </div>
-  <div style={{padding:'0.75rem',background:'var(--button-bg)',borderRadius:'4px',display:'flex',justifyContent:'center'}}>
+  <div
+    style={{
+      padding: '0.75rem',
+      background: 'var(--button-bg)',
+      borderRadius: '4px',
+      display: 'flex',
+      justifyContent: 'center',
+    }}
+  >
     <PaginationDots pages={4} activePage={2} dotStyle="on-primary" />
   </div>
 </div>
 
-| Style      | Use when                                                                       |
-| ---------- | ------------------------------------------------------------------------------ |
-| Default    | Light surfaces — modals, cards, the main content area.                         |
-| Inverted   | Dark or theme-coloured surfaces — sidebar overlays, branded onboarding panels. |
+| Style      | Use when                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| Default    | Light surfaces — modals, cards, the main content area.                                     |
+| Inverted   | Dark or theme-coloured surfaces — sidebar overlays, branded onboarding panels.             |
 | On primary | Primary-button panels (for example Tour Point) — dots match primary button label contrast. |
 
 <Divider />

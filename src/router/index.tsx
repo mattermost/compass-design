@@ -14,10 +14,7 @@ export default function AppRouter() {
         <Route element={<DocsLayout />}>
           <Route path="/:category" element={<CategoryRoute />} />
           <Route path="/:category/:slug" element={<TopicRoute />} />
-          <Route
-            path="/:category/:slug/specimen"
-            element={<TopicRoute />}
-          />
+          <Route path="/:category/:slug/specimen" element={<TopicRoute />} />
         </Route>
       </Route>
     </Routes>

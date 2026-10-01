@@ -3,7 +3,9 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/components.module.scss';
 
-const SIZE_DEMOS: { size: '16' | '20' | '24' | '28' | '32' | '40' | '52' | '64' }[] = [
+const SIZE_DEMOS: {
+  size: '16' | '20' | '24' | '28' | '32' | '40' | '52' | '64';
+}[] = [
   { size: '16' },
   { size: '20' },
   { size: '24' },
@@ -24,7 +26,10 @@ export default function IconLibrary() {
         <p className={styles['components__paragraph']}>
           Mattermost UI icons ship in <code>@mattermost/compass-icons</code>.
           The package provides tree-shakeable React SVG components and an icon
-          font, sourced from <a href="https://pictogrammers.com/library/mdi/">Material Design Icons</a>{' '}
+          font, sourced from{' '}
+          <a href="https://pictogrammers.com/library/mdi/">
+            Material Design Icons
+          </a>{' '}
           plus custom icons drawn for Mattermost. The repository is at{' '}
           <a
             href="https://github.com/mattermost/compass-icons"
@@ -35,7 +40,9 @@ export default function IconLibrary() {
           </a>
           .
         </p>
-        <p className={styles['components__paragraph']}>Import a glyph by name and pass it to the <code>Icon</code> wrapper:</p>
+        <p className={styles['components__paragraph']}>
+          Import a glyph by name and pass it to the <code>Icon</code> wrapper:
+        </p>
         <pre className={styles['components__code-block']}>
           <code>{`import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -49,9 +56,9 @@ import { Icon } from '@mattermost/compass-ui/components/icon';
           Container size vs. glyph size
         </h3>
         <p className={styles['components__paragraph']}>
-          The <code>size</code> prop sets the <strong>container</strong>, not the
-          SVG itself. <code>Icon</code> auto-injects the correct SVG render size
-          (slightly larger than the container) so the glyph bleeds past
+          The <code>size</code> prop sets the <strong>container</strong>, not
+          the SVG itself. <code>Icon</code> auto-injects the correct SVG render
+          size (slightly larger than the container) so the glyph bleeds past
           compass-icons' built-in clear-space padding. This is what keeps mixed
           icons optically aligned at the same nominal size.
         </p>

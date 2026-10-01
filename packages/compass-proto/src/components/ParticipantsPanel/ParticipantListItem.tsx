@@ -69,9 +69,7 @@ export function ParticipantListItem({
           <span className={styles['participants-panel__you']}>(you)</span>
         )}
         {host && <Tag label="HOST" size="x-small" casing="all-caps" />}
-        {external && (
-          <Tag label="EXTERNAL" size="x-small" casing="all-caps" />
-        )}
+        {external && <Tag label="EXTERNAL" size="x-small" casing="all-caps" />}
       </div>
 
       <div className={styles['participants-panel__item-actions']}>

@@ -12,24 +12,49 @@ reach for Menu Items instead.
 ## Anatomy
 
 - <Num>1</Num> **Leading visual** — the icon or avatar that identifies the
-  channel type. Public, Private, Group Message, Direct Message, and special
-  rows like Threads, Drafts, and Insights each have their own glyph.
+  channel type. Public, Private, Group Message, Direct Message, and special rows
+  like Threads, Drafts, and Insights each have their own glyph.
 - <Num>2</Num> **Label** — the channel, group, or user name.
-- <Num>3</Num> **Active border** — a 3px left-edge accent shown on the
-  currently selected item.
-- <Num>4</Num> **Mention badge** — numeric badge shown when the row has
-  unread mentions.
-- <Num>5</Num> **Channel menu** — three-dot button revealed on hover for
-  channel and DM rows.
-- <Num>6</Num> **Trailing decorations** — call-in-progress glyph, custom
-  status emoji on DMs, shared-channel marker.
+- <Num>3</Num> **Active border** — a 3px left-edge accent shown on the currently
+  selected item.
+- <Num>4</Num> **Mention badge** — numeric badge shown when the row has unread
+  mentions.
+- <Num>5</Num> **Channel menu** — three-dot button revealed on hover for channel
+  and DM rows.
+- <Num>6</Num> **Trailing decorations** — call-in-progress glyph, custom status
+  emoji on DMs, shared-channel marker.
 
 <AnatomyStage>
-  <div style={{width:'100%',maxWidth:'320px',padding:'0.75rem',background:'var(--sidebar-bg)',borderRadius:'8px',display:'flex',flexDirection:'column',gap:'0.25rem'}}>
+  <div
+    style={{
+      width: '100%',
+      maxWidth: '320px',
+      padding: '0.75rem',
+      background: 'var(--sidebar-bg)',
+      borderRadius: '8px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.25rem',
+    }}
+  >
     <ChannelSidebarItem name="Design" leadingVisual="public" active />
-    <ChannelSidebarItem name="Design Leadership" leadingVisual="private" status="mention" mentionCount={3} />
-    <ChannelSidebarItem name="Avery, Mira" leadingVisual="group-message" memberCount={3} status="unread" />
-    <ChannelSidebarItem name="Noor Patel" leadingVisual="direct-message" status="unread" />
+    <ChannelSidebarItem
+      name="Design Leadership"
+      leadingVisual="private"
+      status="mention"
+      mentionCount={3}
+    />
+    <ChannelSidebarItem
+      name="Avery, Mira"
+      leadingVisual="group-message"
+      memberCount={3}
+      status="unread"
+    />
+    <ChannelSidebarItem
+      name="Noor Patel"
+      leadingVisual="direct-message"
+      status="unread"
+    />
   </div>
 </AnatomyStage>
 
@@ -37,15 +62,15 @@ reach for Menu Items instead.
 
 ## Leading visuals
 
-| Visual         | Use for                                                   |
-| -------------- | --------------------------------------------------------- |
-| Public         | Public channels in the team.                              |
-| Private        | Private channels.                                         |
-| Group Message  | Multi-person DMs. Member count appears in the glyph.      |
-| Direct Message | One-on-one DMs. The user's avatar is the visual.          |
-| Threads        | The Threads inbox row.                                    |
-| Drafts         | The Drafts row.                                           |
-| Insights       | The Insights row.                                         |
+| Visual         | Use for                                              |
+| -------------- | ---------------------------------------------------- |
+| Public         | Public channels in the team.                         |
+| Private        | Private channels.                                    |
+| Group Message  | Multi-person DMs. Member count appears in the glyph. |
+| Direct Message | One-on-one DMs. The user's avatar is the visual.     |
+| Threads        | The Threads inbox row.                               |
+| Drafts         | The Drafts row.                                      |
+| Insights       | The Insights row.                                    |
 
 <Divider />
 
@@ -53,11 +78,11 @@ reach for Menu Items instead.
 
 The row's status drives weight, color, and trailing badge.
 
-| Status  | Treatment                                                            |
-| ------- | -------------------------------------------------------------------- |
-| Read    | Resting weight; the row recedes.                                     |
-| Unread  | Semibold name; brighter text color.                                  |
-| Mention | Semibold name; mention badge with count.                             |
+| Status  | Treatment                                |
+| ------- | ---------------------------------------- |
+| Read    | Resting weight; the row recedes.         |
+| Unread  | Semibold name; brighter text color.      |
+| Mention | Semibold name; mention badge with count. |
 
 Mute reduces opacity across the row regardless of status — muted channels
 shouldn't compete for attention even when they have unreads.
