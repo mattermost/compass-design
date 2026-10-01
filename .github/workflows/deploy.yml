@@ -33,8 +33,11 @@ jobs:
           STORYBOOK_BASE_PATH: /compass-design/storybook/
         run: npm run build-storybook --workspace=@mattermost/compass-ui -- -o ../../dist/storybook
 
-      - name: Add SPA 404 fallback
-        run: cp dist/index.html dist/404.html
+      - name: Add SPA 404 fallback and disable Jekyll
+        run: |
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
+          touch dist/storybook/.nojekyll
 
       - uses: actions/configure-pages@v5
 
