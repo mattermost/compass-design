@@ -130,6 +130,9 @@ export default function Tabs({
               aria-disabled={isDisabled || undefined}
               title={tab.title}
               className={tabClass}
+              onMouseDown={
+                isDisabled ? (event) => event.preventDefault() : undefined
+              }
               onClick={() => {
                 if (isDisabled) return;
                 setFocusedKey(tab.key);

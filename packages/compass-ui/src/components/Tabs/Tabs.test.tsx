@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import { act } from 'react';
 import { click, focus, getByRole, keyDown, render } from '@/test-utils/render';
 import Tabs from './Tabs';
 import type { TabItem } from './Tabs';
@@ -58,6 +59,18 @@ describe('Tabs disabled', () => {
 
     keyDown(general, 'End');
     expect(document.activeElement).toBe(access);
+  });
+
+  it('does not take focus when a disabled tab is pressed', () => {
+    renderTabs();
+    const mousedown = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+    });
+    act(() => {
+      getByRole('tab', 'MCPs').dispatchEvent(mousedown);
+    });
+    expect(mousedown.defaultPrevented).toBe(true);
   });
 
   it('does not activate a disabled tab with Enter or Space', () => {
