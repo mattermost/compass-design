@@ -1,0 +1,69 @@
+{
+  "name": "@mattermost/compass-icons",
+  "version": "0.1.63",
+  "private": true,
+  "description": "Mattermost Compass icon font and React icon components",
+  "license": "MIT",
+  "author": "Mattermost",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattermost/compass-design.git",
+    "directory": "packages/compass-icons"
+  },
+  "keywords": [
+    "mattermost",
+    "compass",
+    "icons"
+  ],
+  "main": "./build/css/compass-icons.css",
+  "exports": {
+    ".": "./build/css/compass-icons.css",
+    "./components": {
+      "types": "./build/components/index.d.ts",
+      "default": "./build/components/index.js"
+    },
+    "./components/*.js": {
+      "types": "./build/components/*.d.ts",
+      "default": "./build/components/*.js"
+    },
+    "./components/*": {
+      "types": "./build/components/*.d.ts",
+      "default": "./build/components/*.js"
+    },
+    "./IconGlyphs": {
+      "types": "./build/IconGlyphs.d.ts",
+      "default": "./build/IconGlyphs.js"
+    },
+    "./IconGlyphs.js": {
+      "types": "./build/IconGlyphs.d.ts",
+      "default": "./build/IconGlyphs.js"
+    },
+    "./css/*": "./build/css/*",
+    "./font/*": "./build/font/*",
+    "./config.json": "./build/config.json",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build:data": "node generate-data.mjs",
+    "build:prettify": "prettier --write components IconGlyphs.ts",
+    "build:typescript": "tsc",
+    "build:font": "fontello-cli --css ./build/css --font ./build/font install",
+    "build": "npm run build:data && npm run build:prettify && npm run build:typescript",
+    "build:with-font": "npm run build && npm run build:font",
+    "open": "npm run build:data && fontello-cli open",
+    "clean": "rm -rf config.json build components IconGlyphs.ts .fontello-session fontello*"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "fontello-batch-cli": "4.0.0",
+    "fontello-cli": "0.6.2",
+    "fs-extra": "^11.3.0",
+    "lodash": "^4.17.21",
+    "react": "^19.0.0",
+    "svgpath": "2.5.0",
+    "typescript": "~5.7.2"
+  }
+}

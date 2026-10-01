@@ -1,0 +1,9 @@
+node_modules/
+build/
+components/
+config.json
+IconGlyphs.ts
+.fontello-session
+fontello*
+.DS_Store
+*.tsbuildinfo

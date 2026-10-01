@@ -523,18 +523,25 @@ Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.
 | Beta | `0.1.0-beta.0` | `beta` |
 | Stable | `0.1.0` | `latest` |
 
-Git tag format (same as [`compass-icons`](https://github.com/mattermost/compass-icons)): plain semver, e.g. `0.1.0-alpha.2`. GitHub Release title: `v0.1.0-alpha.2`. Mark pre-release versions as **pre-release** on GitHub for alpha/beta.
+Git tags use `package@version` so UI and icons releases don’t collide:
+
+| Package | Tag example |
+|---------|-------------|
+| `@mattermost/compass-ui` | `compass-ui@0.1.0-alpha.11` |
+| `@mattermost/compass-icons` | `compass-icons@0.1.64` |
+
+GitHub Release title can stay human-readable (e.g. `compass-ui 0.1.0-alpha.11`). Mark alpha/beta as **pre-release**. Older UI tags used bare semver (`0.1.0-alpha.10`); new releases must use the `compass-ui@` form. Icons details: [compass-icons-integration.md](../../docs/compass-icons-integration.md).
 
 ### Release flow (automated)
 
 1. **Bump** `packages/compass-ui/package.json` + move CHANGELOG `[Unreleased]` notes into the new version section. Update `compass-proto`’s `@mattermost/compass-ui` peer if it pins an exact version.
 2. **Merge** that PR to `main`.
 3. **Publish a GitHub Release** from `main` at that commit:
-   - Tag: `0.1.0-alpha.2` (must match `package.json` exactly; optional `v` prefix is stripped)
-   - Title: `v0.1.0-alpha.2`
+   - Tag: `compass-ui@0.1.0-alpha.11` (version segment must match `package.json` exactly)
+   - Title: e.g. `compass-ui 0.1.0-alpha.11`
    - Check **Set as a pre-release** for alpha/beta
    - Publish the release (not a draft) so CHANGELOG compare links resolve
-4. **CI** (`.github/workflows/publish-compass-ui.yml`) runs on `release: published`: typecheck, build, then `npm publish --access public --tag <alpha|beta|latest> --workspace=@mattermost/compass-ui`. Dist-tag is derived from the version string. Already-published versions are skipped.
+4. **CI** (`.github/workflows/publish-compass-ui.yml`) runs on `release: published`: typecheck, build, then `npm publish --access public --tag <alpha|beta|latest> --workspace=@mattermost/compass-ui`. Dist-tag is derived from the version string. Already-published versions are skipped. Wrong tag shape fails with a clear error.
 
 Do **not** publish from your laptop for routine releases. Manual publish is only a fallback if CI/auth is down:
 
@@ -545,7 +552,7 @@ npm publish --access=public --tag alpha --workspace=@mattermost/compass-ui
 
 ### npm trusted publishing (one-time setup)
 
-Publishing uses npm [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers) (no long-lived `NPM_TOKEN` in GitHub secrets), same pattern as compass-icons.
+Publishing uses npm [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers) (no long-lived `NPM_TOKEN` in GitHub secrets). The same pattern is used for `@mattermost/compass-icons` once cutover completes.
 
 1. On npmjs.com → `@mattermost/compass-ui` → **Trusted Publisher**
 2. Link this GitHub repo and workflow file: `publish-compass-ui.yml`
@@ -565,7 +572,7 @@ Until trusted publishing is configured, the Release → CI job will fail at `npm
 | `@/components/Icon` errors in dev | Do not alias package to source; use built `dist/` |
 | Wrong colors | Webapp: ensure host theme vars are set. Standalone: import `/styles/standalone` and set `data-theme` on `<html>` |
 | Release publish fails at npm | Configure Trusted Publisher for `publish-compass-ui.yml` on the npm package settings page. Do not set `registry-url` / `NODE_AUTH_TOKEN` on the publish job — empty token auth blocks OIDC and surfaces as E404. |
-| Release tag ≠ package version | Tag must match `packages/compass-ui/package.json` (e.g. `0.1.0-alpha.3`) |
+| Release tag ≠ package version | Tag must be `compass-ui@<version>` matching `packages/compass-ui/package.json` (e.g. `compass-ui@0.1.0-alpha.11`) |
 | Jest `type is invalid -- got: object` on icons | Upgrade to `0.1.0-alpha.3+`; use subpath imports + Jest mapper (see above) |
 | Jest warnings from unrelated compass-ui components | Stop importing from root barrel; use `@mattermost/compass-ui/components/<name>` |
 | Workspace link missing | Run `npm install` from repo root, not inside `packages/compass-ui` |

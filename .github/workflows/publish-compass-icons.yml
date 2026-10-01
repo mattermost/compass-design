@@ -1,0 +1,63 @@
+name: Publish compass-icons
+
+# Ship @mattermost/compass-icons when a GitHub Release is published.
+# Tag format: compass-icons@<version> (e.g. compass-icons@0.1.64)
+on:
+  release:
+    types: [published]
+
+permissions:
+  id-token: write # npm OIDC trusted publishing
+  contents: read
+
+jobs:
+  publish:
+    if: startsWith(github.event.release.tag_name, 'compass-icons@')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          # Do not set registry-url: it writes .npmrc with an empty
+          # NODE_AUTH_TOKEN and npm then skips OIDC trusted-publisher auth.
+
+      - name: Install npm with trusted publishing support
+        run: npm install -g npm@^11.5.1
+
+      - run: npm ci
+
+      - name: Check release tag matches package version
+        id: meta
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version=$(node -p "require('./packages/compass-icons/package.json').version")
+          expected="compass-icons@$version"
+          if [ "$RELEASE_TAG" != "$expected" ]; then
+            echo "::error::Expected tag $expected (got '$RELEASE_TAG')"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - run: npm run build:icons:font
+
+      - name: Skip if version already on npm
+        id: check
+        run: |
+          version="${{ steps.meta.outputs.version }}"
+          on_reg=$(npm view "@mattermost/compass-icons@$version" version 2>/dev/null || true)
+          if [ "$on_reg" = "$version" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Version $version is already on npm — skipping publish"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish to npm
+        if: steps.check.outputs.exists != 'true'
+        working-directory: ./packages/compass-icons/build
+        run: npm publish --access public --provenance

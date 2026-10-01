@@ -19,6 +19,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Build compass-icons
+        run: npm run build:icons
+
       - name: Typecheck compass-ui
         run: npm run typecheck --workspace=@mattermost/compass-ui
 

@@ -119,6 +119,22 @@
     margin-top: var(--spacing-l);
   }
 
+  &__icon-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-m);
+  }
+
+  // Switch defaults to width:100% + flex-growing labels — hug content here.
+  &__icon-codes-switch {
+    width: fit-content;
+
+    > span:first-child {
+      flex: 0 0 auto;
+    }
+  }
+
   &__icon-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
@@ -157,6 +173,16 @@
     word-break: break-word;
     line-height: var(--line-height-50);
     max-width: 100%;
+  }
+
+  &__icon-code {
+    margin-top: var(--spacing-xxxxs);
+    font-size: var(--font-size-50);
+    font-family: var(--font-family-mono);
+    color: var(--center-channel-color);
+    opacity: 0.72;
+    text-align: center;
+    line-height: var(--line-height-50);
   }
 
   // ── Illustrations ─────────────────────────────────────────────────────────
