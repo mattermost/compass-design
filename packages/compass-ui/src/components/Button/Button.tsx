@@ -1,4 +1,8 @@
-import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
+import React, {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+} from 'react';
 import type { IconSize } from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import Spinner from '@/components/Spinner/Spinner';
@@ -50,20 +54,23 @@ const SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
  * form, sending a message, confirming a dialog. Compass ships several button variants, each
  * with the same anatomy and rhythm so they feel like members of the same family.
  */
-export default function Button({
-  appearance = 'default',
-  className = '',
-  destructive = false,
-  emphasis = 'primary',
-  children,
-  leadingIcon,
-  loading = false,
-  size = 'medium',
-  trailingIcon,
-  disabled,
-  type = 'button',
-  ...rest
-}: ButtonProps) {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    appearance = 'default',
+    className = '',
+    destructive = false,
+    emphasis = 'primary',
+    children,
+    leadingIcon,
+    loading = false,
+    size = 'medium',
+    trailingIcon,
+    disabled,
+    type = 'button',
+    ...rest
+  },
+  ref,
+) {
   const iconSize = SIZE_ICON_MAP[size];
   const emphasisClass = styles[`button--emphasis-${toKebab(emphasis)}`];
   const sizeClass = styles[`button--size-${toKebab(size)}`];
@@ -88,6 +95,7 @@ export default function Button({
 
   return (
     <button
+      ref={ref}
       className={rootClass}
       type={type}
       disabled={disabled || loading}
@@ -117,4 +125,8 @@ export default function Button({
       ) : null}
     </button>
   );
-}
+});
+
+Button.displayName = 'Button';
+
+export default Button;
