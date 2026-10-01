@@ -1,0 +1,21 @@
+<script>
+  // Recover from stale hashed chunks after a GitHub Pages redeploy.
+  window.addEventListener('vite:preloadError', (event) => {
+    event.preventDefault();
+    window.location.reload();
+  });
+
+  window.addEventListener('unhandledrejection', (event) => {
+    const message = String(event.reason?.message || event.reason || '');
+    if (!message.includes('Failed to fetch dynamically imported module')) {
+      return;
+    }
+    const key = 'compass-storybook-chunk-reload';
+    if (sessionStorage.getItem(key)) {
+      return;
+    }
+    sessionStorage.setItem(key, '1');
+    event.preventDefault();
+    window.location.reload();
+  });
+</script>
