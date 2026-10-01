@@ -1,5 +1,6 @@
-import React, {
+import {
   forwardRef,
+  isValidElement,
   type ButtonHTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -27,7 +28,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Optional CSS class name. */
   className?: string;
   /** Button label. */
-  children: React.ReactNode;
+  children: ReactNode;
   /** When true, uses destructive (danger) styling. */
   destructive?: boolean;
   /** Visual emphasis. Default: primary. */
@@ -91,7 +92,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
 
   const supportsIcons = emphasis !== 'link';
   const showLeadingSlot =
-    loading || (supportsIcons && React.isValidElement(leadingIcon));
+    loading || (supportsIcons && isValidElement(leadingIcon));
 
   return (
     <button
@@ -116,7 +117,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
-      {supportsIcons && !loading && React.isValidElement(trailingIcon) ? (
+      {supportsIcons && !loading && isValidElement(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           <IconSlotContext.Provider value={{ size: iconSize }}>
             {trailingIcon}
