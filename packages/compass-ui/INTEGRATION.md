@@ -123,7 +123,7 @@ import { useExitAnimation } from '@mattermost/compass-ui/hooks/use-exit-animatio
 | `@mattermost/compass-ui/utils/string` | `toKebab` and string helpers |
 | `@mattermost/compass-ui` (root barrel) | Legacy only — loads the full package; avoid in Jest |
 
-PascalCase component folders map to kebab-case subpaths: `AdminConsoleSidebar` → `components/admin-console-sidebar`.
+PascalCase component folders map to kebab-case subpaths: `ChannelSidebarItem` → `components/channel-sidebar-item`.
 
 Style sub-exports live on the owning component subpath:
 
