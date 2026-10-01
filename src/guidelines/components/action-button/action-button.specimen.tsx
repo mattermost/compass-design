@@ -6,6 +6,7 @@ import StarIcon from '@mattermost/compass-icons/components/star';
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
 import { ActionButton } from '@mattermost/compass-ui/components/action-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function ActionButtonLibrary() {
@@ -15,22 +16,22 @@ export default function ActionButtonLibrary() {
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Default</span>
           <ActionButton
-            icon={<EmoticonHappyOutlineIcon size={20} />}
+            icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
             label="Action"
             aria-label="Action"
           />
           <ActionButton
-            icon={<StarOutlineIcon size={20} />}
+            icon={<Icon glyph={<StarOutlineIcon />} />}
             label="Favorite"
             aria-label="Favorite"
           />
           <ActionButton
-            icon={<BellOutlineIcon size={20} />}
+            icon={<Icon glyph={<BellOutlineIcon />} />}
             label="Mute"
             aria-label="Mute"
           />
           <ActionButton
-            icon={<LinkVariantIcon size={20} />}
+            icon={<Icon glyph={<LinkVariantIcon />} />}
             label="Copy Link"
             aria-label="Copy link"
           />
@@ -38,19 +39,19 @@ export default function ActionButtonLibrary() {
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Active</span>
           <ActionButton
-            icon={<EmoticonHappyOutlineIcon size={20} />}
+            icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
             label="Action"
             aria-label="Action"
             active
           />
           <ActionButton
-            icon={<StarIcon size={20} />}
+            icon={<Icon glyph={<StarIcon />} />}
             label="Favorited"
             aria-label="Favorited"
             active
           />
           <ActionButton
-            icon={<BellOffOutlineIcon size={20} />}
+            icon={<Icon glyph={<BellOffOutlineIcon />} />}
             label="Muted"
             aria-label="Muted"
             active
@@ -61,7 +62,7 @@ export default function ActionButtonLibrary() {
             Destructive
           </span>
           <ActionButton
-            icon={<TrashCanOutlineIcon size={20} />}
+            icon={<Icon glyph={<TrashCanOutlineIcon />} />}
             label="Delete"
             aria-label="Delete"
             destructive
@@ -70,7 +71,7 @@ export default function ActionButtonLibrary() {
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Disabled</span>
           <ActionButton
-            icon={<EmoticonHappyOutlineIcon size={20} />}
+            icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
             label="Action"
             aria-label="Action"
             disabled
