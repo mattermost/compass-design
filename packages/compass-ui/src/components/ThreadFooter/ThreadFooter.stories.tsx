@@ -42,12 +42,35 @@ const meta = {
         return <Story {...context.args} />;
       }
       return (
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, maxWidth: 560 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 12,
+            maxWidth: 560,
+          }}
+        >
           <UserAvatar src={avatarEmma} name="Emma Novak" size="32" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
             <MessageHeader username="Emma Novak" timestamp="9:41 AM" />
-            <p style={{ margin: 0, fontSize: 'var(--font-size-100)', lineHeight: 'var(--line-height-400)', color: 'var(--center-channel-color)' }}>
-              This sprint we should prioritise the sidebar redesign — thoughts on timeline?
+            <p
+              style={{
+                margin: 0,
+                fontSize: 'var(--font-size-100)',
+                lineHeight: 'var(--line-height-400)',
+                color: 'var(--center-channel-color)',
+              }}
+            >
+              This sprint we should prioritise the sidebar redesign — thoughts
+              on timeline?
             </p>
             <Story {...context.args} />
           </div>
@@ -121,9 +144,24 @@ export const AllVariants: Story = {
         <span style={variantLabelStyle}>{label}</span>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
           <UserAvatar src={avatarSrc} name={author} size="32" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
             <MessageHeader username={author} timestamp="9:41 AM" />
-            <p style={{ margin: 0, fontSize: 'var(--font-size-100)', lineHeight: 'var(--line-height-400)', color: 'var(--center-channel-color)' }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 'var(--font-size-100)',
+                lineHeight: 'var(--line-height-400)',
+                color: 'var(--center-channel-color)',
+              }}
+            >
               {text}
             </p>
             {footer}
@@ -158,14 +196,23 @@ export const AllVariants: Story = {
           'Danielle Okoro',
           avatarDanielle,
           'Can someone send over the latest design tokens?',
-          <ThreadFooter replyCount={3} badge="unread" avatars={[DEMO_AVATARS[0]]} />,
+          <ThreadFooter
+            replyCount={3}
+            badge="unread"
+            avatars={[DEMO_AVATARS[0]]}
+          />,
         )}
         {messageRow(
           'Mention',
           'Marco Rinaldi',
           avatarMarco,
           'Just pushed an update to the tokens doc.',
-          <ThreadFooter replyCount={1} badge="mention" mentionCount={2} avatars={[DEMO_AVATARS[1]]} />,
+          <ThreadFooter
+            replyCount={1}
+            badge="mention"
+            mentionCount={2}
+            avatars={[DEMO_AVATARS[1]]}
+          />,
         )}
       </div>
     );

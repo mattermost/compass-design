@@ -106,7 +106,9 @@ export default function Message({
             )}
           </div>
           {threadFooter != null && (
-            <div className={styles['message__thread-footer-slot']}>{threadFooter}</div>
+            <div className={styles['message__thread-footer-slot']}>
+              {threadFooter}
+            </div>
           )}
         </div>
       </div>

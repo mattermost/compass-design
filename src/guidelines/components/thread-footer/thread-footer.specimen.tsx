@@ -26,12 +26,11 @@ export default function ThreadFooterLibrary() {
           username="Emma Novak"
           timestamp="9:41 AM"
           showMessageActions={false}
-          threadFooter={
-            <ThreadFooter replyCount={5} avatars={AVATARS_FIVE} />
-          }
+          threadFooter={<ThreadFooter replyCount={5} avatars={AVATARS_FIVE} />}
         >
           <p className={styles['message-text']}>
-            This sprint we should prioritise the sidebar redesign — thoughts on timeline?
+            This sprint we should prioritise the sidebar redesign — thoughts on
+            timeline?
           </p>
         </Message>
       </div>
@@ -74,7 +73,9 @@ export default function ThreadFooterLibrary() {
             <ThreadFooter
               replyCount={3}
               badge="unread"
-              avatars={[{ key: 'leonard', src: avatarLeonard, name: 'Leonard Riley' }]}
+              avatars={[
+                { key: 'leonard', src: avatarLeonard, name: 'Leonard Riley' },
+              ]}
             />
           }
         >
@@ -97,7 +98,13 @@ export default function ThreadFooterLibrary() {
               replyCount={1}
               badge="mention"
               mentionCount={2}
-              avatars={[{ key: 'danielle', src: avatarDanielle, name: 'Danielle Okoro' }]}
+              avatars={[
+                {
+                  key: 'danielle',
+                  src: avatarDanielle,
+                  name: 'Danielle Okoro',
+                },
+              ]}
             />
           }
         >

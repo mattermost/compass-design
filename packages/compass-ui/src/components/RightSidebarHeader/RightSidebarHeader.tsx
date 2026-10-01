@@ -118,7 +118,12 @@ export default function RightSidebarHeader({
             size="small"
             aria-label={expanded ? 'Collapse' : 'Expand'}
             onClick={onExpand}
-            icon={<Icon size="16" glyph={expanded ? <ArrowCollapseIcon /> : <ArrowExpandIcon />} />}
+            icon={
+              <Icon
+                size="16"
+                glyph={expanded ? <ArrowCollapseIcon /> : <ArrowExpandIcon />}
+              />
+            }
           />
         )}
         {onClose && (
