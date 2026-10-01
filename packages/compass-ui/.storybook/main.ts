@@ -17,6 +17,32 @@ const config: StorybookConfig = {
 
     viteConfig.plugins = [...(viteConfig.plugins ?? []), compassUiSvgrPlugin()];
 
+    // Storybook icon selects import the full compass-icons set. Without this,
+    // Vite emits hundreds of tiny chunks per story and GitHub Pages loads fail
+    // with "Failed to fetch dynamically imported module".
+    viteConfig.build ??= {};
+    viteConfig.build.rollupOptions ??= {};
+    const { output } = viteConfig.build.rollupOptions;
+    const outputs = output == null ? [{}] : Array.isArray(output) ? output : [output];
+    if (output == null) {
+      viteConfig.build.rollupOptions.output = outputs[0];
+    }
+    for (const out of outputs) {
+      const previous = out.manualChunks;
+      out.manualChunks = (id, ...rest) => {
+        if (
+          id.includes(`${path.sep}compass-icons${path.sep}`) ||
+          id.includes('@mattermost/compass-icons')
+        ) {
+          return 'compass-icons';
+        }
+        if (typeof previous === 'function') {
+          return previous(id, ...rest);
+        }
+        return undefined;
+      };
+    }
+
     viteConfig.resolve ??= {};
     const compassSrc = path.resolve(__dirname, '../src');
     viteConfig.resolve.alias = [

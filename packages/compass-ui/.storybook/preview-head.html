@@ -1,0 +1,32 @@
+<script>
+  // Recover from stale hashed chunks after a GitHub Pages redeploy.
+  const CHUNK_RELOAD_KEY = 'compass-storybook-chunk-reload';
+
+  function recoverFromStaleChunk() {
+    try {
+      if (sessionStorage.getItem(CHUNK_RELOAD_KEY)) {
+        return;
+      }
+      sessionStorage.setItem(CHUNK_RELOAD_KEY, '1');
+    } catch (error) {
+      console.warn(
+        'Storybook chunk reload skipped: sessionStorage unavailable',
+        error,
+      );
+      return;
+    }
+    window.location.reload();
+  }
+
+  window.addEventListener('vite:preloadError', () => {
+    recoverFromStaleChunk();
+  });
+
+  window.addEventListener('unhandledrejection', (event) => {
+    const message = String(event.reason?.message || event.reason || '');
+    if (!message.includes('Failed to fetch dynamically imported module')) {
+      return;
+    }
+    recoverFromStaleChunk();
+  });
+</script>
