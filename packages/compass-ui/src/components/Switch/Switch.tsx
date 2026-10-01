@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes } from 'react';
-import { useId } from 'react';
+import { forwardRef, useId } from 'react';
 import { useControllable } from '@/hooks/useControllable';
 import { toKebab } from '@/utils/string';
 import styles from './Switch.module.scss';
@@ -26,19 +26,22 @@ export interface SwitchProps extends Omit<
  * A Switch is a real-world toggle: flip it, and the change happens. Use it for binary
  * settings that take effect immediately and don't need a separate "Save" step.
  */
-export default function Switch({
-  className = '',
-  size = 'medium',
-  children,
-  secondaryLabel,
-  semiBold = false,
-  id: idProp,
-  checked,
-  defaultChecked,
-  disabled,
-  onChange,
-  ...rest
-}: SwitchProps) {
+const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+  {
+    className = '',
+    size = 'medium',
+    children,
+    secondaryLabel,
+    semiBold = false,
+    id: idProp,
+    checked,
+    defaultChecked,
+    disabled,
+    onChange,
+    ...rest
+  },
+  ref,
+) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const [resolvedChecked, handleChange] = useControllable(
@@ -78,6 +81,7 @@ export default function Switch({
       )}
       <span className={styles['switch__track']}>
         <input
+          ref={ref}
           id={id}
           type="checkbox"
           role="switch"
@@ -93,4 +97,8 @@ export default function Switch({
       </span>
     </label>
   );
-}
+});
+
+Switch.displayName = 'Switch';
+
+export default Switch;

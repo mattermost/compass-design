@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useRef } from 'react';
 import Button from './Button';
 import type {
   ButtonAppearance,
@@ -193,4 +194,20 @@ export const AllVariants: Story = {
       </section>
     </div>
   ),
+};
+
+export const FocusViaRef: Story = {
+  render: function Render() {
+    const confirmRef = useRef<HTMLButtonElement>(null);
+    return (
+      <div style={{ display: 'flex', gap: 8 }}>
+        <Button emphasis="tertiary" onClick={() => confirmRef.current?.focus()}>
+          Focus confirm
+        </Button>
+        <Button ref={confirmRef} emphasis="primary" destructive>
+          Delete
+        </Button>
+      </div>
+    );
+  },
 };

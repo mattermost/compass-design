@@ -18,6 +18,23 @@ export default function TabsLibrary() {
             onChange={() => {}}
           />
         </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>Disabled</span>
+          <Tabs
+            tabs={[
+              { key: 'general', label: 'General' },
+              { key: 'tools', label: 'Tools' },
+              {
+                key: 'mcps',
+                label: 'MCPs',
+                disabled: true,
+                title: 'Enable tools to configure MCPs',
+              },
+            ]}
+            activeKey="general"
+            onChange={() => {}}
+          />
+        </div>
       </div>
     </>
   );

@@ -23,6 +23,8 @@
   "exclude": [
     "**/*.stories.tsx",
     "**/*.test.ts",
+    "**/*.test.tsx",
+    "src/test-utils/**",
     "**/*.svg",
     "src/foundations/**",
     "src/storybook/**"

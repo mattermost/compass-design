@@ -1,3 +1,13 @@
+@keyframes progress-bar-indeterminate {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    // Fill is 40% of the track, so 250% of its own width clears the far edge.
+    transform: translateX(250%);
+  }
+}
+
 .progress-bar {
   position: relative;
   width: 100%;
@@ -49,6 +59,21 @@
 
     &--danger {
       background-color: var(--error-text, var(--color-danger));
+    }
+  }
+
+  &--indeterminate {
+    .progress-bar__fill {
+      width: 40%;
+      transition: none;
+      animation: progress-bar-indeterminate calc(var(--duration-moderate) * 5)
+        var(--ease-transition) infinite;
+
+      @media (prefers-reduced-motion: reduce) {
+        width: 100%;
+        animation: none;
+        opacity: 0.48;
+      }
     }
   }
 }

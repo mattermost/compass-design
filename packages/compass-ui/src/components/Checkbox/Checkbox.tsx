@@ -1,5 +1,11 @@
 import type { InputHTMLAttributes } from 'react';
-import { useRef, useEffect, useId } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { useControllable } from '@/hooks/useControllable';
 import Icon from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
@@ -44,20 +50,24 @@ const ICON_COMPONENT: Record<'check' | 'minus', ElementType> = {
  * A Checkbox lets people pick any number of options from a set, or toggle a single setting
  * on or off. Each box represents one independent choice — pick none, some, or all.
  */
-export default function Checkbox({
-  className = '',
-  indeterminate = false,
-  size = 'medium',
-  invalid = false,
-  children,
-  id: idProp,
-  checked,
-  defaultChecked,
-  disabled,
-  onChange,
-  ...rest
-}: CheckboxProps) {
+const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
+  {
+    className = '',
+    indeterminate = false,
+    size = 'medium',
+    invalid = false,
+    children,
+    id: idProp,
+    checked,
+    defaultChecked,
+    disabled,
+    onChange,
+    ...rest
+  },
+  ref,
+) {
   const inputRef = useRef<HTMLInputElement>(null);
+  useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const [resolvedChecked, handleChange] = useControllable(
@@ -126,4 +136,8 @@ export default function Checkbox({
       )}
     </label>
   );
-}
+});
+
+Checkbox.displayName = 'Checkbox';
+
+export default Checkbox;

@@ -1,4 +1,9 @@
-import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
+import {
+  forwardRef,
+  isValidElement,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+} from 'react';
 import type { IconSize } from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import Spinner from '@/components/Spinner/Spinner';
@@ -23,7 +28,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Optional CSS class name. */
   className?: string;
   /** Button label. */
-  children: React.ReactNode;
+  children: ReactNode;
   /** When true, uses destructive (danger) styling. */
   destructive?: boolean;
   /** Visual emphasis. Default: primary. */
@@ -50,20 +55,23 @@ const SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
  * form, sending a message, confirming a dialog. Compass ships several button variants, each
  * with the same anatomy and rhythm so they feel like members of the same family.
  */
-export default function Button({
-  appearance = 'default',
-  className = '',
-  destructive = false,
-  emphasis = 'primary',
-  children,
-  leadingIcon,
-  loading = false,
-  size = 'medium',
-  trailingIcon,
-  disabled,
-  type = 'button',
-  ...rest
-}: ButtonProps) {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    appearance = 'default',
+    className = '',
+    destructive = false,
+    emphasis = 'primary',
+    children,
+    leadingIcon,
+    loading = false,
+    size = 'medium',
+    trailingIcon,
+    disabled,
+    type = 'button',
+    ...rest
+  },
+  ref,
+) {
   const iconSize = SIZE_ICON_MAP[size];
   const emphasisClass = styles[`button--emphasis-${toKebab(emphasis)}`];
   const sizeClass = styles[`button--size-${toKebab(size)}`];
@@ -84,10 +92,11 @@ export default function Button({
 
   const supportsIcons = emphasis !== 'link';
   const showLeadingSlot =
-    loading || (supportsIcons && React.isValidElement(leadingIcon));
+    loading || (supportsIcons && isValidElement(leadingIcon));
 
   return (
     <button
+      ref={ref}
       className={rootClass}
       type={type}
       disabled={disabled || loading}
@@ -108,7 +117,7 @@ export default function Button({
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
-      {supportsIcons && !loading && React.isValidElement(trailingIcon) ? (
+      {supportsIcons && !loading && isValidElement(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           <IconSlotContext.Provider value={{ size: iconSize }}>
             {trailingIcon}
@@ -117,4 +126,8 @@ export default function Button({
       ) : null}
     </button>
   );
-}
+});
+
+Button.displayName = 'Button';
+
+export default Button;

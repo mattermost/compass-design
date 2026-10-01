@@ -179,6 +179,17 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
   }
 
+  &__loading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-s) var(--spacing-l);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+  }
+
   &__list {
     margin: 0;
     padding: 0;

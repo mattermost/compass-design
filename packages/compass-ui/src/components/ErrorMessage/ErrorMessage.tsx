@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import styles from './ErrorMessage.module.scss';
@@ -5,8 +6,8 @@ import styles from './ErrorMessage.module.scss';
 export interface ErrorMessageProps {
   /** Optional CSS class name. */
   className?: string;
-  /** The error message text to display. */
-  message: string;
+  /** The error message. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  message: ReactNode;
 }
 
 /**

@@ -15,6 +15,7 @@ import {
   useState,
 } from 'react';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+import PlusIcon from '@mattermost/compass-icons/components/plus';
 import Chip from '@/components/Chip/Chip';
 import ChipGroup from '@/components/Chip/ChipGroup';
 import type { ChipSize } from '@/components/Chip/Chip';
@@ -24,6 +25,7 @@ import MenuItem from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuScroll,
 } from '@/components/PopoverMenu/PopoverMenu';
+import Spinner from '@/components/Spinner/Spinner';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
@@ -65,7 +67,36 @@ export interface ComboboxProps {
    * `false` shows all options (caller filters via `inputValue` / `onInputChange`).
    */
   filter?: boolean | ((option: ComboboxOption, query: string) => boolean);
-  emptyMessage?: string;
+  /** Shown when there are no rows to pick from. Default: "No results". */
+  emptyMessage?: ReactNode;
+  /**
+   * When true, the menu shows a loading row (with Spinner) in place of the
+   * empty message. Set while async results are in flight.
+   */
+  loading?: boolean;
+  /** Loading row text. Default: "Loading…". */
+  loadingMessage?: ReactNode;
+  /**
+   * Option objects for the current value(s), used for chips and the
+   * single-select label when a value is missing from `options` (e.g. an async
+   * search that no longer returns it, or values preselected on load). Values
+   * found in `options` resolve from there first.
+   */
+  selectedOptions?: ComboboxOption[];
+  /**
+   * When true, typed text that matches no option offers a create row. Created
+   * values not found in `options` or `selectedOptions` display their raw value
+   * as the label.
+   */
+  creatable?: boolean;
+  /**
+   * Called with the trimmed input when the create row is chosen. When set, the
+   * host owns adding the value (`onChange` is not called). When omitted, the
+   * input is committed as the value through `onChange`.
+   */
+  onCreateOption?: (inputValue: string) => void;
+  /** Create row label. Default: `Create "{inputValue}"`. */
+  formatCreateLabel?: (inputValue: string) => ReactNode;
   className?: string;
   id?: string;
   'aria-label'?: string;
@@ -82,6 +113,18 @@ const CHIP_SIZE_BY_COMBOBOX: Record<ComboboxSize, ChipSize> = {
   medium: 'medium',
   large: 'large',
 };
+
+type ComboboxRow =
+  | { kind: 'option'; option: ComboboxOption }
+  | { kind: 'create'; inputValue: string };
+
+function defaultFormatCreateLabel(inputValue: string): ReactNode {
+  return `Create "${inputValue}"`;
+}
+
+function isRowDisabled(row: ComboboxRow): boolean {
+  return row.kind === 'option' && row.option.disabled === true;
+}
 
 function defaultFilter(option: ComboboxOption, query: string): boolean {
   if (!query) return true;
@@ -139,6 +182,12 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     disabled = false,
     filter = true,
     emptyMessage = 'No results',
+    loading = false,
+    loadingMessage = 'Loading…',
+    selectedOptions,
+    creatable = false,
+    onCreateOption,
+    formatCreateLabel = defaultFormatCreateLabel,
     className = '',
     id: idProp,
     'aria-label': ariaLabel,
@@ -174,7 +223,10 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const rawValue = isValueControlled ? valueProp! : uncontrolledValue;
   const singleValue = multiple ? null : toSingleValue(rawValue);
-  const multiValue = multiple ? toMultiValue(rawValue) : [];
+  const multiValue = useMemo(
+    () => (multiple ? toMultiValue(rawValue) : []),
+    [multiple, rawValue],
+  );
 
   const isInputControlled = inputValueProp !== undefined;
   const [uncontrolledInput, setUncontrolledInput] = useState(defaultInputValue);
@@ -183,12 +235,17 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   const [activeIndex, setActiveIndex] = useState(-1);
   const [queryOverride, setQueryOverride] = useState<string | null>(null);
 
+  const resolveOption = useCallback(
+    (optionValue: string): ComboboxOption | undefined =>
+      options.find((o) => o.value === optionValue) ??
+      selectedOptions?.find((o) => o.value === optionValue) ??
+      (creatable ? { value: optionValue, label: optionValue } : undefined),
+    [options, selectedOptions, creatable],
+  );
+
   const selectedOption = useMemo(
-    () =>
-      singleValue == null
-        ? undefined
-        : options.find((o) => o.value === singleValue),
-    [options, singleValue],
+    () => (singleValue == null ? undefined : resolveOption(singleValue)),
+    [resolveOption, singleValue],
   );
 
   // Single-select: show the selected label until the user starts typing a filter.
@@ -232,6 +289,48 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     return options.filter((o) => fn(o, filterQuery));
   }, [options, filter, filterQuery]);
 
+  const createInput = creatable ? filterQuery.trim() : '';
+  const showCreateRow = useMemo(() => {
+    if (createInput === '') return false;
+    const needle = createInput.toLowerCase();
+    const matches = (text: string) => text.toLowerCase() === needle;
+    const knownOptions = [...options, ...(selectedOptions ?? [])];
+    if (knownOptions.some((o) => matches(o.label) || matches(o.value))) {
+      return false;
+    }
+    const current = multiple
+      ? multiValue
+      : singleValue != null
+        ? [singleValue]
+        : [];
+    return !current.some(matches);
+  }, [
+    createInput,
+    options,
+    selectedOptions,
+    multiple,
+    multiValue,
+    singleValue,
+  ]);
+
+  const rows = useMemo<ComboboxRow[]>(
+    () => [
+      ...filteredOptions.map((option) => ({ kind: 'option' as const, option })),
+      ...(showCreateRow
+        ? [{ kind: 'create' as const, inputValue: createInput }]
+        : []),
+    ],
+    [filteredOptions, showCreateRow, createInput],
+  );
+
+  const rowId = useCallback(
+    (row: ComboboxRow) =>
+      row.kind === 'option'
+        ? `${listboxId}-option-${row.option.value}`
+        : `${listboxId}-create`,
+    [listboxId],
+  );
+
   const { mounted: popupMounted, visible: popupVisible } =
     usePopoverTransition(isOpen);
 
@@ -267,14 +366,18 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   useEffect(() => {
     if (!isOpen) return;
     setActiveIndex((prev) => {
-      if (filteredOptions.length === 0) return -1;
-      if (prev >= 0 && prev < filteredOptions.length) return prev;
-      const selectedIdx = multiple
-        ? filteredOptions.findIndex((o) => multiValue.includes(o.value))
-        : filteredOptions.findIndex((o) => o.value === singleValue);
+      if (rows.length === 0) return -1;
+      if (prev >= 0 && prev < rows.length) return prev;
+      const selectedIdx = rows.findIndex(
+        (row) =>
+          row.kind === 'option' &&
+          (multiple
+            ? multiValue.includes(row.option.value)
+            : row.option.value === singleValue),
+      );
       return selectedIdx >= 0 ? selectedIdx : 0;
     });
-  }, [isOpen, filteredOptions, multiple, multiValue, singleValue]);
+  }, [isOpen, rows, multiple, multiValue, singleValue]);
 
   const isSelected = useCallback(
     (optionValue: string) =>
@@ -317,6 +420,50 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     ],
   );
 
+  const createValue = useCallback(
+    (inputValue: string) => {
+      if (onCreateOption) {
+        onCreateOption(inputValue);
+      } else if (multiple) {
+        commitValue([...multiValue, inputValue]);
+      } else {
+        commitValue(inputValue);
+      }
+
+      if (multiple) {
+        setInputDisplay('');
+        close();
+        inputRef.current?.focus();
+        return;
+      }
+      if (!isInputControlled) {
+        setUncontrolledInput('');
+        setQueryOverride(null);
+      } else {
+        onInputChange?.(inputValue);
+      }
+      close();
+    },
+    [
+      onCreateOption,
+      multiple,
+      multiValue,
+      commitValue,
+      setInputDisplay,
+      isInputControlled,
+      onInputChange,
+      close,
+    ],
+  );
+
+  const selectRow = useCallback(
+    (row: ComboboxRow) => {
+      if (row.kind === 'create') createValue(row.inputValue);
+      else selectOption(row.option);
+    },
+    [createValue, selectOption],
+  );
+
   const removeValue = useCallback(
     (optionValue: string) => {
       if (!multiple) return;
@@ -327,9 +474,9 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const moveActive = useCallback(
     (delta: number) => {
-      const enabled = filteredOptions
-        .map((o, i) => ({ o, i }))
-        .filter(({ o }) => !o.disabled);
+      const enabled = rows
+        .map((row, i) => ({ row, i }))
+        .filter(({ row }) => !isRowDisabled(row));
       if (enabled.length === 0) {
         setActiveIndex(-1);
         return;
@@ -345,16 +492,15 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         return enabled[nextPos].i;
       });
     },
-    [filteredOptions],
+    [rows],
   );
 
   useEffect(() => {
     if (!isOpen || activeIndex < 0) return;
-    const option = filteredOptions[activeIndex];
-    if (!option) return;
-    const el = document.getElementById(`${listboxId}-option-${option.value}`);
-    el?.scrollIntoView({ block: 'nearest' });
-  }, [isOpen, activeIndex, filteredOptions, listboxId]);
+    const row = rows[activeIndex];
+    if (!row) return;
+    document.getElementById(rowId(row))?.scrollIntoView({ block: 'nearest' });
+  }, [isOpen, activeIndex, rows, rowId]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const next = e.target.value;
@@ -396,20 +542,21 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         else moveActive(-1);
         break;
       case 'Home':
-        if (isOpen && filteredOptions.length > 0) {
+        if (isOpen && rows.length > 0) {
           e.preventDefault();
           setActiveIndex(
-            filteredOptions.findIndex((o) => !o.disabled) >= 0
-              ? filteredOptions.findIndex((o) => !o.disabled)
-              : 0,
+            Math.max(
+              0,
+              rows.findIndex((row) => !isRowDisabled(row)),
+            ),
           );
         }
         break;
       case 'End':
-        if (isOpen && filteredOptions.length > 0) {
+        if (isOpen && rows.length > 0) {
           e.preventDefault();
-          for (let i = filteredOptions.length - 1; i >= 0; i--) {
-            if (!filteredOptions[i]?.disabled) {
+          for (let i = rows.length - 1; i >= 0; i--) {
+            if (!isRowDisabled(rows[i])) {
               setActiveIndex(i);
               break;
             }
@@ -417,9 +564,9 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         }
         break;
       case 'Enter':
-        if (isOpen && activeIndex >= 0 && filteredOptions[activeIndex]) {
+        if (isOpen && activeIndex >= 0 && rows[activeIndex]) {
           e.preventDefault();
-          selectOption(filteredOptions[activeIndex]);
+          selectRow(rows[activeIndex]);
         }
         break;
       case 'Escape':
@@ -459,20 +606,39 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   const hasInputText = displayInput.length > 0;
   const labelFloated = isFocused || isOpen || hasSelection || hasInputText;
 
-  const activeOption =
-    activeIndex >= 0 ? filteredOptions[activeIndex] : undefined;
-  const activeDescendant =
-    activeOption != null
-      ? `${listboxId}-option-${activeOption.value}`
-      : undefined;
+  const activeRow = activeIndex >= 0 ? rows[activeIndex] : undefined;
+  const activeDescendant = activeRow != null ? rowId(activeRow) : undefined;
 
-  const selectedOptions = useMemo(
-    () => options.filter((o) => multiValue.includes(o.value)),
-    [options, multiValue],
-  );
+  // Without `selectedOptions`, values in `options` keep their list order (the
+  // original behavior); with it, chips follow value order so they don't jump
+  // around as async results change.
+  const chipOptions = useMemo<ComboboxOption[]>(() => {
+    if (!multiple) return [];
+    if (selectedOptions == null) {
+      const fromOptions = options.filter((o) => multiValue.includes(o.value));
+      if (!creatable) return fromOptions;
+      const listed = new Set(fromOptions.map((o) => o.value));
+      return [
+        ...fromOptions,
+        ...multiValue
+          .filter((v) => !listed.has(v))
+          .map((v) => ({ value: v, label: v })),
+      ];
+    }
+    return multiValue
+      .map(resolveOption)
+      .filter((o): o is ComboboxOption => o != null);
+  }, [
+    multiple,
+    selectedOptions,
+    options,
+    multiValue,
+    creatable,
+    resolveOption,
+  ]);
 
   const sizeClass = styles[`combobox--size-${toKebab(size)}`];
-  const hasChips = multiple && selectedOptions.length > 0;
+  const hasChips = multiple && chipOptions.length > 0;
   const rootClass = [
     styles.combobox,
     sizeClass,
@@ -508,14 +674,14 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
             </span>
           )}
           <div className={styles.combobox__value}>
-            {multiple && selectedOptions.length > 0 && (
+            {multiple && chipOptions.length > 0 && (
               <ChipGroup
                 aria-label={
                   typeof label === 'string' ? `${label} selections` : 'Selected'
                 }
                 disabled={disabled}
               >
-                {selectedOptions.map((option) => (
+                {chipOptions.map((option) => (
                   <Chip
                     key={option.value}
                     size={CHIP_SIZE_BY_COMBOBOX[size]}
@@ -549,7 +715,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               spellCheck={false}
               disabled={disabled}
               placeholder={
-                multiple && selectedOptions.length > 0 ? undefined : placeholder
+                multiple && chipOptions.length > 0 ? undefined : placeholder
               }
               value={displayInput}
               aria-label={ariaLabel}
@@ -558,6 +724,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               aria-controls={listboxId}
               aria-autocomplete="list"
               aria-activedescendant={activeDescendant}
+              aria-busy={loading || undefined}
               onChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -585,9 +752,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
           >
             <PopoverMenu className={styles.combobox__menu}>
               <PopoverMenuScroll maxHeight={maxHeight}>
-                {filteredOptions.length === 0 ? (
-                  <p className={styles.combobox__empty}>{emptyMessage}</p>
-                ) : (
+                {rows.length > 0 && (
                   <ul
                     id={listboxId}
                     className={styles.combobox__list}
@@ -599,9 +764,35 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                         : (ariaLabel ?? 'Options')
                     }
                   >
-                    {filteredOptions.map((option, index) => {
-                      const selected = isSelected(option.value);
+                    {rows.map((row, index) => {
                       const active = index === activeIndex;
+                      const preventBlur = (ev: MouseEvent) => {
+                        // Prevent input blur before click handler
+                        ev.preventDefault();
+                      };
+                      if (row.kind === 'create') {
+                        return (
+                          <li
+                            key={rowId(row)}
+                            className={styles.combobox__option}
+                            role="presentation"
+                          >
+                            <MenuItem
+                              id={rowId(row)}
+                              role="option"
+                              label={formatCreateLabel(row.inputValue)}
+                              leadingVisual={<Icon glyph={<PlusIcon />} />}
+                              active={active}
+                              aria-selected={false}
+                              onMouseDown={preventBlur}
+                              onMouseEnter={() => setActiveIndex(index)}
+                              onClick={() => createValue(row.inputValue)}
+                            />
+                          </li>
+                        );
+                      }
+                      const { option } = row;
+                      const selected = isSelected(option.value);
                       const leading = optionLeadingVisual(option);
                       return (
                         <li
@@ -610,7 +801,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                           role="presentation"
                         >
                           <MenuItem
-                            id={`${listboxId}-option-${option.value}`}
+                            id={rowId(row)}
                             role="option"
                             label={option.label}
                             secondaryLabel={option.secondaryLabel}
@@ -620,10 +811,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                             active={active}
                             disabled={option.disabled}
                             aria-selected={selected}
-                            onMouseDown={(ev) => {
-                              // Prevent input blur before click handler
-                              ev.preventDefault();
-                            }}
+                            onMouseDown={preventBlur}
                             onMouseEnter={() => setActiveIndex(index)}
                             onClick={() => selectOption(option)}
                           />
@@ -631,6 +819,16 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                       );
                     })}
                   </ul>
+                )}
+                {loading ? (
+                  <div className={styles.combobox__loading} role="status">
+                    <Spinner size="16" aria-hidden />
+                    <span>{loadingMessage}</span>
+                  </div>
+                ) : (
+                  rows.length === 0 && (
+                    <p className={styles.combobox__empty}>{emptyMessage}</p>
+                  )
                 )}
               </PopoverMenuScroll>
             </PopoverMenu>

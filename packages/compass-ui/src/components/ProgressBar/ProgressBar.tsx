@@ -12,6 +12,11 @@ export interface ProgressBarProps {
    * When false, uses the default brand blue. Default: false.
    */
   semanticColors?: boolean;
+  /**
+   * When true, shows an animated bar for work with an unknown total and omits
+   * `aria-valuenow`. `value` and `semanticColors` are ignored. Default: false.
+   */
+  indeterminate?: boolean;
   /** Accessible label for the progress bar. */
   'aria-label'?: string;
   /** Optional CSS class name. */
@@ -33,6 +38,7 @@ export default function ProgressBar({
   value = 0,
   size = 'large',
   semanticColors = false,
+  indeterminate = false,
   'aria-label': ariaLabel = 'Progress',
   className = '',
 }: ProgressBarProps) {
@@ -42,18 +48,24 @@ export default function ProgressBar({
       ? styles['progress-bar--size-small']
       : styles['progress-bar--size-large'];
 
-  const fillColorClass = semanticColors
-    ? getSemanticColorClass(clampedValue)
-    : styles['progress-bar__fill--default'];
+  const fillColorClass =
+    semanticColors && !indeterminate
+      ? getSemanticColorClass(clampedValue)
+      : styles['progress-bar__fill--default'];
 
   return (
     <div
       role="progressbar"
-      aria-valuenow={clampedValue}
+      aria-valuenow={indeterminate ? undefined : clampedValue}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={ariaLabel}
-      className={[styles['progress-bar'], sizeClass, className]
+      className={[
+        styles['progress-bar'],
+        sizeClass,
+        indeterminate ? styles['progress-bar--indeterminate'] : '',
+        className,
+      ]
         .filter(Boolean)
         .join(' ')}
     >
@@ -61,7 +73,7 @@ export default function ProgressBar({
         className={[styles['progress-bar__fill'], fillColorClass]
           .filter(Boolean)
           .join(' ')}
-        style={{ width: `${clampedValue}%` }}
+        style={indeterminate ? undefined : { width: `${clampedValue}%` }}
       />
     </div>
   );

@@ -109,6 +109,30 @@ the last chip.
 
 <Divider />
 
+## Creating values
+
+Some fields accept values that aren't in the list yet — a custom model name, a
+new tag. When the typed text matches no option, the list ends with a row that
+offers to create it. Choosing that row (or pressing Enter on it) uses the text
+as the value; in multi-select it becomes a new chip.
+
+<div style={{ maxWidth: '320px', padding: '1rem 0' }}>
+  <Combobox
+    label="Model"
+    placeholder="Pick or type a model name…"
+    creatable
+    options={[
+      { value: 'gpt-4o', label: 'gpt-4o' },
+      { value: 'gpt-4o-mini', label: 'gpt-4o-mini' },
+    ]}
+  />
+</div>
+
+When results come from the server, chosen values keep their chips while a new
+search runs, even if the latest results don't include them.
+
+<Divider />
+
 ## Sizes
 
 Three sizes — pick the one that matches the surrounding form rhythm.
@@ -141,6 +165,7 @@ Comboboxes share their state model with the rest of the input family.
 | Open     | The popover list is visible; the chevron flips.                 |
 | Disabled | Greyed out; non-interactive.                                    |
 | Invalid  | Red border; pair with an inline error message below.            |
+| Loading  | Results are on their way; the list shows a spinner row.         |
 
 <div
   style={{
@@ -153,6 +178,7 @@ Comboboxes share their state model with the rest of the input family.
 >
   <Combobox label="Default" options={CHANNEL_OPTIONS} />
   <Combobox label="Filled" defaultValue="design" options={CHANNEL_OPTIONS} />
+  <Combobox label="Loading" loading options={[]} />
   <Combobox
     label="Invalid"
     invalid
@@ -175,7 +201,7 @@ Comboboxes share their state model with the rest of the input family.
 | ------------------ | --------------------------------------------------------------------------------------------------------- |
 | ↓ / ↑              | On the filter: open the list (if closed) and move the highlight. On a chip: previous or next chip.        |
 | ← / →              | On a chip: move between chips.                                                                            |
-| Enter / Space      | Enter: select the highlighted option. On a chip: Enter or Space remove it.                                |
+| Enter / Space      | Enter: select the highlighted option or create row. On a chip: Enter or Space remove it.                  |
 | Escape             | Close the list.                                                                                           |
 | Home / End         | On the list: first or last enabled option. On a chip: first or last chip.                                 |
 | Delete / Backspace | On a chip: remove it. On an empty filter in multi-select: remove the last chip.                           |

@@ -65,6 +65,26 @@ export const TabsDemo = () => {
 - **Unread dot** — use when "something is new" matters but the count doesn't.
   The dot disappears once the tab is active to avoid implying "still
   unread."
+- **Disabled** — keeps a tab visible when its view isn't available yet. The
+  label dims, clicks do nothing, and arrow keys skip over it. Add a short
+  native tooltip explaining what unlocks it.
+
+<AnatomyStage>
+  <Tabs
+    tabs={[
+      { key: 'general', label: 'General' },
+      { key: 'tools', label: 'Tools' },
+      {
+        key: 'mcps',
+        label: 'MCPs',
+        disabled: true,
+        title: 'Enable tools to configure MCPs',
+      },
+    ]}
+    activeKey="general"
+    onChange={() => {}}
+  />
+</AnatomyStage>
 
 <Divider />
 

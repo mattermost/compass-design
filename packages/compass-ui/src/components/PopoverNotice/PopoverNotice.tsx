@@ -14,14 +14,15 @@ import styles from './PopoverNotice.module.scss';
 export type PopoverNoticeVariant = 'info' | 'success' | 'warning' | 'danger';
 
 export interface PopoverNoticeAction {
-  label: string;
+  /** Button label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   onClick?: () => void;
   emphasis?: 'primary' | 'tertiary';
 }
 
 export interface PopoverNoticeProps {
-  /** Popover title text. */
-  title: string;
+  /** Popover title. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  title: ReactNode;
   /** Body content. */
   children: ReactNode;
   /**

@@ -58,6 +58,26 @@ animates smoothly from old to new — never snap.
 | 1–99% | In progress. Animate the fill change.                                |
 | 100%  | Operation complete — hold briefly, then unmount or transition state. |
 
+### Indeterminate
+
+When work is running but the total isn't known yet — a reindex job, a sync
+waiting on the server — the indicator sweeps across the track instead of
+filling it. Screen readers hear the label without a percentage. With reduced
+motion turned on, the indicator holds still across the full track. Switch to a
+determinate value as soon as the total is known.
+
+<div
+  style={{
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+    maxWidth: '320px',
+  }}
+>
+  <ProgressBar indeterminate aria-label="Reindexing" />
+</div>
+
 <Divider />
 
 ## Sizes
