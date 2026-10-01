@@ -6,9 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.11] - 2026-10-01
+
 ### Added
 
-- **`IconSlotContext`** and **`useIconSlotContext`** exported from `@mattermost/compass-ui/components/icon`. Host components publish their required slot size via `<IconSlotContext.Provider value={{ size }}>`; `<Icon>` reads it as a fallback when no explicit `size` prop is passed (resolution: prop → context → `'24'`).
 - **`Toast` `icon` prop**: optional `ReactNode` to override the default type glyph. Toast provides the correct size via context.
 - **`Tabs` disabled tabs:** `TabItem.disabled` renders `aria-disabled="true"` with dimmed styling, ignores clicks and Enter/Space, and is skipped by arrow keys, Home, and End. `TabItem.title` sets the native tooltip (e.g. to explain why a tab is disabled). Disabled tabs use `aria-disabled` rather than the native `disabled` attribute so the tooltip still shows on hover.
 - **Refs on interactive primitives:** `Button`, `IconButton`, `ActionButton`, `CardButton`, and `MenuItem` forward `ref` to their `<button>`. `Checkbox`, `Radio`, and `Switch` forward it to their `<input>`. Default exports and rendered markup are unchanged, and each sets `displayName`.
@@ -25,11 +26,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **BREAKING:** Move unfinished / composed patterns out of `@mattermost/compass-ui` into unpublished `@mattermost/compass-proto`: `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, and hardcoded menu recipes (`PlusMenu`, `HelpMenu`, `ChannelMenu`, `TeamMenu`, `ChannelCategoryMenu`, `ChannelHeaderMenu`, `ThreadActionsMenu`, `MessageMoreOptionsMenu`, `ProductSwitcherMenu`). Import them from `@mattermost/compass-proto`. `ChannelSidebarItem`, `TeamSidebar`, `TourPoint`, `PopoverMenu` / `MenuItem`, and `AdminConsoleHeader` remain in UI.
 - **CSS packaging:** component CSS modules (and SimpleBar CSS for `Scrollbar`) ship with each component via `vite-plugin-lib-inject-css`. Consumers only need `@mattermost/compass-ui/styles` (plus `/styles/standalone` for standalone hosts). Drop any `@mattermost/compass-ui/component-styles` import — that entry is no longer exported.
 - **Icon slots** — all compass-ui components that accept icon slot props (`leadingIcon`, `trailingIcon`, `icon`, etc.) now size icons automatically via `IconSlotContext`. Pass `<Icon glyph={<YourIcon />} />` with no `size` prop; the hosting component injects the correct size. Explicit `size` props still take precedence (non-breaking). Affected: `Button`, `IconButton`, `MenuItem`, `TextInput`, `SectionNotice`, `ActionButton`, `CardButton`, `GlobalBanner`, `Tooltip`, `Dropdown`, `Combobox`, `Select`, `AdminPanelHeader`, `Tag`, `Toast`, `PopoverNotice`.
 - **`ICON_BUTTON_ICON_SIZES`** deprecated — callers no longer need to look up icon sizes for `IconButton` slots manually. The constant remains exported for migration; it will be removed in a future minor.
 - **`Button`** leading/trailing icon slots no longer use `React.cloneElement` to inject size — sizing moves to `IconSlotContext`.
 - **`PopoverNotice`** adds `popover-notice--no-icon` modifier when no icon is present, increasing left padding so body text is not flush to the edge.
+
+## [0.1.0-alpha.10] - 2026-09-17
+
+### Added
+
+- **`IconSlotContext`** and **`useIconSlotContext`** exported from `@mattermost/compass-ui/components/icon`. Host components publish their required slot size via `<IconSlotContext.Provider value={{ size }}>`; `<Icon>` reads it as a fallback when no explicit `size` prop is passed (resolution: prop → context → `'24'`).
 
 ### Fixed
 
@@ -209,7 +217,9 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.9...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.11...HEAD
+[0.1.0-alpha.11]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.10...0.1.0-alpha.11
+[0.1.0-alpha.10]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.9...0.1.0-alpha.10
 [0.1.0-alpha.9]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.8...0.1.0-alpha.9
 [0.1.0-alpha.8]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.7...0.1.0-alpha.8
 [0.1.0-alpha.7]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.6...0.1.0-alpha.7

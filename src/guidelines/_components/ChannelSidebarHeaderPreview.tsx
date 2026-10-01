@@ -2,7 +2,7 @@ import {
   ChannelsSidebarHeader,
   type ChannelsSidebarHeaderProps,
   channelsSidebarStyles as styles,
-} from '@mattermost/compass-ui/components/channels-sidebar';
+} from '@mattermost/compass-proto';
 
 /**
  * Sidebar chrome strip with only the team header row — for guideline previews.

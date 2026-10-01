@@ -1,4 +1,4 @@
-import type { AdminConsoleSidebarGroupModel } from '@mattermost/compass-ui/components/admin-console-sidebar';
+import type { AdminConsoleSidebarGroupModel } from '../components/AdminConsoleSidebar';
 
 export const defaultAdminConsoleSidebarGroups: AdminConsoleSidebarGroupModel[] =
   [

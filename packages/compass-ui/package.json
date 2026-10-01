@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/compass-ui",
-  "version": "0.1.0-alpha.10",
+  "version": "0.1.0-alpha.11",
   "description": "Compass design system UI components for Mattermost products",
   "repository": {
     "type": "git",
@@ -117,9 +117,6 @@
       "components/admin-console-header": [
         "./dist/components/admin-console-header/index.d.ts"
       ],
-      "components/admin-console-sidebar": [
-        "./dist/components/admin-console-sidebar/index.d.ts"
-      ],
       "components/admin-panel": [
         "./dist/components/admin-panel/index.d.ts"
       ],
@@ -138,23 +135,11 @@
       "components/card-button": [
         "./dist/components/card-button/index.d.ts"
       ],
-      "components/channel-category-menu": [
-        "./dist/components/channel-category-menu/index.d.ts"
-      ],
-      "components/channel-header-menu": [
-        "./dist/components/channel-header-menu/index.d.ts"
-      ],
       "components/channel-info-msg-header": [
         "./dist/components/channel-info-msg-header/index.d.ts"
       ],
-      "components/channel-menu": [
-        "./dist/components/channel-menu/index.d.ts"
-      ],
       "components/channel-sidebar-item": [
         "./dist/components/channel-sidebar-item/index.d.ts"
-      ],
-      "components/channels-sidebar": [
-        "./dist/components/channels-sidebar/index.d.ts"
       ],
       "components/checkbox": [
         "./dist/components/checkbox/index.d.ts"
@@ -195,12 +180,6 @@
       "components/global-banner": [
         "./dist/components/global-banner/index.d.ts"
       ],
-      "components/global-header": [
-        "./dist/components/global-header/index.d.ts"
-      ],
-      "components/help-menu": [
-        "./dist/components/help-menu/index.d.ts"
-      ],
       "components/icon": [
         "./dist/components/icon/index.d.ts"
       ],
@@ -231,9 +210,6 @@
       "components/message-header": [
         "./dist/components/message-header/index.d.ts"
       ],
-      "components/message-more-options-menu": [
-        "./dist/components/message-more-options-menu/index.d.ts"
-      ],
       "components/message-separator": [
         "./dist/components/message-separator/index.d.ts"
       ],
@@ -261,17 +237,11 @@
       "components/pinned-saved-indicators": [
         "./dist/components/pinned-saved-indicators/index.d.ts"
       ],
-      "components/plus-menu": [
-        "./dist/components/plus-menu/index.d.ts"
-      ],
       "components/popover-menu": [
         "./dist/components/popover-menu/index.d.ts"
       ],
       "components/popover-notice": [
         "./dist/components/popover-notice/index.d.ts"
-      ],
-      "components/product-switcher-menu": [
-        "./dist/components/product-switcher-menu/index.d.ts"
       ],
       "components/profile-popover": [
         "./dist/components/profile-popover/index.d.ts"
@@ -327,9 +297,6 @@
       "components/team-avatar": [
         "./dist/components/team-avatar/index.d.ts"
       ],
-      "components/team-menu": [
-        "./dist/components/team-menu/index.d.ts"
-      ],
       "components/team-sidebar": [
         "./dist/components/team-sidebar/index.d.ts"
       ],
@@ -338,9 +305,6 @@
       ],
       "components/text-input": [
         "./dist/components/text-input/index.d.ts"
-      ],
-      "components/thread-actions-menu": [
-        "./dist/components/thread-actions-menu/index.d.ts"
       ],
       "components/thread-footer": [
         "./dist/components/thread-footer/index.d.ts"
@@ -353,9 +317,6 @@
       ],
       "components/tooltip": [
         "./dist/components/tooltip/index.d.ts"
-      ],
-      "components/tour-point": [
-        "./dist/components/tour-point/index.d.ts"
       ],
       "components/unread-badge": [
         "./dist/components/unread-badge/index.d.ts"

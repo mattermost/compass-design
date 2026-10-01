@@ -5,12 +5,13 @@ import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
 import LightbulbOutlineIcon from '@mattermost/compass-icons/components/lightbulb-outline';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
+} from '@mattermost/compass-ui/components/popover-menu';
 import styles from './TeamMenu.module.scss';
 
 export interface TeamMenuProps extends HTMLAttributes<HTMLDivElement> {

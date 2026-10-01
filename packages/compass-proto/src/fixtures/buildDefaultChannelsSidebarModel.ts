@@ -2,7 +2,7 @@ import type {
   ChannelsSidebarItemModel,
   ChannelsSidebarGroupModel,
   ChannelsSidebarModel,
-} from '@mattermost/compass-ui/components/channels-sidebar';
+} from '../components/ChannelsSidebar';
 
 export interface BuildDefaultChannelsSidebarModelInput {
   showUnreadsCategory: boolean;

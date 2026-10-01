@@ -3,11 +3,12 @@ import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import FilterVariantIcon from '@mattermost/compass-icons/components/filter-variant';
-import ChannelSidebarItem from '@/components/ChannelSidebarItem/ChannelSidebarItem';
-import MoreUnreadsBanner from '@/components/MoreUnreadsBanner/MoreUnreadsBanner';
-import IconButton from '@/components/IconButton/IconButton';
-import Icon from '@/components/Icon/Icon';
-import Scrollbar from '@/components/Scrollbar/Scrollbar';
+import { ChannelSidebarItem } from '@mattermost/compass-ui/components/channel-sidebar-item';
+import { MoreUnreadsBanner } from '@mattermost/compass-ui/components/more-unreads-banner';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import WithTooltip from '../WithTooltip/WithTooltip';
 import {
   applyChannelNameOverrides,
   type ChannelsSidebarItemModel,
@@ -55,15 +56,16 @@ export function ChannelsSidebarHeader({
           <ChevronDownIcon size={16} />
         </span>
       </div>
-      <IconButton
-        aria-label="Add channels"
-        size="small"
-        style="inverted"
-        padding="compact"
-        rounded
-        icon={<Icon size="16" glyph={<PlusIcon />} />}
-        className={styles['channels-sidebar__sidebar-icon-button']}
-      />
+      <WithTooltip label="Add channels">
+        <IconButton
+          size="small"
+          style="inverted"
+          padding="compact"
+          rounded
+          icon={<Icon size="16" glyph={<PlusIcon />} />}
+          className={styles['channels-sidebar__sidebar-icon-button']}
+        />
+      </WithTooltip>
     </div>
   );
 }
@@ -79,14 +81,15 @@ export function ChannelsSidebarNavigator({
   return (
     <div className={styles['channels-sidebar__navigator']}>
       {showFilter && (
-        <IconButton
-          aria-label="Filter channels"
-          size="small"
-          style="inverted"
-          padding="compact"
-          icon={<Icon size="16" glyph={<FilterVariantIcon />} />}
-          className={styles['channels-sidebar__sidebar-icon-button']}
-        />
+        <WithTooltip label="Filter channels">
+          <IconButton
+            size="small"
+            style="inverted"
+            padding="compact"
+            icon={<Icon size="16" glyph={<FilterVariantIcon />} />}
+            className={styles['channels-sidebar__sidebar-icon-button']}
+          />
+        </WithTooltip>
       )}
       <div className={styles['channels-sidebar__find-channels']}>
         <span className={styles['channels-sidebar__find-channels-icon']}>
@@ -156,12 +159,13 @@ export function ChannelsSidebarCategory({
         </span>
       </div>
       {showPlusButton && (
-        <IconButton
-          aria-label={`New ${label.toLowerCase()}`}
-          size="x-small"
-          style="inverted"
-          icon={<Icon size="12" glyph={<PlusIcon />} />}
-        />
+        <WithTooltip label={`New ${label.toLowerCase()}`}>
+          <IconButton
+            size="x-small"
+            style="inverted"
+            icon={<Icon size="12" glyph={<PlusIcon />} />}
+          />
+        </WithTooltip>
       )}
     </div>
   );

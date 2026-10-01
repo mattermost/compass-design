@@ -4,11 +4,12 @@ import FileTextOutlineIcon from '@mattermost/compass-icons/components/file-text-
 import HelpCircleOutlineIcon from '@mattermost/compass-icons/components/help-circle-outline';
 import KeyboardOutlineIcon from '@mattermost/compass-icons/components/keyboard-outline';
 import LightbulbOutlineIcon from '@mattermost/compass-icons/components/lightbulb-outline';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
+} from '@mattermost/compass-ui/components/popover-menu';
 
 export type HelpMenuProps = HTMLAttributes<HTMLDivElement>;
 

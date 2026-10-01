@@ -4,13 +4,14 @@ import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import MarkAsUnreadIcon from '@mattermost/compass-icons/components/mark-as-unread';
 import MessageMinusOutlineIcon from '@mattermost/compass-icons/components/message-minus-outline';
 import OpenInNewIcon from '@mattermost/compass-icons/components/open-in-new';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
-import ShortcutTag from '@/components/ShortcutTag/ShortcutTag';
+} from '@mattermost/compass-ui/components/popover-menu';
+import { ShortcutTag } from '@mattermost/compass-ui/components/shortcut-tag';
 
 export type ThreadActionsMenuProps = HTMLAttributes<HTMLDivElement>;
 

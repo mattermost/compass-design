@@ -10,11 +10,12 @@ import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import AtIcon from '@mattermost/compass-icons/components/at';
 import BookmarkOutlineIcon from '@mattermost/compass-icons/components/bookmark-outline';
 import CheckboxMultipleMarkedOutlineIcon from '@mattermost/compass-icons/components/checkbox-multiple-marked-outline';
-import Button from '@/components/Button/Button';
-import Icon from '@/components/Icon/Icon';
-import IconButton from '@/components/IconButton/IconButton';
-import UserAvatar from '@/components/UserAvatar/UserAvatar';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import type { ComponentType } from 'react';
+import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
 export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
@@ -57,13 +58,14 @@ function InvertedIconButton({
   glyph: React.ReactNode;
 }) {
   return (
-    <IconButton
-      aria-label={ariaLabel}
-      size="small"
-      padding="compact"
-      style="inverted"
-      icon={<Icon size="16" glyph={glyph} />}
-    />
+    <WithTooltip label={ariaLabel}>
+      <IconButton
+        size="small"
+        padding="compact"
+        style="inverted"
+        icon={<Icon size="16" glyph={glyph} />}
+      />
+    </WithTooltip>
   );
 }
 

@@ -10,7 +10,7 @@ import {
   applyChannelNameOverrides,
   type ChannelsSidebarItemModel,
   type ChannelsSidebarModel,
-} from '@mattermost/compass-ui/components/channels-sidebar';
+} from '../ChannelsSidebar';
 import { buildDefaultChannelsSidebarModel } from '@/fixtures/buildDefaultChannelsSidebarModel';
 import styles from './MobileChannelsSidebar.module.scss';
 

@@ -4,12 +4,13 @@ import AccountPlusOutlineIcon from '@mattermost/compass-icons/components/account
 import FolderPlusOutlineIcon from '@mattermost/compass-icons/components/folder-plus-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
+} from '@mattermost/compass-ui/components/popover-menu';
 
 export type PlusMenuProps = HTMLAttributes<HTMLDivElement>;
 

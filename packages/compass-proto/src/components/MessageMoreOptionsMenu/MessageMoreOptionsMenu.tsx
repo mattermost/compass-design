@@ -13,13 +13,14 @@ import PinOutlineIcon from '@mattermost/compass-icons/components/pin-outline';
 import ReplyOutlineIcon from '@mattermost/compass-icons/components/reply-outline';
 import TranslateIcon from '@mattermost/compass-icons/components/translate';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
-import ShortcutTag from '@/components/ShortcutTag/ShortcutTag';
+} from '@mattermost/compass-ui/components/popover-menu';
+import { ShortcutTag } from '@mattermost/compass-ui/components/shortcut-tag';
 
 export interface MessageMoreOptionsMenuProps extends HTMLAttributes<HTMLDivElement> {
   /** Shows Edit and Delete rows. Default: true. */

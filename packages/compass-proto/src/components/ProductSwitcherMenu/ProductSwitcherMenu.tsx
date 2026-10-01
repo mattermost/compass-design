@@ -7,12 +7,13 @@ import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boar
 import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
 import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
 import WebhookIcon from '@mattermost/compass-icons/components/webhook';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
+} from '@mattermost/compass-ui/components/popover-menu';
 import styles from './ProductSwitcherMenu.module.scss';
 
 /** Built-in products shipped with the switcher. */

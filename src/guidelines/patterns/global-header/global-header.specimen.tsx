@@ -1,4 +1,4 @@
-import { GlobalHeader } from '@mattermost/compass-ui/components/global-header';
+import { GlobalHeader } from '@mattermost/compass-proto';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
