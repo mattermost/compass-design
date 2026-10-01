@@ -350,9 +350,9 @@ Order matters: list the `hooks/`, `illustrations/`, and `utils/string` patterns 
 
 **Symptoms fixed by subpaths + mapper (alpha.3+):**
 
-| Symptom                                                                   | Cause                                             |
-| ------------------------------------------------------------------------- | ------------------------------------------------- |
-| `React.jsx: type is invalid -- got: object` on icon props                 | CJS default export interop — fixed in dist chunks |
+| Symptom                                                                  | Cause                                             |
+| ------------------------------------------------------------------------ | ------------------------------------------------- |
+| `React.jsx: type is invalid -- got: object` on icon props                | CJS default export interop — fixed in dist chunks |
 | Warnings referencing `PopoverNotice`, etc. while testing unrelated files | Root barrel loads all components                  |
 
 **Webapp migration (separate PR in `mattermost/mattermost`):**
