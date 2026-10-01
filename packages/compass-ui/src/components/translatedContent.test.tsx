@@ -77,6 +77,13 @@ describe('text props accept translated nodes', () => {
     expect(messages(container)).toEqual(['Copy', 'Copies the link']);
   });
 
+  it('Tooltip renders a numeric zero hint', () => {
+    const { container } = render(<Tooltip label="Copy" hint={0} />);
+    expect(
+      container.querySelector('[class*="tooltip__hint"]')?.textContent,
+    ).toBe('0');
+  });
+
   it('Tooltip omits an empty string hint', () => {
     const { container } = render(<Tooltip label="Copy" hint="" />);
     expect(container.textContent).toBe('Copy');

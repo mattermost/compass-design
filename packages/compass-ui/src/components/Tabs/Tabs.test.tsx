@@ -81,6 +81,18 @@ describe('Tabs disabled', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it('keeps every tab out of the tab sequence when all tabs are disabled', () => {
+    const { container } = render(
+      <Tabs
+        tabs={TABS.map((tab) => ({ ...tab, disabled: true }))}
+        activeKey="general"
+        onChange={vi.fn()}
+      />,
+    );
+    const tabs = container.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    expect(Array.from(tabs, (tab) => tab.tabIndex)).toEqual([-1, -1, -1]);
+  });
+
   it('keeps disabled tabs out of the tab sequence', () => {
     renderTabs(vi.fn(), 'mcps');
     expect(getByRole('tab', 'MCPs').tabIndex).toBe(-1);

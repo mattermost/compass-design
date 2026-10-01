@@ -65,7 +65,7 @@ export default function Tabs({
     ? focusedKey
     : enabledKeys.includes(activeKey)
       ? activeKey
-      : (enabledKeys[0] ?? activeKey);
+      : enabledKeys[0];
 
   const moveFocus = (key: string) => {
     setFocusedKey(key);

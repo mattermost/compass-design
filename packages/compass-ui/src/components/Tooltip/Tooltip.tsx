@@ -67,7 +67,9 @@ export default function Tooltip({
           </div>
         )}
 
-        {hint ? <span className={styles['tooltip__hint']}>{hint}</span> : null}
+        {hint != null && hint !== '' ? (
+          <span className={styles['tooltip__hint']}>{hint}</span>
+        ) : null}
       </div>
 
       <div className={styles['tooltip__arrow']} aria-hidden />
