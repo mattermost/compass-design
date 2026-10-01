@@ -13,6 +13,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`Tabs` disabled tabs:** `TabItem.disabled` renders `aria-disabled="true"` with dimmed styling, ignores clicks and Enter/Space, and is skipped by arrow keys, Home, and End. `TabItem.title` sets the native tooltip (e.g. to explain why a tab is disabled). Disabled tabs use `aria-disabled` rather than the native `disabled` attribute so the tooltip still shows on hover.
 - **Refs on interactive primitives:** `Button`, `IconButton`, `ActionButton`, `CardButton`, and `MenuItem` forward `ref` to their `<button>`. `Checkbox`, `Radio`, and `Switch` forward it to their `<input>`. Default exports and rendered markup are unchanged, and each sets `displayName`.
 - **`ProgressBar` `indeterminate`:** for work with an unknown total, the bar shows an indicator sweeping across the track, timed from motion tokens. It keeps `role="progressbar"` and its `aria-label` and omits `aria-valuenow`. Under `prefers-reduced-motion` the indicator is static.
+- **`Combobox` async and creatable modes:**
+  - `loading` and `loadingMessage` show a loading row with a Spinner in place of the empty message, and set `aria-busy` on the input.
+  - `selectedOptions` gives the option objects for the current value(s), so chips and the single-select label persist when async results no longer include them. This is a prop rather than an internal cache because a cache can't label values that were never in `options` (such as IDs preselected on load) and goes stale when labels change, while the host already holds those entities. Without `selectedOptions`, chip resolution and order are unchanged.
+  - `creatable`, `onCreateOption`, and `formatCreateLabel` add a create row (`role="option"`, reachable with the arrow keys and Enter) when the typed text matches no option. With `onCreateOption` set, the host adds the value. Otherwise the trimmed text is committed through `onChange`. Created values not in `options` display their raw value.
+  - `emptyMessage` widens to `ReactNode`.
 
 ### Changed (non-breaking)
 

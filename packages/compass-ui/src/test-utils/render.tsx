@@ -82,6 +82,7 @@ export function queryAllByRole(
 ): HTMLElement[] {
   return Array.from(root.querySelectorAll<HTMLElement>('*')).filter((el) => {
     if (implicitRole(el) !== role) return false;
+    if (el.closest('[aria-hidden="true"]')) return false;
     if (name == null) return true;
     const accessible = accessibleName(el);
     return typeof name === 'string'
