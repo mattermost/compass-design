@@ -27,6 +27,20 @@ export const Default: Story = {
   ],
 };
 
+export const Indeterminate: Story = {
+  args: {
+    indeterminate: true,
+    'aria-label': 'Reindexing',
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 320 }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 20, width: 360 }}>
@@ -67,6 +81,18 @@ export const AllVariants: Story = {
         <ProgressBar value={30} semanticColors aria-label="30% success" />
         <ProgressBar value={75} semanticColors aria-label="75% warning" />
         <ProgressBar value={95} semanticColors aria-label="95% danger" />
+      </div>
+      <div style={{ display: 'grid', gap: 8 }}>
+        <span
+          style={{
+            fontSize: 12,
+            color: 'var(--center-channel-color)',
+          }}
+        >
+          Indeterminate
+        </span>
+        <ProgressBar indeterminate size="small" aria-label="Reindexing" />
+        <ProgressBar indeterminate aria-label="Reindexing" />
       </div>
     </div>
   ),

@@ -12,6 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`Toast` `icon` prop**: optional `ReactNode` to override the default type glyph. Toast provides the correct size via context.
 - **`Tabs` disabled tabs:** `TabItem.disabled` renders `aria-disabled="true"` with dimmed styling, ignores clicks and Enter/Space, and is skipped by arrow keys, Home, and End. `TabItem.title` sets the native tooltip (e.g. to explain why a tab is disabled). Disabled tabs use `aria-disabled` rather than the native `disabled` attribute so the tooltip still shows on hover.
 - **Refs on interactive primitives:** `Button`, `IconButton`, `ActionButton`, `CardButton`, and `MenuItem` forward `ref` to their `<button>`. `Checkbox`, `Radio`, and `Switch` forward it to their `<input>`. Default exports and rendered markup are unchanged, and each sets `displayName`.
+- **`ProgressBar` `indeterminate`:** for work with an unknown total, the bar shows an indicator sweeping across the track, timed from motion tokens. It keeps `role="progressbar"` and its `aria-label` and omits `aria-valuenow`. Under `prefers-reduced-motion` the indicator is static.
 
 ### Changed (non-breaking)
 
