@@ -19,6 +19,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Lint and format
+        run: npm run check
+
       - name: Typecheck compass-ui
         run: npm run typecheck --workspace=@mattermost/compass-ui
 
