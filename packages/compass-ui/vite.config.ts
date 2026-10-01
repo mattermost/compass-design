@@ -27,6 +27,9 @@ export default defineConfig({
       include: ['src'],
       exclude: [
         '**/*.stories.tsx',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        'src/test-utils/**',
         '**/*.svg',
         'src/styles/entry.scss',
         'src/storybook/**',
