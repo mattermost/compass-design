@@ -15,6 +15,7 @@ function applyInteractivity(
   onItemClick?: (name: string) => void,
 ): ChannelsSidebarModel {
   const mapRow = (row: ChannelsSidebarItemModel) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- strip `active` from the row
     const {active: _active, ...rest} = row;
     return {
       ...rest,

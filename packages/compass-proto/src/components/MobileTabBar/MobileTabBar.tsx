@@ -66,7 +66,6 @@ export default function MobileTabBar({
   activeTab = 'home',
   onTabChange,
   profileSrc,
-  profileAlt = 'Profile',
   mentionsBadge,
 }: MobileTabBarProps) {
   const rootClass = [styles['mobile-tab-bar'], className]

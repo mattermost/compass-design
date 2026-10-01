@@ -54,7 +54,7 @@ export default function Home() {
               <div className={styles['home__hero-head']}>
                 <p className={styles['home__hero-eyebrow']}>COMPASS</p>
                 <h1 id="home-hero-heading" className={styles['home__hero-title']}>
-                  Explore the Mattermost Design System
+                  Explore the Mattermost Design{'\u00a0'}System
                 </h1>
               </div>
               <p className={styles['home__hero-lede']}>

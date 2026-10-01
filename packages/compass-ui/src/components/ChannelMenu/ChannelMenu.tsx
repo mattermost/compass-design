@@ -14,7 +14,7 @@ import PopoverMenu, {
   PopoverMenuGroup,
 } from '@/components/PopoverMenu/PopoverMenu';
 
-export interface ChannelMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type ChannelMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Narrow channel sidebar context menu.

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid -- placeholder channel-header links in demo content */
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
 import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 import AccountPlusOutlineIcon from '@mattermost/compass-icons/components/account-plus-outline';

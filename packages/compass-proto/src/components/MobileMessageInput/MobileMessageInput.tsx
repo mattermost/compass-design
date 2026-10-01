@@ -227,6 +227,7 @@ export default function MobileMessageInput({
             onFocus={handleFocus}
             onBlur={handleBlur}
             rows={1}
+            // eslint-disable-next-line jsx-a11y/no-autofocus -- host opts in via the autoFocus prop
             autoFocus={autoFocus}
           />
         </div>

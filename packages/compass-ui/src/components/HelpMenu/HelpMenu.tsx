@@ -10,7 +10,7 @@ import PopoverMenu, {
   PopoverMenuGroup,
 } from '@/components/PopoverMenu/PopoverMenu';
 
-export interface HelpMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type HelpMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Global header help menu — docs, community, and shortcuts.

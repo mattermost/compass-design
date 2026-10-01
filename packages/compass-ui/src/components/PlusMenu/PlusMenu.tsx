@@ -11,7 +11,7 @@ import PopoverMenu, {
   PopoverMenuGroup,
 } from '@/components/PopoverMenu/PopoverMenu';
 
-export interface PlusMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type PlusMenuProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * Channel sidebar “+” menu — browse/create channels, DM, category, invite.

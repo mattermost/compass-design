@@ -129,7 +129,7 @@ export function PopoverMenuGroupTitle({
   );
 }
 
-export interface PopoverMenuDividerProps extends HTMLAttributes<HTMLDivElement> {}
+export type PopoverMenuDividerProps = HTMLAttributes<HTMLDivElement>;
 
 /** Horizontal rule between groups or below a menu title. */
 export function PopoverMenuDivider({

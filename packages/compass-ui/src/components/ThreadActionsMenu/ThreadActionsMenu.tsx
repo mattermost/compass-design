@@ -12,7 +12,7 @@ import PopoverMenu, {
 } from '@/components/PopoverMenu/PopoverMenu';
 import ShortcutTag from '@/components/ShortcutTag/ShortcutTag';
 
-export interface ThreadActionsMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type ThreadActionsMenuProps = HTMLAttributes<HTMLDivElement>;
 
 function shortcutLabel(text: string) {
   return <ShortcutTag label={text} size="small" />;

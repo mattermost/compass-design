@@ -506,6 +506,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
             {label}
           </label>
         )}
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- pointer convenience; the input owns keyboard interaction */}
         <div
           className={styles.combobox__inner}
           onMouseDown={handleWrapperMouseDown}
