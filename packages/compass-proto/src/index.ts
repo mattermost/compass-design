@@ -45,6 +45,7 @@ export * from './components/RightSidebarChannelInfo/index';
 export * from './components/RightSidebarChannelMembers/index';
 export * from './components/RightSidebarThread/index';
 export * from './components/TeamMenu/index';
+export * from './components/TeamSidebar/index';
 export * from './components/ThreadActionsMenu/index';
 export * from './components/WithTooltip/index';
 export * from './fixtures/index';

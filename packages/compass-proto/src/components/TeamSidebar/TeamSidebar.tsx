@@ -1,9 +1,10 @@
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import DialpadIcon from '@mattermost/compass-icons/components/dialpad';
-import Icon from '@/components/Icon/Icon';
-import IconButton from '@/components/IconButton/IconButton';
-import TeamAvatar from '@/components/TeamAvatar/TeamAvatar';
-import UnreadBadge from '@/components/UnreadBadge/UnreadBadge';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
+import { UnreadBadge } from '@mattermost/compass-ui/components/unread-badge';
+import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './TeamSidebar.module.scss';
 
 export interface TeamSidebarItem {
@@ -75,27 +76,29 @@ export default function TeamSidebar({
           );
         })}
         {showAddTeam && (
-          <IconButton
-            aria-label="Add team"
-            size="medium"
-            style="inverted"
-            icon={<Icon size="20" glyph={<PlusIcon />} />}
-            onClick={onAddTeam}
-            className={styles['team-sidebar__add']}
-          />
+          <WithTooltip label="Add team" placement="right">
+            <IconButton
+              size="medium"
+              style="inverted"
+              icon={<Icon size="20" glyph={<PlusIcon />} />}
+              onClick={onAddTeam}
+              className={styles['team-sidebar__add']}
+            />
+          </WithTooltip>
         )}
       </div>
       {showDialPad && (
         <div className={styles['team-sidebar__footer']}>
-          <IconButton
-            aria-label="Dial pad"
-            size="small"
-            style="inverted"
-            active={dialPadActive}
-            icon={<Icon size="16" glyph={<DialpadIcon />} />}
-            onClick={onDialPadClick}
-            className={styles['team-sidebar__dial-pad']}
-          />
+          <WithTooltip label="Dial pad" placement="right">
+            <IconButton
+              size="small"
+              style="inverted"
+              active={dialPadActive}
+              icon={<Icon size="16" glyph={<DialpadIcon />} />}
+              onClick={onDialPadClick}
+              className={styles['team-sidebar__dial-pad']}
+            />
+          </WithTooltip>
         </div>
       )}
     </div>

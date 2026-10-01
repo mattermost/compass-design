@@ -199,6 +199,11 @@ function assertSubpathIsolation() {
       'Root barrel must not re-export channels-sidebar (moved to compass-proto)',
     );
   }
+  if (rootIndex.includes('team-sidebar')) {
+    throw new Error(
+      'Root barrel must not re-export team-sidebar (moved to compass-proto)',
+    );
+  }
 
   console.log('[verify-compass-ui-dist] Subpath isolation OK');
 }

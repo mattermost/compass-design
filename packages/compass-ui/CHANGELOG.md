@@ -6,6 +6,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.12] - 2026-10-01
+
+### Changed
+
+- **BREAKING:** Move `TeamSidebar` from `@mattermost/compass-ui` into unpublished `@mattermost/compass-proto`. Import it from `@mattermost/compass-proto`. `TeamAvatar` remains in UI.
+
 ## [0.1.0-alpha.11] - 2026-10-01
 
 ### Added

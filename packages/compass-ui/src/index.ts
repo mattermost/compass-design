@@ -65,7 +65,6 @@ export * from './components/StatusBadge/index';
 export * from './components/Switch/index';
 export * from './components/Tabs/index';
 export * from './components/TeamAvatar/index';
-export * from './components/TeamSidebar/index';
 export * from './components/TextArea/index';
 export * from './components/TextInput/index';
 export * from './components/ThreadFooter/index';
