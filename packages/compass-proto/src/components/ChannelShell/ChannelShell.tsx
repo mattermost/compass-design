@@ -1,12 +1,9 @@
 import type { ReactNode } from 'react';
-import {
-  TeamSidebar,
-  type TeamSidebarItem,
-} from '@mattermost/compass-ui/components/team-sidebar';
 import { ChannelsSidebar } from '../ChannelsSidebar';
 import type { ChannelsSidebarModel } from '../ChannelsSidebar';
 import { GlobalHeader } from '../GlobalHeader';
 import type { GlobalHeaderProduct } from '../GlobalHeader';
+import { TeamSidebar, type TeamSidebarItem } from '../TeamSidebar';
 import styles from './ChannelShell.module.scss';
 
 const DEFAULT_TEAMS: TeamSidebarItem[] = [
