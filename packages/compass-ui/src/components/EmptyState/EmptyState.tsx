@@ -9,8 +9,8 @@ import styles from './EmptyState.module.scss';
 export interface EmptyStateProps {
   /** Illustration props (children = the SVG component). Rendered above the title. */
   illustration?: IllustrationProps;
-  /** Main heading text. */
-  title: string;
+  /** Main heading. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  title: ReactNode;
   /** Body description. Supports ReactNode for inline formatting. */
   description?: ReactNode;
   /** Button props (children = label). Rendered below the description. */

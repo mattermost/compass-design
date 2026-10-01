@@ -10,12 +10,12 @@ export interface TooltipShortcutKey {
 }
 
 export interface TooltipProps {
-  /** Tooltip label text. */
-  label: string;
+  /** Tooltip label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   /** Arrow direction. Default: Right. */
   arrow?: TooltipArrow;
   /** Optional hint text shown below label. */
-  hint?: string;
+  hint?: ReactNode;
   /** Optional keyboard shortcut keys shown below label. */
   shortcutKeys?: TooltipShortcutKey[];
   /** Optional leading icon — pass `<Icon glyph={<SomeIcon />} />`; Tooltip provides the correct size via context. */
@@ -67,7 +67,7 @@ export default function Tooltip({
           </div>
         )}
 
-        {hint && <span className={styles['tooltip__hint']}>{hint}</span>}
+        {hint ? <span className={styles['tooltip__hint']}>{hint}</span> : null}
       </div>
 
       <div className={styles['tooltip__arrow']} aria-hidden />

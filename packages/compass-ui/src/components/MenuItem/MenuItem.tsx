@@ -8,8 +8,8 @@ import MentionBadge from '@/components/MentionBadge/MentionBadge';
 import styles from './MenuItem.module.scss';
 
 export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Primary label text. */
-  label: string;
+  /** Primary label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   /** Optional secondary label. */
   secondaryLabel?: ReactNode;
   /** Where the secondary label appears. Default: 'below'. */

@@ -11,6 +11,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`IconSlotContext`** and **`useIconSlotContext`** exported from `@mattermost/compass-ui/components/icon`. Host components publish their required slot size via `<IconSlotContext.Provider value={{ size }}>`; `<Icon>` reads it as a fallback when no explicit `size` prop is passed (resolution: prop → context → `'24'`).
 - **`Toast` `icon` prop**: optional `ReactNode` to override the default type glyph. Toast provides the correct size via context.
 
+### Changed (non-breaking)
+
+- **Translated content in text props:** these props widen from `string` to `ReactNode`, so react-intl hosts can pass `<FormattedMessage/>` directly. String callers are unaffected. Affected: `Tag` `label`, `MenuItem` `label`, `Tabs` `TabItem.label`, `SectionNotice` `title` / `primaryButtonLabel` / `secondaryButtonLabel`, `EmptyState` `title`, `ErrorMessage` `message`, `Tooltip` `label` / `hint`, `Toast` `message` / `actionLabel`, `PopoverNotice` `title` and `PopoverNoticeAction.label`. `Select` and `Combobox` option labels stay `string` because they drive filtering and type-ahead.
+
 ### Changed
 
 - **CSS packaging:** component CSS modules (and SimpleBar CSS for `Scrollbar`) ship with each component via `vite-plugin-lib-inject-css`. Consumers only need `@mattermost/compass-ui/styles` (plus `/styles/standalone` for standalone hosts). Drop any `@mattermost/compass-ui/component-styles` import — that entry is no longer exported.

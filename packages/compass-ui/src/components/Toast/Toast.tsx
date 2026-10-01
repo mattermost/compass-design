@@ -14,11 +14,12 @@ export type ToastType = 'general' | 'info' | 'success' | 'warning' | 'danger';
 
 export interface ToastProps {
   className?: string;
-  message: string;
+  /** Toast message. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  message: ReactNode;
   type?: ToastType;
   /** Optional icon override — pass `<Icon glyph={<SomeIcon />} />`; replaces the default type icon. Toast provides the correct size via context. */
   icon?: ReactNode;
-  actionLabel?: string;
+  actionLabel?: ReactNode;
   onAction?: () => void;
   onDismiss?: () => void;
 }

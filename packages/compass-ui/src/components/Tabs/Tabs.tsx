@@ -10,8 +10,8 @@ import styles from './Tabs.module.scss';
 export interface TabItem {
   /** Unique key for this tab. */
   key: string;
-  /** Tab label text. */
-  label: string;
+  /** Tab label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   /** Optional count badge number. */
   countBadge?: number;
   /** When true, shows an unread dot badge. */
