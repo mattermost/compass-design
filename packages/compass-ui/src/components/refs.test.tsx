@@ -100,26 +100,3 @@ describe('displayName', () => {
     expect(component.displayName).toBe(name);
   });
 });
-
-describe('Button keeps its existing rendering', () => {
-  it('renders the ConfirmModal usage unchanged', () => {
-    const onClick = vi.fn();
-    const { container } = render(
-      <Button
-        emphasis="primary"
-        destructive
-        id="confirm"
-        autoFocus
-        onClick={onClick}
-      >
-        Delete
-      </Button>,
-    );
-    const button = container.querySelector('button')!;
-    expect(button.id).toBe('confirm');
-    expect(button.type).toBe('button');
-    expect(button.textContent).toBe('Delete');
-    button.click();
-    expect(onClick).toHaveBeenCalledTimes(1);
-  });
-});

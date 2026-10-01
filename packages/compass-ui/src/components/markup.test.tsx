@@ -22,6 +22,7 @@ describe('default markup is unchanged', () => {
           emphasis="primary"
           destructive
           id="confirmModalButton"
+          // eslint-disable-next-line jsx-a11y/no-autofocus -- mirrors the webapp ConfirmModal call site
           autoFocus
           onClick={() => {}}
         >
