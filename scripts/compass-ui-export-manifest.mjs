@@ -75,9 +75,6 @@ export function buildExportManifest() {
       }
       if (text.includes('btnStyles')) manifest.set('btnStyles', subpath);
       if (text.includes('messageStyles')) manifest.set('messageStyles', subpath);
-      if (text.includes('channelsSidebarStyles')) {
-        manifest.set('channelsSidebarStyles', subpath);
-      }
     }
   }
 
@@ -94,10 +91,6 @@ export function buildExportManifest() {
 
   // Root-only style aliases
   manifest.set('btnStyles', '@mattermost/compass-ui/components/button');
-  manifest.set(
-    'channelsSidebarStyles',
-    '@mattermost/compass-ui/components/channels-sidebar',
-  );
 
   return manifest;
 }

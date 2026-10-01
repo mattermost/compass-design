@@ -6,7 +6,6 @@ import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-side
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import { Tabs } from '@mattermost/compass-ui/components/tabs';
 import { ThreadListItem } from '@mattermost/compass-ui/components/thread-list-item';
-import type { ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
 import { RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES } from '@/fixtures/rightSidebarThreadDemo';
 import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
 import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
@@ -24,6 +23,7 @@ import { MessageInput } from '@mattermost/compass-proto';
 import { RightSidebarThread } from '@mattermost/compass-proto';
 import { RightSidebar } from '@mattermost/compass-proto';
 import { buildDefaultChannelsSidebarModel } from '@mattermost/compass-proto';
+import type { ChannelsSidebarModel } from '@mattermost/compass-proto';
 import { shellStyles } from '@mattermost/compass-proto';
 
 type ThreadsTab = 'all' | 'unreads';

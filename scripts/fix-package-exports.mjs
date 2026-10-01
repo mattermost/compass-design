@@ -35,31 +35,12 @@ for (const name of fs.readdirSync(componentsDir)) {
   if (text !== original) fs.writeFileSync(indexPath, text);
 }
 
-// ChannelsSidebar model exports
-const csIndex = path.join(componentsDir, 'ChannelsSidebar', 'index.ts');
-if (!fs.existsSync(csIndex)) {
-  fs.writeFileSync(
-    csIndex,
-    `export { default as ChannelsSidebar } from './ChannelsSidebar';
-export type { ChannelsSidebarProps } from './ChannelsSidebar';
-export * from './channelsSidebarModel';
-`,
-  );
-}
-
 const indexPath = path.join(pkgSrc, 'index.ts');
 let index = fs.readFileSync(indexPath, 'utf8');
-const styleExports = `
-export { default as shellStyles } from './components/ChannelShell/ChannelShell.module.scss';
-export { default as layoutStyles } from './components/ChannelShell/ChannelShell.module.scss';
-export { default as btnStyles } from './components/Button/Button.module.scss';
-export { default as DialpadIcon } from './icons/DialpadIcon';
-export { default as OutboundCallIcon } from './icons/OutboundCallIcon';
-export { default as PhoneLockIcon } from './icons/PhoneLockIcon';
-`;
-
-if (!index.includes('shellStyles')) {
-  index = index.trimEnd() + styleExports;
+if (!index.includes('btnStyles')) {
+  index =
+    index.trimEnd() +
+    `\nexport { default as btnStyles } from './components/Button/Button.module.scss';\n`;
   fs.writeFileSync(indexPath, index);
 }
 

@@ -1,4 +1,4 @@
-import type { ChannelSidebarItemProps } from '@/components/ChannelSidebarItem/ChannelSidebarItem';
+import type { ChannelSidebarItemProps } from '@mattermost/compass-ui/components/channel-sidebar-item';
 
 export type ChannelsSidebarItemModel = Pick<
   ChannelSidebarItemProps,

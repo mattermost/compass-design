@@ -1,4 +1,8 @@
-import type { ChannelsSidebarItemModel, ChannelsSidebarGroupModel, ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
+import type {
+  ChannelsSidebarItemModel,
+  ChannelsSidebarGroupModel,
+  ChannelsSidebarModel,
+} from '../components/ChannelsSidebar';
 
 export interface BuildDefaultChannelsSidebarModelInput {
   showUnreadsCategory: boolean;

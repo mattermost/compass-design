@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
-import Button from '@/components/Button/Button';
-import Icon from '@/components/Icon/Icon';
-import IconButton from '@/components/IconButton/IconButton';
-import PaginationDots from '@/components/PaginationDots/PaginationDots';
-import { toKebab } from '@/utils/string';
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { PaginationDots } from '@mattermost/compass-ui/components/pagination-dots';
+import { toKebab } from '@mattermost/compass-ui/utils/string';
+import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './TourPoint.module.scss';
 
 export type TourPointPointerPosition =
@@ -98,15 +99,16 @@ export default function TourPoint({
         <div className={styles['tour-point__header']}>
           <h2 className={styles['tour-point__title']}>{title}</h2>
           {onClose && (
-            <IconButton
-              className={styles['tour-point__close']}
-              aria-label="Close"
-              size="small"
-              padding="compact"
-              style="default"
-              icon={<Icon size="16" glyph={<CloseIcon />} />}
-              onClick={onClose}
-            />
+            <WithTooltip label="Close">
+              <IconButton
+                className={styles['tour-point__close']}
+                size="small"
+                padding="compact"
+                style="default"
+                icon={<Icon size="16" glyph={<CloseIcon />} />}
+                onClick={onClose}
+              />
+            </WithTooltip>
           )}
         </div>
 

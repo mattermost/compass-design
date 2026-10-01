@@ -7,12 +7,13 @@ import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outli
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import SortAlphabeticalAscendingIcon from '@mattermost/compass-icons/components/sort-alphabetical-ascending';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
+} from '@mattermost/compass-ui/components/popover-menu';
 import styles from './ChannelCategoryMenu.module.scss';
 
 export interface ChannelCategoryMenuProps

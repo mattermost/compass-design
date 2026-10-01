@@ -97,7 +97,7 @@ function assertSubpathLayout() {
     'dist/index.cjs',
     'dist/components/button/index.js',
     'dist/components/button/index.cjs',
-    'dist/components/admin-console-sidebar/AdminConsoleSidebar.cjs',
+    'dist/components/channel-sidebar-item/ChannelSidebarItem.cjs',
     'dist/illustrations/names.js',
     'dist/illustrations/names.d.ts',
   ];
@@ -125,19 +125,6 @@ function assertSubpathLayout() {
 }
 
 function assertDtsImportPaths() {
-  const modelDts = fs.readFileSync(
-    path.join(
-      packageRoot,
-      'dist/components/channels-sidebar/channelsSidebarModel.d.ts',
-    ),
-    'utf8',
-  );
-  if (!modelDts.includes('../channel-sidebar-item/')) {
-    throw new Error(
-      'channelsSidebarModel.d.ts must import from ../channel-sidebar-item/',
-    );
-  }
-
   const indexDts = fs.readFileSync(
     path.join(packageRoot, 'dist/index.d.ts'),
     'utf8',
@@ -189,11 +176,11 @@ function assertSubpathIsolation() {
   );
 
   if (
-    buttonIndex.includes('admin-console-sidebar') ||
-    buttonImpl.includes('admin-console-sidebar')
+    buttonIndex.includes('channels-sidebar') ||
+    buttonImpl.includes('channels-sidebar')
   ) {
     throw new Error(
-      'components/button subpath must not reference admin-console-sidebar',
+      'components/button subpath must not reference channels-sidebar',
     );
   }
 
@@ -201,8 +188,13 @@ function assertSubpathIsolation() {
     path.join(packageRoot, 'dist/index.cjs'),
     'utf8',
   );
-  if (!rootIndex.includes('admin-console-sidebar')) {
-    throw new Error('Root barrel should still re-export admin-console-sidebar');
+  if (!rootIndex.includes('channel-sidebar-item')) {
+    throw new Error('Root barrel should still re-export channel-sidebar-item');
+  }
+  if (rootIndex.includes('channels-sidebar')) {
+    throw new Error(
+      'Root barrel must not re-export channels-sidebar (moved to compass-proto)',
+    );
   }
 
   console.log('[verify-compass-ui-dist] Subpath isolation OK');

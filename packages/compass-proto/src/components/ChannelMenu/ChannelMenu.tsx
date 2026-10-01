@@ -7,12 +7,13 @@ import FolderMoveOutlineIcon from '@mattermost/compass-icons/components/folder-m
 import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import MarkAsUnreadIcon from '@mattermost/compass-icons/components/mark-as-unread';
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
+} from '@mattermost/compass-ui/components/popover-menu';
 
 export interface ChannelMenuProps extends HTMLAttributes<HTMLDivElement> {}
 

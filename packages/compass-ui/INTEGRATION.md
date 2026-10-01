@@ -2,7 +2,7 @@
 
 Guide for consuming the Compass UI library in Vite apps (docs, prototypes catalog) and the Mattermost webapp (`webapp/channels`).
 
-Mobile shells, `ChannelShell`, Call* composites, `ParticipantsPanel`, `RecordingPill`, `ReactionPill`, `Message`, `MessageInput`, `ChannelHeader`, `RightSidebar` (shell), `AppBarItem`, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only. Published chrome includes `RightSidebarHeader`, Message leaves, `Modal`, and `TeamSidebar`.
+Mobile shells, `ChannelShell`, Call* composites, `ParticipantsPanel`, `RecordingPill`, `ReactionPill`, `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `RightSidebar` (shell), `AppBarItem`, `TourPoint`, hardcoded `*Menu` recipes, demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`), and sidebar fixture helpers (`buildDefaultChannelsSidebarModel`, `defaultAdminConsoleSidebarGroups`) live in unpublished **`@mattermost/compass-proto`** (workspace package). Import those from `@mattermost/compass-proto`, not from `@mattermost/compass-ui`. Webapp product code should depend on `compass-ui` only. Published chrome includes `RightSidebarHeader`, Message leaves, `Modal`, `TeamSidebar`, and `ChannelSidebarItem`.
 
 ## Install
 
@@ -129,13 +129,14 @@ Style sub-exports live on the owning component subpath:
 
 ```tsx
 import { btnStyles } from '@mattermost/compass-ui/components/button';
-import { channelsSidebarStyles } from '@mattermost/compass-ui/components/channels-sidebar';
 ```
 
 For playground, prototypes, and docs that install the unpublished workspace package, also:
 
 ```tsx
 import { ChannelShell } from '@mattermost/compass-proto';
+import { ChannelsSidebar } from '@mattermost/compass-proto';
+import { channelsSidebarStyles } from '@mattermost/compass-proto';
 import { Message } from '@mattermost/compass-proto';
 import { messageStyles } from '@mattermost/compass-proto';
 ```
@@ -350,7 +351,7 @@ Order matters: list the `hooks/`, `illustrations/`, and `utils/string` patterns 
 | Symptom | Cause |
 |---------|--------|
 | `React.jsx: type is invalid -- got: object` on icon props | CJS default export interop — fixed in dist chunks |
-| Warnings referencing `AdminConsoleSidebar`, `PopoverNotice`, etc. while testing unrelated files | Root barrel loads all components |
+| Warnings referencing `PopoverNotice`, etc. while testing unrelated files | Root barrel loads all components |
 
 **Webapp migration (separate PR in `mattermost/mattermost`):**
 
@@ -475,9 +476,10 @@ Compass layers are Foundations → Components → Patterns → Layouts. Patterns
 
 ```tsx
 // Workspace consumers (playground, prototypes, docs) — not webapp product code
-import type { ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
 import {
   ChannelShell,
+  ChannelsSidebar,
+  type ChannelsSidebarModel,
   buildDefaultChannelsSidebarModel,
   RightSidebarThread,
 } from '@mattermost/compass-proto';

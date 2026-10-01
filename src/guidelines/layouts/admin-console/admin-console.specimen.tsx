@@ -3,11 +3,11 @@ import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
 import { AdminConsoleHeader } from '@mattermost/compass-ui/components/admin-console-header';
 import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
-import { AdminConsoleSidebar } from '@mattermost/compass-ui/components/admin-console-sidebar';
 import { Radio } from '@mattermost/compass-ui/components/radio';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import { Select } from '@mattermost/compass-ui/components/select';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
+import { AdminConsoleSidebar } from '@mattermost/compass-proto';
 import { defaultAdminConsoleSidebarGroups } from '@mattermost/compass-proto';
 import styles from './admin-console.specimen.module.scss';
 

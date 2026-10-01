@@ -6,7 +6,11 @@ import MobileSearchField from '@/components/MobileSearchField/MobileSearchField'
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
-import { applyChannelNameOverrides, type ChannelsSidebarItemModel, type ChannelsSidebarModel } from '@mattermost/compass-ui/components/channels-sidebar';
+import {
+  applyChannelNameOverrides,
+  type ChannelsSidebarItemModel,
+  type ChannelsSidebarModel,
+} from '../ChannelsSidebar';
 import { buildDefaultChannelsSidebarModel } from '@/fixtures/buildDefaultChannelsSidebarModel';
 import styles from './MobileChannelsSidebar.module.scss';
 

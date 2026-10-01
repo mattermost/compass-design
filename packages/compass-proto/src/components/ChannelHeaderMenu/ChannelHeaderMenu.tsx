@@ -10,12 +10,13 @@ import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
 import FolderMoveOutlineIcon from '@mattermost/compass-icons/components/folder-move-outline';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
-import Icon from '@/components/Icon/Icon';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import PopoverMenu, {
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
   PopoverMenuDivider,
   PopoverMenuGroup,
-} from '@/components/PopoverMenu/PopoverMenu';
+} from '@mattermost/compass-ui/components/popover-menu';
 
 export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {}
 

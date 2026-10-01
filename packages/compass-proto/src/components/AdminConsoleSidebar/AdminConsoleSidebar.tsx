@@ -11,10 +11,10 @@ import AppsIcon from '@mattermost/compass-icons/components/apps';
 import WebhookIcon from '@mattermost/compass-icons/components/webhook';
 import FileTextOutlineIcon from '@mattermost/compass-icons/components/file-text-outline';
 import FlaskOutlineIcon from '@mattermost/compass-icons/components/flask-outline';
-import ChannelSidebarItem from '@/components/ChannelSidebarItem/ChannelSidebarItem';
-import { ChannelsSidebarCategory } from '@/components/ChannelsSidebar/ChannelsSidebar';
-import Scrollbar from '@/components/Scrollbar/Scrollbar';
-import UserAvatar from '@/components/UserAvatar/UserAvatar';
+import { ChannelSidebarItem } from '@mattermost/compass-ui/components/channel-sidebar-item';
+import { ChannelsSidebarCategory } from '../ChannelsSidebar/ChannelsSidebar';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import {
   type AdminConsoleSidebarCategoryIconKey,
   type AdminConsoleSidebarGroupModel,
