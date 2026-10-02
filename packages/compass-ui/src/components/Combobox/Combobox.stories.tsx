@@ -129,7 +129,8 @@ function searchPeople(query: string): Promise<ComboboxOption[]> {
             (person) =>
               q === '' ||
               person.label.toLowerCase().includes(q) ||
-              person.secondaryLabel?.includes(q),
+              (typeof person.secondaryLabel === 'string' &&
+                person.secondaryLabel.toLowerCase().includes(q)),
           ),
         ),
       600,
