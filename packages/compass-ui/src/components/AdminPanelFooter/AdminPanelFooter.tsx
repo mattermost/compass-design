@@ -7,16 +7,20 @@ import styles from './AdminPanelFooter.module.scss';
 export type AdminPanelFooterStatus = 'none' | 'warning' | 'error';
 
 export interface AdminPanelFooterProps {
-  /** Primary footer action label. */
-  saveLabel?: string;
-  cancelLabel?: string;
+  /** Primary footer action label. Default: "Save". Accepts translated nodes. */
+  saveLabel?: ReactNode;
+  /** Default: "Cancel". Accepts translated nodes. */
+  cancelLabel?: ReactNode;
   onSave?: () => void;
   onCancel?: () => void;
   /** When true, Save uses disabled styling until the sheet is actionable. */
   saveDisabled?: boolean;
   /** Optional validation summary beside the buttons. */
   status?: AdminPanelFooterStatus;
-  /** Override default copy when `warning` | `error`. */
+  /**
+   * Override default copy when `warning` | `error`. Defaults: "There are
+   * outstanding issues in the form above." / "There are errors in the form above."
+   */
   statusMessage?: ReactNode;
   className?: string;
 }

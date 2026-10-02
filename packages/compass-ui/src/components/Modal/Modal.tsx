@@ -1,10 +1,11 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 import { useId } from 'react';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
 import ModalFooter from '@/components/ModalFooter/ModalFooter';
 import type { ModalFooterType } from '@/components/ModalFooter/ModalFooter';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import type { ModalSubtitlePlacement } from '@/components/ModalHeader/ModalHeader';
+import type { BuiltInButtonProps } from '@/utils/props';
 import { toKebab } from '@/utils/string';
 import styles from './Modal.module.scss';
 
@@ -19,7 +20,10 @@ export type ModalBodyPadding = 'default' | 'menu' | 'none';
 
 export type { ModalFooterType, ModalSubtitlePlacement };
 
-export interface ModalProps {
+export interface ModalProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title' | 'children' | 'style'
+> {
   /** Extra class on the dialog root (size + chrome classes still apply). */
   className?: string;
   /** Inline style on the dialog root — prefer `className` for layout overrides. */
@@ -41,8 +45,16 @@ export interface ModalProps {
   showBackButton?: boolean;
   /** Called when the back button is clicked. */
   onBack?: () => void;
+  /** Accessible name for the back button. Default: "Go back". */
+  backLabel?: string;
+  /** Extra attributes for the back button (e.g. `data-testid`). */
+  backButtonProps?: BuiltInButtonProps;
   /** Called when the × close button is clicked. */
   onClose?: () => void;
+  /** Accessible name for the close button. Default: "Close". */
+  closeLabel?: string;
+  /** Extra attributes for the close button (e.g. `data-testid`). */
+  closeButtonProps?: BuiltInButtonProps;
   /** Show divider between header and body. Default: true. */
   headerDivider?: boolean;
   /** Optional control before close (Button, search field, …). */
@@ -83,7 +95,11 @@ export default function Modal({
   hideTitle = false,
   showBackButton = false,
   onBack,
+  backLabel,
+  backButtonProps,
   onClose,
+  closeLabel,
+  closeButtonProps,
   headerDivider = true,
   headerAction,
   bodyPadding = 'default',
@@ -93,6 +109,7 @@ export default function Modal({
   footerLeading,
   footerType = '2-actions',
   footerDivider = true,
+  ...rest
 }: ModalProps) {
   const titleId = useId();
   const sizeClass = styles[`modal--size-${toKebab(size)}`];
@@ -113,6 +130,7 @@ export default function Modal({
 
   return (
     <div
+      {...rest}
       className={[styles.modal, sizeClass, className].filter(Boolean).join(' ')}
       style={style}
       role="dialog"
@@ -127,7 +145,11 @@ export default function Modal({
         hideTitle={hideTitle}
         showBackButton={showBackButton}
         onBack={onBack}
+        backLabel={backLabel}
+        backButtonProps={backButtonProps}
         onClose={onClose}
+        closeLabel={closeLabel}
+        closeButtonProps={closeButtonProps}
         divider={headerDivider}
         headerAction={headerAction}
       />

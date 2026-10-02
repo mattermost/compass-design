@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import Button from '@/components/Button/Button';
 import type { ButtonProps } from '@/components/Button/Button';
 import Illustration from '@/components/Illustration/Illustration';
@@ -6,7 +6,10 @@ import type { IllustrationProps } from '@/components/Illustration/Illustration';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
 import styles from './EmptyState.module.scss';
 
-export interface EmptyStateProps {
+export interface EmptyStateProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title' | 'children' | 'onScroll'
+> {
   /** Illustration props (children = the SVG component). Rendered above the title. */
   illustration?: IllustrationProps;
   /** Main heading. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
@@ -30,9 +33,11 @@ export default function EmptyState({
   description,
   action,
   className = '',
+  ...rest
 }: EmptyStateProps) {
   return (
     <Scrollbar
+      {...rest}
       className={[styles['empty-state'], className].filter(Boolean).join(' ')}
     >
       <div className={styles['empty-state__container']}>

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import AlertOutlineIcon from '@mattermost/compass-icons/components/alert-outline';
 import CheckIcon from '@mattermost/compass-icons/components/check';
@@ -8,11 +8,13 @@ import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import styles from './Toast.module.scss';
 
 export type ToastType = 'general' | 'info' | 'success' | 'warning' | 'danger';
 
-export interface ToastProps {
+export interface ToastProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   /** Toast message. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   message: ReactNode;
@@ -22,6 +24,10 @@ export interface ToastProps {
   actionLabel?: ReactNode;
   onAction?: () => void;
   onDismiss?: () => void;
+  /** Accessible name for the dismiss button. Default: "Dismiss". */
+  dismissLabel?: string;
+  /** Extra attributes for the dismiss button (e.g. `data-testid`). */
+  dismissButtonProps?: BuiltInButtonProps;
 }
 
 const TYPE_ICONS: Record<ToastType, ReactNode> = {
@@ -45,6 +51,9 @@ export default function Toast({
   actionLabel,
   onAction,
   onDismiss,
+  dismissLabel = 'Dismiss',
+  dismissButtonProps,
+  ...rest
 }: ToastProps) {
   const typeClass = styles[`toast--type-${type.toLowerCase()}`];
   const noDismissClass = onDismiss == null ? styles['toast--no-dismiss'] : '';
@@ -53,7 +62,7 @@ export default function Toast({
     .join(' ');
 
   return (
-    <div className={rootClass} role="status" aria-live="polite">
+    <div {...rest} className={rootClass} role="status" aria-live="polite">
       <div className={styles['toast__content']}>
         <span className={styles['toast__icon']} aria-hidden>
           <IconSlotContext.Provider value={{ size: '16' }}>
@@ -75,9 +84,13 @@ export default function Toast({
       </div>
       {onDismiss != null && (
         <IconButton
-          aria-label="Dismiss"
+          {...dismissButtonProps}
+          aria-label={dismissLabel}
           size="small"
-          className={styles['toast__dismiss']}
+          className={mergeClassNames(
+            styles['toast__dismiss'],
+            dismissButtonProps?.className,
+          )}
           icon={<Icon glyph={<CloseIcon />} size="16" />}
           onClick={onDismiss}
         />

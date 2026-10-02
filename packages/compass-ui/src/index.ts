@@ -81,4 +81,5 @@ export * from './hooks/useExitAnimation';
 export * from './hooks/useOutsideClose';
 export * from './hooks/usePopoverTransition';
 export { toKebab } from './utils/string';
+export type { BuiltInButtonProps, DataAttributes } from './utils/props';
 export { default as btnStyles } from './components/Button/Button.module.scss';

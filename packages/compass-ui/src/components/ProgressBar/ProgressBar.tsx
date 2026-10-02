@@ -1,8 +1,9 @@
+import type { HTMLAttributes } from 'react';
 import styles from './ProgressBar.module.scss';
 
 export type ProgressBarSize = 'small' | 'large';
 
-export interface ProgressBarProps {
+export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   /** Progress value 0–100. Default: 0. */
   value?: number;
   /** Size variant. Default: Large. */
@@ -17,7 +18,7 @@ export interface ProgressBarProps {
    * `aria-valuenow`. `value` and `semanticColors` are ignored. Default: false.
    */
   indeterminate?: boolean;
-  /** Accessible label for the progress bar. */
+  /** Accessible label for the progress bar. Default: "Progress". */
   'aria-label'?: string;
   /** Optional CSS class name. */
   className?: string;
@@ -41,6 +42,7 @@ export default function ProgressBar({
   indeterminate = false,
   'aria-label': ariaLabel = 'Progress',
   className = '',
+  ...rest
 }: ProgressBarProps) {
   const clampedValue = Math.min(100, Math.max(0, value));
   const sizeClass =
@@ -55,6 +57,7 @@ export default function ProgressBar({
 
   return (
     <div
+      {...rest}
       role="progressbar"
       aria-valuenow={indeterminate ? undefined : clampedValue}
       aria-valuemin={0}

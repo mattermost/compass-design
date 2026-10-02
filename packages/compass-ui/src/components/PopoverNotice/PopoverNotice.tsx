@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
 import CheckCircleOutlineIcon from '@mattermost/compass-icons/components/check-circle-outline';
@@ -9,6 +9,8 @@ import Checkbox from '@/components/Checkbox/Checkbox';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import styles from './PopoverNotice.module.scss';
 
 export type PopoverNoticeVariant = 'info' | 'success' | 'warning' | 'danger';
@@ -18,9 +20,15 @@ export interface PopoverNoticeAction {
   label: ReactNode;
   onClick?: () => void;
   emphasis?: 'primary' | 'tertiary';
+  disabled?: boolean;
+  /** Shows a spinner in the button and disables it. */
+  loading?: boolean;
 }
 
-export interface PopoverNoticeProps {
+export interface PopoverNoticeProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title' | 'children'
+> {
   /** Popover title. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   title: ReactNode;
   /** Body content. */
@@ -36,10 +44,14 @@ export interface PopoverNoticeProps {
   actions?: PopoverNoticeAction[];
   /** When true, shows a "Don't show this again" checkbox. */
   showCheckbox?: boolean;
-  /** Checkbox label override. */
-  checkboxLabel?: string;
+  /** Checkbox label override. Accepts translated nodes. Default: "Don't show this confirmation again". */
+  checkboxLabel?: ReactNode;
   /** Callback when close button is clicked. */
   onClose?: () => void;
+  /** Accessible name for the close button. Default: "Close". */
+  closeLabel?: string;
+  /** Extra attributes for the close button (e.g. `data-testid`). */
+  closeButtonProps?: BuiltInButtonProps;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -73,7 +85,10 @@ export default function PopoverNotice({
   showCheckbox = false,
   checkboxLabel = "Don't show this confirmation again",
   onClose,
+  closeLabel = 'Close',
+  closeButtonProps,
   className = '',
+  ...rest
 }: PopoverNoticeProps) {
   const resolvedIcon = icon ?? (variant ? VARIANT_ICONS[variant] : null);
   const iconColorClass = !icon && variant ? VARIANT_ICON_CLASS[variant] : '';
@@ -87,7 +102,7 @@ export default function PopoverNotice({
     .join(' ');
 
   return (
-    <div className={rootClass}>
+    <div {...rest} className={rootClass}>
       <div className={styles['popover-notice__content']}>
         {resolvedIcon != null && (
           <div
@@ -118,6 +133,8 @@ export default function PopoverNotice({
                   key={i}
                   emphasis={action.emphasis ?? 'primary'}
                   size="small"
+                  disabled={action.disabled}
+                  loading={action.loading}
                   onClick={action.onClick}
                 >
                   {action.label}
@@ -132,8 +149,12 @@ export default function PopoverNotice({
 
       {onClose && (
         <IconButton
-          className={styles['popover-notice__close']}
-          aria-label="Close"
+          {...closeButtonProps}
+          className={mergeClassNames(
+            styles['popover-notice__close'],
+            closeButtonProps?.className,
+          )}
+          aria-label={closeLabel}
           size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onClose}

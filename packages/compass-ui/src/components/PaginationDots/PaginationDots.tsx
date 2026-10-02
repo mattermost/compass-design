@@ -16,7 +16,13 @@ export interface PaginationDotsProps {
   onPageChange?: (page: number) => void;
   /** Optional CSS class name. */
   className?: string;
+  /** Accessible name for the dot list. Default: "Pages". */
+  label?: string;
+  /** Accessible name for each dot. Default: `Page {page}`. */
+  formatPageLabel?: (page: number) => string;
 }
+
+const defaultFormatPageLabel = (page: number) => `Page ${page}`;
 
 /**
  * Pagination Dots indicate progress through a fixed sequence of steps — most often a
@@ -30,6 +36,8 @@ export default function PaginationDots({
   dotStyle = 'default',
   onPageChange,
   className = '',
+  label = 'Pages',
+  formatPageLabel = defaultFormatPageLabel,
 }: PaginationDotsProps) {
   const isVertical = orientation === 'vertical';
   const isInverted = dotStyle === 'inverted';
@@ -55,7 +63,7 @@ export default function PaginationDots({
         .filter(Boolean)
         .join(' ')}
       role="tablist"
-      aria-label="Pages"
+      aria-label={label}
     >
       {Array.from({ length: pages }, (_, i) => {
         const page = i + 1;
@@ -73,7 +81,7 @@ export default function PaginationDots({
             type="button"
             role="tab"
             aria-selected={isActive}
-            aria-label={`Page ${page}`}
+            aria-label={formatPageLabel(page)}
             className={styles['pagination-dots__item']}
             onClick={() => onPageChange?.(page)}
           >

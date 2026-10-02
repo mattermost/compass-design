@@ -1,10 +1,12 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import PaginationDots from '@/components/PaginationDots/PaginationDots';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import { toKebab } from '@/utils/string';
 import styles from './TourPoint.module.scss';
 
@@ -22,15 +24,27 @@ export interface TourPointProgress {
   pages: number;
   activePage: number;
   onPageChange?: (page: number) => void;
+  /** Accessible name for the step dots. Default: "Pages". */
+  label?: string;
+  /** Accessible name for each step dot. Default: `Page {page}`. */
+  formatPageLabel?: (page: number) => string;
 }
 
 export interface TourPointPrimaryAction {
-  label: string;
+  /** Button label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
+  /** Shows a spinner in the button and disables it. */
+  loading?: boolean;
 }
 
-export interface TourPointProps {
-  title: string;
+export interface TourPointProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title' | 'children'
+> {
+  /** Tour step heading. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  title: ReactNode;
   children: ReactNode;
   /** Optional image between body copy and footer (e.g. screenshot as an img). */
   media?: ReactNode;
@@ -43,6 +57,10 @@ export interface TourPointProps {
    */
   showPulsingDot?: boolean;
   onClose?: () => void;
+  /** Accessible name for the close button. Default: "Close". */
+  closeLabel?: string;
+  /** Extra attributes for the close button (e.g. `data-testid`). */
+  closeButtonProps?: BuiltInButtonProps;
   progress?: TourPointProgress;
   primaryAction?: TourPointPrimaryAction;
   className?: string;
@@ -55,9 +73,12 @@ export default function TourPoint({
   pointerPosition = 'top-center',
   showPulsingDot = true,
   onClose,
+  closeLabel = 'Close',
+  closeButtonProps,
   progress,
   primaryAction,
   className = '',
+  ...rest
 }: TourPointProps) {
   const showPointer = pointerPosition !== 'none';
   const pointerModifier =
@@ -73,7 +94,7 @@ export default function TourPoint({
   const showFooter = progress != null || primaryAction != null;
 
   return (
-    <div className={rootClass}>
+    <div {...rest} className={rootClass}>
       {showPointer && (
         <span className={styles['tour-point__pointer']} aria-hidden>
           <span className={styles['tour-point__pointer-triangle']} />
@@ -97,8 +118,12 @@ export default function TourPoint({
           <h2 className={styles['tour-point__title']}>{title}</h2>
           {onClose && (
             <IconButton
-              className={styles['tour-point__close']}
-              aria-label="Close"
+              {...closeButtonProps}
+              className={mergeClassNames(
+                styles['tour-point__close'],
+                closeButtonProps?.className,
+              )}
+              aria-label={closeLabel}
               size="small"
               padding="compact"
               style="default"
@@ -124,6 +149,8 @@ export default function TourPoint({
                 activePage={progress.activePage}
                 dotStyle="on-primary"
                 onPageChange={progress.onPageChange}
+                label={progress.label}
+                formatPageLabel={progress.formatPageLabel}
               />
             ) : (
               <span
@@ -138,6 +165,8 @@ export default function TourPoint({
                   emphasis="primary"
                   size="small"
                   trailingIcon={<Icon size="16" glyph={<ChevronRightIcon />} />}
+                  disabled={primaryAction.disabled}
+                  loading={primaryAction.loading}
                   onClick={primaryAction.onClick}
                 >
                   {primaryAction.label}

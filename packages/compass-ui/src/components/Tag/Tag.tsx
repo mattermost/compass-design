@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import type { IconSize } from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import styles from './Tag.module.scss';
@@ -14,7 +14,7 @@ export type TagType =
 export type TagSize = 'small' | 'x-small';
 export type TagCasing = 'title-case' | 'all-caps';
 
-export type TagProps = {
+export type TagProps = Omit<HTMLAttributes<HTMLSpanElement>, 'type'> & {
   /** Tag label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   label: ReactNode;
   /** Semantic colour type. Default: Default. */
@@ -55,6 +55,7 @@ export default function Tag({
   casing = 'title-case',
   leadingIcon,
   className = '',
+  ...rest
 }: TagProps) {
   const classes = [
     styles.tag,
@@ -67,7 +68,7 @@ export default function Tag({
     .join(' ');
 
   return (
-    <span className={classes}>
+    <span {...rest} className={classes}>
       {leadingIcon && (
         <span className={styles['tag__icon']} aria-hidden>
           <IconSlotContext.Provider value={{ size: TAG_ICON_SIZE[size] }}>

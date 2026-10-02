@@ -25,11 +25,14 @@ export interface AdminPanelHeaderProps {
   /** Icon for the 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} />` — AdminPanelHeader provides the correct size via context. */
   leadingIcon?: ReactNode;
   showBeta?: boolean;
-  betaLabel?: string;
+  /** Default: "Beta". Accepts translated nodes. */
+  betaLabel?: ReactNode;
   showEnterpriseLabel?: boolean;
-  enterpriseLabel?: string;
+  /** Default: "Enterprise". Accepts translated nodes. */
+  enterpriseLabel?: ReactNode;
   showButton?: boolean;
-  buttonLabel?: string;
+  /** Default: "Button". Accepts translated nodes. */
+  buttonLabel?: ReactNode;
   onButtonClick?: () => void;
   showSwitch?: boolean;
   switchLabel?: ReactNode;
@@ -43,6 +46,10 @@ export interface AdminPanelHeaderProps {
   expandable?: boolean;
   isExpanded?: boolean;
   onToggleExpand?: () => void;
+  /** Accessible name for the expand button while collapsed. Default: "Expand section". */
+  expandLabel?: string;
+  /** Accessible name for the expand button while expanded. Default: "Collapse section". */
+  collapseLabel?: string;
   /** Bottom border under the header row (hidden when expandable and collapsed). */
   showDivider?: boolean;
   className?: string;
@@ -77,6 +84,8 @@ export default function AdminPanelHeader({
   expandable = false,
   isExpanded = false,
   onToggleExpand,
+  expandLabel = 'Expand section',
+  collapseLabel = 'Collapse section',
   showDivider = true,
   className = '',
 }: AdminPanelHeaderProps) {
@@ -160,7 +169,7 @@ export default function AdminPanelHeader({
                 type="button"
                 style="default"
                 size="medium"
-                aria-label={isExpanded ? 'Collapse section' : 'Expand section'}
+                aria-label={isExpanded ? collapseLabel : expandLabel}
                 aria-expanded={isExpanded}
                 onClick={onToggleExpand}
                 icon={
