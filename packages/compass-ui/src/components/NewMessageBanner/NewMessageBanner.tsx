@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import ArrowDownIcon from '@mattermost/compass-icons/components/arrow-down';
 import CloseIcon from '@mattermost/compass-icons/components/close';
@@ -10,12 +11,33 @@ export interface NewMessageBannerProps {
   className?: string;
   /** Type controls the layout. Default: JumpToUnreads. */
   type?: NewMessageBannerType;
-  /** Unread count label text (e.g. "21 new messages since Saturday"). Used in JumpToUnreads type. */
-  countLabel?: string;
+  /** Unread count label text (e.g. "21 new messages since Saturday"). Used in JumpToUnreads type. Accepts translated nodes. */
+  countLabel?: ReactNode;
   /** Called when the banner itself is clicked. */
   onClick?: () => void;
   /** Called when the dismiss (×) button is clicked. */
   onDismiss?: () => void;
+  /** Visible label for the JumpToUnreads type. Default: "Jump to unreads". */
+  jumpLabel?: ReactNode;
+  /**
+   * Accessible name for the jump button. Default: `{jumpLabel}, {countLabel}`
+   * when both are strings. Pass it when either is a translated node.
+   */
+  jumpAriaLabel?: string;
+  /** Visible label for the NewReplies type. Default: "New replies". */
+  newRepliesLabel?: ReactNode;
+  /** Accessible name for the dismiss button. Default: "Dismiss". */
+  dismissLabel?: string;
+}
+
+function defaultJumpAriaLabel(
+  jumpLabel: ReactNode,
+  countLabel: ReactNode,
+): string | undefined {
+  if (typeof jumpLabel !== 'string') return undefined;
+  return typeof countLabel === 'string'
+    ? `${jumpLabel}, ${countLabel}`
+    : jumpLabel;
 }
 
 /**
@@ -29,6 +51,10 @@ export default function NewMessageBanner({
   countLabel,
   onClick,
   onDismiss,
+  jumpLabel = 'Jump to unreads',
+  jumpAriaLabel,
+  newRepliesLabel = 'New replies',
+  dismissLabel = 'Dismiss',
 }: NewMessageBannerProps) {
   const typeClass =
     styles[
@@ -47,9 +73,7 @@ export default function NewMessageBanner({
         onClick={onClick}
         aria-label={
           type === 'jump-to-unreads'
-            ? countLabel != null
-              ? `Jump to unreads, ${countLabel}`
-              : 'Jump to unreads'
+            ? (jumpAriaLabel ?? defaultJumpAriaLabel(jumpLabel, countLabel))
             : undefined
         }
       >
@@ -58,7 +82,7 @@ export default function NewMessageBanner({
             <Icon size="16" glyph={<ArrowDownIcon />} />
           </span>
           <span className={styles['new-message-banner__jump-label']}>
-            {type === 'jump-to-unreads' ? 'Jump to unreads' : 'New replies'}
+            {type === 'jump-to-unreads' ? jumpLabel : newRepliesLabel}
           </span>
         </span>
       </button>
@@ -72,7 +96,7 @@ export default function NewMessageBanner({
           className={styles['new-message-banner__dismiss']}
           type="button"
           onClick={onDismiss}
-          aria-label="Dismiss"
+          aria-label={dismissLabel}
         >
           <Icon size="16" glyph={<CloseIcon />} />
         </button>

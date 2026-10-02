@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
 import styles from './MessageSeparator.module.scss';
@@ -8,12 +8,16 @@ export type MessageSeparatorType = 'date' | 'new-messages' | 'reply-count';
 export interface MessageSeparatorProps extends HTMLAttributes<HTMLDivElement> {
   /** Separator variant. Default: Date. */
   type?: MessageSeparatorType;
-  /** Label text. Defaults: 'Today' / 'New messages' / '4 replies'. */
-  label?: string;
+  /** Label text. Defaults: 'Today' / 'New messages' / '4 replies'. Accepts translated nodes. */
+  label?: ReactNode;
   /** Show AI summarize button (New Messages type only). Default: false. */
   showAiSummary?: boolean;
   /** Called when Summarize button is clicked. */
   onSummarize?: () => void;
+  /** Visible Summarize button text. Default: "Summarize". */
+  summarizeLabel?: ReactNode;
+  /** Accessible name for the Summarize button. Default: "Summarize new messages with AI". */
+  summarizeAriaLabel?: string;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -34,6 +38,8 @@ export default function MessageSeparator({
   label,
   showAiSummary = false,
   onSummarize,
+  summarizeLabel = 'Summarize',
+  summarizeAriaLabel = 'Summarize new messages with AI',
   className = '',
   ...rest
 }: MessageSeparatorProps) {
@@ -58,7 +64,7 @@ export default function MessageSeparator({
           type="button"
           className={styles['message-separator__summarize']}
           onClick={onSummarize}
-          aria-label="Summarize new messages with AI"
+          aria-label={summarizeAriaLabel}
         >
           <span
             className={styles['message-separator__summarize-icon']}
@@ -66,7 +72,7 @@ export default function MessageSeparator({
           >
             <Icon size="12" glyph={<CreationOutlineIcon />} />
           </span>
-          Summarize
+          {summarizeLabel}
         </button>
       )}
     </div>

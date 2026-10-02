@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
 import ReactionButton from '@/components/ReactionButton/ReactionButton';
@@ -30,6 +30,14 @@ export interface ReactionsRowProps extends HTMLAttributes<HTMLDivElement> {
   onReactionClick?: (emoji: string) => void;
   /** Called when the acknowledge button is clicked. */
   onAcknowledge?: () => void;
+  /** Visible acknowledge button text. Default: "Acknowledge". */
+  acknowledgeLabel?: ReactNode;
+  /** Accessible name for the acknowledge button. Default: "Acknowledge message". */
+  acknowledgeAriaLabel?: string;
+  /** Accessible name for the add-reaction button. Default: "Add reaction". */
+  addReactionLabel?: string;
+  /** Accessible name for each reaction button. Default: `{emoji} {count} reaction(s)`. */
+  formatReactionLabel?: (emoji: string, count: number) => string;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -54,6 +62,10 @@ export default function ReactionsRow({
   onAddReaction,
   onReactionClick,
   onAcknowledge,
+  acknowledgeLabel = 'Acknowledge',
+  acknowledgeAriaLabel = 'Acknowledge message',
+  addReactionLabel = 'Add reaction',
+  formatReactionLabel,
   className = '',
   ...rest
 }: ReactionsRowProps) {
@@ -75,7 +87,7 @@ export default function ReactionsRow({
             .join(' ')}
           onClick={onAcknowledge}
           aria-pressed={currentUserAcknowledged}
-          aria-label="Acknowledge message"
+          aria-label={acknowledgeAriaLabel}
         >
           <span className={styles['reactions-row__ack-icon']} aria-hidden>
             <Icon size="16" glyph={<CheckCircleOutlineIcon />} />
@@ -86,7 +98,7 @@ export default function ReactionsRow({
             </span>
           ) : (
             <span className={styles['reactions-row__ack-label']}>
-              Acknowledge
+              {acknowledgeLabel}
             </span>
           )}
         </button>
@@ -100,6 +112,7 @@ export default function ReactionsRow({
             emoji={emoji}
             count={count}
             byCurrentUser={byCurrentUser}
+            formatLabel={formatReactionLabel}
             onClick={() => onReactionClick?.(emoji)}
           />
         ))}
@@ -107,7 +120,7 @@ export default function ReactionsRow({
         {/* Add reaction button */}
         {showAddReaction && (
           <IconButton
-            aria-label="Add reaction"
+            aria-label={addReactionLabel}
             className={styles['reactions-row__add-reaction']}
             size="x-small"
             onClick={onAddReaction}

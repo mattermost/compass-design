@@ -9,6 +9,7 @@ export interface SpinnerProps extends Omit<
 > {
   size?: SpinnerSize;
   inverted?: boolean;
+  /** Accessible name announced with `role="status"`. Default: "Loading". Pass a translated string to localize. */
   'aria-label'?: string;
 }
 

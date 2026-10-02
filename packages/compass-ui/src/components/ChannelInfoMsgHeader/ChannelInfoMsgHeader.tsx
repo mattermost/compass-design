@@ -1,8 +1,9 @@
+import type { ReactNode } from 'react';
 import styles from './ChannelInfoMsgHeader.module.scss';
 
 export interface ChannelInfoMsgHeaderTab {
-  /** Label text for this tab. */
-  label: string;
+  /** Label text for this tab. Accepts translated nodes. */
+  label: ReactNode;
   /** Whether this tab is currently active/selected. */
   active?: boolean;
   /** Click handler. */
@@ -14,7 +15,7 @@ export interface ChannelInfoMsgHeaderProps {
    * Channel (or section) label — primary API for Mentions / Saved message
    * indicators. Prefer this over `tabs` for a single channel chip.
    */
-  channelName?: string;
+  channelName?: ReactNode;
   /** Called when the channel label is pressed (`channelName` mode). */
   onChannelClick?: () => void;
   /**
@@ -26,7 +27,7 @@ export interface ChannelInfoMsgHeaderProps {
    * Team name after the channel divider. Omit when the workspace has only one
    * team or the team is already clear from context.
    */
-  teamName?: string;
+  teamName?: ReactNode;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -57,7 +58,9 @@ export default function ChannelInfoMsgHeader({
       <div className={styles['channel-info-msg-header__container']}>
         {resolvedTabs.map((tab, index) => (
           <div
-            key={`${tab.label}-${index}`}
+            key={
+              typeof tab.label === 'string' ? `${tab.label}-${index}` : index
+            }
             className={[
               styles['channel-info-msg-header__tab-area'],
               tab.active

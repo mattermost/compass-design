@@ -25,9 +25,20 @@ export interface PermalinkPreviewProps {
    */
   children?: React.ReactNode;
   /** "Originally posted in ~Channel" footer text. */
-  originalChannel?: string;
+  originalChannel?: React.ReactNode;
+  /**
+   * Full footer line. Default: `Originally posted in {originalChannel}`.
+   * Pass a translated node to localize the surrounding copy.
+   */
+  originalChannelLabel?: React.ReactNode;
   /** Called when the dismiss control is clicked. Shown on hover when provided. */
   onDismiss?: () => void;
+  /** Accessible name for the dismiss button. Default: "Remove permalink preview". */
+  dismissLabel?: string;
+  /** Expand toggle text. Default: "Show more". */
+  showMoreLabel?: React.ReactNode;
+  /** Collapse toggle text. Default: "Show less". */
+  showLessLabel?: React.ReactNode;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -44,7 +55,11 @@ export default function PermalinkPreview({
   messageText = 'At eu sed tristique gravida et fames vel pellentesque. Urna phasellus integer eu tempor mauris amet sagittis. Mollis risus mi felis magna.',
   children,
   originalChannel = '~Desktop App',
+  originalChannelLabel,
   onDismiss,
+  dismissLabel = 'Remove permalink preview',
+  showMoreLabel = 'Show more',
+  showLessLabel = 'Show less',
   className = '',
 }: PermalinkPreviewProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -90,7 +105,7 @@ export default function PermalinkPreview({
             className={styles['permalink-preview__dismiss']}
             size="x-small"
             padding="compact"
-            aria-label="Remove permalink preview"
+            aria-label={dismissLabel}
             icon={<Icon size="12" glyph={<CloseIcon />} />}
             onClick={onDismiss}
           />
@@ -127,13 +142,13 @@ export default function PermalinkPreview({
                   setIsExpanded((prev) => !prev);
                 }}
               >
-                {isExpanded ? 'Show less' : 'Show more'}
+                {isExpanded ? showLessLabel : showMoreLabel}
               </button>
             )}
           </div>
         </div>
         <p className={styles['permalink-preview__origin']}>
-          Originally posted in {originalChannel}
+          {originalChannelLabel ?? <>Originally posted in {originalChannel}</>}
         </p>
       </div>
     </div>

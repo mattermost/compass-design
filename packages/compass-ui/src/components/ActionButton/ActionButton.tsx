@@ -5,7 +5,8 @@ import styles from './ActionButton.module.scss';
 export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Pass `<Icon glyph={<SomeIcon />} />` — ActionButton provides the correct size (20) via context. */
   icon: ReactNode;
-  label: string;
+  /** Visible label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
   /** When set, this is a toggle; maps to `aria-pressed`. */
   active?: boolean;
   destructive?: boolean;

@@ -20,7 +20,12 @@ export interface MentionBadgeProps {
   location?: MentionBadgeLocation;
   /** Size variant. Figma: Size. Default: Small. */
   size?: MentionBadgeSize;
+  /** Accessible name. Default: `{count} mention(s)`. */
+  formatLabel?: (count: number) => string;
 }
+
+const defaultFormatMentionLabel = (count: number) =>
+  `${count} mention${count === 1 ? '' : 's'}`;
 
 /**
  * Mention Badges show a numerical count of pending mentions. They appear next to channel
@@ -33,6 +38,7 @@ export default function MentionBadge({
   count,
   location = 'sidebar',
   size = 'small',
+  formatLabel = defaultFormatMentionLabel,
 }: MentionBadgeProps) {
   const displayText = count > 99 ? '99+' : String(count);
   const digitCount = displayText.length; // 1, 2, or 3 (for "99+")
@@ -50,10 +56,7 @@ export default function MentionBadge({
     .join(' ');
 
   return (
-    <span
-      className={rootClass}
-      aria-label={`${count} mention${count === 1 ? '' : 's'}`}
-    >
+    <span className={rootClass} aria-label={formatLabel(count)}>
       {displayText}
     </span>
   );

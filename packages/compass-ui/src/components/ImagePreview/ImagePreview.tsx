@@ -5,7 +5,7 @@ import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import DownloadOutlineIcon from '@mattermost/compass-icons/components/download-outline';
 import MenuDownIcon from '@mattermost/compass-icons/components/menu-down';
 import MenuRightIcon from '@mattermost/compass-icons/components/menu-right';
-import { useEffect, useRef, type KeyboardEvent } from 'react';
+import { useEffect, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import styles from './ImagePreview.module.scss';
 
 export type ImagePreviewAspectRatio = '16:9' | '4:3' | '1:1';
@@ -27,6 +27,16 @@ export interface ImagePreviewProps {
   aspectRatio?: ImagePreviewAspectRatio;
   /** Optional CSS class name. */
   className?: string;
+  /** Visible text of the collapsed toggle. Default: "Show Image preview". */
+  showLabel?: ReactNode;
+  /** Accessible name of the collapsed toggle. Default: "Show image preview". */
+  showAriaLabel?: string;
+  /** Accessible name of the collapse button. Default: "Collapse image preview". */
+  collapseLabel?: string;
+  /** Accessible name of the copy-link button. Default: "Copy link". */
+  copyLinkLabel?: string;
+  /** Accessible name of the download button. Default: "Download". */
+  downloadLabel?: string;
 }
 
 /**
@@ -44,6 +54,11 @@ export default function ImagePreview({
   onDownload,
   aspectRatio = '16:9',
   className = '',
+  showLabel = 'Show Image preview',
+  showAriaLabel = 'Show image preview',
+  collapseLabel = 'Collapse image preview',
+  copyLinkLabel = 'Copy link',
+  downloadLabel = 'Download',
 }: ImagePreviewProps) {
   const frameTransition = usePopoverTransition(!collapsed);
   const labelTransition = usePopoverTransition(collapsed);
@@ -99,7 +114,7 @@ export default function ImagePreview({
               .join(' ')}
             onClick={onToggleCollapse}
             onKeyDown={markKeyboardToggle}
-            aria-label="Show image preview"
+            aria-label={showAriaLabel}
           >
             <span className={styles['image-preview__show-label']}>
               <span
@@ -108,7 +123,7 @@ export default function ImagePreview({
               >
                 <Icon size="12" glyph={<MenuRightIcon />} />
               </span>
-              Show Image preview
+              {showLabel}
             </span>
           </button>
         )}
@@ -139,7 +154,7 @@ export default function ImagePreview({
                 className={styles['image-preview__collapse-btn']}
                 onClick={onToggleCollapse}
                 onKeyDown={markKeyboardToggle}
-                aria-label="Collapse image preview"
+                aria-label={collapseLabel}
               >
                 <Icon size="16" glyph={<MenuDownIcon />} />
               </button>
@@ -150,7 +165,7 @@ export default function ImagePreview({
                 <IconButton
                   size="small"
                   padding="compact"
-                  aria-label="Copy link"
+                  aria-label={copyLinkLabel}
                   icon={<Icon size="16" glyph={<LinkVariantIcon />} />}
                   onClick={onCopyLink}
                 />
@@ -159,7 +174,7 @@ export default function ImagePreview({
                 <IconButton
                   size="small"
                   padding="compact"
-                  aria-label="Download"
+                  aria-label={downloadLabel}
                   icon={<Icon size="16" glyph={<DownloadOutlineIcon />} />}
                   onClick={onDownload}
                 />

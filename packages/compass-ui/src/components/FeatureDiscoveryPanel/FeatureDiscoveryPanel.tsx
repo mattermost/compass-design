@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Button from '@/components/Button/Button';
 import type { ButtonProps } from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
@@ -8,12 +9,12 @@ import MattermostIcon from '@mattermost/compass-icons/components/mattermost';
 import styles from './FeatureDiscoveryPanel.module.scss';
 
 export interface FeatureDiscoveryPanelProps {
-  /** SKU tag label (e.g. "PROFESSIONAL"). Set to null to hide. */
-  skuLabel?: string | null;
-  /** Panel heading title. */
-  title: string;
-  /** Body description text. */
-  description: string;
+  /** SKU tag label. Default: "PROFESSIONAL". Set to null to hide. Accepts translated nodes. */
+  skuLabel?: ReactNode;
+  /** Panel heading title. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  title: ReactNode;
+  /** Body description text. Accepts translated nodes. */
+  description: ReactNode;
   /** Primary CTA button props (children = label). */
   primaryAction?: ButtonProps;
   /** Secondary CTA button props (children = label). */

@@ -20,18 +20,18 @@ export type ProfilePopoverUser = 'others' | 'you';
 
 export interface ProfilePopoverCustomStatus {
   emoji: string;
-  text: string;
+  text: ReactNode;
   /** Label suffix like "Until Tomorrow". */
-  expiresLabel?: string;
+  expiresLabel?: ReactNode;
 }
 
 export interface ProfilePopoverLocalTime {
   /** Local time, e.g. "10:42 PM". */
-  time: string;
+  time: ReactNode;
   /** Timezone abbreviation, e.g. "EST". */
-  timezone: string;
+  timezone: ReactNode;
   /** Hour difference relative to viewer, e.g. "3 hrs behind". */
-  hourDifference?: string;
+  hourDifference?: ReactNode;
 }
 
 export interface ProfilePopoverPhone {
@@ -55,25 +55,25 @@ export interface ProfilePopoverProps {
   /** Avatar alt text. */
   avatarAlt: string;
   /** Full name. */
-  name: string;
+  name: ReactNode;
   /** @handle. */
-  username: string;
+  username: ReactNode;
   /** Job title. */
-  title?: string;
+  title?: ReactNode;
   /** Email address. */
   email?: string;
   /** Phone rows shown under the email. */
   phones?: ProfilePopoverPhone[];
   /** Caption above the name, e.g. "Last online 6 hrs ago". */
-  lastOnline?: string;
+  lastOnline?: ReactNode;
   /** Role tag shown at the very top, e.g. "System Admin". (Named `jobRole` to avoid clashing with the ARIA `role` attribute in JSX.) */
-  jobRole?: string;
+  jobRole?: ReactNode;
   /** Local time block. */
   localTime?: ProfilePopoverLocalTime;
   /** Custom status. */
   customStatus?: ProfilePopoverCustomStatus;
   /** Shared member org name. */
-  sharedOrg?: string;
+  sharedOrg?: ReactNode;
   /** Shows a Staff row. */
   staff?: boolean;
   /** Shows a Core Committer row. */
@@ -98,7 +98,40 @@ export interface ProfilePopoverProps {
   /** Fires when an animation on the popover root ends (entrance or exit). */
   onAnimationEnd?: (e: React.AnimationEvent<HTMLDivElement>) => void;
   className?: string;
+  /** Accessible name for the close button. Default: "Close". */
+  closeLabel?: string;
+  /** Staff row text. Default: "Staff". */
+  staffLabel?: ReactNode;
+  /** Core Committer row text. Default: "Core Committer". */
+  coreCommitterLabel?: ReactNode;
+  /** Local time heading. Default: `Local time ({timezone})`. */
+  formatLocalTimeLabel?: (timezone: ReactNode) => ReactNode;
+  /** Custom status heading. Default: "Status", plus ` ({expiresLabel})` when set. */
+  formatStatusLabel?: (expiresLabel: ReactNode | undefined) => ReactNode;
+  /** Primary button text for `user="others"`. Default: "Message". */
+  messageLabel?: ReactNode;
+  /** Primary button text for `user="you"`. Default: "Edit profile". */
+  editProfileLabel?: ReactNode;
+  /** Default: "Send message". */
+  sendMessageLabel?: string;
+  /** Default: "Mention user". */
+  mentionLabel?: string;
+  /** Default: "Add to channel". */
+  addToChannelLabel?: string;
+  /** Default: "Call". */
+  callLabel?: string;
 }
+
+const defaultFormatLocalTimeLabel = (timezone: ReactNode) => (
+  <>Local time ({timezone})</>
+);
+
+const defaultFormatStatusLabel = (expiresLabel: ReactNode | undefined) => (
+  <>
+    Status
+    {expiresLabel ? <> ({expiresLabel})</> : ''}
+  </>
+);
 
 interface MetaRowProps {
   icon: ReactNode;
@@ -155,6 +188,17 @@ export default function ProfilePopover({
   state = 'open',
   onAnimationEnd,
   className = '',
+  closeLabel = 'Close',
+  staffLabel = 'Staff',
+  coreCommitterLabel = 'Core Committer',
+  formatLocalTimeLabel = defaultFormatLocalTimeLabel,
+  formatStatusLabel = defaultFormatStatusLabel,
+  messageLabel = 'Message',
+  editProfileLabel = 'Edit profile',
+  sendMessageLabel = 'Send message',
+  mentionLabel = 'Mention user',
+  addToChannelLabel = 'Add to channel',
+  callLabel = 'Call',
 }: ProfilePopoverProps) {
   const isYou = user === 'you';
 
@@ -188,7 +232,7 @@ export default function ProfilePopover({
       {onClose && (
         <IconButton
           className={styles['profile-popover__close']}
-          aria-label="Close"
+          aria-label={closeLabel}
           size="small"
           padding="compact"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
@@ -277,12 +321,12 @@ export default function ProfilePopover({
               )}
               {staff && (
                 <MetaRow icon={<Icon size="16" glyph={<MattermostIcon />} />}>
-                  Staff
+                  {staffLabel}
                 </MetaRow>
               )}
               {coreCommitter && (
                 <MetaRow icon={<Icon size="16" glyph={<MattermostIcon />} />}>
-                  Core Committer
+                  {coreCommitterLabel}
                 </MetaRow>
               )}
               {githubHandle && (
@@ -296,7 +340,7 @@ export default function ProfilePopover({
           {localTime && (
             <div className={styles['profile-popover__local-time']}>
               <p className={styles['profile-popover__section-label']}>
-                Local time ({localTime.timezone})
+                {formatLocalTimeLabel(localTime.timezone)}
               </p>
               <div className={styles['profile-popover__time']}>
                 <span>{localTime.time}</span>
@@ -310,10 +354,7 @@ export default function ProfilePopover({
           {customStatus && (
             <div className={styles['profile-popover__custom-status']}>
               <p className={styles['profile-popover__section-label']}>
-                Status
-                {customStatus.expiresLabel
-                  ? ` (${customStatus.expiresLabel})`
-                  : ''}
+                {formatStatusLabel(customStatus.expiresLabel)}
               </p>
               <div className={styles['profile-popover__status-row']}>
                 <span
@@ -358,13 +399,13 @@ export default function ProfilePopover({
             }
             onClick={onPrimaryAction}
           >
-            {isYou ? 'Edit profile' : 'Message'}
+            {isYou ? editProfileLabel : messageLabel}
           </Button>
         </div>
         <div className={styles['profile-popover__secondary-actions']}>
           {isYou ? (
             <IconButton
-              aria-label="Send message"
+              aria-label={sendMessageLabel}
               size="small"
               icon={<Icon size="16" glyph={<SendOutlineIcon />} />}
               onClick={onSend}
@@ -372,13 +413,13 @@ export default function ProfilePopover({
           ) : (
             <>
               <IconButton
-                aria-label="Mention user"
+                aria-label={mentionLabel}
                 size="small"
                 icon={<Icon size="16" glyph={<AtIcon />} />}
                 onClick={onMention}
               />
               <IconButton
-                aria-label="Add to channel"
+                aria-label={addToChannelLabel}
                 size="small"
                 icon={<Icon size="16" glyph={<AccountPlusOutlineIcon />} />}
                 onClick={onAddToChannel}
@@ -386,7 +427,7 @@ export default function ProfilePopover({
               {callButton ??
                 (onCall ? (
                   <IconButton
-                    aria-label="Call"
+                    aria-label={callLabel}
                     size="small"
                     icon={<Icon size="16" glyph={<PhoneIcon />} />}
                     onClick={onCall}

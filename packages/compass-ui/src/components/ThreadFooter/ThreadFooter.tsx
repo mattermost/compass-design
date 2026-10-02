@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import ReplyOutlineIcon from '@mattermost/compass-icons/components/reply-outline';
@@ -22,7 +22,7 @@ export interface ThreadFooterProps extends HTMLAttributes<HTMLDivElement> {
   /** Whether the current user is following the thread. Default: false. */
   following?: boolean;
   /** Last reply timestamp label. Shown on row hover when following. */
-  lastReplyTime?: string;
+  lastReplyTime?: ReactNode;
   /** Called when Reply is clicked. */
   onReply?: () => void;
   /** Called when Follow/Following is clicked. */
@@ -31,7 +31,28 @@ export interface ThreadFooterProps extends HTMLAttributes<HTMLDivElement> {
   hovered?: boolean;
   /** Optional CSS class name. */
   className?: string;
+  /** Visible reply count. Default: `{count} reply` / `{count} replies`. */
+  formatReplyCount?: (count: number) => ReactNode;
+  /** Accessible name for the reply button. Default: `{count} reply` / `{count} replies`. */
+  formatReplyLabel?: (count: number) => string;
+  /** Visually hidden mention hint. Default: `{count} mention(s)`. */
+  formatMentionLabel?: (count: number) => ReactNode;
+  /** Visually hidden unread hint. Default: "Unread replies". */
+  unreadLabel?: ReactNode;
+  /** Visible follow button text when not following. Default: "Follow". */
+  followLabel?: ReactNode;
+  /** Visible follow button text when following. Default: "Following". */
+  followingLabel?: ReactNode;
+  /** Accessible name for the follow button when not following. Default: "Follow thread". */
+  followAriaLabel?: string;
+  /** Accessible name for the follow button when following. Default: "Unfollow thread". */
+  unfollowAriaLabel?: string;
 }
+
+const defaultFormatReplies = (count: number) =>
+  `${count} ${count === 1 ? 'reply' : 'replies'}`;
+const defaultFormatMentions = (count: number) =>
+  `${count} mention${count === 1 ? '' : 's'}`;
 
 /**
  * The Thread Footer is the reply summary bar at the bottom of a message. It shows
@@ -49,6 +70,14 @@ export default function ThreadFooter({
   onFollowToggle,
   hovered = false,
   className = '',
+  formatReplyCount = defaultFormatReplies,
+  formatReplyLabel = defaultFormatReplies,
+  formatMentionLabel = defaultFormatMentions,
+  unreadLabel = 'Unread replies',
+  followLabel = 'Follow',
+  followingLabel = 'Following',
+  followAriaLabel = 'Follow thread',
+  unfollowAriaLabel = 'Unfollow thread',
   ...rest
 }: ThreadFooterProps) {
   const rootClass = [
@@ -62,9 +91,9 @@ export default function ThreadFooter({
 
   const badgeStatusHint =
     badge === 'mention'
-      ? `${mentionCount} mention${mentionCount === 1 ? '' : 's'}`
+      ? formatMentionLabel(mentionCount)
       : badge === 'unread'
-        ? 'Unread replies'
+        ? unreadLabel
         : undefined;
 
   return (
@@ -114,11 +143,11 @@ export default function ThreadFooter({
               .filter(Boolean)
               .join(' ')}
             onClick={onReply}
-            aria-label={`${replyCount} repl${replyCount === 1 ? 'y' : 'ies'}`}
+            aria-label={formatReplyLabel(replyCount)}
             leadingIcon={<Icon size="12" glyph={<ReplyOutlineIcon />} />}
           >
             <span className={styles['thread-footer__btn-label']}>
-              {replyCount} {replyCount === 1 ? 'reply' : 'replies'}
+              {formatReplyCount(replyCount)}
             </span>
           </Button>
 
@@ -136,9 +165,9 @@ export default function ThreadFooter({
               .join(' ')}
             onClick={onFollowToggle}
             aria-pressed={following}
-            aria-label={following ? 'Unfollow thread' : 'Follow thread'}
+            aria-label={following ? unfollowAriaLabel : followAriaLabel}
           >
-            {following ? 'Following' : 'Follow'}
+            {following ? followingLabel : followLabel}
           </Button>
 
           {/* Last reply time — revealed on row hover when following */}

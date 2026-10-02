@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, KeyboardEvent } from 'react';
+import type { InputHTMLAttributes, KeyboardEvent, ReactNode } from 'react';
 import { useState, useCallback, useEffect, useId, useRef } from 'react';
 import Button from '@/components/Button/Button';
 import IconButton, {
@@ -38,6 +38,22 @@ export interface DateRangePickerProps extends Omit<
   portalContainer?: HTMLElement | null;
   /** Stacking order for the portaled calendar. */
   zIndex?: number;
+  /** Trigger text when no date is selected. Default: "mm/dd/yyyy". */
+  valuePlaceholder?: string;
+  /** Formats an ISO `yyyy-mm-dd` date for the trigger. Default: `mm/dd/yyyy`. */
+  formatDate?: (iso: string) => string;
+  /** Twelve month names, January first. Default: English. */
+  monthNames?: string[];
+  /** Seven short weekday names, Sunday first. Default: "Su" … "Sa". */
+  weekdayNames?: string[];
+  /** Accessible name for the calendar dialog. Default: "Date picker". */
+  dialogLabel?: string;
+  /** Today button text. Default: "Today". */
+  todayLabel?: ReactNode;
+  /** Accessible name for the previous-month button. Default: "Previous month". */
+  previousMonthLabel?: string;
+  /** Accessible name for the next-month button. Default: "Next month". */
+  nextMonthLabel?: string;
 }
 
 /** Approximate calendar panel height for the initial flip decision. */
@@ -111,6 +127,14 @@ export default function DateRangePicker({
   id: idProp,
   portalContainer = null,
   zIndex,
+  valuePlaceholder = 'mm/dd/yyyy',
+  formatDate = formatDateDisplay,
+  monthNames = MONTHS,
+  weekdayNames = WEEKDAYS,
+  dialogLabel = 'Date picker',
+  todayLabel = 'Today',
+  previousMonthLabel = 'Previous month',
+  nextMonthLabel = 'Next month',
 }: DateRangePickerProps) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
@@ -469,9 +493,11 @@ export default function DateRangePicker({
 
   const displayValue =
     mode === 'date'
-      ? formatDateDisplay(selectedDate)
+      ? selectedDate
+        ? formatDate(selectedDate)
+        : ''
       : selectedStart
-        ? `${formatDateDisplay(selectedStart)}${selectedEnd ? ` – ${formatDateDisplay(selectedEnd)}` : ''}`
+        ? `${formatDate(selectedStart)}${selectedEnd ? ` – ${formatDate(selectedEnd)}` : ''}`
         : '';
 
   const rootClass = [
@@ -507,7 +533,7 @@ export default function DateRangePicker({
           <Icon size="16" glyph={<CalendarOutlineIcon />} />
         </span>
         <span className={styles['date-range-picker__value']}>
-          {displayValue || 'mm/dd/yyyy'}
+          {displayValue || valuePlaceholder}
         </span>
         <span className={styles['date-range-picker__chevron']} aria-hidden>
           <Icon size="16" glyph={<ChevronDownIcon />} />
@@ -534,7 +560,7 @@ export default function DateRangePicker({
             style={popoverStyle}
             role="dialog"
             aria-modal="false"
-            aria-label="Date picker"
+            aria-label={dialogLabel}
           >
             {/* Header */}
             <div className={styles['date-range-picker__header']}>
@@ -542,7 +568,7 @@ export default function DateRangePicker({
                 className={styles['date-range-picker__month-label']}
                 aria-live="polite"
               >
-                {MONTHS[displayMonth]} {displayYear}
+                {monthNames[displayMonth]} {displayYear}
               </span>
               <div className={styles['date-range-picker__header-actions']}>
                 <Button
@@ -553,7 +579,7 @@ export default function DateRangePicker({
                   }
                   onClick={handleToday}
                 >
-                  Today
+                  {todayLabel}
                 </Button>
                 <div className={styles['date-range-picker__nav-buttons']}>
                   <IconButton
@@ -566,7 +592,7 @@ export default function DateRangePicker({
                       />
                     }
                     onClick={handlePrevMonth}
-                    aria-label="Previous month"
+                    aria-label={previousMonthLabel}
                   />
                   <IconButton
                     size="medium"
@@ -578,7 +604,7 @@ export default function DateRangePicker({
                       />
                     }
                     onClick={handleNextMonth}
-                    aria-label="Next month"
+                    aria-label={nextMonthLabel}
                   />
                 </div>
               </div>
@@ -586,8 +612,8 @@ export default function DateRangePicker({
 
             {/* Weekday headers */}
             <div className={styles['date-range-picker__weekdays']} aria-hidden>
-              {WEEKDAYS.map((d) => (
-                <span key={d} className={styles['date-range-picker__weekday']}>
+              {weekdayNames.map((d, i) => (
+                <span key={i} className={styles['date-range-picker__weekday']}>
                   {d}
                 </span>
               ))}
@@ -598,7 +624,7 @@ export default function DateRangePicker({
               ref={gridRef}
               className={styles['date-range-picker__grid']}
               role="grid"
-              aria-label={`${MONTHS[displayMonth]} ${displayYear}`}
+              aria-label={`${monthNames[displayMonth]} ${displayYear}`}
             >
               {weeks.map((week, wi) => (
                 <div

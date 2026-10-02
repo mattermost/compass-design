@@ -6,18 +6,21 @@ import CloseIcon from '@mattermost/compass-icons/components/close';
 import styles from './SearchTipBanner.module.scss';
 
 export interface ShortcutKey {
+  /** Key label (e.g. `⌘`, `Shift`). Kept as `string`: it doubles as the React key. */
   label: string;
 }
 
 export interface SearchTipBannerProps {
-  /** Text shown before the shortcut keys. Default: "Tip: Try". */
-  prefix?: string;
-  /** Text shown after the shortcut keys. Default: "to search this channel". */
-  suffix?: string;
+  /** Text shown before the shortcut keys. Default: "Tip: Try". Accepts translated nodes. */
+  prefix?: ReactNode;
+  /** Text shown after the shortcut keys. Default: "to search this channel". Accepts translated nodes. */
+  suffix?: ReactNode;
   /** Keyboard shortcut keys to display. */
   shortcutKeys?: ShortcutKey[];
   /** Called when the dismiss button is clicked. */
   onDismiss?: () => void;
+  /** Accessible name for the dismiss button. Default: "Dismiss tip". */
+  dismissLabel?: string;
   /** Optional CSS class name. */
   className?: string;
   /** Custom content to replace the default tip content. */
@@ -34,6 +37,7 @@ export default function SearchTipBanner({
   suffix = 'to search this channel',
   shortcutKeys = [{ label: '⌘' }, { label: 'Shift' }, { label: 'F' }],
   onDismiss,
+  dismissLabel = 'Dismiss tip',
   className = '',
   children,
 }: SearchTipBannerProps) {
@@ -57,7 +61,7 @@ export default function SearchTipBanner({
       </div>
       {onDismiss != null && (
         <IconButton
-          aria-label="Dismiss tip"
+          aria-label={dismissLabel}
           size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onDismiss}

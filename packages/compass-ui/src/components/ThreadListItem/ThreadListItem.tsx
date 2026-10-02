@@ -1,5 +1,5 @@
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
-import type { KeyboardEvent, MouseEvent } from 'react';
+import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
@@ -26,26 +26,39 @@ export interface ThreadListItemProps {
   /** Shown when `badge` is Mention. Default: 1. */
   mentionCount?: number;
   /** Author name. */
-  authorName?: string;
+  authorName?: ReactNode;
   /** Channel/team label. */
-  channelLabel?: string;
+  channelLabel?: ReactNode;
   /** Message preview text. */
-  previewText?: string;
+  previewText?: ReactNode;
   /** Timestamp label. */
-  timestamp?: string;
+  timestamp?: ReactNode;
   /** Number of replies. */
   replyCount?: number;
   /** Stacked avatars for recent participants. Pass `[]` to hide. When omitted, uses demo participants. */
   participants?: UserAvatarGroupItem[];
   /** Optional thread title. */
-  threadTitle?: string;
+  threadTitle?: ReactNode;
   /** Optional CSS class name. */
   className?: string;
   /** Opens the thread. Sibling of the overflow menu for keyboard reachability. */
   onClick?: () => void;
   /** Thread overflow menu handler. */
   onMenuClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  /** Visible reply count. Default: `1 reply` / `{count} replies`. */
+  formatReplyCount?: (count: number) => ReactNode;
+  /** Visually hidden mention hint. Default: `{count} mention(s)`. */
+  formatMentionLabel?: (count: number) => ReactNode;
+  /** Visually hidden unread hint. Default: "unread". */
+  unreadLabel?: ReactNode;
+  /** Accessible name for the overflow menu button. Default: "Thread actions". */
+  menuLabel?: string;
 }
+
+const defaultFormatReplies = (count: number) =>
+  count === 1 ? '1 reply' : `${count} replies`;
+const defaultFormatMentions = (count: number) =>
+  `${count} mention${count === 1 ? '' : 's'}`;
 
 /**
  * The Thread List Item is a single entry in the Threads view. Each row gives the user enough
@@ -66,13 +79,17 @@ export default function ThreadListItem({
   className = '',
   onClick,
   onMenuClick,
+  formatReplyCount = defaultFormatReplies,
+  formatMentionLabel = defaultFormatMentions,
+  unreadLabel = 'unread',
+  menuLabel = 'Thread actions',
 }: ThreadListItemProps) {
   const participants =
     participantsProp === undefined ? DEFAULT_PARTICIPANTS : participantsProp;
   const showParticipants = participants.length > 0;
   const showGutterBadge =
     !active && (badge === 'unread' || badge === 'mention');
-  const replyLabel = replyCount === 1 ? '1 reply' : `${replyCount} replies`;
+  const replyLabel = formatReplyCount(replyCount);
 
   const rootClass = [
     styles['thread-list-item'],
@@ -84,9 +101,9 @@ export default function ThreadListItem({
 
   const statusHint =
     badge === 'mention'
-      ? `${mentionCount} mention${mentionCount === 1 ? '' : 's'}`
+      ? formatMentionLabel(mentionCount)
       : badge === 'unread'
-        ? 'unread'
+        ? unreadLabel
         : undefined;
 
   const handleMainClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -204,7 +221,7 @@ export default function ThreadListItem({
         <div className={styles['thread-list-item__actions']}>
           <span className={styles['thread-list-item__menu-button']}>
             <IconButton
-              aria-label="Thread actions"
+              aria-label={menuLabel}
               icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
               padding="compact"
               size="small"
