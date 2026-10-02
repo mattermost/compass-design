@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Modal` focus and keyboard behavior:** focuses the dialog (or `initialFocusRef`) on mount, traps Tab / Shift+Tab inside it (focusable elements computed at keypress), closes on Escape via a document listener (skips events with `defaultPrevented`; opt out with `closeOnEscape={false}`), and restores focus to the previously focused element on unmount. The dialog root gains `tabIndex={-1}`. New props `closeOnEscape` and `initialFocusRef`; `aria-describedby` passes through.
+
+### Changed (policy)
+
+- **Overlay policy eased:** overlay primitives may own WAI-ARIA-pattern focus and keyboard behavior; portals, positioning, scroll lock, backdrop and open/close remain host-owned. See `AGENTS.md`.
+
 ### Fixed
 
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.

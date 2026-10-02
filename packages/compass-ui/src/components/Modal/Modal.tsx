@@ -1,5 +1,12 @@
-import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
-import { useId } from 'react';
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+  RefObject,
+} from 'react';
+import { useId, useRef } from 'react';
+import { useModalFocus } from '@/hooks/useModalFocus';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
 import ModalFooter from '@/components/ModalFooter/ModalFooter';
 import type { ModalFooterType } from '@/components/ModalFooter/ModalFooter';
@@ -84,11 +91,24 @@ export interface ModalProps extends Omit<
   footerType?: ModalFooterType;
   /** Show divider between body and footer. Default: true. */
   footerDivider?: boolean;
+  /**
+   * Close on Escape via a document listener while mounted. Escapes already
+   * handled by an inner widget (`defaultPrevented`) are ignored. Default: true.
+   */
+  closeOnEscape?: boolean;
+  /**
+   * Element to focus when the modal mounts (e.g. the first form field).
+   * Default: the dialog root.
+   */
+  initialFocusRef?: RefObject<HTMLElement | null>;
 }
 
 /**
  * Modal dialog shell — composes ModalHeader, scrollable body, and ModalFooter.
- * Host owns portal, overlay, focus trap, and open/close.
+ * Owns dialog-level focus and keyboard behavior: initial focus, Tab trap,
+ * Escape, and focus restore on unmount. Host owns portal, overlay/backdrop,
+ * scroll lock, stacking, and open/close (mount to open; keep mounted through
+ * any exit animation so focus restores afterwards).
  */
 export default function Modal({
   className = '',
@@ -115,8 +135,17 @@ export default function Modal({
   footerLeading,
   footerType = '2-actions',
   footerDivider = true,
+  closeOnEscape = true,
+  initialFocusRef,
+  onKeyDown,
   ...rest
 }: ModalProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const trapKeyDown = useModalFocus(rootRef, {
+    initialFocusRef,
+    closeOnEscape,
+    onClose,
+  });
   const titleId = useId();
   const sizeClass = styles[`modal--size-${toKebab(size)}`];
   const bodyInnerClass = [
@@ -135,8 +164,16 @@ export default function Modal({
     footerType === 'spacer-large';
 
   return (
+    // Dialog-level Tab trap; the dialog is the focus container, not a control.
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       {...rest}
+      ref={rootRef}
+      tabIndex={-1}
+      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
+        onKeyDown?.(e);
+        if (!e.defaultPrevented) trapKeyDown(e);
+      }}
       className={[styles.modal, sizeClass, className].filter(Boolean).join(' ')}
       style={style}
       role="dialog"

@@ -38,6 +38,14 @@ header and body, an optional footer, and the dimmed overlay behind the dialog.
 - <Num>5</Num> **Overlay** — darkens everything behind the dialog so focus stays
   on the modal (black at 64% opacity in Compass).
 
+The modal handles dialog-level accessibility itself: focus moves to the dialog
+(or to `initialFocusRef`, e.g. the first field of a form) on mount, Tab and
+Shift+Tab stay inside it, Escape calls `onClose` (set `closeOnEscape={false}` to
+disable; Escapes already handled by an inner widget are ignored), and focus
+returns to the previously focused element on unmount. The host still owns the
+portal, backdrop, scroll lock and open/close; keep the modal mounted through any
+exit animation so focus restores afterwards.
+
 The title should be a short statement or question; add a subtitle only when
 users need more guidance. Use `subtitlePlacement="beside"` for an inline
 context label (settings-style headers); default is `below`. Pass

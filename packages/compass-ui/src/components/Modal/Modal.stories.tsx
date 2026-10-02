@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useRef } from 'react';
 import type { ReactNode } from 'react';
 import { fn } from '@storybook/test';
 import avatarAiko from '@/assets/avatars/Aiko Tan.png';
@@ -460,4 +461,24 @@ export const Sizes: Story = {
       ))}
     </div>
   ),
+};
+
+function FormModalDemo() {
+  const nameRef = useRef<HTMLInputElement>(null);
+  return (
+    <ModalCanvas>
+      <Modal
+        title="Create channel"
+        onClose={fn()}
+        initialFocusRef={nameRef}
+        footer={<Button>Create</Button>}
+      >
+        <TextInput ref={nameRef} label="Channel name" />
+      </Modal>
+    </ModalCanvas>
+  );
+}
+
+export const InitialFocus: Story = {
+  render: () => <FormModalDemo />,
 };
