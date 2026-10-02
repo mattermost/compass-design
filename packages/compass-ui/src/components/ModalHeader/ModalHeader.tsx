@@ -34,6 +34,12 @@ export interface ModalHeaderProps {
    * Host owns the Button, TextInput, etc.
    */
   headerAction?: ReactNode;
+  /**
+   * Full-width slot rendered below the title row and above the divider.
+   * Accepts any ReactNode — SearchInput, Tabs, a custom toolbar, etc.
+   * Padding is provided by the slot container; no extra wrapper is needed.
+   */
+  headerSlot?: ReactNode;
 }
 
 /**
@@ -54,6 +60,7 @@ export default function ModalHeader({
   onClose,
   divider = true,
   headerAction,
+  headerSlot,
 }: ModalHeaderProps) {
   const showTitleBlock = !hideTitle && title != null;
   const showSubtitle = showTitleBlock && subtitle != null;
@@ -65,6 +72,7 @@ export default function ModalHeader({
         styles['modal-header'],
         !divider && styles['modal-header--no-divider'],
         hideTitle && styles['modal-header--close-only'],
+        headerSlot && styles['modal-header--has-slot'],
         className,
       ]
         .filter(Boolean)
@@ -114,6 +122,9 @@ export default function ModalHeader({
           />
         </div>
       </div>
+      {headerSlot && (
+        <div className={styles['modal-header__slot']}>{headerSlot}</div>
+      )}
     </div>
   );
 }
