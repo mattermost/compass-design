@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Tabs` `appearance`:** optional `'default' | 'underlined'` prop. `underlined` draws a bottom rule with an indicator under the active tab. Default markup and look are unchanged.
+
 ### Fixed
 
 - **`Checkbox`, `Radio`, and `Switch`:** set `font-weight: regular` on the root label so host global `label { font-weight: bold }` rules (e.g. Bootstrap forms) do not bold option text.

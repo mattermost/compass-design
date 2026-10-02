@@ -39,7 +39,8 @@ and an optional controls slot for actions that apply to the whole strip
 ## Behavior
 
 Selecting a tab swaps the panel below; surrounding chrome stays put. The
-active tab shows an underline and a darker label. Inactive tabs read as quiet
+active tab is highlighted with a tinted background and an accent-colored
+label. Inactive tabs read as quiet
 controls until hovered.
 
 export const TabsDemo = () => {
@@ -82,6 +83,28 @@ export const TabsDemo = () => {
       },
     ]}
     activeKey="general"
+    onChange={() => {}}
+  />
+</AnatomyStage>
+
+<Divider />
+
+## Appearance
+
+Tabs come in two styles. The default highlights the active tab with a tinted
+background. The underlined style draws a thin rule under the whole strip with
+an accent indicator beneath the active tab — a lighter treatment for page-level
+or panel-level navigation.
+
+<AnatomyStage>
+  <Tabs
+    appearance="underlined"
+    tabs={[
+      { key: 'all', label: 'All' },
+      { key: 'unreads', label: 'Unreads', countBadge: 4 },
+      { key: 'mentions', label: 'Mentions', unreadBadge: true },
+    ]}
+    activeKey="all"
     onChange={() => {}}
   />
 </AnatomyStage>
