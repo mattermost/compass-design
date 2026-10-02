@@ -53,8 +53,8 @@ function compassUiDistReload(): Plugin {
 }
 
 export default defineConfig({
-  // Vercel serves at the domain root; GitHub Pages serves under the repo path.
-  base: process.env.VERCEL ? '/' : '/compass-design/',
+  // Served from the domain root on both Vercel and compass.mattermost.com.
+  base: '/',
   plugins: [
     {
       enforce: 'pre',
