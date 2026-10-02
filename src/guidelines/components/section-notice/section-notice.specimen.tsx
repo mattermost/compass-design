@@ -72,6 +72,35 @@ export default function SectionNoticeLibrary() {
             onDismiss={() => {}}
           />
         </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Disabled action
+          </span>
+          <SectionNotice
+            title="Search index is out of date"
+            type="warning"
+            description="Embeddings were built with a different model. Reindex before searching."
+            primaryButtonLabel="Reindex now"
+            onPrimaryAction={() => {}}
+            secondaryButtonLabel="Search anyway"
+            onSecondaryAction={() => {}}
+            secondaryActionDisabled
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Loading action
+          </span>
+          <SectionNotice
+            title="Reindexing"
+            description="This can take a few minutes for large workspaces."
+            primaryButtonLabel="Reindexing…"
+            onPrimaryAction={() => {}}
+            primaryActionLoading
+            secondaryButtonLabel="Cancel"
+            onSecondaryAction={() => {}}
+          />
+        </div>
       </div>
     </>
   );

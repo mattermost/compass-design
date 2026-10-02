@@ -88,6 +88,10 @@ they shouldn't outshout the page's main controls.
 - **Primary** — the action that resolves the notice. Limit to one.
 - **Secondary** — a supporting action (e.g. "Learn more"). Optional.
 
+Either action can be disabled while it isn't available (for example, while a
+precondition is unmet) or show a spinner while its work runs. A loading action
+is also disabled so it can't be pressed twice.
+
 If the notice can be safely closed without action, add an `onDismiss`
 handler. If the notice represents an unresolved problem, omit dismiss — the
 user should fix it, not hide it.

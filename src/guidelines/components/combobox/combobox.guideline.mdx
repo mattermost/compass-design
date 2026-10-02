@@ -133,6 +133,29 @@ search runs, even if the latest results don't include them.
 
 <Divider />
 
+## Clearing a value
+
+When an empty single-select value is meaningful — for example "use the service
+default" — set `clearable`. Once a value is chosen, a clear button appears
+inside the field, before the chevron. It is a regular tab stop, and choosing it
+empties the value and returns focus to the field. Multi-select fields don't
+show it; each chip already has its own remove control.
+
+<div style={{ maxWidth: '320px', padding: '1rem 0' }}>
+  <Combobox
+    label="Default model"
+    placeholder="Use the service default"
+    clearable
+    defaultValue="gpt-4o"
+    options={[
+      { value: 'gpt-4o', label: 'gpt-4o' },
+      { value: 'gpt-4o-mini', label: 'gpt-4o-mini' },
+    ]}
+  />
+</div>
+
+<Divider />
+
 ## Sizes
 
 Three sizes — pick the one that matches the surrounding form rhythm.
