@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`Checkbox`, `Radio`, and `Switch`:** set `font-weight: regular` on the root label so host global `label { font-weight: bold }` rules (e.g. Bootstrap forms) do not bold option text.
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.
 
 ## [0.1.0-alpha.13] - 2026-10-02
