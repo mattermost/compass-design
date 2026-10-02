@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.13] - 2026-10-02
+
 Safe to run several compass-ui copies, of any versions, on one page alongside a host that defines overlapping CSS variables (Mattermost core + plugins).
 
 ### Added
@@ -17,6 +19,7 @@ Safe to run several compass-ui copies, of any versions, on one page alongside a 
 - **Label props for built-in English:** every hardcoded accessible name or message now has an optional prop that defaults to the current English, e.g. `closeLabel`, `backLabel`, `dismissLabel`, `clearLabel`, `listboxLabel`, `selectionsLabel`, and `format*Label` functions for counts. See the PR for the full list.
 - **`SectionNotice` action states:** `primaryActionDisabled`, `primaryActionLoading`, `secondaryActionDisabled`, `secondaryActionLoading`. `TourPointPrimaryAction` and `PopoverNoticeAction` gain `disabled` and `loading`.
 - **Clearable `Combobox`:** `clearable` shows a keyboard-reachable clear button in single mode that calls `onChange(null)`. No-op with `multiple`.
+- **`ModalHeader` / `Modal` `headerSlot`:** optional full-width content below the title+actions row and above the divider (e.g. a search field in Find Channels).
 
 ### Changed (non-breaking)
 
@@ -253,7 +256,9 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.11...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.13...HEAD
+[0.1.0-alpha.13]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.12...0.1.0-alpha.13
+[0.1.0-alpha.12]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.11...0.1.0-alpha.12
 [0.1.0-alpha.11]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.10...0.1.0-alpha.11
 [0.1.0-alpha.10]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.9...0.1.0-alpha.10
 [0.1.0-alpha.9]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.8...0.1.0-alpha.9
