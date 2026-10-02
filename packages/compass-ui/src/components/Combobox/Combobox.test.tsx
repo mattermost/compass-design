@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
+  click,
   focus,
   getByRole,
   keyDown,
@@ -233,6 +234,112 @@ describe('Combobox creatable', () => {
     type(input(), 'o3-pro');
     expect(createRow()).toBeNull();
     expect(document.body.textContent).toContain('No results');
+  });
+});
+
+describe('Combobox clearable', () => {
+  function clearButton() {
+    return queryAllByRole('button', 'Clear')[0] as
+      | HTMLButtonElement
+      | undefined;
+  }
+
+  it('renders no clear button unless clearable', () => {
+    render(<Combobox aria-label="Model" options={MODELS} value="gpt-4o" />);
+    expect(clearButton()).toBeUndefined();
+  });
+
+  it('renders no clear button without a value', () => {
+    render(
+      <Combobox aria-label="Model" options={MODELS} value={null} clearable />,
+    );
+    expect(clearButton()).toBeUndefined();
+  });
+
+  it('calls onChange(null) and returns focus to the input', () => {
+    const onChange = vi.fn();
+    render(
+      <Combobox
+        aria-label="Model"
+        options={MODELS}
+        value="gpt-4o"
+        onChange={onChange}
+        clearable
+      />,
+    );
+    const button = clearButton()!;
+    expect(button.tagName).toBe('BUTTON');
+    expect(button.tabIndex).toBe(0);
+    click(button);
+    expect(onChange).toHaveBeenCalledWith(null);
+    expect(document.activeElement).toBe(input());
+  });
+
+  it('empties an uncontrolled value and hides itself', () => {
+    render(
+      <Combobox
+        aria-label="Model"
+        options={MODELS}
+        defaultValue="gpt-4o"
+        clearable
+      />,
+    );
+    expect(input().value).toBe('gpt-4o');
+    click(clearButton()!);
+    expect(input().value).toBe('');
+    expect(clearButton()).toBeUndefined();
+  });
+
+  it('clears a controlled input value through onInputChange', () => {
+    const onInputChange = vi.fn();
+    render(
+      <Combobox
+        aria-label="Model"
+        options={MODELS}
+        value="gpt-4o"
+        inputValue="gpt-4o"
+        onInputChange={onInputChange}
+        clearable
+      />,
+    );
+    click(clearButton()!);
+    expect(onInputChange).toHaveBeenCalledWith('');
+  });
+
+  it('accepts a translated clearLabel', () => {
+    render(
+      <Combobox
+        aria-label="Model"
+        options={MODELS}
+        value="gpt-4o"
+        clearable
+        clearLabel="Auswahl löschen"
+      />,
+    );
+    expect(getByRole('button', 'Auswahl löschen')).toBeTruthy();
+  });
+
+  it('is a no-op in multiple mode and when disabled', () => {
+    const { rerender } = render(
+      <Combobox
+        aria-label="Models"
+        options={MODELS}
+        multiple
+        value={['gpt-4o']}
+        clearable
+      />,
+    );
+    expect(clearButton()).toBeUndefined();
+    rerender(
+      <Combobox
+        aria-label="Model"
+        options={MODELS}
+        value="gpt-4o"
+        clearable
+        disabled
+      />,
+    );
+    expect(clearButton()).toBeUndefined();
   });
 });
 
