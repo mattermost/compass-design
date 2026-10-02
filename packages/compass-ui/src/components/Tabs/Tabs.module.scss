@@ -101,13 +101,11 @@
   }
 
   &__unread-badge {
-    position: absolute;
-    top: var(--spacing-xxs);
-    right: var(--spacing-xxs);
+    flex-shrink: 0;
     width: 4px;
     height: 4px;
     border-radius: var(--radius-pill);
-    background-color: var(--mention-bg);
+    background-color: var(--button-bg);
   }
 
   &__unread-label {
@@ -163,11 +161,6 @@
       &::after {
         background-color: var(--link-color);
       }
-    }
-
-    .tabs__unread-badge {
-      top: var(--spacing-xs);
-      right: 0;
     }
   }
 }
