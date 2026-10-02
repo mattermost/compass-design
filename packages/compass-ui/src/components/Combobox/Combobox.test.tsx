@@ -6,6 +6,7 @@ import {
   queryAllByRole,
   render,
   type,
+  withoutScrollIntoView,
 } from '@/test-utils/render';
 import Combobox from './Combobox';
 import type { ComboboxOption, ComboboxProps } from './Combobox';
@@ -232,5 +233,29 @@ describe('Combobox creatable', () => {
     type(input(), 'o3-pro');
     expect(createRow()).toBeNull();
     expect(document.body.textContent).toContain('No results');
+  });
+});
+
+describe('Combobox without scrollIntoView', () => {
+  withoutScrollIntoView();
+
+  it('opens and moves the highlight with the arrow keys', () => {
+    render(<Combobox aria-label="Model" options={MODELS} />);
+    expect('scrollIntoView' in input()).toBe(false);
+
+    openMenu();
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+
+    keyDown(input(), 'ArrowDown');
+    const first = input().getAttribute('aria-activedescendant');
+    expect(first).toBeTruthy();
+
+    keyDown(input(), 'ArrowDown');
+    const second = input().getAttribute('aria-activedescendant');
+    expect(second).toBeTruthy();
+    expect(second).not.toBe(first);
+
+    keyDown(input(), 'ArrowUp');
+    expect(input().getAttribute('aria-activedescendant')).toBe(first);
   });
 });
