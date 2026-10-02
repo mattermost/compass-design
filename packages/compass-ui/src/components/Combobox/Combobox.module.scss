@@ -139,6 +139,36 @@
     }
   }
 
+  &__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    cursor: pointer;
+    outline: 2px solid
+      color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+    outline-offset: 0;
+    transition:
+      color var(--duration-quick) var(--ease-transition),
+      outline-color var(--duration-quick) var(--ease-transition),
+      outline-offset var(--duration-quick) var(--ease-transition);
+
+    &:hover {
+      color: var(--center-channel-color);
+    }
+
+    &:focus-visible {
+      outline-color: var(--focus-ring-color);
+      outline-offset: 3px;
+    }
+  }
+
   // Coords (top/left/width/z-index) come from the portal hook inline style.
   &__popup {
     opacity: 0;

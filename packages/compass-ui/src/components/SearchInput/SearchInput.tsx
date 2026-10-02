@@ -10,6 +10,8 @@ import type { IconSize } from '@/components/Icon/Icon';
 import Icon from '@/components/Icon/Icon';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import styles from './SearchInput.module.scss';
 
 export type SearchInputSize = 'small' | 'medium' | 'large';
@@ -40,6 +42,10 @@ export interface SearchInputProps extends Omit<
   size?: SearchInputSize;
   /** Called when the clear button is pressed. Omit to use built-in clearing. */
   onClear?: () => void;
+  /** Accessible name for the clear button. Default: "Clear search". */
+  clearLabel?: string;
+  /** Extra attributes for the clear button (e.g. `data-testid`). */
+  clearButtonProps?: BuiltInButtonProps;
 }
 
 /**
@@ -55,6 +61,8 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       label,
       invalid = false,
       onClear,
+      clearLabel = 'Clear search',
+      clearButtonProps,
       id: idProp,
       value: valueProp,
       defaultValue,
@@ -209,11 +217,15 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             {showClearButton && (
               <span className={styles['search-input__trailing-icon']}>
                 <button
+                  {...clearButtonProps}
                   type="button"
-                  className={styles['search-input__clear-button']}
+                  className={mergeClassNames(
+                    styles['search-input__clear-button'],
+                    clearButtonProps?.className,
+                  )}
                   onClick={handleClear}
-                  aria-label="Clear search"
-                  tabIndex={-1}
+                  aria-label={clearLabel}
+                  tabIndex={clearButtonProps?.tabIndex ?? -1}
                 >
                   <Icon size={clearIconSize} glyph={<CloseCircleIcon />} />
                 </button>
