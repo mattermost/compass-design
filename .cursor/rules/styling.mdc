@@ -53,7 +53,7 @@ Do not write `&--destructive&--emphasis-primary`. Keyframes may stay at file top
 | Font size | `--font-size-25` (10px) … `--font-size-1000` (40px) |
 | Font weight | `--font-weight-regular` / `--font-weight-semibold` (prefer semibold over bold/`700` unless Figma requires 700) |
 | Line height | `--line-height-*` |
-| Radius | `--radius-xs` … `--radius-xl`; pills → `--radius-full` |
+| Radius | `--radius-xs` … `--radius-xl`; pills → `--radius-pill` (`--radius-full` is deprecated) |
 | Shadow | `--elevation-1` … `--elevation-6` |
 | Icon boxes | `--icon-size-10` … `--icon-size-104` |
 
@@ -79,6 +79,8 @@ color: var(--color-info);
 - Prefer nearest token or `calc()` of tokens over raw `px`.
 - Do not put tokenizable spacing/font in inline `style={{}}` — use a CSS module.
 - **Exceptions:** `1px` hairlines; visually-hidden `1px`/`-1px`; one-off layout widths with no token; container/media breakpoints; `webapp-compat.scss` `@layer` maps shared Mattermost names (`--neutral-*`, `--semantic-color-*`) to Compass palette / token defaults so host unlayered values win when embedded.
+- **Cascade layers:** every token/theme/reset/vendor stylesheet declaration sits in a `compass-ui.*` layer (order in `packages/compass-ui/src/styles/layers.scss`) so unlayered host values win and multiple compass-ui copies coexist. Never layer component `*.module.scss` — hosts' unlayered element rules (Bootstrap `button`, `input`) would beat them.
+- **Tokens are additive-only:** never rename, remove, or revalue a shipped token — older copies stay on the page. Add a new token instead; the build checks `packages/compass-ui/tokens.snapshot.json`. Avoid names the Mattermost webapp defines with a different value (e.g. use `--radius-pill`, not `--radius-full`).
 - Before finishing, scan new/edited styles for leftover raw `px`, hex, numeric `font-weight`, or hardcoded `ms`/`ease`.
 
 ## Animation: easing and duration

@@ -375,7 +375,7 @@
     left: 0;
     width: 10px;
     height: 10px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background-color: var(--button-bg);
     animation-name: foundations-slide;
     animation-fill-mode: forwards;
@@ -558,5 +558,11 @@
     height: 64px;
     background-color: rgba(var(--center-channel-color-rgb), 0.06);
     border: 2px solid rgba(var(--center-channel-color-rgb), 0.2);
+  }
+
+  &__shape-note {
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
   }
 }
