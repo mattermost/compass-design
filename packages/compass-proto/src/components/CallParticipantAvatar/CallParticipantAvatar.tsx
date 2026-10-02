@@ -6,6 +6,7 @@ import {
   ICON_BUTTON_ICON_SIZES,
   type IconButtonSize,
 } from '@mattermost/compass-ui/components/icon-button';
+import { Tag } from '@mattermost/compass-ui/components/tag';
 import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-off';
 import MicrophoneIcon from '@mattermost/compass-icons/components/microphone';
 import HandRightIcon from '@mattermost/compass-icons/components/hand-right';
@@ -221,14 +222,20 @@ export default function CallParticipantAvatar({
         <span className={styles['call-participant-avatar__name']}>{name}</span>
       )}
       {host && (
-        <span className={styles['call-participant-avatar__host-label']}>
-          HOST
-        </span>
+        <Tag
+          label="HOST"
+          size="x-small"
+          casing="all-caps"
+          className={styles['call-participant-avatar__host-label']}
+        />
       )}
       {external && (
-        <span className={styles['call-participant-avatar__host-label']}>
-          EXTERNAL
-        </span>
+        <Tag
+          label="EXTERNAL"
+          size="x-small"
+          casing="all-caps"
+          className={styles['call-participant-avatar__host-label']}
+        />
       )}
     </div>
   );
