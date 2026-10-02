@@ -33,6 +33,7 @@ Safe to run several compass-ui copies, of any versions, on one page alongside a 
 ### Fixed
 
 - **`Combobox` and `Select`** no longer crash when `scrollIntoView` is missing, as in jsdom-based consumer tests.
+- **`DateRangePicker`** now shows the `placeholder` it already accepted (it was silently ignored). The default stays "mm/dd/yyyy".
 - **`Scrollbar`** no longer inherits `--scrollbar-color` from a host scroller that sets the same name (the webapp's `Scrollbars` does). The `color` prop still overrides.
 
 ## [0.1.0-alpha.12] - 2026-10-01
