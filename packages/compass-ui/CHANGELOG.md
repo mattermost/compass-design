@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`PopoverMenu` `open`:** optional controlled visibility with the popover scale + fade transition; unmounts after the exit. Omitting it keeps the previous always-rendered behavior.
+
 ### Fixed
 
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.
