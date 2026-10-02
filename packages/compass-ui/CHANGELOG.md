@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Tabs` `appearance`:** optional `'default' | 'underlined'` prop. `underlined` draws a bottom rule with an indicator under the active tab. Default markup and look are unchanged.
+
 ### Fixed
 
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.

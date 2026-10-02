@@ -15,6 +15,9 @@ const meta = {
   title: 'Components/Layout and Containers/Tabs',
   component: Tabs,
   tags: ['autodocs'],
+  argTypes: {
+    appearance: { control: 'radio', options: ['default', 'underlined'] },
+  },
 } satisfies Meta<typeof Tabs>;
 
 export default meta;
@@ -77,6 +80,20 @@ export const WithControls: Story = {
             Filter
           </button>
         }
+      />
+    );
+  },
+};
+
+export const Underlined: Story = {
+  render: function Render() {
+    const [activeKey, setActiveKey] = useState('messages');
+    return (
+      <Tabs
+        appearance="underlined"
+        tabs={TABS}
+        activeKey={activeKey}
+        onChange={setActiveKey}
       />
     );
   },

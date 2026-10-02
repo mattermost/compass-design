@@ -99,3 +99,25 @@ describe('Tabs disabled', () => {
     expect(getByRole('tab', 'General').tabIndex).toBe(0);
   });
 });
+
+describe('Tabs appearance', () => {
+  it('adds the underlined modifier only when requested', () => {
+    const { container } = render(
+      <Tabs tabs={TABS} activeKey="general" onChange={vi.fn()} />,
+    );
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).not.toMatch(/underlined/);
+
+    const { container: c2 } = render(
+      <Tabs
+        appearance="underlined"
+        tabs={TABS}
+        activeKey="general"
+        onChange={vi.fn()}
+      />,
+    );
+    expect((c2.firstElementChild as HTMLElement).className).toMatch(
+      /underlined/,
+    );
+  });
+});
