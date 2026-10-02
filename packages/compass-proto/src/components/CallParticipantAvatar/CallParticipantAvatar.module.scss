@@ -111,8 +111,12 @@
     &--muted {
       bottom: 0;
       right: 0;
-      background-color: var(--color-indigo-600);
-      color: var(--center-channel-bg, var(--color-neutral-0));
+      background-color: color-mix(
+        in srgb,
+        var(--color-neutral-0) 8%,
+        var(--calls-bg)
+      );
+      color: var(--color-neutral-0);
     }
 
     &--unmuted {
@@ -133,7 +137,7 @@
       bottom: 0;
       left: 0;
       background-color: var(--center-channel-bg, var(--color-neutral-0));
-      color: var(--color-orange-400);
+      color: var(--color-yellow-500);
     }
   }
 
@@ -143,25 +147,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--button-color, var(--color-neutral-0));
+    color: var(--color-neutral-0);
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-75);
     text-align: center;
   }
 
-  &__host-label {
-    display: inline-flex;
-    align-items: center;
-    padding: 0 var(--spacing-xxs);
-    border-radius: var(--radius-s);
-    background-color: rgba(var(--color-neutral-0-rgb), 0.08);
-    color: var(--center-channel-bg, var(--color-neutral-0));
-    font-size: var(--font-size-25);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-25);
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
+  // Overrides Tag default type for inverted calls surfaces.
+  // Doubled class raises specificity above Tag's --type-default.
+  &__host-label#{&}__host-label {
+    background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent);
+    color: var(--neutral-0);
   }
 
   // ---------------------------------------------------------------------------
