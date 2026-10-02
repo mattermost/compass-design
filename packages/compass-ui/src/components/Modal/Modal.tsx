@@ -48,6 +48,11 @@ export interface ModalProps {
   /** Optional control before close (Button, search field, …). */
   headerAction?: ReactNode;
   /**
+   * Full-width slot rendered below the title row and above the header divider.
+   * Accepts any ReactNode — SearchInput, Tabs, a custom toolbar, etc.
+   */
+  headerSlot?: ReactNode;
+  /**
    * Body inset. Default is 32px horizontal / 28px vertical. Use `menu` for
    * MenuItem lists. Use `none` when the host owns padding.
    */
@@ -86,6 +91,7 @@ export default function Modal({
   onClose,
   headerDivider = true,
   headerAction,
+  headerSlot,
   bodyPadding = 'default',
   scrollable = true,
   children,
@@ -130,6 +136,7 @@ export default function Modal({
         onClose={onClose}
         divider={headerDivider}
         headerAction={headerAction}
+        headerSlot={headerSlot}
       />
 
       <div className={styles['modal__body']}>
