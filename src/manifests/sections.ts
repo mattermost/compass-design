@@ -47,6 +47,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'usability-heuristics',
         'system-feedback',
         'accessibility-guidelines',
+        'plugin-integration',
       ],
     },
   ],

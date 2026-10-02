@@ -8,7 +8,7 @@ Compass design system UI components for Mattermost products.
 npm install @mattermost/compass-ui
 ```
 
-Peer dependencies: `react`, `react-dom`, `@mattermost/compass-icons`, and optionally `simplebar-react`.
+Peer dependencies: `react`, `react-dom`, `@mattermost/compass-icons`, and `simplebar-react` (npm 7+ installs peers automatically).
 
 ## Usage
 
@@ -42,6 +42,18 @@ import { Button } from '@mattermost/compass-ui/components/button';
 
 The root barrel (`@mattermost/compass-ui`) remains for backwards compatibility but loads the full package.
 
+## Plugins and multiple copies
+
+The Mattermost webapp ships one copy of compass-ui and every plugin bundles its own, often at different versions, all on the same page. The package is built so that works:
+
+- **Bundle your own copy and import `@mattermost/compass-ui/styles`.** Every token is declared in a `compass-ui.*` cascade layer, so the stylesheet is safe to load more than once: unlayered host values with the same name (for example the webapp's `--radius-full: 50%` or `--elevation-*`) always win regardless of load order, and compass-only tokens such as `--spacing-xs` still resolve.
+- **Never import `@mattermost/compass-ui/styles/standalone` inside a host** such as the Mattermost webapp. Its theme presets override the user's theme.
+- **Keep your version close to the host's.** Versions up to `0.1.0-alpha.12` declare tokens unlayered; while one of those loads after the host's stylesheet, it can still override host values. Upgrading removes that.
+- **Tokens are additive-only.** Older copies stay on the page with newer ones, so a released token's name and value never change; new values get new tokens. The build snapshots every token (`tokens.snapshot.json`) and fails on removals or value changes. Use `--radius-pill` for pills; `--radius-full` is deprecated because the webapp defines it as `50%`.
+- **Don't wrap compass component CSS in cascade layers.** Hosts ship unlayered element rules (Bootstrap `button`, `input`) that would beat layered component styles. Only the token and vendor (SimpleBar) stylesheets are layered.
+
+Layer order, lowest priority first: `compass-ui.base`, `compass-ui.vendor`, `compass-ui.webapp-compat`, `compass-ui.tokens`, `compass-ui.themes`. The rationale lives in `src/styles/layers.scss`.
+
 ## Development
 
 From the monorepo root:
@@ -57,8 +69,8 @@ npm run storybook     # component catalog on :6006
 - `dist/hooks/<name>.js` / `.cjs` — hooks (`@mattermost/compass-ui/hooks/<name>`)
 - `dist/illustrations/<name>.js` / `.cjs` — brand SVG artwork (`@mattermost/compass-ui/illustrations/<name>`)
 - `dist/index.js` / `dist/index.cjs` — legacy root barrel (ESM + CJS)
-- `dist/compass-ui.css` — tokens and webapp-compat defaults (`./styles`)
-- `dist/compass-ui-standalone.css` — theme presets + CSS reset + `body` / heading chrome for standalone hosts (`./styles/standalone`)
+- `dist/compass-ui.css` — tokens and webapp-compat defaults, all in cascade layers (`./styles`)
+- `dist/compass-ui-standalone.css` — theme presets + CSS reset + `body` / heading chrome for standalone hosts, all in cascade layers (`./styles/standalone`)
 - `dist/components/<name>/*.css` — per-component CSS modules (side-effect imported with the component)
 
 ## Storybook

@@ -122,6 +122,15 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/foundations/accessibility-guidelines/accessibility-guidelines.guideline.mdx'),
   },
   {
+    slug: 'plugin-integration',
+    name: 'Plugin Integration',
+    category: 'foundations',
+    description:
+      'Running several Compass UI copies on one page, from the webapp and plugins.',
+    guidelinePage: () =>
+      import('@/guidelines/foundations/plugin-integration/plugin-integration.guideline.mdx'),
+  },
+  {
     slug: 'color',
     name: 'Color',
     category: 'foundations',

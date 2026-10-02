@@ -6,6 +6,29 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+Safe to run several compass-ui copies, of any versions, on one page alongside a host that defines overlapping CSS variables (Mattermost core + plugins).
+
+### Added
+
+- **`--radius-pill`** (`9999px`): pill and circle radius. Its name doesn't collide with the Mattermost webapp.
+- **Token contract in CI:** `scripts/verify-compass-ui-dist.mjs` snapshots every token name and value (`tokens.snapshot.json`) and fails when a token is removed or revalued. Tokens are additive-only. Update the snapshot intentionally with `npm run tokens:snapshot`.
+
+### Changed (non-breaking)
+
+- **Cascade layers for all token stylesheets:** every declaration in `@mattermost/compass-ui/styles` and `/styles/standalone` now sits in a `compass-ui.*` layer (`base`, `vendor`, `webapp-compat`, `tokens`, `themes`), and each sheet opens with the layer order statement. Unlayered host values with the same name (for example the webapp's `--radius-full`, `--elevation-*`) always win, regardless of load order. Copies of compass-ui can no longer override each other's or the host's tokens. Component CSS stays unlayered. Storybook and standalone hosts render as before.
+- **SimpleBar CSS** ships as `components/scrollbar/simplebar-vendor.css` inside `@layer compass-ui.vendor`, so a host's own SimpleBar CSS wins. This replaces the CSS-only `dist/node_modules/simplebar-react` folder, which shadowed the real `simplebar-react` package and broke Node ESM imports of `Scrollbar` (and of `Modal`, `PopoverMenu`, `EmptyState`, `Select`, `Combobox`) even when it was installed.
+- **`simplebar-react` is a required peer dependency** (no longer `optional`), so npm 7+ installs it automatically.
+- All 17 components that used `--radius-full` now use `--radius-pill`, so pills stay pills when the webapp's `--radius-full: 50%` wins.
+
+### Deprecated
+
+- **`--radius-full`**: use `--radius-pill`. It stays defined at `9999px` for existing consumers.
+
+### Fixed
+
+- **`Combobox` and `Select`** no longer crash when `scrollIntoView` is missing, as in jsdom-based consumer tests.
+- **`Scrollbar`** no longer inherits `--scrollbar-color` from a host scroller that sets the same name (the webapp's `Scrollbars` does). The `color` prop still overrides.
+
 ## [0.1.0-alpha.12] - 2026-10-01
 
 ### Changed
