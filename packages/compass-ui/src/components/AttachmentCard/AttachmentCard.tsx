@@ -65,7 +65,7 @@ export interface AttachmentCardProps {
   /** Uploading status text. Default: `Uploading… ({progress}%)`. */
   formatUploadingLabel?: (progress: number) => ReactNode;
   /** Accessible name for the open button. Default: `Open {fileName}`. */
-  openLabel?: string;
+  formatOpenLabel?: (fileName: string) => string;
   /** Accessible name for the cancel button while uploading. Default: "Cancel upload". */
   cancelUploadLabel?: string;
   /** Accessible name for the remove button once uploaded. Default: "Remove attachment". */
@@ -78,6 +78,7 @@ export interface AttachmentCardProps {
 
 const defaultFormatUploadingLabel = (progress: number) =>
   `Uploading… (${progress}%)`;
+const defaultFormatOpenLabel = (fileName: string) => `Open ${fileName}`;
 
 type IconComponent = ComponentType<{ size: number; className?: string }>;
 
@@ -137,7 +138,7 @@ export default function AttachmentCard({
   onDownload,
   onMore,
   formatUploadingLabel = defaultFormatUploadingLabel,
-  openLabel,
+  formatOpenLabel = defaultFormatOpenLabel,
   cancelUploadLabel = 'Cancel upload',
   removeLabel = 'Remove attachment',
   moreLabel = 'More options',
@@ -214,7 +215,7 @@ export default function AttachmentCard({
               type="button"
               className={`${styles['attachment-card__left']} ${styles['attachment-card__open']}`}
               onClick={onOpen}
-              aria-label={openLabel ?? `Open ${fileName}`}
+              aria-label={formatOpenLabel(fileName)}
             >
               {fileIdentity}
             </button>

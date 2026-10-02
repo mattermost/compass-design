@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import ArrowUpIcon from '@mattermost/compass-icons/components/arrow-up';
 import ArrowDownIcon from '@mattermost/compass-icons/components/arrow-down';
@@ -15,6 +16,8 @@ export interface MoreUnreadsBannerProps {
   size?: MoreUnreadsBannerSize;
   /** Callback when the banner is clicked. */
   onClick?: () => void;
+  /** Visible label. Default: "More unreads". */
+  label?: ReactNode;
 }
 
 /**
@@ -27,6 +30,7 @@ export default function MoreUnreadsBanner({
   direction = 'up',
   size = 'medium',
   onClick,
+  label = 'More unreads',
 }: MoreUnreadsBannerProps) {
   const sizeClass = styles[`more-unreads-banner--size-${size.toLowerCase()}`];
 
@@ -43,7 +47,7 @@ export default function MoreUnreadsBanner({
           <Icon size="12" glyph={<ArrowDownIcon />} />
         )}
       </span>
-      <span className={styles['more-unreads-banner__label']}>More unreads</span>
+      <span className={styles['more-unreads-banner__label']}>{label}</span>
     </button>
   );
 }

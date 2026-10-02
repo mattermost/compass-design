@@ -26,6 +26,8 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   customStatusEmoji?: string;
   /** Show "NEW" label tag. */
   tag?: boolean;
+  /** Text of the `tag`. Default: "NEW". */
+  tagLabel?: ReactNode;
   /** Inline mention count badge. */
   mentionCount?: number;
   /** Destructive (danger) styling. */
@@ -49,6 +51,7 @@ const MenuItem = forwardRef<HTMLButtonElement, MenuItemProps>(function MenuItem(
     trailingElement = false,
     customStatusEmoji,
     tag = false,
+    tagLabel = 'NEW',
     mentionCount,
     destructive = false,
     active = false,
@@ -101,7 +104,7 @@ const MenuItem = forwardRef<HTMLButtonElement, MenuItemProps>(function MenuItem(
                 {customStatusEmoji}
               </span>
             )}
-            {tag && <Tag label="NEW" />}
+            {tag && <Tag label={tagLabel} />}
             {mentionCount != null && mentionCount > 0 && (
               <MentionBadge
                 count={mentionCount}
