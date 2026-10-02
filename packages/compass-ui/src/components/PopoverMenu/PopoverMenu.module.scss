@@ -28,6 +28,11 @@
     transition:
       opacity var(--duration-quick) var(--ease-exit),
       transform var(--duration-quick) var(--ease-exit);
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+      transition: none;
+    }
   }
 
   &--visible {
@@ -37,6 +42,11 @@
     transition:
       opacity var(--duration-quick) var(--ease-entrance),
       transform var(--duration-quick) var(--ease-entrance);
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+      transition: none;
+    }
   }
 
   &__scroll {
