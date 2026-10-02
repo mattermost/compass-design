@@ -60,23 +60,6 @@ export const TabsDemo = () => {
 
 <TabsDemo />
 
-- **Underlined** — an alternative style with a thin rule under the whole strip
-  and an accent indicator beneath the active tab. Use it for page-level or
-  panel-level navigation where a lighter treatment fits better.
-
-<AnatomyStage>
-  <Tabs
-    appearance="underlined"
-    tabs={[
-      { key: 'all', label: 'All' },
-      { key: 'unreads', label: 'Unreads', countBadge: 4 },
-      { key: 'mentions', label: 'Mentions', unreadBadge: true },
-    ]}
-    activeKey="all"
-    onChange={() => {}}
-  />
-</AnatomyStage>
-
 - **Count badge** — use when the number of items in a tab is meaningful at a
   glance (e.g. unread count, filter result size). Prefer a count over a dot
   when the user benefits from knowing how many.
@@ -100,6 +83,28 @@ export const TabsDemo = () => {
       },
     ]}
     activeKey="general"
+    onChange={() => {}}
+  />
+</AnatomyStage>
+
+<Divider />
+
+## Appearance
+
+Tabs come in two styles. The default highlights the active tab with a tinted
+background. The underlined style draws a thin rule under the whole strip with
+an accent indicator beneath the active tab — a lighter treatment for page-level
+or panel-level navigation.
+
+<AnatomyStage>
+  <Tabs
+    appearance="underlined"
+    tabs={[
+      { key: 'all', label: 'All' },
+      { key: 'unreads', label: 'Unreads', countBadge: 4 },
+      { key: 'mentions', label: 'Mentions', unreadBadge: true },
+    ]}
+    activeKey="all"
     onChange={() => {}}
   />
 </AnatomyStage>
