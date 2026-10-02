@@ -48,7 +48,8 @@ export type ComboboxOption = {
   leadingVisual?: ReactNode;
   /** Avatar for chips / list when a photo is preferred over `leadingVisual`. */
   leadingAvatar?: { src: string; alt: string };
-  secondaryLabel?: string;
+  /** Accepts translated nodes. */
+  secondaryLabel?: ReactNode;
 };
 
 export interface ComboboxProps {

@@ -10,14 +10,14 @@ import styles from './PermalinkPreview.module.scss';
 const TRUNCATION_HEIGHT_PX = 100;
 
 export interface PermalinkPreviewProps {
-  /** Sender's display name. */
+  /** Sender's display name. Kept as `string`: it's also the avatar's alt text. */
   authorName?: string;
   /** Avatar image src. */
   avatarSrc: string;
   /** Timestamp label. */
-  timestamp?: string;
+  timestamp?: React.ReactNode;
   /** The quoted message body text. Ignored when `children` is provided. */
-  messageText?: string;
+  messageText?: React.ReactNode;
   /**
    * Rich content to render in the message body instead of the plain `messageText` string.
    * Use this to embed structured content such as attachment cards or formatted fields.

@@ -25,10 +25,12 @@ export type SelectSize = 'small' | 'medium' | 'large';
 
 export type SelectOption = {
   value: string;
+  /** Kept as `string` like `ComboboxOption.label` (which drives filtering), so option lists can be shared. */
   label: string;
   disabled?: boolean;
   leadingVisual?: ReactNode;
-  secondaryLabel?: string;
+  /** Accepts translated nodes. */
+  secondaryLabel?: ReactNode;
 };
 
 export interface SelectProps {
