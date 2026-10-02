@@ -39,7 +39,7 @@ export interface DateRangePickerProps extends Omit<
   /** Stacking order for the portaled calendar. */
   zIndex?: number;
   /** Trigger text when no date is selected. Default: "mm/dd/yyyy". */
-  valuePlaceholder?: string;
+  placeholder?: string;
   /** Formats an ISO `yyyy-mm-dd` date for the trigger. Default: `mm/dd/yyyy`. */
   formatDate?: (iso: string) => string;
   /** Twelve month names, January first. Default: English. */
@@ -127,7 +127,7 @@ export default function DateRangePicker({
   id: idProp,
   portalContainer = null,
   zIndex,
-  valuePlaceholder = 'mm/dd/yyyy',
+  placeholder = 'mm/dd/yyyy',
   formatDate = formatDateDisplay,
   monthNames = MONTHS,
   weekdayNames = WEEKDAYS,
@@ -533,7 +533,7 @@ export default function DateRangePicker({
           <Icon size="16" glyph={<CalendarOutlineIcon />} />
         </span>
         <span className={styles['date-range-picker__value']}>
-          {displayValue || valuePlaceholder}
+          {displayValue || placeholder}
         </span>
         <span className={styles['date-range-picker__chevron']} aria-hidden>
           <Icon size="16" glyph={<ChevronDownIcon />} />

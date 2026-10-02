@@ -9,7 +9,7 @@ Rules live in [packages/compass-ui/AGENTS.md → Component API contract](../../.
 
 ## 1. Public API diff
 
-1. Diff the exported `Props` against the base branch. Any removed or renamed prop, narrowed type (e.g. `ReactNode` → `string`), changed default, or new required prop is a blocker — make it optional and additive.
+1. Diff the exported `Props` against the base branch. Any removed or renamed prop, narrowed type (e.g. `ReactNode` → `string`), changed default, or new required prop is a blocker — make it optional and additive. Exception: a behavior change that makes the component honor its existing types or docs (e.g. a prop it accepted but ignored) is a bug fix; keep the existing prop and add a CHANGELOG `### Fixed` entry.
 2. Every new prop is optional, documented in JSDoc with its default, and its type is exported from the component's `index.ts` (and the root barrel when shared).
 3. Variant values are lowercase kebab-case; icon slots use `IconSlotContext`.
 

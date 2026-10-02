@@ -376,10 +376,19 @@ describe('other overridable messages', () => {
     );
   });
 
+  it('DateRangePicker shows placeholder only while empty', () => {
+    const { rerender } = render(<DateRangePicker />);
+    expect(getByRole('button', 'mm/dd/yyyy')).toBeTruthy();
+    rerender(<DateRangePicker placeholder="Pick a date" />);
+    expect(getByRole('button', 'Pick a date')).toBeTruthy();
+    rerender(<DateRangePicker placeholder="Pick a date" value="2026-01-05" />);
+    expect(getByRole('button', '01/05/2026')).toBeTruthy();
+  });
+
   it('DateRangePicker labels', () => {
     render(
       <DateRangePicker
-        valuePlaceholder="tt.mm.jjjj"
+        placeholder="tt.mm.jjjj"
         previousMonthLabel="Vorheriger Monat"
         todayLabel="Heute"
       />,
