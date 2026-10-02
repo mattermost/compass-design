@@ -1,0 +1,25 @@
+// Cascade layer order for every stylesheet compass-ui ships outside component
+// CSS modules. Emitted first in each published sheet (and the vendored
+// SimpleBar sheet) so whichever copy loads first registers the same order.
+//
+// Everything here is layered so unlayered host declarations of the same names
+// (e.g. Mattermost webapp `--radius-full`, `--elevation-*`) always win, and so
+// several compass-ui copies on one page can't override each other's tokens.
+// Component CSS modules stay unlayered: hosts ship unlayered element rules
+// (Bootstrap `button`, `input`) that would otherwise beat them.
+//
+// Order, lowest priority first:
+//   base           — standalone reset + document chrome (`*`, `body`, …)
+//   vendor         — third-party CSS (SimpleBar); above base so its class rules
+//                    still beat the reset's `*` rules, as they did unlayered
+//   webapp-compat  — defaults for names the host owns (`--neutral-*`, …)
+//   tokens         — compass-owned foundation tokens
+//   themes         — standalone theme presets; may restate compat aliases
+//
+// webapp-compat precedes tokens because alpha.12 and earlier register only
+// `compass-ui.webapp-compat`. When such a copy loads first, the other
+// sub-layers are appended after it; base and vendor hold no custom
+// properties, so tokens still resolve exactly as with this order. The two
+// layers must also declare disjoint names (checked by
+// scripts/verify-compass-ui-dist.mjs), so their order never decides a value.
+@layer compass-ui.base, compass-ui.vendor, compass-ui.webapp-compat, compass-ui.tokens, compass-ui.themes;
