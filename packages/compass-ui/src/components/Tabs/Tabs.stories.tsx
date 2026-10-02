@@ -86,12 +86,17 @@ export const WithControls: Story = {
 };
 
 export const Underlined: Story = {
-  render: function Render() {
+  args: {
+    appearance: 'underlined',
+    tabs: TABS,
+    activeKey: 'messages',
+    onChange: fn(),
+  },
+  render: function Render(args) {
     const [activeKey, setActiveKey] = useState('messages');
     return (
       <Tabs
-        appearance="underlined"
-        tabs={TABS}
+        {...args}
         activeKey={activeKey}
         onChange={setActiveKey}
       />
