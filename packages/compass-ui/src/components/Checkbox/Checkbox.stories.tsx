@@ -143,6 +143,29 @@ export const AllVariants: Story = {
           Disabled indeterminate
         </Checkbox>
       </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          maxWidth: 280,
+        }}
+      >
+        <span
+          style={{
+            fontSize: 12,
+            color: 'var(--center-channel-color)',
+          }}
+        >
+          Multi-line label
+        </span>
+        {SIZES.map((size) => (
+          <Checkbox key={size} size={size} defaultChecked={size === 'medium'}>
+            Allow teammates to find and join this channel from the channel
+            browser and search results
+          </Checkbox>
+        ))}
+      </div>
     </div>
   ),
 };
