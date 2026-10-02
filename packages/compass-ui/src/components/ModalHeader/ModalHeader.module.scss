@@ -12,6 +12,12 @@
     }
   }
 
+  &--has-slot {
+    .modal-header__content {
+      padding-bottom: 0;
+    }
+  }
+
   &--close-only {
     .modal-header__content {
       justify-content: flex-end;
@@ -108,5 +114,9 @@
     margin-right: -12px;
     margin-top: -6px;
     margin-bottom: -6px;
+  }
+
+  &__slot {
+    padding: var(--spacing-l) var(--spacing-xxxl) var(--spacing-xxl);
   }
 }
