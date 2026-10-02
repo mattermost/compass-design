@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
-- **`PopoverMenu` `open`:** optional controlled visibility with the popover scale + fade transition; unmounts after the exit. Omitting it keeps the previous always-rendered behavior.
+- **`PopoverMenu` `open`:** optional controlled visibility with the popover scale + fade transition; unmounts after the exit; optional `onExited` fires once it has unmounted. Omitting it keeps the previous always-rendered behavior.
 
 ### Fixed
 

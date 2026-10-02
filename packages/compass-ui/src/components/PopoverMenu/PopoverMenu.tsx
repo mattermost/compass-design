@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
@@ -12,6 +13,8 @@ export interface PopoverMenuProps extends HTMLAttributes<HTMLDivElement> {
    * without transition. The host owns the state and positioning.
    */
   open?: boolean;
+  /** Called after the exit transition finishes and the menu unmounts (only when `open` is controlled). */
+  onExited?: () => void;
   children: ReactNode;
 }
 
@@ -24,12 +27,23 @@ export interface PopoverMenuProps extends HTMLAttributes<HTMLDivElement> {
 export default function PopoverMenu({
   variant = 'parent',
   open,
+  onExited,
   children,
   className = '',
   ...rest
 }: PopoverMenuProps) {
   const { mounted, visible } = usePopoverTransition(open ?? true);
   const transitioned = open !== undefined;
+  const wasMounted = useRef(mounted);
+  const onExitedRef = useRef(onExited);
+  onExitedRef.current = onExited;
+
+  useEffect(() => {
+    if (wasMounted.current && !mounted && transitioned) {
+      onExitedRef.current?.();
+    }
+    wasMounted.current = mounted;
+  }, [mounted, transitioned]);
 
   if (transitioned && !mounted) return null;
 
