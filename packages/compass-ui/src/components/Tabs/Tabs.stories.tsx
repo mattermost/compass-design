@@ -94,12 +94,6 @@ export const Underlined: Story = {
   },
   render: function Render(args) {
     const [activeKey, setActiveKey] = useState('messages');
-    return (
-      <Tabs
-        {...args}
-        activeKey={activeKey}
-        onChange={setActiveKey}
-      />
-    );
+    return <Tabs {...args} activeKey={activeKey} onChange={setActiveKey} />;
   },
 };
