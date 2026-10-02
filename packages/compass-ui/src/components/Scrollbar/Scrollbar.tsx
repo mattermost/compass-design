@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 import SimpleBar from 'simplebar-react';
-import 'simplebar-react/dist/simplebar.min.css';
+import './simplebar-vendor.scss';
 import styles from './Scrollbar.module.scss';
 
 export interface ScrollbarProps {
