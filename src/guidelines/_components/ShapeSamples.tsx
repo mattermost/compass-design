@@ -79,7 +79,7 @@ const RADIUS_STEPS: RadiusStep[] = [
   { px: 24 },
   {
     px: 9999,
-    note: 'Full radius — pills, capsules, and fully rounded controls',
+    note: 'Pill radius (--radius-pill) — pills, capsules, and fully rounded controls',
   },
 ];
 

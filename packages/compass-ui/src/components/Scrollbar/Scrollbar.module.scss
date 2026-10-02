@@ -14,6 +14,10 @@
   // Play nicely with flex parents — SimpleBar's root is a flex column by
   // default and otherwise won't shrink below its content's intrinsic height.
   min-height: 0;
+  // Reset so a host scroller that sets the same inherited name (Mattermost
+  // webapp `Scrollbars`) can't recolor this thumb. The `color` prop writes an
+  // inline value, which still wins.
+  --scrollbar-color: var(--center-channel-color-rgb);
 
   // Vertical track sits flush on the right edge.
   :global(.simplebar-track.simplebar-vertical) {

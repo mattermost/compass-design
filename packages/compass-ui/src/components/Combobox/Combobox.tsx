@@ -499,7 +499,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     if (!isOpen || activeIndex < 0) return;
     const row = rows[activeIndex];
     if (!row) return;
-    document.getElementById(rowId(row))?.scrollIntoView({ block: 'nearest' });
+    document.getElementById(rowId(row))?.scrollIntoView?.({ block: 'nearest' });
   }, [isOpen, activeIndex, rows, rowId]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

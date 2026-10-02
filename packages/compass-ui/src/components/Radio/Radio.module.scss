@@ -50,7 +50,7 @@
     box-sizing: border-box;
     background-color: var(--center-channel-bg);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     transition:
       background-color var(--duration-quick) var(--ease-transition),
       border-color var(--duration-quick) var(--ease-transition),
@@ -155,7 +155,7 @@
   // ---------------------------------------------------------------------------
   &__dot {
     display: block;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     pointer-events: none;
     transform: scale(0.5);
     transition: transform var(--duration-quick) var(--ease-entrance);

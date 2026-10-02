@@ -1,7 +1,9 @@
 /**
  * Smoke test: build @mattermost/compass-ui, pack a tarball, install it in a
- * minimal Vite consumer, type-check the public API contract, and verify the
- * app builds with styles + components.
+ * minimal Vite consumer with only the package's required peer dependencies,
+ * then import every `components/*` subpath through Vite (`import`), Node ESM
+ * (`import`), and Node CJS (`require`, as Jest does), type-check them along
+ * with the public API contract, and verify the app builds with styles.
  */
 import fs from 'fs';
 import path from 'path';
@@ -52,6 +54,87 @@ function assertTarballContents(tarballPath) {
   }
 }
 
+function requiredPeerDependencies() {
+  const pkg = JSON.parse(
+    fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'),
+  );
+  return Object.fromEntries(
+    Object.entries(pkg.peerDependencies ?? {}).filter(
+      ([name]) => !pkg.peerDependenciesMeta?.[name]?.optional,
+    ),
+  );
+}
+
+function componentSubpaths() {
+  const componentsDir = path.join(packageRoot, 'dist/components');
+  return fs
+    .readdirSync(componentsDir, { withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isDirectory() &&
+        fs.existsSync(path.join(componentsDir, entry.name, 'index.js')),
+    )
+    .map((entry) => `@mattermost/compass-ui/components/${entry.name}`)
+    .sort();
+}
+
+// Node can't load the CSS that component modules side-effect import; stub it
+// the way Jest's moduleNameMapper / identity-obj-proxy setups do.
+function writeSubpathChecks(tempDir, subpaths) {
+  const list = JSON.stringify(subpaths, null, 2);
+  const assertExports = `
+const empty = loaded.filter(([, mod]) => Object.keys(mod).length === 0);
+if (empty.length > 0) {
+  throw new Error('Subpaths with no exports: ' + empty.map(([s]) => s).join(', '));
+}
+console.log('[smoke] Loaded ' + loaded.length + ' component subpaths');`;
+
+  fs.writeFileSync(
+    path.join(tempDir, 'src', 'all-components.ts'),
+    subpaths
+      .map((subpath, i) => `import * as m${i} from '${subpath}';`)
+      .join('\n') +
+      `\n\nexport const componentModules = [${subpaths.map((_, i) => `m${i}`).join(', ')}];\n`,
+  );
+
+  fs.writeFileSync(
+    path.join(tempDir, 'css-stub-hooks.mjs'),
+    `export async function load(url, context, nextLoad) {
+  if (url.endsWith('.css')) {
+    return { format: 'module', source: '', shortCircuit: true };
+  }
+  return nextLoad(url, context);
+}
+`,
+  );
+  fs.writeFileSync(
+    path.join(tempDir, 'register-css-stub.mjs'),
+    `import { register } from 'node:module';
+register('./css-stub-hooks.mjs', import.meta.url);
+`,
+  );
+  fs.writeFileSync(
+    path.join(tempDir, 'check-esm.mjs'),
+    `const subpaths = ${list};
+const loaded = [];
+for (const subpath of subpaths) {
+  loaded.push([subpath, await import(subpath)]);
+}
+${assertExports}
+`,
+  );
+  fs.writeFileSync(
+    path.join(tempDir, 'check-cjs.cjs'),
+    `require.extensions['.css'] = (module) => {
+  module.exports = {};
+};
+const subpaths = ${list};
+const loaded = subpaths.map((subpath) => [subpath, require(subpath)]);
+${assertExports}
+`,
+  );
+}
+
 function writeConsumer(tempDir, tarballPath) {
   const tgzName = path.basename(tarballPath);
   fs.copyFileSync(tarballPath, path.join(tempDir, tgzName));
@@ -63,13 +146,17 @@ function writeConsumer(tempDir, tarballPath) {
         name: 'compass-ui-smoke-consumer',
         private: true,
         type: 'module',
-        scripts: { build: 'vite build', typecheck: 'tsc -p tsconfig.json' },
+        scripts: {
+          build: 'vite build',
+          typecheck: 'tsc -p tsconfig.json',
+          'check:esm': 'node --import ./register-css-stub.mjs check-esm.mjs',
+          'check:cjs': 'node check-cjs.cjs',
+        },
+        // Only what the package declares as required peers, so an import
+        // that needs an optional or undeclared peer fails here.
         dependencies: {
-          '@mattermost/compass-icons': '^0.1.53',
+          ...requiredPeerDependencies(),
           '@mattermost/compass-ui': `file:./${tgzName}`,
-          react: '^19.0.0',
-          'react-dom': '^19.0.0',
-          'simplebar-react': '^3.3.2',
         },
         devDependencies: {
           '@types/react': '^19.0.0',
@@ -105,6 +192,11 @@ import { Illustration } from '@mattermost/compass-ui/components/illustration';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import '@mattermost/compass-ui/styles';
+import { componentModules } from './all-components';
+
+if (componentModules.some((mod) => Object.keys(mod).length === 0)) {
+  throw new Error('A component subpath has no exports');
+}
 
 function App() {
   const items = Array.from({ length: 20 }, (_, i) => \`Row \${i + 1}\`);
@@ -149,7 +241,7 @@ createRoot(document.getElementById('root')!).render(
           noEmit: true,
           skipLibCheck: true,
         },
-        include: ['src/api-contract.tsx'],
+        include: ['src/api-contract.tsx', 'src/all-components.ts'],
       },
       null,
       2,
@@ -234,9 +326,17 @@ console.log('[smoke] Tarball contents OK');
 const consumerDir = mkdtempSync(path.join(tmpdir(), 'compass-ui-consumer-'));
 try {
   writeConsumer(consumerDir, tarballPath);
-  console.log('[smoke] Installing tarball in minimal Vite consumer…');
+  const subpaths = componentSubpaths();
+  writeSubpathChecks(consumerDir, subpaths);
+  console.log(
+    `[smoke] Installing tarball in minimal Vite consumer (peers: ${Object.keys(requiredPeerDependencies()).join(', ')})…`,
+  );
   run('npm install', consumerDir);
-  console.log('[smoke] Type-checking public API contract…');
+  console.log(`[smoke] Importing ${subpaths.length} component subpaths (ESM)…`);
+  run('npm run check:esm', consumerDir);
+  console.log(`[smoke] Requiring ${subpaths.length} component subpaths (CJS)…`);
+  run('npm run check:cjs', consumerDir);
+  console.log('[smoke] Type-checking public API contract and subpaths…');
   run('npm run typecheck', consumerDir);
   console.log('[smoke] Building consumer…');
   run('npm run build', consumerDir);

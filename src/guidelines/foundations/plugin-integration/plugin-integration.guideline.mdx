@@ -1,0 +1,87 @@
+Compass UI often runs as several copies on one page. The Mattermost webapp
+ships one copy, and every plugin that uses Compass bundles its own. Plugins
+can't share the webapp's copy, and each one upgrades on its own schedule, so
+copies of different versions routinely load side by side. These rules keep
+those copies from breaking each other or the host.
+
+<Divider />
+
+## Bundle your own copy
+
+Install `@mattermost/compass-ui` as a dependency of the plugin and import the
+token stylesheet once at the plugin entry:
+
+```tsx
+import '@mattermost/compass-ui/styles';
+import { Button } from '@mattermost/compass-ui/components/button';
+```
+
+The token stylesheet is safe to load more than once. Every token is declared
+inside the `compass-ui` cascade layer, so:
+
+- Values the host defines itself always win, whatever order the stylesheets
+  load in. For example, the webapp's `--radius-full: 50%` and its elevation
+  shadows are never replaced by Compass defaults.
+- Tokens only Compass defines, such as `--spacing-xs`, still resolve when the
+  host doesn't set them.
+- A second copy can't change the values another copy sees, because copies only
+  ever add the same layered defaults.
+
+Component styles need no import. They ship with each component, and their
+class names are content-hashed, so different versions of a component can share
+the page.
+
+`simplebar-react` is a required peer dependency. npm 7 and later install it
+automatically. `Modal`, `PopoverMenu`, `EmptyState`, `Select`, `Combobox`, and
+anything else that renders `Scrollbar` need it.
+
+<Divider />
+
+## Never load the standalone stylesheet in a host
+
+`@mattermost/compass-ui/styles/standalone` contains theme presets, a CSS reset,
+and document `body` styles for Storybook and other standalone apps. Inside the
+Mattermost webapp, the theme presets would override the user's chosen theme.
+Plugins and any other code running inside the webapp must import only
+`@mattermost/compass-ui/styles`.
+
+<Divider />
+
+## Stay close to the host's version
+
+Pick a Compass UI version close to the one the webapp ships. Components look
+consistent across the page when the versions match, and the plugin gets the
+same fixes as the rest of the product.
+
+Releases up to and including `0.1.0-alpha.12` declare their tokens outside any
+layer. While a plugin still loads one of those versions, its tokens can
+override the host's values when its stylesheet loads after the host's. Upgrade
+plugins past `0.1.0-alpha.12` to remove that override.
+
+<Divider />
+
+## Tokens are additive-only
+
+Because older copies stay on the page after a newer one ships, a token's name
+and value can never change once released. A renamed or revalued token would
+still resolve to the old value wherever an older copy wins. To change a value,
+add a new token and move components to it.
+
+For example, pill shapes use `--radius-pill`. The older `--radius-full` remains
+for existing consumers, but it is deprecated because the webapp defines it as
+`50%`, which turns pills into ellipses.
+
+The package build snapshots every token name and value and fails when one is
+removed or changed. Adding tokens is always allowed.
+
+<Divider />
+
+## Don't layer component styles
+
+Only Compass token and vendor stylesheets go in cascade layers. Component CSS
+stays unlayered, and plugins must keep it that way: don't wrap Compass
+component styles in `@layer`, and don't use a bundler rule that puts all
+third-party CSS into a layer. Hosts ship unlayered element rules, such as the
+webapp's Bootstrap `button` and `input` styles, and unlayered rules always beat
+layered ones. Layered component styles would lose to them, which breaks every
+component.

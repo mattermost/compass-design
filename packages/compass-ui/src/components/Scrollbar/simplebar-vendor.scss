@@ -1,0 +1,10 @@
+// SimpleBar's stylesheet uses global `.simplebar-*` classes. Layered so a
+// host's own (unlayered) SimpleBar CSS wins and compass-ui copies of different
+// versions can't fight over them; Scrollbar.module.scss overrides stay
+// unlayered.
+@use 'sass:meta';
+@use '../../styles/layers';
+
+@layer compass-ui.vendor {
+  @include meta.load-css('simplebar-react/dist/simplebar.min.css');
+}

@@ -48,7 +48,7 @@ softer, and aligning containers to the same scale keeps the system coherent.
 
 ## Pill
 
-A pill is a rounded rectangle with the radius set to **full (9999px)** — the
+A pill is a rounded rectangle with the radius set to **pill (9999px)** — the
 long edges collapse into perfect arcs. The shape itself signals "count" or
 "status," so reserve it for elements where that meaning is appropriate.
 
@@ -73,6 +73,9 @@ the **Unread Badge**.
 
 ## Tokens and implementation
 
-Each radius is exposed as a CSS custom property. For the full token list,
+Each radius is exposed as a CSS custom property. Use `--radius-pill` for pills
+and circles. `--radius-full` is deprecated: the Mattermost webapp defines it as
+`50%`, and that value wins when Compass is embedded, so pills render as
+ellipses. For the full token list,
 copy-ready values, and which UI elements bind to which radius, see the
 [Shape specimen page](/foundations/shape/specimen).

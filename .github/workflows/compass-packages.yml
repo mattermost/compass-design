@@ -25,6 +25,10 @@ jobs:
       - name: Typecheck compass-ui
         run: npm run typecheck --workspace=@mattermost/compass-ui
 
+      - name: Test compass-ui
+        run: npm test --workspace=@mattermost/compass-ui
+
+      # Also verifies the token snapshot and cascade layering.
       - name: Build compass-ui
         run: npm run build --workspace=@mattermost/compass-ui
 

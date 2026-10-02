@@ -258,7 +258,7 @@
 
   &__bar {
     height: 6px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background-color: var(--color-info);
   }
 }
@@ -322,7 +322,7 @@
   &__line {
     display: block;
     height: 6px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background-color: rgba(0, 0, 0, 0.16);
 
     &--short {
@@ -346,7 +346,7 @@
   &__dot {
     width: 12px;
     height: 12px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background-color: var(--color-info);
     animation: visual-motion-pulse 1.6s var(--ease-transition) infinite;
 

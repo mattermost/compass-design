@@ -316,7 +316,8 @@
   --radius-m: 8px;
   --radius-l: 12px;
   --radius-xl: 16px;
-  --radius-full: 9999px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px; // Deprecated: use --radius-pill
 
   // ============================================================
   // Elevations (W3C design tokens format)

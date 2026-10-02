@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { afterEach } from 'vitest';
+import { afterAll, afterEach, beforeAll } from 'vitest';
 
 (
   globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
@@ -27,6 +27,35 @@ export function render(ui: ReactElement) {
     container,
     rerender: (next: ReactElement) => act(() => root.render(next)),
   };
+}
+
+/**
+ * Removes `Element#scrollIntoView` for the calling suite, matching jsdom
+ * (which consumer Jest setups use and which doesn't implement it).
+ */
+export function withoutScrollIntoView() {
+  const removed: Array<[object, PropertyDescriptor]> = [];
+  beforeAll(() => {
+    for (
+      let proto: object | null = HTMLElement.prototype;
+      proto;
+      proto = Object.getPrototypeOf(proto)
+    ) {
+      const descriptor = Object.getOwnPropertyDescriptor(
+        proto,
+        'scrollIntoView',
+      );
+      if (descriptor) {
+        removed.push([proto, descriptor]);
+        delete (proto as { scrollIntoView?: unknown }).scrollIntoView;
+      }
+    }
+  });
+  afterAll(() => {
+    for (const [proto, descriptor] of removed.splice(0)) {
+      Object.defineProperty(proto, 'scrollIntoView', descriptor);
+    }
+  });
 }
 
 export function click(el: Element) {

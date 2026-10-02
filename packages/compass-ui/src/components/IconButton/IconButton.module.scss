@@ -59,7 +59,7 @@
     right: -1px;
     width: 6px;
     height: 6px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background-color: var(--sidebar-text-active-border);
     box-shadow: 0 0 0 2px var(--center-channel-bg);
     pointer-events: none;
@@ -154,7 +154,7 @@
   // Rounded modifier (pill shape). Figma: Rounded = On.
   // ---------------------------------------------------------------------------
   &--rounded {
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
   }
 
   // ---------------------------------------------------------------------------

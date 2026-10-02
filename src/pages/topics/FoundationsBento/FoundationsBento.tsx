@@ -93,6 +93,7 @@ const GUIDELINE_SLUGS = [
   'usability-heuristics',
   'system-feedback',
   'accessibility-guidelines',
+  'plugin-integration',
 ];
 
 export default function FoundationsBento({

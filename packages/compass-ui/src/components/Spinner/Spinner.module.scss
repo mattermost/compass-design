@@ -9,7 +9,7 @@
 
 .spinner {
   display: inline-block;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill);
   animation: spinner-spin 750ms linear infinite;
   background: conic-gradient(
     rgba(var(--center-channel-color-rgb), 0),

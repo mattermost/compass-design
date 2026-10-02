@@ -242,7 +242,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
     const option = listOptions[activeIndex];
     if (!option) return;
     const el = document.getElementById(`${listboxId}-option-${option.value}`);
-    el?.scrollIntoView({ block: 'nearest' });
+    el?.scrollIntoView?.({ block: 'nearest' });
   }, [isOpen, activeIndex, listOptions, listboxId]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
