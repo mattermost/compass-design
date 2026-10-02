@@ -9,7 +9,12 @@ export interface ReactionButtonProps extends ButtonHTMLAttributes<HTMLButtonElem
   count: number;
   /** Whether the current user has reacted with this emoji. */
   byCurrentUser?: boolean;
+  /** Accessible name. Default: `{emoji} {count} reaction(s)`. An explicit `aria-label` still wins. */
+  formatLabel?: (emoji: string, count: number) => string;
 }
+
+const defaultFormatLabel = (emoji: string, count: number) =>
+  `${emoji} ${count} reaction${count !== 1 ? 's' : ''}`;
 
 /**
  * A single emoji reaction button — shows the emoji, count, and highlights when the current user
@@ -21,6 +26,7 @@ export default function ReactionButton({
   emoji,
   count,
   byCurrentUser = false,
+  formatLabel = defaultFormatLabel,
   className = '',
   onClick,
   ...rest
@@ -60,7 +66,7 @@ export default function ReactionButton({
       type="button"
       className={rootClass}
       onClick={onClick}
-      aria-label={`${emoji} ${count} reaction${count !== 1 ? 's' : ''}`}
+      aria-label={formatLabel(emoji, count)}
       aria-pressed={byCurrentUser}
       {...rest}
     >

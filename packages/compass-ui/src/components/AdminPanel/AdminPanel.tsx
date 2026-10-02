@@ -1,4 +1,10 @@
-import { useId, useState, type ChangeEvent, type ReactNode } from 'react';
+import {
+  useId,
+  useState,
+  type ChangeEvent,
+  type HTMLAttributes,
+  type ReactNode,
+} from 'react';
 import AdminPanelHeader, {
   type AdminPanelExpandedState,
 } from '@/components/AdminPanelHeader/AdminPanelHeader';
@@ -6,7 +12,10 @@ import styles from './AdminPanel.module.scss';
 
 export type { AdminPanelExpandedState };
 
-export interface AdminPanelProps {
+export interface AdminPanelProps extends Omit<
+  HTMLAttributes<HTMLElement>,
+  'title' | 'children'
+> {
   title: ReactNode;
   subtitle?: ReactNode;
   children?: ReactNode;
@@ -16,11 +25,14 @@ export interface AdminPanelProps {
   /** Icon forwarded to `AdminPanelHeader`'s 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} size="20" />`. */
   leadingIcon?: ReactNode;
   showBeta?: boolean;
-  betaLabel?: string;
+  /** Default: "Beta". Accepts translated nodes. */
+  betaLabel?: ReactNode;
   showEnterpriseLabel?: boolean;
-  enterpriseLabel?: string;
+  /** Default: "Enterprise". Accepts translated nodes. */
+  enterpriseLabel?: ReactNode;
   showButton?: boolean;
-  buttonLabel?: string;
+  /** Default: "Button". Accepts translated nodes. */
+  buttonLabel?: ReactNode;
   onButtonClick?: () => void;
   showSwitch?: boolean;
   switchLabel?: ReactNode;
@@ -35,6 +47,10 @@ export interface AdminPanelProps {
   expandedState?: AdminPanelExpandedState;
   defaultExpandedState?: AdminPanelExpandedState;
   onExpandedStateChange?: (state: AdminPanelExpandedState) => void;
+  /** Accessible name for the expand button while collapsed. Default: "Expand section". */
+  expandLabel?: string;
+  /** Accessible name for the expand button while expanded. Default: "Collapse section". */
+  collapseLabel?: string;
 }
 
 /**
@@ -66,6 +82,9 @@ export default function AdminPanel({
   expandedState: expandedStateProp,
   defaultExpandedState = 'collapsed',
   onExpandedStateChange,
+  expandLabel,
+  collapseLabel,
+  ...rest
 }: AdminPanelProps) {
   const titleId = useId();
 
@@ -97,6 +116,7 @@ export default function AdminPanel({
 
   return (
     <section
+      {...rest}
       className={[styles['admin-panel'], className].join(' ').trim()}
       aria-labelledby={titleId}
     >
@@ -123,6 +143,8 @@ export default function AdminPanel({
         expandable={expandable}
         isExpanded={isExpanded}
         onToggleExpand={toggleExpanded}
+        expandLabel={expandLabel}
+        collapseLabel={collapseLabel}
         showDivider={showHeaderDivider}
       />
       {expandable ? (

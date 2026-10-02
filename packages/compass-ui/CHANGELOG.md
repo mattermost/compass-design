@@ -12,6 +12,11 @@ Safe to run several compass-ui copies, of any versions, on one page alongside a 
 
 - **`--radius-pill`** (`9999px`): pill and circle radius. Its name doesn't collide with the Mattermost webapp.
 - **Token contract in CI:** `scripts/verify-compass-ui-dist.mjs` snapshots every token name and value (`tokens.snapshot.json`) and fails when a token is removed or revalued. Tokens are additive-only. Update the snapshot intentionally with `npm run tokens:snapshot`.
+- **Attribute pass-through:** `SectionNotice`, `TourPoint`, `EmptyState`, `Tag`, `Modal`, `ErrorMessage`, `ProgressBar`, `Tabs`, `AdminPanel`, `Toast`, `PopoverNotice` (and `Scrollbar`) put extra HTML attributes (`data-*`, `id`, `aria-*`, …) on their root. Component props win on conflicts; `className` is merged.
+- **Built-in button props:** `closeButtonProps` (`TourPoint`, `PopoverNotice`, `ModalHeader`, `Modal`), `backButtonProps` (`ModalHeader`, `Modal`), `dismissButtonProps` (`SectionNotice`, `Toast`, `GlobalBanner`), `clearButtonProps` (`SearchInput`, `Combobox`) and `TabItem.buttonProps`. New exported types `BuiltInButtonProps` and `DataAttributes`.
+- **Label props for built-in English:** every hardcoded accessible name or message now has an optional prop that defaults to the current English, e.g. `closeLabel`, `backLabel`, `dismissLabel`, `clearLabel`, `listboxLabel`, `selectionsLabel`, and `format*Label` functions for counts. See the PR for the full list.
+- **`SectionNotice` action states:** `primaryActionDisabled`, `primaryActionLoading`, `secondaryActionDisabled`, `secondaryActionLoading`. `TourPointPrimaryAction` and `PopoverNoticeAction` gain `disabled` and `loading`.
+- **Clearable `Combobox`:** `clearable` shows a keyboard-reachable clear button in single mode that calls `onChange(null)`. No-op with `multiple`.
 
 ### Changed (non-breaking)
 
@@ -19,6 +24,7 @@ Safe to run several compass-ui copies, of any versions, on one page alongside a 
 - **SimpleBar CSS** ships as `components/scrollbar/simplebar-vendor.css` inside `@layer compass-ui.vendor`, so a host's own SimpleBar CSS wins. This replaces the CSS-only `dist/node_modules/simplebar-react` folder, which shadowed the real `simplebar-react` package and broke Node ESM imports of `Scrollbar` (and of `Modal`, `PopoverMenu`, `EmptyState`, `Select`, `Combobox`) even when it was installed.
 - **`simplebar-react` is a required peer dependency** (no longer `optional`), so npm 7+ installs it automatically.
 - All 17 components that used `--radius-full` now use `--radius-pill`, so pills stay pills when the webapp's `--radius-full: 50%` wins.
+- **Translatable text props:** text props that were typed `string` now accept `ReactNode` (for example `MenuGroupHeading.label`, `TourPoint.title`, `TourPointPrimaryAction.label`, `PopoverNotice.checkboxLabel`, `ActionButton.label`, `FeatureDiscoveryPanel.title`/`description`, `AdminPanel` and `AdminPanelHeader` `betaLabel`/`enterpriseLabel`/`buttonLabel`, `AdminPanelFooter.saveLabel`/`cancelLabel`). Option labels used for filtering stay `string`.
 
 ### Deprecated
 
@@ -27,6 +33,7 @@ Safe to run several compass-ui copies, of any versions, on one page alongside a 
 ### Fixed
 
 - **`Combobox` and `Select`** no longer crash when `scrollIntoView` is missing, as in jsdom-based consumer tests.
+- **`DateRangePicker`** now shows the `placeholder` it already accepted (it was silently ignored). The default stays "mm/dd/yyyy".
 - **`Scrollbar`** no longer inherits `--scrollbar-color` from a host scroller that sets the same name (the webapp's `Scrollbars` does). The `color` prop still overrides.
 
 ## [0.1.0-alpha.12] - 2026-10-01

@@ -1,6 +1,8 @@
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
+import type { ReactNode } from 'react';
 import ImagePreview from '@/components/ImagePreview/ImagePreview';
+import type { ImagePreviewProps } from '@/components/ImagePreview/ImagePreview';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import styles from './LinkPreview.module.scss';
 
@@ -8,11 +10,11 @@ export type LinkPreviewImageSize = 'none' | 'small' | 'large';
 
 export interface LinkPreviewProps {
   /** The site/domain label shown above the title. */
-  siteName?: string;
-  /** The main link title. */
-  title?: string;
-  /** Description text. */
-  description?: string;
+  siteName?: ReactNode;
+  /** The main link title. Accepts translated nodes. */
+  title?: ReactNode;
+  /** Description text. Accepts translated nodes. */
+  description?: ReactNode;
   /** Preview image URL. Pair with `imageSize` to choose layout. */
   imageSrc?: string;
   /** Alt text for the preview image. */
@@ -29,6 +31,17 @@ export interface LinkPreviewProps {
   onDownloadImage?: () => void;
   /** Called when the dismiss control is clicked. Shown on hover when provided. */
   onDismiss?: () => void;
+  /** Accessible name for the dismiss button. Default: "Remove link preview". */
+  dismissLabel?: string;
+  /** Label overrides for the large image preview. */
+  imagePreviewLabels?: Pick<
+    ImagePreviewProps,
+    | 'showLabel'
+    | 'showAriaLabel'
+    | 'collapseLabel'
+    | 'copyLinkLabel'
+    | 'downloadLabel'
+  >;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -50,6 +63,8 @@ export default function LinkPreview({
   onCopyImageLink,
   onDownloadImage,
   onDismiss,
+  dismissLabel = 'Remove link preview',
+  imagePreviewLabels,
   className = '',
 }: LinkPreviewProps) {
   const resolvedImageSize =
@@ -83,7 +98,7 @@ export default function LinkPreview({
             className={styles['link-preview__dismiss']}
             size="x-small"
             padding="compact"
-            aria-label="Remove link preview"
+            aria-label={dismissLabel}
             icon={<Icon size="12" glyph={<CloseIcon />} />}
             onClick={onDismiss}
           />
@@ -109,6 +124,7 @@ export default function LinkPreview({
 
         {hasLargeImage && (
           <ImagePreview
+            {...imagePreviewLabels}
             className={styles['link-preview__image-preview']}
             src={imageSrc}
             alt={imageAlt}

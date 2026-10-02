@@ -10,26 +10,34 @@ import type { TagType } from '@/components/Tag/Tag';
 import styles from './RightSidebarHeader.module.scss';
 
 export interface RightSidebarHeaderProps {
-  /** Primary title text. */
-  title: string;
+  /** Primary title text. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  title: ReactNode;
   /** Secondary title shown to the right of a vertical divider (e.g. parent channel name). */
-  secondaryTitle?: string;
+  secondaryTitle?: ReactNode;
   /** Optional tag rendered next to the title (e.g. "BETA"). */
-  tag?: string;
+  tag?: ReactNode;
   /** Tag visual style. Default: Info. */
   tagType?: TagType;
   /** Optional leading element shown before the title — typically a `UserAvatar` or an icon. When passing an icon, use `<Icon glyph={<SomeIcon />} size="20" />` to align with the title text. */
   leadingIcon?: ReactNode;
   /** When set, shows a back button and calls this on click. */
   onBack?: () => void;
+  /** Accessible name for the back button. Default: "Back". */
+  backLabel?: string;
   /** When set, shows an expand/collapse button and calls this on click. */
   onExpand?: () => void;
   /** When true, the expand button shows the collapse icon. Requires `onExpand`. */
   expanded?: boolean;
+  /** Accessible name for the expand button while collapsed. Default: "Expand". */
+  expandLabel?: string;
+  /** Accessible name for the expand button while expanded. Default: "Collapse". */
+  collapseLabel?: string;
   /** When set, shows a close button and calls this on click. */
   onClose?: () => void;
-  /** Optional inline action label (e.g. "Follow"). */
-  actionLabel?: string;
+  /** Accessible name for the close button. Default: "Close". */
+  closeLabel?: string;
+  /** Optional inline action label (e.g. "Follow"). Accepts translated nodes. */
+  actionLabel?: ReactNode;
   /** Click handler for the action label. */
   onActionClick?: () => void;
   /** When true, the action button shows in its active state. */
@@ -44,9 +52,13 @@ export default function RightSidebarHeader({
   tagType = 'info',
   leadingIcon,
   onBack,
+  backLabel = 'Back',
   onExpand,
   expanded = false,
+  expandLabel = 'Expand',
+  collapseLabel = 'Collapse',
   onClose,
+  closeLabel = 'Close',
   actionLabel,
   onActionClick,
   actionActive = false,
@@ -64,7 +76,7 @@ export default function RightSidebarHeader({
             <IconButton
               className={styles['right-sidebar-header__back']}
               size="small"
-              aria-label="Back"
+              aria-label={backLabel}
               onClick={onBack}
               icon={<Icon size="16" glyph={<ArrowBackIosIcon />} />}
             />
@@ -116,7 +128,7 @@ export default function RightSidebarHeader({
         {onExpand && (
           <IconButton
             size="small"
-            aria-label={expanded ? 'Collapse' : 'Expand'}
+            aria-label={expanded ? collapseLabel : expandLabel}
             onClick={onExpand}
             icon={
               <Icon
@@ -129,7 +141,7 @@ export default function RightSidebarHeader({
         {onClose && (
           <IconButton
             size="small"
-            aria-label="Close"
+            aria-label={closeLabel}
             onClick={onClose}
             icon={<Icon size="16" glyph={<CloseIcon />} />}
           />

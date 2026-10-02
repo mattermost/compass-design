@@ -67,7 +67,8 @@ function searchPeople(query: string): Promise<ComboboxOption[]> {
             (person) =>
               q === '' ||
               person.label.toLowerCase().includes(q) ||
-              person.secondaryLabel?.includes(q),
+              (typeof person.secondaryLabel === 'string' &&
+                person.secondaryLabel.toLowerCase().includes(q)),
           ),
         ),
       600,
@@ -141,6 +142,20 @@ function CreatableModelCombobox() {
   );
 }
 
+function ClearableModelCombobox() {
+  const [value, setValue] = useState<string | null>('claude-sonnet-4');
+  return (
+    <Combobox
+      label="Default model"
+      placeholder="Use the service default"
+      clearable
+      options={MODEL_OPTIONS}
+      value={value}
+      onChange={(next) => setValue(next as string | null)}
+    />
+  );
+}
+
 export default function ComboboxLibrary() {
   return (
     <>
@@ -174,6 +189,12 @@ export default function ComboboxLibrary() {
             Creatable
           </span>
           <CreatableModelCombobox />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Clearable
+          </span>
+          <ClearableModelCombobox />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>

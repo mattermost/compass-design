@@ -2,9 +2,11 @@ import {
   useEffect,
   useRef,
   useState,
+  type HTMLAttributes,
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
+import type { BuiltInButtonProps } from '@/utils/props';
 import styles from './Tabs.module.scss';
 
 export interface TabItem {
@@ -24,9 +26,17 @@ export interface TabItem {
   disabled?: boolean;
   /** Native tooltip text, e.g. to explain why the tab is disabled. */
   title?: string;
+  /**
+   * Extra attributes for this tab's `<button>` (e.g. `data-testid`). Tab
+   * semantics (`role`, `aria-selected`, `tabIndex`, handlers) take precedence.
+   */
+  buttonProps?: BuiltInButtonProps;
 }
 
-export interface TabsProps {
+export interface TabsProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange'
+> {
   /** Array of tab items to display. */
   tabs: TabItem[];
   /** Key of the currently active tab. */
@@ -37,6 +47,8 @@ export interface TabsProps {
   className?: string;
   /** Optional trailing controls rendered to the right of the tabs. */
   controls?: ReactNode;
+  /** Visually hidden text announced with a tab's unread dot. Default: "Unread". */
+  unreadLabel?: ReactNode;
 }
 
 /**
@@ -50,6 +62,8 @@ export default function Tabs({
   onChange,
   className = '',
   controls,
+  unreadLabel = 'Unread',
+  ...rest
 }: TabsProps) {
   const rootClass = [styles.tabs, className].filter(Boolean).join(' ');
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -102,7 +116,7 @@ export default function Tabs({
   };
 
   return (
-    <div className={rootClass}>
+    <div {...rest} className={rootClass}>
       <div className={styles['tabs__tab-list']} role="tablist">
         {tabs.map((tab, index) => {
           const isActive = tab.key === activeKey;
@@ -111,24 +125,26 @@ export default function Tabs({
             styles['tabs__tab'],
             isActive ? styles['tabs__tab--active'] : '',
             isDisabled ? styles['tabs__tab--disabled'] : '',
+            tab.buttonProps?.className,
           ]
             .filter(Boolean)
             .join(' ');
 
           return (
             <button
+              {...tab.buttonProps}
               key={tab.key}
               ref={(node) => {
                 tabRefs.current[index] = node;
               }}
-              id={tab.id}
+              id={tab.id ?? tab.buttonProps?.id}
               role="tab"
               type="button"
               tabIndex={focusKey === tab.key ? 0 : -1}
               aria-selected={isActive}
               aria-controls={tab.panelId}
               aria-disabled={isDisabled || undefined}
-              title={tab.title}
+              title={tab.title ?? tab.buttonProps?.title}
               className={tabClass}
               onMouseDown={
                 isDisabled ? (event) => event.preventDefault() : undefined
@@ -158,7 +174,7 @@ export default function Tabs({
               {tab.unreadBadge && !isActive && (
                 <span className={styles['tabs__unread-badge']}>
                   <span className={styles['tabs__unread-label']}>
-                    {'Unread'}
+                    {unreadLabel}
                   </span>
                 </span>
               )}

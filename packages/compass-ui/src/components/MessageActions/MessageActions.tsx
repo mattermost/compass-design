@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import Emoji from '@/components/Emoji/Emoji';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
@@ -23,6 +23,30 @@ export interface MessageActionsProps extends HTMLAttributes<HTMLDivElement> {
   quickReactions?: boolean;
   /** Optional CSS class name. */
   className?: string;
+  /** Accessible name for the toolbar. Default: "Message actions". An explicit `aria-label` still wins. */
+  toolbarLabel?: string;
+  /** Default: "React with thumbs up". */
+  reactThumbsUpLabel?: string;
+  /** Default: "React with raised hands". */
+  reactRaisedHandsLabel?: string;
+  /** Default: "React with OK hand". */
+  reactOkHandLabel?: string;
+  /** Default: "Add reaction". */
+  addReactionLabel?: string;
+  /** Default: "More actions". */
+  moreActionsLabel?: string;
+  /** Default: "Save message". */
+  saveLabel?: string;
+  /** Default: "AI actions". */
+  aiActionsLabel?: string;
+  /** Default: "Plugin actions". */
+  pluginActionsLabel?: string;
+  /** Default: "Reply in thread". */
+  replyLabel?: string;
+  /** Visible Jump button text (search results). Default: "Jump". */
+  jumpLabel?: ReactNode;
+  /** Accessible name for the Jump button. Default: "Jump to message". */
+  jumpAriaLabel?: string;
 }
 
 /**
@@ -36,6 +60,18 @@ export default function MessageActions({
   collapsedReplyThreads = true,
   quickReactions = true,
   className = '',
+  toolbarLabel = 'Message actions',
+  reactThumbsUpLabel = 'React with thumbs up',
+  reactRaisedHandsLabel = 'React with raised hands',
+  reactOkHandLabel = 'React with OK hand',
+  addReactionLabel = 'Add reaction',
+  moreActionsLabel = 'More actions',
+  saveLabel = 'Save message',
+  aiActionsLabel = 'AI actions',
+  pluginActionsLabel = 'Plugin actions',
+  replyLabel = 'Reply in thread',
+  jumpLabel = 'Jump',
+  jumpAriaLabel = 'Jump to message',
   ...rest
 }: MessageActionsProps) {
   if (!visible) return null;
@@ -53,14 +89,14 @@ export default function MessageActions({
     <div
       className={rootClass}
       role="toolbar"
-      aria-label="Message actions"
+      aria-label={toolbarLabel}
       {...rest}
     >
       {/* Quick reaction emojis — center channel + RHS */}
       {showQuickReactions && !isSearchResults && (
         <>
           <IconButton
-            aria-label="React with thumbs up"
+            aria-label={reactThumbsUpLabel}
             size="small"
             padding="compact"
             icon={<Emoji emoji="👍" size="16" />}
@@ -68,13 +104,13 @@ export default function MessageActions({
           {isCenterChannel && (
             <>
               <IconButton
-                aria-label="React with raised hands"
+                aria-label={reactRaisedHandsLabel}
                 size="small"
                 padding="compact"
                 icon={<Emoji emoji="🙌" size="16" />}
               />
               <IconButton
-                aria-label="React with OK hand"
+                aria-label={reactOkHandLabel}
                 size="small"
                 padding="compact"
                 icon={<Emoji emoji="👌" size="16" />}
@@ -82,7 +118,7 @@ export default function MessageActions({
             </>
           )}
           <IconButton
-            aria-label="Add reaction"
+            aria-label={addReactionLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<EmoticonPlusOutlineIcon />} />}
@@ -93,7 +129,7 @@ export default function MessageActions({
       {/* Search results only: more button first */}
       {isSearchResults && (
         <IconButton
-          aria-label="More actions"
+          aria-label={moreActionsLabel}
           size="small"
           padding="compact"
           icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
@@ -104,31 +140,31 @@ export default function MessageActions({
       {isCenterChannel && (
         <>
           <IconButton
-            aria-label="Save message"
+            aria-label={saveLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<BookmarkOutlineIcon />} />}
           />
           <IconButton
-            aria-label="AI actions"
+            aria-label={aiActionsLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<CreationOutlineIcon />} />}
           />
           <IconButton
-            aria-label="Plugin actions"
+            aria-label={pluginActionsLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<AppsIcon />} />}
           />
           <IconButton
-            aria-label="Reply in thread"
+            aria-label={replyLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<ReplyOutlineIcon />} />}
           />
           <IconButton
-            aria-label="More actions"
+            aria-label={moreActionsLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
@@ -139,7 +175,7 @@ export default function MessageActions({
       {/* RHS actions */}
       {isRHS && (
         <IconButton
-          aria-label="More actions"
+          aria-label={moreActionsLabel}
           size="small"
           padding="compact"
           icon={<Icon size="16" glyph={<DotsHorizontalIcon />} />}
@@ -150,13 +186,13 @@ export default function MessageActions({
       {isSearchResults && (
         <>
           <IconButton
-            aria-label="Save message"
+            aria-label={saveLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<BookmarkOutlineIcon />} />}
           />
           <IconButton
-            aria-label="Reply in thread"
+            aria-label={replyLabel}
             size="small"
             padding="compact"
             icon={<Icon size="16" glyph={<ReplyOutlineIcon />} />}
@@ -164,9 +200,9 @@ export default function MessageActions({
           <button
             type="button"
             className={styles['message-actions__jump']}
-            aria-label="Jump to message"
+            aria-label={jumpAriaLabel}
           >
-            Jump
+            {jumpLabel}
           </button>
         </>
       )}

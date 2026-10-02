@@ -129,7 +129,8 @@ function searchPeople(query: string): Promise<ComboboxOption[]> {
             (person) =>
               q === '' ||
               person.label.toLowerCase().includes(q) ||
-              person.secondaryLabel?.includes(q),
+              (typeof person.secondaryLabel === 'string' &&
+                person.secondaryLabel.toLowerCase().includes(q)),
           ),
         ),
       600,
@@ -213,6 +214,25 @@ export const Creatable: Story = {
           label="Model"
           placeholder="Pick or type a model name…"
           creatable
+          options={MODEL_OPTIONS}
+          value={value}
+          onChange={(next) => setValue(next as string | null)}
+        />
+      </div>
+    );
+  },
+};
+
+/** An empty value means "use the service default"; the clear button resets to it. */
+export const Clearable: Story = {
+  render: function ClearableStory() {
+    const [value, setValue] = useState<string | null>('claude-sonnet-4');
+    return (
+      <div style={{ maxWidth: 320 }}>
+        <Combobox
+          label="Default model"
+          placeholder="Use the service default"
+          clearable
           options={MODEL_OPTIONS}
           value={value}
           onChange={(next) => setValue(next as string | null)}

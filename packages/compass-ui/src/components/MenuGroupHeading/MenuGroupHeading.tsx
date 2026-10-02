@@ -1,9 +1,9 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import styles from './MenuGroupHeading.module.scss';
 
 export interface MenuGroupHeadingProps extends HTMLAttributes<HTMLDivElement> {
-  /** The section label text. Rendered in all-caps. */
-  label: string;
+  /** The section label text. Rendered in all-caps. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
 }
 
 /**

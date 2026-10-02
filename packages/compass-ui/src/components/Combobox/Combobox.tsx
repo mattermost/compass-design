@@ -15,12 +15,14 @@ import {
   useState,
 } from 'react';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import Chip from '@/components/Chip/Chip';
 import ChipGroup from '@/components/Chip/ChipGroup';
 import type { ChipSize } from '@/components/Chip/Chip';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
+import type { IconSize } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuScroll,
@@ -30,6 +32,8 @@ import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import { toKebab } from '@/utils/string';
 import styles from './Combobox.module.scss';
 
@@ -37,13 +41,15 @@ export type ComboboxSize = 'small' | 'medium' | 'large';
 
 export type ComboboxOption = {
   value: string;
+  /** Kept as `string`: the default filter, create-row matching, and the single-select input text all read it. */
   label: string;
   disabled?: boolean;
   /** Leading content for the list row (icon or avatar node). */
   leadingVisual?: ReactNode;
   /** Avatar for chips / list when a photo is preferred over `leadingVisual`. */
   leadingAvatar?: { src: string; alt: string };
-  secondaryLabel?: string;
+  /** Accepts translated nodes. */
+  secondaryLabel?: ReactNode;
 };
 
 export interface ComboboxProps {
@@ -97,6 +103,26 @@ export interface ComboboxProps {
   onCreateOption?: (inputValue: string) => void;
   /** Create row label. Default: `Create "{inputValue}"`. */
   formatCreateLabel?: (inputValue: string) => ReactNode;
+  /**
+   * Single mode: when a value is set, shows a clear button inside the control
+   * that calls `onChange(null)`. Ignored with `multiple` (chips have their own
+   * remove control). Default: false.
+   */
+  clearable?: boolean;
+  /** Accessible name for the clear button. Default: "Clear". */
+  clearLabel?: string;
+  /** Extra attributes for the clear button (e.g. `data-testid`). */
+  clearButtonProps?: BuiltInButtonProps;
+  /**
+   * Accessible name for the chip group in `multiple` mode. Default:
+   * `{label} selections` when `label` is a string, otherwise "Selected".
+   */
+  selectionsLabel?: string;
+  /**
+   * Accessible name for the options list when `label` isn't a string and no
+   * `aria-label` is set. Default: "Options".
+   */
+  listboxLabel?: string;
   className?: string;
   id?: string;
   'aria-label'?: string;
@@ -113,6 +139,16 @@ const CHIP_SIZE_BY_COMBOBOX: Record<ComboboxSize, ChipSize> = {
   medium: 'medium',
   large: 'large',
 };
+
+const CLEAR_ICON_SIZE: Record<ComboboxSize, IconSize> = {
+  small: '12',
+  medium: '16',
+  large: '16',
+};
+
+function defaultSelectionsLabel(label: ReactNode): string {
+  return typeof label === 'string' ? `${label} selections` : 'Selected';
+}
 
 type ComboboxRow =
   | { kind: 'option'; option: ComboboxOption }
@@ -188,6 +224,11 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     creatable = false,
     onCreateOption,
     formatCreateLabel = defaultFormatCreateLabel,
+    clearable = false,
+    clearLabel = 'Clear',
+    clearButtonProps,
+    selectionsLabel,
+    listboxLabel = 'Options',
     className = '',
     id: idProp,
     'aria-label': ariaLabel,
@@ -464,6 +505,17 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     [createValue, selectOption],
   );
 
+  const clearValue = useCallback(() => {
+    commitValue(null);
+    if (!isInputControlled) {
+      setUncontrolledInput('');
+      setQueryOverride(null);
+    } else {
+      onInputChange?.('');
+    }
+    inputRef.current?.focus();
+  }, [commitValue, isInputControlled, onInputChange]);
+
   const removeValue = useCallback(
     (optionValue: string) => {
       if (!multiple) return;
@@ -520,7 +572,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     }
   };
 
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (e: FocusEvent<HTMLElement>) => {
     // Delay so option mousedown can run first
     const related = e.relatedTarget as Node | null;
     if (related && rootRef.current?.contains(related)) return;
@@ -591,8 +643,9 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const handleWrapperMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
-    // Don't steal focus from chips or their remove buttons
-    if ((e.target as HTMLElement).closest('[data-chip]')) return;
+    // Don't steal focus from chips, their remove buttons, or the clear button
+    if ((e.target as HTMLElement).closest('[data-chip], [data-combobox-clear]'))
+      return;
     if (e.target !== inputRef.current) {
       e.preventDefault();
       inputRef.current?.focus();
@@ -604,6 +657,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     ? multiValue.length > 0
     : singleValue != null && singleValue !== '';
   const hasInputText = displayInput.length > 0;
+  const showClearButton = clearable && !multiple && hasSelection && !disabled;
   const labelFloated = isFocused || isOpen || hasSelection || hasInputText;
 
   const activeRow = activeIndex >= 0 ? rows[activeIndex] : undefined;
@@ -676,9 +730,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
           <div className={styles.combobox__value}>
             {multiple && chipOptions.length > 0 && (
               <ChipGroup
-                aria-label={
-                  typeof label === 'string' ? `${label} selections` : 'Selected'
-                }
+                aria-label={selectionsLabel ?? defaultSelectionsLabel(label)}
                 disabled={disabled}
               >
                 {chipOptions.map((option) => (
@@ -731,6 +783,25 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               onKeyDown={handleKeyDown}
             />
           </div>
+          {showClearButton && (
+            <button
+              {...clearButtonProps}
+              type="button"
+              className={mergeClassNames(
+                styles.combobox__clear,
+                clearButtonProps?.className,
+              )}
+              aria-label={clearLabel}
+              data-combobox-clear=""
+              onClick={clearValue}
+              onBlur={(e) => {
+                clearButtonProps?.onBlur?.(e);
+                handleBlur(e);
+              }}
+            >
+              <Icon size={CLEAR_ICON_SIZE[size]} glyph={<CloseCircleIcon />} />
+            </button>
+          )}
           <span className={styles['combobox__trailing-icon']} aria-hidden>
             <Icon size="12" glyph={<ChevronDownIcon />} />
           </span>
@@ -761,7 +832,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                     aria-label={
                       typeof label === 'string'
                         ? label
-                        : (ariaLabel ?? 'Options')
+                        : (ariaLabel ?? listboxLabel)
                     }
                   >
                     {rows.map((row, index) => {

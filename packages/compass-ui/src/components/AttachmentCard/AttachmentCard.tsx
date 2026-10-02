@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import DotsVerticalIcon from '@mattermost/compass-icons/components/dots-vertical';
 import DownloadOutlineIcon from '@mattermost/compass-icons/components/download-outline';
@@ -38,10 +38,10 @@ export type AttachmentCardState = 'default' | 'uploading' | 'uploaded';
 
 export interface AttachmentCardProps {
   className?: string;
-  /** File name to display. */
+  /** File name to display. Also used in the default open-button name. */
   fileName: string;
   /** File type + size string shown below the filename, e.g. "TXT 15KB". */
-  fileMeta?: string;
+  fileMeta?: ReactNode;
   /** Controls the icon shown on the left. Default: "generic". */
   fileType?: AttachmentCardFileType;
   /** Card state. Default: "default" (browsing context). */
@@ -51,9 +51,9 @@ export interface AttachmentCardProps {
   /** Thumbnail image URL. Used when fileType="image-thumbnail". */
   thumbnailSrc?: string;
   /** Optional channel tag label shown below the filename, e.g. "UX Design". */
-  channelTag?: string;
+  channelTag?: ReactNode;
   /** Optional date/time stamp, e.g. "Sep 24 5:14 PM". */
-  dateTimeStamp?: string;
+  dateTimeStamp?: ReactNode;
   /** Called when the card is activated to open the file or its preview. */
   onOpen?: () => void;
   /** Called when the remove or cancel button is clicked. */
@@ -62,7 +62,23 @@ export interface AttachmentCardProps {
   onDownload?: () => void;
   /** Called when the more-options button is clicked (visible on hover in default state). */
   onMore?: () => void;
+  /** Uploading status text. Default: `Uploading… ({progress}%)`. */
+  formatUploadingLabel?: (progress: number) => ReactNode;
+  /** Accessible name for the open button. Default: `Open {fileName}`. */
+  formatOpenLabel?: (fileName: string) => string;
+  /** Accessible name for the cancel button while uploading. Default: "Cancel upload". */
+  cancelUploadLabel?: string;
+  /** Accessible name for the remove button once uploaded. Default: "Remove attachment". */
+  removeLabel?: string;
+  /** Accessible name for the more-options button. Default: "More options". */
+  moreLabel?: string;
+  /** Accessible name for the download button. Default: "Download". */
+  downloadLabel?: string;
 }
+
+const defaultFormatUploadingLabel = (progress: number) =>
+  `Uploading… (${progress}%)`;
+const defaultFormatOpenLabel = (fileName: string) => `Open ${fileName}`;
 
 type IconComponent = ComponentType<{ size: number; className?: string }>;
 
@@ -121,6 +137,12 @@ export default function AttachmentCard({
   onRemove,
   onDownload,
   onMore,
+  formatUploadingLabel = defaultFormatUploadingLabel,
+  formatOpenLabel = defaultFormatOpenLabel,
+  cancelUploadLabel = 'Cancel upload',
+  removeLabel = 'Remove attachment',
+  moreLabel = 'More options',
+  downloadLabel = 'Download',
 }: AttachmentCardProps) {
   const isUploading = state === 'uploading';
   const isUploaded = state === 'uploaded';
@@ -161,7 +183,7 @@ export default function AttachmentCard({
         <div className={styles['attachment-card__secondary-details']}>
           {isUploading ? (
             <span className={styles['attachment-card__uploading-text']}>
-              {`Uploading… (${progress}%)`}
+              {formatUploadingLabel(progress)}
             </span>
           ) : (
             <>
@@ -193,7 +215,7 @@ export default function AttachmentCard({
               type="button"
               className={`${styles['attachment-card__left']} ${styles['attachment-card__open']}`}
               onClick={onOpen}
-              aria-label={`Open ${fileName}`}
+              aria-label={formatOpenLabel(fileName)}
             >
               {fileIdentity}
             </button>
@@ -209,9 +231,7 @@ export default function AttachmentCard({
                 <IconButton
                   size="small"
                   icon={<Icon glyph={<CloseIcon />} size="16" />}
-                  aria-label={
-                    isUploading ? 'Cancel upload' : 'Remove attachment'
-                  }
+                  aria-label={isUploading ? cancelUploadLabel : removeLabel}
                   onClick={onRemove}
                 />
               )}
@@ -220,13 +240,13 @@ export default function AttachmentCard({
                   <IconButton
                     size="small"
                     icon={<Icon glyph={<DotsVerticalIcon />} size="16" />}
-                    aria-label="More options"
+                    aria-label={moreLabel}
                     onClick={onMore}
                   />
                   <IconButton
                     size="small"
                     icon={<Icon glyph={<DownloadOutlineIcon />} size="16" />}
-                    aria-label="Download"
+                    aria-label={downloadLabel}
                     onClick={onDownload}
                   />
                 </>

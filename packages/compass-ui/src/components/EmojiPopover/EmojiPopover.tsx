@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import Button from '@/components/Button/Button';
 import Emoji from '@/components/Emoji/Emoji';
@@ -15,6 +15,7 @@ import styles from './EmojiPopover.module.scss';
 
 export interface EmojiCategory {
   id: string;
+  /** Group heading and category button name. Kept as `string`: it's the button's `aria-label`. */
   label: string;
   /** Icon component rendered in the category navigation bar. */
   icon: ComponentType;
@@ -42,9 +43,32 @@ export interface EmojiPopoverProps {
   onSearch?: (query: string) => void;
   /** Shows a tertiary button in the footer right. Omit to hide the button. */
   onCustomEmojiClick?: () => void;
-  /** Label for the custom emoji button. @default 'Custom emoji' */
-  customEmojiLabel?: string;
+  /** Label for the custom emoji button. Accepts translated nodes. @default 'Custom emoji' */
+  customEmojiLabel?: ReactNode;
+  /** Search field placeholder. @default 'Search emojis' */
+  searchPlaceholder?: string;
+  /** Accessible name for the search clear button. @default 'Clear search' */
+  searchClearLabel?: string;
+  /** Heading above search results. @default 'Search Results' */
+  searchResultsLabel?: ReactNode;
+  /** Empty search title. @default 'No emojis found' */
+  emptyTitle?: ReactNode;
+  /** Empty search description. @default 'Try a different search term.' */
+  emptyDescription?: ReactNode;
+  /** Footer hint when no emoji is hovered. @default 'Select an Emoji' */
+  previewHintLabel?: ReactNode;
+  /** Accessible name for the skin tone button. @default 'Select skin tone' */
+  skinToneButtonLabel?: string;
+  /** Skin tone picker heading. @default 'Skin tone' */
+  skinToneLabel?: ReactNode;
+  /** Accessible name per skin tone (0 = default). @default 'Default skin tone' / `Skin tone {index}` */
+  formatSkinToneLabel?: (index: number) => string;
+  /** Accessible name for closing the skin tone picker. @default 'Close skin tone picker' */
+  closeSkinTonePickerLabel?: string;
 }
+
+const defaultFormatSkinToneLabel = (index: number) =>
+  index === 0 ? 'Default skin tone' : `Skin tone ${index}`;
 
 const SKIN_TONES = ['🖐️', '🖐🏻', '🖐🏼', '🖐🏽', '🖐🏾', '🖐🏿'];
 const SKIN_TONE_MODIFIERS = [
@@ -115,6 +139,16 @@ export default function EmojiPopover({
   onSearch,
   onCustomEmojiClick,
   customEmojiLabel = 'Custom emoji',
+  searchPlaceholder = 'Search emojis',
+  searchClearLabel,
+  searchResultsLabel = 'Search Results',
+  emptyTitle = 'No emojis found',
+  emptyDescription = 'Try a different search term.',
+  previewHintLabel = 'Select an Emoji',
+  skinToneButtonLabel = 'Select skin tone',
+  skinToneLabel = 'Skin tone',
+  formatSkinToneLabel = defaultFormatSkinToneLabel,
+  closeSkinTonePickerLabel = 'Close skin tone picker',
 }: EmojiPopoverProps) {
   const [query, setQuery] = useState(defaultQuery);
   const [activeCategoryId, setActiveCategoryId] = useState(
@@ -208,8 +242,8 @@ export default function EmojiPopover({
       return (
         <EmptyState
           illustration={emptyIllustration}
-          title="No emojis found"
-          description="Try a different search term."
+          title={emptyTitle}
+          description={emptyDescription}
         />
       );
     }
@@ -218,7 +252,7 @@ export default function EmojiPopover({
       return (
         <div className={styles['emoji-popover__emoji-list']}>
           <div className={styles['emoji-popover__group']}>
-            <MenuGroupHeading label="Search Results" />
+            <MenuGroupHeading label={searchResultsLabel} />
             <div className={styles['emoji-popover__emoji-row']}>
               {searchResults.map(renderEmoji)}
             </div>
@@ -275,18 +309,19 @@ export default function EmojiPopover({
             <div className={styles['emoji-popover__search-row']}>
               <SearchInput
                 ref={searchRef}
-                placeholder="Search emojis"
+                placeholder={searchPlaceholder}
                 size="small"
                 className={styles['emoji-popover__search-input']}
                 value={query}
                 onChange={(e) => handleQueryChange(e.target.value)}
                 onClear={() => handleQueryChange('')}
+                clearLabel={searchClearLabel}
               />
               {!query && (
                 <EmojiButton
                   emoji={SKIN_TONES[skinToneIndex]}
                   size="small"
-                  aria-label="Select skin tone"
+                  aria-label={skinToneButtonLabel}
                   aria-expanded={showSkinTonePicker}
                   aria-controls={skinTonePickerId}
                   onClick={() => setShowSkinTonePicker(true)}
@@ -309,7 +344,7 @@ export default function EmojiPopover({
             aria-hidden={!showSkinTonePicker || undefined}
           >
             <span className={styles['emoji-popover__skin-tone-label']}>
-              Skin tone
+              {skinToneLabel}
             </span>
             <div className={styles['emoji-popover__skin-tone-options']}>
               {SKIN_TONES.map((emoji, i) => (
@@ -318,7 +353,7 @@ export default function EmojiPopover({
                   emoji={emoji}
                   size="small"
                   toggled={skinToneIndex === i}
-                  aria-label={i === 0 ? 'Default skin tone' : `Skin tone ${i}`}
+                  aria-label={formatSkinToneLabel(i)}
                   onClick={() => {
                     setSkinToneIndex(i);
                     setShowSkinTonePicker(false);
@@ -330,7 +365,7 @@ export default function EmojiPopover({
               size="small"
               padding="compact"
               icon={<Icon glyph={<CloseIcon />} size="16" />}
-              aria-label="Close skin tone picker"
+              aria-label={closeSkinTonePickerLabel}
               onClick={() => setShowSkinTonePicker(false)}
             />
           </div>
@@ -377,7 +412,7 @@ export default function EmojiPopover({
             </>
           ) : (
             <span className={styles['emoji-popover__footer-hint']}>
-              Select an Emoji
+              {previewHintLabel}
             </span>
           )}
         </div>

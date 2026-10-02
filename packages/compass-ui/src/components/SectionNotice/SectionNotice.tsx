@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
@@ -8,6 +8,8 @@ import AlertOutlineIcon from '@mattermost/compass-icons/components/alert-outline
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import CheckCircleOutlineIcon from '@mattermost/compass-icons/components/check-circle-outline';
 import CloseIcon from '@mattermost/compass-icons/components/close';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import styles from './SectionNotice.module.scss';
 
 export type SectionNoticeType =
@@ -17,7 +19,10 @@ export type SectionNoticeType =
   | 'success'
   | 'hint';
 
-export interface SectionNoticeProps {
+export interface SectionNoticeProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title'
+> {
   /** Optional CSS class name. */
   className?: string;
   /** Type controls color-coding. Default: Info. */
@@ -32,12 +37,24 @@ export interface SectionNoticeProps {
   primaryButtonLabel?: ReactNode;
   /** Primary action callback. */
   onPrimaryAction?: () => void;
+  /** Disables the primary action button. */
+  primaryActionDisabled?: boolean;
+  /** Shows a spinner in the primary action button and disables it. */
+  primaryActionLoading?: boolean;
   /** Secondary action button label. */
   secondaryButtonLabel?: ReactNode;
   /** Secondary action callback. */
   onSecondaryAction?: () => void;
+  /** Disables the secondary action button. */
+  secondaryActionDisabled?: boolean;
+  /** Shows a spinner in the secondary action button and disables it. */
+  secondaryActionLoading?: boolean;
   /** Called when dismiss (×) button is clicked. When omitted, dismiss button is hidden. */
   onDismiss?: () => void;
+  /** Accessible name for the dismiss button. Default: "Dismiss". */
+  dismissLabel?: string;
+  /** Extra attributes for the dismiss button (e.g. `data-testid`). */
+  dismissButtonProps?: BuiltInButtonProps;
 }
 
 const DEFAULT_ICONS: Record<SectionNoticeType, ReactNode> = {
@@ -63,7 +80,14 @@ export default function SectionNotice({
   onPrimaryAction,
   secondaryButtonLabel,
   onSecondaryAction,
+  primaryActionDisabled,
+  primaryActionLoading,
+  secondaryActionDisabled,
+  secondaryActionLoading,
   onDismiss,
+  dismissLabel = 'Dismiss',
+  dismissButtonProps,
+  ...rest
 }: SectionNoticeProps) {
   const typeClass = styles[`section-notice--type-${type.toLowerCase()}`];
 
@@ -76,7 +100,7 @@ export default function SectionNotice({
   const hasActions = primaryButtonLabel != null || secondaryButtonLabel != null;
 
   return (
-    <div className={rootClass}>
+    <div {...rest} className={rootClass}>
       <div className={styles['section-notice__content']}>
         {resolvedIcon != null && (
           <span className={styles['section-notice__icon']} aria-hidden>
@@ -98,6 +122,8 @@ export default function SectionNotice({
                 <Button
                   emphasis="primary"
                   size="small"
+                  disabled={primaryActionDisabled}
+                  loading={primaryActionLoading}
                   onClick={onPrimaryAction}
                 >
                   {primaryButtonLabel}
@@ -107,6 +133,8 @@ export default function SectionNotice({
                 <Button
                   emphasis="secondary"
                   size="small"
+                  disabled={secondaryActionDisabled}
+                  loading={secondaryActionLoading}
                   onClick={onSecondaryAction}
                 >
                   {secondaryButtonLabel}
@@ -118,8 +146,12 @@ export default function SectionNotice({
       </div>
       {onDismiss != null && (
         <IconButton
-          className={styles['section-notice__dismiss']}
-          aria-label="Dismiss"
+          {...dismissButtonProps}
+          className={mergeClassNames(
+            styles['section-notice__dismiss'],
+            dismissButtonProps?.className,
+          )}
+          aria-label={dismissLabel}
           size="small"
           icon={<Icon size="16" glyph={<CloseIcon />} />}
           onClick={onDismiss}

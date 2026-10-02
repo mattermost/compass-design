@@ -1,8 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { ReactNode } from 'react';
 import { click, getByRole, render } from '@/test-utils/render';
+import ActionButton from './ActionButton/ActionButton';
+import AdminPanel from './AdminPanel/AdminPanel';
+import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
+import FeatureDiscoveryPanel from './FeatureDiscoveryPanel/FeatureDiscoveryPanel';
+import GlobalBanner from './GlobalBanner/GlobalBanner';
+import MenuGroupHeading from './MenuGroupHeading/MenuGroupHeading';
 import MenuItem from './MenuItem/MenuItem';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import SectionNotice from './SectionNotice/SectionNotice';
@@ -10,6 +16,9 @@ import Tabs from './Tabs/Tabs';
 import Tag from './Tag/Tag';
 import Toast from './Toast/Toast';
 import Tooltip from './Tooltip/Tooltip';
+import TourPoint from './TourPoint/TourPoint';
+import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
+import ProfilePopover from './ProfilePopover/ProfilePopover';
 
 /** Stand-in for react-intl's `<FormattedMessage/>`: an element, not a string. */
 function Msg({ children }: { children: ReactNode }) {
@@ -113,5 +122,120 @@ describe('text props accept translated nodes', () => {
       </PopoverNotice>,
     );
     expect(messages(container)).toEqual(['New', 'Got it']);
+  });
+
+  it('MenuGroupHeading label', () => {
+    const { container } = render(
+      <MenuGroupHeading label={<Msg>Recent</Msg>} />,
+    );
+    expect(messages(container)).toEqual(['Recent']);
+  });
+
+  it('TourPoint title and primary action label', () => {
+    const onNext = vi.fn();
+    const { container } = render(
+      <TourPoint
+        title={<Msg>Meet Agents</Msg>}
+        primaryAction={{ label: <Msg>Next</Msg>, onClick: onNext }}
+      >
+        Body
+      </TourPoint>,
+    );
+    expect(container.querySelector('h2')?.textContent).toBe('Meet Agents');
+    expect(messages(container)).toEqual(['Meet Agents', 'Next']);
+    click(getByRole('button', 'Next'));
+    expect(onNext).toHaveBeenCalledTimes(1);
+  });
+
+  it('PopoverNotice checkboxLabel', () => {
+    const { container } = render(
+      <PopoverNotice title="New" showCheckbox checkboxLabel={<Msg>Hide</Msg>}>
+        Body
+      </PopoverNotice>,
+    );
+    expect(messages(container)).toEqual(['Hide']);
+  });
+
+  it('ActionButton label', () => {
+    const { container } = render(
+      <ActionButton icon={null} label={<Msg>Call</Msg>} />,
+    );
+    expect(getByRole('button').textContent).toBe('Call');
+    expect(messages(container)).toEqual(['Call']);
+  });
+
+  it('FeatureDiscoveryPanel sku, title and description', () => {
+    const { container } = render(
+      <FeatureDiscoveryPanel
+        skuLabel={<Msg>Enterprise</Msg>}
+        title={<Msg>Upgrade</Msg>}
+        description={<Msg>Get more</Msg>}
+      />,
+    );
+    expect(messages(container)).toEqual(['Enterprise', 'Upgrade', 'Get more']);
+  });
+
+  it('AdminPanel beta, enterprise and button labels', () => {
+    const { container } = render(
+      <AdminPanel
+        title="Panel"
+        showBeta
+        betaLabel={<Msg>Beta</Msg>}
+        showEnterpriseLabel
+        enterpriseLabel={<Msg>Enterprise</Msg>}
+        showButton
+        buttonLabel={<Msg>Add</Msg>}
+      />,
+    );
+    expect(messages(container)).toEqual(['Enterprise', 'Beta', 'Add']);
+  });
+
+  it('AdminPanelFooter save and cancel labels', () => {
+    const { container } = render(
+      <AdminPanelFooter
+        saveLabel={<Msg>Save</Msg>}
+        cancelLabel={<Msg>Cancel</Msg>}
+      />,
+    );
+    expect(messages(container)).toEqual(['Save', 'Cancel']);
+  });
+
+  it('GlobalBanner message and action label', () => {
+    const { container } = render(
+      <GlobalBanner message={<Msg>Update</Msg>} actionLabel={<Msg>Go</Msg>} />,
+    );
+    expect(messages(container)).toEqual(['Update', 'Go']);
+  });
+
+  it('RightSidebarHeader title, tag and action label', () => {
+    const { container } = render(
+      <RightSidebarHeader
+        title={<Msg>Thread</Msg>}
+        tag={<Msg>Beta</Msg>}
+        actionLabel={<Msg>Follow</Msg>}
+      />,
+    );
+    expect(messages(container)).toEqual(['Thread', 'Beta', 'Follow']);
+  });
+
+  it('ProfilePopover name, title and built-in copy', () => {
+    const { container } = render(
+      <ProfilePopover
+        avatarSrc="a.png"
+        avatarAlt=""
+        name={<Msg>Ana</Msg>}
+        username="@ana"
+        title={<Msg>Engineer</Msg>}
+        staff
+        staffLabel={<Msg>Staff</Msg>}
+        messageLabel={<Msg>Message</Msg>}
+      />,
+    );
+    expect(messages(container)).toEqual([
+      'Ana',
+      'Engineer',
+      'Staff',
+      'Message',
+    ]);
   });
 });

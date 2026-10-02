@@ -16,6 +16,10 @@ import styles from './Chip.module.scss';
 
 export type ChipSize = 'small' | 'medium' | 'large';
 
+/**
+ * Removable chips derive their accessible name from string children as
+ * `{label}. Press Delete to remove.`; pass `aria-label` to localize it.
+ */
 export interface ChipProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'children'

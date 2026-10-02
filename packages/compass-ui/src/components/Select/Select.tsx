@@ -25,10 +25,12 @@ export type SelectSize = 'small' | 'medium' | 'large';
 
 export type SelectOption = {
   value: string;
+  /** Kept as `string` like `ComboboxOption.label` (which drives filtering), so option lists can be shared. */
   label: string;
   disabled?: boolean;
   leadingVisual?: ReactNode;
-  secondaryLabel?: string;
+  /** Accepts translated nodes. */
+  secondaryLabel?: ReactNode;
 };
 
 export interface SelectProps {
@@ -48,6 +50,11 @@ export interface SelectProps {
   name?: string;
   className?: string;
   'aria-label'?: string;
+  /**
+   * Accessible name for the options list when `label` isn't a string and no
+   * `aria-label` is set. Default: "Options".
+   */
+  listboxLabel?: string;
   /** Portal mount node for the menu; defaults to `document.body`. */
   portalContainer?: HTMLElement | null;
   /** Stacking order for the portaled menu. */
@@ -114,6 +121,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
     name,
     className = '',
     'aria-label': ariaLabel,
+    listboxLabel = 'Options',
     portalContainer = null,
     zIndex,
   },
@@ -395,7 +403,9 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
                   className={styles.select__list}
                   role="listbox"
                   aria-label={
-                    typeof label === 'string' ? label : (ariaLabel ?? 'Options')
+                    typeof label === 'string'
+                      ? label
+                      : (ariaLabel ?? listboxLabel)
                   }
                 >
                   {listOptions.map((option, index) => (

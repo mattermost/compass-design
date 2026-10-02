@@ -3,13 +3,17 @@ import {
   useCallback,
   useRef,
   type CSSProperties,
+  type HTMLAttributes,
   type ReactNode,
 } from 'react';
 import SimpleBar from 'simplebar-react';
 import './simplebar-vendor.scss';
 import styles from './Scrollbar.module.scss';
 
-export interface ScrollbarProps {
+export interface ScrollbarProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'children' | 'color' | 'onScroll'
+> {
   /** Scrollable content. */
   children: ReactNode;
   /**
@@ -38,7 +42,15 @@ export interface ScrollbarProps {
  * first and a control second.
  */
 const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
-  { children, color, alwaysVisible = false, className, style, onScroll },
+  {
+    children,
+    color,
+    alwaysVisible = false,
+    className,
+    style,
+    onScroll,
+    ...rest
+  },
   ref,
 ) {
   const cleanup = useRef<(() => void) | undefined>(undefined);
@@ -73,6 +85,7 @@ const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
 
   return (
     <SimpleBar
+      {...rest}
       autoHide={!alwaysVisible}
       scrollableNodeProps={{ ref: setScrollNode }}
       className={rootClass}

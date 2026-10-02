@@ -4,6 +4,8 @@ import IconButton from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import CloseIcon from '@mattermost/compass-icons/components/close';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import styles from './GlobalBanner.module.scss';
 
 export type GlobalBannerType =
@@ -16,18 +18,22 @@ export type GlobalBannerType =
 export interface GlobalBannerProps {
   /** Optional CSS class name. */
   className?: string;
-  /** The message text. */
-  message: string;
+  /** The message text. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  message: ReactNode;
   /** Optional type for color-coding. Default: General. */
   type?: GlobalBannerType;
   /** Optional leading icon — pass `<Icon glyph={<SomeIcon />} />`; GlobalBanner provides the correct size via context. */
   leadingIcon?: ReactNode;
-  /** Label for the optional action button. */
-  actionLabel?: string;
+  /** Label for the optional action button. Accepts translated nodes. */
+  actionLabel?: ReactNode;
   /** Callback when the action button is clicked. */
   onAction?: () => void;
   /** Called when dismiss button is clicked. When omitted, dismiss button is hidden. */
   onDismiss?: () => void;
+  /** Accessible name for the dismiss button. Default: "Dismiss". */
+  dismissLabel?: string;
+  /** Extra attributes for the dismiss button (e.g. `data-testid`). */
+  dismissButtonProps?: BuiltInButtonProps;
 }
 
 /**
@@ -44,6 +50,8 @@ export default function GlobalBanner({
   actionLabel,
   onAction,
   onDismiss,
+  dismissLabel = 'Dismiss',
+  dismissButtonProps,
 }: GlobalBannerProps) {
   const typeClass =
     type !== 'general'
@@ -79,8 +87,12 @@ export default function GlobalBanner({
       </div>
       {onDismiss != null && (
         <IconButton
-          className={styles['global-banner__dismiss']}
-          aria-label="Dismiss"
+          {...dismissButtonProps}
+          className={mergeClassNames(
+            styles['global-banner__dismiss'],
+            dismissButtonProps?.className,
+          )}
+          aria-label={dismissLabel}
           size="small"
           icon={<Icon glyph={<CloseIcon />} size="16" />}
           onClick={onDismiss}

@@ -3,6 +3,8 @@ import CloseIcon from '@mattermost/compass-icons/components/close';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
+import type { BuiltInButtonProps } from '@/utils/props';
+import { mergeClassNames } from '@/utils/props';
 import styles from './ModalHeader.module.scss';
 
 export type ModalSubtitlePlacement = 'below' | 'beside';
@@ -25,8 +27,16 @@ export interface ModalHeaderProps {
   /** Back arrow before the title. */
   showBackButton?: boolean;
   onBack?: () => void;
+  /** Accessible name for the back button. Default: "Go back". */
+  backLabel?: string;
+  /** Extra attributes for the back button (e.g. `data-testid`). */
+  backButtonProps?: BuiltInButtonProps;
   /** Called when the × is clicked. */
   onClose?: () => void;
+  /** Accessible name for the close button. Default: "Close". */
+  closeLabel?: string;
+  /** Extra attributes for the close button (e.g. `data-testid`). */
+  closeButtonProps?: BuiltInButtonProps;
   /** Show bottom border. Figma: Divider = On. Default: true. */
   divider?: boolean;
   /**
@@ -51,7 +61,11 @@ export default function ModalHeader({
   titleId,
   showBackButton = false,
   onBack,
+  backLabel = 'Go back',
+  backButtonProps,
   onClose,
+  closeLabel = 'Close',
+  closeButtonProps,
   divider = true,
   headerAction,
 }: ModalHeaderProps) {
@@ -76,7 +90,8 @@ export default function ModalHeader({
             <div className={styles['modal-header__primary']}>
               {showBackButton && (
                 <IconButton
-                  aria-label="Go back"
+                  {...backButtonProps}
+                  aria-label={backLabel}
                   icon={<Icon glyph={<ArrowLeftIcon />} size="20" />}
                   onClick={onBack}
                 />
@@ -107,8 +122,12 @@ export default function ModalHeader({
         <div className={styles['modal-header__actions']}>
           {headerAction}
           <IconButton
-            aria-label="Close"
-            className={styles['modal-header__close']}
+            {...closeButtonProps}
+            aria-label={closeLabel}
+            className={mergeClassNames(
+              styles['modal-header__close'],
+              closeButtonProps?.className,
+            )}
             icon={<Icon glyph={<CloseIcon />} size="20" />}
             onClick={onClose}
           />

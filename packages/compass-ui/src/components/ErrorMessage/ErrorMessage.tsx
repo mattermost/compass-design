@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import Icon from '@/components/Icon/Icon';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import styles from './ErrorMessage.module.scss';
 
-export interface ErrorMessageProps {
+export interface ErrorMessageProps extends HTMLAttributes<HTMLDivElement> {
   /** Optional CSS class name. */
   className?: string;
   /** The error message. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
@@ -18,13 +18,14 @@ export interface ErrorMessageProps {
 export default function ErrorMessage({
   className = '',
   message,
+  ...rest
 }: ErrorMessageProps) {
   const rootClass = [styles['error-message'], className]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <div className={rootClass} role="alert">
+    <div {...rest} className={rootClass} role="alert">
       <span className={styles['error-message__icon']} aria-hidden>
         <Icon size="12" glyph={<AlertCircleOutlineIcon />} />
       </span>

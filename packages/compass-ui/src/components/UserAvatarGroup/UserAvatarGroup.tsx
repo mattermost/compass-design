@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Tooltip from '@/components/Tooltip/Tooltip';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import styles from './UserAvatarGroup.module.scss';
@@ -31,7 +32,17 @@ export interface UserAvatarGroupProps {
   size?: UserAvatarGroupSize;
   /** Optional CSS class name. */
   className?: string;
+  /** Accessible name for the group. Default: `{count} participants`. */
+  formatGroupLabel?: (count: number) => string;
+  /** Accessible name for the +N overflow. Default: `{count} more participants`. */
+  formatOverflowLabel?: (count: number) => string;
+  /** Overflow tooltip text. Default: up to three names, then `A, B, +N more`. */
+  formatOverflowNames?: (hidden: UserAvatarGroupItem[]) => ReactNode;
 }
+
+const defaultFormatGroupLabel = (count: number) => `${count} participants`;
+const defaultFormatOverflowLabel = (count: number) =>
+  `${count} more participants`;
 
 function overflowNamesLabel(hidden: UserAvatarGroupItem[]): string {
   if (hidden.length === 0) return '';
@@ -53,6 +64,9 @@ export default function UserAvatarGroup({
   className = '',
   max = 3,
   size = '20',
+  formatGroupLabel = defaultFormatGroupLabel,
+  formatOverflowLabel = defaultFormatOverflowLabel,
+  formatOverflowNames = overflowNamesLabel,
 }: UserAvatarGroupProps) {
   const visible = avatars.slice(0, max);
   const hidden = avatars.slice(max);
@@ -70,7 +84,7 @@ export default function UserAvatarGroup({
     <div
       className={rootClass}
       role="group"
-      aria-label={`${avatars.length} participants`}
+      aria-label={formatGroupLabel(avatars.length)}
     >
       {visible.map((avatar) => (
         <span key={avatar.key} className={styles['user-avatar-group__item']}>
@@ -100,7 +114,7 @@ export default function UserAvatarGroup({
             styles['user-avatar-group__item'],
             styles['user-avatar-group__overflow'],
           ].join(' ')}
-          aria-label={`${overflow} more participants`}
+          aria-label={formatOverflowLabel(overflow)}
         >
           <span className={styles['user-avatar-group__trigger']}>
             +{overflow}
@@ -112,7 +126,7 @@ export default function UserAvatarGroup({
             <Tooltip
               arrow="bottom"
               className={styles['user-avatar-group__tooltip']}
-              label={overflowNamesLabel(hidden)}
+              label={formatOverflowNames(hidden)}
             />
           </div>
         </span>

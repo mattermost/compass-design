@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
@@ -27,8 +27,8 @@ export type ChannelSidebarItemStatus = 'read' | 'unread' | 'mention';
 
 export interface ChannelSidebarItemProps {
   className?: string;
-  /** Channel or user display name. */
-  name: string;
+  /** Channel or user display name. Accepts translated nodes. */
+  name: ReactNode;
   /**
    * Text-only row (e.g. System Console navigation): no channel glyph or
    * overflow menu; name aligns with channel sidebar label padding.
@@ -61,7 +61,16 @@ export interface ChannelSidebarItemProps {
   onClick?: () => void;
   /** Overflow menu (kebab). Sibling of the channel control so it is keyboard-reachable. */
   onMenuClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  /** Visually hidden mention hint. Default: `{count} mention(s)`. */
+  formatMentionLabel?: (count: number) => ReactNode;
+  /** Visually hidden unread hint. Default: "unread". */
+  unreadLabel?: ReactNode;
+  /** Accessible name for the overflow menu button. Default: "Channel options". */
+  menuLabel?: string;
 }
+
+const defaultFormatMentions = (count: number) =>
+  `${count} mention${count === 1 ? '' : 's'}`;
 
 function LeadingVisualContent({
   leadingVisual,
@@ -128,6 +137,9 @@ export default function ChannelSidebarItem({
   customStatusEmoji,
   onClick,
   onMenuClick,
+  formatMentionLabel = defaultFormatMentions,
+  unreadLabel = 'unread',
+  menuLabel = 'Channel options',
 }: ChannelSidebarItemProps) {
   const isDM = !hideLeadingVisual && leadingVisual === 'direct-message';
   const isDrafts = !hideLeadingVisual && leadingVisual === 'drafts';
@@ -162,9 +174,9 @@ export default function ChannelSidebarItem({
 
   const statusHint =
     effectiveStatus === 'mention'
-      ? `${mentionCount ?? 1} mention${(mentionCount ?? 1) === 1 ? '' : 's'}`
+      ? formatMentionLabel(mentionCount ?? 1)
       : effectiveStatus === 'unread'
-        ? 'unread'
+        ? unreadLabel
         : undefined;
 
   return (
@@ -238,7 +250,7 @@ export default function ChannelSidebarItem({
               size="x-small"
               style="inverted"
               icon={<DotsVerticalIcon size={12} />}
-              aria-label="Channel options"
+              aria-label={menuLabel}
               onClick={(e) => {
                 e.stopPropagation();
                 onMenuClick?.(e);

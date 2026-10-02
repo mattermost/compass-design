@@ -11,11 +11,13 @@ export interface AdminConsoleHeaderProps {
   title: ReactNode;
   /** When true, shows a back control with a divider from the title block. */
   showBack?: boolean;
+  /** Accessible name for the back button. Default: "Go back". */
   ariaLabelBack?: string;
   onBackClick?: () => void;
   /** Optional plan or edition tag beside the title. */
   enterpriseBadge?: boolean;
-  enterpriseBadgeLabel?: string;
+  /** Default: "Enterprise". Accepts translated nodes. */
+  enterpriseBadgeLabel?: ReactNode;
   /** Optional actions on the trailing edge of the title row. */
   trailing?: ReactNode;
   className?: string;

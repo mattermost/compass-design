@@ -1,11 +1,13 @@
+import type { ReactNode } from 'react';
 import Tag from '@/components/Tag/Tag';
 import styles from './MessageHeader.module.scss';
 
 type MessageHeaderProps = {
-  username: string;
-  timestamp: string;
+  username: ReactNode;
+  timestamp: ReactNode;
   isBot?: boolean;
-  botLabel?: string;
+  /** Default: "Bot". Accepts translated nodes. */
+  botLabel?: ReactNode;
 };
 
 /**

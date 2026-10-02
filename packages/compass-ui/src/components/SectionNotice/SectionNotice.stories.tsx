@@ -84,6 +84,34 @@ export const Danger: Story = {
   },
 };
 
+/** One action is unavailable while the index is out of sync. */
+export const DisabledAction: Story = {
+  args: {
+    type: 'warning',
+    title: 'Search index is out of date',
+    description:
+      'Embeddings were built with a different model. Reindex before searching.',
+    primaryButtonLabel: 'Reindex now',
+    onPrimaryAction: fn(),
+    secondaryButtonLabel: 'Search anyway',
+    onSecondaryAction: fn(),
+    secondaryActionDisabled: true,
+  },
+};
+
+export const LoadingAction: Story = {
+  args: {
+    type: 'info',
+    title: 'Reindexing',
+    description: 'This can take a few minutes for large workspaces.',
+    primaryButtonLabel: 'Reindexing…',
+    onPrimaryAction: fn(),
+    primaryActionLoading: true,
+    secondaryButtonLabel: 'Cancel',
+    onSecondaryAction: fn(),
+  },
+};
+
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 16, maxWidth: 640 }}>
