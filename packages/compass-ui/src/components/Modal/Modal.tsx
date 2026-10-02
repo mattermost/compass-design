@@ -1,7 +1,6 @@
 import type {
   CSSProperties,
   HTMLAttributes,
-  KeyboardEvent,
   ReactNode,
   RefObject,
 } from 'react';
@@ -137,11 +136,10 @@ export default function Modal({
   footerDivider = true,
   closeOnEscape = true,
   initialFocusRef,
-  onKeyDown,
   ...rest
 }: ModalProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const trapKeyDown = useModalFocus(rootRef, {
+  useModalFocus(rootRef, {
     initialFocusRef,
     closeOnEscape,
     onClose,
@@ -164,16 +162,10 @@ export default function Modal({
     footerType === 'spacer-large';
 
   return (
-    // Dialog-level Tab trap; the dialog is the focus container, not a control.
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       {...rest}
       ref={rootRef}
       tabIndex={-1}
-      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
-        onKeyDown?.(e);
-        if (!e.defaultPrevented) trapKeyDown(e);
-      }}
       className={[styles.modal, sizeClass, className].filter(Boolean).join(' ')}
       style={style}
       role="dialog"

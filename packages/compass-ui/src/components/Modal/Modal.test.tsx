@@ -126,4 +126,63 @@ describe('Modal focus and keyboard', () => {
     );
     expect(dialog().getAttribute('aria-describedby')).toBe('desc');
   });
+
+  it('falls back to the dialog when initialFocusRef is disabled or outside', () => {
+    const outside = document.createElement('input');
+    document.body.appendChild(outside);
+    const ref = { current: outside };
+    render(
+      <Modal title="T" initialFocusRef={ref}>
+        body
+      </Modal>,
+    );
+    expect(document.activeElement).toBe(dialog());
+  });
+
+  it('skips disabled [tabindex] and display:none controls when wrapping', () => {
+    render(
+      <Modal title="T" onClose={() => {}}>
+        <button data-testid="ok">ok</button>
+        <button disabled tabIndex={0}>
+          disabled
+        </button>
+        <button style={{ display: 'none' }}>hidden</button>
+      </Modal>,
+    );
+    const ok = document.querySelector('[data-testid="ok"]') as HTMLElement;
+    ok.focus();
+    const e = key(ok, 'Tab');
+    expect(e.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(dialog().querySelector('button'));
+  });
+
+  it('pulls focus back in on Tab when focus is outside the dialog', () => {
+    render(
+      <Modal title="T" onClose={() => {}}>
+        <button data-testid="ok">ok</button>
+      </Modal>,
+    );
+    (document.activeElement as HTMLElement).blur();
+    const e = key(document.body, 'Tab');
+    expect(e.defaultPrevented).toBe(true);
+    expect(dialog().contains(document.activeElement)).toBe(true);
+  });
+
+  it('only the topmost modal handles Escape', () => {
+    const lower = vi.fn();
+    const upper = vi.fn();
+    render(
+      <>
+        <Modal title="A" onClose={lower}>
+          a
+        </Modal>
+        <Modal title="B" onClose={upper}>
+          b
+        </Modal>
+      </>,
+    );
+    key(document.body, 'Escape');
+    expect(upper).toHaveBeenCalledTimes(1);
+    expect(lower).not.toHaveBeenCalled();
+  });
 });
