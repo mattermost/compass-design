@@ -142,6 +142,35 @@ export const AllVariants: Story = {
           Disabled checked
         </Radio>
       </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          maxWidth: 280,
+        }}
+      >
+        <span
+          style={{
+            fontSize: 12,
+            color: 'var(--center-channel-color)',
+          }}
+        >
+          Multi-line label
+        </span>
+        {SIZES.map((size) => (
+          <Radio
+            key={size}
+            name="radio-multiline"
+            value={size}
+            defaultChecked={size === 'medium'}
+            size={size}
+          >
+            Send email notifications for every new message in channels I am a
+            member of
+          </Radio>
+        ))}
+      </div>
     </div>
   ),
 };

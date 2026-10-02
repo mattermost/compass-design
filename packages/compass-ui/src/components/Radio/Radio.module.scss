@@ -4,7 +4,8 @@
 .radio {
   position: relative;
   display: flex;
-  align-items: center;
+  // First-line align so the circle stays with the top line when the label wraps
+  align-items: flex-start;
   width: 100%;
   gap: var(--spacing-xs);
   font-family: var(--font-family-body);
@@ -23,8 +24,7 @@
   &__input {
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     margin: 0;
     padding: 0;
     opacity: 0;
@@ -179,13 +179,16 @@
     gap: var(--spacing-xs);
 
     .radio__input {
-      width: 12px;
-      height: 12px;
+      width: var(--icon-size-12);
+      height: var(--icon-size-12);
+      // Optical center with the first line of label text
+      margin-top: calc((var(--line-height-75) - var(--icon-size-12)) / 2);
     }
 
     .radio__circle {
-      width: 12px;
-      height: 12px;
+      width: var(--icon-size-12);
+      height: var(--icon-size-12);
+      margin-top: calc((var(--line-height-75) - var(--icon-size-12)) / 2);
     }
 
     .radio__dot {
@@ -203,13 +206,15 @@
     gap: var(--spacing-xs);
 
     .radio__input {
-      width: 16px;
-      height: 16px;
+      width: var(--icon-size-16);
+      height: var(--icon-size-16);
+      margin-top: calc((var(--line-height-100) - var(--icon-size-16)) / 2);
     }
 
     .radio__circle {
-      width: 16px;
-      height: 16px;
+      width: var(--icon-size-16);
+      height: var(--icon-size-16);
+      margin-top: calc((var(--line-height-100) - var(--icon-size-16)) / 2);
     }
 
     .radio__dot {
@@ -227,13 +232,15 @@
     gap: var(--spacing-s);
 
     .radio__input {
-      width: 20px;
-      height: 20px;
+      width: var(--icon-size-20);
+      height: var(--icon-size-20);
+      margin-top: calc((var(--line-height-200) - var(--icon-size-20)) / 2);
     }
 
     .radio__circle {
-      width: 20px;
-      height: 20px;
+      width: var(--icon-size-20);
+      height: var(--icon-size-20);
+      margin-top: calc((var(--line-height-200) - var(--icon-size-20)) / 2);
     }
 
     .radio__dot {

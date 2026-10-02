@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.
+
 ## [0.1.0-alpha.13] - 2026-10-02
 
 Safe to run several compass-ui copies, of any versions, on one page alongside a host that defines overlapping CSS variables (Mattermost core + plugins).
