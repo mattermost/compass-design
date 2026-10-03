@@ -15,7 +15,7 @@ export function ModalAnatomy() {
       <div className={styles['modal-anatomy__chart']}>
         <div className={styles['modal-anatomy__backdrop']} aria-hidden />
         <div className={styles['modal-anatomy__modal-wrap']}>
-          <Modal title="Modal title" footer={footer} onClose={() => {}}>
+          <Modal title="Modal Title" footer={footer} onClose={() => {}}>
             <p className={styles['modal-anatomy__body-sample']}>
               Body content sits here — forms, lists, or explanatory copy.
             </p>

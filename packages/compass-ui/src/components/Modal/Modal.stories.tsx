@@ -125,7 +125,7 @@ export const WithSubtitle: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="Invite members"
+        title="Invite Members"
         subtitle="Add people to #design"
         size="medium"
         footer={
@@ -171,7 +171,7 @@ export const WithHeaderAction: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="Browse channels"
+        title="Browse Channels"
         size="medium"
         headerAction={
           <Button emphasis="secondary" size="small">
@@ -196,7 +196,7 @@ export const CloseOnlyHeader: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="New agent"
+        title="New Agent"
         hideTitle
         headerDivider={false}
         footerDivider={false}
@@ -220,7 +220,7 @@ export const WithBackButton: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="Confirm deletion"
+        title="Confirm Deletion"
         size="small"
         showBackButton
         onBack={fn()}
@@ -305,7 +305,7 @@ export const MenuItemList: Story = {
   render: () => (
     <ModalCanvas tall>
       <Modal
-        title="Add people"
+        title="Add People"
         subtitle="Choose members to add to #design"
         size="small"
         bodyPadding="menu"
@@ -452,7 +452,7 @@ export const Sizes: Story = {
           </p>
           <ModalCanvas>
             <Modal
-              title={`${size[0].toUpperCase()}${size.slice(1)} modal`}
+              title={`${size[0].toUpperCase()}${size.slice(1)} Modal`}
               size={size}
               onClose={fn()}
             >
@@ -472,7 +472,7 @@ function FormModalDemo() {
   return (
     <ModalCanvas>
       <Modal
-        title="Create channel"
+        title="Create Channel"
         onClose={fn()}
         initialFocusRef={nameRef}
         footer={<Button>Create</Button>}

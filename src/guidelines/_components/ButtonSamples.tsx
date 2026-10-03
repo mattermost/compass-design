@@ -164,7 +164,7 @@ export function ButtonPositioning() {
       <figure className={styles['positioning__case']}>
         <div className={styles['positioning__canvas']}>
           <Modal
-            title="Delete channel"
+            title="Delete Channel"
             headerDivider={false}
             footerDivider={false}
             footer={

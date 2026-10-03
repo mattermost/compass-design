@@ -67,7 +67,7 @@ export default function ModalLayout() {
           <div className={styles['modal-layout__backdrop']} aria-hidden />
           <div className={styles['modal-layout__dialog']}>
             <Modal
-              title="Delete category"
+              title="Delete Category"
               size="small"
               headerDivider={false}
               footerDivider={false}
