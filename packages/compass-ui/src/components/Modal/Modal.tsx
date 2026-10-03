@@ -102,7 +102,7 @@ export interface ModalProps extends Omit<
    */
   initialFocusRef?: RefObject<HTMLElement | null>;
   /**
-   * Controlled visibility with the Compass enter/exit transition (fade + drop from the top,
+   * Controlled visibility with the Compass enter/exit transition (fade + drop from the top + scale 90%→100%,
    * reverse on close, `--duration-quick`); the modal unmounts after the exit,
    * and focus is restored then. Omit to keep the mount-controlled behavior
    * (always rendered, no transition). The host still owns the state.
