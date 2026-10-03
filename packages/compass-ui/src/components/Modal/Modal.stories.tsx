@@ -451,7 +451,11 @@ export const Sizes: Story = {
             {size}
           </p>
           <ModalCanvas>
-            <Modal title={`${size} modal`} size={size} onClose={fn()}>
+            <Modal
+              title={`${size[0].toUpperCase()}${size.slice(1)} modal`}
+              size={size}
+              onClose={fn()}
+            >
               <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
                 Modal body content for the {size.toLowerCase()} size variant.
               </p>
