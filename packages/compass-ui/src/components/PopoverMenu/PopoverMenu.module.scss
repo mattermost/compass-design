@@ -20,6 +20,35 @@
     box-shadow: var(--elevation-5);
   }
 
+  &--transition {
+    opacity: 0;
+    transform: scale(0.9);
+    transform-origin: top left;
+    pointer-events: none;
+    transition:
+      opacity var(--duration-quick) var(--ease-exit),
+      transform var(--duration-quick) var(--ease-exit);
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  &--visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    transition:
+      opacity var(--duration-quick) var(--ease-entrance),
+      transform var(--duration-quick) var(--ease-entrance);
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+      transition: none;
+    }
+  }
+
   &__scroll {
     min-height: 0;
   }
