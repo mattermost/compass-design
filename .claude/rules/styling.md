@@ -185,7 +185,7 @@ JS timers that wait for a CSS transition (`usePopoverTransition`, etc.) must rea
 
 ## Modal open/close
 
-`Modal` with `open`: fade + drop from above with a subtle scale 98%→100% (`translateY(calc(-1 * var(--spacing-l)))` → none, `transform-origin: top center`) on open (`--duration-quick` / `--ease-entrance`); reverse on close (`--ease-exit`). Honor `prefers-reduced-motion` (no transform, no transition).
+`Modal` with `open`: fade + drop from above with a subtle scale 98%→100% (`translateY(calc(-1 * var(--spacing-xxxl)))` → none, `transform-origin: top center`) on open (`--duration-quick` / `--ease-entrance`); reverse on close (`--ease-exit`). Honor `prefers-reduced-motion` (no transform, no transition).
 
 ## Expand/collapse
 

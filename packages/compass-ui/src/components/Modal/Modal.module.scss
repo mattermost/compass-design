@@ -9,7 +9,7 @@
 
   &--transition {
     opacity: 0;
-    transform: translateY(calc(-1 * var(--spacing-l))) scale(0.98);
+    transform: translateY(calc(-1 * var(--spacing-xxxl))) scale(0.98);
     transform-origin: top center;
     pointer-events: none;
     transition:
