@@ -1,5 +1,12 @@
-import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
-import { useId } from 'react';
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  ReactNode,
+  RefObject,
+} from 'react';
+import { useEffect, useId, useRef } from 'react';
+import { useModalFocus } from '@/hooks/useModalFocus';
+import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
 import ModalFooter from '@/components/ModalFooter/ModalFooter';
 import type { ModalFooterType } from '@/components/ModalFooter/ModalFooter';
@@ -84,13 +91,34 @@ export interface ModalProps extends Omit<
   footerType?: ModalFooterType;
   /** Show divider between body and footer. Default: true. */
   footerDivider?: boolean;
+  /**
+   * Close on Escape via a document listener while mounted. Escapes already
+   * handled by an inner widget (`defaultPrevented`) are ignored. Default: true.
+   */
+  closeOnEscape?: boolean;
+  /**
+   * Element to focus when the modal mounts (e.g. the first form field).
+   * Default: the dialog root.
+   */
+  initialFocusRef?: RefObject<HTMLElement | null>;
+  /**
+   * Controlled visibility with the Compass enter/exit transition (fade + drop from the top + subtle scale 98%→100%,
+   * reverse on close, `--duration-quick`); the modal unmounts after the exit,
+   * and focus is restored then. Omit to keep the mount-controlled behavior
+   * (always rendered, no transition). The host still owns the state.
+   */
+  open?: boolean;
+  /** Called after the exit transition finishes and the modal unmounts (only when `open` is controlled). */
+  onExited?: () => void;
 }
 
-/**
- * Modal dialog shell — composes ModalHeader, scrollable body, and ModalFooter.
- * Host owns portal, overlay, focus trap, and open/close.
- */
-export default function Modal({
+interface ModalPanelState {
+  active: boolean;
+  transition: boolean;
+  visible: boolean;
+}
+
+function ModalPanel({
   className = '',
   style,
   size = 'small',
@@ -115,8 +143,20 @@ export default function Modal({
   footerLeading,
   footerType = '2-actions',
   footerDivider = true,
+  closeOnEscape = true,
+  initialFocusRef,
+  active,
+  transition,
+  visible,
   ...rest
-}: ModalProps) {
+}: ModalProps & ModalPanelState) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  useModalFocus(rootRef, {
+    initialFocusRef,
+    closeOnEscape,
+    onClose,
+    active,
+  });
   const titleId = useId();
   const sizeClass = styles[`modal--size-${toKebab(size)}`];
   const bodyInnerClass = [
@@ -137,7 +177,17 @@ export default function Modal({
   return (
     <div
       {...rest}
-      className={[styles.modal, sizeClass, className].filter(Boolean).join(' ')}
+      ref={rootRef}
+      tabIndex={-1}
+      className={[
+        styles.modal,
+        sizeClass,
+        transition && styles['modal--transition'],
+        transition && visible && styles['modal--visible'],
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       style={style}
       role="dialog"
       aria-modal="true"
@@ -175,5 +225,38 @@ export default function Modal({
         </ModalFooter>
       )}
     </div>
+  );
+}
+
+/**
+ * Modal dialog shell — composes ModalHeader, scrollable body, and ModalFooter.
+ * Owns dialog-level focus and keyboard behavior: initial focus, Tab trap,
+ * Escape, and focus restore on unmount. Host owns portal, overlay/backdrop,
+ * scroll lock, stacking, and open state. Mount-controlled by default; pass
+ * `open` for the enter/exit transition.
+ */
+export default function Modal({ open, onExited, ...props }: ModalProps) {
+  const controlled = open !== undefined;
+  const { mounted, visible } = usePopoverTransition(open ?? true);
+  const wasMounted = useRef(mounted);
+  const onExitedRef = useRef(onExited);
+  onExitedRef.current = onExited;
+
+  useEffect(() => {
+    if (wasMounted.current && !mounted && controlled) {
+      onExitedRef.current?.();
+    }
+    wasMounted.current = mounted;
+  }, [mounted, controlled]);
+
+  if (controlled && !mounted) return null;
+
+  return (
+    <ModalPanel
+      {...props}
+      active={open ?? true}
+      transition={controlled}
+      visible={visible}
+    />
   );
 }

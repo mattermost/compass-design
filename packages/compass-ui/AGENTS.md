@@ -27,7 +27,7 @@ The webapp and plugins (react-intl, Playwright by role / name / `data-testid`) u
 7. **Form widgets:** pickers support caller-driven async search (`filter={false}` + `inputValue` / `onInputChange`), `loading`, `selectedOptions` (selections survive searches that don't return them), and `creatable` / `clearable` where the value model allows. A widget that closes its menu on Escape calls `preventDefault()` so host Escape handlers can tell it was handled.
 8. **Host-agnostic:** guard browser APIs jsdom / happy-dom lack (`el.scrollIntoView?.()`, `ResizeObserver`). Every runtime import is a dependency or a required peer, never an optional peer. Never ship CSS that only works when another package's copy is present.
 9. **Styling and tokens:** follow the cascade-layer, additive-only token, unlayered component CSS and `--radius-pill` rules in [.claude/rules/styling.md](../../.claude/rules/styling.md#prefer-design-tokens-over-hardcoded-values) / [.cursor/rules/styling.mdc](../../.cursor/rules/styling.mdc).
-10. **Overlays stay chrome only:** see [Overlay components](#overlay-components) and the root [Overlays](../../AGENTS.md#overlays) policy. The form-widget portal exception covers existing widget menus only; it doesn't justify portals, positioning or focus management in new props.
+10. **Overlays: component-owned vs host-owned:** WAI-ARIA-pattern behavior on the surface (initial focus, focus trap, Escape honoring `defaultPrevented`, focus restore, `aria-*`) may live in the component, opt-out via props; portals, positioning, stacking, scroll lock, backdrop and open/close stay with the host. See [Overlay components](#overlay-components) and the root [Overlays](../../AGENTS.md#overlays) policy. The form-widget portal exception covers existing widget menus only.
 
 ```tsx
 // ❌ BAD — fixed English, attributes dropped
@@ -72,9 +72,11 @@ All compass-ui components that accept icon slot props (`leadingIcon`, `trailingI
 
 ## Overlay components
 
-Published overlay primitives (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover`, …) ship **chrome only**. Do not add portals, focus traps, hover triggers, or backdrop/scrim logic to these components — the host product wires open/close and accessibility orchestration. Panel-level ARIA on the surface is fine.
+Published overlay primitives (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover`, …) split responsibility:
 
-- Follow existing lifecycle props: `Modal` is mount-controlled; `Dropdown` and similar triggers take controlled `isOpen`; expose `onClose` where the surface has dismiss affordances.
+- **Component-owned:** dialog/surface-level accessibility behavior from the WAI-ARIA pattern — initial focus (container or an `initialFocusRef`), focus trap (focusable elements computed at keypress), document-level Escape that skips `defaultPrevented` events, focus restore on unmount, `aria-*` pass-through. Provide opt-outs (e.g. `closeOnEscape`). `Modal` implements this via `useModalFocus`; other primitives adopt it case by case (non-modal surfaces do not trap focus).
+- **Host-owned:** portals, positioning, stacking, scroll lock, backdrop/scrim, outside-click and open/close state. Do not add these to published primitives; a backdrop/animation wrapper (e.g. `ModalOverlay`) needs a separate maintainer decision.
+- Follow existing lifecycle props: `Modal` is mount-controlled (keep it mounted through any exit animation so focus restores afterwards); `Dropdown` and similar triggers take controlled `isOpen`; expose `onClose` where the surface has dismiss affordances.
 - **Form widgets** with menu/popover surfaces (`Combobox`, `Select`, `DateRangePicker`, …) are exempt — they own widget-level open/close, keyboard nav, and may portal + position their own menus (viewport flip). Do not export that portal/placement logic as a general overlay API.
 - **Proto/mobile** shells with backdrop or sheet animation belong in `compass-proto` or playground presenters, not `compass-ui`. Prototype tooltip hosting is `WithTooltip` in `compass-proto` — do not add hover, delay, or portals to published `Tooltip` or `IconButton`.
 - Storybook stories may fake backdrops, anchors, or open state in canvas decorators for preview; that behavior must not leak into the component.

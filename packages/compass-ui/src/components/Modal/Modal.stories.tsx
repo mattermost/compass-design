@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { fn } from '@storybook/test';
 import avatarAiko from '@/assets/avatars/Aiko Tan.png';
@@ -32,9 +33,10 @@ const modalBody = (
     }}
   >
     <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
-      This will permanently delete <strong>#design</strong> and all its
-      messages. Members will lose access immediately. This action cannot be
-      undone.
+      This will permanently delete{' '}
+      <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>#design</span>{' '}
+      and all its messages. Members will lose access immediately. This action
+      cannot be undone.
     </p>
     <TextInput label='Type "design" to confirm' placeholder="design" />
   </div>
@@ -124,7 +126,7 @@ export const WithSubtitle: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="Invite members"
+        title="Invite Members"
         subtitle="Add people to #design"
         size="medium"
         footer={
@@ -170,7 +172,7 @@ export const WithHeaderAction: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="Browse channels"
+        title="Browse Channels"
         size="medium"
         headerAction={
           <Button emphasis="secondary" size="small">
@@ -195,7 +197,7 @@ export const CloseOnlyHeader: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="New agent"
+        title="New Agent"
         hideTitle
         headerDivider={false}
         footerDivider={false}
@@ -219,7 +221,7 @@ export const WithBackButton: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
-        title="Confirm deletion"
+        title="Confirm Deletion"
         size="small"
         showBackButton
         onBack={fn()}
@@ -304,7 +306,7 @@ export const MenuItemList: Story = {
   render: () => (
     <ModalCanvas tall>
       <Modal
-        title="Add people"
+        title="Add People"
         subtitle="Choose members to add to #design"
         size="small"
         bodyPadding="menu"
@@ -450,7 +452,11 @@ export const Sizes: Story = {
             {size}
           </p>
           <ModalCanvas>
-            <Modal title={`${size} modal`} size={size} onClose={fn()}>
+            <Modal
+              title={`${size[0].toUpperCase()}${size.slice(1)} Modal`}
+              size={size}
+              onClose={fn()}
+            >
               <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
                 Modal body content for the {size.toLowerCase()} size variant.
               </p>
@@ -460,4 +466,54 @@ export const Sizes: Story = {
       ))}
     </div>
   ),
+};
+
+function FormModalDemo() {
+  const nameRef = useRef<HTMLInputElement>(null);
+  return (
+    <ModalCanvas>
+      <Modal
+        title="Create Channel"
+        onClose={fn()}
+        initialFocusRef={nameRef}
+        footer={<Button>Create</Button>}
+      >
+        <TextInput ref={nameRef} label="Channel name" />
+      </Modal>
+    </ModalCanvas>
+  );
+}
+
+export const InitialFocus: Story = {
+  render: () => <FormModalDemo />,
+};
+
+function TransitionDemo() {
+  const [open, setOpen] = useState(true);
+  return (
+    <div style={{ display: 'grid', gap: 16 }}>
+      <div>
+        <Button emphasis="secondary" onClick={() => setOpen((o) => !o)}>
+          {open ? 'Close modal' : 'Open modal'}
+        </Button>
+      </div>
+      <ModalCanvas>
+        <Modal
+          title="Transition"
+          open={open}
+          onClose={() => setOpen(false)}
+          footer={<Button onClick={() => setOpen(false)}>Done</Button>}
+        >
+          <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+            Fades in, drops from the top and scales up slightly; reverses on
+            close.
+          </p>
+        </Modal>
+      </ModalCanvas>
+    </div>
+  );
+}
+
+export const Transition: Story = {
+  render: () => <TransitionDemo />,
 };

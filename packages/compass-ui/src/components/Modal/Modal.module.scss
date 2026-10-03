@@ -7,6 +7,39 @@
   flex-direction: column;
   overflow: hidden;
 
+  &--transition {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--spacing-xxxl))) scale(0.98);
+    transform-origin: top center;
+    pointer-events: none;
+    transition:
+      opacity var(--duration-quick) var(--ease-exit),
+      transform var(--duration-quick) var(--ease-exit);
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  &--visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition:
+      opacity var(--duration-quick) var(--ease-entrance),
+      transform var(--duration-quick) var(--ease-entrance);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  // The root is a programmatic focus target (tabIndex=-1), not a control.
+  &:focus {
+    outline: none;
+  }
+
   &--size-small {
     width: 600px;
   }

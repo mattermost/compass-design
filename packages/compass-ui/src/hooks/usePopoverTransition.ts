@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
+import { readDurationMs } from '@/utils/duration';
 
-// --duration-quick is 150ms; keep in sync if that token changes.
+/** Fallback for `--duration-quick` when the token is not available. */
 export const POPOVER_TRANSITION_MS = 150;
 
 /**
- * Keeps a popover mounted for the duration of its exit animation so the close
- * transition can play before React unmounts the node. See CLAUDE.md:
- * "Animation: popover panel open/close".
+ * Keeps a surface mounted for the duration of its exit animation so the close
+ * transition can play before React unmounts the node. The exit wait is read
+ * from `durationToken` (default `--duration-quick`) so it always matches the
+ * CSS transition. See CLAUDE.md: "Animation: popover panel open/close".
  */
-export function usePopoverTransition(open: boolean) {
+export function usePopoverTransition(
+  open: boolean,
+  durationToken = '--duration-quick',
+) {
   const [mounted, setMounted] = useState(open);
   const [visible, setVisible] = useState(false);
 
@@ -25,9 +30,12 @@ export function usePopoverTransition(open: boolean) {
       };
     }
     setVisible(false);
-    const t = window.setTimeout(() => setMounted(false), POPOVER_TRANSITION_MS);
+    const t = window.setTimeout(
+      () => setMounted(false),
+      readDurationMs(durationToken, POPOVER_TRANSITION_MS),
+    );
     return () => window.clearTimeout(t);
-  }, [open]);
+  }, [open, durationToken]);
 
   return { mounted, visible };
 }

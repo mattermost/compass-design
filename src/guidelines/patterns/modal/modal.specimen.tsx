@@ -103,7 +103,7 @@ export default function ModalLibrary() {
         <p className={styles['patterns__variant-label']}>Menu item list</p>
         <ModalCanvas tall>
           <Modal
-            title="Add people"
+            title="Add People"
             subtitle="Choose members to add to #design"
             size="small"
             bodyPadding="menu"
