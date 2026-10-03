@@ -505,7 +505,8 @@ function TransitionDemo() {
           footer={<Button onClick={() => setOpen(false)}>Done</Button>}
         >
           <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
-            Scales up from the top edge and fades in; reverses on close.
+            Fades in, drops from the top and scales up slightly; reverses on
+            close.
           </p>
         </Modal>
       </ModalCanvas>
