@@ -9,7 +9,7 @@
 
   &--transition {
     opacity: 0;
-    transform: translateY(var(--spacing-l));
+    transform: translateY(calc(-1 * var(--spacing-l)));
     pointer-events: none;
     transition:
       opacity var(--duration-quick) var(--ease-exit),
