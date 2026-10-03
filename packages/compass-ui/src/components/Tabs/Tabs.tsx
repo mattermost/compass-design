@@ -7,7 +7,10 @@ import {
   type ReactNode,
 } from 'react';
 import type { BuiltInButtonProps } from '@/utils/props';
+import { toKebab } from '@/utils/string';
 import styles from './Tabs.module.scss';
+
+export type TabsAppearance = 'default' | 'underlined';
 
 export interface TabItem {
   /** Unique key for this tab. */
@@ -47,6 +50,8 @@ export interface TabsProps extends Omit<
   className?: string;
   /** Optional trailing controls rendered to the right of the tabs. */
   controls?: ReactNode;
+  /** Visual style. `underlined` shows a bottom rule with an indicator under the active tab. Default: `default`. */
+  appearance?: TabsAppearance;
   /** Visually hidden text announced with a tab's unread dot. Default: "Unread". */
   unreadLabel?: ReactNode;
 }
@@ -63,9 +68,18 @@ export default function Tabs({
   className = '',
   controls,
   unreadLabel = 'Unread',
+  appearance = 'default',
   ...rest
 }: TabsProps) {
-  const rootClass = [styles.tabs, className].filter(Boolean).join(' ');
+  const rootClass = [
+    styles.tabs,
+    appearance !== 'default'
+      ? styles[`tabs--appearance-${toKebab(appearance)}`]
+      : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [focusedKey, setFocusedKey] = useState(activeKey);
 
