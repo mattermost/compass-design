@@ -9,9 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`PopoverMenu` `open`:** optional controlled visibility with the popover scale + fade transition; unmounts after the exit; optional `onExited` fires once it has unmounted. Omitting it keeps the previous always-rendered behavior.
+- **`Tabs` `appearance`:** optional `'default' | 'underlined'` prop. `underlined` draws a bottom rule with an indicator under the active tab. Default markup and look are unchanged.
 
 ### Fixed
 
+- **`Checkbox`, `Radio`, and `Switch`:** set `font-weight: regular` on the root label so host global `label { font-weight: bold }` rules (e.g. Bootstrap forms) do not bold option text.
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.
 
 ## [0.1.0-alpha.13] - 2026-10-02

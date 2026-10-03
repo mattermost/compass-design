@@ -19,6 +19,22 @@ export default function TabsLibrary() {
           />
         </div>
         <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Underlined
+          </span>
+          <Tabs
+            appearance="underlined"
+            tabs={[
+              { key: 'messages', label: 'Messages' },
+              { key: 'files', label: 'Files', countBadge: 12 },
+              { key: 'pinned', label: 'Pinned', unreadBadge: true },
+              { key: 'members', label: 'Members' },
+            ]}
+            activeKey="messages"
+            onChange={() => {}}
+          />
+        </div>
+        <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Disabled</span>
           <Tabs
             tabs={[
