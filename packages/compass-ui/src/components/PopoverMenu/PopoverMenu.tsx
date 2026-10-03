@@ -1,10 +1,20 @@
+import { useEffect, useRef } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
+import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
 import styles from './PopoverMenu.module.scss';
 
 export interface PopoverMenuProps extends HTMLAttributes<HTMLDivElement> {
   /** Parent menus use Elevation 4; nested child menus use Elevation 5. */
   variant?: 'parent' | 'child';
+  /**
+   * Controlled visibility with the Compass popover transition (scale + fade in,
+   * reverse on close); the menu unmounts after the exit. Omit to always render
+   * without transition. The host owns the state and positioning.
+   */
+  open?: boolean;
+  /** Called after the exit transition finishes and the menu unmounts (only when `open` is controlled). */
+  onExited?: () => void;
   children: ReactNode;
 }
 
@@ -16,15 +26,34 @@ export interface PopoverMenuProps extends HTMLAttributes<HTMLDivElement> {
  */
 export default function PopoverMenu({
   variant = 'parent',
+  open,
+  onExited,
   children,
   className = '',
   ...rest
 }: PopoverMenuProps) {
+  const { mounted, visible } = usePopoverTransition(open ?? true);
+  const transitioned = open !== undefined;
+  const wasMounted = useRef(mounted);
+  const onExitedRef = useRef(onExited);
+  onExitedRef.current = onExited;
+
+  useEffect(() => {
+    if (wasMounted.current && !mounted && transitioned) {
+      onExitedRef.current?.();
+    }
+    wasMounted.current = mounted;
+  }, [mounted, transitioned]);
+
+  if (transitioned && !mounted) return null;
+
   const rootClass = [
     styles['popover-menu'],
     variant === 'child'
       ? styles['popover-menu--child']
       : styles['popover-menu--parent'],
+    transitioned && styles['popover-menu--transition'],
+    transitioned && visible && styles['popover-menu--visible'],
     className,
   ]
     .filter(Boolean)

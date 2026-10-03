@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import Icon from '../Icon/Icon';
@@ -52,4 +53,29 @@ export const ChildMenu: Story = {
       </PopoverMenu>
     </div>
   ),
+};
+
+export const OpenTransition: Story = {
+  name: 'Open transition',
+  render: function Render() {
+    const [open, setOpen] = useState(true);
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+          alignItems: 'flex-start',
+        }}
+      >
+        <button type="button" onClick={() => setOpen((v) => !v)}>
+          {open ? 'Close' : 'Open'}
+        </button>
+        <PopoverMenu open={open}>
+          <MenuItem label="Mute channel" />
+          <MenuItem label="Favorite" />
+        </PopoverMenu>
+      </div>
+    );
+  },
 };
