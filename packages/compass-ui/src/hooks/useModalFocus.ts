@@ -74,15 +74,28 @@ export function useModalFocus(
   initialFocusRefRef.current = initialFocusRef;
   const latest = useRef({ closeOnEscape, onClose });
   latest.current = { closeOnEscape, onClose };
+  const keyToken = useRef<object | null>(null);
+  // Stack position recorded when the token leaves the stack (exit start).
+  const exit = useRef<{ wasTop: boolean; below: object | undefined } | null>(
+    null,
+  );
 
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
+    function shouldRestoreFocus(): boolean {
+      const top = modalStack[modalStack.length - 1];
+      const token = keyToken.current;
+      if (token && modalStack.includes(token)) return top === token;
+      if (!exit.current) return top === undefined;
+      return exit.current.wasTop && top === exit.current.below;
+    }
     const root = rootRef.current;
     const target = initialFocusRefRef.current?.current;
     if (target && root?.contains(target)) target.focus();
     if (!target || document.activeElement !== target) root?.focus();
     return () => {
       if (
+        shouldRestoreFocus() &&
         previous &&
         previous.isConnected &&
         typeof previous.focus === 'function'
@@ -96,6 +109,8 @@ export function useModalFocus(
     if (!active) return;
     const token = {};
     modalStack.push(token);
+    keyToken.current = token;
+    exit.current = null;
 
     function handle(e: KeyboardEvent) {
       if (e.defaultPrevented || modalStack[modalStack.length - 1] !== token)
@@ -130,7 +145,12 @@ export function useModalFocus(
     document.addEventListener('keydown', handle);
     return () => {
       document.removeEventListener('keydown', handle);
-      modalStack.splice(modalStack.indexOf(token), 1);
+      const index = modalStack.indexOf(token);
+      exit.current = {
+        wasTop: index === modalStack.length - 1,
+        below: modalStack[index - 1],
+      };
+      modalStack.splice(index, 1);
     };
   }, [rootRef, active]);
 }

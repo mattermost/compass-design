@@ -260,3 +260,80 @@ describe('Modal open', () => {
     expect(dialog()).toBeNull();
   });
 });
+
+describe('Modal stacked focus restore', () => {
+  it('a lower modal unmounting under an open modal does not steal focus', () => {
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
+    const { rerender } = render(
+      <>
+        <Modal title="A" data-testid="a">
+          a
+        </Modal>
+        <Modal title="B" data-testid="b">
+          b
+        </Modal>
+      </>,
+    );
+    const b = document.querySelector('[data-testid="b"]') as HTMLElement;
+    expect(document.activeElement).toBe(b);
+    rerender(
+      <Modal title="B" data-testid="b">
+        b
+      </Modal>,
+    );
+    expect(document.activeElement).not.toBe(trigger);
+  });
+
+  describe('controlled exit', () => {
+    beforeEach(() => vi.useFakeTimers());
+    afterEach(() => vi.useRealTimers());
+
+    it('restores focus when the exiting modal was topmost and nothing opened above', () => {
+      const trigger = document.createElement('button');
+      document.body.appendChild(trigger);
+      trigger.focus();
+      const { rerender } = render(
+        <Modal title="T" open>
+          body
+        </Modal>,
+      );
+      rerender(
+        <Modal title="T" open={false}>
+          body
+        </Modal>,
+      );
+      act(() => {
+        vi.advanceTimersByTime(POPOVER_TRANSITION_MS + 1);
+      });
+      expect(document.activeElement).toBe(trigger);
+    });
+
+    it('does not restore focus if another modal opened during the exit', () => {
+      const trigger = document.createElement('button');
+      document.body.appendChild(trigger);
+      trigger.focus();
+      const { rerender } = render(
+        <Modal title="A" open data-testid="a">
+          a
+        </Modal>,
+      );
+      rerender(
+        <>
+          <Modal title="A" open={false} data-testid="a">
+            a
+          </Modal>
+          <Modal title="B" open data-testid="b">
+            b
+          </Modal>
+        </>,
+      );
+      act(() => {
+        vi.advanceTimersByTime(POPOVER_TRANSITION_MS + 1);
+      });
+      const b = document.querySelector('[data-testid="b"]') as HTMLElement;
+      expect(document.activeElement).toBe(b);
+    });
+  });
+});
