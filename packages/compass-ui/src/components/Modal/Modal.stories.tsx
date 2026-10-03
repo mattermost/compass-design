@@ -33,9 +33,10 @@ const modalBody = (
     }}
   >
     <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
-      This will permanently delete <strong>#design</strong> and all its
-      messages. Members will lose access immediately. This action cannot be
-      undone.
+      This will permanently delete{' '}
+      <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>#design</span>{' '}
+      and all its messages. Members will lose access immediately. This action
+      cannot be undone.
     </p>
     <TextInput label='Type "design" to confirm' placeholder="design" />
   </div>
