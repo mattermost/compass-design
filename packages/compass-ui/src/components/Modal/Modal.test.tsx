@@ -1,5 +1,6 @@
 import { act, createRef, useState } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { POPOVER_TRANSITION_MS } from '@/hooks/usePopoverTransition';
 import { render } from '@/test-utils/render';
 import Modal from './Modal';
 
@@ -184,5 +185,78 @@ describe('Modal focus and keyboard', () => {
     key(document.body, 'Escape');
     expect(upper).toHaveBeenCalledTimes(1);
     expect(lower).not.toHaveBeenCalled();
+  });
+});
+
+describe('Modal open', () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => {
+    vi.useRealTimers();
+    document.documentElement.style.removeProperty('--duration-quick');
+  });
+
+  it('renders without transition when open is omitted', () => {
+    render(<Modal title="T">body</Modal>);
+    expect(dialog().className).not.toMatch(/transition/);
+  });
+
+  it('renders nothing when closed', () => {
+    render(
+      <Modal title="T" open={false}>
+        body
+      </Modal>,
+    );
+    expect(dialog()).toBeNull();
+  });
+
+  it('stays mounted through the exit, restores focus after, then calls onExited', () => {
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
+    const onExited = vi.fn();
+    const onClose = vi.fn();
+    const { rerender } = render(
+      <Modal title="T" open onExited={onExited} onClose={onClose}>
+        body
+      </Modal>,
+    );
+    expect(document.activeElement).toBe(dialog());
+    rerender(
+      <Modal title="T" open={false} onExited={onExited} onClose={onClose}>
+        body
+      </Modal>,
+    );
+    expect(dialog()).not.toBeNull();
+    key(document.body, 'Escape');
+    expect(onClose).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(dialog());
+    act(() => {
+      vi.advanceTimersByTime(POPOVER_TRANSITION_MS + 1);
+    });
+    expect(dialog()).toBeNull();
+    expect(onExited).toHaveBeenCalledTimes(1);
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it('waits for the --duration-quick token, not a hard-coded value', () => {
+    document.documentElement.style.setProperty('--duration-quick', '400ms');
+    const { rerender } = render(
+      <Modal title="T" open>
+        body
+      </Modal>,
+    );
+    rerender(
+      <Modal title="T" open={false}>
+        body
+      </Modal>,
+    );
+    act(() => {
+      vi.advanceTimersByTime(POPOVER_TRANSITION_MS + 1);
+    });
+    expect(dialog()).not.toBeNull();
+    act(() => {
+      vi.advanceTimersByTime(400);
+    });
+    expect(dialog()).toBeNull();
   });
 });

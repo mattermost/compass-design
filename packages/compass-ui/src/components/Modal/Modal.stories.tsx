@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { fn } from '@storybook/test';
 import avatarAiko from '@/assets/avatars/Aiko Tan.png';
@@ -486,4 +486,33 @@ function FormModalDemo() {
 
 export const InitialFocus: Story = {
   render: () => <FormModalDemo />,
+};
+
+function TransitionDemo() {
+  const [open, setOpen] = useState(true);
+  return (
+    <div style={{ display: 'grid', gap: 16 }}>
+      <div>
+        <Button emphasis="secondary" onClick={() => setOpen((o) => !o)}>
+          {open ? 'Close modal' : 'Open modal'}
+        </Button>
+      </div>
+      <ModalCanvas>
+        <Modal
+          title="Transition"
+          open={open}
+          onClose={() => setOpen(false)}
+          footer={<Button onClick={() => setOpen(false)}>Done</Button>}
+        >
+          <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+            Fades and rises in; reverses on close.
+          </p>
+        </Modal>
+      </ModalCanvas>
+    </div>
+  );
+}
+
+export const Transition: Story = {
+  render: () => <TransitionDemo />,
 };

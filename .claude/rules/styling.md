@@ -181,6 +181,12 @@ Use `var(--font-weight-semibold)` (600) for emphasis. Do not use bold/`700` unle
 
 Menus/info popovers/dropdowns: scale 90%→100% + fade in on open (`--duration-quick` / `--ease-entrance`); reverse on close (`--ease-exit`). Set `transform-origin` toward the anchor.
 
+JS timers that wait for a CSS transition (`usePopoverTransition`, etc.) must read the same duration token via `readDurationMs` from `@/utils/duration` — never a hard-coded `150`/`300`.
+
+## Modal open/close
+
+`Modal` with `open`: fade + rise (`translateY(var(--spacing-l))` → none) on open (`--duration-quick` / `--ease-entrance`); reverse on close (`--ease-exit`). Honor `prefers-reduced-motion` (no transform, no transition).
+
 ## Expand/collapse
 
 In-place expand/collapse must animate — never snap. Prefer CSS grid `0fr`↔`1fr` with `--duration-moderate` / `--ease-transition`. Keep content mounted; toggle `--expanded`; `aria-expanded` / `aria-hidden` as appropriate.

@@ -10,6 +10,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`Modal` focus and keyboard behavior:** focuses the dialog (or `initialFocusRef`) on mount, traps Tab / Shift+Tab inside it (focusable elements computed at keypress), closes on Escape via a document listener (skips events with `defaultPrevented`; opt out with `closeOnEscape={false}`), and restores focus to the previously focused element on unmount. The dialog root gains `tabIndex={-1}`. New props `closeOnEscape` and `initialFocusRef`; `aria-describedby` passes through.
 - **`PopoverMenu` `open`:** optional controlled visibility with the popover scale + fade transition; unmounts after the exit; optional `onExited` fires once it has unmounted. Omitting it keeps the previous always-rendered behavior.
+- **`Modal` `open` / `onExited`:** optional controlled visibility with a fade + rise transition (`--duration-quick`); Tab and Escape stop at the start of the exit, and the modal unmounts, restores focus, then calls `onExited`. Omitting `open` keeps the previous mount-controlled behavior.
+- **`readDurationMs(token, fallback)`** (`@/utils/duration`, internal): reads a duration token for JS timers.
 - **`Tabs` `appearance`:** optional `'default' | 'underlined'` prop. `underlined` draws a bottom rule with an indicator under the active tab. Default markup and look are unchanged.
 
 ### Changed (policy)
@@ -18,6 +20,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`usePopoverTransition`** (`PopoverMenu`, `Select`, `Combobox`, `DateRangePicker`, …): the unmount delay is read from `--duration-quick` instead of a hard-coded 150ms, so it stays in sync with the CSS transition and any host override.
 - **`Checkbox`, `Radio`, and `Switch`:** set `font-weight: regular` on the root label so host global `label { font-weight: bold }` rules (e.g. Bootstrap forms) do not bold option text.
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.
 

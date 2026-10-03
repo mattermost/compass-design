@@ -43,8 +43,11 @@ The modal handles dialog-level accessibility itself: focus moves to the dialog
 Shift+Tab stay inside it, Escape calls `onClose` (set `closeOnEscape={false}` to
 disable; Escapes already handled by an inner widget are ignored), and focus
 returns to the previously focused element on unmount. The host still owns the
-portal, backdrop, scroll lock and open/close; keep the modal mounted through any
-exit animation so focus restores afterwards.
+portal, backdrop, scroll lock and open state. Pass `open` for the enter/exit
+transition (fade and rise, `--duration-quick`, reduced-motion aware): Tab and
+Escape stop when the exit starts, and the modal unmounts, restores focus, then
+calls `onExited`. Without `open` the modal is mount-controlled and has no
+transition.
 
 The title should be a short statement or question; add a subtitle only when
 users need more guidance. Use `subtitlePlacement="beside"` for an inline

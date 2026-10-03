@@ -43,21 +43,32 @@ export interface UseModalFocusOptions {
   /** Close on Escape. Default true. */
   closeOnEscape?: boolean;
   onClose?: () => void;
+  /**
+   * When false (e.g. during an exit transition) Tab and Escape are no longer
+   * handled and the modal leaves the stack, but focus is still restored on
+   * unmount. Default true.
+   */
+  active?: boolean;
 }
 
 /**
- * Dialog focus and keyboard behavior for a mount-controlled modal: initial
- * focus, Tab trap (focusable elements computed at keypress), Escape (skipped
- * when already handled), and focus restore on unmount.
+ * Dialog focus and keyboard behavior for a modal panel: initial focus, Tab trap
+ * (focusable elements computed at keypress), Escape (skipped when already
+ * handled), and focus restore on unmount.
  *
  * Tab and Escape are handled by one document listener, so the trap still holds
  * when focus sits outside the dialog (e.g. after a backdrop click), and only
- * the topmost mounted modal responds. Events whose default was prevented (by
- * an inner widget or the host's `onKeyDown`) are ignored.
+ * the topmost active modal responds. Events whose default was prevented (by an
+ * inner widget or the host's `onKeyDown`) are ignored.
  */
 export function useModalFocus(
   rootRef: RefObject<HTMLElement | null>,
-  { initialFocusRef, closeOnEscape = true, onClose }: UseModalFocusOptions,
+  {
+    initialFocusRef,
+    closeOnEscape = true,
+    onClose,
+    active = true,
+  }: UseModalFocusOptions,
 ): void {
   const initialFocusRefRef = useRef(initialFocusRef);
   initialFocusRefRef.current = initialFocusRef;
@@ -65,13 +76,26 @@ export function useModalFocus(
   latest.current = { closeOnEscape, onClose };
 
   useEffect(() => {
-    const token = {};
-    modalStack.push(token);
     const previous = document.activeElement as HTMLElement | null;
     const root = rootRef.current;
     const target = initialFocusRefRef.current?.current;
     if (target && root?.contains(target)) target.focus();
     if (!target || document.activeElement !== target) root?.focus();
+    return () => {
+      if (
+        previous &&
+        previous.isConnected &&
+        typeof previous.focus === 'function'
+      ) {
+        previous.focus();
+      }
+    };
+  }, [rootRef]);
+
+  useEffect(() => {
+    if (!active) return;
+    const token = {};
+    modalStack.push(token);
 
     function handle(e: KeyboardEvent) {
       if (e.defaultPrevented || modalStack[modalStack.length - 1] !== token)
@@ -91,14 +115,14 @@ export function useModalFocus(
       }
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-      const active = document.activeElement;
-      const outside = !dialog.contains(active);
+      const current = document.activeElement;
+      const outside = !dialog.contains(current);
       if (e.shiftKey) {
-        if (outside || active === first || active === dialog) {
+        if (outside || current === first || current === dialog) {
           e.preventDefault();
           last.focus();
         }
-      } else if (outside || active === last) {
+      } else if (outside || current === last) {
         e.preventDefault();
         first.focus();
       }
@@ -107,13 +131,6 @@ export function useModalFocus(
     return () => {
       document.removeEventListener('keydown', handle);
       modalStack.splice(modalStack.indexOf(token), 1);
-      if (
-        previous &&
-        previous.isConnected &&
-        typeof previous.focus === 'function'
-      ) {
-        previous.focus();
-      }
     };
-  }, [rootRef]);
+  }, [rootRef, active]);
 }
