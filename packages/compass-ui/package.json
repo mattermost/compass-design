@@ -331,6 +331,9 @@
       "hooks/use-exit-animation": [
         "./dist/hooks/use-exit-animation.d.ts"
       ],
+      "hooks/use-modal-focus": [
+        "./dist/hooks/use-modal-focus.d.ts"
+      ],
       "hooks/use-outside-close": [
         "./dist/hooks/use-outside-close.d.ts"
       ],
