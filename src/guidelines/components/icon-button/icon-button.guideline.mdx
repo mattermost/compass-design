@@ -18,10 +18,7 @@ A square (or pill) target wrapping a single Icon. Optional add-ons attach a
 count or an unread dot.
 
 <AnatomyStage style={{ gap: '1rem' }}>
-  <IconButton
-    aria-label="Globe"
-    icon={<Icon glyph={<GlobeIcon />} />}
-  />
+  <IconButton aria-label="Globe" icon={<Icon glyph={<GlobeIcon />} />} />
   <IconButton
     aria-label="Notifications"
     count={12}
@@ -36,8 +33,8 @@ count or an unread dot.
 
 - <Num>1</Num> **Container** — square or pill (rounded) target. Sized to the
   chosen size token; defaults to 4px corner radius.
-- <Num>2</Num> **Icon** — pass `<Icon glyph={<SomeIcon />} />` with no
-  `size`; Icon Button injects the matching size via context.
+- <Num>2</Num> **Icon** — pass `<Icon glyph={<SomeIcon />} />` with no `size`;
+  Icon Button injects the matching size via context.
 - <Num>3</Num> **Count** — optional inline number after the icon. Replaces the
   fixed-square layout with an auto-width row.
 - <Num>4</Num> **Unread badge** — optional small dot top-right. Use when a count

@@ -30,7 +30,7 @@ import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 
 <WithTooltip label="Mute channel">
   <IconButton icon={<Icon glyph={<BellOutlineIcon />} />} />
-</WithTooltip>
+</WithTooltip>;
 ```
 
 `WithTooltip` copies `label` onto the child as `aria-label` when the child has none. Pass `aria-label` yourself only when it should differ from the tooltip.

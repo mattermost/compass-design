@@ -31,23 +31,43 @@ The webapp and plugins (react-intl, Playwright by role / name / `data-testid`) u
 
 ```tsx
 // ❌ BAD — fixed English, attributes dropped, raw icon glyph
-export function Banner({ title, onDismiss }: { title: string; onDismiss?: () => void }) {
+export function Banner({
+  title,
+  onDismiss,
+}: {
+  title: string;
+  onDismiss?: () => void;
+}) {
   return (
     <div>
       <p>{title}</p>
-      <IconButton aria-label="Dismiss" onClick={onDismiss} icon={<CloseIcon />} />
+      <IconButton
+        aria-label="Dismiss"
+        onClick={onDismiss}
+        icon={<CloseIcon />}
+      />
     </div>
   );
 }
 
 // ✅ GOOD — label prop, pass-through, Icon glyph slot (no size)
-export interface BannerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface BannerProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title'
+> {
   title: ReactNode;
   onDismiss?: () => void;
   dismissLabel?: string;
   dismissButtonProps?: BuiltInButtonProps;
 }
-export function Banner({ title, onDismiss, dismissLabel = 'Dismiss', dismissButtonProps, className, ...rest }: BannerProps) {
+export function Banner({
+  title,
+  onDismiss,
+  dismissLabel = 'Dismiss',
+  dismissButtonProps,
+  className,
+  ...rest
+}: BannerProps) {
   return (
     <div {...rest} className={mergeClassNames(styles.banner, className)}>
       <p className={styles['banner__title']}>{title}</p>
