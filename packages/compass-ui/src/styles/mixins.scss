@@ -54,15 +54,9 @@
   border: 0;
 }
 
-// Native control inside a field that draws its own wrapper ring (TextInput,
-// Select, Combobox, …). Host apps (Mattermost webapp / Bootstrap) often add
-// `.form-control:focus` box-shadow or `:focus-visible` outlines on the input;
-// without this reset those stack with the wrapper ring when tabbing
-// (compass-design#71). `!important` matches Mattermost's own Input pattern so
-// higher-specificity host rules still lose.
-//
-// Use `$reset-box-shadow: false` when the focusable control itself carries the
-// field ring (e.g. DateRangePicker trigger).
+// Clears host focus chrome on the native control so only the wrapper field ring
+// shows (compass-design#71). Pass `$reset-box-shadow: false` when the control
+// itself owns the ring (e.g. DateRangePicker trigger).
 @mixin field-control-focus-reset($reset-box-shadow: true) {
   &:focus,
   &:focus-visible {
