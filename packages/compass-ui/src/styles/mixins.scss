@@ -54,20 +54,6 @@
   border: 0;
 }
 
-// Clears host focus chrome on the native control so only the wrapper field ring
-// shows (compass-design#71). Pass `$reset-box-shadow: false` when the control
-// itself owns the ring (e.g. DateRangePicker trigger).
-@mixin field-control-focus-reset($reset-box-shadow: true) {
-  &:focus,
-  &:focus-visible {
-    outline: none !important;
-
-    @if $reset-box-shadow {
-      box-shadow: none !important;
-    }
-  }
-}
-
 // Minimal native scrollbar, used ONLY on layout-level page scrollers
 // (AppShell content, DocsLayout main pane) where descendants rely on
 // `position: sticky` needing a native scrolling ancestor — SimpleBar's

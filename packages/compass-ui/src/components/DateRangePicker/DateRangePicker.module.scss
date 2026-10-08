@@ -41,8 +41,13 @@
         0 0 0 1px var(--focus-ring-color);
     }
 
-    // Trigger owns the field ring via box-shadow; only clear host outlines.
-    @include field-control-focus-reset($reset-box-shadow: false);
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
 
     .date-range-picker--disabled & {
       opacity: 0.56;

@@ -22,7 +22,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
-- **Form field double focus rings in host apps:** `TextInput`, `TextArea`, `SearchInput`, `Select`, `Combobox`, and `DateRangePicker` clear host `outline` / `box-shadow` on the native control’s `:focus` and `:focus-visible` (via `field-control-focus-reset`), so webapp/Bootstrap `.form-control:focus` styles no longer stack with the wrapper field ring when tabbing (compass-design#71).
 - **`usePopoverTransition`** (`PopoverMenu`, `Select`, `Combobox`, `DateRangePicker`, …): the unmount delay is read from `--duration-quick` instead of a hard-coded 150ms, so it stays in sync with the CSS transition and any host override.
 - **`Checkbox`, `Radio`, and `Switch`:** set `font-weight: regular` on the root label so host global `label { font-weight: bold }` rules (e.g. Bootstrap forms) do not bold option text.
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.

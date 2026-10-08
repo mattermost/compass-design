@@ -104,7 +104,9 @@
     font-weight: var(--font-weight-regular);
     color: var(--center-channel-color);
 
-    @include field-control-focus-reset;
+    &:focus {
+      outline: none;
+    }
 
     &::placeholder {
       color: rgba(var(--center-channel-color-rgb), 0.64);
