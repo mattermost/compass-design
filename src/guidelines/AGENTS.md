@@ -4,7 +4,7 @@ Follow this when working under `src/guidelines/`, docs manifests, or the docs sh
 
 Mobile*, Call*, `ChannelShell`, `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `TeamSidebar`, `RightSidebar` (shell), `ReactionPill`, `AppBarItem`, and hardcoded `*Menu` recipes live in **`@mattermost/compass-proto`** (unpublished). Prefer importing those from `compass-proto` (root barrel — proto has no component subpaths), not `compass-ui`. Soft-label them as non-core / prototyping when writing docs voice. Published chrome such as `RightSidebarHeader`, Message leaves (`MessageHeader`, `MessageActions`, …), `Modal`, `ChannelSidebarItem`, `TourPoint`, and `PopoverMenu` / `MenuItem` stay on `@mattermost/compass-ui` subpaths.
 
-Desktop `IconButton`s in layout, pattern, and proto specimens wrap with `WithTooltip` from `@mattermost/compass-proto` (see [packages/compass-proto/AGENTS.md](../../packages/compass-proto/AGENTS.md)). Icon Button anatomy/specimens that document the primitive itself may stay unwrapped. Skip `WithTooltip` on `Mobile*` surfaces.
+`IconButton` always takes `icon={<Icon glyph={<SomeIcon />} />}` (no raw glyph; omit `size` — context sizes it). Desktop `IconButton`s in layout, pattern, and proto specimens also wrap with `WithTooltip` from `@mattermost/compass-proto` for now (see [packages/compass-proto/AGENTS.md](../../packages/compass-proto/AGENTS.md)). Icon Button anatomy/specimens that document the primitive itself may stay unwrapped. Skip `WithTooltip` on `Mobile*` surfaces.
 
 ## Adding a topic
 

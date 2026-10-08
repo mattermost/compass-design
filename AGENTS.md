@@ -42,7 +42,7 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 - **EmptyState actions:** omit `size` on the action `Button` unless Figma requires otherwise (default Medium).
 - **Admin True/False radios:** lay out horizontally in a flex row (e.g. `admin-console-layout__radio-row`); override Radio `width: 100%` so both stay on one row; match label `padding-top: var(--spacing-xxs)`.
 - **Avatars:** pass a real image from `src/assets/avatars/` when the component supports `src` / equivalent. Initials-only only when documenting fallback or unnamed users.
-- **IconButton (proto/docs):** wrap desktop Icon Buttons with `WithTooltip` from `@mattermost/compass-proto`. Do not add hover or portals to `IconButton` or Compass `Tooltip`. Skip on mobile-only (touch) surfaces; still set `aria-label`.
+- **IconButton:** always pass `icon={<Icon glyph={<SomeIcon />} />}` (no raw compass-icons glyph; omit `size` — the button sizes via context). In proto/docs, wrap desktop Icon Buttons with `WithTooltip` from `@mattermost/compass-proto` for now. Do not add hover or portals to `IconButton` or Compass `Tooltip`. Skip `WithTooltip` on mobile-only (touch) surfaces; still set `aria-label`.
 
 ## Styling
 

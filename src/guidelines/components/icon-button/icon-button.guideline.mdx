@@ -1,7 +1,4 @@
-import {
-  ICON_BUTTON_ICON_SIZES,
-  IconButton,
-} from '@mattermost/compass-ui/components/icon-button';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
@@ -21,26 +18,23 @@ A square (or pill) target wrapping a single Icon. Optional add-ons attach a
 count or an unread dot.
 
 <AnatomyStage style={{ gap: '1rem' }}>
-  <IconButton
-    aria-label="Globe"
-    icon={<Icon glyph={<GlobeIcon />} size={ICON_BUTTON_ICON_SIZES.Medium} />}
-  />
+  <IconButton aria-label="Globe" icon={<Icon glyph={<GlobeIcon />} />} />
   <IconButton
     aria-label="Notifications"
     count={12}
-    icon={<Icon glyph={<GlobeIcon />} size={ICON_BUTTON_ICON_SIZES.Medium} />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
   <IconButton
     aria-label="Unread"
     unreadBadge
-    icon={<Icon glyph={<GlobeIcon />} size={ICON_BUTTON_ICON_SIZES.Medium} />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
 </AnatomyStage>
 
 - <Num>1</Num> **Container** — square or pill (rounded) target. Sized to the
   chosen size token; defaults to 4px corner radius.
-- <Num>2</Num> **Icon** — the action's visual. Sized via
-  `ICON_BUTTON_ICON_SIZES[size]` so it matches the container.
+- <Num>2</Num> **Icon** — pass `<Icon glyph={<SomeIcon />} />` with no `size`;
+  Icon Button injects the matching size via context.
 - <Num>3</Num> **Count** — optional inline number after the icon. Replaces the
   fixed-square layout with an auto-width row.
 - <Num>4</Num> **Unread badge** — optional small dot top-right. Use when a count
@@ -67,22 +61,22 @@ rows, dense toolbars.
   <IconButton
     aria-label="X-Small"
     size="x-small"
-    icon={<Icon glyph={<GlobeIcon />} size="12" />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
   <IconButton
     aria-label="Small"
     size="small"
-    icon={<Icon glyph={<GlobeIcon />} size="16" />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
   <IconButton
     aria-label="Medium"
     size="medium"
-    icon={<Icon glyph={<GlobeIcon />} size="20" />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
   <IconButton
     aria-label="Large"
     size="large"
-    icon={<Icon glyph={<GlobeIcon />} size="24" />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
 </div>
 
@@ -113,22 +107,22 @@ for async actions.
 >
   <IconButton
     aria-label="Default"
-    icon={<Icon glyph={<StarOutlineIcon />} size="20" />}
+    icon={<Icon glyph={<StarOutlineIcon />} />}
   />
   <IconButton
     aria-label="Toggled"
     toggled
-    icon={<Icon glyph={<StarOutlineIcon />} size="20" />}
+    icon={<Icon glyph={<StarOutlineIcon />} />}
   />
   <IconButton
     aria-label="Disabled"
     disabled
-    icon={<Icon glyph={<StarOutlineIcon />} size="20" />}
+    icon={<Icon glyph={<StarOutlineIcon />} />}
   />
   <IconButton
     aria-label="Loading"
     loading
-    icon={<Icon glyph={<StarOutlineIcon />} size="20" />}
+    icon={<Icon glyph={<StarOutlineIcon />} />}
   />
 </div>
 
@@ -167,7 +161,7 @@ non-destructiveness.
   <IconButton
     aria-label="Rounded"
     rounded
-    icon={<Icon glyph={<GlobeIcon />} size="20" />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
 </div>
 
@@ -189,7 +183,7 @@ Renders the icon in `--color-danger` and tints the hover background.
   <IconButton
     aria-label="Delete"
     destructive
-    icon={<Icon glyph={<TrashCanOutlineIcon />} size="20" />}
+    icon={<Icon glyph={<TrashCanOutlineIcon />} />}
   />
 </div>
 
@@ -211,13 +205,13 @@ where the default colours wouldn't hold contrast.
   <IconButton
     aria-label="Inverted"
     style="inverted"
-    icon={<Icon glyph={<CloseIcon />} size="20" />}
+    icon={<Icon glyph={<CloseIcon />} />}
   />
   <IconButton
     aria-label="Inverted toggled"
     style="inverted"
     toggled
-    icon={<Icon glyph={<StarOutlineIcon />} size="20" />}
+    icon={<Icon glyph={<StarOutlineIcon />} />}
   />
 </div>
 
@@ -241,12 +235,12 @@ to an auto-width row. Numbers above 99 follow the Mention Badge convention
   <IconButton
     aria-label="3 mentions"
     count={3}
-    icon={<Icon glyph={<GlobeIcon />} size="20" />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
   <IconButton
     aria-label="48 mentions"
     count={48}
-    icon={<Icon glyph={<GlobeIcon />} size="20" />}
+    icon={<Icon glyph={<GlobeIcon />} />}
   />
 </div>
 
@@ -266,8 +260,11 @@ to an auto-width row. Numbers above 99 follow the Mention Badge convention
 
 ## Implementation
 
+Pass `icon={<Icon glyph={<SomeIcon />} />}` — never a raw compass-icons
+glyph, and omit `size` so Icon Button can size via context.
+
 In prototypes and layout specimens, wrap Icon Buttons with
-`WithTooltip` from `@mattermost/compass-proto` so hover delay and
+`WithTooltip` from `@mattermost/compass-proto` for now so hover delay and
 placement stay out of the button itself. The product uses the webapp
 `WithTooltip` around the same `IconButton`.
 

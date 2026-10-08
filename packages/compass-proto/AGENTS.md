@@ -16,17 +16,21 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 
 Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `ChannelSidebarItem`, `TourPoint`, `PopoverMenu` / `MenuItem`, etc.
 
-## Icon Buttons need tooltips
+## Icon Buttons: Icon glyph + WithTooltip
 
-Every desktop `IconButton` in a prototype or layout specimen must be wrapped in `WithTooltip` from this package. Compass `Tooltip` is chrome only; this wrapper is the prototype host (400ms hover delay, portal, placement). Do not add hover, portals, or positioning to published `IconButton` or `Tooltip`.
+Every `IconButton` must take `icon={<Icon glyph={<SomeIcon />} />}` — never a raw `@mattermost/compass-icons` glyph. Omit `size` on `Icon`; `IconButton` injects it via `IconSlotContext`.
+
+Every desktop `IconButton` in a prototype or layout specimen must also be wrapped in `WithTooltip` from this package (for now). Compass `Tooltip` is chrome only; this wrapper is the prototype host (400ms hover delay, portal, placement). Do not add hover, portals, or positioning to published `IconButton` or `Tooltip`.
 
 ```tsx
 import { WithTooltip } from '@mattermost/compass-proto';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 
 <WithTooltip label="Mute channel">
-  <IconButton icon={…} />
-</WithTooltip>
+  <IconButton icon={<Icon glyph={<BellOutlineIcon />} />} />
+</WithTooltip>;
 ```
 
 `WithTooltip` copies `label` onto the child as `aria-label` when the child has none. Pass `aria-label` yourself only when it should differ from the tooltip.

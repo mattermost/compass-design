@@ -10,6 +10,7 @@ import DotsVerticalIcon from '@mattermost/compass-icons/components/dots-vertical
 import DialpadIcon from '@mattermost/compass-icons/components/dialpad';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import MentionBadge from '@/components/MentionBadge/MentionBadge';
+import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import styles from './ChannelSidebarItem.module.scss';
 
@@ -249,7 +250,7 @@ export default function ChannelSidebarItem({
               className={styles['channel-sidebar-item__menu-icon']}
               size="x-small"
               style="inverted"
-              icon={<DotsVerticalIcon size={12} />}
+              icon={<Icon glyph={<DotsVerticalIcon />} />}
               aria-label={menuLabel}
               onClick={(e) => {
                 e.stopPropagation();

@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/compass-ui",
-  "version": "0.1.0-alpha.13",
+  "version": "0.1.0-alpha.14",
   "description": "Compass design system UI components for Mattermost products",
   "repository": {
     "type": "git",
@@ -330,6 +330,9 @@
       ],
       "hooks/use-exit-animation": [
         "./dist/hooks/use-exit-animation.d.ts"
+      ],
+      "hooks/use-modal-focus": [
+        "./dist/hooks/use-modal-focus.d.ts"
       ],
       "hooks/use-outside-close": [
         "./dist/hooks/use-outside-close.d.ts"

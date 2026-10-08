@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.14] - 2026-10-08
+
 ### Added
 
 - **`Modal` focus and keyboard behavior:** focuses the dialog (or `initialFocusRef`) on mount, traps Tab / Shift+Tab inside it (focusable elements computed at keypress), closes on Escape via a document listener (skips events with `defaultPrevented`; opt out with `closeOnEscape={false}`), and restores focus to the previously focused element on unmount. The dialog root gains `tabIndex={-1}`. New props `closeOnEscape` and `initialFocusRef`; `aria-describedby` passes through.
@@ -23,6 +25,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`usePopoverTransition`** (`PopoverMenu`, `Select`, `Combobox`, `DateRangePicker`, …): the unmount delay is read from `--duration-quick` instead of a hard-coded 150ms, so it stays in sync with the CSS transition and any host override.
 - **`Checkbox`, `Radio`, and `Switch`:** set `font-weight: regular` on the root label so host global `label { font-weight: bold }` rules (e.g. Bootstrap forms) do not bold option text.
 - **`Checkbox` and `Radio`:** controls align to the first line of the label when the label wraps, instead of vertically centering across all lines.
+- **`IconButton` inverted active:** uses `--sidebar-text` / `--sidebar-text-rgb` tokens so active/toggled inverted buttons match sidebar contrast.
+- **`ChannelSidebarItem` overflow menu:** passes `<Icon glyph={<DotsVerticalIcon />} />` into `IconButton` (context-sized) instead of a raw compass-icons glyph.
 
 ## [0.1.0-alpha.13] - 2026-10-02
 
@@ -274,7 +278,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.13...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.14...HEAD
+[0.1.0-alpha.14]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.13...0.1.0-alpha.14
 [0.1.0-alpha.13]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.12...0.1.0-alpha.13
 [0.1.0-alpha.12]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.11...0.1.0-alpha.12
 [0.1.0-alpha.11]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.10...0.1.0-alpha.11
