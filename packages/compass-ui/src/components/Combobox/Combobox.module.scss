@@ -114,9 +114,7 @@
       color: rgba(var(--center-channel-color-rgb), 0.64);
     }
 
-    &:focus {
-      outline: none;
-    }
+    @include field-control-focus-reset;
 
     &:disabled {
       cursor: not-allowed;

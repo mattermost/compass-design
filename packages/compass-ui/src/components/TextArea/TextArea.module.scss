@@ -84,9 +84,7 @@
     color: var(--center-channel-color);
     box-sizing: border-box;
 
-    &:focus {
-      outline: none;
-    }
+    @include field-control-focus-reset;
 
     &::placeholder {
       color: rgba(var(--center-channel-color-rgb), 0.64);

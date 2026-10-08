@@ -94,13 +94,7 @@
     cursor: pointer;
     gap: var(--spacing-xs);
 
-    &:focus {
-      outline: none;
-    }
-
-    &:focus-visible {
-      outline: none;
-    }
+    @include field-control-focus-reset;
 
     &:disabled {
       cursor: not-allowed;
