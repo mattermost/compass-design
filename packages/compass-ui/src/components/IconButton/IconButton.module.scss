@@ -215,22 +215,22 @@
       color: var(--sidebar-text);
     }
     &:active:not(:disabled):not(.icon-button--toggled) {
-      background-color: rgba(var(--button-bg-rgb), 0.08);
-      color: var(--link-color);
+      background-color: rgba(var(--sidebar-text-rgb), 0.16);
+      color: var(--sidebar-text);
     }
 
     &.icon-button--active:not(:disabled) {
-      background-color: rgba(var(--button-bg-rgb), 0.08);
-      color: var(--link-color);
+      background-color: rgba(var(--sidebar-text-rgb), 0.16);
+      color: var(--sidebar-text);
 
       &:hover:not(:disabled):not(:active) {
-        background-color: rgba(var(--button-bg-rgb), 0.12);
-        color: var(--link-color);
+        background-color: rgba(var(--sidebar-text-rgb), 0.2);
+        color: var(--sidebar-text);
       }
 
       &:active:not(:disabled) {
-        background-color: rgba(var(--button-bg-rgb), 0.16);
-        color: var(--link-color);
+        background-color: rgba(var(--sidebar-text-rgb), 0.24);
+        color: var(--sidebar-text);
       }
     }
     &.icon-button--toggled {
