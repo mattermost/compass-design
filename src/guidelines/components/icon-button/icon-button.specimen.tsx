@@ -1,6 +1,5 @@
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import {
-  ICON_BUTTON_ICON_SIZES,
   type IconButtonPadding,
   type IconButtonSize,
   type IconButtonStyle,
@@ -75,12 +74,7 @@ function IconButtonPermutationGrid({
                 size={size}
                 padding={row.padding}
                 rounded={row.rounded}
-                icon={
-                  <Icon
-                    glyph={<GlobeIcon />}
-                    size={ICON_BUTTON_ICON_SIZES[size]}
-                  />
-                }
+                icon={<Icon glyph={<GlobeIcon />} />}
               />
             </div>
           ))}
@@ -168,12 +162,7 @@ export default function IconButtonLibrary() {
               aria-label={`Loading, ${size}`}
               size={size}
               loading
-              icon={
-                <Icon
-                  glyph={<GlobeIcon />}
-                  size={ICON_BUTTON_ICON_SIZES[size]}
-                />
-              }
+              icon={<Icon glyph={<GlobeIcon />} />}
             />
           ))}
         </div>
@@ -185,24 +174,24 @@ export default function IconButtonLibrary() {
           <IconButton
             aria-label="12 notifications, X-Small"
             count={12}
-            icon={<Icon glyph={<GlobeIcon />} size="12" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             size="x-small"
           />
           <IconButton
             aria-label="48 notifications, Small"
             count={48}
-            icon={<Icon glyph={<GlobeIcon />} size="16" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             size="small"
           />
           <IconButton
             aria-label="425 notifications, Medium"
             count={425}
-            icon={<Icon glyph={<GlobeIcon />} size="20" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
           />
           <IconButton
             aria-label="9 notifications, Large"
             count={9}
-            icon={<Icon glyph={<GlobeIcon />} size="24" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             size="large"
           />
         </div>
@@ -213,37 +202,37 @@ export default function IconButtonLibrary() {
         <div className={styles['components__button-row']}>
           <IconButton
             aria-label="Unread, X-Small"
-            icon={<Icon glyph={<GlobeIcon />} size="12" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             size="x-small"
             unreadBadge
           />
           <IconButton
             aria-label="Unread, Small"
-            icon={<Icon glyph={<GlobeIcon />} size="16" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             size="small"
             unreadBadge
           />
           <IconButton
             aria-label="Unread, Medium"
-            icon={<Icon glyph={<GlobeIcon />} size="20" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             unreadBadge
           />
           <IconButton
             aria-label="Unread, Large"
-            icon={<Icon glyph={<GlobeIcon />} size="24" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             size="large"
             unreadBadge
           />
           <IconButton
             aria-label="Unread, toggled"
-            icon={<Icon glyph={<GlobeIcon />} size="20" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             toggled
             unreadBadge
           />
           <IconButton
             aria-label="Unread with count"
             count={3}
-            icon={<Icon glyph={<GlobeIcon />} size="20" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             unreadBadge
           />
         </div>
@@ -262,12 +251,12 @@ export default function IconButtonLibrary() {
           <IconButton
             aria-label="Inverted with count"
             count={7}
-            icon={<Icon glyph={<GlobeIcon />} size="20" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             style="inverted"
           />
           <IconButton
             aria-label="Inverted with unread badge"
-            icon={<Icon glyph={<GlobeIcon />} size="20" />}
+            icon={<Icon glyph={<GlobeIcon />} />}
             style="inverted"
             unreadBadge
           />

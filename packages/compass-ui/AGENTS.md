@@ -30,12 +30,17 @@ The webapp and plugins (react-intl, Playwright by role / name / `data-testid`) u
 10. **Overlays: component-owned vs host-owned:** WAI-ARIA-pattern behavior on the surface (initial focus, focus trap, Escape honoring `defaultPrevented`, focus restore, `aria-*`) may live in the component, opt-out via props; portals, positioning, stacking, scroll lock, backdrop and open/close stay with the host. See [Overlay components](#overlay-components) and the root [Overlays](../../AGENTS.md#overlays) policy. The form-widget portal exception covers existing widget menus only.
 
 ```tsx
-// ❌ BAD — fixed English, attributes dropped
+// ❌ BAD — fixed English, attributes dropped, raw icon glyph
 export function Banner({ title, onDismiss }: { title: string; onDismiss?: () => void }) {
-  return <div><p>{title}</p><IconButton aria-label="Dismiss" onClick={onDismiss} icon={…} /></div>;
+  return (
+    <div>
+      <p>{title}</p>
+      <IconButton aria-label="Dismiss" onClick={onDismiss} icon={<CloseIcon />} />
+    </div>
+  );
 }
 
-// ✅ GOOD
+// ✅ GOOD — label prop, pass-through, Icon glyph slot (no size)
 export interface BannerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;
   onDismiss?: () => void;
@@ -46,7 +51,12 @@ export function Banner({ title, onDismiss, dismissLabel = 'Dismiss', dismissButt
   return (
     <div {...rest} className={mergeClassNames(styles.banner, className)}>
       <p className={styles['banner__title']}>{title}</p>
-      <IconButton {...dismissButtonProps} aria-label={dismissLabel} onClick={onDismiss} icon={…} />
+      <IconButton
+        {...dismissButtonProps}
+        aria-label={dismissLabel}
+        onClick={onDismiss}
+        icon={<Icon glyph={<CloseIcon />} />}
+      />
     </div>
   );
 }
@@ -60,7 +70,7 @@ export function Banner({ title, onDismiss, dismissLabel = 'Dismiss', dismissButt
 
 ## Icon slots
 
-All compass-ui components that accept icon slot props (`leadingIcon`, `trailingIcon`, `icon`, etc.) size icons via `IconSlotContext`. Callers pass `<Icon glyph={<YourIcon />} />` with **no `size` prop** — the hosting component injects the correct size via context. Explicit `size` still takes precedence (non-breaking), but the recommended pattern omits it.
+All compass-ui components that accept icon slot props (`leadingIcon`, `trailingIcon`, `icon`, etc.) size icons via `IconSlotContext`. Callers pass `<Icon glyph={<YourIcon />} />` with **no `size` prop** — the hosting component injects the correct size via context. Explicit `size` still takes precedence (non-breaking), but the recommended pattern omits it. **`IconButton.icon` always uses this pattern** — never pass a raw `@mattermost/compass-icons` glyph.
 
 **When building a new component with an icon slot:**
 
