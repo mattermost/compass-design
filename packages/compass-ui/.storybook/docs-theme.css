@@ -21,21 +21,25 @@
 /*
  * Doc prose typography — theme Storybook-generated copy without overriding
  * Compass CSS-module classes inside previews. Tag+class selectors such as
- * `.sbdocs-content h2` beat single-class modules (e.g. `.tour-point__title`);
- * skip any element whose class follows our BEM `__` convention.
+ * `.sbdocs-content h2` beat single-class modules (e.g. `.tour-point__title`).
+ * Skip:
+ * - BEM elements (`__`)
+ * - Vite CSS-module roots (`_button_abc123`, `_icon-button_…`) so asChild
+ *   anchors keep Compass colours instead of prose `--link-color`
  */
-.sbdocs-content :where(h1, h2, h3, h4, h5, h6):not([class*='__']) {
+.sbdocs-content
+  :where(h1, h2, h3, h4, h5, h6):not([class*='__']):not([class^='_']) {
   color: var(--center-channel-color);
   font-family: var(--font-family-heading);
   font-weight: var(--font-weight-semibold) !important;
 }
 
-.sbdocs-content :where(p, li, td, th):not([class*='__']) {
+.sbdocs-content :where(p, li, td, th):not([class*='__']):not([class^='_']) {
   color: var(--center-channel-color);
   font-family: var(--font-family-base);
 }
 
-.sbdocs-content :where(a):not([class*='__']) {
+.sbdocs-content :where(a):not([class*='__']):not([class^='_']) {
   color: var(--link-color);
 }
 

@@ -25,8 +25,9 @@
   outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
 
-  // Beat host `a:hover` / `a:visited` (e.g. Bootstrap) so Compass colours stick
-  // when the root is an anchor (`asChild`).
+  // When the root is an anchor (`asChild`), keep Compass colours over host
+  // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
+  &:any-link,
   &:hover,
   &:focus,
   &:active,
@@ -49,6 +50,9 @@
   // ---------------------------------------------------------------------------
   &__label {
     line-height: 1;
+    // Own the foreground so host `a { color }` cannot wash out the label
+    // (e.g. primary `--button-color` on `--button-bg`).
+    color: var(--button-fg);
   }
 
   &__icon-slot {
@@ -56,6 +60,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    color: var(--button-fg);
   }
 
   // ---------------------------------------------------------------------------
