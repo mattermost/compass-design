@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`RightSidebarHeader` `onPopout` / `popoutLabel`:** optional pop out button (`dock-window` glyph) rendered between expand and close. Default accessible name: "Open in new window".
+
 ## [0.1.0-alpha.14] - 2026-10-08
 
 ### Added

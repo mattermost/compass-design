@@ -3,6 +3,7 @@ import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-io
 import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import ArrowExpandIcon from '@mattermost/compass-icons/components/arrow-expand';
 import CloseIcon from '@mattermost/compass-icons/components/close';
+import DockWindowIcon from '@mattermost/compass-icons/components/dock-window';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
@@ -32,6 +33,10 @@ export interface RightSidebarHeaderProps {
   expandLabel?: string;
   /** Accessible name for the expand button while expanded. Default: "Collapse". */
   collapseLabel?: string;
+  /** When set, shows a pop out button (open in a new window) between expand and close, and calls this on click. */
+  onPopout?: () => void;
+  /** Accessible name for the pop out button. Default: "Open in new window". */
+  popoutLabel?: string;
   /** When set, shows a close button and calls this on click. */
   onClose?: () => void;
   /** Accessible name for the close button. Default: "Close". */
@@ -57,6 +62,8 @@ export default function RightSidebarHeader({
   expanded = false,
   expandLabel = 'Expand',
   collapseLabel = 'Collapse',
+  onPopout,
+  popoutLabel = 'Open in new window',
   onClose,
   closeLabel = 'Close',
   actionLabel,
@@ -136,6 +143,14 @@ export default function RightSidebarHeader({
                 glyph={expanded ? <ArrowCollapseIcon /> : <ArrowExpandIcon />}
               />
             }
+          />
+        )}
+        {onPopout && (
+          <IconButton
+            size="small"
+            aria-label={popoutLabel}
+            onClick={onPopout}
+            icon={<Icon size="16" glyph={<DockWindowIcon />} />}
           />
         )}
         {onClose && (

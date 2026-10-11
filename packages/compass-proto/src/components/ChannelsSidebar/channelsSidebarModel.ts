@@ -1,18 +1,28 @@
 import type { ChannelSidebarItemProps } from '@mattermost/compass-ui/components/channel-sidebar-item';
 
-export type ChannelsSidebarItemModel = Pick<
-  ChannelSidebarItemProps,
-  | 'name'
-  | 'leadingVisual'
-  | 'active'
-  | 'status'
-  | 'mentionCount'
-  | 'memberCount'
-  | 'avatarSrc'
-  | 'avatarAlt'
-  | 'showAvatarStatus'
-  | 'onClick'
->;
+/**
+ * Proto sidebar row data. `name` stays `string` (not ChannelSidebarItem's
+ * ReactNode) — it is used as identity for keys, active matching, overrides,
+ * and click callbacks.
+ */
+export type ChannelsSidebarItemModel = Omit<
+  Pick<
+    ChannelSidebarItemProps,
+    | 'name'
+    | 'leadingVisual'
+    | 'active'
+    | 'status'
+    | 'mentionCount'
+    | 'memberCount'
+    | 'avatarSrc'
+    | 'avatarAlt'
+    | 'showAvatarStatus'
+    | 'onClick'
+  >,
+  'name'
+> & {
+  name: string;
+};
 
 export interface ChannelsSidebarCategoryModel {
   label: string;
