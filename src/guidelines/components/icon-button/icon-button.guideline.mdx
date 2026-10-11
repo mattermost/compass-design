@@ -258,10 +258,40 @@ to an auto-width row. Numbers above 99 follow the Mention Badge convention
 
 <Divider />
 
+## When to use
+
+- **Icon Button that renders a link** — icon-only navigation, such as a
+  header control that opens Settings. Pass `asChild` with an empty `<a>` or
+  router `Link` child, and always provide an accessible name
+  (`aria-label`). Toggle state (`toggled` / `aria-pressed`) is not available
+  on links — use a plain Icon Button for on/off controls.
+- **Plain Icon Button** — actions that change state, open menus, or dismiss
+  surfaces without navigating.
+
+<Divider />
+
 ## Implementation
 
 Pass `icon={<Icon glyph={<SomeIcon />} />}` — never a raw compass-icons
 glyph, and omit `size` so Icon Button can size via context.
+
+Pass `asChild` with a single empty `<a>` or router `Link` child to render a
+navigational icon control:
+
+```tsx
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
+import { Link } from 'react-router-dom';
+
+<IconButton
+  asChild
+  aria-label="Open settings"
+  icon={<Icon glyph={<CogOutlineIcon />} />}
+>
+  <Link to="/settings" />
+</IconButton>;
+```
 
 In prototypes and layout specimens, wrap Icon Buttons with
 `WithTooltip` from `@mattermost/compass-proto` for now so hover delay and

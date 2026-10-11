@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useRef } from 'react';
+import { MemoryRouter, Link } from 'react-router-dom';
+import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import Button from './Button';
 import type {
   ButtonAppearance,
@@ -7,6 +9,7 @@ import type {
   ButtonProps,
   ButtonSize,
 } from './Button';
+import Icon from '../Icon/Icon';
 import {
   ICON_NONE,
   iconSelectArgType,
@@ -210,4 +213,36 @@ export const FocusViaRef: Story = {
       </div>
     );
   },
+};
+
+export const AsLink: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+      <Button asChild emphasis="primary">
+        <a href="https://mattermost.com">Add Custom Emoji</a>
+      </Button>
+      <Button
+        asChild
+        emphasis="link"
+        leadingIcon={<Icon glyph={<GlobeIcon />} />}
+      >
+        <a href="https://mattermost.com">Learn more</a>
+      </Button>
+    </div>
+  ),
+};
+
+export const AsReactRouterLink: Story = {
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
+  render: () => (
+    <Button asChild emphasis="secondary">
+      <Link to="/team/emoji/add">Add Custom Emoji</Link>
+    </Button>
+  ),
 };

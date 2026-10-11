@@ -79,7 +79,36 @@ Pair it with a confirmation step; the button itself isn't a confirmation.
 
 <Divider />
 
+## When to use
+
+- **Action Button that renders a link** — a fixed-context navigation choice,
+  such as "View profile" in a profile popover. Pass `asChild` with an empty
+  `<a>` or router `Link` child. Toggle state (`active` / `aria-pressed`) is
+  not available on links — use a plain Action Button for on/off controls.
+- **Plain Action Button** — actions in that same fixed context that change
+  state (mute, favorite) without navigating.
+
+<Divider />
+
 ## Implementation
 
-For props, variants, and copy-ready examples, see the
+Pass `asChild` with a single empty `<a>` or router `Link` child to render a
+navigational action:
+
+```tsx
+import { ActionButton } from '@mattermost/compass-ui/components/action-button';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
+import { Link } from 'react-router-dom';
+
+<ActionButton
+  asChild
+  icon={<Icon glyph={<AccountOutlineIcon />} />}
+  label="View profile"
+>
+  <Link to="/users/me" />
+</ActionButton>;
+```
+
+For props, variants, and live examples, see the
 [Action Button specimen page](/components/action-button/specimen).

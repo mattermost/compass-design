@@ -42,7 +42,7 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 
 ## Guideline MDX page structure
 
-Component guideline pages cover **anatomy** and **states** only. Do not add Usage, When to use, or implementation guidance sections — those belong in the specimen or are implied by the component API. End with a short `## Implementation` paragraph that links to the specimen page.
+Component guideline pages cover **anatomy** and **states**. An optional `## When to use` section may sit before `## Implementation` when authors need to choose between a component's variants or sibling components (e.g. Button vs link-styled Button vs a real link). End with a short `## Implementation` paragraph that links to the specimen page (and may include a short code sample for API patterns like `asChild`).
 
 ## Guideline MDX voice
 

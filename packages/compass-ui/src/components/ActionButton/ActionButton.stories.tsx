@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-has-content -- asChild replaces empty anchor children with action anatomy */
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import { MemoryRouter, Link } from 'react-router-dom';
 import BellOffOutlineIcon from '@mattermost/compass-icons/components/bell-off-outline';
 import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
@@ -132,5 +134,36 @@ export const AllVariants: Story = {
         />
       </Row>
     </div>
+  ),
+};
+
+export const AsLink: Story = {
+  render: () => (
+    <ActionButton
+      asChild
+      icon={<Icon glyph={<LinkVariantIcon />} />}
+      label="View profile"
+    >
+      <a href="https://mattermost.com" />
+    </ActionButton>
+  ),
+};
+
+export const AsReactRouterLink: Story = {
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
+  render: () => (
+    <ActionButton
+      asChild
+      icon={<Icon glyph={<LinkVariantIcon />} />}
+      label="View profile"
+    >
+      <Link to="/users/me" />
+    </ActionButton>
   ),
 };

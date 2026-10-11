@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Button`, `IconButton`, and `ActionButton` `asChild`:** merge Compass styling and anatomy onto a single child element (typically `<a>` or a React Router `Link`) instead of rendering a nested `<button>`. New exported types `ButtonAsChildProps`, `IconButtonAsChildProps`, and `ActionButtonAsChildProps`. Disabled / loading links use `aria-disabled` (and `aria-busy` when loading), keep focus, and block click / middle-click navigation. `IconButton` `asChild` requires `aria-label` and omits `toggled`; `ActionButton` `asChild` omits `active`.
+
+### Fixed
+
+- **`Button` `emphasis="link"`:** now renders `leadingIcon` and `trailingIcon` (the public type already accepted them). Hover underline stays on the label only.
+
 ## [0.1.0-alpha.14] - 2026-10-08
 
 ### Added

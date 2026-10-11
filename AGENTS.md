@@ -43,6 +43,7 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 - **Admin True/False radios:** lay out horizontally in a flex row (e.g. `admin-console-layout__radio-row`); override Radio `width: 100%` so both stay on one row; match label `padding-top: var(--spacing-xxs)`.
 - **Avatars:** pass a real image from `src/assets/avatars/` when the component supports `src` / equivalent. Initials-only only when documenting fallback or unnamed users.
 - **IconButton:** always pass `icon={<Icon glyph={<SomeIcon />} />}` (no raw compass-icons glyph; omit `size` — the button sizes via context). In proto/docs, wrap desktop Icon Buttons with `WithTooltip` from `@mattermost/compass-proto` for now. Do not add hover or portals to `IconButton` or Compass `Tooltip`. Skip `WithTooltip` on mobile-only (touch) surfaces; still set `aria-label`.
+- **Links:** for navigational CTAs, use `Button` / `IconButton` / `ActionButton` with `asChild` wrapping `<a>` or a router `Link` — not `history.push` on a plain Button, and not invalid nesting (`<Link><Button/></Link>`).
 
 ## Styling
 
