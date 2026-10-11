@@ -56,6 +56,8 @@ Use **Right Sidebar Header** for consistent chrome across RHS experiences:
   styling.
 - **Expand** (optional) — Promotes the sidebar content to a larger surface when
   `onExpand` is provided.
+- **Pop out** (optional) — Opens the sidebar content in a separate window when
+  `onPopout` is provided. Sits between Expand and Close.
 - **Close** (optional) — Dismisses the sidebar when `onClose` is provided (omit in
   layouts where the thread column is persistent, such as Threads View).
 
@@ -112,4 +114,4 @@ in thread contexts.
 - The shell exposes a named **complementary** landmark (`aside`) with an
   accessible name so assistive technology can identify the panel.
 - Right Sidebar Header controls ship with explicit **aria-label** values (Back,
-  Expand, Close) and **aria-pressed** when inline actions toggle state.
+  Expand, Open in new window, Close) and **aria-pressed** when inline actions toggle state.

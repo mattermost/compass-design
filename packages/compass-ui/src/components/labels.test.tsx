@@ -133,6 +133,13 @@ const BUTTON_NAME_CASES: Array<{
     ),
   },
   {
+    name: 'RightSidebarHeader popoutLabel',
+    english: 'Open in new window',
+    render: (l) => (
+      <RightSidebarHeader title="R" onPopout={noop} popoutLabel={l} />
+    ),
+  },
+  {
     name: 'RightSidebarHeader backLabel',
     english: 'Back',
     render: (l) => <RightSidebarHeader title="R" onBack={noop} backLabel={l} />,

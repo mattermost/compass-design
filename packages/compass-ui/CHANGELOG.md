@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`Button`, `IconButton`, and `ActionButton` `asChild`:** merge Compass styling and anatomy onto a single child element (typically `<a>` or a React Router `Link`) instead of rendering a nested `<button>`. New exported types `ButtonAsChildProps`, `IconButtonAsChildProps`, and `ActionButtonAsChildProps`. Disabled / loading links use `aria-disabled` (and `aria-busy` when loading), keep focus, and block click / middle-click navigation. `IconButton` `asChild` requires `aria-label` and omits `toggled`; `ActionButton` `asChild` omits `active`.
+- **`RightSidebarHeader` `onPopout` / `popoutLabel`:** optional pop out button (`dock-window` glyph) rendered between expand and close. Default accessible name: "Open in new window".
 
 ### Fixed
 
