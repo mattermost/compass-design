@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.15] - 2026-10-11
+
 ### Added
 
 - **`RightSidebarHeader` `onPopout` / `popoutLabel`:** optional pop out button (`dock-window` glyph) rendered between expand and close. Default accessible name: "Open in new window".
@@ -282,7 +284,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.14...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...HEAD
+[0.1.0-alpha.15]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.14...0.1.0-alpha.15
 [0.1.0-alpha.14]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.13...0.1.0-alpha.14
 [0.1.0-alpha.13]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.12...0.1.0-alpha.13
 [0.1.0-alpha.12]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.11...0.1.0-alpha.12
