@@ -39,6 +39,7 @@ export function RightSidebarAnatomyStage() {
               title="Thread"
               secondaryTitle="UX Design"
               onExpand={() => {}}
+              onPopout={() => {}}
               onClose={() => {}}
             />
           }
