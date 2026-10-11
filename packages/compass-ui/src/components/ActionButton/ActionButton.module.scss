@@ -8,8 +8,10 @@
   border: none;
   border-radius: var(--radius-s);
   background-color: rgba(var(--center-channel-color-rgb), 0.04);
-  color: rgba(var(--center-channel-color-rgb), 0.64);
+  --action-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
+  color: var(--action-button-fg);
   cursor: pointer;
+  text-decoration: none;
   transition:
     background-color var(--duration-quick) var(--ease-transition),
     color var(--duration-quick) var(--ease-transition),
@@ -18,27 +20,40 @@
   outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
 
+  // When the root is an anchor (`asChild`), keep Compass colours over host
+  // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
+  &:any-link,
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    color: var(--action-button-fg);
+    text-decoration: none;
+  }
+
   &:focus-visible {
     outline-color: var(--focus-ring-color);
     outline-offset: 3px;
   }
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled, .action-button--disabled) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
-    color: rgba(var(--center-channel-color-rgb), 0.75);
+    --action-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
   }
 
-  &:active:not(:disabled) {
+  &:active:not(:disabled, .action-button--disabled) {
     background-color: rgba(var(--button-bg-rgb), 0.08);
-    color: var(--link-color);
+    --action-button-fg: var(--link-color);
   }
 
-  &:disabled {
+  &:is(:disabled, .action-button--disabled) {
     opacity: 0.48;
     cursor: not-allowed;
   }
 
   &--active {
+    --action-button-fg: var(--link-color);
+
     background-color: rgba(var(--button-bg-rgb), 0.08);
 
     .action-button__icon,
@@ -46,38 +61,38 @@
       color: var(--link-color);
     }
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled, .action-button--disabled) {
       background-color: rgba(var(--button-bg-rgb), 0.12);
     }
 
-    &:active:not(:disabled) {
+    &:active:not(:disabled, .action-button--disabled) {
       background-color: rgba(var(--button-bg-rgb), 0.16);
     }
   }
 
   &--destructive {
     --focus-ring-color: var(--error-text, var(--color-danger));
+    --action-button-fg: var(--error-text, var(--color-danger));
 
     background-color: rgba(
       var(--error-text-color-rgb, var(--color-danger-rgb)),
       0.04
     );
-    color: var(--error-text, var(--color-danger));
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled, .action-button--disabled) {
       background-color: rgba(
         var(--error-text-color-rgb, var(--color-danger-rgb)),
         0.08
       );
-      color: var(--error-text, var(--color-danger));
+      --action-button-fg: var(--error-text, var(--color-danger));
     }
 
-    &:active:not(:disabled) {
+    &:active:not(:disabled, .action-button--disabled) {
       background-color: rgba(
         var(--error-text-color-rgb, var(--color-danger-rgb)),
         0.16
       );
-      color: var(--error-text, var(--color-danger));
+      --action-button-fg: var(--error-text, var(--color-danger));
     }
   }
 
@@ -88,6 +103,7 @@
     width: var(--icon-size-20);
     height: var(--icon-size-20);
     flex-shrink: 0;
+    color: var(--action-button-fg);
   }
 
   &__label {
@@ -98,5 +114,6 @@
     letter-spacing: 0.11px;
     white-space: nowrap;
     text-align: center;
+    color: var(--action-button-fg);
   }
 }

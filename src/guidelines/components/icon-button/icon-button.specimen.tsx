@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content -- asChild replaces empty anchor children with icon anatomy */
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import {
   type IconButtonPadding,
@@ -260,6 +261,27 @@ export default function IconButtonLibrary() {
             style="inverted"
             unreadBadge
           />
+        </div>
+      </div>
+
+      <div className={styles['components__section']}>
+        <h3 className={styles['components__section-title']}>As links</h3>
+        <div className={styles['components__button-row']}>
+          <IconButton
+            asChild
+            aria-label="Open settings"
+            icon={<Icon glyph={<GlobeIcon />} />}
+          >
+            <a href="#settings" />
+          </IconButton>
+          <IconButton
+            asChild
+            aria-label="Unavailable"
+            icon={<Icon glyph={<GlobeIcon />} />}
+            disabled
+          >
+            <a href="#disabled" />
+          </IconButton>
         </div>
       </div>
     </div>

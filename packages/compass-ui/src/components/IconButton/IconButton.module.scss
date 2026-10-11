@@ -10,35 +10,50 @@
   border-radius: var(--radius-s);
   border: 0;
   cursor: pointer;
+  text-decoration: none;
   transition:
     background-color var(--duration-quick) var(--ease-transition),
     color var(--duration-quick) var(--ease-transition),
     outline-color var(--duration-quick) var(--ease-transition),
     outline-offset var(--duration-quick) var(--ease-transition);
   background-color: transparent;
-  color: rgba(var(--center-channel-color-rgb), 0.64);
+  --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
+  color: var(--icon-button-fg);
   outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
   outline-offset: 0;
+
+  // When the root is an anchor (`asChild`), keep Compass colours over host
+  // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
+  &:any-link,
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    color: var(--icon-button-fg);
+    text-decoration: none;
+  }
 
   &:focus-visible {
     outline-color: var(--focus-ring-color);
     outline-offset: 3px;
   }
 
-  &:disabled {
+  &:is(:disabled, .icon-button--disabled) {
     cursor: not-allowed;
     opacity: 0.5;
   }
 
-  &:hover:not(:disabled):not(:active):not(.icon-button--active):not(
-      .icon-button--toggled
-    ) {
+  &:hover:not(:disabled, .icon-button--disabled):not(:active):not(
+      .icon-button--active
+    ):not(.icon-button--toggled) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
     color: rgba(var(--center-channel-color-rgb), 0.75);
   }
 
-  &:active:not(:disabled):not(.icon-button--toggled) {
+  &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
     background-color: rgba(var(--button-bg-rgb), 0.08);
+    --icon-button-fg: var(--link-color);
     color: var(--link-color);
   }
 
@@ -160,17 +175,20 @@
   // ---------------------------------------------------------------------------
   // Forced active/pressed state — subtler than toggled.
   // ---------------------------------------------------------------------------
-  &--active:not(:disabled) {
+  &--active:not(:disabled, .icon-button--disabled) {
     background-color: rgba(var(--button-bg-rgb), 0.08);
+    --icon-button-fg: var(--link-color);
     color: var(--link-color);
 
-    &:hover:not(:disabled):not(:active) {
+    &:hover:not(:disabled, .icon-button--disabled):not(:active) {
       background-color: rgba(var(--button-bg-rgb), 0.12);
+      --icon-button-fg: var(--link-color);
       color: var(--link-color);
     }
 
-    &:active:not(:disabled) {
+    &:active:not(:disabled, .icon-button--disabled) {
       background-color: rgba(var(--button-bg-rgb), 0.16);
+      --icon-button-fg: var(--link-color);
       color: var(--link-color);
     }
   }
@@ -180,15 +198,18 @@
   // ---------------------------------------------------------------------------
   &--toggled {
     background-color: var(--button-bg);
+    --icon-button-fg: var(--button-color);
     color: var(--button-color);
 
-    &:hover:not(:disabled):not(:active) {
+    &:hover:not(:disabled, .icon-button--disabled):not(:active) {
       background-color: color-mix(in srgb, black 8%, var(--button-bg));
+      --icon-button-fg: var(--button-color);
       color: var(--button-color);
     }
 
-    &:active:not(:disabled) {
+    &:active:not(:disabled, .icon-button--disabled) {
       background-color: color-mix(in srgb, black 16%, var(--button-bg));
+      --icon-button-fg: var(--button-color);
       color: var(--button-color);
     }
 
@@ -202,48 +223,57 @@
   // ---------------------------------------------------------------------------
   &--style-inverted {
     background-color: transparent;
+    --icon-button-fg: rgba(var(--sidebar-text-rgb), 0.64);
     color: rgba(var(--sidebar-text-rgb), 0.64);
 
     .icon-button__unread-badge {
       box-shadow: 0 0 0 2px var(--sidebar-header-bg);
     }
 
-    &:hover:not(:disabled):not(:active):not(.icon-button--toggled):not(
-        .icon-button--active
-      ) {
+    &:hover:not(:disabled, .icon-button--disabled):not(:active):not(
+        .icon-button--toggled
+      ):not(.icon-button--active) {
       background-color: rgba(var(--sidebar-text-rgb), 0.08);
+      --icon-button-fg: var(--sidebar-text);
       color: var(--sidebar-text);
     }
-    &:active:not(:disabled):not(.icon-button--toggled) {
+    &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
       background-color: rgba(var(--sidebar-text-rgb), 0.16);
+      --icon-button-fg: var(--sidebar-text);
       color: var(--sidebar-text);
     }
 
-    &.icon-button--active:not(:disabled) {
+    &.icon-button--active:not(:disabled, .icon-button--disabled) {
       background-color: rgba(var(--sidebar-text-rgb), 0.16);
+      --icon-button-fg: var(--sidebar-text);
       color: var(--sidebar-text);
 
-      &:hover:not(:disabled):not(:active) {
+      &:hover:not(:disabled, .icon-button--disabled):not(:active) {
         background-color: rgba(var(--sidebar-text-rgb), 0.2);
+        --icon-button-fg: var(--sidebar-text);
         color: var(--sidebar-text);
       }
 
-      &:active:not(:disabled) {
+      &:active:not(:disabled, .icon-button--disabled) {
         background-color: rgba(var(--sidebar-text-rgb), 0.24);
+        --icon-button-fg: var(--sidebar-text);
         color: var(--sidebar-text);
       }
     }
     &.icon-button--toggled {
       background-color: var(--sidebar-text);
+      --icon-button-fg: var(--sidebar-bg);
       color: var(--sidebar-bg);
 
-      &:hover:not(:disabled):not(:active) {
+      &:hover:not(:disabled, .icon-button--disabled):not(:active) {
         background-color: rgba(var(--sidebar-text-rgb), 0.92);
+        --icon-button-fg: var(--sidebar-bg);
         color: var(--sidebar-bg);
       }
 
-      &:active:not(:disabled) {
+      &:active:not(:disabled, .icon-button--disabled) {
         background-color: rgba(var(--sidebar-text-rgb), 0.88);
+        --icon-button-fg: var(--sidebar-bg);
         color: var(--sidebar-bg);
       }
 
@@ -257,20 +287,25 @@
       --focus-ring-color: var(--error-text, var(--color-danger));
 
       background-color: transparent;
+      --icon-button-fg: var(--error-text, var(--color-danger));
       color: var(--error-text, var(--color-danger));
 
-      &:hover:not(:disabled):not(:active) {
+      &:hover:not(:disabled, .icon-button--disabled):not(:active) {
         background-color: rgba(
           var(--error-text-color-rgb, var(--color-danger-rgb)),
           0.08
         );
+        --icon-button-fg: var(--error-text, var(--color-danger));
         color: var(--error-text, var(--color-danger));
       }
-      &:active:not(:disabled):not(.icon-button--toggled) {
+      &:active:not(:disabled, .icon-button--disabled):not(
+          .icon-button--toggled
+        ) {
         background-color: rgba(
           var(--error-text-color-rgb, var(--color-danger-rgb)),
           0.16
         );
+        --icon-button-fg: var(--error-text, var(--color-danger));
         color: var(--error-text, var(--color-danger));
       }
     }
@@ -284,20 +319,23 @@
     --focus-ring-color: var(--error-text, var(--color-danger));
 
     background-color: transparent;
+    --icon-button-fg: var(--error-text, var(--color-danger));
     color: var(--error-text, var(--color-danger));
 
-    &:hover:not(:disabled):not(:active) {
+    &:hover:not(:disabled, .icon-button--disabled):not(:active) {
       background-color: rgba(
         var(--error-text-color-rgb, var(--color-danger-rgb)),
         0.08
       );
+      --icon-button-fg: var(--error-text, var(--color-danger));
       color: var(--error-text, var(--color-danger));
     }
-    &:active:not(:disabled):not(.icon-button--toggled) {
+    &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
       background-color: rgba(
         var(--error-text-color-rgb, var(--color-danger-rgb)),
         0.16
       );
+      --icon-button-fg: var(--error-text, var(--color-danger));
       color: var(--error-text, var(--color-danger));
     }
   }

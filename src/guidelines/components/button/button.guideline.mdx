@@ -131,7 +131,48 @@ to. Within a group, the **Primary action is always right-most**.
 
 <Divider />
 
+## When to use
+
+Pick the control by what happens when someone activates it — not only by how
+it looks.
+
+- **Button that renders a link** — navigation CTAs that go to another page,
+  such as "Add Custom Emoji" or "Configure". People can open them in a new
+  tab, copy the address, and see the URL on hover. Pass `asChild` with an
+  `<a>` or router `Link` child so the control stays a real link.
+- **Link emphasis** — inline, low-emphasis actions. It only changes the
+  visual style and still behaves as a button. To get a real link that looks
+  like a link, combine link emphasis with `asChild`.
+- **Plain Button** — actions that change state, submit forms, or open
+  modals. Prefer this over a fake link for anything that isn't navigation.
+
+**Disabled and loading links.** With `asChild`, a disabled or loading Button
+stays focusable and is announced as dimmed; activating it does nothing. Use
+a disabled plain Button when the control must be fully inert (no URL, no
+context-menu open).
+
+<Divider />
+
 ## Implementation
 
-For props, variants, and copy-ready examples, see the
+Pass `asChild` with a single `<a>` or router `Link` child to render a
+navigational CTA with Button styling and anatomy (no nested `<button>`):
+
+```tsx
+import { Button } from '@mattermost/compass-ui/components/button';
+import { Link } from 'react-router-dom';
+
+<Button emphasis="primary" asChild>
+  <Link to="/team/emoji/add">Add Custom Emoji</Link>
+</Button>
+
+<Button emphasis="primary" asChild>
+  <a href="/team/emoji/add">Add Custom Emoji</a>
+</Button>
+```
+
+The child's own props (`href`, `to`, `target`, …) stay on the child; Button
+supplies classes, icon slots, and the label span.
+
+For props, variants, and live examples, see the
 [Button specimen page](/components/button/specimen).

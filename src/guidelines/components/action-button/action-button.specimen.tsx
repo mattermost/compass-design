@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content -- asChild replaces empty anchor children with action anatomy */
 import BellOffOutlineIcon from '@mattermost/compass-icons/components/bell-off-outline';
 import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
@@ -76,6 +77,26 @@ export default function ActionButtonLibrary() {
             aria-label="Action"
             disabled
           />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>As link</span>
+          <ActionButton
+            asChild
+            icon={<Icon glyph={<LinkVariantIcon />} />}
+            label="View profile"
+            aria-label="View profile"
+          >
+            <a href="#profile" />
+          </ActionButton>
+          <ActionButton
+            asChild
+            icon={<Icon glyph={<LinkVariantIcon />} />}
+            label="Unavailable"
+            aria-label="Unavailable"
+            disabled
+          >
+            <a href="#disabled" />
+          </ActionButton>
         </div>
       </div>
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content -- asChild hosts replace empty anchor children with anatomy */
 import { createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render } from '@/test-utils/render';
@@ -83,6 +84,41 @@ describe('form primitives forward refs to the <input>', () => {
     const callback = vi.fn();
     render(<Switch ref={callback} />);
     expect(callback).toHaveBeenCalledWith(expect.any(HTMLInputElement));
+  });
+});
+
+describe('asChild forwards refs to the <a>', () => {
+  it.each([
+    [
+      'Button',
+      (ref: React.Ref<HTMLAnchorElement>) => (
+        <Button asChild ref={ref}>
+          <a href="/x">Save</a>
+        </Button>
+      ),
+    ],
+    [
+      'IconButton',
+      (ref: React.Ref<HTMLAnchorElement>) => (
+        <IconButton asChild ref={ref} icon={null} aria-label="Close">
+          <a href="/x" />
+        </IconButton>
+      ),
+    ],
+    [
+      'ActionButton',
+      (ref: React.Ref<HTMLAnchorElement>) => (
+        <ActionButton asChild ref={ref} icon={null} label="Call">
+          <a href="/x" />
+        </ActionButton>
+      ),
+    ],
+  ])('%s', (_name, renderWithRef) => {
+    const ref = createRef<HTMLAnchorElement>();
+    render(renderWithRef(ref));
+    expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+    ref.current?.focus();
+    expect(document.activeElement).toBe(ref.current);
   });
 });
 

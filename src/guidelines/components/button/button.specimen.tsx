@@ -6,6 +6,7 @@ import type {
   ButtonSize,
 } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { Link } from 'react-router-dom';
 import styles from '@/styles/library-demo/components.module.scss';
 
 const EMPHASES: ButtonEmphasis[] = [
@@ -17,8 +18,6 @@ const EMPHASES: ButtonEmphasis[] = [
 ];
 
 const SIZES: ButtonSize[] = ['x-small', 'small', 'medium', 'large'];
-
-const ICON_EMPHASES = EMPHASES.filter((e) => e !== 'link');
 
 function ButtonPermutationGrid({
   appearance,
@@ -155,7 +154,7 @@ export default function ButtonLibrary() {
       <div className={styles['components__section']}>
         <h3 className={styles['components__section-title']}>Loading</h3>
         <div className={styles['components__button-row']}>
-          {EMPHASES.filter((e) => e !== 'link').map((emphasis) => (
+          {EMPHASES.map((emphasis) => (
             <Button key={emphasis} emphasis={emphasis} loading>
               Saving
             </Button>
@@ -184,7 +183,7 @@ export default function ButtonLibrary() {
               </span>
             ))}
           </div>
-          {ICON_EMPHASES.map((emphasis) => (
+          {EMPHASES.map((emphasis) => (
             <div
               key={emphasis}
               className={styles['components__button-variant-matrix__row']}
@@ -236,7 +235,7 @@ export default function ButtonLibrary() {
               </span>
             ))}
           </div>
-          {ICON_EMPHASES.map((emphasis) => (
+          {EMPHASES.map((emphasis) => (
             <div
               key={emphasis}
               className={styles['components__button-variant-matrix__row']}
@@ -275,6 +274,27 @@ export default function ButtonLibrary() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className={styles['components__section']}>
+        <h3 className={styles['components__section-title']}>As links</h3>
+        <div className={styles['components__button-row']}>
+          <Button asChild emphasis="primary">
+            <a href="#add-emoji">Add Custom Emoji</a>
+          </Button>
+          <Button asChild emphasis="secondary">
+            <Link to="/components/button">Button guidelines</Link>
+          </Button>
+          <Button asChild emphasis="link" leadingIcon={icon}>
+            <a href="#docs">Learn more</a>
+          </Button>
+          <Button asChild emphasis="primary" disabled>
+            <a href="#disabled">Unavailable</a>
+          </Button>
+          <Button asChild emphasis="primary" loading>
+            <a href="#loading">Saving</a>
+          </Button>
         </div>
       </div>
     </div>

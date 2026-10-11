@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-has-content -- asChild replaces empty anchor children with icon anatomy */
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import { MemoryRouter, Link } from 'react-router-dom';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import IconButton, {
   type IconButtonPadding,
@@ -303,5 +305,36 @@ export const AllVariants: Story = {
         </div>
       </section>
     </div>
+  ),
+};
+
+export const AsLink: Story = {
+  render: () => (
+    <IconButton
+      asChild
+      aria-label="Open settings"
+      icon={<Icon glyph={<GlobeIcon />} />}
+    >
+      <a href="https://mattermost.com" />
+    </IconButton>
+  ),
+};
+
+export const AsReactRouterLink: Story = {
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
+  render: () => (
+    <IconButton
+      asChild
+      aria-label="Open settings"
+      icon={<Icon glyph={<GlobeIcon />} />}
+    >
+      <Link to="/settings" />
+    </IconButton>
   ),
 };

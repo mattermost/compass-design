@@ -2,12 +2,17 @@ import {
   forwardRef,
   isValidElement,
   type ButtonHTMLAttributes,
+  type HTMLAttributes,
+  type ReactElement,
   type ReactNode,
+  type Ref,
+  type RefAttributes,
 } from 'react';
 import type { IconSize } from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import Spinner from '@/components/Spinner/Spinner';
 import type { SpinnerSize } from '@/components/Spinner/Spinner';
+import { renderAsChild } from '@/utils/slot';
 import { toKebab } from '@/utils/string';
 import styles from './Button.module.scss';
 
@@ -22,25 +27,54 @@ export type ButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 
 export type ButtonAppearance = 'default' | 'inverted';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonOwnProps {
   /** default | inverted (for use on dark backgrounds). Maps to Figma "Style". */
   appearance?: ButtonAppearance;
   /** Optional CSS class name. */
   className?: string;
-  /** Button label. */
-  children: ReactNode;
   /** When true, uses destructive (danger) styling. */
   destructive?: boolean;
   /** Visual emphasis. Default: primary. */
   emphasis?: ButtonEmphasis;
   /** Leading icon — pass `<Icon glyph={<YourIcon />} />`. Button provides the correct size via context; no `size` prop needed on the Icon. */
   leadingIcon?: ReactNode;
-  /** When true, shows a Spinner in the leading slot and disables the button. */
+  /** When true, shows a Spinner in the leading slot and disables the button (or blocks navigation when `asChild`). */
   loading?: boolean;
   /** Size variant. Default: medium. */
   size?: ButtonSize;
   /** Trailing icon — pass `<Icon glyph={<YourIcon />} />`. Button provides the correct size via context; no `size` prop needed on the Icon. */
   trailingIcon?: ReactNode;
+  /**
+   * When true, disables the control. On a native `<button>`, sets the `disabled`
+   * attribute. With `asChild`, sets `aria-disabled`, applies disabled styles, and
+   * blocks click / middle-click navigation (the link stays focusable).
+   */
+  disabled?: boolean;
+}
+
+export interface ButtonProps
+  extends ButtonOwnProps, ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+   * When true, merges Button props onto the single child element instead of
+   * rendering a `<button>`. Use with `<a>` or a router `Link`. Default: false.
+   */
+  asChild?: false;
+  /** Button label. */
+  children: ReactNode;
+}
+
+export interface ButtonAsChildProps
+  extends
+    ButtonOwnProps,
+    Omit<HTMLAttributes<HTMLElement>, 'children' | 'color'> {
+  /**
+   * Merges Button props onto the single child element instead of rendering a
+   * `<button>`. The child's own props (`href`, `to`, `target`, …) stay on the
+   * child. Do not pass `type` — it is not forwarded.
+   */
+  asChild: true;
+  /** Single element to render as the Button (e.g. `<a>` or `<Link>`). Its children become the label. */
+  children: ReactElement;
 }
 
 const SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
@@ -50,13 +84,125 @@ const SIZE_ICON_MAP: Record<ButtonSize, IconSize> = {
   large: '20',
 };
 
+type ButtonComponent = {
+  (props: ButtonAsChildProps & RefAttributes<HTMLElement>): ReactElement | null;
+  (props: ButtonProps & RefAttributes<HTMLButtonElement>): ReactElement | null;
+  displayName?: string;
+};
+
+function buildRootClass({
+  appearance = 'default',
+  className = '',
+  destructive = false,
+  emphasis = 'primary',
+  size = 'medium',
+}: {
+  appearance?: ButtonAppearance;
+  className?: string;
+  destructive?: boolean;
+  emphasis?: ButtonEmphasis;
+  size?: ButtonSize;
+}): string {
+  return [
+    styles.button,
+    styles[`button--emphasis-${toKebab(emphasis)}`],
+    styles[`button--size-${toKebab(size)}`],
+    appearance === 'inverted' ? styles['button--appearance-inverted'] : '',
+    destructive ? styles['button--destructive'] : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
 /**
  * Buttons let people take actions or make decisions with a single tap or click — saving a
  * form, sending a message, confirming a dialog. Compass ships several button variants, each
  * with the same anatomy and rhythm so they feel like members of the same family.
+ *
+ * Pass `asChild` with a single `<a>` or router `Link` child to render a navigational CTA
+ * with Button styling and anatomy (no nested `<button>`).
  */
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  {
+const Button = forwardRef(function Button(
+  props: ButtonProps | ButtonAsChildProps,
+  ref: Ref<HTMLButtonElement | HTMLElement>,
+) {
+  if (props.asChild) {
+    const {
+      appearance = 'default',
+      className = '',
+      destructive = false,
+      emphasis = 'primary',
+      children,
+      leadingIcon,
+      loading = false,
+      size = 'medium',
+      trailingIcon,
+      disabled,
+      asChild,
+      ...rest
+    } = props;
+    void asChild;
+
+    const rootClass = buildRootClass({
+      appearance,
+      className,
+      destructive,
+      emphasis,
+      size,
+    });
+    const iconSize = SIZE_ICON_MAP[size];
+    const showLeadingSlot = loading || isValidElement(leadingIcon);
+    const isDisabled = Boolean(disabled || loading);
+    const child = children as ReactElement<{ children?: ReactNode }>;
+
+    const leading = showLeadingSlot ? (
+      <span className={styles['button__icon-slot']} aria-hidden>
+        {loading ? (
+          <Spinner
+            size={iconSize as SpinnerSize}
+            inverted={appearance === 'inverted'}
+          />
+        ) : (
+          <IconSlotContext.Provider value={{ size: iconSize }}>
+            {leadingIcon}
+          </IconSlotContext.Provider>
+        )}
+      </span>
+    ) : null;
+
+    const trailing =
+      !loading && isValidElement(trailingIcon) ? (
+        <span className={styles['button__icon-slot']} aria-hidden>
+          <IconSlotContext.Provider value={{ size: iconSize }}>
+            {trailingIcon}
+          </IconSlotContext.Provider>
+        </span>
+      ) : null;
+
+    return renderAsChild({
+      child,
+      props: {
+        ...rest,
+        className: rootClass,
+        ...(loading ? { 'aria-busy': true } : null),
+      },
+      ref,
+      content: (
+        <>
+          {leading}
+          <span className={styles['button__label']}>
+            {child.props.children}
+          </span>
+          {trailing}
+        </>
+      ),
+      disabled: isDisabled,
+      disabledClassName: styles['button--disabled'],
+    });
+  }
+
+  const {
     appearance = 'default',
     className = '',
     destructive = false,
@@ -68,38 +214,28 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     trailingIcon,
     disabled,
     type = 'button',
+    asChild,
     ...rest
-  },
-  ref,
-) {
-  const iconSize = SIZE_ICON_MAP[size];
-  const emphasisClass = styles[`button--emphasis-${toKebab(emphasis)}`];
-  const sizeClass = styles[`button--size-${toKebab(size)}`];
-  const appearanceClass =
-    appearance === 'inverted' ? styles['button--appearance-inverted'] : '';
-  const destructiveClass = destructive ? styles['button--destructive'] : '';
+  } = props;
+  void asChild;
 
-  const rootClass = [
-    styles.button,
-    emphasisClass,
-    sizeClass,
-    appearanceClass,
-    destructiveClass,
+  const rootClass = buildRootClass({
+    appearance,
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const supportsIcons = emphasis !== 'link';
-  const showLeadingSlot =
-    loading || (supportsIcons && isValidElement(leadingIcon));
+    destructive,
+    emphasis,
+    size,
+  });
+  const iconSize = SIZE_ICON_MAP[size];
+  const showLeadingSlot = loading || isValidElement(leadingIcon);
+  const isDisabled = Boolean(disabled || loading);
 
   return (
     <button
-      ref={ref}
+      ref={ref as Ref<HTMLButtonElement>}
       className={rootClass}
       type={type}
-      disabled={disabled || loading}
+      disabled={isDisabled}
       {...rest}
     >
       {showLeadingSlot ? (
@@ -117,7 +253,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
-      {supportsIcons && !loading && isValidElement(trailingIcon) ? (
+      {!loading && isValidElement(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           <IconSlotContext.Provider value={{ size: iconSize }}>
             {trailingIcon}
@@ -126,7 +262,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       ) : null}
     </button>
   );
-});
+}) as ButtonComponent;
 
 Button.displayName = 'Button';
 
