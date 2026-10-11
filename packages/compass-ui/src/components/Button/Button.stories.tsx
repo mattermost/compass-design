@@ -217,7 +217,14 @@ export const FocusViaRef: Story = {
 
 export const AsLink: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 12,
+        alignItems: 'center',
+      }}
+    >
       <Button asChild emphasis="primary">
         <a href="https://mattermost.com">Add Custom Emoji</a>
       </Button>

@@ -183,6 +183,9 @@
 
     padding: 0;
     background-color: transparent;
+    // Shrink-wrap in flex/grid rows — don't stretch to a sibling Primary's height.
+    align-self: flex-start;
+    height: fit-content;
 
     &:hover:not(:disabled, .button--disabled) {
       .button__label {
