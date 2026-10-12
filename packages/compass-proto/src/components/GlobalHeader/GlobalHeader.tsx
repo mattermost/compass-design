@@ -33,6 +33,10 @@ export interface GlobalHeaderProps {
   userAvatarSrc?: string;
   /** Alt text for the signed-in user avatar. */
   userAvatarAlt?: string;
+  /** When set, Recent mentions (@) calls this on click. Channels product only. */
+  onRecentMentionsClick?: () => void;
+  /** When true, Recent mentions shows as toggled/selected. */
+  recentMentionsActive?: boolean;
 }
 
 const PRODUCT_ICON: Record<
@@ -53,9 +57,13 @@ const PRODUCT_LABEL: Record<GlobalHeaderProduct, string> = {
 function InvertedIconButton({
   ariaLabel,
   glyph,
+  onClick,
+  toggled,
 }: {
   ariaLabel: string;
   glyph: React.ReactNode;
+  onClick?: () => void;
+  toggled?: boolean;
 }) {
   return (
     <WithTooltip label={ariaLabel}>
@@ -64,6 +72,8 @@ function InvertedIconButton({
         padding="compact"
         style="inverted"
         icon={<Icon size="16" glyph={glyph} />}
+        onClick={onClick}
+        toggled={toggled}
       />
     </WithTooltip>
   );
@@ -110,6 +120,8 @@ export default function GlobalHeader({
   showUpgradeButton = false,
   userAvatarSrc,
   userAvatarAlt = 'User',
+  onRecentMentionsClick,
+  recentMentionsActive = false,
 }: GlobalHeaderProps) {
   const isChannels = product === 'channels';
   const showBrand = isChannels ? showChannelsBranding : true;
@@ -172,6 +184,8 @@ export default function GlobalHeader({
             <InvertedIconButton
               ariaLabel="Recent mentions"
               glyph={<AtIcon />}
+              onClick={onRecentMentionsClick}
+              toggled={recentMentionsActive}
             />
             <InvertedIconButton
               ariaLabel="Saved messages"

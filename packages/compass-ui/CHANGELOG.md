@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
+
 ## [0.1.0-alpha.15] - 2026-10-11
 
 ### Added

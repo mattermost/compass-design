@@ -7,7 +7,13 @@
   user-select: none;
 
   &__menu-button {
+    // Absolute so the resting mention badge stays flush-right; opacity keeps
+    // the control focusable for keyboard / :focus-within without reserving width.
+    position: absolute;
+    top: 50%;
+    right: var(--spacing-l);
     display: flex;
+    transform: translateY(-50%);
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--duration-quick) var(--ease-transition);
