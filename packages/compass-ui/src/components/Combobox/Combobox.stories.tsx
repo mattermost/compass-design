@@ -119,6 +119,31 @@ export const MultiSelect: Story = {
   },
 };
 
+/** Regression: many long chips wrap; the input must keep a usable width instead of collapsing outside the field. */
+export const MultiSelectManyLongChips: Story = {
+  render: function MultiSelectManyLongChipsStory() {
+    const options: ComboboxOption[] = Array.from({ length: 12 }, (_, i) => ({
+      value: `channel-${i}`,
+      label: `A very long channel name number ${i + 1} for overflow testing`,
+    }));
+    const [value, setValue] = useState<string[]>(
+      options.slice(0, 6).map((o) => o.value),
+    );
+    return (
+      <div style={{ maxWidth: 360 }}>
+        <Combobox
+          label="Channels"
+          placeholder="Search channels…"
+          multiple
+          options={options}
+          value={value}
+          onChange={(next) => setValue((next as string[]) ?? [])}
+        />
+      </div>
+    );
+  },
+};
+
 function searchPeople(query: string): Promise<ComboboxOption[]> {
   const q = query.trim().toLowerCase();
   return new Promise((resolve) => {
