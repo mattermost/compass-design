@@ -110,7 +110,10 @@
     line-height: var(--line-height-100);
     font-weight: var(--font-weight-regular);
     white-space: nowrap;
-    flex-shrink: 0;
+    // Truncate instead of pushing the trailing check out of the row.
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__secondary-label-inline {
