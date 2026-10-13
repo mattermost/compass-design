@@ -223,7 +223,9 @@ function ModalPanel({
 
       <div className={styles['modal__body']}>
         {scrollable ? (
-          <Scrollbar className={styles['modal__scroll']}>{bodyInner}</Scrollbar>
+          <Scrollbar className={styles['modal__scroll']} size="wide">
+            {bodyInner}
+          </Scrollbar>
         ) : (
           bodyInner
         )}

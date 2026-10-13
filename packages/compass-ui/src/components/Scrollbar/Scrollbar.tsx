@@ -7,8 +7,12 @@ import {
   type ReactNode,
 } from 'react';
 import SimpleBar from 'simplebar-react';
+import { toKebab } from '@/utils/string';
 import './simplebar-vendor.scss';
 import styles from './Scrollbar.module.scss';
+
+/** Track width. `default` is 8px; `wide` is 12px (modals, large panes). */
+export type ScrollbarSize = 'default' | 'wide';
 
 export interface ScrollbarProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -27,6 +31,8 @@ export interface ScrollbarProps extends Omit<
    * Default: false (auto-hide).
    */
   alwaysVisible?: boolean;
+  /** Track width. Default: `default` (8px). Use `wide` (12px) in modals. */
+  size?: ScrollbarSize;
   /** Class applied to the SimpleBar root. */
   className?: string;
   /** Inline style applied to the SimpleBar root. */
@@ -46,6 +52,7 @@ const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
     children,
     color,
     alwaysVisible = false,
+    size = 'default',
     className,
     style,
     onScroll,
@@ -81,7 +88,13 @@ const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
       : null),
   };
 
-  const rootClass = [styles.scrollbar, className].filter(Boolean).join(' ');
+  const rootClass = [
+    styles.scrollbar,
+    size !== 'default' && styles[`scrollbar--size-${toKebab(size)}`],
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <SimpleBar

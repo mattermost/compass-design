@@ -29,6 +29,16 @@
     height: 8px;
   }
 
+  &--size-wide {
+    :global(.simplebar-track.simplebar-vertical) {
+      width: 12px;
+    }
+
+    :global(.simplebar-track.simplebar-horizontal) {
+      height: 12px;
+    }
+  }
+
   // The thumb itself is rendered via ::before so we can pad it on all sides.
   :global(.simplebar-scrollbar)::before {
     left: 2px;
