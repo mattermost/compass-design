@@ -41,6 +41,10 @@ export interface ChannelShellProps {
   floating?: ReactNode;
   /** Layered surface over the shell (e.g. call popout). */
   overlay?: ReactNode;
+  /** When set, Global Header Recent mentions (@) calls this on click. */
+  onRecentMentionsClick?: () => void;
+  /** When true, Recent mentions shows as toggled/selected. */
+  recentMentionsActive?: boolean;
   className?: string;
 }
 
@@ -60,6 +64,8 @@ export default function ChannelShell({
   channelsSidebar,
   floating,
   overlay,
+  onRecentMentionsClick,
+  recentMentionsActive,
   className = '',
 }: ChannelShellProps) {
   const rootClass = [styles['channel-shell'], className]
@@ -90,6 +96,8 @@ export default function ChannelShell({
           product={product}
           userAvatarSrc={userAvatarSrc}
           userAvatarAlt={userAvatarAlt}
+          onRecentMentionsClick={onRecentMentionsClick}
+          recentMentionsActive={recentMentionsActive}
         />
       </div>
 

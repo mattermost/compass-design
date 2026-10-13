@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
+
 ### Fixed
 
 - **`Combobox` `multiple`:** with many or long chips the input's `min-height: 100%` resolved against the whole wrapped chip area, so the input grew taller than the field and its caret rendered outside it. The input now stretches only to its own flex line.

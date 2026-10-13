@@ -13,6 +13,7 @@ import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
+  PopoverMenuDivider,
   PopoverMenuScroll,
 } from '@/components/PopoverMenu/PopoverMenu';
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
@@ -31,6 +32,8 @@ export type SelectOption = {
   leadingVisual?: ReactNode;
   /** Accepts translated nodes. */
   secondaryLabel?: ReactNode;
+  /** When true, renders a menu divider after this option. */
+  dividerAfter?: boolean;
 };
 
 export interface SelectProps {
@@ -70,6 +73,7 @@ function SelectOptionRow({
   active,
   onSelect,
   onHover,
+  dividerAfter = false,
 }: {
   option: SelectOption;
   listboxId: string;
@@ -77,27 +81,35 @@ function SelectOptionRow({
   active: boolean;
   onSelect: (option: SelectOption) => void;
   onHover: () => void;
+  dividerAfter?: boolean;
 }) {
   return (
-    <li className={styles.select__option} role="presentation">
-      <MenuItem
-        id={`${listboxId}-option-${option.value}`}
-        role="option"
-        label={option.label}
-        secondaryLabel={option.secondaryLabel}
-        leadingElement={option.leadingVisual != null}
-        leadingVisual={option.leadingVisual}
-        trailingElement={selected}
-        active={active}
-        disabled={option.disabled}
-        aria-selected={selected}
-        onMouseDown={(ev) => ev.preventDefault()}
-        onMouseEnter={onHover}
-        onPointerUp={() => {
-          if (!option.disabled) onSelect(option);
-        }}
-      />
-    </li>
+    <>
+      <li className={styles.select__option} role="presentation">
+        <MenuItem
+          id={`${listboxId}-option-${option.value}`}
+          role="option"
+          label={option.label}
+          secondaryLabel={option.secondaryLabel}
+          leadingElement={option.leadingVisual != null}
+          leadingVisual={option.leadingVisual}
+          trailingElement={selected}
+          active={active}
+          disabled={option.disabled}
+          aria-selected={selected}
+          onMouseDown={(ev) => ev.preventDefault()}
+          onMouseEnter={onHover}
+          onPointerUp={() => {
+            if (!option.disabled) onSelect(option);
+          }}
+        />
+      </li>
+      {dividerAfter ? (
+        <li role="presentation">
+          <PopoverMenuDivider aria-hidden="true" />
+        </li>
+      ) : null}
+    </>
   );
 }
 
@@ -417,6 +429,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
                       active={index === activeIndex}
                       onSelect={selectOption}
                       onHover={() => setActiveIndex(index)}
+                      dividerAfter={option.dividerAfter}
                     />
                   ))}
                 </ul>
