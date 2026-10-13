@@ -7,6 +7,7 @@
   // First-line align so the circle stays with the top line when the label wraps
   align-items: flex-start;
   width: 100%;
+  margin: 0;
   gap: var(--spacing-xs);
   font-family: var(--font-family-body);
   font-weight: var(--font-weight-regular);
