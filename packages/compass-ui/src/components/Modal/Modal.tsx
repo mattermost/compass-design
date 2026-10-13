@@ -191,7 +191,6 @@ function ModalPanel({
       className={[
         styles.modal,
         sizeClass,
-        !scrollable && styles['modal--host-scroll'],
         transition && styles['modal--transition'],
         transition && visible && styles['modal--visible'],
         className,
