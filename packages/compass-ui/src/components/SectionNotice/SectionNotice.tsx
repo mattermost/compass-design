@@ -131,7 +131,7 @@ export default function SectionNotice({
               )}
               {secondaryButtonLabel != null && (
                 <Button
-                  emphasis="secondary"
+                  emphasis="tertiary"
                   size="small"
                   disabled={secondaryActionDisabled}
                   loading={secondaryActionLoading}
