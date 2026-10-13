@@ -10,6 +10,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
 
+### Changed
+
+- **`SectionNotice` secondary action:** uses `emphasis="tertiary"` instead of `emphasis="secondary"` so the supporting action stays lower-emphasis than the page’s main controls.
+
 ### Fixed
 
 - **`Switch`, `Checkbox`, `Radio`:** in the Mattermost webapp, the global `label { margin-bottom }` rule added space under the root `<label>` and pushed the control off-center in its row. The root now resets `margin: 0`.
