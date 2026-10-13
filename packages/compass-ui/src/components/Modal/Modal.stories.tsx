@@ -520,17 +520,32 @@ export const Transition: Story = {
 };
 
 function HostOverlayDemo() {
-  const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [mounted, setMounted] = useState(true);
   const show = () => {
     setMounted(true);
     setOpen(true);
   };
   return (
-    <div>
-      <Button emphasis="secondary" onClick={show}>
-        Open modal
-      </Button>
+    // Tall stage so Docs doesn't clip a viewport-sized dialog. Product hosts
+    // use position:fixed on the overlay; absolute keeps the demo inside this
+    // frame. Modal max-height is overridden the same way — production keeps
+    // the built-in 100dvh cap.
+    <div
+      style={{
+        position: 'relative',
+        height: 720,
+        overflow: 'hidden',
+        background: 'var(--center-channel-bg)',
+        border: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
+        borderRadius: 'var(--radius-l)',
+      }}
+    >
+      <div style={{ padding: 'var(--spacing-l)' }}>
+        <Button emphasis="secondary" onClick={show}>
+          Open modal
+        </Button>
+      </div>
       {mounted && (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop click is a pointer shortcut; keyboard users close with Escape
         <div
@@ -540,7 +555,7 @@ function HostOverlayDemo() {
           ]
             .filter(Boolean)
             .join(' ')}
-          style={{ zIndex: 100 }}
+          style={{ position: 'absolute', zIndex: 1 }}
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false);
           }}
@@ -551,17 +566,26 @@ function HostOverlayDemo() {
             open={open}
             onClose={() => setOpen(false)}
             onExited={() => setMounted(false)}
+            style={{ maxHeight: 'calc(100% - 80px)' }}
             footer={<Button onClick={() => setOpen(false)}>Done</Button>}
           >
-            {Array.from({ length: 30 }, (_, i) => (
-              <p
-                key={i}
-                style={{ margin: 0, color: 'var(--center-channel-color)' }}
-              >
-                Setting row {i + 1}: the body scrolls once the dialog reaches
-                its maximum height.
-              </p>
-            ))}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--spacing-s)',
+              }}
+            >
+              {Array.from({ length: 30 }, (_, i) => (
+                <p
+                  key={i}
+                  style={{ margin: 0, color: 'var(--center-channel-color)' }}
+                >
+                  Setting row {i + 1}: the body scrolls once the dialog reaches
+                  its maximum height.
+                </p>
+              ))}
+            </div>
           </Modal>
         </div>
       )}
@@ -569,7 +593,12 @@ function HostOverlayDemo() {
   );
 }
 
-/** Host recipe: overlay styles on a host-owned fixed element, unmounted after `onExited`. */
+/** Host recipe: overlay styles on a host-owned element, unmounted after `onExited`. */
 export const HostOverlay: Story = {
+  parameters: {
+    docs: {
+      story: { inline: true, height: '740px' },
+    },
+  },
   render: () => <HostOverlayDemo />,
 };

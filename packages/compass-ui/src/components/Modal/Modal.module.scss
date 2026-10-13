@@ -68,9 +68,13 @@
     width: 832px;
   }
 
+  // flex-basis 0 + min-height 0 gives the body a definite height under the
+  // root's max-height, so Scrollbar's height: 100% resolves and content scrolls
+  // instead of growing the dialog (or being clipped with no scrollbar).
   &__body {
-    flex: 1;
+    flex: 1 1 0;
     min-height: 0;
+    overflow: hidden;
   }
 
   &__body-inner {
