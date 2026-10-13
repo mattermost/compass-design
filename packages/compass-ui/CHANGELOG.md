@@ -15,7 +15,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
-- **`Modal` max size:** the dialog now caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall), as the Modal guideline specifies, and its width at the viewport minus 40px. The body is a single `minmax(0, 1fr)` grid row so it sizes to its content when short and gets a definite height under that cap for SimpleBar when tall. The cap still applies with `scrollable={false}` so host-owned panes get a bounded dialog to scroll inside.
+- **`Modal` max size:** the dialog now caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall), as the Modal guideline specifies, and its width at the viewport minus 40px. The body is a single `minmax(0, 1fr)` grid row so it sizes to its content when short and gets a definite height under that cap for SimpleBar when tall.
 - **`Modal` stacking across compass-ui copies:** the modal stack lived in each copy's module, so with a plugin's compass-ui copy on the page, both open modals handled Escape and Tab. The stack is now shared on `globalThis`, so only the topmost modal reacts. Copies on `0.1.0-alpha.15` or earlier still keep their own stack.
 
 - **`Scrollbar` thumb:** uses `--radius-pill` instead of a hardcoded `3px` corner radius.
