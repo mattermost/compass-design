@@ -222,7 +222,11 @@ function ModalPanel({
       />
 
       <div className={styles['modal__body']}>
-        {scrollable ? <Scrollbar>{bodyInner}</Scrollbar> : bodyInner}
+        {scrollable ? (
+          <Scrollbar className={styles['modal__scroll']}>{bodyInner}</Scrollbar>
+        ) : (
+          bodyInner
+        )}
       </div>
 
       {showFooter && (

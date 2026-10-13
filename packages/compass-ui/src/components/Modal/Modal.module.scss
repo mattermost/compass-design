@@ -68,13 +68,20 @@
     width: 832px;
   }
 
-  // flex-basis 0 + min-height 0 gives the body a definite height under the
-  // root's max-height, so Scrollbar's height: 100% resolves and content scrolls
-  // instead of growing the dialog (or being clipped with no scrollbar).
+  // Grid (not flex-basis: 0): when the dialog is content-sized, 1fr resolves to
+  // max-content so the body isn't 0. When max-height clamps the dialog, the
+  // row gets a definite height and Scrollbar's height: 100% can scroll.
   &__body {
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-height: 0;
     overflow: hidden;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  &__scroll {
+    min-height: 0;
+    max-height: 100%;
   }
 
   &__body-inner {
@@ -92,5 +99,7 @@
   // When scrollable=false, body-inner fills the flex body so host panes can stretch.
   &__body > &__body-inner {
     height: 100%;
+    min-height: 0;
+    overflow: auto;
   }
 }
