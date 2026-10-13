@@ -9,8 +9,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
+- **`Modal` `manageFocus`:** set `false` when the host owns focus (e.g. a floating-ui focus manager) to turn off initial focus, the Tab trap and focus restore. The modal still joins the modal stack, so modals below it stay inert, and Escape still follows `closeOnEscape`. Default `true` keeps the current behavior.
+- **`modalOverlayStyles`** (`@mattermost/compass-ui/components/modal`): class names for a host-rendered overlay element — `modal-overlay` (64% black scrim, centers the dialog 24px above true center, fades in on mount) and `modal-overlay--exiting` (fades out). The host still owns the portal, z-index, scroll lock and backdrop clicks.
 
 ### Fixed
+
+- **`Modal` max size:** the dialog now caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall), as the Modal guideline specifies, and its width at the viewport minus 40px. Taller content scrolls in the body. No cap with `scrollable={false}`, where the host owns body scroll.
+- **`Modal` stacking across compass-ui copies:** the modal stack lived in each copy's module, so with a plugin's compass-ui copy on the page, both open modals handled Escape and Tab. The stack is now shared on `globalThis`, so only the topmost modal reacts. Copies on `0.1.0-alpha.15` or earlier still keep their own stack.
 
 - **`Switch`, `Checkbox`, `Radio`:** in the Mattermost webapp, the global `label { margin-bottom }` rule added space under the root `<label>` and pushed the control off-center in its row. The root now resets `margin: 0`.
 - **`Combobox` `multiple`:** with many or long chips the input's `min-height: 100%` resolved against the whole wrapped chip area, so the input grew taller than the field and its caret rendered outside it. The input now stretches only to its own flex line.
