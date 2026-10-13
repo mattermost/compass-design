@@ -11,7 +11,7 @@ import { toKebab } from '@/utils/string';
 import './simplebar-vendor.scss';
 import styles from './Scrollbar.module.scss';
 
-/** Track width. `default` is 8px; `wide` is 12px (modals, large panes). */
+/** Track width. `default` is 8px; `wide` is 10px (modals, large panes). */
 export type ScrollbarSize = 'default' | 'wide';
 
 export interface ScrollbarProps extends Omit<
@@ -31,7 +31,7 @@ export interface ScrollbarProps extends Omit<
    * Default: false (auto-hide).
    */
   alwaysVisible?: boolean;
-  /** Track width. Default: `default` (8px). Use `wide` (12px) in modals. */
+  /** Track width. Default: `default` (8px). Use `wide` (10px) in modals. */
   size?: ScrollbarSize;
   /** Class applied to the SimpleBar root. */
   className?: string;
