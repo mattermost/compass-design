@@ -14,6 +14,7 @@ import TextInput from '../TextInput/TextInput';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import Modal from './Modal';
 import type { ModalSize } from './Modal';
+import modalOverlayStyles from './ModalOverlay.module.scss';
 
 const SIZES: ModalSize[] = ['small', 'medium', 'large'];
 
@@ -516,4 +517,59 @@ function TransitionDemo() {
 
 export const Transition: Story = {
   render: () => <TransitionDemo />,
+};
+
+function HostOverlayDemo() {
+  const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const show = () => {
+    setMounted(true);
+    setOpen(true);
+  };
+  return (
+    <div>
+      <Button emphasis="secondary" onClick={show}>
+        Open modal
+      </Button>
+      {mounted && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop click is a pointer shortcut; keyboard users close with Escape
+        <div
+          className={[
+            modalOverlayStyles['modal-overlay'],
+            !open && modalOverlayStyles['modal-overlay--exiting'],
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          style={{ zIndex: 100 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setOpen(false);
+          }}
+        >
+          <Modal
+            title="Notification preferences"
+            size="medium"
+            open={open}
+            onClose={() => setOpen(false)}
+            onExited={() => setMounted(false)}
+            footer={<Button onClick={() => setOpen(false)}>Done</Button>}
+          >
+            {Array.from({ length: 30 }, (_, i) => (
+              <p
+                key={i}
+                style={{ margin: 0, color: 'var(--center-channel-color)' }}
+              >
+                Setting row {i + 1}: the body scrolls once the dialog reaches
+                its maximum height.
+              </p>
+            ))}
+          </Modal>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Host recipe: overlay styles on a host-owned fixed element, unmounted after `onExited`. */
+export const HostOverlay: Story = {
+  render: () => <HostOverlayDemo />,
 };
