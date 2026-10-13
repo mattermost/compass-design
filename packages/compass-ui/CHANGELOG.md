@@ -12,6 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`Switch`:** in the Mattermost webapp, the global `label { margin-bottom }` rule added space under the root `<label>` and pushed the switch off-center in its row. The root now resets `margin: 0`.
 - **`Combobox` `multiple`:** with many or long chips the input's `min-height: 100%` resolved against the whole wrapped chip area, so the input grew taller than the field and its caret rendered outside it. The input now stretches only to its own flex line.
 - **`Chip`:** a long label kept the chip at its full text width, so it overflowed its container (e.g. inside a `Combobox`). The chip now shrinks to its container (`min-width: 0; max-width: 100%`) and the label ellipsizes.
 - **`MenuItem`:** a long label (nowrap, non-shrinking) pushed the trailing check icon out of the row. The label now truncates with an ellipsis so the trailing visual stays visible.
