@@ -106,7 +106,7 @@ function SelectOptionRow({
       </li>
       {dividerAfter ? (
         <li role="presentation">
-          <PopoverMenuDivider />
+          <PopoverMenuDivider aria-hidden="true" />
         </li>
       ) : null}
     </>
