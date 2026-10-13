@@ -6,6 +6,24 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  max-width: calc(100vw - 2 * var(--spacing-xl));
+  // 80px inset top and bottom; 120px once the viewport is at least 900px tall.
+  max-height: calc(100vh - 4 * var(--spacing-xxxxl));
+  max-height: calc(100dvh - 4 * var(--spacing-xxxxl));
+
+  @media (min-height: 900px) {
+    max-height: calc(100vh - 6 * var(--spacing-xxxxl));
+    max-height: calc(100dvh - 6 * var(--spacing-xxxxl));
+  }
+
+  // The host owns body scroll, so a cap would clip content it can't reach.
+  &--host-scroll {
+    max-height: none;
+
+    @media (min-height: 900px) {
+      max-height: none;
+    }
+  }
 
   &--transition {
     opacity: 0;

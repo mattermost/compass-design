@@ -97,6 +97,13 @@ export interface ModalProps extends Omit<
    */
   closeOnEscape?: boolean;
   /**
+   * Initial focus, Tab trap and focus restore. Set false when the host owns
+   * focus (e.g. a floating-ui `FloatingFocusManager`); pair with
+   * `closeOnEscape={false}` when the host also handles Escape. Read on mount.
+   * Default: true.
+   */
+  manageFocus?: boolean;
+  /**
    * Element to focus when the modal mounts (e.g. the first form field).
    * Default: the dialog root.
    */
@@ -144,6 +151,7 @@ function ModalPanel({
   footerType = '2-actions',
   footerDivider = true,
   closeOnEscape = true,
+  manageFocus = true,
   initialFocusRef,
   active,
   transition,
@@ -154,6 +162,7 @@ function ModalPanel({
   useModalFocus(rootRef, {
     initialFocusRef,
     closeOnEscape,
+    manageFocus,
     onClose,
     active,
   });
@@ -182,6 +191,7 @@ function ModalPanel({
       className={[
         styles.modal,
         sizeClass,
+        !scrollable && styles['modal--host-scroll'],
         transition && styles['modal--transition'],
         transition && visible && styles['modal--visible'],
         className,
