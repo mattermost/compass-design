@@ -166,7 +166,8 @@
     }
   }
 
-  &__menu {
+  // Nested under the popup so it beats `.popover-menu` whatever order the bundled stylesheet emits them in.
+  &__popup &__menu {
     width: 100%;
     min-width: 100%;
     max-width: none;

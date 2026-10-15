@@ -12,6 +12,7 @@ import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
+import type { MenuItemPassthroughProps } from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuDivider,
   PopoverMenuScroll,
@@ -19,6 +20,7 @@ import PopoverMenu, {
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
+import { mergeMenuItemProps } from '@/utils/menuItemProps';
 import { toKebab } from '@/utils/string';
 import styles from './Select.module.scss';
 
@@ -34,10 +36,22 @@ export type SelectOption = {
   secondaryLabel?: ReactNode;
   /** When true, renders a menu divider after this option. */
   dividerAfter?: boolean;
+  /**
+   * Extra `MenuItem` props for this row (e.g. `secondaryLabelPosition`, `tag`,
+   * `trailingVisual`, `className`). Overrides the `menuItemProps` set on the
+   * Select; the props Select owns (ARIA, selection, handlers) can't be set.
+   */
+  menuItemProps?: MenuItemPassthroughProps;
 };
 
 export interface SelectProps {
   options: SelectOption[];
+  /**
+   * `MenuItem` props applied to every option row, e.g.
+   * `menuItemProps={{ secondaryLabelPosition: 'inline' }}`. A row's own
+   * `menuItemProps` wins.
+   */
+  menuItemProps?: MenuItemPassthroughProps;
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
@@ -68,6 +82,7 @@ const POPUP_MAX_HEIGHT = 280;
 
 function SelectOptionRow({
   option,
+  menuItemProps,
   listboxId,
   selected,
   active,
@@ -76,6 +91,7 @@ function SelectOptionRow({
   dividerAfter = false,
 }: {
   option: SelectOption;
+  menuItemProps?: MenuItemPassthroughProps;
   listboxId: string;
   selected: boolean;
   active: boolean;
@@ -87,6 +103,7 @@ function SelectOptionRow({
     <>
       <li className={styles.select__option} role="presentation">
         <MenuItem
+          {...mergeMenuItemProps(menuItemProps, option.menuItemProps)}
           id={`${listboxId}-option-${option.value}`}
           role="option"
           label={option.label}
@@ -120,6 +137,7 @@ function SelectOptionRow({
 const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
   {
     options,
+    menuItemProps,
     value: valueProp,
     defaultValue = '',
     onChange,
@@ -424,6 +442,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
                     <SelectOptionRow
                       key={option.value}
                       option={option}
+                      menuItemProps={menuItemProps}
                       listboxId={listboxId}
                       selected={option.value === value}
                       active={index === activeIndex}

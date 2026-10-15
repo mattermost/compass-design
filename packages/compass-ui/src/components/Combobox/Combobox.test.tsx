@@ -366,3 +366,108 @@ describe('Combobox without scrollIntoView', () => {
     expect(input().getAttribute('aria-activedescendant')).toBe(first);
   });
 });
+
+describe('Combobox menuItemProps', () => {
+  const CHANNELS: ComboboxOption[] = [
+    { value: 'ts', label: 'Town Square', secondaryLabel: 'Engineering' },
+    { value: 'ot', label: 'Off-Topic', secondaryLabel: 'Design' },
+  ];
+
+  function rows() {
+    return queryAllByRole('option');
+  }
+
+  function span(row: Element, text: string) {
+    return Array.from(row.querySelectorAll('span')).find(
+      (s) => s.textContent === text,
+    ) as HTMLElement;
+  }
+
+  function isInline(row: Element, label: string, secondary: string) {
+    return (
+      span(row, label).parentElement === span(row, secondary).parentElement
+    );
+  }
+
+  it('renders secondary labels below by default', () => {
+    render(<Combobox aria-label="Channel" options={CHANNELS} />);
+    openMenu();
+    expect(isInline(rows()[0], 'Town Square', 'Engineering')).toBe(false);
+  });
+
+  it('applies menuItemProps to every option row', () => {
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={CHANNELS}
+        menuItemProps={{ secondaryLabelPosition: 'inline' }}
+      />,
+    );
+    openMenu();
+    expect(isInline(rows()[0], 'Town Square', 'Engineering')).toBe(true);
+    expect(isInline(rows()[1], 'Off-Topic', 'Design')).toBe(true);
+  });
+
+  it('lets an option override the Combobox menuItemProps and merges className', () => {
+    render(
+      <Combobox
+        aria-label="Channel"
+        menuItemProps={{ secondaryLabelPosition: 'inline', className: 'all' }}
+        options={[
+          CHANNELS[0],
+          {
+            ...CHANNELS[1],
+            menuItemProps: {
+              secondaryLabelPosition: 'below',
+              className: 'one',
+            },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(isInline(rows()[0], 'Town Square', 'Engineering')).toBe(true);
+    expect(isInline(rows()[1], 'Off-Topic', 'Design')).toBe(false);
+    expect(rows()[0].classList.contains('all')).toBe(true);
+    expect(rows()[1].classList.contains('all')).toBe(true);
+    expect(rows()[1].classList.contains('one')).toBe(true);
+  });
+
+  it('forwards other MenuItem props such as tag and tagLabel', () => {
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={[
+          {
+            value: 'ts',
+            label: 'Town Square',
+            menuItemProps: { tag: true, tagLabel: 'Beta' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(rows()[0].textContent).toContain('Beta');
+  });
+
+  it('keeps the props Combobox owns when menuItemProps tries to set them', () => {
+    const onChange = vi.fn();
+    const onClick = vi.fn();
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={CHANNELS}
+        onChange={onChange}
+        menuItemProps={
+          { role: 'button', 'aria-selected': true, onClick } as never
+        }
+      />,
+    );
+    openMenu();
+    expect(rows()).toHaveLength(2);
+    expect(rows()[0].getAttribute('aria-selected')).toBe('false');
+    click(rows()[0]);
+    expect(onChange).toHaveBeenCalledWith('ts');
+    expect(onClick).not.toHaveBeenCalled();
+  });
+});

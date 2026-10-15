@@ -24,6 +24,7 @@ import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
+import type { MenuItemPassthroughProps } from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuScroll,
 } from '@/components/PopoverMenu/PopoverMenu';
@@ -32,6 +33,7 @@ import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
+import { mergeMenuItemProps } from '@/utils/menuItemProps';
 import type { BuiltInButtonProps } from '@/utils/props';
 import { mergeClassNames } from '@/utils/props';
 import { toKebab } from '@/utils/string';
@@ -50,10 +52,22 @@ export type ComboboxOption = {
   leadingAvatar?: { src: string; alt: string };
   /** Accepts translated nodes. */
   secondaryLabel?: ReactNode;
+  /**
+   * Extra `MenuItem` props for this row (e.g. `secondaryLabelPosition`, `tag`,
+   * `trailingVisual`, `className`). Overrides the `menuItemProps` set on the
+   * Combobox; the props Combobox owns (ARIA, selection, handlers) can't be set.
+   */
+  menuItemProps?: MenuItemPassthroughProps;
 };
 
 export interface ComboboxProps {
   options: ComboboxOption[];
+  /**
+   * `MenuItem` props applied to every option row, e.g.
+   * `menuItemProps={{ secondaryLabelPosition: 'inline' }}`. A row's own
+   * `menuItemProps` wins. Not applied to the create row.
+   */
+  menuItemProps?: MenuItemPassthroughProps;
   /** When true, selected values render as removable chips. Default: false. */
   multiple?: boolean;
   value?: string | string[] | null;
@@ -203,6 +217,7 @@ function optionLeadingVisual(option: ComboboxOption): ReactNode | undefined {
 const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   {
     options,
+    menuItemProps,
     multiple = false,
     value: valueProp,
     defaultValue,
@@ -872,6 +887,10 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                           role="presentation"
                         >
                           <MenuItem
+                            {...mergeMenuItemProps(
+                              menuItemProps,
+                              option.menuItemProps,
+                            )}
                             id={rowId(row)}
                             role="option"
                             label={option.label}

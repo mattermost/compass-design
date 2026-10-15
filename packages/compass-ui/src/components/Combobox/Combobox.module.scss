@@ -194,7 +194,9 @@
   }
 
   // Stretch past PopoverMenu's max-content / 144px min so the list matches the field.
-  &__menu {
+  // Nested under the popup so it beats `.popover-menu` whatever order the bundled
+  // stylesheet puts them in (the aggregated CSS can emit `.popover-menu` after this rule).
+  &__popup &__menu {
     width: 100%;
     min-width: 100%;
     max-width: none;

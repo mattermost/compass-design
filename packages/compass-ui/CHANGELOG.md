@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
+- **`Combobox` and `Select` `menuItemProps`:** forward any `MenuItem` prop that the menu doesn't own (`secondaryLabelPosition`, `trailingVisual`, `tag`, `tagLabel`, `mentionCount`, `customStatusEmoji`, `destructive`, `className`, `data-*`, …) to the option rows, either on the component (all rows) or on a single option (`ComboboxOption.menuItemProps` / `SelectOption.menuItemProps`, which wins; `className` is merged). Props the menu sets itself (ARIA, selection state, handlers, `label`, `secondaryLabel`, `leadingVisual`, `disabled`) can't be overridden. `Combobox` doesn't apply it to the create row. New exported types `MenuItemPassthroughProps` and `MenuItemOwnedProps`.
 
 ### Changed
 
@@ -16,6 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`Combobox`, `Select` menu width:** the "match the field width" rule (`width: 100%; max-width: none`) had the same specificity as `PopoverMenu`'s `max-width: 496px`, so in the aggregated stylesheet (where `PopoverMenu` is emitted later) the menu was capped at 496px. The rule now nests under the popup so it wins regardless of order.
 - **`Switch`, `Checkbox`, `Radio`:** in the Mattermost webapp, the global `label { margin-bottom }` rule added space under the root `<label>` and pushed the control off-center in its row. The root now resets `margin: 0`.
 - **`Combobox` `multiple`:** with many or long chips the input's `min-height: 100%` resolved against the whole wrapped chip area, so the input grew taller than the field and its caret rendered outside it. The input now stretches only to its own flex line.
 - **`Chip`:** a long label kept the chip at its full text width, so it overflowed its container (e.g. inside a `Combobox`). The chip now shrinks to its container (`min-width: 0; max-width: 100%`) and the label ellipsizes.

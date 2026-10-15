@@ -116,6 +116,20 @@ export const WithLeadingIcon: Story = {
   },
 };
 
+/** `menuItemProps` forwards any `MenuItem` prop to every row; here the team name sits inline after the channel. */
+export const InlineSecondaryLabel: Story = {
+  args: {
+    label: 'Channel',
+    placeholder: 'Select a channel…',
+    menuItemProps: { secondaryLabelPosition: 'inline' },
+    options: [
+      { value: 'ts', label: 'Town Square', secondaryLabel: 'Engineering' },
+      { value: 'ot', label: 'Off-Topic', secondaryLabel: 'Engineering' },
+      { value: 'rl', label: 'Releases', secondaryLabel: 'Design' },
+    ],
+  },
+};
+
 export const NarrowField: Story = {
   render: () => (
     <div style={{ width: 200 }}>
