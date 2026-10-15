@@ -41,6 +41,18 @@ export const TitleOnly: Story = {
   },
 };
 
+/** Header-only panel (no body) — used as a nav banner in System Console. */
+export const HeaderOnly: Story = {
+  args: {
+    title: 'System Scheme',
+    subtitle:
+      'Manage the default permission scheme for all teams and channels.',
+    showButton: true,
+    buttonLabel: 'Edit Scheme',
+    onButtonClick: fn(),
+  },
+};
+
 export const FullHeaderExpanded: Story = {
   args: {
     title: 'Section Title',

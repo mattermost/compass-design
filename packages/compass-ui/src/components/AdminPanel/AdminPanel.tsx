@@ -1,4 +1,5 @@
 import {
+  Children,
   useId,
   useState,
   type ChangeEvent,
@@ -54,8 +55,9 @@ export interface AdminPanelProps extends Omit<
 }
 
 /**
- * System Console admin settings panel: `AdminPanelHeader` plus a body slot
- * for grouped fields. Expand/collapse state is owned here and passed to the header.
+ * System Console admin settings panel: `AdminPanelHeader` plus an optional body
+ * slot for grouped fields (omitted when `children` is empty). Expand/collapse
+ * state is owned here and passed to the header.
  */
 export default function AdminPanel({
   title,
@@ -113,6 +115,11 @@ export default function AdminPanel({
   };
 
   const showHeaderDivider = !expandable || isExpanded;
+  const hasBody = Children.count(children) > 0;
+
+  const body = hasBody ? (
+    <div className={styles['admin-panel__body']}>{children}</div>
+  ) : null;
 
   return (
     <section
@@ -147,7 +154,7 @@ export default function AdminPanel({
         collapseLabel={collapseLabel}
         showDivider={showHeaderDivider}
       />
-      {expandable ? (
+      {expandable && hasBody ? (
         <div
           className={[
             styles['admin-panel__collapse'],
@@ -157,12 +164,10 @@ export default function AdminPanel({
             .join(' ')}
           aria-hidden={!isExpanded}
         >
-          <div className={styles['admin-panel__collapse-inner']}>
-            <div className={styles['admin-panel__body']}>{children}</div>
-          </div>
+          <div className={styles['admin-panel__collapse-inner']}>{body}</div>
         </div>
       ) : (
-        <div className={styles['admin-panel__body']}>{children}</div>
+        body
       )}
     </section>
   );
