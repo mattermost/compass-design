@@ -1,12 +1,12 @@
-import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+import { AdminConsoleFooter } from '@mattermost/compass-ui/components/admin-console-footer';
 import styles from '@/styles/library-demo/components.module.scss';
 
-export default function AdminPanelFooterLibrary() {
+export default function AdminConsoleFooterLibrary() {
   return (
     <div className={styles['components__button-block']}>
       <div>
         <p className={styles['components__instance-label']}>Default</p>
-        <AdminPanelFooter
+        <AdminConsoleFooter
           saveDisabled
           onSave={() => undefined}
           onCancel={() => undefined}
@@ -14,7 +14,7 @@ export default function AdminPanelFooterLibrary() {
       </div>
       <div>
         <p className={styles['components__instance-label']}>With warning</p>
-        <AdminPanelFooter
+        <AdminConsoleFooter
           saveDisabled={false}
           status="warning"
           statusMessage="There are X issues in the form above."
@@ -24,7 +24,7 @@ export default function AdminPanelFooterLibrary() {
       </div>
       <div>
         <p className={styles['components__instance-label']}>With error</p>
-        <AdminPanelFooter
+        <AdminConsoleFooter
           saveDisabled
           status="error"
           statusMessage="There are X errors in the form above."

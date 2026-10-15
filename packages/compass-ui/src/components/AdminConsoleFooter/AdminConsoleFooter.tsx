@@ -2,11 +2,11 @@ import type { ReactNode } from 'react';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import AlertOutlineIcon from '@mattermost/compass-icons/components/alert-outline';
 import Button from '@/components/Button/Button';
-import styles from './AdminPanelFooter.module.scss';
+import styles from './AdminConsoleFooter.module.scss';
 
-export type AdminPanelFooterStatus = 'none' | 'warning' | 'error';
+export type AdminConsoleFooterStatus = 'none' | 'warning' | 'error';
 
-export interface AdminPanelFooterProps {
+export interface AdminConsoleFooterProps {
   /** Primary footer action label. Default: "Save". Accepts translated nodes. */
   saveLabel?: ReactNode;
   /** Default: "Cancel". Accepts translated nodes. */
@@ -16,7 +16,7 @@ export interface AdminPanelFooterProps {
   /** When true, Save uses disabled styling until the sheet is actionable. */
   saveDisabled?: boolean;
   /** Optional validation summary beside the buttons. */
-  status?: AdminPanelFooterStatus;
+  status?: AdminConsoleFooterStatus;
   /**
    * Override default copy when `warning` | `error`. Defaults: "There are
    * outstanding issues in the form above." / "There are errors in the form above."
@@ -29,11 +29,11 @@ const DEFAULT_WARNING = 'There are outstanding issues in the form above.';
 const DEFAULT_ERROR = 'There are errors in the form above.';
 
 /**
- * Admin Panel Footer pins Save and Cancel to the bottom of System Console form layouts. It
+ * Admin Console Footer pins Save and Cancel to the bottom of System Console form layouts. It
  * mirrors channel composer discipline: one primary commit path, a safe escape hatch, and
  * optional validation status without stealing focus from the draft.
  */
-export default function AdminPanelFooter({
+export default function AdminConsoleFooter({
   saveLabel = 'Save',
   cancelLabel = 'Cancel',
   onSave,
@@ -42,14 +42,14 @@ export default function AdminPanelFooter({
   status = 'none',
   statusMessage,
   className = '',
-}: AdminPanelFooterProps) {
+}: AdminConsoleFooterProps) {
   let statusUi: ReactNode = null;
 
   if (status === 'warning') {
     const copy = statusMessage ?? DEFAULT_WARNING;
     statusUi = (
       <>
-        <span className={styles['admin-panel-footer__status-icon']} aria-hidden>
+        <span className={styles['admin-console-footer__status-icon']} aria-hidden>
           <AlertOutlineIcon size={12} />
         </span>
         <span>{copy}</span>
@@ -61,7 +61,7 @@ export default function AdminPanelFooter({
     const copy = statusMessage ?? DEFAULT_ERROR;
     statusUi = (
       <>
-        <span className={styles['admin-panel-footer__status-icon']} aria-hidden>
+        <span className={styles['admin-console-footer__status-icon']} aria-hidden>
           <AlertCircleOutlineIcon size={12} />
         </span>
         <span>{copy}</span>
@@ -71,21 +71,21 @@ export default function AdminPanelFooter({
 
   const statusMod =
     status === 'warning'
-      ? styles['admin-panel-footer--status-warning']
+      ? styles['admin-console-footer--status-warning']
       : status === 'error'
-        ? styles['admin-panel-footer--status-error']
+        ? styles['admin-console-footer--status-error']
         : '';
 
   return (
     <footer
-      className={[styles['admin-panel-footer'], statusMod, className]
+      className={[styles['admin-console-footer'], statusMod, className]
         .filter(Boolean)
         .join(' ')
         .trim()}
       role="contentinfo"
     >
-      <div className={styles['admin-panel-footer__inner']}>
-        <div className={styles['admin-panel-footer__actions']}>
+      <div className={styles['admin-console-footer__inner']}>
+        <div className={styles['admin-console-footer__actions']}>
           <Button
             type="button"
             size="medium"
@@ -105,7 +105,7 @@ export default function AdminPanelFooter({
           </Button>
         </div>
         {statusUi != null ? (
-          <div className={styles['admin-panel-footer__status']} role="alert">
+          <div className={styles['admin-console-footer__status']} role="alert">
             {statusUi}
           </div>
         ) : null}

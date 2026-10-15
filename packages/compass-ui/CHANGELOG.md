@@ -13,6 +13,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **`AdminPanelFooter` → `AdminConsoleFooter`:** renamed the component, types (`AdminConsoleFooterProps`, `AdminConsoleFooterStatus`), CSS block (`.admin-console-footer`), docs slug (`/components/admin-console-footer`), and subpath export (`@mattermost/compass-ui/components/admin-console-footer`) to match `AdminConsoleHeader`.
 - **`SectionNotice` secondary action:** uses `emphasis="tertiary"` instead of `emphasis="secondary"` so the supporting action stays lower-emphasis than the page’s main controls.
 
 ### Fixed
@@ -79,7 +80,7 @@ Safe to run several compass-ui copies, of any versions, on one page alongside a 
 - **SimpleBar CSS** ships as `components/scrollbar/simplebar-vendor.css` inside `@layer compass-ui.vendor`, so a host's own SimpleBar CSS wins. This replaces the CSS-only `dist/node_modules/simplebar-react` folder, which shadowed the real `simplebar-react` package and broke Node ESM imports of `Scrollbar` (and of `Modal`, `PopoverMenu`, `EmptyState`, `Select`, `Combobox`) even when it was installed.
 - **`simplebar-react` is a required peer dependency** (no longer `optional`), so npm 7+ installs it automatically.
 - All 17 components that used `--radius-full` now use `--radius-pill`, so pills stay pills when the webapp's `--radius-full: 50%` wins.
-- **Translatable text props:** text props that were typed `string` now accept `ReactNode` (for example `MenuGroupHeading.label`, `TourPoint.title`, `TourPointPrimaryAction.label`, `PopoverNotice.checkboxLabel`, `ActionButton.label`, `FeatureDiscoveryPanel.title`/`description`, `AdminPanel` and `AdminPanelHeader` `betaLabel`/`enterpriseLabel`/`buttonLabel`, `AdminPanelFooter.saveLabel`/`cancelLabel`). Option labels used for filtering stay `string`.
+- **Translatable text props:** text props that were typed `string` now accept `ReactNode` (for example `MenuGroupHeading.label`, `TourPoint.title`, `TourPointPrimaryAction.label`, `PopoverNotice.checkboxLabel`, `ActionButton.label`, `FeatureDiscoveryPanel.title`/`description`, `AdminPanel` and `AdminPanelHeader` `betaLabel`/`enterpriseLabel`/`buttonLabel`, `AdminConsoleFooter.saveLabel`/`cancelLabel`). Option labels used for filtering stay `string`.
 
 ### Deprecated
 

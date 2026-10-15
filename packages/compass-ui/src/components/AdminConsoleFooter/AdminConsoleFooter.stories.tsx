@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import AdminPanelFooter from './AdminPanelFooter';
+import AdminConsoleFooter from './AdminConsoleFooter';
 
 const footerSurface = {
   maxWidth: 920,
@@ -11,8 +11,8 @@ const footerSurface = {
 } as const;
 
 const meta = {
-  title: 'Components/Admin Console/Admin Panel Footer',
-  component: AdminPanelFooter,
+  title: 'Components/Admin Console/Admin Console Footer',
+  component: AdminConsoleFooter,
   tags: ['autodocs'],
   argTypes: {
     status: {
@@ -27,7 +27,7 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof AdminPanelFooter>;
+} satisfies Meta<typeof AdminConsoleFooter>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -73,10 +73,10 @@ export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
       <div style={footerSurface}>
-        <AdminPanelFooter saveDisabled onSave={fn()} onCancel={fn()} />
+        <AdminConsoleFooter saveDisabled onSave={fn()} onCancel={fn()} />
       </div>
       <div style={footerSurface}>
-        <AdminPanelFooter
+        <AdminConsoleFooter
           saveDisabled={false}
           status="warning"
           statusMessage="There are X issues in the form above."
@@ -85,7 +85,7 @@ export const AllVariants: Story = {
         />
       </div>
       <div style={footerSurface}>
-        <AdminPanelFooter
+        <AdminConsoleFooter
           saveDisabled
           status="error"
           statusMessage="There are X errors in the form above."

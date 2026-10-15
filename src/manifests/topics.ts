@@ -286,16 +286,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/admin-panel-header/admin-panel-header.specimen'),
   },
   {
-    slug: 'admin-panel-footer',
-    name: 'Admin Panel Footer',
+    slug: 'admin-console-footer',
+    name: 'Admin Console Footer',
     category: 'components',
     description:
       'System Console content footer: Save and Cancel with optional validation summary.',
     status: 'stable',
     guidelinePage: () =>
-      import('@/guidelines/components/admin-panel-footer/admin-panel-footer.guideline.mdx'),
+      import('@/guidelines/components/admin-console-footer/admin-console-footer.guideline.mdx'),
     specimenPage: () =>
-      import('@/guidelines/components/admin-panel-footer/admin-panel-footer.specimen'),
+      import('@/guidelines/components/admin-console-footer/admin-console-footer.specimen'),
   },
   {
     slug: 'feature-discovery-panel',

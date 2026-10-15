@@ -453,7 +453,7 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 
 - `ReactNode` props (`Button` `children`, `Modal` / `ModalHeader` `title` / `subtitle`) can take `<FormattedMessage />`.
 - `string` props (`Tooltip` `label` / `hint`, placeholders, `aria-label`) can take `intl.formatMessage(...)` — a string, not a descriptor object.
-- Some English defaults are overridable (`AdminPanelFooter` `saveLabel` / `cancelLabel`, `Combobox` `emptyMessage`, `Spinner` `aria-label`).
+- Some English defaults are overridable (`AdminConsoleFooter` `saveLabel` / `cancelLabel`, `Combobox` `emptyMessage`, `Spinner` `aria-label`).
 
 **Compass-owned chrome** is hardcoded English and will not follow the user's locale: `ModalHeader` `"Close"` / `"Go back"`, dismiss/clear labels on `Toast` / `SectionNotice` / `GlobalBanner` / `SearchInput`, `Combobox` `"No results"`, `DateRangePicker` month/weekday names, and many composite `aria-label`s. Prefer leafs whose visible copy is host-owned (e.g. ConfirmModal buttons) until chrome is localizable. Do not adopt those chrome surfaces in localized product UI without an override prop or a follow-up in this package.
 

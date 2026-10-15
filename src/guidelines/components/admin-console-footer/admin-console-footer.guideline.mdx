@@ -1,6 +1,6 @@
-import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+import { AdminConsoleFooter } from '@mattermost/compass-ui/components/admin-console-footer';
 
-Admin Panel Footer pins Save and Cancel to the bottom of System Console
+Admin Console Footer pins Save and Cancel to the bottom of System Console
 form layouts. It mirrors channel composer discipline: one primary commit path,
 a safe escape hatch, and optional validation status without stealing focus from
 the draft.
@@ -13,7 +13,7 @@ Sticky-style toolbar: Save then Cancel reads left to right with optional status
 summarising validation beside or below on narrow widths.
 
 <AnatomyStage style={{ width: '100%', maxWidth: '920px' }}>
-  <AdminPanelFooter
+  <AdminConsoleFooter
     saveDisabled={false}
     status="warning"
     statusMessage="SMTP server address is required."
@@ -55,4 +55,4 @@ summarising validation beside or below on narrow widths.
 ## Implementation
 
 For props and examples, see the
-[Admin Panel Footer specimen page](/components/admin-panel-footer/specimen).
+[Admin Console Footer specimen page](/components/admin-console-footer/specimen).
