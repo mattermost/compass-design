@@ -102,6 +102,7 @@ export const ControlledExpand: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
       <AdminPanel

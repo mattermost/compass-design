@@ -87,6 +87,7 @@ export const Uploaded: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 12, maxWidth: 720 }}>
       <div style={{ display: 'grid', gap: 8 }}>

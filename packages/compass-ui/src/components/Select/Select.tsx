@@ -12,6 +12,10 @@ import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
+import type {
+  MenuItemOwnedProps,
+  MenuItemPassthroughProps,
+} from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuDivider,
   PopoverMenuScroll,
@@ -19,10 +23,16 @@ import PopoverMenu, {
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
+import { mergeMenuItemProps } from '@/utils/menuItemProps';
 import { toKebab } from '@/utils/string';
 import styles from './Select.module.scss';
 
 export type SelectSize = 'small' | 'medium' | 'large';
+
+// Select rows use `onPointerUp`, so `onClick` is left for callers.
+type SelectMenuItemProps = MenuItemPassthroughProps<
+  Exclude<MenuItemOwnedProps, 'onClick'>
+>;
 
 export type SelectOption = {
   value: string;
@@ -34,10 +44,22 @@ export type SelectOption = {
   secondaryLabel?: ReactNode;
   /** When true, renders a menu divider after this option. */
   dividerAfter?: boolean;
+  /**
+   * Extra `MenuItem` props for this row (e.g. `secondaryLabelPosition`, `tag`,
+   * `trailingVisual`, `className`). Overrides the `menuItemProps` set on the
+   * Select; the props Select owns (ARIA, selection, handlers) can't be set.
+   */
+  menuItemProps?: SelectMenuItemProps;
 };
 
 export interface SelectProps {
   options: SelectOption[];
+  /**
+   * `MenuItem` props applied to every option row, e.g.
+   * `menuItemProps={{ secondaryLabelPosition: 'inline' }}`. A row's own
+   * `menuItemProps` wins.
+   */
+  menuItemProps?: SelectMenuItemProps;
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
@@ -68,6 +90,7 @@ const POPUP_MAX_HEIGHT = 280;
 
 function SelectOptionRow({
   option,
+  menuItemProps,
   listboxId,
   selected,
   active,
@@ -76,6 +99,7 @@ function SelectOptionRow({
   dividerAfter = false,
 }: {
   option: SelectOption;
+  menuItemProps?: SelectMenuItemProps;
   listboxId: string;
   selected: boolean;
   active: boolean;
@@ -87,6 +111,7 @@ function SelectOptionRow({
     <>
       <li className={styles.select__option} role="presentation">
         <MenuItem
+          {...mergeMenuItemProps(menuItemProps, option.menuItemProps)}
           id={`${listboxId}-option-${option.value}`}
           role="option"
           label={option.label}
@@ -120,6 +145,7 @@ function SelectOptionRow({
 const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
   {
     options,
+    menuItemProps,
     value: valueProp,
     defaultValue = '',
     onChange,
@@ -163,6 +189,16 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  // Hover moves the highlight without scrolling; only keyboard changes scroll the row into view.
+  const activatedByPointer = useRef(false);
+  const hoverRow = useCallback(
+    (index: number) => {
+      if (index === activeIndex) return;
+      activatedByPointer.current = true;
+      setActiveIndex(index);
+    },
+    [activeIndex],
+  );
 
   const selectedOption = useMemo(
     () => options.find((o) => o.value === value),
@@ -236,6 +272,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
 
   const moveActive = useCallback(
     (delta: number) => {
+      activatedByPointer.current = false;
       const enabled = listOptions
         .map((o, i) => ({ o, i }))
         .filter(({ o }) => !o.disabled);
@@ -259,6 +296,10 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
 
   useEffect(() => {
     if (!isOpen || activeIndex < 0) return;
+    if (activatedByPointer.current) {
+      activatedByPointer.current = false;
+      return;
+    }
     const option = listOptions[activeIndex];
     if (!option) return;
     const el = document.getElementById(`${listboxId}-option-${option.value}`);
@@ -424,11 +465,12 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
                     <SelectOptionRow
                       key={option.value}
                       option={option}
+                      menuItemProps={menuItemProps}
                       listboxId={listboxId}
                       selected={option.value === value}
                       active={index === activeIndex}
                       onSelect={selectOption}
-                      onHover={() => setActiveIndex(index)}
+                      onHover={() => hoverRow(index)}
                       dividerAfter={option.dividerAfter}
                     />
                   ))}

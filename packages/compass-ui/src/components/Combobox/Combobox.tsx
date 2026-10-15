@@ -24,6 +24,10 @@ import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
+import type {
+  MenuItemOwnedProps,
+  MenuItemPassthroughProps,
+} from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuScroll,
 } from '@/components/PopoverMenu/PopoverMenu';
@@ -32,12 +36,18 @@ import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
+import { mergeMenuItemProps } from '@/utils/menuItemProps';
 import type { BuiltInButtonProps } from '@/utils/props';
 import { mergeClassNames } from '@/utils/props';
 import { toKebab } from '@/utils/string';
 import styles from './Combobox.module.scss';
 
 export type ComboboxSize = 'small' | 'medium' | 'large';
+
+// Combobox rows use `onClick`, so `onPointerUp` is left for callers.
+type ComboboxMenuItemProps = MenuItemPassthroughProps<
+  Exclude<MenuItemOwnedProps, 'onPointerUp'>
+>;
 
 export type ComboboxOption = {
   value: string;
@@ -50,10 +60,22 @@ export type ComboboxOption = {
   leadingAvatar?: { src: string; alt: string };
   /** Accepts translated nodes. */
   secondaryLabel?: ReactNode;
+  /**
+   * Extra `MenuItem` props for this row (e.g. `secondaryLabelPosition`, `tag`,
+   * `trailingVisual`, `className`). Overrides the `menuItemProps` set on the
+   * Combobox; the props Combobox owns (ARIA, selection, handlers) can't be set.
+   */
+  menuItemProps?: ComboboxMenuItemProps;
 };
 
 export interface ComboboxProps {
   options: ComboboxOption[];
+  /**
+   * `MenuItem` props applied to every option row, e.g.
+   * `menuItemProps={{ secondaryLabelPosition: 'inline' }}`. A row's own
+   * `menuItemProps` wins. Not applied to the create row.
+   */
+  menuItemProps?: ComboboxMenuItemProps;
   /** When true, selected values render as removable chips. Default: false. */
   multiple?: boolean;
   value?: string | string[] | null;
@@ -203,6 +225,7 @@ function optionLeadingVisual(option: ComboboxOption): ReactNode | undefined {
 const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   {
     options,
+    menuItemProps,
     multiple = false,
     value: valueProp,
     defaultValue,
@@ -274,6 +297,16 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  // Hover moves the highlight without scrolling; only keyboard changes scroll the row into view.
+  const activatedByPointer = useRef(false);
+  const hoverRow = useCallback(
+    (index: number) => {
+      if (index === activeIndex) return;
+      activatedByPointer.current = true;
+      setActiveIndex(index);
+    },
+    [activeIndex],
+  );
   const [queryOverride, setQueryOverride] = useState<string | null>(null);
 
   const resolveOption = useCallback(
@@ -526,6 +559,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const moveActive = useCallback(
     (delta: number) => {
+      activatedByPointer.current = false;
       const enabled = rows
         .map((row, i) => ({ row, i }))
         .filter(({ row }) => !isRowDisabled(row));
@@ -549,6 +583,10 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   useEffect(() => {
     if (!isOpen || activeIndex < 0) return;
+    if (activatedByPointer.current) {
+      activatedByPointer.current = false;
+      return;
+    }
     const row = rows[activeIndex];
     if (!row) return;
     document.getElementById(rowId(row))?.scrollIntoView?.({ block: 'nearest' });
@@ -856,7 +894,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                               active={active}
                               aria-selected={false}
                               onMouseDown={preventBlur}
-                              onMouseEnter={() => setActiveIndex(index)}
+                              onMouseEnter={() => hoverRow(index)}
                               onClick={() => createValue(row.inputValue)}
                             />
                           </li>
@@ -872,6 +910,10 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                           role="presentation"
                         >
                           <MenuItem
+                            {...mergeMenuItemProps(
+                              menuItemProps,
+                              option.menuItemProps,
+                            )}
                             id={rowId(row)}
                             role="option"
                             label={option.label}
@@ -883,7 +925,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                             disabled={option.disabled}
                             aria-selected={selected}
                             onMouseDown={preventBlur}
-                            onMouseEnter={() => setActiveIndex(index)}
+                            onMouseEnter={() => hoverRow(index)}
                             onClick={() => selectOption(option)}
                           />
                         </li>

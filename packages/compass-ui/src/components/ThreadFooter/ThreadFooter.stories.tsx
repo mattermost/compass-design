@@ -132,6 +132,7 @@ const variantLabelStyle = {
 } as const;
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => {
     const messageRow = (
       label: string,

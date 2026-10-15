@@ -4,6 +4,7 @@ import MenuItem from './MenuItem';
 import type { MenuItemProps } from './MenuItem';
 import {
   ICON_DEFAULT,
+  ICON_NONE,
   iconSelectArgType,
   resolveStoryIcon,
 } from '../../storybook/icons';
@@ -18,31 +19,62 @@ const menuDemoStyle = {
   border: '1px solid rgba(var(--center-channel-color-rgb), 0.08)',
 } as const;
 
-type MenuItemStoryArgs = Omit<MenuItemProps, 'leadingVisual'> & {
+type MenuItemStoryArgs = Omit<
+  MenuItemProps,
+  'leadingVisual' | 'trailingVisual'
+> & {
   leadingVisual?: string;
+  trailingVisual?: string;
 };
+
+// `ReactNode` props make Storybook infer an object control, whose JSON isn't a valid React child.
+const textControl = (description: string) => ({
+  control: 'text' as const,
+  description,
+});
 
 const meta = {
   title: 'Components/Navigation/Menu Item',
   component: MenuItem,
   tags: ['autodocs'],
   argTypes: {
+    label: textControl('Primary label.'),
+    secondaryLabel: textControl('Optional secondary label.'),
+    secondaryLabelPosition: {
+      control: 'inline-radio',
+      options: ['below', 'inline'],
+    },
+    tagLabel: textControl('Text of the tag. Turn on `tag` to show it.'),
+    customStatusEmoji: textControl('Emoji shown after the label.'),
+    mentionCount: { control: 'number' },
+    // Inherited button attributes: Storybook infers an object control for these, which breaks the story.
+    className: { table: { disable: true } },
+    type: { table: { disable: true } },
     leadingVisual: iconSelectArgType({
       includeDefault: true,
       description:
         'Leading icon glyph. Default uses the built-in emoticon placeholder. Turn off leadingElement to hide the slot.',
     }),
+    trailingVisual: iconSelectArgType({
+      optional: true,
+      description:
+        'Trailing icon glyph. None uses the built-in check. Turn on trailingElement to show the slot.',
+    }),
   },
   args: {
     leadingVisual: ICON_DEFAULT,
+    trailingVisual: ICON_NONE,
   },
-  render: ({ leadingVisual, ...rest }) => (
+  render: ({ leadingVisual, trailingVisual, ...rest }) => (
     <MenuItem
       {...rest}
       leadingVisual={
         leadingVisual === ICON_DEFAULT
           ? undefined
           : (resolveStoryIcon(leadingVisual, { wrapSize: '16' }) as ReactNode)
+      }
+      trailingVisual={
+        resolveStoryIcon(trailingVisual, { wrapSize: '16' }) as ReactNode
       }
     />
   ),
@@ -94,6 +126,7 @@ export const Destructive: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 24 }}>
       <section>

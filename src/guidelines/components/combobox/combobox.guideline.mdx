@@ -97,12 +97,17 @@ With `multiple`, each choice becomes a removable chip inside the field.
 Selecting an option closes the list. Backspace on an empty filter removes
 the last chip.
 
+In lists of people, show the username on the same line as the name by setting
+`menuItemProps={{ secondaryLabelPosition: 'inline' }}`. The default places the
+secondary label below the name.
+
 <div style={{ maxWidth: '360px', padding: '1rem 0' }}>
   <Combobox
     label="Invite people"
     placeholder="Search people…"
     multiple
     options={PEOPLE_OPTIONS}
+    menuItemProps={{ secondaryLabelPosition: 'inline' }}
     defaultValue={['emma', 'arjun']}
   />
 </div>

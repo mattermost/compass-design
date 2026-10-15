@@ -97,6 +97,7 @@ export const WithCheckbox: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 16, maxWidth: 360 }}>
       <PopoverNotice

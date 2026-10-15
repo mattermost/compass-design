@@ -122,6 +122,7 @@ export const FallbackColors: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 24 }}>
       <Row label="Image">

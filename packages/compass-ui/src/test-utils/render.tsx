@@ -64,6 +64,18 @@ export function click(el: Element) {
   });
 }
 
+/** Moves the pointer onto `el` from outside it, so React's `onMouseEnter` fires. */
+export function hover(el: Element) {
+  act(() => {
+    el.dispatchEvent(
+      new MouseEvent('mouseover', {
+        bubbles: true,
+        relatedTarget: document.body,
+      }),
+    );
+  });
+}
+
 export function keyDown(el: Element, key: string) {
   act(() => {
     el.dispatchEvent(

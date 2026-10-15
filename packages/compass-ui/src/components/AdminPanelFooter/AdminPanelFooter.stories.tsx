@@ -69,6 +69,7 @@ export const WithError: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
       <div style={footerSurface}>
