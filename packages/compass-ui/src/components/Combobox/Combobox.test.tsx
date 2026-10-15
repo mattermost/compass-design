@@ -1,3 +1,4 @@
+import { act } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   click,
@@ -449,6 +450,25 @@ describe('Combobox menuItemProps', () => {
     );
     openMenu();
     expect(rows()[0].textContent).toContain('Beta');
+  });
+
+  it('passes onPointerUp through, since Combobox rows select on click', () => {
+    const onPointerUp = vi.fn();
+    const onChange = vi.fn();
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={CHANNELS}
+        onChange={onChange}
+        menuItemProps={{ onPointerUp }}
+      />,
+    );
+    openMenu();
+    act(() => {
+      rows()[0].dispatchEvent(new Event('pointerup', { bubbles: true }));
+    });
+    expect(onPointerUp).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('keeps the props Combobox owns when menuItemProps tries to set them', () => {

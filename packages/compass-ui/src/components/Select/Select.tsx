@@ -12,7 +12,10 @@ import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
-import type { MenuItemPassthroughProps } from '@/components/MenuItem/MenuItem';
+import type {
+  MenuItemOwnedProps,
+  MenuItemPassthroughProps,
+} from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuDivider,
   PopoverMenuScroll,
@@ -25,6 +28,11 @@ import { toKebab } from '@/utils/string';
 import styles from './Select.module.scss';
 
 export type SelectSize = 'small' | 'medium' | 'large';
+
+// Select rows use `onPointerUp`, so `onClick` is left for callers.
+type SelectMenuItemProps = MenuItemPassthroughProps<
+  Exclude<MenuItemOwnedProps, 'onClick'>
+>;
 
 export type SelectOption = {
   value: string;
@@ -41,7 +49,7 @@ export type SelectOption = {
    * `trailingVisual`, `className`). Overrides the `menuItemProps` set on the
    * Select; the props Select owns (ARIA, selection, handlers) can't be set.
    */
-  menuItemProps?: MenuItemPassthroughProps;
+  menuItemProps?: SelectMenuItemProps;
 };
 
 export interface SelectProps {
@@ -51,7 +59,7 @@ export interface SelectProps {
    * `menuItemProps={{ secondaryLabelPosition: 'inline' }}`. A row's own
    * `menuItemProps` wins.
    */
-  menuItemProps?: MenuItemPassthroughProps;
+  menuItemProps?: SelectMenuItemProps;
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
@@ -91,7 +99,7 @@ function SelectOptionRow({
   dividerAfter = false,
 }: {
   option: SelectOption;
-  menuItemProps?: MenuItemPassthroughProps;
+  menuItemProps?: SelectMenuItemProps;
   listboxId: string;
   selected: boolean;
   active: boolean;

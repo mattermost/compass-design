@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  click,
   getByRole,
   hover,
   keyDown,
@@ -104,6 +105,20 @@ describe('Select menuItemProps', () => {
     expect(isInline(rows()[1], 'Off-Topic', 'Design')).toBe(false);
     expect(rows()[1].classList.contains('all')).toBe(true);
     expect(rows()[1].classList.contains('one')).toBe(true);
+  });
+
+  it('passes onClick through, since Select rows select on pointer up', () => {
+    const onClick = vi.fn();
+    render(
+      <Select
+        aria-label="Channel"
+        options={CHANNELS}
+        menuItemProps={{ onClick }}
+      />,
+    );
+    open();
+    click(rows()[0]);
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('keeps the props Select owns when menuItemProps tries to set them', () => {

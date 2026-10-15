@@ -24,7 +24,10 @@ import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
 import MenuItem from '@/components/MenuItem/MenuItem';
-import type { MenuItemPassthroughProps } from '@/components/MenuItem/MenuItem';
+import type {
+  MenuItemOwnedProps,
+  MenuItemPassthroughProps,
+} from '@/components/MenuItem/MenuItem';
 import PopoverMenu, {
   PopoverMenuScroll,
 } from '@/components/PopoverMenu/PopoverMenu';
@@ -40,6 +43,11 @@ import { toKebab } from '@/utils/string';
 import styles from './Combobox.module.scss';
 
 export type ComboboxSize = 'small' | 'medium' | 'large';
+
+// Combobox rows use `onClick`, so `onPointerUp` is left for callers.
+type ComboboxMenuItemProps = MenuItemPassthroughProps<
+  Exclude<MenuItemOwnedProps, 'onPointerUp'>
+>;
 
 export type ComboboxOption = {
   value: string;
@@ -57,7 +65,7 @@ export type ComboboxOption = {
    * `trailingVisual`, `className`). Overrides the `menuItemProps` set on the
    * Combobox; the props Combobox owns (ARIA, selection, handlers) can't be set.
    */
-  menuItemProps?: MenuItemPassthroughProps;
+  menuItemProps?: ComboboxMenuItemProps;
 };
 
 export interface ComboboxProps {
@@ -67,7 +75,7 @@ export interface ComboboxProps {
    * `menuItemProps={{ secondaryLabelPosition: 'inline' }}`. A row's own
    * `menuItemProps` wins. Not applied to the create row.
    */
-  menuItemProps?: MenuItemPassthroughProps;
+  menuItemProps?: ComboboxMenuItemProps;
   /** When true, selected values render as removable chips. Default: false. */
   multiple?: boolean;
   value?: string | string[] | null;
