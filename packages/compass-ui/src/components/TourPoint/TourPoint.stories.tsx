@@ -60,6 +60,7 @@ export const NoPointer: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 32 }}>
       <section>

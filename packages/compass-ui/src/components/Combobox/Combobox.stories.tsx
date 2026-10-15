@@ -125,6 +125,7 @@ export const MultiSelect: Story = {
           placeholder="Search people…"
           multiple
           options={PEOPLE_OPTIONS}
+          menuItemProps={{ secondaryLabelPosition: 'inline' }}
           value={value}
           onChange={(next) => setValue((next as string[]) ?? [])}
         />
@@ -320,6 +321,7 @@ export const Disabled: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 20, maxWidth: 360 }}>
       {SIZES.map((size) => (

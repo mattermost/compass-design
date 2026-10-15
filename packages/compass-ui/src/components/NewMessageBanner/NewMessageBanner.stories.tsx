@@ -39,6 +39,7 @@ export const NewReplies: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 16, maxWidth: 560 }}>
       <NewMessageBanner

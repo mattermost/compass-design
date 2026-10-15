@@ -88,6 +88,7 @@ export const WithSecondaryLabel: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   decorators: [],
   render: () => (
     <SwitchFrame>
