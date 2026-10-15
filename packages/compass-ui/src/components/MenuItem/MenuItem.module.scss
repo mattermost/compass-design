@@ -84,7 +84,10 @@
     color: var(--button-bg);
   }
 
+  // `__middle` and `__right` stretch to the row so their own centering applies when a
+  // taller leading visual (e.g. a 24px avatar) is the tallest item; otherwise they'd sit at the top.
   &__middle {
+    align-self: stretch;
     flex: 1 0 0;
     min-width: 0;
     display: flex;
@@ -156,6 +159,7 @@
   }
 
   &__right {
+    align-self: stretch;
     display: flex;
     align-items: center;
     justify-content: flex-end;

@@ -181,6 +181,16 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  // Hover moves the highlight without scrolling; only keyboard changes scroll the row into view.
+  const activatedByPointer = useRef(false);
+  const hoverRow = useCallback(
+    (index: number) => {
+      if (index === activeIndex) return;
+      activatedByPointer.current = true;
+      setActiveIndex(index);
+    },
+    [activeIndex],
+  );
 
   const selectedOption = useMemo(
     () => options.find((o) => o.value === value),
@@ -254,6 +264,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
 
   const moveActive = useCallback(
     (delta: number) => {
+      activatedByPointer.current = false;
       const enabled = listOptions
         .map((o, i) => ({ o, i }))
         .filter(({ o }) => !o.disabled);
@@ -277,6 +288,10 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
 
   useEffect(() => {
     if (!isOpen || activeIndex < 0) return;
+    if (activatedByPointer.current) {
+      activatedByPointer.current = false;
+      return;
+    }
     const option = listOptions[activeIndex];
     if (!option) return;
     const el = document.getElementById(`${listboxId}-option-${option.value}`);
@@ -447,7 +462,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
                       selected={option.value === value}
                       active={index === activeIndex}
                       onSelect={selectOption}
-                      onHover={() => setActiveIndex(index)}
+                      onHover={() => hoverRow(index)}
                       dividerAfter={option.dividerAfter}
                     />
                   ))}

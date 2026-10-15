@@ -289,6 +289,16 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  // Hover moves the highlight without scrolling; only keyboard changes scroll the row into view.
+  const activatedByPointer = useRef(false);
+  const hoverRow = useCallback(
+    (index: number) => {
+      if (index === activeIndex) return;
+      activatedByPointer.current = true;
+      setActiveIndex(index);
+    },
+    [activeIndex],
+  );
   const [queryOverride, setQueryOverride] = useState<string | null>(null);
 
   const resolveOption = useCallback(
@@ -541,6 +551,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const moveActive = useCallback(
     (delta: number) => {
+      activatedByPointer.current = false;
       const enabled = rows
         .map((row, i) => ({ row, i }))
         .filter(({ row }) => !isRowDisabled(row));
@@ -564,6 +575,10 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   useEffect(() => {
     if (!isOpen || activeIndex < 0) return;
+    if (activatedByPointer.current) {
+      activatedByPointer.current = false;
+      return;
+    }
     const row = rows[activeIndex];
     if (!row) return;
     document.getElementById(rowId(row))?.scrollIntoView?.({ block: 'nearest' });
@@ -871,7 +886,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                               active={active}
                               aria-selected={false}
                               onMouseDown={preventBlur}
-                              onMouseEnter={() => setActiveIndex(index)}
+                              onMouseEnter={() => hoverRow(index)}
                               onClick={() => createValue(row.inputValue)}
                             />
                           </li>
@@ -902,7 +917,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                             disabled={option.disabled}
                             aria-selected={selected}
                             onMouseDown={preventBlur}
-                            onMouseEnter={() => setActiveIndex(index)}
+                            onMouseEnter={() => hoverRow(index)}
                             onClick={() => selectOption(option)}
                           />
                         </li>

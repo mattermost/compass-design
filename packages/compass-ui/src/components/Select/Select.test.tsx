@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   getByRole,
+  hover,
   keyDown,
   render,
   withoutScrollIntoView,
@@ -116,5 +117,47 @@ describe('Select menuItemProps', () => {
     open();
     expect(rows()).toHaveLength(2);
     expect(rows()[0].getAttribute('aria-selected')).toBe('false');
+  });
+});
+
+describe('Select hover and scrolling', () => {
+  const original = Element.prototype.scrollIntoView;
+  const scrollIntoView = vi.fn();
+
+  beforeEach(() => {
+    scrollIntoView.mockClear();
+    Element.prototype.scrollIntoView = scrollIntoView;
+  });
+
+  afterEach(() => {
+    Element.prototype.scrollIntoView = original;
+  });
+
+  function rows() {
+    return Array.from(document.querySelectorAll('[role="option"]'));
+  }
+
+  it('highlights a hovered row without scrolling it into view', () => {
+    render(<Select aria-label="Letter" options={OPTIONS} />);
+    const trigger = getByRole('combobox');
+    keyDown(trigger, 'ArrowDown');
+    scrollIntoView.mockClear();
+
+    hover(rows()[2]);
+
+    expect(trigger.getAttribute('aria-activedescendant')).toBe(rows()[2].id);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('still scrolls the highlighted row into view for keyboard navigation', () => {
+    render(<Select aria-label="Letter" options={OPTIONS} />);
+    const trigger = getByRole('combobox');
+    keyDown(trigger, 'ArrowDown');
+    hover(rows()[2]);
+    scrollIntoView.mockClear();
+
+    keyDown(trigger, 'ArrowUp');
+
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });

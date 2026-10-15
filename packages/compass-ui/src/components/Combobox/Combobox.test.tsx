@@ -1,8 +1,9 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   click,
   focus,
   getByRole,
+  hover,
   keyDown,
   queryAllByRole,
   render,
@@ -469,5 +470,48 @@ describe('Combobox menuItemProps', () => {
     click(rows()[0]);
     expect(onChange).toHaveBeenCalledWith('ts');
     expect(onClick).not.toHaveBeenCalled();
+  });
+});
+
+describe('Combobox hover and scrolling', () => {
+  const original = Element.prototype.scrollIntoView;
+  const scrollIntoView = vi.fn();
+
+  beforeEach(() => {
+    scrollIntoView.mockClear();
+    Element.prototype.scrollIntoView = scrollIntoView;
+  });
+
+  afterEach(() => {
+    Element.prototype.scrollIntoView = original;
+  });
+
+  const OPTIONS: ComboboxOption[] = [
+    { value: 'a', label: 'Alpha' },
+    { value: 'b', label: 'Beta' },
+    { value: 'c', label: 'Gamma' },
+  ];
+
+  it('highlights a hovered row without scrolling it into view', () => {
+    render(<Combobox aria-label="Letter" options={OPTIONS} />);
+    openMenu();
+    const rows = queryAllByRole('option');
+    scrollIntoView.mockClear();
+
+    hover(rows[2]);
+
+    expect(input().getAttribute('aria-activedescendant')).toBe(rows[2].id);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('still scrolls the highlighted row into view for keyboard navigation', () => {
+    render(<Combobox aria-label="Letter" options={OPTIONS} />);
+    openMenu();
+    hover(queryAllByRole('option')[2]);
+    scrollIntoView.mockClear();
+
+    keyDown(input(), 'ArrowUp');
+
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });
