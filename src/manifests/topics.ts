@@ -286,6 +286,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/admin-panel-header/admin-panel-header.specimen'),
   },
   {
+    slug: 'admin-panel-footer',
+    name: 'Admin Panel Footer',
+    category: 'components',
+    description:
+      'Admin Panel action rail: left and right slots for Button, IconButton, or pagination.',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/admin-panel-footer/admin-panel-footer.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/admin-panel-footer/admin-panel-footer.specimen'),
+  },
+  {
     slug: 'admin-console-footer',
     name: 'Admin Console Footer',
     category: 'components',

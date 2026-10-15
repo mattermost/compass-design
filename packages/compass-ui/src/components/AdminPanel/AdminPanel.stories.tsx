@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
+import AdminPanelFooter from '@/components/AdminPanelFooter/AdminPanelFooter';
+import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import AdminPanel, { type AdminPanelExpandedState } from './AdminPanel';
@@ -98,6 +100,43 @@ export const ControlledExpand: Story = {
         Controlled via parent state ({expandedState}).
       </AdminPanel>
     );
+  },
+};
+
+export const WithFooter: Story = {
+  args: {
+    title: 'Section Title',
+    subtitle: 'Section sub-title',
+    children: 'Section content with footer actions.',
+    footer: (
+      <AdminPanelFooter
+        leftActions={
+          <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
+            Secondary
+          </Button>
+        }
+        rightActions={
+          <>
+            <Button
+              type="button"
+              size="medium"
+              emphasis="tertiary"
+              onClick={fn()}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              size="medium"
+              emphasis="primary"
+              onClick={fn()}
+            >
+              Apply
+            </Button>
+          </>
+        }
+      />
+    ),
   },
 };
 

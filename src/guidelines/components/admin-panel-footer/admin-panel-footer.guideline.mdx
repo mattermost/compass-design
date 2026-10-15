@@ -1,0 +1,87 @@
+import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+import { Button } from '@mattermost/compass-ui/components/button';
+
+Admin Panel Footer is the action rail at the bottom of an
+[`Admin Panel`](/patterns/admin-panel). It provides start- and end-edge slots
+for `Button`, `IconButton`, or pagination controls — layout and divider chrome
+only; the host owns labels and handlers.
+
+<Divider />
+
+## Anatomy
+
+A top divider separates the footer from the panel body. Actions sit on opposite
+edges with a flexible gap between them.
+
+<AnatomyStage style={{ width: '100%', maxWidth: '920px' }}>
+  <div
+    style={{
+      width: '100%',
+      border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+      borderRadius: 'var(--radius-m)',
+      overflow: 'hidden',
+      background: 'var(--center-channel-bg)',
+    }}
+  >
+    <div
+      style={{
+        padding: 'var(--spacing-xxl)',
+        color: 'rgba(var(--center-channel-color-rgb), 0.75)',
+        fontSize: 'var(--font-size-100)',
+      }}
+    >
+      Panel body
+    </div>
+    <AdminPanelFooter
+      leftActions={
+        <Button type="button" size="medium" emphasis="tertiary">
+          Secondary
+        </Button>
+      }
+      rightActions={
+        <>
+          <Button type="button" size="medium" emphasis="tertiary">
+            Cancel
+          </Button>
+          <Button type="button" size="medium" emphasis="primary">
+            Save
+          </Button>
+        </>
+      }
+    />
+  </div>
+</AnatomyStage>
+
+- <Num>1</Num> **Divider** — top border separating footer chrome from the body.
+- <Num>2</Num> **Left actions** — start-edge slot for secondary actions, add
+  controls, or pagination status.
+- <Num>3</Num> **Right actions** — end-edge slot for primary commit paths,
+  navigation, or pagination controls.
+
+<Divider />
+
+## Options
+
+| Option        | Use when                                                                                      |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| Left only     | A single sectional action (add row, filter) belongs on the start edge.                        |
+| Right only    | Commit or dismiss actions sit on the end edge without a leading control.                      |
+| Both sides    | Pair a leading utility with trailing commit or pagination.                                    |
+| Pagination    | Pass status copy or `PaginationDots` in one slot and Previous / Next controls in the other.   |
+| Icon buttons  | Dense toolbars — keep accessible names via `aria-label` on each `IconButton`.                 |
+
+<Divider />
+
+## Behaviour
+
+- **Compose, don’t hard-code.** The footer does not own Save / Cancel labels —
+  page-level save stays in [`Admin Console Footer`](/components/admin-console-footer).
+- **Collapse with the panel.** When used via `AdminPanel`’s `footer` prop on an
+  expandable panel, the footer hides with the body.
+
+<Divider />
+
+## Implementation
+
+For props and examples, see the
+[Admin Panel Footer specimen page](/components/admin-panel-footer/specimen).

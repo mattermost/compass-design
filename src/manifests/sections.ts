@@ -75,6 +75,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'admin-console-header',
         'admin-console-footer',
         'admin-panel-header',
+        'admin-panel-footer',
         'feature-discovery-panel',
       ],
     },

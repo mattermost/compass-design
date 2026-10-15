@@ -119,6 +119,9 @@
       "components/admin-panel": [
         "./dist/components/admin-panel/index.d.ts"
       ],
+      "components/admin-panel-footer": [
+        "./dist/components/admin-panel-footer/index.d.ts"
+      ],
       "components/admin-panel-header": [
         "./dist/components/admin-panel-header/index.d.ts"
       ],

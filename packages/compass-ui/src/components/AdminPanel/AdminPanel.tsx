@@ -21,6 +21,12 @@ export interface AdminPanelProps extends Omit<
   children?: ReactNode;
   className?: string;
   headerActions?: ReactNode;
+  /**
+   * Optional footer rail below the body — typically
+   * [`AdminPanelFooter`](/components/admin-panel-footer) with left/right action slots.
+   * Collapses with the body when the panel is expandable.
+   */
+  footer?: ReactNode;
   iconLeft?: boolean;
   /** Icon forwarded to `AdminPanelHeader`'s 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} size="20" />`. */
   leadingIcon?: ReactNode;
@@ -61,6 +67,7 @@ export default function AdminPanel({
   title,
   subtitle,
   headerActions,
+  footer,
   children,
   className = '',
   iconLeft = false,
@@ -159,10 +166,14 @@ export default function AdminPanel({
         >
           <div className={styles['admin-panel__collapse-inner']}>
             <div className={styles['admin-panel__body']}>{children}</div>
+            {footer}
           </div>
         </div>
       ) : (
-        <div className={styles['admin-panel__body']}>{children}</div>
+        <>
+          <div className={styles['admin-panel__body']}>{children}</div>
+          {footer}
+        </>
       )}
     </section>
   );

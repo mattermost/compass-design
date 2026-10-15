@@ -3,6 +3,7 @@ export type * from './components/ActionButton/ActionButton';
 export * from './components/AdminConsoleHeader/index';
 export * from './components/AdminPanel/index';
 export * from './components/AdminConsoleFooter/index';
+export * from './components/AdminPanelFooter/index';
 export * from './components/AdminPanelHeader/index';
 export * from './components/AttachmentCard/index';
 export * from './components/Button/index';

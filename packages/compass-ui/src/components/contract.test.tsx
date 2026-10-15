@@ -3,6 +3,7 @@ import type { ReactElement } from 'react';
 import { click, render } from '@/test-utils/render';
 import type { BuiltInButtonProps } from '@/utils/props';
 import AdminPanel from './AdminPanel/AdminPanel';
+import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
 import Combobox from './Combobox/Combobox';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
@@ -47,6 +48,9 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
     />
   ),
   AdminPanel: (a) => <AdminPanel title="Panel" {...a} />,
+  AdminPanelFooter: (a) => (
+    <AdminPanelFooter leftActions={<span>Action</span>} {...a} />
+  ),
   Toast: (a) => <Toast message="Saved" {...a} />,
   PopoverNotice: (a) => (
     <PopoverNotice title="New" {...a}>

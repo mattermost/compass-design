@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **`AdminPanelFooter`:** action rail for Admin Panel with `leftActions` and `rightActions` slots for `Button`, `IconButton`, or pagination. Compose via the new optional `AdminPanel` `footer` prop (collapses with the body when expandable).
 - **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
 - **`Combobox` and `Select` `menuItemProps`:** forward any `MenuItem` prop that the menu doesn't own (`secondaryLabelPosition`, `trailingVisual`, `tag`, `tagLabel`, `mentionCount`, `customStatusEmoji`, `destructive`, `className`, `data-*`, …) to the option rows, either on the component (all rows) or on a single option (`ComboboxOption.menuItemProps` / `SelectOption.menuItemProps`, which wins; `className` is merged). Props the menu sets itself (ARIA, selection state, the click / pointer handlers it uses, `label`, `secondaryLabel`, `leadingVisual`, `disabled`) can't be overridden, and neither can `autoFocus`, which would pull focus off the input / trigger when the menu opens. `Combobox` selects on `onClick`, so it accepts `onPointerUp`; `Select` selects on `onPointerUp`, so it accepts `onClick`. `Combobox` doesn't apply it to the create row. New exported types `MenuItemPassthroughProps` (generic over the props the host owns) and `MenuItemOwnedProps`.
 

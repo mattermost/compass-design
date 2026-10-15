@@ -3,6 +3,8 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
 import { type AdminPanelExpandedState } from '@mattermost/compass-ui/components/admin-panel-header';
 import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
+import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import styles from '@/styles/library-demo/components.module.scss';
@@ -77,6 +79,34 @@ export default function AdminPanelPatternSpecimen() {
         <p className={styles['components__instance-label']}>With subtitle</p>
         <AdminPanel title="Section Title" subtitle="Section sub-title">
           Section content
+        </AdminPanel>
+      </div>
+      <div>
+        <p className={styles['components__instance-label']}>With panel footer</p>
+        <AdminPanel
+          title="Section Title"
+          subtitle="Section sub-title"
+          footer={
+            <AdminPanelFooter
+              leftActions={
+                <Button type="button" size="medium" emphasis="tertiary">
+                  Secondary
+                </Button>
+              }
+              rightActions={
+                <>
+                  <Button type="button" size="medium" emphasis="tertiary">
+                    Cancel
+                  </Button>
+                  <Button type="button" size="medium" emphasis="primary">
+                    Apply
+                  </Button>
+                </>
+              }
+            />
+          }
+        >
+          Section content with footer actions.
         </AdminPanel>
       </div>
       <div>
