@@ -116,6 +116,7 @@ export default function ModalLibrary() {
                 key={person.handle}
                 label={person.name}
                 secondaryLabel={person.handle}
+                secondaryLabelPosition="inline"
                 leadingVisual={
                   <UserAvatar src={person.src} alt={person.name} size="24" />
                 }

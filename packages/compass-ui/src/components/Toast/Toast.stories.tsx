@@ -118,6 +118,7 @@ export const WithoutDismiss: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div
       style={{

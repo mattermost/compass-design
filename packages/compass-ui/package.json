@@ -110,6 +110,9 @@
       "components/action-button": [
         "./dist/components/action-button/index.d.ts"
       ],
+      "components/admin-console-footer": [
+        "./dist/components/admin-console-footer/index.d.ts"
+      ],
       "components/admin-console-header": [
         "./dist/components/admin-console-header/index.d.ts"
       ],

@@ -1,54 +1,28 @@
-import { useId, useState, type ComponentProps, type ReactNode } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
+import AdminPanel from '@/components/AdminPanel/AdminPanel';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
-import AdminPanelHeader, {
-  type AdminPanelExpandedState,
-} from './AdminPanelHeader';
-
-function HeaderChrome({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        border: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
-        borderRadius: 'var(--radius-m)',
-        background: 'var(--center-channel-bg)',
-        boxShadow: 'var(--elevation-1)',
-        overflow: 'hidden',
-        maxWidth: 920,
-        width: '100%',
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-type AdminPanelHeaderStoryProps = Omit<
-  ComponentProps<typeof AdminPanelHeader>,
-  'titleId'
->;
-
-function AdminPanelHeaderStory(props: AdminPanelHeaderStoryProps) {
-  const titleId = useId();
-  return (
-    <HeaderChrome>
-      <AdminPanelHeader titleId={titleId} {...props} />
-    </HeaderChrome>
-  );
-}
+import type { AdminPanelExpandedState } from './AdminPanelHeader';
 
 const meta = {
   title: 'Components/Admin Console/Admin Panel Header',
-  component: AdminPanelHeaderStory,
+  component: AdminPanel,
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
   },
-} satisfies Meta<typeof AdminPanelHeaderStory>;
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: 920, width: '100%' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof AdminPanel>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -57,14 +31,12 @@ export const Default: Story = {
   args: {
     title: 'Section Title',
     subtitle: 'Section sub-title',
-    showDivider: true,
   },
 };
 
 export const TitleOnly: Story = {
   args: {
     title: 'Section Title',
-    showDivider: true,
   },
 };
 
@@ -80,7 +52,6 @@ export const FullHeader: Story = {
     showButton: true,
     buttonLabel: 'Button',
     onButtonClick: fn(),
-    showDivider: true,
   },
 };
 
@@ -89,9 +60,7 @@ export const ExpandableCollapsed: Story = {
     title: 'Section Title',
     subtitle: 'Section sub-title',
     expandable: true,
-    isExpanded: false,
-    onToggleExpand: fn(),
-    showDivider: false,
+    defaultExpandedState: 'collapsed',
     showSwitch: true,
     switchLabel: 'Off',
   },
@@ -102,9 +71,7 @@ export const ExpandableExpanded: Story = {
     title: 'Section Title',
     subtitle: 'Section sub-title',
     expandable: true,
-    isExpanded: true,
-    onToggleExpand: fn(),
-    showDivider: true,
+    defaultExpandedState: 'expanded',
     showSwitch: true,
     switchLabel: 'Off',
   },
@@ -112,80 +79,57 @@ export const ExpandableExpanded: Story = {
 
 export const ControlledExpand: Story = {
   render: function ControlledExpandStory() {
-    const titleId = useId();
     const [expanded, setExpanded] =
       useState<AdminPanelExpandedState>('expanded');
 
     return (
-      <HeaderChrome>
-        <AdminPanelHeader
-          titleId={titleId}
-          title="Section Title"
-          subtitle="Section sub-title"
-          iconLeft
-          leadingIcon={<Icon glyph={<GlobeIcon />} />}
-          expandable
-          isExpanded={expanded === 'expanded'}
-          onToggleExpand={() =>
-            setExpanded((state) =>
-              state === 'expanded' ? 'collapsed' : 'expanded',
-            )
-          }
-          showDivider={expanded === 'expanded'}
-          headerActions={
-            <IconButton
-              type="button"
-              style="default"
-              size="medium"
-              aria-label="Help"
-              icon={<Icon glyph={<InformationOutlineIcon />} />}
-            />
-          }
-        />
-      </HeaderChrome>
+      <AdminPanel
+        title="Section Title"
+        subtitle="Section sub-title"
+        iconLeft
+        leadingIcon={<Icon glyph={<GlobeIcon />} />}
+        expandable
+        expandedState={expanded}
+        onExpandedStateChange={setExpanded}
+        headerActions={
+          <IconButton
+            type="button"
+            style="default"
+            size="medium"
+            aria-label="Help"
+            icon={<Icon glyph={<InformationOutlineIcon />} />}
+          />
+        }
+      />
     );
   },
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
-      <section>
-        <AdminPanelHeaderStory
-          title="Section Title"
-          subtitle="Section sub-title"
-          iconLeft
-          showEnterpriseLabel
-          showBeta
-          showSwitch
-          switchLabel="Off"
-          showButton
-          buttonLabel="Button"
-          showDivider
-        />
-      </section>
-      <section>
-        <AdminPanelHeaderStory
-          title="Section Title"
-          subtitle="Section sub-title"
-          expandable
-          isExpanded={false}
-          onToggleExpand={fn()}
-          showDivider={false}
-          showSwitch
-          switchLabel="Off"
-        />
-      </section>
-      <section>
-        <AdminPanelHeaderStory
-          title="Section Title"
-          subtitle="Section sub-title"
-          showDivider
-        />
-      </section>
-      <section>
-        <AdminPanelHeaderStory title="Section Title" showDivider />
-      </section>
+      <AdminPanel
+        title="Section Title"
+        subtitle="Section sub-title"
+        iconLeft
+        showEnterpriseLabel
+        showBeta
+        showSwitch
+        switchLabel="Off"
+        showButton
+        buttonLabel="Button"
+      />
+      <AdminPanel
+        title="Section Title"
+        subtitle="Section sub-title"
+        expandable
+        defaultExpandedState="collapsed"
+        showSwitch
+        switchLabel="Off"
+      />
+      <AdminPanel title="Section Title" subtitle="Section sub-title" />
+      <AdminPanel title="Section Title" />
     </div>
   ),
 };

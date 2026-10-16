@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
+import AdminPanelFooter from '@/components/AdminPanelFooter/AdminPanelFooter';
+import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import AdminPanel, { type AdminPanelExpandedState } from './AdminPanel';
@@ -38,6 +40,18 @@ export const TitleOnly: Story = {
   args: {
     title: 'Section Title',
     children: 'Section content',
+  },
+};
+
+/** Header-only panel (no body) — used as a nav banner in System Console. */
+export const HeaderOnly: Story = {
+  args: {
+    title: 'System Scheme',
+    subtitle:
+      'Manage the default permission scheme for all teams and channels.',
+    showButton: true,
+    buttonLabel: 'Edit Scheme',
+    onButtonClick: fn(),
   },
 };
 
@@ -101,7 +115,40 @@ export const ControlledExpand: Story = {
   },
 };
 
+export const WithFooter: Story = {
+  args: {
+    title: 'Section Title',
+    subtitle: 'Section sub-title',
+    children: 'Section content with footer actions.',
+    footer: (
+      <AdminPanelFooter
+        leftActions={
+          <>
+            <Button
+              type="button"
+              size="medium"
+              emphasis="primary"
+              onClick={fn()}
+            >
+              Apply
+            </Button>
+            <Button
+              type="button"
+              size="medium"
+              emphasis="tertiary"
+              onClick={fn()}
+            >
+              Cancel
+            </Button>
+          </>
+        }
+      />
+    ),
+  },
+};
+
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
       <AdminPanel

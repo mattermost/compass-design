@@ -290,12 +290,24 @@ export const TOPICS: Topic[] = [
     name: 'Admin Panel Footer',
     category: 'components',
     description:
-      'System Console content footer: Save and Cancel with optional validation summary.',
+      'Admin Panel action rail: left and right slots for Button, IconButton, or pagination.',
     status: 'stable',
     guidelinePage: () =>
       import('@/guidelines/components/admin-panel-footer/admin-panel-footer.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/components/admin-panel-footer/admin-panel-footer.specimen'),
+  },
+  {
+    slug: 'admin-console-footer',
+    name: 'Admin Console Footer',
+    category: 'components',
+    description:
+      'System Console content footer: Save and Cancel with optional validation summary.',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/admin-console-footer/admin-console-footer.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/admin-console-footer/admin-console-footer.specimen'),
   },
   {
     slug: 'feature-discovery-panel',

@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+import { AdminConsoleFooter } from '@mattermost/compass-ui/components/admin-console-footer';
 import { AdminConsoleHeader } from '@mattermost/compass-ui/components/admin-console-header';
 import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
 import { Radio } from '@mattermost/compass-ui/components/radio';
@@ -472,7 +472,7 @@ export default function AdminConsoleLayout() {
           </Scrollbar>
         </div>
 
-        <AdminPanelFooter saveDisabled={false} />
+        <AdminConsoleFooter saveDisabled={false} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { AdminPanelHeader } from '@mattermost/compass-ui/components/admin-panel-header';
+import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
 
 Admin Panel Header is the titled rail for a System Console settings
 section: optional leading icon, title with optional tags, subtitle, and trailing
@@ -10,28 +10,22 @@ documented on its own when adjusting header anatomy or behaviour.
 
 ## Anatomy
 
-<AnatomyStage style={{ alignItems: 'stretch' }}>
-  <div
-    style={{
-      maxWidth: 920,
-      width: '100%',
-      background: 'var(--center-channel-bg)',
-    }}
-  >
-    <AdminPanelHeader
-      titleId="admin-panel-header-anatomy"
-      title="Section Title"
-      subtitle="Section sub-title"
-      iconLeft
-      showEnterpriseLabel
-      showBeta
-      showSwitch
-      switchLabel="Off"
-      showButton
-      buttonLabel="Button"
-      showDivider={false}
-    />
-  </div>
+Shown here in a full Admin Panel shell with no body or footer.
+
+<AnatomyStage
+  style={{ alignItems: 'stretch', width: '100%', maxWidth: '920px' }}
+>
+  <AdminPanel
+    title="Section Title"
+    subtitle="Section sub-title"
+    iconLeft
+    showEnterpriseLabel
+    showBeta
+    showSwitch
+    switchLabel="Off"
+    showButton
+    buttonLabel="Button"
+  />
 </AnatomyStage>
 
 - <Num>1</Num> **Leading icon** — optional circular slot; omit when the title

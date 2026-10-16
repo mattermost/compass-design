@@ -1,54 +1,84 @@
+import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
 import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+import { Button } from '@mattermost/compass-ui/components/button';
 
-Admin Panel Footer pins Save and Cancel to the bottom of System Console
-form layouts. It mirrors channel composer discipline: one primary commit path,
-a safe escape hatch, and optional validation status without stealing focus from
-the draft.
+Admin Panel Footer is the action rail at the bottom of an
+[`Admin Panel`](/patterns/admin-panel). It provides start- and end-edge slots
+for `Button`, `IconButton`, or pagination controls — layout and divider chrome
+only; the host owns labels and handlers.
 
 <Divider />
 
 ## Anatomy
 
-Sticky-style toolbar: Save then Cancel reads left to right with optional status
-summarising validation beside or below on narrow widths.
+A top divider separates the footer from the panel body. Primary actions sit on
+the start edge (primary button leftmost when used). A second slot can hold
+trailing utilities or pagination on the end edge.
 
-<AnatomyStage style={{ width: '100%', maxWidth: '920px' }}>
-  <AdminPanelFooter
-    saveDisabled={false}
-    status="warning"
-    statusMessage="SMTP server address is required."
-    onSave={() => {}}
-    onCancel={() => {}}
-  />
+<AnatomyStage
+  style={{ width: '100%', maxWidth: '920px', alignItems: 'stretch' }}
+>
+  <AdminPanel
+    title="Section Title"
+    subtitle="Section sub-title"
+    footer={
+      <AdminPanelFooter
+        leftActions={
+          <>
+            <Button type="button" size="medium" emphasis="primary">
+              Save
+            </Button>
+            <Button type="button" size="medium" emphasis="tertiary">
+              Cancel
+            </Button>
+          </>
+        }
+        rightActions={
+          <Button type="button" size="medium" emphasis="tertiary">
+            Secondary
+          </Button>
+        }
+      />
+    }
+  >
+    <p
+      style={{
+        margin: 0,
+        color: 'rgba(var(--center-channel-color-rgb), 0.75)',
+        fontSize: 'var(--font-size-100)',
+      }}
+    >
+      Panel body
+    </p>
+  </AdminPanel>
 </AnatomyStage>
 
-- <Num>1</Num> **Save** — Primary emphasis; stays disabled until the form is
-  valid and has something to commit when the product uses that guard rail.
-- <Num>2</Num> **Cancel** — Tertiary emphasis for leaving without persisting or
-  confirming abandon when the platform requires it.
-- <Num>3</Num> **Status lane** — optional short validation or guidance summary
-  beside or following the buttons; uses semantic warning or danger tone with
-  matching icon affordance.
+- <Num>1</Num> **Divider** — top border separating footer chrome from the body.
+- <Num>2</Num> **Left actions** — start-edge slot for primary commit paths
+  (primary leftmost) or pagination status.
+- <Num>3</Num> **Right actions** — optional end-edge slot for secondary
+  utilities or pagination icon buttons.
 
 <Divider />
 
 ## Options
 
-| Option         | Use when                                                                                                             |
-| -------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Disabled save  | Required fields are missing, the record is unchanged and saving would no-op, or the server rejected a prior attempt. |
-| Warning status | The admin can still save but surfaced issues deserve attention (configuration oddities, soft checks).                |
-| Error status   | Blocking problems must be addressed before the workspace accepts the save.                                           |
-| No status      | The form is clean or inline field errors already carry the story.                                                    |
+| Option          | Use when                                                                                       |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| Primary actions | A single Save / Cancel (or similar) group — always on the start edge, primary button leftmost. |
+| Both sides      | Pair primary actions on the left with a trailing utility or pagination on the right.           |
+| Pagination      | Status copy on the left; previous / next as `IconButton`s (or `PaginationDots`) on the right.  |
 
 <Divider />
 
 ## Behaviour
 
-- **Copy discipline.** Status text should name what is wrong or link to the
-  offending field; avoid generic error dumps in the footer.
-- **One primary.** Keep a single Primary emphasis in the stripe so commit intent
-  stays obvious.
+- **Primary on the left.** One action group always aligns to the start edge.
+  When a primary button is present, place it first in that group.
+- **Compose, don’t hard-code.** The footer does not own Save / Cancel labels —
+  page-level save stays in [`Admin Console Footer`](/components/admin-console-footer).
+- **Collapse with the panel.** When used via `AdminPanel`’s `footer` prop on an
+  expandable panel, the footer hides with the body.
 
 <Divider />
 

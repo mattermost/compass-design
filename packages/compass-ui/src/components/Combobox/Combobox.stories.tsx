@@ -101,6 +101,20 @@ export const WithLeadingIcon: Story = {
   },
 };
 
+/** `menuItemProps` forwards any `MenuItem` prop to every row; here the team name sits inline after the channel. */
+export const InlineSecondaryLabel: Story = {
+  args: {
+    label: 'Channel',
+    placeholder: 'Search channels…',
+    menuItemProps: { secondaryLabelPosition: 'inline' },
+    options: [
+      { value: 'ts', label: 'Town Square', secondaryLabel: 'Engineering' },
+      { value: 'ot', label: 'Off-Topic', secondaryLabel: 'Engineering' },
+      { value: 'rl', label: 'Releases', secondaryLabel: 'Design' },
+    ],
+  },
+};
+
 export const MultiSelect: Story = {
   render: function MultiSelectStory() {
     const [value, setValue] = useState<string[]>(['emma']);
@@ -111,6 +125,7 @@ export const MultiSelect: Story = {
           placeholder="Search people…"
           multiple
           options={PEOPLE_OPTIONS}
+          menuItemProps={{ secondaryLabelPosition: 'inline' }}
           value={value}
           onChange={(next) => setValue((next as string[]) ?? [])}
         />
@@ -306,6 +321,7 @@ export const Disabled: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 20, maxWidth: 360 }}>
       {SIZES.map((size) => (

@@ -85,6 +85,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 }
 
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ ...sidebarSurface, display: 'grid', gap: 24 }}>
       <Row label="Default — Image">

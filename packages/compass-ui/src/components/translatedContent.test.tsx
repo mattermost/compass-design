@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { click, getByRole, render } from '@/test-utils/render';
 import ActionButton from './ActionButton/ActionButton';
 import AdminPanel from './AdminPanel/AdminPanel';
-import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
+import AdminConsoleFooter from './AdminConsoleFooter/AdminConsoleFooter';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FeatureDiscoveryPanel from './FeatureDiscoveryPanel/FeatureDiscoveryPanel';
@@ -190,9 +190,9 @@ describe('text props accept translated nodes', () => {
     expect(messages(container)).toEqual(['Enterprise', 'Beta', 'Add']);
   });
 
-  it('AdminPanelFooter save and cancel labels', () => {
+  it('AdminConsoleFooter save and cancel labels', () => {
     const { container } = render(
-      <AdminPanelFooter
+      <AdminConsoleFooter
         saveLabel={<Msg>Save</Msg>}
         cancelLabel={<Msg>Cancel</Msg>}
       />,

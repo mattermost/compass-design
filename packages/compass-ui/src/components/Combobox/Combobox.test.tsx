@@ -1,8 +1,10 @@
-import { describe, expect, it, vi } from 'vitest';
+import { act } from 'react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   click,
   focus,
   getByRole,
+  hover,
   keyDown,
   queryAllByRole,
   render,
@@ -364,5 +366,172 @@ describe('Combobox without scrollIntoView', () => {
 
     keyDown(input(), 'ArrowUp');
     expect(input().getAttribute('aria-activedescendant')).toBe(first);
+  });
+});
+
+describe('Combobox menuItemProps', () => {
+  const CHANNELS: ComboboxOption[] = [
+    { value: 'ts', label: 'Town Square', secondaryLabel: 'Engineering' },
+    { value: 'ot', label: 'Off-Topic', secondaryLabel: 'Design' },
+  ];
+
+  function rows() {
+    return queryAllByRole('option');
+  }
+
+  function span(row: Element, text: string) {
+    return Array.from(row.querySelectorAll('span')).find(
+      (s) => s.textContent === text,
+    ) as HTMLElement;
+  }
+
+  function isInline(row: Element, label: string, secondary: string) {
+    return (
+      span(row, label).parentElement === span(row, secondary).parentElement
+    );
+  }
+
+  it('renders secondary labels below by default', () => {
+    render(<Combobox aria-label="Channel" options={CHANNELS} />);
+    openMenu();
+    expect(isInline(rows()[0], 'Town Square', 'Engineering')).toBe(false);
+  });
+
+  it('applies menuItemProps to every option row', () => {
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={CHANNELS}
+        menuItemProps={{ secondaryLabelPosition: 'inline' }}
+      />,
+    );
+    openMenu();
+    expect(isInline(rows()[0], 'Town Square', 'Engineering')).toBe(true);
+    expect(isInline(rows()[1], 'Off-Topic', 'Design')).toBe(true);
+  });
+
+  it('lets an option override the Combobox menuItemProps and merges className', () => {
+    render(
+      <Combobox
+        aria-label="Channel"
+        menuItemProps={{ secondaryLabelPosition: 'inline', className: 'all' }}
+        options={[
+          CHANNELS[0],
+          {
+            ...CHANNELS[1],
+            menuItemProps: {
+              secondaryLabelPosition: 'below',
+              className: 'one',
+            },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(isInline(rows()[0], 'Town Square', 'Engineering')).toBe(true);
+    expect(isInline(rows()[1], 'Off-Topic', 'Design')).toBe(false);
+    expect(rows()[0].classList.contains('all')).toBe(true);
+    expect(rows()[1].classList.contains('all')).toBe(true);
+    expect(rows()[1].classList.contains('one')).toBe(true);
+  });
+
+  it('forwards other MenuItem props such as tag and tagLabel', () => {
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={[
+          {
+            value: 'ts',
+            label: 'Town Square',
+            menuItemProps: { tag: true, tagLabel: 'Beta' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(rows()[0].textContent).toContain('Beta');
+  });
+
+  it('passes onPointerUp through, since Combobox rows select on click', () => {
+    const onPointerUp = vi.fn();
+    const onChange = vi.fn();
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={CHANNELS}
+        onChange={onChange}
+        menuItemProps={{ onPointerUp }}
+      />,
+    );
+    openMenu();
+    act(() => {
+      rows()[0].dispatchEvent(new Event('pointerup', { bubbles: true }));
+    });
+    expect(onPointerUp).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('keeps the props Combobox owns when menuItemProps tries to set them', () => {
+    const onChange = vi.fn();
+    const onClick = vi.fn();
+    render(
+      <Combobox
+        aria-label="Channel"
+        options={CHANNELS}
+        onChange={onChange}
+        menuItemProps={
+          { role: 'button', 'aria-selected': true, onClick } as never
+        }
+      />,
+    );
+    openMenu();
+    expect(rows()).toHaveLength(2);
+    expect(rows()[0].getAttribute('aria-selected')).toBe('false');
+    click(rows()[0]);
+    expect(onChange).toHaveBeenCalledWith('ts');
+    expect(onClick).not.toHaveBeenCalled();
+  });
+});
+
+describe('Combobox hover and scrolling', () => {
+  const original = Element.prototype.scrollIntoView;
+  const scrollIntoView = vi.fn();
+
+  beforeEach(() => {
+    scrollIntoView.mockClear();
+    Element.prototype.scrollIntoView = scrollIntoView;
+  });
+
+  afterEach(() => {
+    Element.prototype.scrollIntoView = original;
+  });
+
+  const OPTIONS: ComboboxOption[] = [
+    { value: 'a', label: 'Alpha' },
+    { value: 'b', label: 'Beta' },
+    { value: 'c', label: 'Gamma' },
+  ];
+
+  it('highlights a hovered row without scrolling it into view', () => {
+    render(<Combobox aria-label="Letter" options={OPTIONS} />);
+    openMenu();
+    const rows = queryAllByRole('option');
+    scrollIntoView.mockClear();
+
+    hover(rows[2]);
+
+    expect(input().getAttribute('aria-activedescendant')).toBe(rows[2].id);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('still scrolls the highlighted row into view for keyboard navigation', () => {
+    render(<Combobox aria-label="Letter" options={OPTIONS} />);
+    openMenu();
+    hover(queryAllByRole('option')[2]);
+    scrollIntoView.mockClear();
+
+    keyDown(input(), 'ArrowUp');
+
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });

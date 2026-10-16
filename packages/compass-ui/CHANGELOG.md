@@ -8,17 +8,27 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **`AdminPanelFooter`:** action rail for Admin Panel with `leftActions` and `rightActions` slots for `Button`, `IconButton`, or pagination. Compose via the new optional `AdminPanel` `footer` prop (collapses with the body when expandable).
 - **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
 - **`Modal` `manageFocus`:** set `false` when the host owns focus (e.g. a floating-ui focus manager) to turn off initial focus, the Tab trap and focus restore. The modal still joins the modal stack, so modals below it stay inert, and Escape still follows `closeOnEscape`. Default `true` keeps the current behavior.
 - **`modalOverlayStyles`** (`@mattermost/compass-ui/components/modal`): class names for a host-rendered overlay element — `modal-overlay` (64% black scrim, centers the dialog 24px above true center, fades in on mount) and `modal-overlay--exiting` (fades out). The host still owns the portal, z-index, scroll lock and backdrop clicks.
 - **`Scrollbar` `size`:** optional `'default' | 'wide'`. `default` keeps the 8px track; `wide` uses a 10px track. `Modal` uses `wide` for its scrollable body.
+- **`Combobox` and `Select` `menuItemProps`:** forward any `MenuItem` prop that the menu doesn't own (`secondaryLabelPosition`, `trailingVisual`, `tag`, `tagLabel`, `mentionCount`, `customStatusEmoji`, `destructive`, `className`, `data-*`, …) to the option rows, either on the component (all rows) or on a single option (`ComboboxOption.menuItemProps` / `SelectOption.menuItemProps`, which wins; `className` is merged). Props the menu sets itself (ARIA, selection state, the click / pointer handlers it uses, `label`, `secondaryLabel`, `leadingVisual`, `disabled`) can't be overridden, and neither can `autoFocus`, which would pull focus off the input / trigger when the menu opens. `Combobox` selects on `onClick`, so it accepts `onPointerUp`; `Select` selects on `onPointerUp`, so it accepts `onClick`. `Combobox` doesn't apply it to the create row. New exported types `MenuItemPassthroughProps` (generic over the props the host owns) and `MenuItemOwnedProps`.
+
+### Changed
+
+- **`AdminPanelFooter` → `AdminConsoleFooter`:** renamed the component, types (`AdminConsoleFooterProps`, `AdminConsoleFooterStatus`), CSS block (`.admin-console-footer`), docs slug (`/components/admin-console-footer`), and subpath export (`@mattermost/compass-ui/components/admin-console-footer`) to match `AdminConsoleHeader`.
+- **`SectionNotice` secondary action:** uses `emphasis="tertiary"` instead of `emphasis="secondary"` so the supporting action stays lower-emphasis than the page’s main controls.
 
 ### Fixed
 
 - **`Modal` max size:** the dialog now caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall), as the Modal guideline specifies, and its width at the viewport minus 40px. The body is a single `minmax(0, 1fr)` grid row so it sizes to its content when short and gets a definite height under that cap for SimpleBar when tall.
 - **`Modal` stacking across compass-ui copies:** the modal stack lived in each copy's module, so with a plugin's compass-ui copy on the page, both open modals handled Escape and Tab. The stack is now shared on `globalThis`, so only the topmost modal reacts. Copies on `0.1.0-alpha.15` or earlier still keep their own stack.
-
 - **`Scrollbar` thumb:** uses `--radius-pill` instead of a hardcoded `3px` corner radius.
+- **`AdminPanel`:** omits the padded `admin-panel__body` (and the expandable collapse wrapper) when `children` is empty, and omits the header divider when there is no body or footer, so header-only panels (e.g. System Console nav banners) no longer leave a blank strip.
+- **`Combobox`, `Select` menu width:** the "match the field width" rule (`width: 100%; max-width: none`) had the same specificity as `PopoverMenu`'s `max-width: 496px`, so in the aggregated stylesheet (where `PopoverMenu` is emitted later) the menu was capped at 496px. The rule now nests under the popup so it wins regardless of order.
+- **`MenuItem` vertical centering:** with a leading visual taller than the label row (e.g. a 24px avatar next to a single-line or inline-secondary-label row), the label and trailing visual sat at the top of the row. They now center on the row. A trailing check on a two-line row (secondary label below) now centers too instead of sitting at the top.
+- **`Combobox`, `Select` hover scrolling:** hovering a row that was partly clipped at the edge of the menu scrolled it into view, which moved the next clipped row under the pointer and kept the list scrolling on its own. Hover now only moves the highlight; keyboard navigation still scrolls the highlighted row into view.
 - **`Switch`, `Checkbox`, `Radio`:** in the Mattermost webapp, the global `label { margin-bottom }` rule added space under the root `<label>` and pushed the control off-center in its row. The root now resets `margin: 0`.
 - **`Combobox` `multiple`:** with many or long chips the input's `min-height: 100%` resolved against the whole wrapped chip area, so the input grew taller than the field and its caret rendered outside it. The input now stretches only to its own flex line.
 - **`Chip`:** a long label kept the chip at its full text width, so it overflowed its container (e.g. inside a `Combobox`). The chip now shrinks to its container (`min-width: 0; max-width: 100%`) and the label ellipsizes.
@@ -78,7 +88,7 @@ Safe to run several compass-ui copies, of any versions, on one page alongside a 
 - **SimpleBar CSS** ships as `components/scrollbar/simplebar-vendor.css` inside `@layer compass-ui.vendor`, so a host's own SimpleBar CSS wins. This replaces the CSS-only `dist/node_modules/simplebar-react` folder, which shadowed the real `simplebar-react` package and broke Node ESM imports of `Scrollbar` (and of `Modal`, `PopoverMenu`, `EmptyState`, `Select`, `Combobox`) even when it was installed.
 - **`simplebar-react` is a required peer dependency** (no longer `optional`), so npm 7+ installs it automatically.
 - All 17 components that used `--radius-full` now use `--radius-pill`, so pills stay pills when the webapp's `--radius-full: 50%` wins.
-- **Translatable text props:** text props that were typed `string` now accept `ReactNode` (for example `MenuGroupHeading.label`, `TourPoint.title`, `TourPointPrimaryAction.label`, `PopoverNotice.checkboxLabel`, `ActionButton.label`, `FeatureDiscoveryPanel.title`/`description`, `AdminPanel` and `AdminPanelHeader` `betaLabel`/`enterpriseLabel`/`buttonLabel`, `AdminPanelFooter.saveLabel`/`cancelLabel`). Option labels used for filtering stay `string`.
+- **Translatable text props:** text props that were typed `string` now accept `ReactNode` (for example `MenuGroupHeading.label`, `TourPoint.title`, `TourPointPrimaryAction.label`, `PopoverNotice.checkboxLabel`, `ActionButton.label`, `FeatureDiscoveryPanel.title`/`description`, `AdminPanel` and `AdminPanelHeader` `betaLabel`/`enterpriseLabel`/`buttonLabel`, `AdminConsoleFooter.saveLabel`/`cancelLabel`). Option labels used for filtering stay `string`.
 
 ### Deprecated
 

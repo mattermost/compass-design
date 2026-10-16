@@ -49,6 +49,7 @@ function MultiPeopleCombobox() {
       placeholder="Search people…"
       multiple
       options={PEOPLE_OPTIONS}
+      menuItemProps={{ secondaryLabelPosition: 'inline' }}
       value={value}
       onChange={(next: string | string[] | null) =>
         setValue((next as string[]) ?? [])
@@ -105,6 +106,7 @@ function AsyncPeopleCombobox() {
       filter={false}
       loading={loading}
       options={results}
+      menuItemProps={{ secondaryLabelPosition: 'inline' }}
       inputValue={query}
       onInputChange={setQuery}
       value={selected.map((option) => option.value)}

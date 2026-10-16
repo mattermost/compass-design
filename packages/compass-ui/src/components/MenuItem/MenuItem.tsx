@@ -5,6 +5,7 @@ import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import Tag from '@/components/Tag/Tag';
 import MentionBadge from '@/components/MentionBadge/MentionBadge';
+import type { DataAttributes } from '@/utils/props';
 import styles from './MenuItem.module.scss';
 
 export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,6 +36,45 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Highlight row (e.g. submenu parent while child menu is open). */
   active?: boolean;
 }
+
+/**
+ * Props a host menu (`Combobox`, `Select`) can set itself on a row: ARIA and
+ * selection state, keyboard / pointer handling, and the values it reads from the
+ * option object (`label`, `secondaryLabel`, `leadingVisual`, `disabled`). They
+ * can't be overridden through `menuItemProps`. This is the full set; each host
+ * sets only some of the handlers (`Combobox` uses `onClick`, `Select` uses
+ * `onPointerUp`) and passes the other one through. `autoFocus` is excluded too:
+ * the host keeps focus on its input / trigger, and a row that grabs focus on
+ * mount would take it away.
+ */
+export type MenuItemOwnedProps =
+  | 'id'
+  | 'role'
+  | 'aria-selected'
+  | 'autoFocus'
+  | 'label'
+  | 'secondaryLabel'
+  | 'leadingVisual'
+  | 'leadingElement'
+  | 'trailingElement'
+  | 'disabled'
+  | 'active'
+  | 'children'
+  | 'onClick'
+  | 'onMouseDown'
+  | 'onMouseEnter'
+  | 'onPointerUp';
+
+/**
+ * Every `MenuItem` prop a host menu doesn't own (`secondaryLabelPosition`,
+ * `trailingVisual`, `tag`, `mentionCount`, `destructive`, `className`, …), so
+ * props added to `MenuItem` reach `Combobox` / `Select` rows automatically.
+ * `Owned` is the set the host sets itself (default: all of `MenuItemOwnedProps`);
+ * a host narrows it so the handlers it doesn't supply can still be passed.
+ */
+export type MenuItemPassthroughProps<
+  Owned extends keyof MenuItemProps = MenuItemOwnedProps,
+> = Partial<Omit<MenuItemProps, Owned>> & DataAttributes;
 
 /**
  * Menu Items are the rows inside a Menu — the smallest selectable unit in any dropdown,

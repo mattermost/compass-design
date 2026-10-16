@@ -453,7 +453,7 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 
 - `ReactNode` props (`Button` `children`, `Modal` / `ModalHeader` `title` / `subtitle`) can take `<FormattedMessage />`.
 - `string` props (`Tooltip` `label` / `hint`, placeholders, `aria-label`) can take `intl.formatMessage(...)` — a string, not a descriptor object.
-- Some English defaults are overridable (`AdminPanelFooter` `saveLabel` / `cancelLabel`, `Combobox` `emptyMessage`, `Spinner` `aria-label`).
+- Some English defaults are overridable (`AdminConsoleFooter` `saveLabel` / `cancelLabel`, `Combobox` `emptyMessage`, `Spinner` `aria-label`).
 
 **Compass-owned chrome** defaults to English, and every built-in accessible name or message has an override prop (since `0.1.0-alpha.13`): pass translated strings to `closeLabel` / `backLabel` (`Modal`, `ModalHeader`), `dismissLabel`, `clearLabel`, `unreadLabel`, `format*Label` functions, and similar. `DateRangePicker` month and weekday names are still English.
 

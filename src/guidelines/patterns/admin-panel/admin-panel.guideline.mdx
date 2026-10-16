@@ -1,10 +1,14 @@
 import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
+import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+import { Button } from '@mattermost/compass-ui/components/button';
 
 Admin Panel is the bordered sheet used throughout System Console for a
 single settings section. It combines the
 [`Admin Panel Header`](/components/admin-panel-header) with a
-body where grouped fields and help text live. Panels stack on the page so
-admins can scan sections without leaving the workspace.
+body where grouped fields and help text live, and an optional
+[`Admin Panel Footer`](/components/admin-panel-footer) for sectional actions.
+Panels stack on the page so admins can scan sections without leaving the
+workspace.
 
 <Divider />
 
@@ -25,6 +29,20 @@ optional controls; the body holds the form layout.
     switchLabel="Off"
     showButton
     buttonLabel="Button"
+    footer={
+      <AdminPanelFooter
+        leftActions={
+          <>
+            <Button type="button" size="medium" emphasis="primary">
+              Apply
+            </Button>
+            <Button type="button" size="medium" emphasis="tertiary">
+              Cancel
+            </Button>
+          </>
+        }
+      />
+    }
   >
     <div
       style={{
@@ -45,6 +63,8 @@ optional controls; the body holds the form layout.
   tags, subtitle, and trailing actions.
 - <Num>3</Num> **Body** — settings fields and explanatory copy; when the panel
   is expandable and collapsed, the body is hidden until expanded.
+- <Num>4</Num> **Panel footer** — optional [`Admin Panel
+  Footer`](/components/admin-panel-footer) with left/right action slots.
 
 <Divider />
 
@@ -60,15 +80,18 @@ workspace chrome, not inside every panel.
 | Switch in header         | A single on/off applies to the whole section.                                    |
 | Primary button in header | One sectional action is tied to the heading; avoid duplicating the page Save.    |
 | Expand / collapse        | Long or advanced sections should stay compact until opened.                      |
+| Panel footer             | Sectional actions, list tools, or pagination belong under the body.              |
 
 <Divider />
 
 ## Behaviour
 
 - **Collapsed expandable panels.** The header stays visible without a lower
-  divider until expanded; opening restores the divider and shows the body.
-- **Saving and validation** for the whole page stay in the console footer or
-  equivalent, not inside each panel.
+  divider until expanded; opening restores the divider and shows the body and
+  footer together.
+- **Saving and validation** for the whole page stay in the
+  [`Admin Console Footer`](/components/admin-console-footer) or equivalent —
+  use the panel footer for sectional actions only.
 
 <Divider />
 
