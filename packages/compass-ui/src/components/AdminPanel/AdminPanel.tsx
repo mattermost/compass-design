@@ -115,7 +115,7 @@ export default function AdminPanel({
   };
 
   const showHeaderDivider = !expandable || isExpanded;
-  const hasBody = Children.count(children) > 0;
+  const hasBody = Children.toArray(children).length > 0;
 
   const body = hasBody ? (
     <div className={styles['admin-panel__body']}>{children}</div>

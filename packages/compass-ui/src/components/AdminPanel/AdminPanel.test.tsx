@@ -35,6 +35,17 @@ describe('AdminPanel body', () => {
     expect(bodyEl(container)).toBeNull();
   });
 
+  it('does not render the body when children are only omitted conditionals', () => {
+    const { container } = render(
+      <AdminPanel title="Section Title">
+        {false}
+        {null}
+        {undefined}
+      </AdminPanel>,
+    );
+    expect(bodyEl(container)).toBeNull();
+  });
+
   it('still renders the header for a header-only panel', () => {
     const { container } = render(
       <AdminPanel
