@@ -142,6 +142,7 @@ export default function AdminPanel({
           .filter(Boolean)
           .join(' ')}
         aria-hidden={!isExpanded}
+        inert={!isExpanded}
       >
         <div className={styles['admin-panel__collapse-inner']}>
           {body}
