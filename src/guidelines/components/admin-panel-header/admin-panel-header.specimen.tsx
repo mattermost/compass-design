@@ -1,134 +1,76 @@
-import { useId, useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
-import {
-  type AdminPanelExpandedState,
-  AdminPanelHeader,
-} from '@mattermost/compass-ui/components/admin-panel-header';
+import { type AdminPanelExpandedState } from '@mattermost/compass-ui/components/admin-panel-header';
+import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import styles from '@/styles/library-demo/components.module.scss';
 
-function HeaderChrome({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        border: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
-        borderRadius: 'var(--radius-m)',
-        background: 'var(--center-channel-bg)',
-        boxShadow: 'var(--elevation-1)',
-        overflow: 'hidden',
-        maxWidth: 920,
-        width: '100%',
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
 export default function AdminPanelHeaderLibrary() {
   const [expanded, setExpanded] = useState<AdminPanelExpandedState>('expanded');
-
-  const idFull = useId();
-  const idCollapsed = useId();
-  const idControlled = useId();
-  const idSubtitle = useId();
-  const idTitle = useId();
 
   return (
     <div className={styles['components__button-block']}>
       <div>
-        <p className={styles['components__instance-label']}>
-          Full header (divider on)
-        </p>
-        <HeaderChrome>
-          <AdminPanelHeader
-            titleId={idFull}
-            title="Section Title"
-            subtitle="Section sub-title"
-            iconLeft
-            showEnterpriseLabel
-            showBeta
-            showSwitch
-            switchLabel="Off"
-            showButton
-            buttonLabel="Button"
-            showDivider
-          />
-        </HeaderChrome>
+        <p className={styles['components__instance-label']}>Full header</p>
+        <AdminPanel
+          title="Section Title"
+          subtitle="Section sub-title"
+          iconLeft
+          showEnterpriseLabel
+          showBeta
+          showSwitch
+          switchLabel="Off"
+          showButton
+          buttonLabel="Button"
+        />
       </div>
       <div>
         <p className={styles['components__instance-label']}>
-          Expandable, collapsed (no lower divider)
+          Expandable, collapsed
         </p>
-        <HeaderChrome>
-          <AdminPanelHeader
-            titleId={idCollapsed}
-            title="Section Title"
-            subtitle="Section sub-title"
-            expandable
-            isExpanded={false}
-            onToggleExpand={() => undefined}
-            showDivider={false}
-            showSwitch
-            switchLabel="Off"
-          />
-        </HeaderChrome>
+        <AdminPanel
+          title="Section Title"
+          subtitle="Section sub-title"
+          expandable
+          defaultExpandedState="collapsed"
+          showSwitch
+          switchLabel="Off"
+        />
       </div>
       <div>
         <p className={styles['components__instance-label']}>
           Controlled expand + custom icon + help action
         </p>
-        <HeaderChrome>
-          <AdminPanelHeader
-            titleId={idControlled}
-            title="Section Title"
-            subtitle="Section sub-title"
-            iconLeft
-            leadingIcon={<Icon size="20" glyph={<GlobeIcon />} />}
-            expandable
-            isExpanded={expanded === 'expanded'}
-            onToggleExpand={() =>
-              setExpanded((s: AdminPanelExpandedState) =>
-                s === 'expanded' ? 'collapsed' : 'expanded',
-              )
-            }
-            showDivider={expanded === 'expanded'}
-            headerActions={
-              <IconButton
-                type="button"
-                style="default"
-                size="medium"
-                aria-label="Help"
-                icon={<Icon size="20" glyph={<InformationOutlineIcon />} />}
-              />
-            }
-          />
-        </HeaderChrome>
+        <AdminPanel
+          title="Section Title"
+          subtitle="Section sub-title"
+          iconLeft
+          leadingIcon={<Icon size="20" glyph={<GlobeIcon />} />}
+          expandable
+          expandedState={expanded}
+          onExpandedStateChange={setExpanded}
+          headerActions={
+            <IconButton
+              type="button"
+              style="default"
+              size="medium"
+              aria-label="Help"
+              icon={<Icon size="20" glyph={<InformationOutlineIcon />} />}
+            />
+          }
+        />
       </div>
       <div>
         <p className={styles['components__instance-label']}>
           Title + subtitle only
         </p>
-        <HeaderChrome>
-          <AdminPanelHeader
-            titleId={idSubtitle}
-            title="Section Title"
-            subtitle="Section sub-title"
-            showDivider
-          />
-        </HeaderChrome>
+        <AdminPanel title="Section Title" subtitle="Section sub-title" />
       </div>
       <div>
         <p className={styles['components__instance-label']}>Title only</p>
-        <HeaderChrome>
-          <AdminPanelHeader
-            titleId={idTitle}
-            title="Section Title"
-            showDivider
-          />
-        </HeaderChrome>
+        <AdminPanel title="Section Title" />
       </div>
     </div>
   );

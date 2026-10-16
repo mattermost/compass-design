@@ -119,7 +119,40 @@ export default function AdminPanel({
     setExpandedState(isExpanded ? 'collapsed' : 'expanded');
   };
 
-  const showHeaderDivider = !expandable || isExpanded;
+  const hasBody = children != null;
+  const hasFooter = footer != null;
+  const hasContent = hasBody || hasFooter;
+  // Skip the header divider when there is no body/footer so header-only
+  // panels don’t show an orphan rule above the card edge.
+  const showHeaderDivider = hasContent && (!expandable || isExpanded);
+
+  const body = hasBody ? (
+    <div className={styles['admin-panel__body']}>{children}</div>
+  ) : null;
+
+  const content = hasContent ? (
+    expandable ? (
+      <div
+        className={[
+          styles['admin-panel__collapse'],
+          isExpanded ? styles['admin-panel__collapse--expanded'] : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        aria-hidden={!isExpanded}
+      >
+        <div className={styles['admin-panel__collapse-inner']}>
+          {body}
+          {footer}
+        </div>
+      </div>
+    ) : (
+      <>
+        {body}
+        {footer}
+      </>
+    )
+  ) : null;
 
   return (
     <section
@@ -154,27 +187,7 @@ export default function AdminPanel({
         collapseLabel={collapseLabel}
         showDivider={showHeaderDivider}
       />
-      {expandable ? (
-        <div
-          className={[
-            styles['admin-panel__collapse'],
-            isExpanded ? styles['admin-panel__collapse--expanded'] : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          aria-hidden={!isExpanded}
-        >
-          <div className={styles['admin-panel__collapse-inner']}>
-            <div className={styles['admin-panel__body']}>{children}</div>
-            {footer}
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className={styles['admin-panel__body']}>{children}</div>
-          {footer}
-        </>
-      )}
+      {content}
     </section>
   );
 }
