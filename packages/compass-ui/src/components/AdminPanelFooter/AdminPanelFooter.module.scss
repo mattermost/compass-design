@@ -36,8 +36,14 @@
     justify-content: flex-end;
   }
 
-  &__spacer {
-    flex: 1 1 auto;
-    min-width: 0;
+  // One action group always aligns to the start edge (primary actions left).
+  &--single &__content {
+    justify-content: flex-start;
+  }
+
+  &--single &__left,
+  &--single &__right {
+    flex: 0 1 auto;
+    justify-content: flex-start;
   }
 }

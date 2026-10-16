@@ -89,17 +89,12 @@ export default function AdminPanelPatternSpecimen() {
           footer={
             <AdminPanelFooter
               leftActions={
-                <Button type="button" size="medium" emphasis="tertiary">
-                  Secondary
-                </Button>
-              }
-              rightActions={
                 <>
-                  <Button type="button" size="medium" emphasis="tertiary">
-                    Cancel
-                  </Button>
                   <Button type="button" size="medium" emphasis="primary">
                     Apply
+                  </Button>
+                  <Button type="button" size="medium" emphasis="tertiary">
+                    Cancel
                   </Button>
                 </>
               }

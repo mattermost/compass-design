@@ -1,8 +1,6 @@
 import type { ReactNode } from 'react';
 import ChevronLeftIcon from '@mattermost/compass-icons/components/chevron-left';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
-import PlusIcon from '@mattermost/compass-icons/components/plus';
-import RefreshIcon from '@mattermost/compass-icons/components/refresh';
 import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -57,45 +55,44 @@ function PanelShell({
 export default function AdminPanelFooterLibrary() {
   return (
     <div className={styles['components__button-block']}>
-      <PanelShell label="Buttons both sides">
+      <PanelShell label="Primary actions">
         <AdminPanelFooter
           leftActions={
-            <Button type="button" size="medium" emphasis="tertiary">
-              Secondary
-            </Button>
-          }
-          rightActions={
             <>
-              <Button type="button" size="medium" emphasis="tertiary">
-                Cancel
-              </Button>
               <Button type="button" size="medium" emphasis="primary">
                 Save
+              </Button>
+              <Button type="button" size="medium" emphasis="tertiary">
+                Cancel
               </Button>
             </>
           }
         />
       </PanelShell>
-      <PanelShell label="Icon buttons">
+      <PanelShell label="Buttons both sides">
         <AdminPanelFooter
           leftActions={
-            <IconButton
-              type="button"
-              style="default"
-              size="medium"
-              aria-label="Add"
-              icon={<Icon glyph={<PlusIcon />} />}
-            />
+            <>
+              <Button type="button" size="medium" emphasis="primary">
+                Save
+              </Button>
+              <Button type="button" size="medium" emphasis="tertiary">
+                Cancel
+              </Button>
+            </>
           }
           rightActions={
+            <Button type="button" size="medium" emphasis="tertiary">
+              Secondary
+            </Button>
+          }
+        />
+      </PanelShell>
+      <PanelShell label="Pagination">
+        <AdminPanelFooter
+          leftActions={<p style={statusStyle}>Showing 1–30 of 132</p>}
+          rightActions={
             <>
-              <IconButton
-                type="button"
-                style="default"
-                size="medium"
-                aria-label="Refresh"
-                icon={<Icon glyph={<RefreshIcon />} />}
-              />
               <IconButton
                 type="button"
                 style="default"
@@ -114,21 +111,6 @@ export default function AdminPanelFooterLibrary() {
           }
         />
       </PanelShell>
-      <PanelShell label="Pagination">
-        <AdminPanelFooter
-          leftActions={<p style={statusStyle}>Showing 1–30 of 132</p>}
-          rightActions={
-            <>
-              <Button type="button" size="small" emphasis="tertiary">
-                Previous
-              </Button>
-              <Button type="button" size="small" emphasis="tertiary">
-                Next
-              </Button>
-            </>
-          }
-        />
-      </PanelShell>
       <PanelShell label="Pagination dots">
         <AdminPanelFooter
           leftActions={
@@ -137,20 +119,6 @@ export default function AdminPanelFooterLibrary() {
             </Button>
           }
           rightActions={<PaginationDots activePage={2} pages={5} />}
-        />
-      </PanelShell>
-      <PanelShell label="Right only">
-        <AdminPanelFooter
-          rightActions={
-            <>
-              <Button type="button" size="medium" emphasis="tertiary">
-                Cancel
-              </Button>
-              <Button type="button" size="medium" emphasis="primary">
-                Save
-              </Button>
-            </>
-          }
         />
       </PanelShell>
     </div>

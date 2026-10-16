@@ -111,20 +111,7 @@ export const WithFooter: Story = {
     footer: (
       <AdminPanelFooter
         leftActions={
-          <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
-            Secondary
-          </Button>
-        }
-        rightActions={
           <>
-            <Button
-              type="button"
-              size="medium"
-              emphasis="tertiary"
-              onClick={fn()}
-            >
-              Cancel
-            </Button>
             <Button
               type="button"
               size="medium"
@@ -132,6 +119,14 @@ export const WithFooter: Story = {
               onClick={fn()}
             >
               Apply
+            </Button>
+            <Button
+              type="button"
+              size="medium"
+              emphasis="tertiary"
+              onClick={fn()}
+            >
+              Cancel
             </Button>
           </>
         }

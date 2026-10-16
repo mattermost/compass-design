@@ -10,8 +10,9 @@ only; the host owns labels and handlers.
 
 ## Anatomy
 
-A top divider separates the footer from the panel body. Actions sit on opposite
-edges with a flexible gap between them.
+A top divider separates the footer from the panel body. Primary actions sit on
+the start edge (primary button leftmost when used). A second slot can hold
+trailing utilities or pagination on the end edge.
 
 <AnatomyStage style={{ width: '100%', maxWidth: '920px' }}>
   <div
@@ -34,46 +35,46 @@ edges with a flexible gap between them.
     </div>
     <AdminPanelFooter
       leftActions={
-        <Button type="button" size="medium" emphasis="tertiary">
-          Secondary
-        </Button>
-      }
-      rightActions={
         <>
-          <Button type="button" size="medium" emphasis="tertiary">
-            Cancel
-          </Button>
           <Button type="button" size="medium" emphasis="primary">
             Save
           </Button>
+          <Button type="button" size="medium" emphasis="tertiary">
+            Cancel
+          </Button>
         </>
+      }
+      rightActions={
+        <Button type="button" size="medium" emphasis="tertiary">
+          Secondary
+        </Button>
       }
     />
   </div>
 </AnatomyStage>
 
 - <Num>1</Num> **Divider** — top border separating footer chrome from the body.
-- <Num>2</Num> **Left actions** — start-edge slot for secondary actions, add
-  controls, or pagination status.
-- <Num>3</Num> **Right actions** — end-edge slot for primary commit paths,
-  navigation, or pagination controls.
+- <Num>2</Num> **Left actions** — start-edge slot for primary commit paths
+  (primary leftmost) or pagination status.
+- <Num>3</Num> **Right actions** — optional end-edge slot for secondary
+  utilities or pagination icon buttons.
 
 <Divider />
 
 ## Options
 
-| Option        | Use when                                                                                      |
-| ------------- | --------------------------------------------------------------------------------------------- |
-| Left only     | A single sectional action (add row, filter) belongs on the start edge.                        |
-| Right only    | Commit or dismiss actions sit on the end edge without a leading control.                      |
-| Both sides    | Pair a leading utility with trailing commit or pagination.                                    |
-| Pagination    | Pass status copy or `PaginationDots` in one slot and Previous / Next controls in the other.   |
-| Icon buttons  | Dense toolbars — keep accessible names via `aria-label` on each `IconButton`.                 |
+| Option          | Use when                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------- |
+| Primary actions | A single Save / Cancel (or similar) group — always on the start edge, primary button leftmost.    |
+| Both sides      | Pair primary actions on the left with a trailing utility or pagination on the right.              |
+| Pagination      | Status copy on the left; previous / next as `IconButton`s (or `PaginationDots`) on the right.     |
 
 <Divider />
 
 ## Behaviour
 
+- **Primary on the left.** One action group always aligns to the start edge.
+  When a primary button is present, place it first in that group.
 - **Compose, don’t hard-code.** The footer does not own Save / Cancel labels —
   page-level save stays in [`Admin Console Footer`](/components/admin-console-footer).
 - **Collapse with the panel.** When used via `AdminPanel`’s `footer` prop on an

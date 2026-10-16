@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import ChevronLeftIcon from '@mattermost/compass-icons/components/chevron-left';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
-import PlusIcon from '@mattermost/compass-icons/components/plus';
-import RefreshIcon from '@mattermost/compass-icons/components/refresh';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
@@ -53,48 +51,46 @@ const statusStyle = {
   color: 'rgba(var(--center-channel-color-rgb), 0.72)',
 } as const;
 
-export const ButtonsBothSides: Story = {
+export const PrimaryActions: Story = {
   args: {
     leftActions: (
-      <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
-        Secondary
-      </Button>
-    ),
-    rightActions: (
       <>
-        <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
-          Cancel
-        </Button>
         <Button type="button" size="medium" emphasis="primary" onClick={fn()}>
           Save
+        </Button>
+        <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
+          Cancel
         </Button>
       </>
     ),
   },
 };
 
-export const IconButtons: Story = {
+export const ButtonsBothSides: Story = {
   args: {
     leftActions: (
-      <IconButton
-        type="button"
-        style="default"
-        size="medium"
-        aria-label="Add"
-        onClick={fn()}
-        icon={<Icon glyph={<PlusIcon />} />}
-      />
+      <>
+        <Button type="button" size="medium" emphasis="primary" onClick={fn()}>
+          Save
+        </Button>
+        <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
+          Cancel
+        </Button>
+      </>
     ),
     rightActions: (
+      <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
+        Secondary
+      </Button>
+    ),
+  },
+};
+
+export const Pagination: Story = {
+  args: {
+    leftActions: <p style={statusStyle}>Showing 1–30 of 132</p>,
+    rightActions: (
       <>
-        <IconButton
-          type="button"
-          style="default"
-          size="medium"
-          aria-label="Refresh"
-          onClick={fn()}
-          icon={<Icon glyph={<RefreshIcon />} />}
-        />
         <IconButton
           type="button"
           style="default"
@@ -116,22 +112,6 @@ export const IconButtons: Story = {
   },
 };
 
-export const Pagination: Story = {
-  args: {
-    leftActions: <p style={statusStyle}>Showing 1–30 of 132</p>,
-    rightActions: (
-      <>
-        <Button type="button" size="small" emphasis="tertiary" onClick={fn()}>
-          Previous
-        </Button>
-        <Button type="button" size="small" emphasis="tertiary" onClick={fn()}>
-          Next
-        </Button>
-      </>
-    ),
-  },
-};
-
 export const PaginationDotsEnd: Story = {
   args: {
     leftActions: (
@@ -145,21 +125,6 @@ export const PaginationDotsEnd: Story = {
   },
 };
 
-export const RightOnly: Story = {
-  args: {
-    rightActions: (
-      <>
-        <Button type="button" size="medium" emphasis="tertiary" onClick={fn()}>
-          Cancel
-        </Button>
-        <Button type="button" size="medium" emphasis="primary" onClick={fn()}>
-          Save
-        </Button>
-      </>
-    ),
-  },
-};
-
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   decorators: [],
@@ -167,11 +132,10 @@ export const AllVariants: Story = {
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
       {(
         [
+          ['Primary actions', PrimaryActions.args],
           ['Buttons both sides', ButtonsBothSides.args],
-          ['Icon buttons', IconButtons.args],
           ['Pagination', Pagination.args],
           ['Pagination dots', PaginationDotsEnd.args],
-          ['Right only', RightOnly.args],
         ] as const
       ).map(([label, args]) => (
         <div key={label} style={panelChrome}>
