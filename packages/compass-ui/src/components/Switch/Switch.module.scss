@@ -5,13 +5,18 @@
   display: flex;
   align-items: flex-start;
   width: 100%;
-  margin: 0;
   gap: var(--spacing-m);
   font-family: var(--font-family-body);
   font-weight: var(--font-weight-regular);
   color: var(--center-channel-color);
   cursor: pointer;
   user-select: none;
+
+  // Doubled class beats host compound selectors (e.g. `.form-horizontal label`)
+  // so Bootstrap / System Console label margins cannot offset the control.
+  &#{&} {
+    margin: 0;
+  }
 
   &:has(&__input:disabled) {
     cursor: not-allowed;
