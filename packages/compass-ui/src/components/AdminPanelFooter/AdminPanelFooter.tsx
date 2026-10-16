@@ -53,7 +53,9 @@ export default function AdminPanelFooter({
     >
       <div className={styles['admin-panel-footer__content']}>
         {hasLeft ? (
-          <div className={styles['admin-panel-footer__left']}>{leftActions}</div>
+          <div className={styles['admin-panel-footer__left']}>
+            {leftActions}
+          </div>
         ) : null}
         {hasRight ? (
           <div className={styles['admin-panel-footer__right']}>

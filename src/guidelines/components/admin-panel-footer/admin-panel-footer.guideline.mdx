@@ -15,7 +15,9 @@ A top divider separates the footer from the panel body. Primary actions sit on
 the start edge (primary button leftmost when used). A second slot can hold
 trailing utilities or pagination on the end edge.
 
-<AnatomyStage style={{ width: '100%', maxWidth: '920px', alignItems: 'stretch' }}>
+<AnatomyStage
+  style={{ width: '100%', maxWidth: '920px', alignItems: 'stretch' }}
+>
   <AdminPanel
     title="Section Title"
     subtitle="Section sub-title"
@@ -61,11 +63,11 @@ trailing utilities or pagination on the end edge.
 
 ## Options
 
-| Option          | Use when                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------- |
-| Primary actions | A single Save / Cancel (or similar) group — always on the start edge, primary button leftmost.    |
-| Both sides      | Pair primary actions on the left with a trailing utility or pagination on the right.              |
-| Pagination      | Status copy on the left; previous / next as `IconButton`s (or `PaginationDots`) on the right.     |
+| Option          | Use when                                                                                       |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| Primary actions | A single Save / Cancel (or similar) group — always on the start edge, primary button leftmost. |
+| Both sides      | Pair primary actions on the left with a trailing utility or pagination on the right.           |
+| Pagination      | Status copy on the left; previous / next as `IconButton`s (or `PaginationDots`) on the right.  |
 
 <Divider />
 

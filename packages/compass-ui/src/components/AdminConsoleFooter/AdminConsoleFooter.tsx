@@ -49,7 +49,10 @@ export default function AdminConsoleFooter({
     const copy = statusMessage ?? DEFAULT_WARNING;
     statusUi = (
       <>
-        <span className={styles['admin-console-footer__status-icon']} aria-hidden>
+        <span
+          className={styles['admin-console-footer__status-icon']}
+          aria-hidden
+        >
           <AlertOutlineIcon size={12} />
         </span>
         <span>{copy}</span>
@@ -61,7 +64,10 @@ export default function AdminConsoleFooter({
     const copy = statusMessage ?? DEFAULT_ERROR;
     statusUi = (
       <>
-        <span className={styles['admin-console-footer__status-icon']} aria-hidden>
+        <span
+          className={styles['admin-console-footer__status-icon']}
+          aria-hidden
+        >
           <AlertCircleOutlineIcon size={12} />
         </span>
         <span>{copy}</span>

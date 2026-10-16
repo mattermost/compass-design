@@ -82,7 +82,9 @@ export default function AdminPanelPatternSpecimen() {
         </AdminPanel>
       </div>
       <div>
-        <p className={styles['components__instance-label']}>With panel footer</p>
+        <p className={styles['components__instance-label']}>
+          With panel footer
+        </p>
         <AdminPanel
           title="Section Title"
           subtitle="Section sub-title"

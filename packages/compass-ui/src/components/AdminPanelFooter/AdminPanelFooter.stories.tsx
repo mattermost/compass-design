@@ -44,11 +44,7 @@ const bodyStyle = {
   fontSize: 'var(--font-size-100)',
 } as const;
 
-function PanelWithFooter({
-  footer,
-}: {
-  footer: ReactNode;
-}) {
+function PanelWithFooter({ footer }: { footer: ReactNode }) {
   return (
     <AdminPanel
       title="Section Title"

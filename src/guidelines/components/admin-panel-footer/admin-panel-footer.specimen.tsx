@@ -24,13 +24,7 @@ const bodyStyle = {
   fontSize: 'var(--font-size-100)',
 };
 
-function Example({
-  label,
-  footer,
-}: {
-  label: string;
-  footer: ReactNode;
-}) {
+function Example({ label, footer }: { label: string; footer: ReactNode }) {
   return (
     <div>
       <p className={styles['components__instance-label']}>{label}</p>
