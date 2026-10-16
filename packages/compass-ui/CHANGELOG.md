@@ -17,6 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`AdminPanel`:** omits the padded `admin-panel__body` (and the expandable collapse wrapper) when `children` is empty, so header-only panels (e.g. System Console nav banners) no longer leave a blank strip.
 - **`Combobox`, `Select` menu width:** the "match the field width" rule (`width: 100%; max-width: none`) had the same specificity as `PopoverMenu`'s `max-width: 496px`, so in the aggregated stylesheet (where `PopoverMenu` is emitted later) the menu was capped at 496px. The rule now nests under the popup so it wins regardless of order.
 - **`MenuItem` vertical centering:** with a leading visual taller than the label row (e.g. a 24px avatar next to a single-line or inline-secondary-label row), the label and trailing visual sat at the top of the row. They now center on the row. A trailing check on a two-line row (secondary label below) now centers too instead of sitting at the top.
 - **`Combobox`, `Select` hover scrolling:** hovering a row that was partly clipped at the edge of the menu scrolled it into view, which moved the next clipped row under the pointer and kept the list scrolling on its own. Hover now only moves the highlight; keyboard navigation still scrolls the highlighted row into view.
