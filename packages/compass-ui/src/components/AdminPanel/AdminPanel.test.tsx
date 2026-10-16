@@ -77,4 +77,65 @@ describe('AdminPanel body', () => {
     ).toBeNull();
     expect(bodyEl(container)).toBeNull();
   });
+
+  it('renders a footer without a body', () => {
+    const { container } = render(
+      <AdminPanel title="Section Title" footer={<div>Footer actions</div>} />,
+    );
+    expect(bodyEl(container)).toBeNull();
+    expect(container.textContent).toContain('Footer actions');
+  });
+
+  it('collapses footer with the body when expandable', () => {
+    const { container } = render(
+      <AdminPanel
+        title="Section Title"
+        expandable
+        defaultExpandedState="expanded"
+        footer={<div>Footer actions</div>}
+      >
+        Panel content
+      </AdminPanel>,
+    );
+    expect(
+      container.querySelector('[class*="admin-panel__collapse"]'),
+    ).not.toBeNull();
+    expect(bodyEl(container)?.textContent).toBe('Panel content');
+    expect(container.textContent).toContain('Footer actions');
+  });
+
+  it('marks the collapse region inert and aria-hidden when collapsed', () => {
+    const { container } = render(
+      <AdminPanel
+        title="Section Title"
+        expandable
+        defaultExpandedState="collapsed"
+      >
+        <button type="button">Hidden action</button>
+      </AdminPanel>,
+    );
+    const collapse = container.querySelector(
+      '[class*="admin-panel__collapse"]',
+    );
+    expect(collapse).not.toBeNull();
+    expect(collapse?.getAttribute('aria-hidden')).toBe('true');
+    expect(collapse?.hasAttribute('inert')).toBe(true);
+  });
+
+  it('clears inert and aria-hidden when expanded', () => {
+    const { container } = render(
+      <AdminPanel
+        title="Section Title"
+        expandable
+        defaultExpandedState="expanded"
+      >
+        <button type="button">Visible action</button>
+      </AdminPanel>,
+    );
+    const collapse = container.querySelector(
+      '[class*="admin-panel__collapse"]',
+    );
+    expect(collapse?.getAttribute('aria-hidden')).toBe('false');
+    expect(collapse?.hasAttribute('inert')).toBe(false);
+  });
 });

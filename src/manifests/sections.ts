@@ -73,6 +73,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       label: 'Admin Console',
       slugs: [
         'admin-console-header',
+        'admin-console-footer',
         'admin-panel-header',
         'admin-panel-footer',
         'feature-discovery-panel',

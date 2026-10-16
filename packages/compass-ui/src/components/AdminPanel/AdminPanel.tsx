@@ -22,6 +22,12 @@ export interface AdminPanelProps extends Omit<
   children?: ReactNode;
   className?: string;
   headerActions?: ReactNode;
+  /**
+   * Optional footer rail below the body — typically
+   * [`AdminPanelFooter`](/components/admin-panel-footer) with left/right action slots.
+   * Collapses with the body when the panel is expandable.
+   */
+  footer?: ReactNode;
   iconLeft?: boolean;
   /** Icon forwarded to `AdminPanelHeader`'s 44×44 circular pill. Pass `<Icon glyph={<SomeIcon />} size="20" />`. */
   leadingIcon?: ReactNode;
@@ -56,13 +62,14 @@ export interface AdminPanelProps extends Omit<
 
 /**
  * System Console admin settings panel: `AdminPanelHeader` plus an optional body
- * slot for grouped fields (omitted when `children` is empty). Expand/collapse
- * state is owned here and passed to the header.
+ * slot for grouped fields (omitted when `children` is empty) and an optional
+ * footer. Expand/collapse state is owned here and passed to the header.
  */
 export default function AdminPanel({
   title,
   subtitle,
   headerActions,
+  footer,
   children,
   className = '',
   iconLeft = false,
@@ -114,11 +121,40 @@ export default function AdminPanel({
     setExpandedState(isExpanded ? 'collapsed' : 'expanded');
   };
 
-  const showHeaderDivider = !expandable || isExpanded;
   const hasBody = Children.toArray(children).length > 0;
+  const hasFooter = footer != null;
+  const hasContent = hasBody || hasFooter;
+  // Skip the header divider when there is no body/footer so header-only
+  // panels don’t show an orphan rule above the card edge.
+  const showHeaderDivider = hasContent && (!expandable || isExpanded);
 
   const body = hasBody ? (
     <div className={styles['admin-panel__body']}>{children}</div>
+  ) : null;
+
+  const content = hasContent ? (
+    expandable ? (
+      <div
+        className={[
+          styles['admin-panel__collapse'],
+          isExpanded ? styles['admin-panel__collapse--expanded'] : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        aria-hidden={!isExpanded}
+        inert={!isExpanded}
+      >
+        <div className={styles['admin-panel__collapse-inner']}>
+          {body}
+          {footer}
+        </div>
+      </div>
+    ) : (
+      <>
+        {body}
+        {footer}
+      </>
+    )
   ) : null;
 
   return (
@@ -154,21 +190,7 @@ export default function AdminPanel({
         collapseLabel={collapseLabel}
         showDivider={showHeaderDivider}
       />
-      {expandable && hasBody ? (
-        <div
-          className={[
-            styles['admin-panel__collapse'],
-            isExpanded ? styles['admin-panel__collapse--expanded'] : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          aria-hidden={!isExpanded}
-        >
-          <div className={styles['admin-panel__collapse-inner']}>{body}</div>
-        </div>
-      ) : (
-        body
-      )}
+      {content}
     </section>
   );
 }

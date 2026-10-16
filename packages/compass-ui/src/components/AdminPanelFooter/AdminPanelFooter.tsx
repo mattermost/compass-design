@@ -1,115 +1,68 @@
-import type { ReactNode } from 'react';
-import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
-import AlertOutlineIcon from '@mattermost/compass-icons/components/alert-outline';
-import Button from '@/components/Button/Button';
+import type { HTMLAttributes, ReactNode } from 'react';
+import { mergeClassNames } from '@/utils/props';
 import styles from './AdminPanelFooter.module.scss';
 
-export type AdminPanelFooterStatus = 'none' | 'warning' | 'error';
-
-export interface AdminPanelFooterProps {
-  /** Primary footer action label. Default: "Save". Accepts translated nodes. */
-  saveLabel?: ReactNode;
-  /** Default: "Cancel". Accepts translated nodes. */
-  cancelLabel?: ReactNode;
-  onSave?: () => void;
-  onCancel?: () => void;
-  /** When true, Save uses disabled styling until the sheet is actionable. */
-  saveDisabled?: boolean;
-  /** Optional validation summary beside the buttons. */
-  status?: AdminPanelFooterStatus;
+export interface AdminPanelFooterProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
   /**
-   * Override default copy when `warning` | `error`. Defaults: "There are
-   * outstanding issues in the form above." / "There are errors in the form above."
+   * Start-edge slot for panel actions — `Button`, `IconButton`, pagination
+   * status, `PaginationDots`, or other controls. Prefer this slot for primary
+   * action groups (primary button leftmost when used).
    */
-  statusMessage?: ReactNode;
-  className?: string;
+  leftActions?: ReactNode;
+  /**
+   * End-edge slot for panel actions — secondary utilities, pagination
+   * controls, or other trailing actions. When this is the only slot filled,
+   * the group still aligns to the start edge.
+   */
+  rightActions?: ReactNode;
 }
 
-const DEFAULT_WARNING = 'There are outstanding issues in the form above.';
-const DEFAULT_ERROR = 'There are errors in the form above.';
-
 /**
- * Admin Panel Footer pins Save and Cancel to the bottom of System Console form layouts. It
- * mirrors channel composer discipline: one primary commit path, a safe escape hatch, and
- * optional validation status without stealing focus from the draft.
+ * Admin Panel Footer is the action rail at the bottom of an
+ * [`Admin Panel`](/patterns/admin-panel). Hosts compose start- and end-edge
+ * slots with `Button`, `IconButton`, or pagination controls — the footer owns
+ * layout and divider chrome only. A single action group always sits on the
+ * start edge; with both slots filled, content is space-between.
  */
 export default function AdminPanelFooter({
-  saveLabel = 'Save',
-  cancelLabel = 'Cancel',
-  onSave,
-  onCancel,
-  saveDisabled = true,
-  status = 'none',
-  statusMessage,
-  className = '',
+  leftActions,
+  rightActions,
+  className,
+  ...rest
 }: AdminPanelFooterProps) {
-  let statusUi: ReactNode = null;
+  const hasLeft = leftActions != null;
+  const hasRight = rightActions != null;
 
-  if (status === 'warning') {
-    const copy = statusMessage ?? DEFAULT_WARNING;
-    statusUi = (
-      <>
-        <span className={styles['admin-panel-footer__status-icon']} aria-hidden>
-          <AlertOutlineIcon size={12} />
-        </span>
-        <span>{copy}</span>
-      </>
-    );
+  if (!hasLeft && !hasRight) {
+    return null;
   }
 
-  if (status === 'error') {
-    const copy = statusMessage ?? DEFAULT_ERROR;
-    statusUi = (
-      <>
-        <span className={styles['admin-panel-footer__status-icon']} aria-hidden>
-          <AlertCircleOutlineIcon size={12} />
-        </span>
-        <span>{copy}</span>
-      </>
-    );
-  }
-
-  const statusMod =
-    status === 'warning'
-      ? styles['admin-panel-footer--status-warning']
-      : status === 'error'
-        ? styles['admin-panel-footer--status-error']
-        : '';
+  const singleGroup = hasLeft !== hasRight;
 
   return (
-    <footer
-      className={[styles['admin-panel-footer'], statusMod, className]
-        .filter(Boolean)
-        .join(' ')
-        .trim()}
-      role="contentinfo"
+    <div
+      {...rest}
+      className={mergeClassNames(
+        styles['admin-panel-footer'],
+        singleGroup && styles['admin-panel-footer--single'],
+        className,
+      )}
     >
-      <div className={styles['admin-panel-footer__inner']}>
-        <div className={styles['admin-panel-footer__actions']}>
-          <Button
-            type="button"
-            size="medium"
-            emphasis="primary"
-            disabled={saveDisabled}
-            onClick={onSave}
-          >
-            {saveLabel}
-          </Button>
-          <Button
-            type="button"
-            size="medium"
-            emphasis="tertiary"
-            onClick={onCancel}
-          >
-            {cancelLabel}
-          </Button>
-        </div>
-        {statusUi != null ? (
-          <div className={styles['admin-panel-footer__status']} role="alert">
-            {statusUi}
+      <div className={styles['admin-panel-footer__content']}>
+        {hasLeft ? (
+          <div className={styles['admin-panel-footer__left']}>
+            {leftActions}
+          </div>
+        ) : null}
+        {hasRight ? (
+          <div className={styles['admin-panel-footer__right']}>
+            {rightActions}
           </div>
         ) : null}
       </div>
-    </footer>
+    </div>
   );
 }
