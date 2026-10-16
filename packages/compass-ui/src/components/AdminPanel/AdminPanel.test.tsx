@@ -65,19 +65,17 @@ describe('AdminPanel body', () => {
   });
 
   it('renders a body-only panel without a header', () => {
-    const { container } = render(
-      <AdminPanel>Body content only</AdminPanel>,
-    );
+    const { container } = render(<AdminPanel>Body content only</AdminPanel>);
     expect(container.querySelector('h2')).toBeNull();
     expect(bodyEl(container)?.textContent).toBe('Body content only');
-    expect(container.querySelector('section')?.getAttribute('aria-labelledby')).toBeNull();
+    expect(
+      container.querySelector('section')?.getAttribute('aria-labelledby'),
+    ).toBeNull();
   });
 
   it('renders body and footer without a header', () => {
     const { container } = render(
-      <AdminPanel footer={<div>Footer actions</div>}>
-        Body content
-      </AdminPanel>,
+      <AdminPanel footer={<div>Footer actions</div>}>Body content</AdminPanel>,
     );
     expect(container.querySelector('h2')).toBeNull();
     expect(bodyEl(container)?.textContent).toBe('Body content');
