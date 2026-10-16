@@ -73,6 +73,16 @@ describe('AdminPanel body', () => {
     ).toBeNull();
   });
 
+  it('treats nullish, false, and empty-string titles as no header', () => {
+    for (const title of [undefined, null, false, ''] as const) {
+      const { container } = render(
+        <AdminPanel title={title as never}>Body</AdminPanel>,
+      );
+      expect(container.querySelector('h2')).toBeNull();
+      expect(bodyEl(container)?.textContent).toBe('Body');
+    }
+  });
+
   it('renders body and footer without a header', () => {
     const { container } = render(
       <AdminPanel footer={<div>Footer actions</div>}>Body content</AdminPanel>,

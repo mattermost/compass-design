@@ -13,6 +13,9 @@ import styles from './AdminPanel.module.scss';
 
 export type { AdminPanelExpandedState };
 
+/** Non-null content for required header/body slots (runtime still guards nullish escapes). */
+type AdminPanelContent = NonNullable<ReactNode>;
+
 type AdminPanelChromeProps = Omit<
   HTMLAttributes<HTMLElement>,
   'title' | 'children'
@@ -27,7 +30,7 @@ type AdminPanelChromeProps = Omit<
 };
 
 type AdminPanelHeaderSlotProps = {
-  title: ReactNode;
+  title: AdminPanelContent;
   subtitle?: ReactNode;
   headerActions?: ReactNode;
   iconLeft?: boolean;
@@ -74,7 +77,7 @@ type AdminPanelWithHeaderProps = AdminPanelChromeProps &
  */
 type AdminPanelWithoutHeaderProps = AdminPanelChromeProps & {
   title?: undefined;
-  children: ReactNode;
+  children: AdminPanelContent;
 };
 
 /**
@@ -132,7 +135,8 @@ export default function AdminPanel(props: AdminPanelProps) {
   } = rest;
 
   const titleId = useId();
-  const hasHeader = Children.toArray([title]).length > 0;
+  // Treat nullish / false / '' as no header so JS callers and type escapes stay safe.
+  const hasHeader = title != null && title !== false && title !== '';
 
   const [uncontrolledExpanded, setUncontrolledExpanded] =
     useState<AdminPanelExpandedState>(defaultExpandedState);
