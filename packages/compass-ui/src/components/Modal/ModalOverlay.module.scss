@@ -1,0 +1,33 @@
+@keyframes modal-overlay-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+// Scrim and centering for a host-rendered overlay element (e.g. floating-ui
+// `FloatingOverlay`). The host owns the portal, z-index, scroll lock and
+// backdrop clicks.
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Extra bottom inset lifts the dialog 24px above true center.
+  padding: var(--spacing-xl) var(--spacing-xl)
+    calc(var(--spacing-xl) + 2 * var(--spacing-xxl));
+  // Fixed 64% black in every theme.
+  background-color: rgba(0, 0, 0, 0.64);
+  animation: modal-overlay-fade-in var(--duration-quick) var(--ease-entrance);
+  transition: opacity var(--duration-quick) var(--ease-exit);
+
+  &--exiting {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
+  }
+}

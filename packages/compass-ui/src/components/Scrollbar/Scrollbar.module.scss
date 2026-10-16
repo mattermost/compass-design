@@ -29,13 +29,23 @@
     height: 8px;
   }
 
+  &--size-wide {
+    :global(.simplebar-track.simplebar-vertical) {
+      width: 10px;
+    }
+
+    :global(.simplebar-track.simplebar-horizontal) {
+      height: 10px;
+    }
+  }
+
   // The thumb itself is rendered via ::before so we can pad it on all sides.
   :global(.simplebar-scrollbar)::before {
     left: 2px;
     right: 2px;
     top: 2px;
     bottom: 2px;
-    border-radius: 3px;
+    border-radius: var(--radius-pill);
     background-color: rgba(
       var(--scrollbar-color, var(--center-channel-color-rgb)),
       0.24

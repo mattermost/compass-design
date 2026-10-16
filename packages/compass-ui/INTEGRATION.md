@@ -455,7 +455,7 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 - `string` props (`Tooltip` `label` / `hint`, placeholders, `aria-label`) can take `intl.formatMessage(...)` — a string, not a descriptor object.
 - Some English defaults are overridable (`AdminConsoleFooter` `saveLabel` / `cancelLabel`, `Combobox` `emptyMessage`, `Spinner` `aria-label`).
 
-**Compass-owned chrome** is hardcoded English and will not follow the user's locale: `ModalHeader` `"Close"` / `"Go back"`, dismiss/clear labels on `Toast` / `SectionNotice` / `GlobalBanner` / `SearchInput`, `Combobox` `"No results"`, `DateRangePicker` month/weekday names, and many composite `aria-label`s. Prefer leafs whose visible copy is host-owned (e.g. ConfirmModal buttons) until chrome is localizable. Do not adopt those chrome surfaces in localized product UI without an override prop or a follow-up in this package.
+**Compass-owned chrome** defaults to English, and every built-in accessible name or message has an override prop (since `0.1.0-alpha.13`): pass translated strings to `closeLabel` / `backLabel` (`Modal`, `ModalHeader`), `dismissLabel`, `clearLabel`, `unreadLabel`, `format*Label` functions, and similar. `DateRangePicker` month and weekday names are still English.
 
 `@mattermost/shared` is the model to copy later: `defineMessage` in source, `react-intl` as a peer, English extracted into `webapp/channels/src/i18n/en.json`. Shared does **not** ship its own locale files — channels extract scans `platform/shared` into that one catalog; Weblate fills the other 21 languages.
 
@@ -463,7 +463,67 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 
 ### Overlays
 
-`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover`, and similar surfaces are **visual chrome only**. The webapp owns open/close, portals, positioning, focus trap, escape/outside-click, and stacking. Compose Compass panels with existing product overlay infrastructure; panel-level ARIA on the surface is fine. Follow each component's lifecycle (`Modal` mount-controlled; `Dropdown` and similar triggers use controlled `isOpen`; pass `onClose` where provided).
+`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover`, and similar surfaces own the WAI-ARIA behavior of the surface itself; the host owns everything around it. Follow each component's lifecycle (`Modal` mount-controlled or `open`; `Dropdown` and similar triggers use controlled `isOpen`; pass `onClose` where provided).
+
+| Concern                                                      | Owner                                          |
+| ------------------------------------------------------------ | ---------------------------------------------- |
+| Header, body, footer, sizes, max height, enter/exit motion   | `Modal`                                        |
+| Initial focus, Tab trap, focus restore                       | `Modal` (opt out with `manageFocus={false}`)   |
+| Escape (topmost modal only; skips `defaultPrevented` events) | `Modal` (opt out with `closeOnEscape={false}`) |
+| Scrim, centering, overlay fade                               | Host element styled with `modalOverlayStyles`  |
+| Portal, z-index, scroll lock, backdrop click, open state     | Host                                           |
+
+`Modal` (since `0.1.0-alpha.14`) focuses the dialog or `initialFocusRef` on mount, traps Tab, closes on Escape, and restores focus on unmount. The modal stack is shared across compass-ui copies on the page (from the release after `0.1.0-alpha.15`), so only the topmost Compass modal reacts. Pick **one** owner for focus and Escape:
+
+- **Compass owns it:** use the host only for the portal, overlay and scroll lock (e.g. floating-ui `FloatingPortal` + `FloatingOverlay lockScroll`); don't add `FloatingFocusManager`, another focus trap, or another Escape handler.
+- **Host owns it:** pass `manageFocus={false}` and `closeOnEscape={false}`, and keep the host's focus manager and dismiss handling.
+
+With `open`, keep the portal and overlay mounted until `onExited` fires so the exit transition finishes and focus restores afterwards. `GenericModal` sketch:
+
+```tsx
+import { FloatingOverlay, FloatingPortal } from '@floating-ui/react';
+import {
+  Modal,
+  modalOverlayStyles,
+} from '@mattermost/compass-ui/components/modal';
+
+function GenericModal({ show, onHide, onExited, title, children, footer }) {
+  const [mounted, setMounted] = useState(show);
+  useEffect(() => {
+    if (show) setMounted(true);
+  }, [show]);
+  if (!mounted) return null;
+
+  return (
+    <FloatingPortal>
+      <FloatingOverlay
+        lockScroll
+        className={classNames(
+          modalOverlayStyles['modal-overlay'],
+          !show && modalOverlayStyles['modal-overlay--exiting'],
+        )}
+        style={{ zIndex: modalZIndex }}
+        onClick={(e) => e.target === e.currentTarget && onHide()}
+      >
+        <Modal
+          open={show}
+          onClose={onHide}
+          onExited={() => {
+            setMounted(false);
+            onExited?.();
+          }}
+          title={title}
+          footer={footer}
+        >
+          {children}
+        </Modal>
+      </FloatingOverlay>
+    </FloatingPortal>
+  );
+}
+```
+
+The overlay class applies the 64% black scrim, centers the dialog 24px above true center, and fades in on mount; add `modal-overlay--exiting` to fade it out. `Modal` caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall) and its width at the viewport minus 40px; the body scrolls past that. Class names are hashed CSS modules — select modals in tests with `getByRole('dialog', { name })` or a `data-testid` on `Modal` / `closeButtonProps`, not `.modal-*` classes.
 
 Form widgets with menu/popover surfaces (`Combobox`, `Select`, `DateRangePicker`, etc.) are exempt — they manage widget-level dropdown/picker open state, keyboard behavior, and may **portal + position** their own menus (above/below flip, escape overflow clipping). Optional `portalContainer` / `zIndex` props override the default (`document.body` / high stacking). When using a custom `portalContainer`, it must establish a positioning context (`position` other than `static`); menu coords are converted into that container’s space (viewport `fixed` is used only for `document.body`). Do not duplicate that handling in the host, and do not use those widgets' portal behavior as a pattern for chrome overlays. Proto/mobile presentation shells with backdrop or sheet animation live in `@mattermost/compass-proto`, not in published `compass-ui`.
 

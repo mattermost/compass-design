@@ -34,14 +34,28 @@ function getFocusable(root: HTMLElement): HTMLElement[] {
   );
 }
 
-/** Open modals in mount order; only the last one reacts to Tab and Escape. */
-const modalStack: object[] = [];
+/**
+ * Open modals in mount order; only the last one reacts to Tab and Escape.
+ * Shared through `globalThis` so compass-ui copies bundled by plugins agree on
+ * which modal is topmost.
+ */
+const STACK_KEY = Symbol.for('@mattermost/compass-ui/modal-stack');
+const stackHost = globalThis as typeof globalThis & {
+  [STACK_KEY]?: object[];
+};
+const modalStack: object[] = (stackHost[STACK_KEY] ??= []);
 
 export interface UseModalFocusOptions {
   /** Element to focus on mount. Falls back to the dialog root. */
   initialFocusRef?: RefObject<HTMLElement | null>;
   /** Close on Escape. Default true. */
   closeOnEscape?: boolean;
+  /**
+   * Initial focus, Tab trap and focus restore. Set false when the host owns
+   * focus (e.g. a floating-ui focus manager). The modal still joins the stack,
+   * so modals below it stay inert. Read on mount. Default true.
+   */
+  manageFocus?: boolean;
   onClose?: () => void;
   /**
    * When false (e.g. during an exit transition) Tab and Escape are no longer
@@ -66,12 +80,14 @@ export function useModalFocus(
   {
     initialFocusRef,
     closeOnEscape = true,
+    manageFocus = true,
     onClose,
     active = true,
   }: UseModalFocusOptions,
 ): void {
   const initialFocusRefRef = useRef(initialFocusRef);
   initialFocusRefRef.current = initialFocusRef;
+  const manageFocusOnMount = useRef(manageFocus);
   const latest = useRef({ closeOnEscape, onClose });
   latest.current = { closeOnEscape, onClose };
   const keyToken = useRef<object | null>(null);
@@ -81,6 +97,7 @@ export function useModalFocus(
   );
 
   useEffect(() => {
+    if (!manageFocusOnMount.current) return;
     const previous = document.activeElement as HTMLElement | null;
     function shouldRestoreFocus(): boolean {
       const top = modalStack[modalStack.length - 1];
@@ -121,7 +138,7 @@ export function useModalFocus(
         if (latest.current.closeOnEscape) latest.current.onClose?.();
         return;
       }
-      if (e.key !== 'Tab') return;
+      if (e.key !== 'Tab' || !manageFocusOnMount.current) return;
       const focusable = getFocusable(dialog);
       if (focusable.length === 0) {
         e.preventDefault();
