@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.16] - 2026-10-16
+
 ### Added
 
 - **`AdminPanelFooter`:** action rail for Admin Panel with `leftActions` and `rightActions` slots for `Button`, `IconButton`, or pagination. Compose via the new optional `AdminPanel` `footer` prop (collapses with the body when expandable).
@@ -14,6 +16,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **`AdminPanel`:** `title` is optional when `children` are provided (body-only panels). Footer remains optional. TypeScript requires a header (`title`) or a body (`children`) — footer-only is not allowed. Expand/collapse still requires a header.
 - **`AdminPanelFooter` → `AdminConsoleFooter`:** renamed the component, types (`AdminConsoleFooterProps`, `AdminConsoleFooterStatus`), CSS block (`.admin-console-footer`), docs slug (`/components/admin-console-footer`), and subpath export (`@mattermost/compass-ui/components/admin-console-footer`) to match `AdminConsoleHeader`.
 - **`SectionNotice` secondary action:** uses `emphasis="tertiary"` instead of `emphasis="secondary"` so the supporting action stays lower-emphasis than the page’s main controls.
 
@@ -312,7 +315,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...HEAD
+[0.1.0-alpha.16]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...0.1.0-alpha.16
 [0.1.0-alpha.15]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.14...0.1.0-alpha.15
 [0.1.0-alpha.14]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.13...0.1.0-alpha.14
 [0.1.0-alpha.13]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.12...0.1.0-alpha.13

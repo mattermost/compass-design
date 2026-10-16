@@ -15,6 +15,12 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'Bordered System Console settings sheet. Provide a header (`title`), a body (`children`), or both. Footer is optional; footer-only is not allowed. Expand/collapse requires a header.',
+      },
+    },
   },
   decorators: [
     (Story) => (
@@ -29,6 +35,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Header + body',
   args: {
     title: 'Section Title',
     subtitle: 'Section sub-title',
@@ -36,7 +43,8 @@ export const Default: Story = {
   },
 };
 
-export const TitleOnly: Story = {
+export const TitleWithoutSubtitle: Story = {
+  name: 'Title without subtitle',
   args: {
     title: 'Section Title',
     children: 'Section content',
@@ -45,6 +53,7 @@ export const TitleOnly: Story = {
 
 /** Header-only panel (no body) — used as a nav banner in System Console. */
 export const HeaderOnly: Story = {
+  name: 'Header only',
   args: {
     title: 'System Scheme',
     subtitle:
@@ -55,7 +64,47 @@ export const HeaderOnly: Story = {
   },
 };
 
+/** Body-only panel (no header) — title omitted when children are provided. */
+export const BodyOnly: Story = {
+  name: 'Body only',
+  args: {
+    children: 'Section content without a panel header.',
+  },
+};
+
+export const BodyWithFooter: Story = {
+  name: 'Body + footer (no header)',
+  args: {
+    children: 'Section content with footer actions and no panel header.',
+    footer: (
+      <AdminPanelFooter
+        leftActions={
+          <>
+            <Button
+              type="button"
+              size="medium"
+              emphasis="primary"
+              onClick={fn()}
+            >
+              Apply
+            </Button>
+            <Button
+              type="button"
+              size="medium"
+              emphasis="tertiary"
+              onClick={fn()}
+            >
+              Cancel
+            </Button>
+          </>
+        }
+      />
+    ),
+  },
+};
+
 export const FullHeaderExpanded: Story = {
+  name: 'Full header, expandable',
   args: {
     title: 'Section Title',
     subtitle: 'Section sub-title',
@@ -74,6 +123,7 @@ export const FullHeaderExpanded: Story = {
 };
 
 export const ExpandableCollapsed: Story = {
+  name: 'Expandable, collapsed',
   args: {
     title: 'Section Title',
     subtitle: 'Section sub-title',
@@ -86,6 +136,7 @@ export const ExpandableCollapsed: Story = {
 };
 
 export const ControlledExpand: Story = {
+  name: 'Controlled expand',
   render: function ControlledExpandStory() {
     const [expandedState, setExpandedState] =
       useState<AdminPanelExpandedState>('expanded');
@@ -116,6 +167,7 @@ export const ControlledExpand: Story = {
 };
 
 export const WithFooter: Story = {
+  name: 'Header + body + footer',
   args: {
     title: 'Section Title',
     subtitle: 'Section sub-title',
@@ -148,6 +200,7 @@ export const WithFooter: Story = {
 };
 
 export const AllVariants: Story = {
+  name: 'All variants',
   parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 24, maxWidth: 920 }}>
@@ -180,6 +233,27 @@ export const AllVariants: Story = {
         Section content
       </AdminPanel>
       <AdminPanel title="Section Title">Section content</AdminPanel>
+      <AdminPanel
+        title="System Scheme"
+        subtitle="Manage the default permission scheme for all teams and channels."
+        showButton
+        buttonLabel="Edit Scheme"
+        onButtonClick={fn()}
+      />
+      <AdminPanel>Section content without a panel header.</AdminPanel>
+      <AdminPanel
+        footer={
+          <AdminPanelFooter
+            leftActions={
+              <Button type="button" size="medium" emphasis="primary">
+                Apply
+              </Button>
+            }
+          />
+        }
+      >
+        Body and footer without a header.
+      </AdminPanel>
     </div>
   ),
 };

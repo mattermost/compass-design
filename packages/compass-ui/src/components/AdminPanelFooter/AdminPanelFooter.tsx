@@ -21,11 +21,11 @@ export interface AdminPanelFooterProps extends Omit<
 }
 
 /**
- * Admin Panel Footer is the action rail at the bottom of an
- * [`Admin Panel`](/patterns/admin-panel). Hosts compose start- and end-edge
- * slots with `Button`, `IconButton`, or pagination controls — the footer owns
- * layout and divider chrome only. A single action group always sits on the
- * start edge; with both slots filled, content is space-between.
+ * Admin Panel Footer is the action rail at the bottom of an [`Admin
+ * Panel`](/patterns/admin-panel). Compose it via the panel’s optional `footer` prop (the
+ * panel still needs a header or a body). It provides start- and end-edge slots for `Button`,
+ * `IconButton`, or pagination controls — layout and divider chrome only; the host owns
+ * labels and handlers.
  */
 export default function AdminPanelFooter({
   leftActions,
