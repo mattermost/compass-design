@@ -13,7 +13,7 @@ const statusStyle = {
   margin: 0,
   fontFamily: 'var(--font-family-body)',
   fontSize: 'var(--font-size-75)',
-  fontWeight: 'var(--font-weight-semibold)' as const,
+  fontWeight: 'var(--font-weight-regular)' as const,
   lineHeight: 'var(--line-height-75)',
   color: 'rgba(var(--center-channel-color-rgb), 0.72)',
 };
