@@ -19,6 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`SectionNotice` title:** renders as a semantic `<h4>` (was `<p>`) for document-outline parity with the Mattermost webapp notice. Title styles explicitly set margin, padding, font-family, size, weight, line-height, letter-spacing, text-transform, and color so host global `h4` rules do not bleed into Compass typography. Intentional default DOM change.
 - **`AdminPanel`:** omits the padded `admin-panel__body` (and the expandable collapse wrapper) when `children` is empty, and omits the header divider when there is no body or footer, so header-only panels (e.g. System Console nav banners) no longer leave a blank strip.
 - **`Combobox`, `Select` menu width:** the "match the field width" rule (`width: 100%; max-width: none`) had the same specificity as `PopoverMenu`'s `max-width: 496px`, so in the aggregated stylesheet (where `PopoverMenu` is emitted later) the menu was capped at 496px. The rule now nests under the popup so it wins regardless of order.
 - **`MenuItem` vertical centering:** with a leading visual taller than the label row (e.g. a 24px avatar next to a single-line or inline-secondary-label row), the label and trailing visual sat at the top of the row. They now center on the row. A trailing check on a two-line row (secondary label below) now centers too instead of sitting at the top.
