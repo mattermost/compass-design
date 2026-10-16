@@ -23,6 +23,14 @@ function renderNotice(props: Partial<Parameters<typeof SectionNotice>[0]>) {
   };
 }
 
+describe('SectionNotice title', () => {
+  it('renders the title as an h4', () => {
+    const { container } = render(<SectionNotice title="Index out of date" />);
+    const title = container.querySelector('h4');
+    expect(title?.textContent).toBe('Index out of date');
+  });
+});
+
 describe('SectionNotice action states', () => {
   it('leaves both actions enabled by default', () => {
     const { primary, secondary, onPrimary, onSecondary } = renderNotice({});
