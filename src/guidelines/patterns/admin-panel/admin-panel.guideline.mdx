@@ -3,20 +3,20 @@ import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-
 import { Button } from '@mattermost/compass-ui/components/button';
 
 Admin Panel is the bordered sheet used throughout System Console for a
-single settings section. It combines the
-[`Admin Panel Header`](/components/admin-panel-header) with a
+single settings section. It can include an
+[`Admin Panel Header`](/components/admin-panel-header), a
 body where grouped fields and help text live, and an optional
 [`Admin Panel Footer`](/components/admin-panel-footer) for sectional actions.
-Panels stack on the page so admins can scan sections without leaving the
-workspace.
+Provide a header, a body, or both — footer alone is not enough. Panels stack
+on the page so admins can scan sections without leaving the workspace.
 
 <Divider />
 
 ## Anatomy
 
 The pattern is an elevation-1 surface with a capped content width for readable
-lines on wide consoles. The header rail carries the section identity and
-optional controls; the body holds the form layout.
+lines on wide consoles. Header, body, and footer are each optional slots — keep
+at least a header or a body so the panel has content.
 
 <AnatomyStage>
   <AdminPanel
@@ -58,11 +58,12 @@ optional controls; the body holds the form layout.
 
 - <Num>1</Num> **Surface** — full border, corner radius, and shadow consistent
   with other Compass elevated cards.
-- <Num>2</Num> **Panel header** — use the [`Admin Panel
+- <Num>2</Num> **Panel header** — optional; use the [`Admin Panel
   Header`](/components/admin-panel-header) component for the title row, optional
-  tags, subtitle, and trailing actions.
-- <Num>3</Num> **Body** — settings fields and explanatory copy; when the panel
-  is expandable and collapsed, the body is hidden until expanded.
+  tags, subtitle, and trailing actions. Required when there is no body.
+- <Num>3</Num> **Body** — optional settings fields and explanatory copy; when the
+  panel is expandable and collapsed, the body is hidden until expanded. Required
+  when there is no header.
 - <Num>4</Num> **Panel footer** — optional [`Admin Panel
   Footer`](/components/admin-panel-footer) with left/right action slots.
 
@@ -75,20 +76,26 @@ workspace chrome, not inside every panel.
 
 | Option                   | Use when                                                                         |
 | ------------------------ | -------------------------------------------------------------------------------- |
+| Header only              | Nav banners or scheme cards that need a title row and action, with no fields.    |
+| Body only                | Grouped fields that do not need a section title on the panel itself.             |
 | Leading icon             | The section maps to a recognizable console category (see panel header guidance). |
 | Enterprise / Beta tags   | SKU or lifecycle needs to appear beside the section name.                        |
 | Switch in header         | A single on/off applies to the whole section.                                    |
 | Primary button in header | One sectional action is tied to the heading; avoid duplicating the page Save.    |
-| Expand / collapse        | Long or advanced sections should stay compact until opened.                      |
+| Expand / collapse        | Long or advanced sections should stay compact until opened (requires a header). |
 | Panel footer             | Sectional actions, list tools, or pagination belong under the body.              |
 
 <Divider />
 
 ## Behaviour
 
+- **Required content.** Pass `title` (header), `children` (body), or both.
+  Omitting both — or shipping only a `footer` — is invalid.
+- **Empty body.** When `children` is empty, the padded body (and expandable
+  collapse wrapper) is omitted so header-only panels stay flush.
 - **Collapsed expandable panels.** The header stays visible without a lower
   divider until expanded; opening restores the divider and shows the body and
-  footer together.
+  footer together. Expand/collapse is unavailable without a header.
 - **Saving and validation** for the whole page stay in the
   [`Admin Console Footer`](/components/admin-console-footer) or equivalent —
   use the panel footer for sectional actions only.
@@ -97,5 +104,38 @@ workspace chrome, not inside every panel.
 
 ## Implementation
 
-For props, variants, and copy-ready examples, see the
+Pass `title` for a header, `children` for a body, and optional `footer`. TypeScript
+requires a header or a body.
+
+```tsx
+import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
+import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
+
+// Header + body
+<AdminPanel title="Section Title" subtitle="Section sub-title">
+  Fields go here
+</AdminPanel>
+
+// Header only
+<AdminPanel
+  title="System Scheme"
+  subtitle="Manage the default permission scheme"
+  showButton
+  buttonLabel="Edit Scheme"
+/>
+
+// Body only
+<AdminPanel>Fields without a panel header</AdminPanel>
+
+// Body + footer (no header)
+<AdminPanel
+  footer={
+    <AdminPanelFooter leftActions={<>{/* actions */}</>} />
+  }
+>
+  Fields go here
+</AdminPanel>
+```
+
+For props, variants, and more live examples, see the
 [Admin Panel specimen](/patterns/admin-panel/specimen).

@@ -58,8 +58,9 @@ export interface AdminPanelHeaderProps {
 /**
  * Admin Panel Header is the titled rail for a System Console settings section: optional
  * leading icon, title with optional tags, subtitle, and trailing controls. It is composed
- * inside the [`Admin Panel`](/patterns/admin-panel) pattern; it can also be documented on
- * its own when adjusting header anatomy or behaviour.
+ * inside the [`Admin Panel`](/patterns/admin-panel) pattern whenever that panel has a
+ * `title` (Admin Panel may omit the header when it has a body only). Document the header on
+ * its own when adjusting anatomy or behaviour.
  */
 export default function AdminPanelHeader({
   titleId,

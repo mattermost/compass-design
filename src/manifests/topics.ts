@@ -954,7 +954,7 @@ export const TOPICS: Topic[] = [
     name: 'Admin Panel',
     category: 'patterns',
     description:
-      'Bordered settings sheet: panel header and body for grouped System Console fields.',
+      'Bordered settings sheet with optional header, body, and footer — provide a header or a body (or both).',
     status: 'stable',
     guidelinePage: () =>
       import('@/guidelines/patterns/admin-panel/admin-panel.guideline.mdx'),

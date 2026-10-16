@@ -64,6 +64,26 @@ describe('AdminPanel body', () => {
     expect(bodyEl(container)).toBeNull();
   });
 
+  it('renders a body-only panel without a header', () => {
+    const { container } = render(
+      <AdminPanel>Body content only</AdminPanel>,
+    );
+    expect(container.querySelector('h2')).toBeNull();
+    expect(bodyEl(container)?.textContent).toBe('Body content only');
+    expect(container.querySelector('section')?.getAttribute('aria-labelledby')).toBeNull();
+  });
+
+  it('renders body and footer without a header', () => {
+    const { container } = render(
+      <AdminPanel footer={<div>Footer actions</div>}>
+        Body content
+      </AdminPanel>,
+    );
+    expect(container.querySelector('h2')).toBeNull();
+    expect(bodyEl(container)?.textContent).toBe('Body content');
+    expect(container.textContent).toContain('Footer actions');
+  });
+
   it('does not render the collapse wrapper or body when expandable and empty', () => {
     const { container } = render(
       <AdminPanel

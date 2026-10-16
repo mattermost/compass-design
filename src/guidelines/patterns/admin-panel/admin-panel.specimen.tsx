@@ -107,8 +107,50 @@ export default function AdminPanelPatternSpecimen() {
         </AdminPanel>
       </div>
       <div>
-        <p className={styles['components__instance-label']}>Title only</p>
+        <p className={styles['components__instance-label']}>
+          Title without subtitle
+        </p>
         <AdminPanel title="Section Title">Section content</AdminPanel>
+      </div>
+      <div>
+        <p className={styles['components__instance-label']}>
+          Header only (no body)
+        </p>
+        <AdminPanel
+          title="System Scheme"
+          subtitle="Manage the default permission scheme for all teams and channels."
+          showButton
+          buttonLabel="Edit Scheme"
+        />
+      </div>
+      <div>
+        <p className={styles['components__instance-label']}>
+          Body only (no header)
+        </p>
+        <AdminPanel>Section content without a panel header.</AdminPanel>
+      </div>
+      <div>
+        <p className={styles['components__instance-label']}>
+          Body + footer (no header)
+        </p>
+        <AdminPanel
+          footer={
+            <AdminPanelFooter
+              leftActions={
+                <>
+                  <Button type="button" size="medium" emphasis="primary">
+                    Apply
+                  </Button>
+                  <Button type="button" size="medium" emphasis="tertiary">
+                    Cancel
+                  </Button>
+                </>
+              }
+            />
+          }
+        >
+          Section content with footer actions and no panel header.
+        </AdminPanel>
       </div>
     </div>
   );
