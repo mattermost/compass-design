@@ -1,3 +1,4 @@
+import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
 import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
 import { Button } from '@mattermost/compass-ui/components/button';
 
@@ -14,43 +15,40 @@ A top divider separates the footer from the panel body. Primary actions sit on
 the start edge (primary button leftmost when used). A second slot can hold
 trailing utilities or pagination on the end edge.
 
-<AnatomyStage style={{ width: '100%', maxWidth: '920px' }}>
-  <div
-    style={{
-      width: '100%',
-      border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-      borderRadius: 'var(--radius-m)',
-      overflow: 'hidden',
-      background: 'var(--center-channel-bg)',
-    }}
+<AnatomyStage style={{ width: '100%', maxWidth: '920px', alignItems: 'stretch' }}>
+  <AdminPanel
+    title="Section Title"
+    subtitle="Section sub-title"
+    footer={
+      <AdminPanelFooter
+        leftActions={
+          <>
+            <Button type="button" size="medium" emphasis="primary">
+              Save
+            </Button>
+            <Button type="button" size="medium" emphasis="tertiary">
+              Cancel
+            </Button>
+          </>
+        }
+        rightActions={
+          <Button type="button" size="medium" emphasis="tertiary">
+            Secondary
+          </Button>
+        }
+      />
+    }
   >
-    <div
+    <p
       style={{
-        padding: 'var(--spacing-xxl)',
+        margin: 0,
         color: 'rgba(var(--center-channel-color-rgb), 0.75)',
         fontSize: 'var(--font-size-100)',
       }}
     >
       Panel body
-    </div>
-    <AdminPanelFooter
-      leftActions={
-        <>
-          <Button type="button" size="medium" emphasis="primary">
-            Save
-          </Button>
-          <Button type="button" size="medium" emphasis="tertiary">
-            Cancel
-          </Button>
-        </>
-      }
-      rightActions={
-        <Button type="button" size="medium" emphasis="tertiary">
-          Secondary
-        </Button>
-      }
-    />
-  </div>
+    </p>
+  </AdminPanel>
 </AnatomyStage>
 
 - <Num>1</Num> **Divider** — top border separating footer chrome from the body.

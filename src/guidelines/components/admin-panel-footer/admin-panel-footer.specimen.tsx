@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import ChevronLeftIcon from '@mattermost/compass-icons/components/chevron-left';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
+import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
 import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-footer';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -17,37 +18,29 @@ const statusStyle = {
   color: 'rgba(var(--center-channel-color-rgb), 0.72)',
 };
 
-function PanelShell({
+const bodyStyle = {
+  margin: 0,
+  color: 'rgba(var(--center-channel-color-rgb), 0.75)',
+  fontSize: 'var(--font-size-100)',
+};
+
+function Example({
   label,
-  children,
+  footer,
 }: {
   label: string;
-  children: ReactNode;
+  footer: ReactNode;
 }) {
   return (
     <div>
       <p className={styles['components__instance-label']}>{label}</p>
-      <div
-        style={{
-          maxWidth: 920,
-          width: '100%',
-          border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-          borderRadius: 'var(--radius-m)',
-          overflow: 'hidden',
-          background: 'var(--center-channel-bg)',
-        }}
+      <AdminPanel
+        title="Section Title"
+        subtitle="Section sub-title"
+        footer={footer}
       >
-        <div
-          style={{
-            padding: 'var(--spacing-xxl)',
-            color: 'rgba(var(--center-channel-color-rgb), 0.75)',
-            fontSize: 'var(--font-size-100)',
-          }}
-        >
-          Panel body
-        </div>
-        {children}
-      </div>
+        <p style={bodyStyle}>Panel body</p>
+      </AdminPanel>
     </div>
   );
 }
@@ -55,72 +48,84 @@ function PanelShell({
 export default function AdminPanelFooterLibrary() {
   return (
     <div className={styles['components__button-block']}>
-      <PanelShell label="Primary actions">
-        <AdminPanelFooter
-          leftActions={
-            <>
-              <Button type="button" size="medium" emphasis="primary">
-                Save
-              </Button>
+      <Example
+        label="Primary actions"
+        footer={
+          <AdminPanelFooter
+            leftActions={
+              <>
+                <Button type="button" size="medium" emphasis="primary">
+                  Save
+                </Button>
+                <Button type="button" size="medium" emphasis="tertiary">
+                  Cancel
+                </Button>
+              </>
+            }
+          />
+        }
+      />
+      <Example
+        label="Buttons both sides"
+        footer={
+          <AdminPanelFooter
+            leftActions={
+              <>
+                <Button type="button" size="medium" emphasis="primary">
+                  Save
+                </Button>
+                <Button type="button" size="medium" emphasis="tertiary">
+                  Cancel
+                </Button>
+              </>
+            }
+            rightActions={
               <Button type="button" size="medium" emphasis="tertiary">
-                Cancel
+                Secondary
               </Button>
-            </>
-          }
-        />
-      </PanelShell>
-      <PanelShell label="Buttons both sides">
-        <AdminPanelFooter
-          leftActions={
-            <>
-              <Button type="button" size="medium" emphasis="primary">
-                Save
-              </Button>
+            }
+          />
+        }
+      />
+      <Example
+        label="Pagination"
+        footer={
+          <AdminPanelFooter
+            leftActions={<p style={statusStyle}>Showing 1–30 of 132</p>}
+            rightActions={
+              <>
+                <IconButton
+                  type="button"
+                  style="default"
+                  size="medium"
+                  aria-label="Previous page"
+                  icon={<Icon glyph={<ChevronLeftIcon />} />}
+                />
+                <IconButton
+                  type="button"
+                  style="default"
+                  size="medium"
+                  aria-label="Next page"
+                  icon={<Icon glyph={<ChevronRightIcon />} />}
+                />
+              </>
+            }
+          />
+        }
+      />
+      <Example
+        label="Pagination dots"
+        footer={
+          <AdminPanelFooter
+            leftActions={
               <Button type="button" size="medium" emphasis="tertiary">
-                Cancel
+                Add filter
               </Button>
-            </>
-          }
-          rightActions={
-            <Button type="button" size="medium" emphasis="tertiary">
-              Secondary
-            </Button>
-          }
-        />
-      </PanelShell>
-      <PanelShell label="Pagination">
-        <AdminPanelFooter
-          leftActions={<p style={statusStyle}>Showing 1–30 of 132</p>}
-          rightActions={
-            <>
-              <IconButton
-                type="button"
-                style="default"
-                size="medium"
-                aria-label="Previous page"
-                icon={<Icon glyph={<ChevronLeftIcon />} />}
-              />
-              <IconButton
-                type="button"
-                style="default"
-                size="medium"
-                aria-label="Next page"
-                icon={<Icon glyph={<ChevronRightIcon />} />}
-              />
-            </>
-          }
-        />
-      </PanelShell>
-      <PanelShell label="Pagination dots">
-        <AdminPanelFooter
-          leftActions={
-            <Button type="button" size="medium" emphasis="tertiary">
-              Add filter
-            </Button>
-          }
-          rightActions={<PaginationDots activePage={2} pages={5} />}
-        />
-      </PanelShell>
+            }
+            rightActions={<PaginationDots activePage={2} pages={5} />}
+          />
+        }
+      />
     </div>
   );
 }
