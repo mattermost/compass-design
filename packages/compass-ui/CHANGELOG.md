@@ -9,7 +9,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`AdminPanelFooter`:** action rail for Admin Panel with `leftActions` and `rightActions` slots for `Button`, `IconButton`, or pagination. Compose via the new optional `AdminPanel` `footer` prop (collapses with the body when expandable).
-- **`AdminPanel` header-only:** omits the body (and header divider) when no `children` or `footer` are passed, so header-only compositions don’t leave empty padding.
 - **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
 - **`Combobox` and `Select` `menuItemProps`:** forward any `MenuItem` prop that the menu doesn't own (`secondaryLabelPosition`, `trailingVisual`, `tag`, `tagLabel`, `mentionCount`, `customStatusEmoji`, `destructive`, `className`, `data-*`, …) to the option rows, either on the component (all rows) or on a single option (`ComboboxOption.menuItemProps` / `SelectOption.menuItemProps`, which wins; `className` is merged). Props the menu sets itself (ARIA, selection state, the click / pointer handlers it uses, `label`, `secondaryLabel`, `leadingVisual`, `disabled`) can't be overridden, and neither can `autoFocus`, which would pull focus off the input / trigger when the menu opens. `Combobox` selects on `onClick`, so it accepts `onPointerUp`; `Select` selects on `onPointerUp`, so it accepts `onClick`. `Combobox` doesn't apply it to the create row. New exported types `MenuItemPassthroughProps` (generic over the props the host owns) and `MenuItemOwnedProps`.
 
@@ -20,6 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`AdminPanel`:** omits the padded `admin-panel__body` (and the expandable collapse wrapper) when `children` is empty, and omits the header divider when there is no body or footer, so header-only panels (e.g. System Console nav banners) no longer leave a blank strip.
 - **`Combobox`, `Select` menu width:** the "match the field width" rule (`width: 100%; max-width: none`) had the same specificity as `PopoverMenu`'s `max-width: 496px`, so in the aggregated stylesheet (where `PopoverMenu` is emitted later) the menu was capped at 496px. The rule now nests under the popup so it wins regardless of order.
 - **`MenuItem` vertical centering:** with a leading visual taller than the label row (e.g. a 24px avatar next to a single-line or inline-secondary-label row), the label and trailing visual sat at the top of the row. They now center on the row. A trailing check on a two-line row (secondary label below) now centers too instead of sitting at the top.
 - **`Combobox`, `Select` hover scrolling:** hovering a row that was partly clipped at the edge of the menu scrolled it into view, which moved the next clipped row under the pointer and kept the list scrolling on its own. Hover now only moves the highlight; keyboard navigation still scrolls the highlighted row into view.

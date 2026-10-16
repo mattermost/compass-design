@@ -1,4 +1,5 @@
 import {
+  Children,
   useId,
   useState,
   type ChangeEvent,
@@ -60,8 +61,9 @@ export interface AdminPanelProps extends Omit<
 }
 
 /**
- * System Console admin settings panel: `AdminPanelHeader` plus a body slot
- * for grouped fields. Expand/collapse state is owned here and passed to the header.
+ * System Console admin settings panel: `AdminPanelHeader` plus an optional body
+ * slot for grouped fields (omitted when `children` is empty) and an optional
+ * footer. Expand/collapse state is owned here and passed to the header.
  */
 export default function AdminPanel({
   title,
@@ -119,7 +121,7 @@ export default function AdminPanel({
     setExpandedState(isExpanded ? 'collapsed' : 'expanded');
   };
 
-  const hasBody = children != null;
+  const hasBody = Children.toArray(children).length > 0;
   const hasFooter = footer != null;
   const hasContent = hasBody || hasFooter;
   // Skip the header divider when there is no body/footer so header-only
