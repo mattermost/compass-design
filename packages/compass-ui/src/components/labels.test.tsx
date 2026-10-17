@@ -36,6 +36,7 @@ import SectionNotice from './SectionNotice/SectionNotice';
 import Select from './Select/Select';
 import Spinner from './Spinner/Spinner';
 import Tabs from './Tabs/Tabs';
+import TextInput from './TextInput/TextInput';
 import ThreadFooter from './ThreadFooter/ThreadFooter';
 import ThreadListItem from './ThreadListItem/ThreadListItem';
 import Toast from './Toast/Toast';
@@ -93,6 +94,11 @@ const BUTTON_NAME_CASES: Array<{
     name: 'SearchInput clearLabel',
     english: 'Clear search',
     render: (l) => <SearchInput defaultValue="abc" clearLabel={l} />,
+  },
+  {
+    name: 'TextInput clearLabel',
+    english: 'Clear',
+    render: (l) => <TextInput defaultValue="abc" clearable clearLabel={l} />,
   },
   {
     name: 'SectionNotice dismissLabel',

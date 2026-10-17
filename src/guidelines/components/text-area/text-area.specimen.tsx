@@ -1,3 +1,4 @@
+import { Button } from '@mattermost/compass-ui/components/button';
 import { TextArea } from '@mattermost/compass-ui/components/text-area';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -42,6 +43,34 @@ export default function TextAreaLibrary() {
             label="Read-only"
             readOnly
             defaultValue="Read only content."
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Message tones
+          </span>
+          <TextArea label="Purpose" message="This field is required." />
+          <TextArea
+            label="Notes"
+            message="Optional context for your team."
+            messageTone="info"
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Trailing action
+          </span>
+          <TextArea
+            label="Invite password"
+            defaultValue="secret-value"
+            rows={2}
+            message="Ready to share."
+            messageTone="success"
+            trailingAction={
+              <Button size="small" emphasis="tertiary">
+                Copy
+              </Button>
+            }
           />
         </div>
       </div>

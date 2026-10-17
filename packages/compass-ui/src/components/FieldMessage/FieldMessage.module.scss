@@ -1,0 +1,52 @@
+.field-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xxs);
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  &__text {
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-75);
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  &--tone-error {
+    .field-message__icon,
+    .field-message__text {
+      color: var(--error-text, var(--color-danger));
+    }
+  }
+
+  &--tone-warning {
+    .field-message__icon,
+    .field-message__text {
+      color: var(--away-indicator, var(--color-warning));
+    }
+  }
+
+  &--tone-info {
+    .field-message__icon {
+      color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+
+    .field-message__text {
+      color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
+  }
+
+  &--tone-success {
+    .field-message__icon,
+    .field-message__text {
+      color: var(--online-indicator, var(--color-success));
+    }
+  }
+}

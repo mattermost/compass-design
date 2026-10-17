@@ -6,6 +6,30 @@
   flex-direction: column;
   width: 100%;
 
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+    width: 100%;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  &__trailing-action {
+    display: inline-flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+  }
+
+  &__message {
+    margin-top: var(--spacing-xxxs);
+  }
+
   // ---------------------------------------------------------------------------
   // Wrapper (bordered container)
   // ---------------------------------------------------------------------------

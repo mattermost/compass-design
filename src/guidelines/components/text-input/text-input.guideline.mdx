@@ -1,7 +1,8 @@
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
-import { TextInput } from '@mattermost/compass-ui/components/text-input';
+import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { TextInput } from '@mattermost/compass-ui/components/text-input';
 
 Text Inputs let people enter and edit a single line of text — names, emails,
 search queries, channel titles. They're the workhorse of every form and
@@ -16,8 +17,8 @@ modal in Mattermost.
     <TextInput
       label="Search"
       defaultValue="design"
-      leadingIcon={<Icon glyph={<MagnifyIcon />} size="16" />}
-      trailingIcon={<Icon glyph={<CloseCircleIcon />} size="16" />}
+      leadingIcon={<Icon glyph={<MagnifyIcon />} />}
+      trailingIcon={<Icon glyph={<CloseCircleIcon />} />}
     />
   </div>
 </AnatomyStage>
@@ -28,7 +29,7 @@ modal in Mattermost.
 - <Num>3</Num> **Leading icon** — optional; reinforces the field's purpose
   (search, mail, calendar).
 - <Num>4</Num> **Trailing icon** — optional; signals validity, opens a picker,
-  clears the input, or indicates a dropdown.
+  or indicates a dropdown. Not the clear control — use `clearable` for that.
 - <Num>5</Num> **Placeholder** — brief sample or help statement; only visible
   when empty.
 - <Num>6</Num> **Value** — the text the user has entered.
@@ -67,14 +68,14 @@ same form.
 
 ## States
 
-| State     | Description                                                                    |
-| --------- | ------------------------------------------------------------------------------ |
-| Default   | Resting state.                                                                 |
-| Hover     | Subtle stroke darkening on pointer hover.                                      |
-| Focus     | Active focus ring. The label floats above the border.                          |
-| Read-only | Non-editable but visible — e.g. system-derived values the user can't change.   |
-| Disabled  | Inactive state. The field is non-interactive and visually de-emphasised.       |
-| Invalid   | Validation has failed; pair with an Error Message immediately below the field. |
+| State     | Description                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------- |
+| Default   | Resting state.                                                                                                |
+| Hover     | Subtle stroke darkening on pointer hover.                                                                     |
+| Focus     | Active focus ring. The label floats above the border.                                                         |
+| Read-only | Non-editable but visible — e.g. system-derived values the user can't change.                                  |
+| Disabled  | Inactive state. The field is non-interactive and visually de-emphasised.                                      |
+| Invalid   | Validation has failed. Pass `message` (error tone by default) or set `invalid` alone for chrome without copy. |
 
 <div
   style={{
@@ -87,7 +88,98 @@ same form.
   <TextInput label="Default" placeholder="Type here…" />
   <TextInput label="With value" defaultValue="hello@mattermost.com" />
   <TextInput label="Disabled" placeholder="Type here…" disabled />
-  <TextInput label="Invalid" defaultValue="not-an-email" invalid />
+  <TextInput
+    label="Invalid"
+    defaultValue="not-an-email"
+    message="Enter a valid email address."
+  />
+</div>
+
+<Divider />
+
+## Status message
+
+Pass a host-computed `message` under the field. The host owns validation;
+Compass only displays what it is given. Default tone is error (invalid ring
+and `role="alert"`). Warning, info, and success show the line without the
+error ring.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '420px',
+  }}
+>
+  <TextInput label="Email" message="This field is required." />
+  <TextInput
+    label="Channel name"
+    message="This name is already taken."
+    messageTone="warning"
+  />
+  <TextInput
+    label="Password"
+    message="Use 8 or more characters."
+    messageTone="info"
+  />
+  <TextInput
+    label="Invite code"
+    defaultValue="abc-123"
+    message="Looks good."
+    messageTone="success"
+  />
+</div>
+
+For the same line outside a text field (e.g. under a radio group), use
+[Field Message](/components/field-message).
+
+<Divider />
+
+## Clearable
+
+Set `clearable` when the field should show a clear button while it has a
+value. The button sits after any trailing icon and stays in the tab order.
+Pass `onClear` when the host owns the value; omit it for built-in clearing.
+Escape clears when the button would be visible.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '420px',
+  }}
+>
+  <TextInput label="Filter" clearable defaultValue="design" />
+  <TextInput
+    label="With trailing icon"
+    clearable
+    defaultValue="design"
+    trailingIcon={<Icon glyph={<CloseCircleIcon />} />}
+  />
+</div>
+
+<Divider />
+
+## Trailing action
+
+`trailingAction` sits outside the border, in a row with the field — show /
+hide password, copy, or a status control. Message and character counter stay
+as wide as the field column, not under the action.
+
+<div style={{ maxWidth: '480px' }}>
+  <TextInput
+    label="Invite code"
+    defaultValue="abc-123"
+    message="Copied to clipboard."
+    messageTone="success"
+    trailingAction={
+      <Button size="small" emphasis="tertiary">
+        Copy
+      </Button>
+    }
+  />
 </div>
 
 <Divider />
@@ -96,7 +188,8 @@ same form.
 
 Use a leading icon to reinforce a recognisable input type — magnifier for
 search, mail icon for email. Reserve the trailing icon for affordances that
-relate to the field's value (clear, validity, dropdown chevron).
+relate to the field's value (validity, dropdown chevron). Use `clearable`
+instead of a hand-rolled clear icon.
 
 <div
   style={{
@@ -109,13 +202,13 @@ relate to the field's value (clear, validity, dropdown chevron).
   <TextInput
     label="Search"
     placeholder="Search channels"
-    leadingIcon={<Icon glyph={<MagnifyIcon />} size="16" />}
+    leadingIcon={<Icon glyph={<MagnifyIcon />} />}
   />
   <TextInput
-    label="Search"
-    defaultValue="design"
-    leadingIcon={<Icon glyph={<MagnifyIcon />} size="16" />}
-    trailingIcon={<Icon glyph={<CloseCircleIcon />} size="16" />}
+    label="Workspace"
+    defaultValue="Acme"
+    leadingIcon={<Icon glyph={<MagnifyIcon />} />}
+    trailingIcon={<Icon glyph={<CloseCircleIcon />} />}
   />
 </div>
 

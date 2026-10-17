@@ -1,5 +1,11 @@
 import type { TextareaHTMLAttributes, ReactNode, ChangeEvent } from 'react';
 import { forwardRef, useId, useState, useCallback } from 'react';
+import {
+  isFieldInvalid,
+  mergeFieldDescribedBy,
+} from '@/components/field/fieldDescribedBy';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
+import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
 import { toKebab } from '@/utils/string';
 import styles from './TextArea.module.scss';
 
@@ -21,6 +27,18 @@ export interface TextAreaProps extends Omit<
   showCharacterCount?: boolean;
   /** Size variant. Default: Medium. */
   size?: TextAreaSize;
+  /**
+   * Status message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Defaults to error tone (invalid chrome) when set without `messageTone`.
+   */
+  message?: ReactNode;
+  /** Visual tone for `message`. Default: `error` when `message` is set. */
+  messageTone?: FieldMessageTone;
+  /**
+   * Rendered outside the border, after the field. A button or other control — not forced
+   * through the 16px icon context. Message and counter stay as wide as the field column.
+   */
+  trailingAction?: ReactNode;
 }
 
 /**
@@ -37,6 +55,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       invalid = false,
       maxLength,
       showCharacterCount = false,
+      message,
+      messageTone,
+      trailingAction,
       id: idProp,
       value: valueProp,
       defaultValue,
@@ -87,8 +108,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       [isControlled, onChange],
     );
 
+    const showInvalid = isFieldInvalid(invalid, message, messageTone);
     const sizeClass = styles[`text-area--size-${toKebab(size)}`];
-    const invalidClass = invalid ? styles['text-area--invalid'] : '';
+    const invalidClass = showInvalid ? styles['text-area--invalid'] : '';
     const labelFloatedClass =
       label != null && labelFloated ? styles['text-area--label-floated'] : '';
 
@@ -105,9 +127,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const currentLength = typeof value === 'string' ? value.length : 0;
     const counterId =
       showCharacterCount && maxLength != null ? `${id}-counter` : undefined;
+    const messageId = message != null ? `${id}-message` : undefined;
+    const resolvedTone = messageTone ?? 'error';
 
-    return (
-      <div className={rootClass}>
+    const fieldBody = (
+      <>
         <div className={styles['text-area__wrapper']}>
           {label != null && (
             <label className={styles['text-area__label']} htmlFor={id}>
@@ -125,16 +149,26 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             disabled={disabled}
             readOnly={readOnly}
             rows={rows}
-            aria-invalid={invalid ? true : undefined}
-            aria-describedby={
-              [describedBy, counterId].filter(Boolean).join(' ') || undefined
-            }
+            aria-invalid={showInvalid ? true : undefined}
+            aria-describedby={mergeFieldDescribedBy(
+              describedBy,
+              messageId,
+              counterId,
+            )}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChange}
             {...rest}
           />
         </div>
+        {message != null && (
+          <FieldMessage
+            id={messageId}
+            className={styles['text-area__message']}
+            message={message}
+            tone={resolvedTone}
+          />
+        )}
         {showCharacterCount && maxLength != null && (
           <div
             id={counterId}
@@ -143,6 +177,21 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           >
             {currentLength} / {maxLength}
           </div>
+        )}
+      </>
+    );
+
+    return (
+      <div className={rootClass}>
+        {trailingAction != null ? (
+          <div className={styles['text-area__row']}>
+            <div className={styles['text-area__field']}>{fieldBody}</div>
+            <div className={styles['text-area__trailing-action']}>
+              {trailingAction}
+            </div>
+          </div>
+        ) : (
+          fieldBody
         )}
       </div>
     );

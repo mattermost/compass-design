@@ -136,21 +136,8 @@
     margin-left: var(--spacing-xs);
   }
 
-  &__clear-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    color: inherit;
-    transition: color var(--duration-quick) var(--ease-transition);
-
-    &:hover {
-      color: var(--center-channel-color);
-    }
+  &__message {
+    margin-top: var(--spacing-xxxs);
   }
 
   // ---------------------------------------------------------------------------

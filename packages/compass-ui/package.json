@@ -176,6 +176,12 @@
       "components/feature-discovery-panel": [
         "./dist/components/feature-discovery-panel/index.d.ts"
       ],
+      "components/field": [
+        "./dist/components/field/index.d.ts"
+      ],
+      "components/field-message": [
+        "./dist/components/field-message/index.d.ts"
+      ],
       "components/global-banner": [
         "./dist/components/global-banner/index.d.ts"
       ],

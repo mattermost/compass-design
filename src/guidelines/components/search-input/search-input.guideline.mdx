@@ -23,8 +23,9 @@ for free-form data entry instead.
   field's purpose.
 - <Num>2</Num> **Input** — the editable field. Accepts a placeholder or a
   floating label.
-- <Num>3</Num> **Clear button** — appears once the field has a value when an
-  `onClear` handler is provided. Tabbed past, not into.
+- <Num>3</Num> **Clear button** — appears once the field has a non-empty value
+  and is not disabled. Built-in clearing works when `onClear` is omitted.
+  Removed from the tab order by default (`tabIndex={-1}`).
 
 <Divider />
 
@@ -74,9 +75,38 @@ Disabled.
   <SearchInput label="Search" placeholder="Disabled" disabled />
 </div>
 
-A clear button only appears once the field has a value and an `onClear`
-handler is wired up — leave it off when you don't need to clear (e.g.
-search-as-you-type that resets when the user blurs).
+A clear button appears once the field has a value. Pass `onClear` when the
+host owns the value; omit it to use built-in clearing (uncontrolled state or
+a synthetic change for controlled inputs). Escape clears when the button
+would be visible.
+
+<Divider />
+
+## Status message
+
+Pass `message` / `messageTone` the same way as Text Input. Error tone (the
+default) adds invalid chrome; info does not.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    padding: '1rem 0',
+    maxWidth: '320px',
+  }}
+>
+  <SearchInput label="Search" message="No matches found." />
+  <SearchInput
+    label="Search"
+    defaultValue="design"
+    message="Try another keyword."
+    messageTone="info"
+  />
+</div>
+
+Search Input does not take `trailingAction` — its trailing control is the
+clear button.
 
 <Divider />
 

@@ -7,6 +7,7 @@ import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
 import Combobox from './Combobox/Combobox';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
+import FieldMessage from './FieldMessage/FieldMessage';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
 import Modal from './Modal/Modal';
 import ModalHeader from './ModalHeader/ModalHeader';
@@ -16,6 +17,7 @@ import SearchInput from './SearchInput/SearchInput';
 import SectionNotice from './SectionNotice/SectionNotice';
 import Tabs from './Tabs/Tabs';
 import Tag from './Tag/Tag';
+import TextInput from './TextInput/TextInput';
 import Toast from './Toast/Toast';
 import TourPoint from './TourPoint/TourPoint';
 
@@ -38,6 +40,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
     </Modal>
   ),
   ErrorMessage: (a) => <ErrorMessage message="Required" {...a} />,
+  FieldMessage: (a) => <FieldMessage message="Required" {...a} />,
   ProgressBar: (a) => <ProgressBar value={40} {...a} />,
   Tabs: (a) => (
     <Tabs
@@ -173,6 +176,17 @@ const BUTTON_CASES: Record<
     label: 'Clear search',
     render: (p, on) => (
       <SearchInput defaultValue="abc" onClear={on} clearButtonProps={p} />
+    ),
+  },
+  'TextInput clearButtonProps': {
+    label: 'Clear',
+    render: (p, on) => (
+      <TextInput
+        defaultValue="abc"
+        clearable
+        onClear={on}
+        clearButtonProps={p}
+      />
     ),
   },
   'Combobox clearButtonProps': {

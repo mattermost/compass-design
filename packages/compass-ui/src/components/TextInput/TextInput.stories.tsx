@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import Button from '../Button/Button';
 import TextInput from './TextInput';
 import type { TextInputProps, TextInputSize } from './TextInput';
 import Icon from '../Icon/Icon';
@@ -11,6 +12,7 @@ import {
 } from '../../storybook/icons';
 
 const SIZES: TextInputSize[] = ['small', 'medium', 'large'];
+const MESSAGE_TONES = ['error', 'warning', 'info', 'success'] as const;
 
 type TextInputStoryArgs = Omit<
   TextInputProps,
@@ -26,6 +28,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    messageTone: { control: 'select', options: [...MESSAGE_TONES] },
     leadingIcon: iconSelectArgType({ optional: true }),
     trailingIcon: iconSelectArgType({ optional: true }),
   },
@@ -101,6 +104,44 @@ export const WithIcons: Story = {
   },
 };
 
+export const WithMessage: Story = {
+  args: {
+    label: 'Email',
+    defaultValue: 'not-an-email',
+    message: 'Enter a valid email address.',
+    messageTone: 'error',
+  },
+};
+
+export const Clearable: Story = {
+  args: {
+    label: 'Filter',
+    clearable: true,
+    defaultValue: 'design',
+  },
+};
+
+export const TrailingAction: Story = {
+  args: {
+    label: 'Invite code',
+    defaultValue: 'abc-123',
+    message: 'Copied to clipboard.',
+    messageTone: 'success',
+  },
+  render: (args) => (
+    <TextInput
+      {...args}
+      leadingIcon={undefined}
+      trailingIcon={undefined}
+      trailingAction={
+        <Button size="small" emphasis="tertiary">
+          Copy
+        </Button>
+      }
+    />
+  ),
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -153,6 +194,58 @@ export const AllVariants: Story = {
       <Row label="Disabled / read-only">
         <TextInput label="Disabled" disabled placeholder="Disabled" />
         <TextInput label="Read-only" readOnly defaultValue="Read only value" />
+      </Row>
+      <Row label="Message tones">
+        <TextInput label="Error" message="This field is required." />
+        <TextInput
+          label="Warning"
+          message="This name is taken."
+          messageTone="warning"
+        />
+        <TextInput
+          label="Info"
+          message="Use 8 or more characters."
+          messageTone="info"
+        />
+        <TextInput
+          label="Success"
+          message="Looks good."
+          messageTone="success"
+        />
+      </Row>
+      <Row label="Invalid without message">
+        <TextInput label="Error" invalid placeholder="Invalid state" />
+      </Row>
+      <Row label="Message + character count">
+        <TextInput
+          label="Bio"
+          message="Too long"
+          defaultValue="Hello world"
+          maxLength={20}
+          showCharacterCount
+        />
+      </Row>
+      <Row label="Clearable">
+        <TextInput label="Filter" clearable defaultValue="design" />
+        <TextInput
+          label="With trailing icon"
+          clearable
+          defaultValue="design"
+          trailingIcon={<Icon glyph={<GlobeIcon />} />}
+        />
+      </Row>
+      <Row label="Trailing action">
+        <TextInput
+          label="Invite code"
+          defaultValue="abc-123"
+          message="Copied to clipboard."
+          messageTone="success"
+          trailingAction={
+            <Button size="small" emphasis="tertiary">
+              Copy
+            </Button>
+          }
+        />
       </Row>
     </div>
   ),

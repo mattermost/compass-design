@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import Button from '../Button/Button';
 import TextArea from './TextArea';
 import type { TextAreaSize } from './TextArea';
 
 const SIZES: TextAreaSize[] = ['small', 'medium', 'large'];
+
+const MESSAGE_TONES = ['error', 'warning', 'info', 'success'] as const;
 
 const meta = {
   title: 'Components/Forms and Input/Text Area',
@@ -11,6 +14,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    messageTone: { control: 'select', options: [...MESSAGE_TONES] },
   },
 } satisfies Meta<typeof TextArea>;
 
@@ -66,6 +70,34 @@ export const WithCounter: Story = {
   },
 };
 
+export const WithMessage: Story = {
+  args: {
+    label: 'Purpose',
+    message: 'This field is required.',
+    messageTone: 'error',
+  },
+};
+
+export const TrailingAction: Story = {
+  args: {
+    label: 'Invite password',
+    defaultValue: 'secret-value',
+    rows: 2,
+    message: 'Ready to share.',
+    messageTone: 'success',
+  },
+  render: (args) => (
+    <TextArea
+      {...args}
+      trailingAction={
+        <Button size="small" emphasis="tertiary">
+          Copy
+        </Button>
+      }
+    />
+  ),
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -97,6 +129,27 @@ export const AllVariants: Story = {
           label="Read-only"
           readOnly
           defaultValue="Read only content."
+        />
+      </Row>
+      <Row label="Message tones">
+        <TextArea label="Purpose" message="This field is required." />
+        <TextArea
+          label="Notes"
+          message="Optional context for your team."
+          messageTone="info"
+        />
+      </Row>
+      <Row label="Trailing action">
+        <TextArea
+          label="Invite password"
+          defaultValue="secret-value"
+          message="Ready to share."
+          messageTone="success"
+          trailingAction={
+            <Button size="small" emphasis="tertiary">
+              Copy
+            </Button>
+          }
         />
       </Row>
     </div>

@@ -6,12 +6,15 @@ import type { SearchInputSize } from './SearchInput';
 
 const SIZES: SearchInputSize[] = ['small', 'medium', 'large'];
 
+const MESSAGE_TONES = ['error', 'warning', 'info', 'success'] as const;
+
 const meta = {
   title: 'Components/Forms and Input/Search Input',
   component: SearchInput,
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    messageTone: { control: 'select', options: [...MESSAGE_TONES] },
   },
 } satisfies Meta<typeof SearchInput>;
 
@@ -85,6 +88,14 @@ export const Invalid: Story = {
   },
 };
 
+export const WithMessage: Story = {
+  args: {
+    label: 'Search',
+    message: 'No matches found.',
+    messageTone: 'error',
+  },
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -114,6 +125,15 @@ export const AllVariants: Story = {
         />
         <SearchInput label="Invalid" defaultValue="bad query" invalid />
         <ClearableSearchInput />
+      </Row>
+      <Row label="Message tones">
+        <SearchInput label="Search" message="No matches found." />
+        <SearchInput
+          label="Search"
+          defaultValue="design"
+          message="Try another keyword."
+          messageTone="info"
+        />
       </Row>
     </div>
   ),

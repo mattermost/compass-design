@@ -3,9 +3,19 @@ import type {
   ReactNode,
   ChangeEvent,
   RefCallback,
+  KeyboardEvent,
 } from 'react';
 import { forwardRef, useId, useState, useCallback, useRef } from 'react';
 import { IconSlotContext } from '@/components/Icon/Icon';
+import FieldClearButton from '@/components/field/FieldClearButton';
+import {
+  isFieldInvalid,
+  mergeFieldDescribedBy,
+} from '@/components/field/fieldDescribedBy';
+import { useFieldClear } from '@/components/field/useFieldClear';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
+import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
+import type { BuiltInButtonProps } from '@/utils/props';
 import { toKebab } from '@/utils/string';
 import styles from './TextInput.module.scss';
 
@@ -31,6 +41,29 @@ export interface TextInputProps extends Omit<
   size?: TextInputSize;
   /** Trailing icon — pass `<Icon glyph={<SomeIcon />} />`; TextInput provides the correct size via context. */
   trailingIcon?: ReactNode;
+  /**
+   * Status message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Defaults to error tone (invalid chrome) when set without `messageTone`.
+   */
+  message?: ReactNode;
+  /** Visual tone for `message`. Default: `error` when `message` is set. */
+  messageTone?: FieldMessageTone;
+  /**
+   * When true, shows a clear button while the field has a non-empty value and is not disabled.
+   * Default: false.
+   */
+  clearable?: boolean;
+  /** Called when the clear button is pressed. Omit to use built-in clearing. */
+  onClear?: () => void;
+  /** Accessible name for the clear button. Default: "Clear". */
+  clearLabel?: string;
+  /** Extra attributes for the clear button (e.g. `data-testid`). */
+  clearButtonProps?: BuiltInButtonProps;
+  /**
+   * Rendered outside the border, after the field. A button or other control — not forced
+   * through the 16px icon context. Message and counter stay as wide as the field column.
+   */
+  trailingAction?: ReactNode;
 }
 
 /**
@@ -48,6 +81,13 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       invalid = false,
       maxLength,
       showCharacterCount = false,
+      message,
+      messageTone,
+      clearable = false,
+      onClear,
+      clearLabel = 'Clear',
+      clearButtonProps,
+      trailingAction,
       id: idProp,
       value: valueProp,
       defaultValue,
@@ -55,6 +95,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       onFocus,
       onBlur,
       onChange,
+      onKeyDown,
       disabled,
       readOnly,
       'aria-describedby': describedBy,
@@ -113,14 +154,31 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       [isControlled, onChange],
     );
 
+    const { showClearButton, handleClear, handleKeyDown } = useFieldClear({
+      disabled,
+      hasValue,
+      clearEnabled: clearable,
+      isControlled,
+      onClear,
+      onChange: handleChange as (e: ChangeEvent<HTMLInputElement>) => void,
+      onKeyDown: onKeyDown as
+        | ((e: KeyboardEvent<HTMLInputElement>) => void)
+        | undefined,
+      inputRef,
+      setUncontrolledValue: (v) => setUncontrolledValue(v),
+    });
+
+    const showInvalid = isFieldInvalid(invalid, message, messageTone);
     const sizeClass = styles[`text-input--size-${toKebab(size)}`];
-    const invalidClass = invalid ? styles['text-input--invalid'] : '';
+    const invalidClass = showInvalid ? styles['text-input--invalid'] : '';
     const labelFloatedClass =
       label != null && labelFloated ? styles['text-input--label-floated'] : '';
     const hasLeadingClass =
       leadingIcon != null ? styles['text-input--has-leading-icon'] : '';
     const hasTrailingClass =
-      trailingIcon != null ? styles['text-input--has-trailing-icon'] : '';
+      trailingIcon != null || showClearButton
+        ? styles['text-input--has-trailing-icon']
+        : '';
 
     const rootClass = [
       styles['text-input'],
@@ -137,9 +195,11 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const currentLength = typeof value === 'string' ? value.length : 0;
     const counterId =
       showCharacterCount && maxLength != null ? `${id}-counter` : undefined;
+    const messageId = message != null ? `${id}-message` : undefined;
+    const resolvedTone = messageTone ?? 'error';
 
-    return (
-      <div className={rootClass}>
+    const fieldBody = (
+      <>
         <div className={styles['text-input__wrapper']}>
           <label className={styles['text-input__inner']}>
             {label != null && (
@@ -162,13 +222,16 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               maxLength={maxLength}
               disabled={disabled}
               readOnly={readOnly}
-              aria-invalid={invalid ? true : undefined}
-              aria-describedby={
-                [describedBy, counterId].filter(Boolean).join(' ') || undefined
-              }
+              aria-invalid={showInvalid ? true : undefined}
+              aria-describedby={mergeFieldDescribedBy(
+                describedBy,
+                messageId,
+                counterId,
+              )}
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               {...rest}
             />
             {trailingIcon != null && (
@@ -178,8 +241,26 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 </IconSlotContext.Provider>
               </span>
             )}
+            {showClearButton && (
+              <span className={styles['text-input__trailing-icon']}>
+                <FieldClearButton
+                  size={size}
+                  clearLabel={clearLabel}
+                  clearButtonProps={clearButtonProps}
+                  onClick={handleClear}
+                />
+              </span>
+            )}
           </label>
         </div>
+        {message != null && (
+          <FieldMessage
+            id={messageId}
+            className={styles['text-input__message']}
+            message={message}
+            tone={resolvedTone}
+          />
+        )}
         {showCharacterCount && maxLength != null && (
           <div
             id={counterId}
@@ -188,6 +269,21 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           >
             {currentLength} / {maxLength}
           </div>
+        )}
+      </>
+    );
+
+    return (
+      <div className={rootClass}>
+        {trailingAction != null ? (
+          <div className={styles['text-input__row']}>
+            <div className={styles['text-input__field']}>{fieldBody}</div>
+            <div className={styles['text-input__trailing-action']}>
+              {trailingAction}
+            </div>
+          </div>
+        ) : (
+          fieldBody
         )}
       </div>
     );

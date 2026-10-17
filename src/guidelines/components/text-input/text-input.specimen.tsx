@@ -1,4 +1,5 @@
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import styles from '@/styles/library-demo/components.module.scss';
@@ -36,23 +37,27 @@ export default function TextInputLibrary() {
           <TextInput
             label="Search"
             placeholder="Search..."
-            leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+            leadingIcon={<Icon glyph={<GlobeIcon />} />}
           />
           <TextInput
             placeholder="Trailing only"
-            trailingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+            trailingIcon={<Icon glyph={<GlobeIcon />} />}
           />
           <TextInput
             label="Both"
             placeholder="Leading and trailing"
-            leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
-            trailingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+            leadingIcon={<Icon glyph={<GlobeIcon />} />}
+            trailingIcon={<Icon glyph={<GlobeIcon />} />}
           />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Invalid</span>
           <TextInput label="Error" invalid placeholder="Invalid state" />
-          <TextInput label="Error with value" invalid defaultValue="Invalid" />
+          <TextInput
+            label="Error with message"
+            defaultValue="Invalid"
+            message="Enter a valid value."
+          />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
@@ -80,6 +85,67 @@ export default function TextInputLibrary() {
             label="Read-only"
             readOnly
             defaultValue="Read only value"
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Message tones
+          </span>
+          <TextInput label="Error" message="This field is required." />
+          <TextInput
+            label="Warning"
+            message="This name is taken."
+            messageTone="warning"
+          />
+          <TextInput
+            label="Info"
+            message="Use 8 or more characters."
+            messageTone="info"
+          />
+          <TextInput
+            label="Success"
+            message="Looks good."
+            messageTone="success"
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Message + counter
+          </span>
+          <TextInput
+            label="Bio"
+            message="Too long"
+            defaultValue="Hello world"
+            maxLength={20}
+            showCharacterCount
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Clearable
+          </span>
+          <TextInput label="Filter" clearable defaultValue="design" />
+          <TextInput
+            label="With trailing icon"
+            clearable
+            defaultValue="design"
+            trailingIcon={<Icon glyph={<GlobeIcon />} />}
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Trailing action
+          </span>
+          <TextInput
+            label="Invite code"
+            defaultValue="abc-123"
+            message="Copied to clipboard."
+            messageTone="success"
+            trailingAction={
+              <Button size="small" emphasis="tertiary">
+                Copy
+              </Button>
+            }
           />
         </div>
       </div>
