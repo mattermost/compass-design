@@ -1,0 +1,33 @@
+import { ErrorMessage } from '@mattermost/compass-ui/components/error-message';
+
+Error Message is the inline red error line under a form field. It is
+`FieldMessage` with `tone="error"` — kept so existing imports (e.g. Agents
+plugin) stay valid.
+
+For warning, info, or success, use [`FieldMessage`](/components/field-message).
+Under a text field, prefer the field's `message` / `messageTone` props.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage
+  style={{
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    gap: '0.75rem',
+    maxWidth: '420px',
+  }}
+>
+  <ErrorMessage message="Enter a valid email address." />
+  <ErrorMessage message="Password must be at least 12 characters." />
+</AnatomyStage>
+
+<Divider />
+
+## Implementation
+
+For props and examples, see the
+[Error Message specimen](/components/error-message/specimen) or
+[Field Message](/components/field-message).

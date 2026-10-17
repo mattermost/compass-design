@@ -6,6 +6,7 @@ import AdminPanel from './AdminPanel/AdminPanel';
 import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
 import Combobox from './Combobox/Combobox';
 import EmptyState from './EmptyState/EmptyState';
+import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FieldMessage from './FieldMessage/FieldMessage';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
 import Modal from './Modal/Modal';
@@ -38,6 +39,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
       Body
     </Modal>
   ),
+  ErrorMessage: (a) => <ErrorMessage message="Required" {...a} />,
   FieldMessage: (a) => <FieldMessage message="Required" {...a} />,
   ProgressBar: (a) => <ProgressBar value={40} {...a} />,
   Tabs: (a) => (
@@ -89,7 +91,7 @@ describe('composite root attribute pass-through', () => {
 
   it('keeps the component role when the host passes a conflicting one', () => {
     const { container } = render(
-      <FieldMessage message="Required" tone="error" role="note" />,
+      <ErrorMessage message="Required" role="note" />,
     );
     expect(container.firstElementChild!.getAttribute('role')).toBe('alert');
   });

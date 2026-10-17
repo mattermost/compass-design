@@ -15,11 +15,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **`ErrorMessage`:** now renders `FieldMessage` with `tone="error"` (imports stay valid — used by Agents plugin).
 - **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`.
-
-### Removed
-
-- **`ErrorMessage`:** use `FieldMessage` with `tone="error"` (default). Not used outside this repo; alphas may remove unused exports.
 
 ## [0.1.0-alpha.16] - 2026-10-16
 

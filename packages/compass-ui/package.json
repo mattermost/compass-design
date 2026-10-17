@@ -170,6 +170,9 @@
       "components/empty-state": [
         "./dist/components/empty-state/index.d.ts"
       ],
+      "components/error-message": [
+        "./dist/components/error-message/index.d.ts"
+      ],
       "components/feature-discovery-panel": [
         "./dist/components/feature-discovery-panel/index.d.ts"
       ],
