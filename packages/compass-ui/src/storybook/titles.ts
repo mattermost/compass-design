@@ -17,6 +17,8 @@ export const TITLE_ACTIONS_ICON_BUTTON = 'Components/Actions/Icon Button';
 
 export const TITLE_FEEDBACK_ERROR_MESSAGE =
   'Components/Feedback and Notices/Error Message';
+export const TITLE_FEEDBACK_FIELD_MESSAGE =
+  'Components/Feedback and Notices/Field Message';
 export const TITLE_FEEDBACK_POPOVER_NOTICE =
   'Components/Feedback and Notices/Popover Notice';
 export const TITLE_FEEDBACK_SECTION_NOTICE =

@@ -1,5 +1,17 @@
-import type { TextareaHTMLAttributes, ReactNode, ChangeEvent } from 'react';
-import { forwardRef, useId, useState, useCallback } from 'react';
+import type {
+  TextareaHTMLAttributes,
+  ReactNode,
+  ChangeEvent,
+  RefCallback,
+} from 'react';
+import { forwardRef, useId, useState, useCallback, useRef } from 'react';
+import { IconSlotContext } from '@/components/Icon/Icon';
+import {
+  isFieldInvalid,
+  mergeFieldDescribedBy,
+} from '@/components/field/fieldDescribedBy';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
+import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
 import { toKebab } from '@/utils/string';
 import styles from './TextArea.module.scss';
 
@@ -15,12 +27,28 @@ export interface TextAreaProps extends Omit<
   invalid?: boolean;
   /** Floating label content. When provided, label floats on focus or when value is non-empty. */
   label?: ReactNode;
+  /** Leading icon — pass `<Icon glyph={<SomeIcon />} />`; TextArea provides the correct size via context. */
+  leadingIcon?: ReactNode;
+  /** Trailing icon — pass `<Icon glyph={<SomeIcon />} />`; TextArea provides the correct size via context. */
+  trailingIcon?: ReactNode;
   /** Max length for the textarea; used with showCharacterCount for counter. */
   maxLength?: number;
   /** When true with maxLength, shows "current / max" character count below textarea. */
   showCharacterCount?: boolean;
   /** Size variant. Default: Medium. */
   size?: TextAreaSize;
+  /**
+   * Status message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Defaults to error tone (invalid chrome) when set without `messageTone`.
+   */
+  message?: ReactNode;
+  /** Visual tone for `message`. Default: `error` when `message` is set. */
+  messageTone?: FieldMessageTone;
+  /**
+   * Rendered outside the border, after the field. A button or other control — not forced
+   * through the 16px icon context. Message and counter stay as wide as the field column.
+   */
+  trailingAction?: ReactNode;
 }
 
 /**
@@ -34,9 +62,14 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       className = '',
       size = 'medium',
       label,
+      leadingIcon,
+      trailingIcon,
       invalid = false,
       maxLength,
       showCharacterCount = false,
+      message,
+      messageTone,
+      trailingAction,
       id: idProp,
       value: valueProp,
       defaultValue,
@@ -54,6 +87,22 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ) {
     const generatedId = useId();
     const id = idProp ?? generatedId;
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const setTextareaRef = useCallback(
+      (node: HTMLTextAreaElement | null) => {
+        textareaRef.current = node;
+        if (typeof ref === 'function') {
+          const cleanup = (ref as RefCallback<HTMLTextAreaElement>)(node);
+          return () => {
+            textareaRef.current = null;
+            if (typeof cleanup === 'function') cleanup();
+          };
+        }
+        if (ref) ref.current = node;
+      },
+      [ref],
+    );
 
     const isControlled = valueProp !== undefined;
     const [uncontrolledValue, setUncontrolledValue] = useState(
@@ -87,16 +136,23 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       [isControlled, onChange],
     );
 
+    const showInvalid = isFieldInvalid(invalid, message, messageTone);
     const sizeClass = styles[`text-area--size-${toKebab(size)}`];
-    const invalidClass = invalid ? styles['text-area--invalid'] : '';
+    const invalidClass = showInvalid ? styles['text-area--invalid'] : '';
     const labelFloatedClass =
       label != null && labelFloated ? styles['text-area--label-floated'] : '';
+    const hasLeadingClass =
+      leadingIcon != null ? styles['text-area--has-leading-icon'] : '';
+    const hasTrailingClass =
+      trailingIcon != null ? styles['text-area--has-trailing-icon'] : '';
 
     const rootClass = [
       styles['text-area'],
       sizeClass,
       invalidClass,
       labelFloatedClass,
+      hasLeadingClass,
+      hasTrailingClass,
       className,
     ]
       .filter(Boolean)
@@ -105,36 +161,90 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const currentLength = typeof value === 'string' ? value.length : 0;
     const counterId =
       showCharacterCount && maxLength != null ? `${id}-counter` : undefined;
+    const messageId = message != null ? `${id}-message` : undefined;
+    const resolvedTone = messageTone ?? 'error';
+    const hasIcons = leadingIcon != null || trailingIcon != null;
 
-    return (
-      <div className={rootClass}>
+    const fieldBody = (
+      <>
         <div className={styles['text-area__wrapper']}>
           {label != null && (
             <label className={styles['text-area__label']} htmlFor={id}>
               {label}
             </label>
           )}
-          <textarea
-            ref={ref}
-            id={id}
-            className={styles['text-area__input']}
-            value={isControlled ? valueProp : undefined}
-            defaultValue={isControlled ? undefined : defaultValue}
-            placeholder={placeholder}
-            maxLength={maxLength}
-            disabled={disabled}
-            readOnly={readOnly}
-            rows={rows}
-            aria-invalid={invalid ? true : undefined}
-            aria-describedby={
-              [describedBy, counterId].filter(Boolean).join(' ') || undefined
-            }
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            {...rest}
-          />
+          {hasIcons ? (
+            <div className={styles['text-area__inner']}>
+              {leadingIcon != null && (
+                <span className={styles['text-area__leading-icon']}>
+                  <IconSlotContext.Provider value={{ size: '16' }}>
+                    {leadingIcon}
+                  </IconSlotContext.Provider>
+                </span>
+              )}
+              <textarea
+                ref={setTextareaRef}
+                id={id}
+                className={styles['text-area__input']}
+                value={isControlled ? valueProp : undefined}
+                defaultValue={isControlled ? undefined : defaultValue}
+                placeholder={placeholder}
+                maxLength={maxLength}
+                disabled={disabled}
+                readOnly={readOnly}
+                rows={rows}
+                aria-invalid={showInvalid ? true : undefined}
+                aria-describedby={mergeFieldDescribedBy(
+                  describedBy,
+                  messageId,
+                  counterId,
+                )}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                {...rest}
+              />
+              {trailingIcon != null && (
+                <span className={styles['text-area__trailing-icon']}>
+                  <IconSlotContext.Provider value={{ size: '16' }}>
+                    {trailingIcon}
+                  </IconSlotContext.Provider>
+                </span>
+              )}
+            </div>
+          ) : (
+            <textarea
+              ref={setTextareaRef}
+              id={id}
+              className={styles['text-area__input']}
+              value={isControlled ? valueProp : undefined}
+              defaultValue={isControlled ? undefined : defaultValue}
+              placeholder={placeholder}
+              maxLength={maxLength}
+              disabled={disabled}
+              readOnly={readOnly}
+              rows={rows}
+              aria-invalid={showInvalid ? true : undefined}
+              aria-describedby={mergeFieldDescribedBy(
+                describedBy,
+                messageId,
+                counterId,
+              )}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              {...rest}
+            />
+          )}
         </div>
+        {message != null && (
+          <FieldMessage
+            id={messageId}
+            className={styles['text-area__message']}
+            message={message}
+            tone={resolvedTone}
+          />
+        )}
         {showCharacterCount && maxLength != null && (
           <div
             id={counterId}
@@ -143,6 +253,21 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           >
             {currentLength} / {maxLength}
           </div>
+        )}
+      </>
+    );
+
+    return (
+      <div className={rootClass}>
+        {trailingAction != null ? (
+          <div className={styles['text-area__row']}>
+            <div className={styles['text-area__field']}>{fieldBody}</div>
+            <div className={styles['text-area__trailing-action']}>
+              {trailingAction}
+            </div>
+          </div>
+        ) : (
+          fieldBody
         )}
       </div>
     );

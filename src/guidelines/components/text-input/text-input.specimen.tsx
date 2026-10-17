@@ -82,6 +82,29 @@ export default function TextInputLibrary() {
             defaultValue="Read only value"
           />
         </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Message tones
+          </span>
+          <TextInput label="Error" message="This field is required." />
+          <TextInput
+            label="Info"
+            message="Use 8 or more characters."
+            messageTone="info"
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Clearable
+          </span>
+          <TextInput label="Filter" clearable defaultValue="design" />
+          <TextInput
+            label="With trailing icon"
+            clearable
+            defaultValue="design"
+            trailingIcon={<Icon glyph={<GlobeIcon />} />}
+          />
+        </div>
       </div>
     </>
   );

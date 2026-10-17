@@ -22,6 +22,7 @@ export * from './components/EmojiButton/index';
 export * from './components/EmojiPopover/index';
 export * from './components/EmptyState/index';
 export * from './components/ErrorMessage/index';
+export * from './components/FieldMessage/index';
 export * from './components/FeatureDiscoveryPanel/index';
 export * from './components/GlobalBanner/index';
 export * from './components/Icon/index';

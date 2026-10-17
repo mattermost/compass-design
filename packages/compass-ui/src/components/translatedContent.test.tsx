@@ -6,6 +6,7 @@ import AdminPanel from './AdminPanel/AdminPanel';
 import AdminConsoleFooter from './AdminConsoleFooter/AdminConsoleFooter';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
+import FieldMessage from './FieldMessage/FieldMessage';
 import FeatureDiscoveryPanel from './FeatureDiscoveryPanel/FeatureDiscoveryPanel';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
 import MenuGroupHeading from './MenuGroupHeading/MenuGroupHeading';
@@ -76,6 +77,11 @@ describe('text props accept translated nodes', () => {
 
   it('ErrorMessage message', () => {
     render(<ErrorMessage message={<Msg>Required</Msg>} />);
+    expect(getByRole('alert').textContent).toBe('Required');
+  });
+
+  it('FieldMessage message', () => {
+    render(<FieldMessage message={<Msg>Required</Msg>} tone="error" />);
     expect(getByRole('alert').textContent).toBe('Required');
   });
 

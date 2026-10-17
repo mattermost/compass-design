@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import Button from '../Button/Button';
+import Icon from '../Icon/Icon';
 import TextArea from './TextArea';
 import type { TextAreaSize } from './TextArea';
 
@@ -97,6 +100,35 @@ export const AllVariants: Story = {
           label="Read-only"
           readOnly
           defaultValue="Read only content."
+        />
+      </Row>
+      <Row label="Message tones">
+        <TextArea label="Purpose" message="This field is required." />
+        <TextArea
+          label="Notes"
+          message="Optional context for your team."
+          messageTone="info"
+        />
+      </Row>
+      <Row label="Leading icon">
+        <TextArea
+          label="Channel purpose"
+          placeholder="Describe the channel..."
+          leadingIcon={<Icon glyph={<GlobeIcon />} />}
+          defaultValue={'First line\nSecond line'}
+        />
+      </Row>
+      <Row label="Trailing action">
+        <TextArea
+          label="Invite password"
+          defaultValue="secret-value"
+          message="Ready to share."
+          messageTone="success"
+          trailingAction={
+            <Button size="small" emphasis="tertiary">
+              Copy
+            </Button>
+          }
         />
       </Row>
     </div>

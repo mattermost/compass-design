@@ -1,0 +1,46 @@
+import { FieldMessage } from '@mattermost/compass-ui/components/field-message';
+
+Field Message is the inline status line under a form field — validation
+errors, warnings, hints, or success. It pairs a tone glyph with a short
+explanation so the user knows what to do next.
+
+Prefer wiring `message` / `messageTone` on `TextInput`, `TextArea`, or
+`SearchInput` so the field owns `aria-describedby` and invalid chrome.
+Use Field Message on its own when you need the same line outside those
+composites. [`ErrorMessage`](/components/error-message) remains a
+`tone="error"` wrapper for existing imports.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage
+  style={{
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    gap: '0.75rem',
+    maxWidth: '420px',
+  }}
+>
+  <FieldMessage tone="error" message="Enter a valid email address." />
+  <FieldMessage tone="warning" message="This channel name is already taken." />
+  <FieldMessage
+    tone="info"
+    message="Use 8 or more characters with a mix of letters and numbers."
+  />
+  <FieldMessage tone="success" message="Invite link copied." />
+</AnatomyStage>
+
+- <Num>1</Num> **Icon** — tone glyph at 12px. Decorative; meaning is carried by
+  the text.
+- <Num>2</Num> **Message** — one sentence, plain language.
+
+Error and warning use `role="alert"`. Info and success do not.
+
+<Divider />
+
+## Implementation
+
+For props, variants, and copy-ready examples, see the
+[Field Message specimen page](/components/field-message/specimen).

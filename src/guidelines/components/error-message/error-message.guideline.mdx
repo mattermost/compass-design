@@ -4,6 +4,10 @@ Error Message is the inline red error line that appears below a form input
 when validation fails. It pairs an alert glyph with a short, human-readable
 explanation so the user can fix the field and move on.
 
+It is a thin wrapper around [`FieldMessage`](/components/field-message) with
+`tone="error"`. Prefer Field Message (or the field's `message` prop) when you
+need warning, info, or success.
+
 <Divider />
 
 ## Anatomy
