@@ -91,7 +91,6 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     {
       label: 'Feedback and Notices',
       slugs: [
-        'error-message',
         'field-message',
         'popover-notice',
         'section-notice',

@@ -485,16 +485,6 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/empty-state/empty-state.specimen'),
   },
   {
-    slug: 'error-message',
-    name: 'Error Message',
-    category: 'components',
-    status: 'stable',
-    guidelinePage: () =>
-      import('@/guidelines/components/error-message/error-message.guideline.mdx'),
-    specimenPage: () =>
-      import('@/guidelines/components/error-message/error-message.specimen'),
-  },
-  {
     slug: 'field-message',
     name: 'Field Message',
     category: 'components',

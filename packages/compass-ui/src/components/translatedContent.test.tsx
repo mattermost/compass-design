@@ -5,7 +5,6 @@ import ActionButton from './ActionButton/ActionButton';
 import AdminPanel from './AdminPanel/AdminPanel';
 import AdminConsoleFooter from './AdminConsoleFooter/AdminConsoleFooter';
 import EmptyState from './EmptyState/EmptyState';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FieldMessage from './FieldMessage/FieldMessage';
 import FeatureDiscoveryPanel from './FeatureDiscoveryPanel/FeatureDiscoveryPanel';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
@@ -73,11 +72,6 @@ describe('text props accept translated nodes', () => {
   it('EmptyState title', () => {
     const { container } = render(<EmptyState title={<Msg>No bots</Msg>} />);
     expect(container.querySelector('h2')?.textContent).toBe('No bots');
-  });
-
-  it('ErrorMessage message', () => {
-    render(<ErrorMessage message={<Msg>Required</Msg>} />);
-    expect(getByRole('alert').textContent).toBe('Required');
   });
 
   it('FieldMessage message', () => {
