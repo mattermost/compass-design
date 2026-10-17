@@ -4,10 +4,13 @@ Field Message is the inline status line under a form field — validation
 errors, warnings, hints, or success. It pairs a tone glyph with a short
 explanation so the user knows what to do next.
 
-Prefer wiring `message` / `messageTone` on `TextInput`, `TextArea`, or
-`SearchInput` so the field owns `aria-describedby` and invalid chrome.
-Use Field Message on its own when you need the same line outside those
-composites (for example under a radio group).
+**Under a text field,** pass `message` / `messageTone` on
+[Text Input](/components/text-input), [Text Area](/components/text-area), or
+[Search Input](/components/search-input) so the field owns `aria-describedby`
+and invalid chrome.
+
+**Standalone,** use Field Message when the line sits under something else
+(for example a radio group).
 [`ErrorMessage`](/components/error-message) is the same component locked to
 `tone="error"` for existing callers.
 

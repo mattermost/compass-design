@@ -82,6 +82,34 @@ would be visible.
 
 <Divider />
 
+## Status message
+
+Pass `message` / `messageTone` the same way as Text Input. Error tone (the
+default) adds invalid chrome; info does not.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    padding: '1rem 0',
+    maxWidth: '320px',
+  }}
+>
+  <SearchInput label="Search" message="No matches found." />
+  <SearchInput
+    label="Search"
+    defaultValue="design"
+    message="Try another keyword."
+    messageTone="info"
+  />
+</div>
+
+Search Input does not take `trailingAction` — its trailing control is the
+clear button.
+
+<Divider />
+
 ## Implementation
 
 For props, variants, and copy-ready examples, see the

@@ -12,6 +12,7 @@ import {
 } from '../../storybook/icons';
 
 const SIZES: TextInputSize[] = ['small', 'medium', 'large'];
+const MESSAGE_TONES = ['error', 'warning', 'info', 'success'] as const;
 
 type TextInputStoryArgs = Omit<
   TextInputProps,
@@ -27,6 +28,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    messageTone: { control: 'select', options: [...MESSAGE_TONES] },
     leadingIcon: iconSelectArgType({ optional: true }),
     trailingIcon: iconSelectArgType({ optional: true }),
   },
@@ -100,6 +102,44 @@ export const WithIcons: Story = {
     leadingIcon: 'globe',
     trailingIcon: 'globe',
   },
+};
+
+export const WithMessage: Story = {
+  args: {
+    label: 'Email',
+    defaultValue: 'not-an-email',
+    message: 'Enter a valid email address.',
+    messageTone: 'error',
+  },
+};
+
+export const Clearable: Story = {
+  args: {
+    label: 'Filter',
+    clearable: true,
+    defaultValue: 'design',
+  },
+};
+
+export const TrailingAction: Story = {
+  args: {
+    label: 'Invite code',
+    defaultValue: 'abc-123',
+    message: 'Copied to clipboard.',
+    messageTone: 'success',
+  },
+  render: (args) => (
+    <TextInput
+      {...args}
+      leadingIcon={undefined}
+      trailingIcon={undefined}
+      trailingAction={
+        <Button size="small" emphasis="tertiary">
+          Copy
+        </Button>
+      }
+    />
+  ),
 };
 
 export const AllVariants: Story = {

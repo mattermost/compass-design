@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import FieldMessage from './FieldMessage';
 import type { FieldMessageTone } from './FieldMessage';
+import TextInput from '../TextInput/TextInput';
 
 const TONES: FieldMessageTone[] = ['error', 'warning', 'info', 'success'];
 
@@ -37,6 +38,19 @@ export const Tones: Story = {
         message="Use 8 or more characters with a mix of letters and numbers."
       />
       <FieldMessage tone="success" message="Invite link copied." />
+    </div>
+  ),
+};
+
+/** Prefer `message` / `messageTone` on the field when the line belongs to an input. */
+export const PreferFieldProps: Story = {
+  render: () => (
+    <div style={{ maxWidth: 420 }}>
+      <TextInput
+        label="Email"
+        defaultValue="not-an-email"
+        message="Enter a valid email address."
+      />
     </div>
   ),
 };

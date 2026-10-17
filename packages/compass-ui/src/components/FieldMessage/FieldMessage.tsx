@@ -26,8 +26,9 @@ const TONE_ICONS: Record<FieldMessageTone, ReactNode> = {
 };
 
 /**
- * Field Message is the inline status line under a form field — validation errors,
- * warnings, hints, or success. It pairs a tone glyph with a short explanation.
+ * Field Message is the inline status line under a form field — validation errors, warnings,
+ * hints, or success. It pairs a tone glyph with a short explanation so the user knows what
+ * to do next.
  */
 export default function FieldMessage({
   className = '',

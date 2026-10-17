@@ -6,12 +6,15 @@ import type { TextAreaSize } from './TextArea';
 
 const SIZES: TextAreaSize[] = ['small', 'medium', 'large'];
 
+const MESSAGE_TONES = ['error', 'warning', 'info', 'success'] as const;
+
 const meta = {
   title: 'Components/Forms and Input/Text Area',
   component: TextArea,
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    messageTone: { control: 'select', options: [...MESSAGE_TONES] },
   },
 } satisfies Meta<typeof TextArea>;
 
@@ -65,6 +68,34 @@ export const WithCounter: Story = {
     maxLength: 200,
     showCharacterCount: true,
   },
+};
+
+export const WithMessage: Story = {
+  args: {
+    label: 'Purpose',
+    message: 'This field is required.',
+    messageTone: 'error',
+  },
+};
+
+export const TrailingAction: Story = {
+  args: {
+    label: 'Invite password',
+    defaultValue: 'secret-value',
+    rows: 2,
+    message: 'Ready to share.',
+    messageTone: 'success',
+  },
+  render: (args) => (
+    <TextArea
+      {...args}
+      trailingAction={
+        <Button size="small" emphasis="tertiary">
+          Copy
+        </Button>
+      }
+    />
+  ),
 };
 
 export const AllVariants: Story = {

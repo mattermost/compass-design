@@ -9,9 +9,8 @@ export interface ErrorMessageProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Inline error line under a form field (`FieldMessage` with `tone="error"`).
- * Prefer `FieldMessage` when you need warning, info, or success; this export
- * stays for existing callers.
+ * Error Message is the inline red error line under a form field. It is `FieldMessage` with
+ * `tone="error"` — kept so existing imports (e.g. Agents plugin) stay valid.
  */
 export default function ErrorMessage({
   className = '',
