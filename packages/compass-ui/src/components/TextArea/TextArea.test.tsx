@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { getByRole, queryAllByRole, render } from '@/test-utils/render';
-import Icon from '@/components/Icon/Icon';
-import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import Button from '@/components/Button/Button';
 import TextArea from './TextArea';
 
@@ -49,25 +47,10 @@ describe('TextArea message', () => {
   });
 });
 
-describe('TextArea adornments', () => {
+describe('TextArea trailingAction', () => {
   it('does not render a clear button', () => {
     render(<TextArea label="Purpose" defaultValue="hello world" />);
     expect(queryAllByRole('button')).toHaveLength(0);
-  });
-
-  it('renders leading icon top-aligned in the inner row', () => {
-    const { container } = render(
-      <TextArea
-        label="Purpose"
-        leadingIcon={<Icon glyph={<GlobeIcon />} />}
-        defaultValue={'Line one\nLine two'}
-      />,
-    );
-    const inner = container.querySelector('[class*="__inner"]');
-    const leading = container.querySelector('[class*="__leading-icon"]');
-    expect(inner).toBeTruthy();
-    expect(leading).toBeTruthy();
-    expect(inner!.contains(leading)).toBe(true);
   });
 
   it('trailingAction is outside the bordered wrapper', () => {

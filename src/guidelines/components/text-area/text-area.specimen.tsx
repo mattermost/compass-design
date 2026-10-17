@@ -1,5 +1,3 @@
-import GlobeIcon from '@mattermost/compass-icons/components/globe';
-import { Icon } from '@mattermost/compass-ui/components/icon';
 import { TextArea } from '@mattermost/compass-ui/components/text-area';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -47,14 +45,12 @@ export default function TextAreaLibrary() {
           />
         </div>
         <div className={styles['components__button-row']}>
-          <span className={styles['components__instance-label']}>
-            Message & leading icon
-          </span>
+          <span className={styles['components__instance-label']}>Message</span>
           <TextArea label="Purpose" message="This field is required." />
           <TextArea
-            label="Channel purpose"
-            leadingIcon={<Icon glyph={<GlobeIcon />} />}
-            defaultValue={'First line\nSecond line'}
+            label="Notes"
+            message="Optional context for your team."
+            messageTone="info"
           />
         </div>
       </div>
