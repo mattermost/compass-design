@@ -30,6 +30,8 @@ export const TITLE_FORMS_CHECKBOX = 'Components/Forms and Input/Checkbox';
 export const TITLE_FORMS_RADIO = 'Components/Forms and Input/Radio';
 export const TITLE_FORMS_SWITCH = 'Components/Forms and Input/Switch';
 export const TITLE_FORMS_SELECT = 'Components/Forms and Input/Select';
+export const TITLE_FORMS_PASSWORD_INPUT =
+  'Components/Forms and Input/Password Input';
 export const TITLE_FORMS_SEARCH_INPUT =
   'Components/Forms and Input/Search Input';
 export const TITLE_FORMS_TEXT_AREA = 'Components/Forms and Input/Text Area';

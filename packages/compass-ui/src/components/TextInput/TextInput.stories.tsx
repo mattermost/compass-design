@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
-import EyeOffOutlineIcon from '@mattermost/compass-icons/components/eye-off-outline';
-import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
+import type { ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import Button from '../Button/Button';
 import TextInput from './TextInput';
-import type { TextInputProps, TextInputSize } from './TextInput';
+import type { TextInputSize } from './TextInput';
 import Icon from '../Icon/Icon';
 import {
   ICON_NONE,
@@ -90,41 +88,6 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-/** Transparent hit target so `trailingIcon` stays an Icon sized by Text Input. */
-function TrailingIconButton({
-  children,
-  onClick,
-  ...rest
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      type="button"
-      {...rest}
-      onClick={(e) => {
-        // Inside TextInput's <label> — don't forward activation to the input.
-        e.preventDefault();
-        e.stopPropagation();
-        onClick?.(e);
-      }}
-      onMouseDown={(e) => e.preventDefault()}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 0,
-        padding: 0,
-        border: 0,
-        background: 'transparent',
-        cursor: 'pointer',
-        color: 'inherit',
-        ...((rest.style as object) ?? {}),
-      }}
-    >
-      {children}
-    </button>
-  );
-}
-
 export const Default: Story = {
   args: {
     placeholder: 'Enter text...',
@@ -164,50 +127,6 @@ export const Clearable: Story = {
     clearable: true,
     defaultValue: 'design',
   },
-};
-
-function PasswordExample({
-  size = 'medium',
-  label = 'Password',
-  ...rest
-}: Partial<TextInputProps> & { label?: ReactNode }) {
-  const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState('secret-value');
-
-  return (
-    <TextInput
-      {...rest}
-      size={size}
-      label={label}
-      type={visible ? 'text' : 'password'}
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      leadingIcon={undefined}
-      trailingIcon={
-        <TrailingIconButton
-          aria-label={visible ? 'Hide password' : 'Show password'}
-          onClick={() => setVisible((v) => !v)}
-        >
-          <Icon glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />} />
-        </TrailingIconButton>
-      }
-    />
-  );
-}
-
-/** `type="password"` + `trailingIcon` show/hide — not a separate PasswordInput. */
-export const Password: Story = {
-  args: {
-    label: 'Password',
-    size: 'medium',
-  },
-  render: (args) => (
-    <PasswordExample
-      size={args.size}
-      label={args.label}
-      disabled={args.disabled}
-    />
-  ),
 };
 
 export const TrailingAction: Story = {
@@ -312,11 +231,6 @@ export const AllVariants: Story = {
       </Row>
       <Row label="Clearable">
         <TextInput label="Filter" clearable defaultValue="design" />
-      </Row>
-      <Row label="Trailing icon (password)">
-        {SIZES.map((size) => (
-          <PasswordExample key={size} size={size} />
-        ))}
       </Row>
       <Row label="Trailing action">
         <TextInput

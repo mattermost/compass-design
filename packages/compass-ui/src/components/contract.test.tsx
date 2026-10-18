@@ -13,6 +13,7 @@ import Modal from './Modal/Modal';
 import ModalHeader from './ModalHeader/ModalHeader';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import ProgressBar from './ProgressBar/ProgressBar';
+import PasswordInput from './PasswordInput/PasswordInput';
 import SearchInput from './SearchInput/SearchInput';
 import SectionNotice from './SectionNotice/SectionNotice';
 import Tabs from './Tabs/Tabs';
@@ -176,6 +177,16 @@ const BUTTON_CASES: Record<
     label: 'Clear search',
     render: (p, on) => (
       <SearchInput defaultValue="abc" onClear={on} clearButtonProps={p} />
+    ),
+  },
+  'PasswordInput revealButtonProps': {
+    label: 'Show password',
+    render: (p, on) => (
+      <PasswordInput
+        defaultValue="abc"
+        onRevealedChange={on}
+        revealButtonProps={p}
+      />
     ),
   },
   'TextInput clearButtonProps': {

@@ -3,11 +3,11 @@ import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
-import PasswordFieldDemo from './PasswordFieldDemo';
 
 Text Inputs let people enter and edit a single line of text — names, emails,
 search queries, channel titles. They're the workhorse of every form and
-modal in Mattermost.
+modal in Mattermost. For passwords with show/hide, use
+[Password Input](/components/password-input).
 
 <Divider />
 
@@ -29,10 +29,11 @@ modal in Mattermost.
   lifts above the border on focus or when the field has a value.
 - <Num>3</Num> **Leading icon** — optional; reinforces the field's purpose
   (search, mail, calendar).
-- <Num>4</Num> **Trailing icon** — optional `Icon` inside the field (password
-  show/hide, or a static glyph), sized from the Text Input `size`. Not the clear
-  control — use `clearable` for that (don’t combine the two). Outside-the-field
-  actions use `trailingAction`.
+- <Num>4</Num> **Trailing icon** — optional `Icon` inside the field (static
+  glyph), sized from the Text Input `size`. Not the clear control — use
+  `clearable` for that (don’t combine the two). Outside-the-field actions use
+  `trailingAction`. Passwords with show/hide use [Password
+  Input](/components/password-input).
 - <Num>5</Num> **Placeholder** — brief sample or help statement; only visible
   when empty.
 - <Num>6</Num> **Value** — the text the user has entered.
@@ -144,8 +145,7 @@ For the same line outside a text field (e.g. under a radio group), use
 Set `clearable` when the field should show a clear button while it has a
 value. The button stays in the tab order. Pass `onClear` when the host owns
 the value; omit it for built-in clearing. Escape clears when the button would
-be visible. Don’t pair `clearable` with password show/hide — those patterns
-don’t combine.
+be visible.
 
 <div style={{ maxWidth: '420px' }}>
   <TextInput label="Filter" clearable defaultValue="design" />
@@ -156,13 +156,18 @@ don’t combine.
 ## Trailing icon (in-field)
 
 `trailingIcon` sits inside the border. Pass `<Icon glyph={…} />` — Text Input
-sizes it from `size` (12 / 16 / 16). Use for password show/hide or an
-occasional static glyph. Not for clear (`clearable`) and not for
-outside-the-field actions (`trailingAction`). Combobox already owns its own
+sizes it from `size` (12 / 16 / 16). Use for an occasional static glyph. Not
+for clear (`clearable`), not for outside-the-field actions (`trailingAction`),
+and not for password show/hide — use
+[Password Input](/components/password-input). Combobox already owns its own
 clear and chevron.
 
 <div style={{ maxWidth: '420px' }}>
-  <PasswordFieldDemo />
+  <TextInput
+    label="Workspace"
+    defaultValue="mattermost"
+    trailingIcon={<Icon glyph={<CloseCircleIcon />} />}
+  />
 </div>
 
 <Divider />
@@ -189,10 +194,10 @@ counter stay as wide as the field column, not under the action.
 ## Icons
 
 Use a leading icon to reinforce a recognisable input type — magnifier for
-search, mail icon for email. Use `trailingIcon` with `Icon` for in-field
-controls such as password show/hide (wrap the Icon in a transparent button when
-it must be clickable). Use `clearable` instead of a hand-rolled clear icon, and
-`trailingAction` for actions that sit outside the field.
+search, mail icon for email. Use `trailingIcon` with `Icon` for a static
+in-field glyph. Use `clearable` instead of a hand-rolled clear icon,
+`trailingAction` for actions that sit outside the field, and
+[Password Input](/components/password-input) for secrets with show/hide.
 
 <div
   style={{
@@ -207,7 +212,6 @@ it must be clickable). Use `clearable` instead of a hand-rolled clear icon, and
     placeholder="Search channels"
     leadingIcon={<Icon glyph={<MagnifyIcon />} />}
   />
-  <PasswordFieldDemo />
 </div>
 
 <Divider />

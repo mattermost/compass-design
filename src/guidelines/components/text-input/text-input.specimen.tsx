@@ -3,7 +3,6 @@ import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import styles from '@/styles/library-demo/components.module.scss';
-import PasswordFieldDemo from './PasswordFieldDemo';
 
 export default function TextInputLibrary() {
   return (
@@ -126,12 +125,6 @@ export default function TextInputLibrary() {
             Clearable
           </span>
           <TextInput label="Filter" clearable defaultValue="design" />
-        </div>
-        <div className={styles['components__button-row']}>
-          <span className={styles['components__instance-label']}>
-            Trailing icon (password)
-          </span>
-          <PasswordFieldDemo />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>

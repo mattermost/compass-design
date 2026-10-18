@@ -108,6 +108,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'combobox',
         'date-range-picker',
         'dropdown',
+        'password-input',
         'radio',
         'search-input',
         'select',

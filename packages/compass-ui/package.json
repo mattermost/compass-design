@@ -236,6 +236,9 @@
       "components/pagination-dots": [
         "./dist/components/pagination-dots/index.d.ts"
       ],
+      "components/password-input": [
+        "./dist/components/password-input/index.d.ts"
+      ],
       "components/permalink-preview": [
         "./dist/components/permalink-preview/index.d.ts"
       ],
