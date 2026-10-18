@@ -147,7 +147,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         | ((e: KeyboardEvent<HTMLInputElement>) => void)
         | undefined,
       inputRef,
-      setUncontrolledValue: (v) => setUncontrolledValue(v),
+      setUncontrolledValue,
     });
 
     const showInvalid = isFieldInvalid(invalid, message, messageTone);

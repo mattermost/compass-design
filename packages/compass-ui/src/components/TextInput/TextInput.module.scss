@@ -273,9 +273,8 @@
   // ---------------------------------------------------------------------------
   &--has-leading-icon {
     .text-input__label {
-      left: var(
-        --spacing-xxxl
-      ); // Small: 12px padding + 16px icon + 8px gap − 4px label-padding
+      // Small: 12px padding + 12px icon + 8px gap − 4px label padding
+      left: 28px;
     }
 
     &.text-input--label-floated .text-input__label {

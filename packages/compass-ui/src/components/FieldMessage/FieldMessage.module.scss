@@ -23,14 +23,15 @@
   &--tone-error {
     .field-message__icon,
     .field-message__text {
-      color: var(--color-danger);
+      // Prefer host theme role (webapp `--error-text`) with Compass fallback.
+      color: var(--error-text, var(--color-danger));
     }
   }
 
   &--tone-warning {
     .field-message__icon,
     .field-message__text {
-      color: var(--color-warning);
+      color: var(--away-indicator, var(--color-warning));
     }
   }
 
@@ -43,7 +44,7 @@
   &--tone-success {
     .field-message__icon,
     .field-message__text {
-      color: var(--color-success);
+      color: var(--online-indicator, var(--color-success));
     }
   }
 }

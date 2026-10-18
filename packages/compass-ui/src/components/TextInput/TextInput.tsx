@@ -55,8 +55,9 @@ export interface TextInputProps extends Omit<
   type?: InputHTMLAttributes<HTMLInputElement>['type'];
   /**
    * Trailing icon inside the field — pass `<Icon glyph={<GlobeIcon />} />`. Sized via
-   * context from `size`. Not used with `clearable`. For password show/hide, use
-   * `PasswordInput` instead. Combobox owns its own clear/chevron.
+   * context from `size`. When `clearable` is also set, clear renders after this icon.
+   * For password show/hide, use `PasswordInput` instead (don’t combine clear with
+   * password reveal). Combobox owns its own clear/chevron.
    */
   trailingIcon?: ReactNode;
   /**
@@ -185,7 +186,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         | ((e: KeyboardEvent<HTMLInputElement>) => void)
         | undefined,
       inputRef,
-      setUncontrolledValue: (v) => setUncontrolledValue(v),
+      setUncontrolledValue,
     });
 
     const showInvalid = isFieldInvalid(invalid, message, messageTone);

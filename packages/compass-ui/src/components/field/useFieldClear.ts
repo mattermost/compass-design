@@ -1,4 +1,9 @@
-import type { ChangeEvent, KeyboardEvent, RefObject } from 'react';
+import type {
+  ChangeEvent,
+  KeyboardEvent,
+  RefObject,
+  SyntheticEvent,
+} from 'react';
 import { useCallback } from 'react';
 
 type FieldElement = HTMLInputElement | HTMLTextAreaElement;
@@ -14,6 +19,46 @@ export interface UseFieldClearOptions<T extends FieldElement> {
   onKeyDown?: (e: KeyboardEvent<T>) => void;
   inputRef: RefObject<T | null>;
   setUncontrolledValue: (value: string) => void;
+}
+
+/** Minimal ChangeEvent so host `preventDefault` / `nativeEvent` access won't throw. */
+function createClearChangeEvent<T extends FieldElement>(
+  input: T,
+): ChangeEvent<T> {
+  let defaultPrevented = false;
+  let propagationStopped = false;
+  const nativeEvent = new Event('change', { bubbles: true, cancelable: true });
+
+  const event = {
+    nativeEvent,
+    type: 'change',
+    target: input,
+    currentTarget: input,
+    bubbles: true,
+    cancelable: true,
+    defaultPrevented: false,
+    eventPhase: 0,
+    isTrusted: false,
+    timeStamp: Date.now(),
+    preventDefault() {
+      defaultPrevented = true;
+      this.defaultPrevented = true;
+      nativeEvent.preventDefault?.();
+    },
+    isDefaultPrevented() {
+      return defaultPrevented;
+    },
+    stopPropagation() {
+      propagationStopped = true;
+      nativeEvent.stopPropagation?.();
+    },
+    isPropagationStopped() {
+      return propagationStopped;
+    },
+    persist() {},
+  } as ChangeEvent<T> & SyntheticEvent<T, Event>;
+
+  return event;
 }
 
 export function useFieldClear<T extends FieldElement>({
@@ -44,11 +89,7 @@ export function useFieldClear<T extends FieldElement>({
     input.value = '';
     if (!isControlled) setUncontrolledValue('');
 
-    onChange?.({
-      target: input,
-      currentTarget: input,
-    } as ChangeEvent<T>);
-
+    onChange?.(createClearChangeEvent(input));
     input.focus();
   }, [
     clearEnabled,

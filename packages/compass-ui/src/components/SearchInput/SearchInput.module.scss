@@ -222,19 +222,27 @@
   // ---------------------------------------------------------------------------
   &--has-leading-icon {
     .search-input__label {
-      left: var(
-        --spacing-xxxl
-      ); // Small: 12px padding + 16px icon + 8px gap − 4px label-padding
+      // Small: 12px padding + 12px icon + 8px gap − 4px label padding
+      left: 28px;
     }
 
     &.search-input--label-floated .search-input__label {
       left: var(--spacing-xs);
     }
 
-    &.search-input--size-medium,
-    &.search-input--size-large {
+    &.search-input--size-medium {
       .search-input__label {
         left: 36px; // 16px padding + 16px icon + 8px gap − 4px label-padding
+      }
+
+      &.search-input--label-floated .search-input__label {
+        left: var(--spacing-m);
+      }
+    }
+
+    &.search-input--size-large {
+      .search-input__label {
+        left: 40px; // 16px padding + 20px icon + 8px gap − 4px label-padding
       }
 
       &.search-input--label-floated .search-input__label {

@@ -17,17 +17,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Changed
 
 - **`ErrorMessage`:** now renders `FieldMessage` with `tone="error"` (imports stay valid — used by Agents plugin).
-- **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`.
-- **`FieldMessage` icon:** top padding set to 2px so the 12px glyph optically centers with the 16px text line.
+- **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`. Clear is also hidden (and Escape does not clear) when `readOnly`, matching Text Input.
+- **`FieldMessage` icon:** top padding set to 2px so the 12px glyph optically centers with the 16px text line (was ~1–2px high / unpadded).
 - **`TextInput` / `TextArea` character counter:** uses the same type size as Field Message (`font-size-75` / `line-height-75`).
 - **`TextInput` / `TextArea` / `SearchInput` field message spacing:** `gap: var(--spacing-xs)` (8px) between the control and Field Message / counter instead of margin-top.
-- **`FieldMessage` tones:** error / warning / success use Compass semantic colors (`--color-danger|warning|success`). Info is text-only at `rgba(--center-channel-color-rgb, 0.75)` with no icon.
+- **`FieldMessage` tones:** error / warning / success prefer host theme roles (`--error-text`, `--away-indicator`, `--online-indicator`) with Compass semantic fallbacks (`--color-danger|warning|success`). Info is text-only at `rgba(--center-channel-color-rgb, 0.75)` with no icon.
 - **`TextInput` / `TextArea` footer:** Field Message and character counter sit on one row (message start, counter end) when both are set.
-- **`TextInput` leading/trailing icons:** Icon slot context follows field `size` (12 / 16 / 16), matching the clear control.
+- **`TextInput` leading/trailing icons:** Icon slot context follows field `size` (12 / 16 / 16), matching the clear control. Small leading-icon label offset updated for the 12px glyph.
 
 ### Fixed
 
 - **`FieldMessage` icon:** optical vertical alignment with the first line of text (was ~1–2px high).
+- **Built-in clear `onChange`:** synthetic clear event includes `preventDefault` / `nativeEvent` so host handlers that touch those fields don’t throw.
 
 ## [0.1.0-alpha.16] - 2026-10-16
 

@@ -147,6 +147,20 @@ describe('TextInput clearable', () => {
     expect(queryAllByRole('button', 'Clear')).toHaveLength(0);
   });
 
+  it('built-in clear onChange event supports preventDefault and nativeEvent', () => {
+    const onChange = vi.fn(
+      (e: { preventDefault: () => void; nativeEvent: Event }) => {
+        e.preventDefault();
+        expect(e.nativeEvent).toBeInstanceOf(Event);
+      },
+    );
+    render(
+      <TextInput label="Q" clearable defaultValue="abc" onChange={onChange} />,
+    );
+    click(getByRole('button', 'Clear'));
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
   it('shows clear after trailingIcon', () => {
     const { container } = render(
       <TextInput
