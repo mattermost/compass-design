@@ -138,6 +138,8 @@ export default function TextInputLibrary() {
             defaultValue="secret-value"
             trailingIcon={
               <IconButton
+                size="small"
+                padding="compact"
                 aria-label="Show password"
                 icon={<Icon glyph={<EyeOutlineIcon />} />}
               />

@@ -138,6 +138,8 @@ function PasswordExample(args: TextInputStoryArgs) {
       leadingIcon={undefined}
       trailingIcon={
         <IconButton
+          size="small"
+          padding="compact"
           aria-label={visible ? 'Hide password' : 'Show password'}
           icon={
             <Icon
