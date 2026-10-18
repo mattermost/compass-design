@@ -20,7 +20,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`FieldMessage` icon:** top padding set to 2px so the 12px glyph optically centers with the 16px text line.
 - **`TextInput` / `TextArea` character counter:** uses the same type size as Field Message (`font-size-75` / `line-height-75`).
 - **`TextInput` / `TextArea` / `SearchInput` field message spacing:** `gap: var(--spacing-xs)` (8px) between the control and Field Message / counter instead of margin-top.
-- **`FieldMessage` tones:** use Compass semantic colors (`--color-danger|warning|info|success`) instead of theme vars (`--error-text`, presence indicators, muted center-channel).
+- **`FieldMessage` tones:** error / warning / success use Compass semantic colors (`--color-danger|warning|success`). Info is text-only at `rgba(--center-channel-color-rgb, 0.75)` with no icon.
 - **`TextInput` / `TextArea` footer:** Field Message and character counter sit on one row (message start, counter end) when both are set.
 
 ### Fixed

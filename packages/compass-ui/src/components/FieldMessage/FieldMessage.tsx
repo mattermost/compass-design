@@ -2,7 +2,6 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import AlertOutlineIcon from '@mattermost/compass-icons/components/alert-outline';
 import CheckIcon from '@mattermost/compass-icons/components/check';
-import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
 import Icon from '@/components/Icon/Icon';
 import { toKebab } from '@/utils/string';
 import styles from './FieldMessage.module.scss';
@@ -14,21 +13,20 @@ export interface FieldMessageProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   /** The message. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   message: ReactNode;
-  /** Visual tone. Default: `error`. */
+  /** Visual tone. Default: `error`. Info has no icon. */
   tone?: FieldMessageTone;
 }
 
-const TONE_ICONS: Record<FieldMessageTone, ReactNode> = {
+const TONE_ICONS: Partial<Record<FieldMessageTone, ReactNode>> = {
   error: <AlertCircleOutlineIcon />,
   warning: <AlertOutlineIcon />,
-  info: <InformationOutlineIcon />,
   success: <CheckIcon />,
 };
 
 /**
  * Field Message is the inline status line under a form field — validation errors, warnings,
- * hints, or success. It pairs a tone glyph with a short explanation so the user knows what
- * to do next.
+ * hints, or success. Error, warning, and success pair a tone glyph with the copy; info is
+ * text-only at muted center-channel color.
  */
 export default function FieldMessage({
   className = '',
@@ -42,12 +40,15 @@ export default function FieldMessage({
     .join(' ');
 
   const isAlert = tone === 'error' || tone === 'warning';
+  const glyph = TONE_ICONS[tone];
 
   return (
     <div {...rest} className={rootClass} role={isAlert ? 'alert' : rest.role}>
-      <span className={styles['field-message__icon']} aria-hidden>
-        <Icon size="12" glyph={TONE_ICONS[tone]} />
-      </span>
+      {glyph != null && (
+        <span className={styles['field-message__icon']} aria-hidden>
+          <Icon size="12" glyph={glyph} />
+        </span>
+      )}
       <span className={styles['field-message__text']}>{message}</span>
     </div>
   );

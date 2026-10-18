@@ -20,4 +20,14 @@ describe('FieldMessage', () => {
     rerender(<FieldMessage message="Done" tone="success" />);
     expect(queryAllByRole('alert')).toHaveLength(0);
   });
+
+  it('info has no icon; error keeps a glyph', () => {
+    const { container, rerender } = render(
+      <FieldMessage message="Hint" tone="info" />,
+    );
+    expect(container.querySelector('svg')).toBeNull();
+
+    rerender(<FieldMessage message="Required" tone="error" />);
+    expect(container.querySelector('svg')).not.toBeNull();
+  });
 });

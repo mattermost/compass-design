@@ -1,8 +1,8 @@
 import { FieldMessage } from '@mattermost/compass-ui/components/field-message';
 
 Field Message is the inline status line under a form field — validation
-errors, warnings, hints, or success. It pairs a tone glyph with a short
-explanation so the user knows what to do next.
+errors, warnings, hints, or success. Error, warning, and success pair a tone
+glyph with a short explanation; info is muted text with no icon.
 
 **Under a text field,** pass `message` / `messageTone` on
 [Text Input](/components/text-input), [Text Area](/components/text-area), or
@@ -36,9 +36,10 @@ and invalid chrome.
   <FieldMessage tone="success" message="Invite link copied." />
 </AnatomyStage>
 
-- <Num>1</Num> **Icon** — tone glyph at 12px. Decorative; meaning is carried by
-  the text.
-- <Num>2</Num> **Message** — one sentence, plain language.
+- <Num>1</Num> **Icon** — 12px tone glyph on error, warning, and success
+  (omitted for info). Decorative; meaning is carried by the text.
+- <Num>2</Num> **Message** — one sentence, plain language. Info uses
+  center-channel color at 75% opacity.
 
 Error and warning use `role="alert"`. Info and success do not.
 

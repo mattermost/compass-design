@@ -35,9 +35,8 @@
   }
 
   &--tone-info {
-    .field-message__icon,
     .field-message__text {
-      color: var(--color-info);
+      color: rgba(var(--center-channel-color-rgb), 0.75);
     }
   }
 
