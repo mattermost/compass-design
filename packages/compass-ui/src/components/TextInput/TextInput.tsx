@@ -48,6 +48,11 @@ export interface TextInputProps extends Omit<
   /** Size variant. Figma: Small (32px), Medium (40px), Large (48px). Default: Medium. */
   size?: TextInputSize;
   /**
+   * Native input `type`. Use `"password"` with a show/hide control in `trailingIcon`
+   * when needed — there is no separate PasswordInput.
+   */
+  type?: InputHTMLAttributes<HTMLInputElement>['type'];
+  /**
    * Trailing icon inside the field — pass `<Icon glyph={<EyeOutlineIcon />} />` (or a
    * transparent button wrapping that Icon for password show/hide). Sized via context from
    * `size`. Not used with `clearable` (those patterns don’t combine). Combobox owns its

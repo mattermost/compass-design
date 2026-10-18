@@ -30,11 +30,19 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    type: {
+      control: 'select',
+      options: ['text', 'password', 'email', 'url', 'tel', 'search', 'number'],
+      description:
+        'Native input type. Use `password` with a show/hide control in `trailingIcon`.',
+      table: { category: 'HTML', type: { summary: 'string' } },
+    },
     messageTone: { control: 'select', options: [...MESSAGE_TONES] },
     leadingIcon: iconSelectArgType({ optional: true }),
     trailingIcon: iconSelectArgType({ optional: true }),
   },
   args: {
+    type: 'text',
     leadingIcon: ICON_NONE,
     trailingIcon: ICON_NONE,
   },
