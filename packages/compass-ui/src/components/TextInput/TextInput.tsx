@@ -224,10 +224,12 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const fieldBody = (
       <>
         <div className={styles['text-input__wrapper']}>
-          <label className={styles['text-input__inner']}>
-            {label != null && (
-              <span className={styles['text-input__label']}>{label}</span>
-            )}
+          {label != null && (
+            <label className={styles['text-input__label']} htmlFor={id}>
+              {label}
+            </label>
+          )}
+          <div className={styles['text-input__inner']}>
             {leadingIcon != null && (
               <span className={styles['text-input__leading-icon']}>
                 <IconSlotContext.Provider value={{ size: iconSize }}>
@@ -274,7 +276,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
                 />
               </span>
             )}
-          </label>
+          </div>
         </div>
         {(showMessage || (showCharacterCount && maxLength != null)) && (
           <div className={styles['text-input__footer']}>

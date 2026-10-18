@@ -29,6 +29,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`FieldMessage` icon:** optical vertical alignment with the first line of text (was ~1–2px high).
 - **Built-in clear `onChange`:** synthetic clear event includes `preventDefault` / `nativeEvent` so host handlers that touch those fields don’t throw.
+- **`TextInput` label markup:** floating label uses `htmlFor` and sits beside the field chrome (same pattern as Search Input / Password Input), so the clear button is no longer a second labelable control inside `<label>`.
 
 ## [0.1.0-alpha.16] - 2026-10-16
 
