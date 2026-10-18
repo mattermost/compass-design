@@ -1,7 +1,9 @@
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
+import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 
 Text Inputs let people enter and edit a single line of text — names, emails,
@@ -28,8 +30,9 @@ modal in Mattermost.
   lifts above the border on focus or when the field has a value.
 - <Num>3</Num> **Leading icon** — optional; reinforces the field's purpose
   (search, mail, calendar).
-- <Num>4</Num> **Trailing icon** — optional; signals validity, opens a picker,
-  or indicates a dropdown. Not the clear control — use `clearable` for that.
+- <Num>4</Num> **Trailing icon** — optional static glyph inside the field. Not
+  the clear control (`clearable`) and not show/hide password or other actions
+  (`trailingAction`).
 - <Num>5</Num> **Placeholder** — brief sample or help statement; only visible
   when empty.
 - <Num>6</Num> **Value** — the text the user has entered.
@@ -139,38 +142,45 @@ For the same line outside a text field (e.g. under a radio group), use
 ## Clearable
 
 Set `clearable` when the field should show a clear button while it has a
-value. The button sits after any trailing icon and stays in the tab order.
-Pass `onClear` when the host owns the value; omit it for built-in clearing.
-Escape clears when the button would be visible.
+value. The button stays in the tab order. Pass `onClear` when the host owns
+the value; omit it for built-in clearing. Escape clears when the button would
+be visible.
 
-<div
-  style={{
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    maxWidth: '420px',
-  }}
->
+<div style={{ maxWidth: '420px' }}>
   <TextInput label="Filter" clearable defaultValue="design" />
-  <TextInput
-    label="With trailing icon"
-    clearable
-    defaultValue="design"
-    trailingIcon={<Icon glyph={<CloseCircleIcon />} />}
-  />
 </div>
 
 <Divider />
 
 ## Trailing action
 
-`trailingAction` sits outside the border, in a row with the field — show /
-hide password, copy, or a status control. Use a primary `Button` (the default)
-and match its `size` to the field; the slot stretches the control to the same
-height as the Text Input. Message and character counter stay as wide as the
-field column, not under the action.
+`trailingAction` sits outside the border, beside the field — password
+show/hide, copy, and similar controls. Prefer an `IconButton` for show/hide;
+use a primary `Button` (the default) for labeled actions like Copy. Match
+`size` to the field; the slot stretches to the same height as the Text Input.
+Message and character counter stay as wide as the field column, not under the
+action. Combobox already owns its own clear and chevron — don’t rebuild that
+on Text Input.
 
-<div style={{ maxWidth: '480px' }}>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '480px',
+  }}
+>
+  <TextInput
+    label="Password"
+    type="password"
+    defaultValue="secret-value"
+    trailingAction={
+      <IconButton
+        aria-label="Show password"
+        icon={<Icon glyph={<EyeOutlineIcon />} />}
+      />
+    }
+  />
   <TextInput
     label="Invite code"
     defaultValue="abc-123"
@@ -185,9 +195,9 @@ field column, not under the action.
 ## Icons
 
 Use a leading icon to reinforce a recognisable input type — magnifier for
-search, mail icon for email. Reserve the trailing icon for affordances that
-relate to the field's value (validity, dropdown chevron). Use `clearable`
-instead of a hand-rolled clear icon.
+search, mail icon for email. Keep `trailingIcon` for rare static glyphs inside
+the field. Use `clearable` instead of a hand-rolled clear icon, and
+`trailingAction` for password show/hide or other controls.
 
 <div
   style={{

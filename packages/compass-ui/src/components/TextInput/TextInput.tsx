@@ -39,7 +39,11 @@ export interface TextInputProps extends Omit<
   showCharacterCount?: boolean;
   /** Size variant. Figma: Small (32px), Medium (40px), Large (48px). Default: Medium. */
   size?: TextInputSize;
-  /** Trailing icon — pass `<Icon glyph={<SomeIcon />} />`; TextInput provides the correct size via context. */
+  /**
+   * Trailing icon inside the field — rare static glyphs only. Prefer `clearable` for
+   * clear and `trailingAction` for password show/hide or other controls. Combobox owns
+   * its own clear/chevron.
+   */
   trailingIcon?: ReactNode;
   /**
    * Field message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
@@ -60,9 +64,9 @@ export interface TextInputProps extends Omit<
   /** Extra attributes for the clear button (e.g. `data-testid`). */
   clearButtonProps?: BuiltInButtonProps;
   /**
-   * Rendered outside the border, beside the control (same height as the field). Prefer a
-   * `Button` with matching `size` and primary emphasis (Button defaults). Message and
-   * counter stay as wide as the field column, not under the action.
+   * Rendered outside the border, beside the control (same height as the field). Use for
+   * password show/hide (`IconButton`) or labeled actions (`Button`, primary by default).
+   * Message and counter stay as wide as the field column, not under the action.
    */
   trailingAction?: ReactNode;
 }

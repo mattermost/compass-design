@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import Button from '../Button/Button';
+import IconButton from '../IconButton/IconButton';
 import TextInput from './TextInput';
 import type { TextInputProps, TextInputSize } from './TextInput';
 import Icon from '../Icon/Icon';
@@ -123,17 +125,21 @@ export const Clearable: Story = {
 
 export const TrailingAction: Story = {
   args: {
-    label: 'Invite code',
-    defaultValue: 'abc-123',
-    message: 'Copied to clipboard.',
-    messageTone: 'success',
+    label: 'Password',
+    type: 'password',
+    defaultValue: 'secret-value',
   },
   render: (args) => (
     <TextInput
       {...args}
       leadingIcon={undefined}
       trailingIcon={undefined}
-      trailingAction={<Button emphasis="primary">Copy</Button>}
+      trailingAction={
+        <IconButton
+          aria-label="Show password"
+          icon={<Icon glyph={<EyeOutlineIcon />} />}
+        />
+      }
     />
   ),
 };
@@ -223,14 +229,19 @@ export const AllVariants: Story = {
       </Row>
       <Row label="Clearable">
         <TextInput label="Filter" clearable defaultValue="design" />
-        <TextInput
-          label="With trailing icon"
-          clearable
-          defaultValue="design"
-          trailingIcon={<Icon glyph={<GlobeIcon />} />}
-        />
       </Row>
       <Row label="Trailing action">
+        <TextInput
+          label="Password"
+          type="password"
+          defaultValue="secret-value"
+          trailingAction={
+            <IconButton
+              aria-label="Show password"
+              icon={<Icon glyph={<EyeOutlineIcon />} />}
+            />
+          }
+        />
         <TextInput
           label="Invite code"
           defaultValue="abc-123"

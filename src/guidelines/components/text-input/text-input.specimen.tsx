@@ -1,6 +1,8 @@
+import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -125,17 +127,22 @@ export default function TextInputLibrary() {
             Clearable
           </span>
           <TextInput label="Filter" clearable defaultValue="design" />
-          <TextInput
-            label="With trailing icon"
-            clearable
-            defaultValue="design"
-            trailingIcon={<Icon glyph={<GlobeIcon />} />}
-          />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
             Trailing action
           </span>
+          <TextInput
+            label="Password"
+            type="password"
+            defaultValue="secret-value"
+            trailingAction={
+              <IconButton
+                aria-label="Show password"
+                icon={<Icon glyph={<EyeOutlineIcon />} />}
+              />
+            }
+          />
           <TextInput
             label="Invite code"
             defaultValue="abc-123"
