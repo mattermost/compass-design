@@ -56,8 +56,38 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | **Later — Bring `compass-icons` into this repo**                       | Planned                                 | Move the `mattermost/compass-icons` source and build pipeline into `compass-design` as a workspace package (`@mattermost/compass-icons`). Consolidates icon authoring, versioning, and CI alongside `compass-ui`. Consumers continue to import from the same npm package name; only the publish pipeline and source location change. See [compass-icons-integration.md](./compass-icons-integration.md).                                                                                                                                                                                                                                                                          |
 | **Later — Drop `@mattermost/shared` Button type dependency in webapp** | Planned                                 | The webapp currently imports `ButtonVariant = '' \| 'destructive' \| 'inverted'` from `@mattermost/shared/components/button` as a bridge type after migrating `Button` itself to `@mattermost/compass-ui`. This type is an app-level adapter concept (flattening compass-ui's separate `destructive` bool and `appearance` string into one string), not a design system type — it should not be added to compass-ui. The fix is to define the type locally in the webapp (inline or in a shared adapter util) and remove the `@mattermost/shared` import site-wide. Scope: audit all webapp files that import `ButtonVariant` from shared and migrate each to a local definition. |
 | **Later — Webapp i18n**                                                | Deferred                                | Host-owned copy can be translated at the call site today. Compass chrome is English-only. Do not ship locale JSON from this package. Revisit after the webapp localization pipeline (extract, Weblate, in-repo translations, ICU checks) is stable — see INTEGRATION.md Translation.                                                                                                                                                                                                                                                                                                                                                                                              |
+| **Later — Right-to-left (RTL) layout**                                 | Planned                                 | Make `@mattermost/compass-ui` chrome mirror correctly under `dir="rtl"`. Prefer logical CSS and inherited `dir` over a parallel RTL stylesheet or per-component `rtl` prop. See [Right-to-left (RTL) layout](#right-to-left-rtl-layout) below. Couples with webapp setting `dir` from locale; independent of shipping locale JSON (i18n phase).                                                                                                                                                                                                                                                                                                                              |
 
 Stop after each phase; verify before starting the next.
+
+### Right-to-left (RTL) layout
+
+Mattermost today mostly handles **bidirectional text** (`dir="auto"` on messages/inputs), not full **UI mirroring**. compass-ui is almost entirely physical `left`/`right` CSS today. When product commits to locale-driven chrome RTL, the design system should already be `dir`-clean.
+
+**Two concerns (do not conflate):**
+
+1. **Bidirectional text** — user content order and alignment. Mostly host-owned; compass inputs/fields must not force `text-align: left` (prefer `start` / inherit).
+2. **Mirrored chrome** — paddings, icon rows, chevrons, menu placement, and reading-order slots flip when a subtree has `dir="rtl"`. This is the compass-ui job.
+
+**Approach:**
+
+- **Logical CSS as default** for new and touched styles: `padding-inline-*`, `margin-inline-*`, `inset-inline-*`, `border-inline-*`, `text-align: start`. Avoid a second `*.rtl.scss` tree or an `rtl` prop on every component.
+- **Host owns `dir`** — webapp (or Storybook) sets `dir` on the document or locale root; components inherit. No locale detection inside the package.
+- **Reading-order slots** — keep `leadingIcon` / `trailingIcon` (and similar) as start/end of reading order so they flip with `dir`, not as fixed screen-left/right.
+- **Directional glyphs** — back/chevron/tour callouts flip via CSS (`scaleX(-1)` / logical transforms) or icon swap under `dir="rtl"`.
+- **Placement JS** — anchored popovers/menus that hardcode `left`/`right` need logical placement when mirrored.
+- **Storybook** — global `dir` toggle (and optional specimen locale) so mirroring is reviewable without webapp.
+- **Tests** — Vitest cases that mount under `dir="rtl"` and assert order/placement for high-risk composites; stay on the existing Vitest harness (no Jest migration for this).
+
+**Sequencing:**
+
+| Layer | When |
+| ----- | ---- |
+| New components | Logical CSS + `dir`-safe from day one |
+| Touched components | Convert physical → logical as you edit |
+| High-traffic chrome | Button/icon rows, Modal header (back/close), TextInput/Search, Select/Combobox menus, sidebar items, TourPoint |
+| Placement JS | Anchored popovers/menus with hardcoded physical sides |
+| Full audit | After webapp sets locale-driven `dir` on the shell |
 
 ## Consumption
 
