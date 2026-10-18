@@ -8,7 +8,8 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    padding-top: 1px;
+    // 12px glyph on 16px text line — nudge down so it optically centers with the first line
+    padding-top: 3px;
   }
 
   &__text {

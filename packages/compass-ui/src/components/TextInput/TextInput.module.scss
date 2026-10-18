@@ -20,10 +20,17 @@
     min-width: 0;
   }
 
+  // Match the bordered control height (not the message/counter below).
   &__trailing-action {
     display: inline-flex;
-    align-items: center;
+    align-items: stretch;
     flex-shrink: 0;
+
+    > * {
+      box-sizing: border-box;
+      height: var(--text-input-control-height);
+      min-height: var(--text-input-control-height);
+    }
   }
 
   &__message {
@@ -166,8 +173,10 @@
   // Size modifiers (fixed height; label floats within same height, no wrapper growth)
   // ---------------------------------------------------------------------------
   &--size-small {
+    --text-input-control-height: 32px;
+
     .text-input__wrapper {
-      min-height: 32px;
+      min-height: var(--text-input-control-height);
     }
 
     .text-input__inner {
@@ -188,8 +197,10 @@
   }
 
   &--size-medium {
+    --text-input-control-height: 40px;
+
     .text-input__wrapper {
-      min-height: 40px;
+      min-height: var(--text-input-control-height);
     }
 
     .text-input__inner {
@@ -215,8 +226,10 @@
   }
 
   &--size-large {
+    --text-input-control-height: 48px;
+
     .text-input__wrapper {
-      min-height: 48px;
+      min-height: var(--text-input-control-height);
     }
 
     .text-input__inner {

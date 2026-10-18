@@ -11,12 +11,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`FieldMessage`:** inline field status line with `tone` (`error` | `warning` | `info` | `success`). Error and warning use `role="alert"`.
 - **`TextInput`, `TextArea`, `SearchInput` `message` / `messageTone`:** host-driven status under the field; error tone (or bare `invalid`) drives invalid chrome; message id is merged into `aria-describedby` ahead of the character counter.
 - **`TextInput` `clearable`:** opt-in clear button (default off) with `onClear`, `clearLabel` (default `"Clear"`), and `clearButtonProps`. Escape clears when the button would be visible. Clear sits after `trailingIcon` and stays in tab order.
-- **`TextInput` / `TextArea` `trailingAction`:** control outside the bordered wrapper; message and counter stay as wide as the field column.
+- **`TextInput` / `TextArea` `trailingAction`:** control outside the bordered wrapper; message and counter stay as wide as the field column. Slot height matches the Text Input control for the field’s `size` (32 / 40 / 48). Prefer a primary `Button` (Button defaults).
 
 ### Changed
 
 - **`ErrorMessage`:** now renders `FieldMessage` with `tone="error"` (imports stay valid — used by Agents plugin).
 - **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`.
+- **`FieldMessage` icon:** increased top padding so the 12px glyph optically centers with the 16px text line.
+
+### Fixed
+
+- **`FieldMessage` icon:** optical vertical alignment with the first line of text (was ~1–2px high).
 
 ## [0.1.0-alpha.16] - 2026-10-16
 

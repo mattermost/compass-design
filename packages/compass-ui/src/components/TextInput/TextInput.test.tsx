@@ -123,7 +123,7 @@ describe('TextInput trailingAction', () => {
         label="Code"
         message="Copied"
         messageTone="success"
-        trailingAction={<Button size="small">Copy</Button>}
+        trailingAction={<Button>Copy</Button>}
       />,
     );
     const wrapper = container.querySelector('[class*="text-input__wrapper"]');

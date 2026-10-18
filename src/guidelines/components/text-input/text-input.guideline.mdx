@@ -165,8 +165,10 @@ Escape clears when the button would be visible.
 ## Trailing action
 
 `trailingAction` sits outside the border, in a row with the field — show /
-hide password, copy, or a status control. Message and character counter stay
-as wide as the field column, not under the action.
+hide password, copy, or a status control. Use a primary `Button` (the default)
+and match its `size` to the field; the slot stretches the control to the same
+height as the Text Input. Message and character counter stay as wide as the
+field column, not under the action.
 
 <div style={{ maxWidth: '480px' }}>
   <TextInput
@@ -174,11 +176,7 @@ as wide as the field column, not under the action.
     defaultValue="abc-123"
     message="Copied to clipboard."
     messageTone="success"
-    trailingAction={
-      <Button size="small" emphasis="tertiary">
-        Copy
-      </Button>
-    }
+    trailingAction={<Button>Copy</Button>}
   />
 </div>
 

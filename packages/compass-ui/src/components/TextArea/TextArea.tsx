@@ -35,8 +35,9 @@ export interface TextAreaProps extends Omit<
   /** Visual tone for `message`. Default: `error` when `message` is set. */
   messageTone?: FieldMessageTone;
   /**
-   * Rendered outside the border, after the field. A button or other control — not forced
-   * through the 16px icon context. Message and counter stay as wide as the field column.
+   * Rendered outside the border, beside the field. Prefer a `Button` with matching `size`
+   * and primary emphasis (Button defaults). Height matches the Text Input control for the
+   * same size token. Message and counter stay as wide as the field column.
    */
   trailingAction?: ReactNode;
 }

@@ -66,11 +66,7 @@ export default function TextAreaLibrary() {
             rows={2}
             message="Ready to share."
             messageTone="success"
-            trailingAction={
-              <Button size="small" emphasis="tertiary">
-                Copy
-              </Button>
-            }
+            trailingAction={<Button>Copy</Button>}
           />
         </div>
       </div>

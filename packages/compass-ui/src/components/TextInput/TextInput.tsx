@@ -60,8 +60,9 @@ export interface TextInputProps extends Omit<
   /** Extra attributes for the clear button (e.g. `data-testid`). */
   clearButtonProps?: BuiltInButtonProps;
   /**
-   * Rendered outside the border, after the field. A button or other control — not forced
-   * through the 16px icon context. Message and counter stay as wide as the field column.
+   * Rendered outside the border, beside the control (same height as the field). Prefer a
+   * `Button` with matching `size` and primary emphasis (Button defaults). Message and
+   * counter stay as wide as the field column, not under the action.
    */
   trailingAction?: ReactNode;
 }

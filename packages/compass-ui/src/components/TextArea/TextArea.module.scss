@@ -20,10 +20,18 @@
     min-width: 0;
   }
 
+  // Match the Text Input control height for the same size token (not the full
+  // multi-line wrapper).
   &__trailing-action {
     display: inline-flex;
-    align-items: flex-start;
+    align-items: stretch;
     flex-shrink: 0;
+
+    > * {
+      box-sizing: border-box;
+      height: var(--text-area-action-height);
+      min-height: var(--text-area-action-height);
+    }
   }
 
   &__message {
@@ -137,6 +145,8 @@
   // Size modifiers
   // ---------------------------------------------------------------------------
   &--size-small {
+    --text-area-action-height: 32px;
+
     .text-area__input {
       padding: var(--spacing-xs) var(--spacing-m);
       font-size: var(--font-size-75);
@@ -157,6 +167,8 @@
   }
 
   &--size-medium {
+    --text-area-action-height: 40px;
+
     .text-area__input {
       padding: var(--spacing-s) var(--spacing-l);
       font-size: var(--font-size-100);
@@ -177,6 +189,8 @@
   }
 
   &--size-large {
+    --text-area-action-height: 48px;
+
     .text-area__input {
       padding: var(--spacing-m) var(--spacing-l);
       font-size: var(--font-size-200);

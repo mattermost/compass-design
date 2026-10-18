@@ -141,11 +141,7 @@ export default function TextInputLibrary() {
             defaultValue="abc-123"
             message="Copied to clipboard."
             messageTone="success"
-            trailingAction={
-              <Button size="small" emphasis="tertiary">
-                Copy
-              </Button>
-            }
+            trailingAction={<Button>Copy</Button>}
           />
         </div>
       </div>

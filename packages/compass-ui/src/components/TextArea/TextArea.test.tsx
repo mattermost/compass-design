@@ -59,7 +59,7 @@ describe('TextArea trailingAction', () => {
         label="Invite"
         message="Ready"
         messageTone="success"
-        trailingAction={<Button size="small">Copy</Button>}
+        trailingAction={<Button>Copy</Button>}
       />,
     );
     const wrapper = container.querySelector('[class*="text-area__wrapper"]');

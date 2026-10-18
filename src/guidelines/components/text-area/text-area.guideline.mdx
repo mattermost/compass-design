@@ -109,7 +109,9 @@ multiline fields.
 ## Trailing action
 
 `trailingAction` sits beside the bordered field. Use it for copy or other
-controls that should not live inside the textarea.
+controls that should not live inside the textarea. Prefer a primary `Button`
+(the default) with the same `size` as the Text Area — height matches the Text
+Input control for that size token.
 
 <div style={{ maxWidth: '560px' }}>
   <TextArea
@@ -118,11 +120,7 @@ controls that should not live inside the textarea.
     rows={2}
     message="Ready to share."
     messageTone="success"
-    trailingAction={
-      <Button size="small" emphasis="tertiary">
-        Copy
-      </Button>
-    }
+    trailingAction={<Button>Copy</Button>}
   />
 </div>
 

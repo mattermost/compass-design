@@ -87,14 +87,7 @@ export const TrailingAction: Story = {
     messageTone: 'success',
   },
   render: (args) => (
-    <TextArea
-      {...args}
-      trailingAction={
-        <Button size="small" emphasis="tertiary">
-          Copy
-        </Button>
-      }
-    />
+    <TextArea {...args} trailingAction={<Button>Copy</Button>} />
   ),
 };
 
@@ -145,11 +138,7 @@ export const AllVariants: Story = {
           defaultValue="secret-value"
           message="Ready to share."
           messageTone="success"
-          trailingAction={
-            <Button size="small" emphasis="tertiary">
-              Copy
-            </Button>
-          }
+          trailingAction={<Button>Copy</Button>}
         />
       </Row>
     </div>
