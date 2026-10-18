@@ -6,6 +6,31 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`FieldMessage`:** inline field status line with `tone` (`error` | `warning` | `info` | `success`). Error and warning use `role="alert"`.
+- **`TextInput`, `TextArea`, `SearchInput` `message` / `messageTone`:** host-driven status under the field; error tone (or bare `invalid`) drives invalid chrome; message id is merged into `aria-describedby` ahead of the character counter.
+- **`TextInput` `clearable`:** opt-in clear button (default off) with `onClear`, `clearLabel` (default `"Clear"`), and `clearButtonProps`. Escape clears when the button would be visible. Clear sits after `trailingIcon` and stays in tab order.
+- **`TextInput` `trailingAction`:** control outside the bordered wrapper; message and counter stay as wide as the field column. Slot height matches the field control for `size` (32 / 40 / 48). Prefer a primary `Button` (Button defaults). TextArea does not take `trailingAction`.
+- **`PasswordInput`:** dedicated password field (Search Input pattern) with built-in show/hide toggle — `showPasswordLabel` / `hidePasswordLabel` / `revealButtonProps`, optional controlled `revealed`, plus `message` / `messageTone`. Prefer this over composing Text Input when migrating webapp `PasswordInput`.
+
+### Changed
+
+- **`ErrorMessage`:** now renders `FieldMessage` with `tone="error"` (imports stay valid — used by Agents plugin).
+- **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`. Clear is also hidden (and Escape does not clear) when `readOnly`, matching Text Input.
+- **`FieldMessage` icon:** top padding set to 2px so the 12px glyph optically centers with the 16px text line (was ~1–2px high / unpadded).
+- **`TextInput` / `TextArea` character counter:** uses the same type size as Field Message (`font-size-75` / `line-height-75`).
+- **`TextInput` / `TextArea` / `SearchInput` field message spacing:** `gap: var(--spacing-xs)` (8px) between the control and Field Message / counter instead of margin-top.
+- **`FieldMessage` tones:** error / warning / success prefer host theme roles (`--error-text`, `--away-indicator`, `--online-indicator`) with Compass semantic fallbacks (`--color-danger|warning|success`). Info is text-only at `rgba(--center-channel-color-rgb, 0.75)` with no icon.
+- **`TextInput` / `TextArea` footer:** Field Message and character counter sit on one row (message start, counter end) when both are set.
+- **`TextInput` leading/trailing icons:** Icon slot context follows field `size` (12 / 16 / 16), matching the clear control. Small leading-icon label offset updated for the 12px glyph.
+
+### Fixed
+
+- **`FieldMessage` icon:** optical vertical alignment with the first line of text (was ~1–2px high).
+- **Built-in clear `onChange`:** synthetic clear event includes `preventDefault` / `nativeEvent` so host handlers that touch those fields don’t throw.
+- **`TextInput` label markup:** floating label uses `htmlFor` and sits beside the field chrome (same pattern as Search Input / Password Input), so the clear button is no longer a second labelable control inside `<label>`.
+
 ## [0.1.0-alpha.16] - 2026-10-16
 
 ### Added

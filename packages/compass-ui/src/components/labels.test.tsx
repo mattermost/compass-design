@@ -30,12 +30,14 @@ import PopoverNotice from './PopoverNotice/PopoverNotice';
 import ProfilePopover from './ProfilePopover/ProfilePopover';
 import ReactionsRow from './ReactionsRow/ReactionsRow';
 import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
+import PasswordInput from './PasswordInput/PasswordInput';
 import SearchInput from './SearchInput/SearchInput';
 import SearchTipBanner from './SearchTipBanner/SearchTipBanner';
 import SectionNotice from './SectionNotice/SectionNotice';
 import Select from './Select/Select';
 import Spinner from './Spinner/Spinner';
 import Tabs from './Tabs/Tabs';
+import TextInput from './TextInput/TextInput';
 import ThreadFooter from './ThreadFooter/ThreadFooter';
 import ThreadListItem from './ThreadListItem/ThreadListItem';
 import Toast from './Toast/Toast';
@@ -93,6 +95,23 @@ const BUTTON_NAME_CASES: Array<{
     name: 'SearchInput clearLabel',
     english: 'Clear search',
     render: (l) => <SearchInput defaultValue="abc" clearLabel={l} />,
+  },
+  {
+    name: 'PasswordInput showPasswordLabel',
+    english: 'Show password',
+    render: (l) => <PasswordInput defaultValue="abc" showPasswordLabel={l} />,
+  },
+  {
+    name: 'PasswordInput hidePasswordLabel',
+    english: 'Hide password',
+    render: (l) => (
+      <PasswordInput defaultValue="abc" defaultRevealed hidePasswordLabel={l} />
+    ),
+  },
+  {
+    name: 'TextInput clearLabel',
+    english: 'Clear',
+    render: (l) => <TextInput defaultValue="abc" clearable clearLabel={l} />,
   },
   {
     name: 'SectionNotice dismissLabel',

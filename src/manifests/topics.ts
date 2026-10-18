@@ -495,6 +495,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/error-message/error-message.specimen'),
   },
   {
+    slug: 'field-message',
+    name: 'Field Message',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/field-message/field-message.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/field-message/field-message.specimen'),
+  },
+  {
     slug: 'global-banner',
     name: 'Global Banner',
     category: 'components',
@@ -697,6 +707,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/pagination-dots/pagination-dots.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/components/pagination-dots/pagination-dots.specimen'),
+  },
+  {
+    slug: 'password-input',
+    name: 'Password Input',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/password-input/password-input.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/password-input/password-input.specimen'),
   },
   {
     slug: 'permalink-preview',

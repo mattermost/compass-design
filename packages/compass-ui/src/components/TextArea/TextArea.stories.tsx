@@ -5,12 +5,15 @@ import type { TextAreaSize } from './TextArea';
 
 const SIZES: TextAreaSize[] = ['small', 'medium', 'large'];
 
+const MESSAGE_TONES = ['error', 'warning', 'info', 'success'] as const;
+
 const meta = {
   title: 'Components/Forms and Input/Text Area',
   component: TextArea,
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: SIZES },
+    messageTone: { control: 'select', options: [...MESSAGE_TONES] },
   },
 } satisfies Meta<typeof TextArea>;
 
@@ -66,6 +69,14 @@ export const WithCounter: Story = {
   },
 };
 
+export const WithMessage: Story = {
+  args: {
+    label: 'Purpose',
+    message: 'This field is required.',
+    messageTone: 'error',
+  },
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -97,6 +108,14 @@ export const AllVariants: Story = {
           label="Read-only"
           readOnly
           defaultValue="Read only content."
+        />
+      </Row>
+      <Row label="Field message">
+        <TextArea label="Purpose" message="This field is required." />
+        <TextArea
+          label="Notes"
+          message="Optional context for your team."
+          messageTone="info"
         />
       </Row>
     </div>

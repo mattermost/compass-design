@@ -1,5 +1,12 @@
 import type { TextareaHTMLAttributes, ReactNode, ChangeEvent } from 'react';
 import { forwardRef, useId, useState, useCallback } from 'react';
+import {
+  hasFieldMessage,
+  isFieldInvalid,
+  mergeFieldDescribedBy,
+} from '@/components/field/fieldDescribedBy';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
+import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
 import { toKebab } from '@/utils/string';
 import styles from './TextArea.module.scss';
 
@@ -21,6 +28,13 @@ export interface TextAreaProps extends Omit<
   showCharacterCount?: boolean;
   /** Size variant. Default: Medium. */
   size?: TextAreaSize;
+  /**
+   * Field message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Defaults to error tone (invalid chrome) when set without `messageTone`.
+   */
+  message?: ReactNode;
+  /** Visual tone for `message`. Default: `error` when `message` is set. */
+  messageTone?: FieldMessageTone;
 }
 
 /**
@@ -37,6 +51,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       invalid = false,
       maxLength,
       showCharacterCount = false,
+      message,
+      messageTone,
       id: idProp,
       value: valueProp,
       defaultValue,
@@ -87,8 +103,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       [isControlled, onChange],
     );
 
+    const showInvalid = isFieldInvalid(invalid, message, messageTone);
+    const showMessage = hasFieldMessage(message);
     const sizeClass = styles[`text-area--size-${toKebab(size)}`];
-    const invalidClass = invalid ? styles['text-area--invalid'] : '';
+    const invalidClass = showInvalid ? styles['text-area--invalid'] : '';
     const labelFloatedClass =
       label != null && labelFloated ? styles['text-area--label-floated'] : '';
 
@@ -105,6 +123,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const currentLength = typeof value === 'string' ? value.length : 0;
     const counterId =
       showCharacterCount && maxLength != null ? `${id}-counter` : undefined;
+    const messageId = showMessage ? `${id}-message` : undefined;
+    const resolvedTone = messageTone ?? 'error';
 
     return (
       <div className={rootClass}>
@@ -125,23 +145,37 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             disabled={disabled}
             readOnly={readOnly}
             rows={rows}
-            aria-invalid={invalid ? true : undefined}
-            aria-describedby={
-              [describedBy, counterId].filter(Boolean).join(' ') || undefined
-            }
+            aria-invalid={showInvalid ? true : undefined}
+            aria-describedby={mergeFieldDescribedBy(
+              describedBy,
+              messageId,
+              counterId,
+            )}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChange}
             {...rest}
           />
         </div>
-        {showCharacterCount && maxLength != null && (
-          <div
-            id={counterId}
-            className={styles['text-area__counter']}
-            aria-live="polite"
-          >
-            {currentLength} / {maxLength}
+        {(showMessage || (showCharacterCount && maxLength != null)) && (
+          <div className={styles['text-area__footer']}>
+            {showMessage && (
+              <FieldMessage
+                id={messageId}
+                className={styles['text-area__footer-message']}
+                message={message}
+                tone={resolvedTone}
+              />
+            )}
+            {showCharacterCount && maxLength != null && (
+              <div
+                id={counterId}
+                className={styles['text-area__counter']}
+                aria-live="polite"
+              >
+                {currentLength} / {maxLength}
+              </div>
+            )}
           </div>
         )}
       </div>

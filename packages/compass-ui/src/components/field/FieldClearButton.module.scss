@@ -1,0 +1,27 @@
+.field-clear-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+  outline-offset: 0;
+  transition:
+    color var(--duration-quick) var(--ease-transition),
+    outline-color var(--duration-quick) var(--ease-transition),
+    outline-offset var(--duration-quick) var(--ease-transition);
+
+  &:hover {
+    color: var(--center-channel-color);
+  }
+
+  &:focus-visible {
+    outline-color: var(--focus-ring-color);
+    outline-offset: 3px;
+  }
+}

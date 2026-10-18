@@ -1,0 +1,50 @@
+.field-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xxs);
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    // 12px glyph on 16px text line — nudge down so it optically centers with the first line
+    padding-top: 2px;
+  }
+
+  &__text {
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-75);
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  &--tone-error {
+    .field-message__icon,
+    .field-message__text {
+      // Prefer host theme role (webapp `--error-text`) with Compass fallback.
+      color: var(--error-text, var(--color-danger));
+    }
+  }
+
+  &--tone-warning {
+    .field-message__icon,
+    .field-message__text {
+      color: var(--away-indicator, var(--color-warning));
+    }
+  }
+
+  &--tone-info {
+    .field-message__text {
+      color: rgba(var(--center-channel-color-rgb), 0.75);
+    }
+  }
+
+  &--tone-success {
+    .field-message__icon,
+    .field-message__text {
+      color: var(--online-indicator, var(--color-success));
+    }
+  }
+}

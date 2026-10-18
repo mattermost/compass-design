@@ -1,5 +1,7 @@
-import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
+import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { PasswordInput } from '@mattermost/compass-ui/components/password-input';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -31,28 +33,29 @@ export default function TextInputLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Leading / trailing icons
+            Leading icon
           </span>
           <TextInput
             label="Search"
             placeholder="Search..."
-            leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
+            leadingIcon={<Icon glyph={<MagnifyIcon />} />}
           />
-          <TextInput
-            placeholder="Trailing only"
-            trailingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
-          />
-          <TextInput
-            label="Both"
-            placeholder="Leading and trailing"
-            leadingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
-            trailingIcon={<Icon glyph={<GlobeIcon />} size="16" />}
-          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Trailing (clear / password)
+          </span>
+          <TextInput label="Filter" clearable defaultValue="design" />
+          <PasswordInput label="Password" defaultValue="secret-value" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Invalid</span>
           <TextInput label="Error" invalid placeholder="Invalid state" />
-          <TextInput label="Error with value" invalid defaultValue="Invalid" />
+          <TextInput
+            label="Error with message"
+            defaultValue="Invalid"
+            message="Enter a valid value."
+          />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
@@ -80,6 +83,51 @@ export default function TextInputLibrary() {
             label="Read-only"
             readOnly
             defaultValue="Read only value"
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Field message
+          </span>
+          <TextInput label="Error" message="This field is required." />
+          <TextInput
+            label="Warning"
+            message="This name is taken."
+            messageTone="warning"
+          />
+          <TextInput
+            label="Info"
+            message="Use 8 or more characters."
+            messageTone="info"
+          />
+          <TextInput
+            label="Success"
+            message="Looks good."
+            messageTone="success"
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Field message + counter
+          </span>
+          <TextInput
+            label="Bio"
+            message="Too long"
+            defaultValue="Hello world"
+            maxLength={20}
+            showCharacterCount
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Trailing action
+          </span>
+          <TextInput
+            label="Invite code"
+            defaultValue="abc-123"
+            message="Copied to clipboard."
+            messageTone="success"
+            trailingAction={<Button>Copy</Button>}
           />
         </div>
       </div>

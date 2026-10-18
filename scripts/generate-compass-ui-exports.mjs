@@ -31,11 +31,17 @@ function writeJson(filePath, data) {
 
 function listKebabComponents() {
   if (!fs.existsSync(distComponents)) return [];
-  return fs
-    .readdirSync(distComponents, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
-    .map((e) => e.name)
-    .sort();
+  return (
+    fs
+      .readdirSync(distComponents, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      // Shared helper folders (e.g. `field/`) ship modules but no public index entry.
+      .filter((e) =>
+        fs.existsSync(path.join(distComponents, e.name, 'index.d.ts')),
+      )
+      .map((e) => e.name)
+      .sort()
+  );
 }
 
 function listKebabHooks() {
