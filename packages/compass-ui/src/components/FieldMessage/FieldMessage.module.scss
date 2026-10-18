@@ -23,31 +23,28 @@
   &--tone-error {
     .field-message__icon,
     .field-message__text {
-      color: var(--error-text, var(--color-danger));
+      color: var(--color-danger);
     }
   }
 
   &--tone-warning {
     .field-message__icon,
     .field-message__text {
-      color: var(--away-indicator, var(--color-warning));
+      color: var(--color-warning);
     }
   }
 
   &--tone-info {
-    .field-message__icon {
-      color: rgba(var(--center-channel-color-rgb), 0.56);
-    }
-
+    .field-message__icon,
     .field-message__text {
-      color: rgba(var(--center-channel-color-rgb), 0.72);
+      color: var(--color-info);
     }
   }
 
   &--tone-success {
     .field-message__icon,
     .field-message__text {
-      color: var(--online-indicator, var(--color-success));
+      color: var(--color-success);
     }
   }
 }
