@@ -260,12 +260,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           </label>
         </div>
         {message != null && (
-          <FieldMessage
-            id={messageId}
-            className={styles['text-input__message']}
-            message={message}
-            tone={resolvedTone}
-          />
+          <FieldMessage id={messageId} message={message} tone={resolvedTone} />
         )}
         {showCharacterCount && maxLength != null && (
           <div

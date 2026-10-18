@@ -19,6 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`.
 - **`FieldMessage` icon:** top padding set to 2px so the 12px glyph optically centers with the 16px text line.
 - **`TextInput` / `TextArea` character counter:** uses the same type size as Field Message (`font-size-75` / `line-height-75`).
+- **`TextInput` / `TextArea` / `SearchInput` field message spacing:** `gap: var(--spacing-xs)` (8px) between the control and Field Message / counter instead of margin-top.
 
 ### Fixed
 

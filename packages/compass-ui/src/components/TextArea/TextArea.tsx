@@ -156,12 +156,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           />
         </div>
         {message != null && (
-          <FieldMessage
-            id={messageId}
-            className={styles['text-area__message']}
-            message={message}
-            tone={resolvedTone}
-          />
+          <FieldMessage id={messageId} message={message} tone={resolvedTone} />
         )}
         {showCharacterCount && maxLength != null && (
           <div

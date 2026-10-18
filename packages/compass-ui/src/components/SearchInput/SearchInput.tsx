@@ -223,12 +223,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           </div>
         </div>
         {message != null && (
-          <FieldMessage
-            id={messageId}
-            className={styles['search-input__message']}
-            message={message}
-            tone={resolvedTone}
-          />
+          <FieldMessage id={messageId} message={message} tone={resolvedTone} />
         )}
       </div>
     );
