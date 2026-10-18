@@ -110,7 +110,7 @@ export const AllVariants: Story = {
           defaultValue="Read only content."
         />
       </Row>
-      <Row label="Message tones">
+      <Row label="Field message">
         <TextArea label="Purpose" message="This field is required." />
         <TextArea
           label="Notes"

@@ -89,7 +89,7 @@ export default function TextInputLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Message tones
+            Field message
           </span>
           <TextInput label="Error" message="This field is required." />
           <TextInput
@@ -110,7 +110,7 @@ export default function TextInputLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Message + counter
+            Field message + counter
           </span>
           <TextInput
             label="Bio"

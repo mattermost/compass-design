@@ -191,7 +191,7 @@ export const AllVariants: Story = {
         <TextInput label="Disabled" disabled placeholder="Disabled" />
         <TextInput label="Read-only" readOnly defaultValue="Read only value" />
       </Row>
-      <Row label="Message tones">
+      <Row label="Field message">
         <TextInput label="Error" message="This field is required." />
         <TextInput
           label="Warning"
@@ -212,7 +212,7 @@ export const AllVariants: Story = {
       <Row label="Invalid without message">
         <TextInput label="Error" invalid placeholder="Invalid state" />
       </Row>
-      <Row label="Message + character count">
+      <Row label="Field message + character count">
         <TextInput
           label="Bio"
           message="Too long"

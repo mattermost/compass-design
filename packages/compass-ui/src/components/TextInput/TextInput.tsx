@@ -42,7 +42,7 @@ export interface TextInputProps extends Omit<
   /** Trailing icon — pass `<Icon glyph={<SomeIcon />} />`; TextInput provides the correct size via context. */
   trailingIcon?: ReactNode;
   /**
-   * Status message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Field message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
    * Defaults to error tone (invalid chrome) when set without `messageTone`.
    */
   message?: ReactNode;

@@ -46,7 +46,7 @@ export default function TextAreaLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Message tones
+            Field message
           </span>
           <TextArea label="Purpose" message="This field is required." />
           <TextArea

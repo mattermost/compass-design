@@ -28,7 +28,7 @@ export interface TextAreaProps extends Omit<
   /** Size variant. Default: Medium. */
   size?: TextAreaSize;
   /**
-   * Status message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Field message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
    * Defaults to error tone (invalid chrome) when set without `messageTone`.
    */
   message?: ReactNode;

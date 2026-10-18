@@ -32,7 +32,7 @@ export default function SearchInputLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Message tones
+            Field message
           </span>
           <SearchInput label="Search" message="No matches found." />
           <SearchInput

@@ -126,7 +126,7 @@ export const AllVariants: Story = {
         <SearchInput label="Invalid" defaultValue="bad query" invalid />
         <ClearableSearchInput />
       </Row>
-      <Row label="Message tones">
+      <Row label="Field message">
         <SearchInput label="Search" message="No matches found." />
         <SearchInput
           label="Search"
