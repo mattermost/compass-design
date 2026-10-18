@@ -17,7 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`ErrorMessage`:** now renders `FieldMessage` with `tone="error"` (imports stay valid — used by Agents plugin).
 - **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`.
-- **`FieldMessage` icon:** increased top padding so the 12px glyph optically centers with the 16px text line.
+- **`FieldMessage` icon:** top padding set to 2px so the 12px glyph optically centers with the 16px text line.
 
 ### Fixed
 
