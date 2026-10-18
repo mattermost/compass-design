@@ -56,7 +56,7 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | **Later — Bring `compass-icons` into this repo**                       | Planned                                 | Move the `mattermost/compass-icons` source and build pipeline into `compass-design` as a workspace package (`@mattermost/compass-icons`). Consolidates icon authoring, versioning, and CI alongside `compass-ui`. Consumers continue to import from the same npm package name; only the publish pipeline and source location change. See [compass-icons-integration.md](./compass-icons-integration.md).                                                                                                                                                                                                                                                                          |
 | **Later — Drop `@mattermost/shared` Button type dependency in webapp** | Planned                                 | The webapp currently imports `ButtonVariant = '' \| 'destructive' \| 'inverted'` from `@mattermost/shared/components/button` as a bridge type after migrating `Button` itself to `@mattermost/compass-ui`. This type is an app-level adapter concept (flattening compass-ui's separate `destructive` bool and `appearance` string into one string), not a design system type — it should not be added to compass-ui. The fix is to define the type locally in the webapp (inline or in a shared adapter util) and remove the `@mattermost/shared` import site-wide. Scope: audit all webapp files that import `ButtonVariant` from shared and migrate each to a local definition. |
 | **Later — Webapp i18n**                                                | Deferred                                | Host-owned copy can be translated at the call site today. Compass chrome is English-only. Do not ship locale JSON from this package. Revisit after the webapp localization pipeline (extract, Weblate, in-repo translations, ICU checks) is stable — see INTEGRATION.md Translation.                                                                                                                                                                                                                                                                                                                                                                                              |
-| **Later — Right-to-left (RTL) layout**                                 | Planned                                 | Make `@mattermost/compass-ui` chrome mirror correctly under `dir="rtl"`. Prefer logical CSS and inherited `dir` over a parallel RTL stylesheet or per-component `rtl` prop. See [Right-to-left (RTL) layout](#right-to-left-rtl-layout) below. Couples with webapp setting `dir` from locale; independent of shipping locale JSON (i18n phase).                                                                                                                                                                                                                                                                                                                              |
+| **Later — Right-to-left (RTL) layout**                                 | Planned                                 | Make `@mattermost/compass-ui` chrome mirror correctly under `dir="rtl"`. Prefer logical CSS and inherited `dir` over a parallel RTL stylesheet or per-component `rtl` prop. See [Right-to-left (RTL) layout](#right-to-left-rtl-layout) below. Couples with webapp setting `dir` from locale; independent of shipping locale JSON (i18n phase).                                                                                                                                                                                                                                                                                                                                   |
 | **Later — Unit testing (compass-ui)**                                  | Planned                                 | Keep Vitest + happy-dom; grow contract + behavior coverage for every new/changed component. Do **not** switch to Jest. Optionally adopt Testing Library on Vitest later if the custom harness becomes a burden. See [Unit testing (compass-ui)](#unit-testing-compass-ui) below.                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 Stop after each phase; verify before starting the next.
@@ -67,11 +67,11 @@ Stop after each phase; verify before starting the next.
 
 **What exists today:**
 
-| Kind | Files | Role |
-| ---- | ----- | ---- |
+| Kind                  | Files                                                                                                                               | Role                                                                                                                                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Contract / API guards | `contract.test.tsx`, `englishLiterals.test.ts`, `labels.test.tsx`, `translatedContent.test.tsx`, `refs.test.tsx`, `markup.test.tsx` | Enforce the [Component API contract](../packages/compass-ui/AGENTS.md#component-api-contract-consumers-mattermost-webapp-and-plugins); failures mean a rule broke, not a flake |
-| Behavior | Per-component `*.test.tsx` (e.g. Modal, Combobox, Select, Button) + utils | Interaction, ARIA, callbacks — sparse coverage today |
-| Consumer Jest | Documented in [INTEGRATION.md](../packages/compass-ui/INTEGRATION.md) | Webapp: subpath imports + `moduleNameMapper`; never require the root barrel in Jest |
+| Behavior              | Per-component `*.test.tsx` (e.g. Modal, Combobox, Select, Button) + utils                                                           | Interaction, ARIA, callbacks — sparse coverage today                                                                                                                           |
+| Consumer Jest         | Documented in [INTEGRATION.md](../packages/compass-ui/INTEGRATION.md)                                                               | Webapp: subpath imports + `moduleNameMapper`; never require the root barrel in Jest                                                                                            |
 
 **Approach (stay on Vitest):**
 
@@ -85,12 +85,12 @@ Stop after each phase; verify before starting the next.
 
 **Sequencing:**
 
-| Layer | When |
-| ----- | ---- |
-| New / changed components | Follow the [review checklist](../.cursor/skills/review-compass-ui-component/SKILL.md) test steps on every PR |
-| High-risk widgets | Deepen behavior coverage for Combobox, Select, Modal, menus, form fields |
-| Harness | Keep custom render until friction shows; then evaluate Testing Library under Vitest |
-| Docs | Keep AGENTS.md + review skill as the source of required suites; expand this roadmap section if conventions change |
+| Layer                    | When                                                                                                              |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| New / changed components | Follow the [review checklist](../.cursor/skills/review-compass-ui-component/SKILL.md) test steps on every PR      |
+| High-risk widgets        | Deepen behavior coverage for Combobox, Select, Modal, menus, form fields                                          |
+| Harness                  | Keep custom render until friction shows; then evaluate Testing Library under Vitest                               |
+| Docs                     | Keep AGENTS.md + review skill as the source of required suites; expand this roadmap section if conventions change |
 
 ### Right-to-left (RTL) layout
 
@@ -113,13 +113,13 @@ Mattermost today mostly handles **bidirectional text** (`dir="auto"` on messages
 
 **Sequencing:**
 
-| Layer | When |
-| ----- | ---- |
-| New components | Logical CSS + `dir`-safe from day one |
-| Touched components | Convert physical → logical as you edit |
+| Layer               | When                                                                                                           |
+| ------------------- | -------------------------------------------------------------------------------------------------------------- |
+| New components      | Logical CSS + `dir`-safe from day one                                                                          |
+| Touched components  | Convert physical → logical as you edit                                                                         |
 | High-traffic chrome | Button/icon rows, Modal header (back/close), TextInput/Search, Select/Combobox menus, sidebar items, TourPoint |
-| Placement JS | Anchored popovers/menus with hardcoded physical sides |
-| Full audit | After webapp sets locale-driven `dir` on the shell |
+| Placement JS        | Anchored popovers/menus with hardcoded physical sides                                                          |
+| Full audit          | After webapp sets locale-driven `dir` on the shell                                                             |
 
 ## Consumption
 
