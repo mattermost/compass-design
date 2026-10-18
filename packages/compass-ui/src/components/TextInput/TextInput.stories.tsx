@@ -85,12 +85,20 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 /** Transparent hit target so `trailingIcon` stays an Icon sized by Text Input. */
 function TrailingIconButton({
   children,
+  onClick,
   ...rest
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       type="button"
       {...rest}
+      onClick={(e) => {
+        // Inside TextInput's <label> — don't forward activation to the input.
+        e.preventDefault();
+        e.stopPropagation();
+        onClick?.(e);
+      }}
+      onMouseDown={(e) => e.preventDefault()}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
@@ -150,14 +158,19 @@ export const Clearable: Story = {
   },
 };
 
-function PasswordExample(args: TextInputStoryArgs) {
+function PasswordExample({
+  size = 'medium',
+  label = 'Password',
+  ...rest
+}: Partial<TextInputProps> & { label?: ReactNode }) {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState('secret-value');
 
   return (
     <TextInput
-      {...args}
-      label={args.label ?? 'Password'}
+      {...rest}
+      size={size}
+      label={label}
       type={visible ? 'text' : 'password'}
       value={value}
       onChange={(e) => setValue(e.target.value)}
@@ -174,12 +187,19 @@ function PasswordExample(args: TextInputStoryArgs) {
   );
 }
 
-/** In-field show/hide via `trailingIcon` — Icon sized by Text Input `size`. */
+/** `type="password"` + `trailingIcon` show/hide — not a separate PasswordInput. */
 export const Password: Story = {
   args: {
     label: 'Password',
+    size: 'medium',
   },
-  render: (args) => <PasswordExample {...args} />,
+  render: (args) => (
+    <PasswordExample
+      size={args.size}
+      label={args.label}
+      disabled={args.disabled}
+    />
+  ),
 };
 
 export const TrailingAction: Story = {
@@ -287,14 +307,7 @@ export const AllVariants: Story = {
       </Row>
       <Row label="Trailing icon (password)">
         {SIZES.map((size) => (
-          <TextInput
-            key={size}
-            size={size}
-            label="Password"
-            type="password"
-            defaultValue="secret-value"
-            trailingIcon={<Icon glyph={<EyeOutlineIcon />} />}
-          />
+          <PasswordExample key={size} size={size} />
         ))}
       </Row>
       <Row label="Trailing action">

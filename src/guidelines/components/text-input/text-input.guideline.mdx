@@ -1,9 +1,9 @@
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
-import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
+import PasswordFieldDemo from './PasswordFieldDemo';
 
 Text Inputs let people enter and edit a single line of text — names, emails,
 search queries, channel titles. They're the workhorse of every form and
@@ -162,12 +162,7 @@ outside-the-field actions (`trailingAction`). Combobox already owns its own
 clear and chevron.
 
 <div style={{ maxWidth: '420px' }}>
-  <TextInput
-    label="Password"
-    type="password"
-    defaultValue="secret-value"
-    trailingIcon={<Icon glyph={<EyeOutlineIcon />} />}
-  />
+  <PasswordFieldDemo />
 </div>
 
 <Divider />
@@ -212,12 +207,7 @@ it must be clickable). Use `clearable` instead of a hand-rolled clear icon, and
     placeholder="Search channels"
     leadingIcon={<Icon glyph={<MagnifyIcon />} />}
   />
-  <TextInput
-    label="Password"
-    type="password"
-    defaultValue="secret-value"
-    trailingIcon={<Icon glyph={<EyeOutlineIcon />} />}
-  />
+  <PasswordFieldDemo />
 </div>
 
 <Divider />
