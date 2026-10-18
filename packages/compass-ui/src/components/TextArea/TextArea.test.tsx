@@ -44,6 +44,26 @@ describe('TextArea message', () => {
       container.querySelector('textarea')!.getAttribute('aria-describedby'),
     ).toBe('hint desc-message desc-counter');
   });
+
+  it('renders message and counter in one footer row', () => {
+    const { container } = render(
+      <TextArea
+        id="desc"
+        label="Description"
+        message="Too long"
+        maxLength={20}
+        showCharacterCount
+        defaultValue="hi"
+      />,
+    );
+    const footer = container.querySelector('[class*="text-area__footer"]')!;
+    expect(footer.contains(container.querySelector('#desc-message'))).toBe(
+      true,
+    );
+    expect(footer.contains(container.querySelector('#desc-counter'))).toBe(
+      true,
+    );
+  });
 });
 
 describe('TextArea clear', () => {

@@ -64,6 +64,26 @@ describe('TextInput message', () => {
       container.querySelector('input')!.getAttribute('aria-describedby'),
     ).toBe('hint bio-message bio-counter');
   });
+
+  it('renders message and counter in one footer row', () => {
+    const { container } = render(
+      <TextInput
+        id="bio"
+        label="Bio"
+        message="Too long"
+        maxLength={10}
+        showCharacterCount
+        defaultValue="hello"
+      />,
+    );
+    const footer = container.querySelector('[class*="text-input__footer"]')!;
+    expect(footer.contains(container.querySelector('#bio-message'))).toBe(
+      true,
+    );
+    expect(footer.contains(container.querySelector('#bio-counter'))).toBe(
+      true,
+    );
+  });
 });
 
 describe('TextInput clearable', () => {
