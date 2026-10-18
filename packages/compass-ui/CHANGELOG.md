@@ -21,6 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`TextInput` / `TextArea` character counter:** uses the same type size as Field Message (`font-size-75` / `line-height-75`).
 - **`TextInput` / `TextArea` / `SearchInput` field message spacing:** `gap: var(--spacing-xs)` (8px) between the control and Field Message / counter instead of margin-top.
 - **`FieldMessage` tones:** use Compass semantic colors (`--color-danger|warning|info|success`) instead of theme vars (`--error-text`, presence indicators, muted center-channel).
+- **`TextInput` / `TextArea` footer:** Field Message and character counter sit on one row (message start, counter end) when both are set.
 
 ### Fixed
 

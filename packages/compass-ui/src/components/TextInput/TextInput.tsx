@@ -259,16 +259,25 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             )}
           </label>
         </div>
-        {message != null && (
-          <FieldMessage id={messageId} message={message} tone={resolvedTone} />
-        )}
-        {showCharacterCount && maxLength != null && (
-          <div
-            id={counterId}
-            className={styles['text-input__counter']}
-            aria-live="polite"
-          >
-            {currentLength} / {maxLength}
+        {(message != null || (showCharacterCount && maxLength != null)) && (
+          <div className={styles['text-input__footer']}>
+            {message != null && (
+              <FieldMessage
+                id={messageId}
+                className={styles['text-input__footer-message']}
+                message={message}
+                tone={resolvedTone}
+              />
+            )}
+            {showCharacterCount && maxLength != null && (
+              <div
+                id={counterId}
+                className={styles['text-input__counter']}
+                aria-live="polite"
+              >
+                {currentLength} / {maxLength}
+              </div>
+            )}
           </div>
         )}
       </>

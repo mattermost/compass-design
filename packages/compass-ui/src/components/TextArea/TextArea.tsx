@@ -155,16 +155,25 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             {...rest}
           />
         </div>
-        {message != null && (
-          <FieldMessage id={messageId} message={message} tone={resolvedTone} />
-        )}
-        {showCharacterCount && maxLength != null && (
-          <div
-            id={counterId}
-            className={styles['text-area__counter']}
-            aria-live="polite"
-          >
-            {currentLength} / {maxLength}
+        {(message != null || (showCharacterCount && maxLength != null)) && (
+          <div className={styles['text-area__footer']}>
+            {message != null && (
+              <FieldMessage
+                id={messageId}
+                className={styles['text-area__footer-message']}
+                message={message}
+                tone={resolvedTone}
+              />
+            )}
+            {showCharacterCount && maxLength != null && (
+              <div
+                id={counterId}
+                className={styles['text-area__counter']}
+                aria-live="polite"
+              >
+                {currentLength} / {maxLength}
+              </div>
+            )}
           </div>
         )}
       </div>
