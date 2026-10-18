@@ -157,9 +157,9 @@ don’t combine.
 ## Trailing icon (in-field)
 
 `trailingIcon` sits inside the border. Use it for password show/hide
-(`IconButton`) or an occasional static glyph. Not for clear (`clearable`) and
-not for outside-the-field actions (`trailingAction`). Combobox already owns
-its own clear and chevron.
+(`IconButton` with `size="small"` and `padding="compact"`) or an occasional
+static glyph. Not for clear (`clearable`) and not for outside-the-field
+actions (`trailingAction`). Combobox already owns its own clear and chevron.
 
 <div style={{ maxWidth: '420px' }}>
   <TextInput
@@ -224,6 +224,8 @@ password show/hide. Use `clearable` instead of a hand-rolled clear icon, and
     defaultValue="secret-value"
     trailingIcon={
       <IconButton
+        size="small"
+        padding="compact"
         aria-label="Show password"
         icon={<Icon glyph={<EyeOutlineIcon />} />}
       />
