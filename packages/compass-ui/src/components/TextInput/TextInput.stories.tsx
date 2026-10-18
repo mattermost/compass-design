@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
-import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import Button from '../Button/Button';
+import PasswordInput from '../PasswordInput/PasswordInput';
 import TextInput from './TextInput';
-import type { TextInputSize } from './TextInput';
+import type { TextInputProps, TextInputSize } from './TextInput';
 import Icon from '../Icon/Icon';
 import {
   ICON_NONE,
@@ -103,13 +104,22 @@ export const WithLabel: Story = {
   },
 };
 
-export const WithIcons: Story = {
+export const WithLeadingIcon: Story = {
   args: {
-    label: 'Workspace',
-    placeholder: 'Enter workspace...',
-    leadingIcon: 'globe',
-    trailingIcon: 'globe',
+    label: 'Search',
+    placeholder: 'Search...',
+    leadingIcon: 'magnify',
   },
+};
+
+export const ClearableAndPassword: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'grid', gap: 16, maxWidth: 360 }}>
+      <TextInput label="Filter" clearable defaultValue="design" />
+      <PasswordInput label="Password" defaultValue="secret-value" />
+    </div>
+  ),
 };
 
 export const WithMessage: Story = {
@@ -160,22 +170,16 @@ export const AllVariants: Story = {
         <TextInput placeholder="No label" />
         <TextInput label="With value" defaultValue="Some text" />
       </Row>
-      <Row label="Leading / trailing icons">
+      <Row label="Leading icon">
         <TextInput
           label="Search"
           placeholder="Search..."
-          leadingIcon={<Icon glyph={<GlobeIcon />} />}
+          leadingIcon={<Icon glyph={<MagnifyIcon />} />}
         />
-        <TextInput
-          placeholder="Trailing only"
-          trailingIcon={<Icon glyph={<GlobeIcon />} />}
-        />
-        <TextInput
-          label="Both"
-          placeholder="Leading and trailing"
-          leadingIcon={<Icon glyph={<GlobeIcon />} />}
-          trailingIcon={<Icon glyph={<GlobeIcon />} />}
-        />
+      </Row>
+      <Row label="Trailing (clear / password)">
+        <TextInput label="Filter" clearable defaultValue="design" />
+        <PasswordInput label="Password" defaultValue="secret-value" />
       </Row>
       <Row label="Invalid">
         <TextInput label="Error" invalid placeholder="Invalid state" />
@@ -228,9 +232,6 @@ export const AllVariants: Story = {
           maxLength={20}
           showCharacterCount
         />
-      </Row>
-      <Row label="Clearable">
-        <TextInput label="Filter" clearable defaultValue="design" />
       </Row>
       <Row label="Trailing action">
         <TextInput

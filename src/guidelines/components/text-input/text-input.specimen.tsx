@@ -1,6 +1,7 @@
-import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { PasswordInput } from '@mattermost/compass-ui/components/password-input';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -32,23 +33,20 @@ export default function TextInputLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Leading / trailing icons
+            Leading icon
           </span>
           <TextInput
             label="Search"
             placeholder="Search..."
-            leadingIcon={<Icon glyph={<GlobeIcon />} />}
+            leadingIcon={<Icon glyph={<MagnifyIcon />} />}
           />
-          <TextInput
-            placeholder="Trailing only"
-            trailingIcon={<Icon glyph={<GlobeIcon />} />}
-          />
-          <TextInput
-            label="Both"
-            placeholder="Leading and trailing"
-            leadingIcon={<Icon glyph={<GlobeIcon />} />}
-            trailingIcon={<Icon glyph={<GlobeIcon />} />}
-          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Trailing (clear / password)
+          </span>
+          <TextInput label="Filter" clearable defaultValue="design" />
+          <PasswordInput label="Password" defaultValue="secret-value" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Invalid</span>
@@ -119,12 +117,6 @@ export default function TextInputLibrary() {
             maxLength={20}
             showCharacterCount
           />
-        </div>
-        <div className={styles['components__button-row']}>
-          <span className={styles['components__instance-label']}>
-            Clearable
-          </span>
-          <TextInput label="Filter" clearable defaultValue="design" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>

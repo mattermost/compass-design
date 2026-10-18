@@ -1,7 +1,7 @@
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
-import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { PasswordInput } from '@mattermost/compass-ui/components/password-input';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 
 Text Inputs let people enter and edit a single line of text — names, emails,
@@ -18,8 +18,8 @@ modal in Mattermost. For passwords with show/hide, use
     <TextInput
       label="Search"
       defaultValue="design"
+      clearable
       leadingIcon={<Icon glyph={<MagnifyIcon />} />}
-      trailingIcon={<Icon glyph={<GlobeIcon />} />}
     />
   </div>
 </AnatomyStage>
@@ -29,11 +29,10 @@ modal in Mattermost. For passwords with show/hide, use
   lifts above the border on focus or when the field has a value.
 - <Num>3</Num> **Leading icon** — optional; reinforces the field's purpose
   (search, mail, calendar).
-- <Num>4</Num> **Trailing icon** — optional `Icon` inside the field (static
-  glyph), sized from the Text Input `size`. Not the clear control — use
-  `clearable` for that (don’t combine the two). Outside-the-field actions use
-  `trailingAction`. Passwords with show/hide use [Password
-  Input](/components/password-input).
+- <Num>4</Num> **Trailing control** — in-field clear (`clearable`) or, for
+  secrets, the show/hide eye on [Password Input](/components/password-input).
+  Don’t combine clear with password reveal. Outside-the-field actions use
+  `trailingAction`.
 - <Num>5</Num> **Placeholder** — brief sample or help statement; only visible
   when empty.
 - <Num>6</Num> **Value** — the text the user has entered.
@@ -140,34 +139,28 @@ For the same line outside a text field (e.g. under a radio group), use
 
 <Divider />
 
-## Clearable
+## Trailing controls (in-field)
 
-Set `clearable` when the field should show a clear button while it has a
-value. The button stays in the tab order. Pass `onClear` when the host owns
-the value; omit it for built-in clearing. Escape clears when the button would
-be visible.
+The trailing slot inside the border is for **clear** or **password show/hide**
+— not arbitrary decorative glyphs.
 
-<div style={{ maxWidth: '420px' }}>
+- **Clear** — set `clearable` on Text Input. The button stays in the tab order.
+  Pass `onClear` when the host owns the value; omit it for built-in clearing.
+  Escape clears when the button would be visible.
+- **Password show/hide** — use [Password Input](/components/password-input),
+  which ships the eye toggle. Don’t hand-roll an eye on Text Input, and don’t
+  combine clear with password reveal.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '420px',
+  }}
+>
   <TextInput label="Filter" clearable defaultValue="design" />
-</div>
-
-<Divider />
-
-## Trailing icon (in-field)
-
-`trailingIcon` sits inside the border. Pass `<Icon glyph={…} />` — Text Input
-sizes it from `size` (12 / 16 / 16). Use for an occasional static glyph. Not
-for clear (`clearable`), not for outside-the-field actions (`trailingAction`),
-and not for password show/hide — use
-[Password Input](/components/password-input). Combobox already owns its own
-clear and chevron.
-
-<div style={{ maxWidth: '420px' }}>
-  <TextInput
-    label="Workspace"
-    defaultValue="mattermost"
-    trailingIcon={<Icon glyph={<GlobeIcon />} />}
-  />
+  <PasswordInput label="Password" defaultValue="secret-value" />
 </div>
 
 <Divider />
@@ -191,22 +184,13 @@ counter stay as wide as the field column, not under the action.
 
 <Divider />
 
-## Icons
+## Leading icon
 
 Use a leading icon to reinforce a recognisable input type — magnifier for
-search, mail icon for email. Use `trailingIcon` with `Icon` for a static
-in-field glyph. Use `clearable` instead of a hand-rolled clear icon,
-`trailingAction` for actions that sit outside the field, and
-[Password Input](/components/password-input) for secrets with show/hide.
+search, mail icon for email. Trailing in-field controls are clear or password
+reveal (see above); outside-the-field actions use `trailingAction`.
 
-<div
-  style={{
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    maxWidth: '420px',
-  }}
->
+<div style={{ maxWidth: '420px' }}>
   <TextInput
     label="Search"
     placeholder="Search channels"
