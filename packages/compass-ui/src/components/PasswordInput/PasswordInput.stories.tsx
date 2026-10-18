@@ -92,19 +92,50 @@ export const Disabled: Story = {
   },
 };
 
-export const Controlled: Story = {
+/** Parent owns show/hide via `revealed` + `onRevealedChange` (default stories keep it internal). */
+export const ParentOwnsShowHide: Story = {
+  name: 'Parent owns show/hide',
   parameters: { controls: { disable: true } },
-  render: function ControlledRender() {
+  render: function ParentOwnsShowHideRender() {
     const [revealed, setRevealed] = useState(false);
     const [value, setValue] = useState('secret-value');
     return (
-      <PasswordInput
-        label="Password"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        revealed={revealed}
-        onRevealedChange={setRevealed}
-      />
+      <div style={{ display: 'grid', gap: 12, maxWidth: 360 }}>
+        <label
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            fontSize: 13,
+            color: 'var(--center-channel-color)',
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={revealed}
+            onChange={(e) => setRevealed(e.target.checked)}
+          />
+          Show password (set by the parent)
+        </label>
+        <PasswordInput
+          label="Password"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          revealed={revealed}
+          onRevealedChange={setRevealed}
+        />
+        <p
+          style={{
+            margin: 0,
+            fontSize: 12,
+            color: 'rgba(var(--center-channel-color-rgb), 0.64)',
+          }}
+        >
+          The checkbox and the eye toggle stay in sync because the parent holds
+          `revealed`. Most screens can skip this and let the field manage
+          show/hide on its own.
+        </p>
+      </div>
     );
   },
 };
