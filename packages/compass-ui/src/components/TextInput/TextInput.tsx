@@ -7,6 +7,7 @@ import type {
 } from 'react';
 import { forwardRef, useId, useState, useCallback, useRef } from 'react';
 import { IconSlotContext } from '@/components/Icon/Icon';
+import type { IconSize } from '@/components/Icon/Icon';
 import FieldClearButton from '@/components/field/FieldClearButton';
 import {
   isFieldInvalid,
@@ -20,6 +21,13 @@ import { toKebab } from '@/utils/string';
 import styles from './TextInput.module.scss';
 
 export type TextInputSize = 'small' | 'medium' | 'large';
+
+/** Matches FieldClearButton / in-field chrome for each Text Input size. */
+const ICON_SIZE_MAP: Record<TextInputSize, IconSize> = {
+  small: '12',
+  medium: '16',
+  large: '16',
+};
 
 export interface TextInputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -40,9 +48,10 @@ export interface TextInputProps extends Omit<
   /** Size variant. Figma: Small (32px), Medium (40px), Large (48px). Default: Medium. */
   size?: TextInputSize;
   /**
-   * Trailing control inside the field — e.g. password show/hide (`IconButton`), or a
-   * static glyph. Not used with `clearable` (those patterns don’t combine). Combobox
-   * owns its own clear/chevron.
+   * Trailing icon inside the field — pass `<Icon glyph={<EyeOutlineIcon />} />` (or a
+   * transparent button wrapping that Icon for password show/hide). Sized via context from
+   * `size`. Not used with `clearable` (those patterns don’t combine). Combobox owns its
+   * own clear/chevron.
    */
   trailingIcon?: ReactNode;
   /**
@@ -65,7 +74,7 @@ export interface TextInputProps extends Omit<
   clearButtonProps?: BuiltInButtonProps;
   /**
    * Rendered outside the border, beside the control (same height as the field). Use for
-   * labeled actions like Copy (`Button`, primary by default). In-field controls such as
+   * labeled actions like Copy (`Button`, primary by default). In-field icons such as
    * password show/hide go in `trailingIcon`. Message and counter stay as wide as the
    * field column, not under the action.
    */
@@ -185,6 +194,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       trailingIcon != null || showClearButton
         ? styles['text-input--has-trailing-icon']
         : '';
+    const iconSize = ICON_SIZE_MAP[size];
 
     const rootClass = [
       styles['text-input'],
@@ -213,7 +223,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             )}
             {leadingIcon != null && (
               <span className={styles['text-input__leading-icon']}>
-                <IconSlotContext.Provider value={{ size: '16' }}>
+                <IconSlotContext.Provider value={{ size: iconSize }}>
                   {leadingIcon}
                 </IconSlotContext.Provider>
               </span>
@@ -242,7 +252,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             />
             {trailingIcon != null && (
               <span className={styles['text-input__trailing-icon']}>
-                <IconSlotContext.Provider value={{ size: '16' }}>
+                <IconSlotContext.Provider value={{ size: iconSize }}>
                   {trailingIcon}
                 </IconSlotContext.Provider>
               </span>

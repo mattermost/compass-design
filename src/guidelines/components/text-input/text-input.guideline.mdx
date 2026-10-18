@@ -3,7 +3,6 @@ import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
-import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 
 Text Inputs let people enter and edit a single line of text — names, emails,
@@ -30,10 +29,10 @@ modal in Mattermost.
   lifts above the border on focus or when the field has a value.
 - <Num>3</Num> **Leading icon** — optional; reinforces the field's purpose
   (search, mail, calendar).
-- <Num>4</Num> **Trailing icon** — optional control inside the field (password
-  show/hide `IconButton`, or a static glyph). Not the clear control — use
-  `clearable` for that (don’t combine the two). Outside-the-field actions use
-  `trailingAction`.
+- <Num>4</Num> **Trailing icon** — optional `Icon` inside the field (password
+  show/hide, or a static glyph), sized from the Text Input `size`. Not the clear
+  control — use `clearable` for that (don’t combine the two). Outside-the-field
+  actions use `trailingAction`.
 - <Num>5</Num> **Placeholder** — brief sample or help statement; only visible
   when empty.
 - <Num>6</Num> **Value** — the text the user has entered.
@@ -156,24 +155,18 @@ don’t combine.
 
 ## Trailing icon (in-field)
 
-`trailingIcon` sits inside the border. Use it for password show/hide
-(`IconButton` with `size="small"` and `padding="compact"`) or an occasional
-static glyph. Not for clear (`clearable`) and not for outside-the-field
-actions (`trailingAction`). Combobox already owns its own clear and chevron.
+`trailingIcon` sits inside the border. Pass `<Icon glyph={…} />` — Text Input
+sizes it from `size` (12 / 16 / 16). Use for password show/hide or an
+occasional static glyph. Not for clear (`clearable`) and not for
+outside-the-field actions (`trailingAction`). Combobox already owns its own
+clear and chevron.
 
 <div style={{ maxWidth: '420px' }}>
   <TextInput
     label="Password"
     type="password"
     defaultValue="secret-value"
-    trailingIcon={
-      <IconButton
-        size="small"
-        padding="compact"
-        aria-label="Show password"
-        icon={<Icon glyph={<EyeOutlineIcon />} />}
-      />
-    }
+    trailingIcon={<Icon glyph={<EyeOutlineIcon />} />}
   />
 </div>
 
@@ -201,8 +194,9 @@ counter stay as wide as the field column, not under the action.
 ## Icons
 
 Use a leading icon to reinforce a recognisable input type — magnifier for
-search, mail icon for email. Use `trailingIcon` for in-field controls such as
-password show/hide. Use `clearable` instead of a hand-rolled clear icon, and
+search, mail icon for email. Use `trailingIcon` with `Icon` for in-field
+controls such as password show/hide (wrap the Icon in a transparent button when
+it must be clickable). Use `clearable` instead of a hand-rolled clear icon, and
 `trailingAction` for actions that sit outside the field.
 
 <div
@@ -222,14 +216,7 @@ password show/hide. Use `clearable` instead of a hand-rolled clear icon, and
     label="Password"
     type="password"
     defaultValue="secret-value"
-    trailingIcon={
-      <IconButton
-        size="small"
-        padding="compact"
-        aria-label="Show password"
-        icon={<Icon glyph={<EyeOutlineIcon />} />}
-      />
-    }
+    trailingIcon={<Icon glyph={<EyeOutlineIcon />} />}
   />
 </div>
 

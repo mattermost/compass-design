@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState, type ReactNode } from 'react';
+import { useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import EyeOffOutlineIcon from '@mattermost/compass-icons/components/eye-off-outline';
 import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import Button from '../Button/Button';
-import IconButton from '../IconButton/IconButton';
 import TextInput from './TextInput';
 import type { TextInputProps, TextInputSize } from './TextInput';
 import Icon from '../Icon/Icon';
@@ -83,6 +82,33 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
+/** Transparent hit target so `trailingIcon` stays an Icon sized by Text Input. */
+function TrailingIconButton({
+  children,
+  ...rest
+}: ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      type="button"
+      {...rest}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 0,
+        padding: 0,
+        border: 0,
+        background: 'transparent',
+        cursor: 'pointer',
+        color: 'inherit',
+        ...((rest.style as object) ?? {}),
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
 export const Default: Story = {
   args: {
     placeholder: 'Enter text...',
@@ -137,23 +163,18 @@ function PasswordExample(args: TextInputStoryArgs) {
       onChange={(e) => setValue(e.target.value)}
       leadingIcon={undefined}
       trailingIcon={
-        <IconButton
-          size="small"
-          padding="compact"
+        <TrailingIconButton
           aria-label={visible ? 'Hide password' : 'Show password'}
-          icon={
-            <Icon
-              glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />}
-            />
-          }
           onClick={() => setVisible((v) => !v)}
-        />
+        >
+          <Icon glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />} />
+        </TrailingIconButton>
       }
     />
   );
 }
 
-/** In-field show/hide via `trailingIcon` — not combined with `clearable`. */
+/** In-field show/hide via `trailingIcon` — Icon sized by Text Input `size`. */
 export const Password: Story = {
   args: {
     label: 'Password',
@@ -265,19 +286,16 @@ export const AllVariants: Story = {
         <TextInput label="Filter" clearable defaultValue="design" />
       </Row>
       <Row label="Trailing icon (password)">
-        <TextInput
-          label="Password"
-          type="password"
-          defaultValue="secret-value"
-          trailingIcon={
-            <IconButton
-              size="small"
-              padding="compact"
-              aria-label="Show password"
-              icon={<Icon glyph={<EyeOutlineIcon />} />}
-            />
-          }
-        />
+        {SIZES.map((size) => (
+          <TextInput
+            key={size}
+            size={size}
+            label="Password"
+            type="password"
+            defaultValue="secret-value"
+            trailingIcon={<Icon glyph={<EyeOutlineIcon />} />}
+          />
+        ))}
       </Row>
       <Row label="Trailing action">
         <TextInput

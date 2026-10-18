@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`TextInput` / `TextArea` / `SearchInput` field message spacing:** `gap: var(--spacing-xs)` (8px) between the control and Field Message / counter instead of margin-top.
 - **`FieldMessage` tones:** error / warning / success use Compass semantic colors (`--color-danger|warning|success`). Info is text-only at `rgba(--center-channel-color-rgb, 0.75)` with no icon.
 - **`TextInput` / `TextArea` footer:** Field Message and character counter sit on one row (message start, counter end) when both are set.
+- **`TextInput` leading/trailing icons:** Icon slot context follows field `size` (12 / 16 / 16), matching the clear control.
 
 ### Fixed
 

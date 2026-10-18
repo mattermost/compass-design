@@ -2,7 +2,6 @@ import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
-import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import styles from '@/styles/library-demo/components.module.scss';
 
@@ -136,14 +135,7 @@ export default function TextInputLibrary() {
             label="Password"
             type="password"
             defaultValue="secret-value"
-            trailingIcon={
-              <IconButton
-                size="small"
-                padding="compact"
-                aria-label="Show password"
-                icon={<Icon glyph={<EyeOutlineIcon />} />}
-              />
-            }
+            trailingIcon={<Icon glyph={<EyeOutlineIcon />} />}
           />
         </div>
         <div className={styles['components__button-row']}>
