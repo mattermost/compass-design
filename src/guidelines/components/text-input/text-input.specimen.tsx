@@ -130,19 +130,24 @@ export default function TextInputLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Trailing action
+            Trailing icon (password)
           </span>
           <TextInput
             label="Password"
             type="password"
             defaultValue="secret-value"
-            trailingAction={
+            trailingIcon={
               <IconButton
                 aria-label="Show password"
                 icon={<Icon glyph={<EyeOutlineIcon />} />}
               />
             }
           />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Trailing action
+          </span>
           <TextInput
             label="Invite code"
             defaultValue="abc-123"

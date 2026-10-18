@@ -30,9 +30,10 @@ modal in Mattermost.
   lifts above the border on focus or when the field has a value.
 - <Num>3</Num> **Leading icon** — optional; reinforces the field's purpose
   (search, mail, calendar).
-- <Num>4</Num> **Trailing icon** — optional static glyph inside the field. Not
-  the clear control (`clearable`) and not show/hide password or other actions
-  (`trailingAction`).
+- <Num>4</Num> **Trailing icon** — optional control inside the field (password
+  show/hide `IconButton`, or a static glyph). Not the clear control — use
+  `clearable` for that (don’t combine the two). Outside-the-field actions use
+  `trailingAction`.
 - <Num>5</Num> **Placeholder** — brief sample or help statement; only visible
   when empty.
 - <Num>6</Num> **Value** — the text the user has entered.
@@ -144,7 +145,8 @@ For the same line outside a text field (e.g. under a radio group), use
 Set `clearable` when the field should show a clear button while it has a
 value. The button stays in the tab order. Pass `onClear` when the host owns
 the value; omit it for built-in clearing. Escape clears when the button would
-be visible.
+be visible. Don’t pair `clearable` with password show/hide — those patterns
+don’t combine.
 
 <div style={{ maxWidth: '420px' }}>
   <TextInput label="Filter" clearable defaultValue="design" />
@@ -152,35 +154,37 @@ be visible.
 
 <Divider />
 
-## Trailing action
+## Trailing icon (in-field)
 
-`trailingAction` sits outside the border, beside the field — password
-show/hide, copy, and similar controls. Prefer an `IconButton` for show/hide;
-use a primary `Button` (the default) for labeled actions like Copy. Match
-`size` to the field; the slot stretches to the same height as the Text Input.
-Message and character counter stay as wide as the field column, not under the
-action. Combobox already owns its own clear and chevron — don’t rebuild that
-on Text Input.
+`trailingIcon` sits inside the border. Use it for password show/hide
+(`IconButton`) or an occasional static glyph. Not for clear (`clearable`) and
+not for outside-the-field actions (`trailingAction`). Combobox already owns
+its own clear and chevron.
 
-<div
-  style={{
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    maxWidth: '480px',
-  }}
->
+<div style={{ maxWidth: '420px' }}>
   <TextInput
     label="Password"
     type="password"
     defaultValue="secret-value"
-    trailingAction={
+    trailingIcon={
       <IconButton
         aria-label="Show password"
         icon={<Icon glyph={<EyeOutlineIcon />} />}
       />
     }
   />
+</div>
+
+<Divider />
+
+## Trailing action (outside)
+
+`trailingAction` sits outside the border, beside the field — labeled actions
+like Copy. Use a primary `Button` (the default) and match `size` to the field;
+the slot stretches to the same height as the Text Input. Message and character
+counter stay as wide as the field column, not under the action.
+
+<div style={{ maxWidth: '480px' }}>
   <TextInput
     label="Invite code"
     defaultValue="abc-123"
@@ -195,9 +199,9 @@ on Text Input.
 ## Icons
 
 Use a leading icon to reinforce a recognisable input type — magnifier for
-search, mail icon for email. Keep `trailingIcon` for rare static glyphs inside
-the field. Use `clearable` instead of a hand-rolled clear icon, and
-`trailingAction` for password show/hide or other controls.
+search, mail icon for email. Use `trailingIcon` for in-field controls such as
+password show/hide. Use `clearable` instead of a hand-rolled clear icon, and
+`trailingAction` for actions that sit outside the field.
 
 <div
   style={{
@@ -213,10 +217,15 @@ the field. Use `clearable` instead of a hand-rolled clear icon, and
     leadingIcon={<Icon glyph={<MagnifyIcon />} />}
   />
   <TextInput
-    label="Workspace"
-    defaultValue="Acme"
-    leadingIcon={<Icon glyph={<MagnifyIcon />} />}
-    trailingIcon={<Icon glyph={<CloseCircleIcon />} />}
+    label="Password"
+    type="password"
+    defaultValue="secret-value"
+    trailingIcon={
+      <IconButton
+        aria-label="Show password"
+        icon={<Icon glyph={<EyeOutlineIcon />} />}
+      />
+    }
   />
 </div>
 

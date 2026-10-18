@@ -123,7 +123,7 @@ export const Clearable: Story = {
   },
 };
 
-export const TrailingAction: Story = {
+export const PasswordShowHide: Story = {
   args: {
     label: 'Password',
     type: 'password',
@@ -133,13 +133,29 @@ export const TrailingAction: Story = {
     <TextInput
       {...args}
       leadingIcon={undefined}
-      trailingIcon={undefined}
-      trailingAction={
+      trailingIcon={
         <IconButton
           aria-label="Show password"
           icon={<Icon glyph={<EyeOutlineIcon />} />}
         />
       }
+    />
+  ),
+};
+
+export const TrailingAction: Story = {
+  args: {
+    label: 'Invite code',
+    defaultValue: 'abc-123',
+    message: 'Copied to clipboard.',
+    messageTone: 'success',
+  },
+  render: (args) => (
+    <TextInput
+      {...args}
+      leadingIcon={undefined}
+      trailingIcon={undefined}
+      trailingAction={<Button emphasis="primary">Copy</Button>}
     />
   ),
 };
@@ -230,18 +246,20 @@ export const AllVariants: Story = {
       <Row label="Clearable">
         <TextInput label="Filter" clearable defaultValue="design" />
       </Row>
-      <Row label="Trailing action">
+      <Row label="Trailing icon (password)">
         <TextInput
           label="Password"
           type="password"
           defaultValue="secret-value"
-          trailingAction={
+          trailingIcon={
             <IconButton
               aria-label="Show password"
               icon={<Icon glyph={<EyeOutlineIcon />} />}
             />
           }
         />
+      </Row>
+      <Row label="Trailing action">
         <TextInput
           label="Invite code"
           defaultValue="abc-123"
