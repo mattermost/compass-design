@@ -128,7 +128,7 @@ export const ParentOwnsShowHide: Story = {
           style={{
             margin: 0,
             fontSize: 12,
-            color: 'rgba(var(--center-channel-color-rgb), 0.64)',
+            color: 'rgba(var(--center-channel-color-rgb), 0.72)',
           }}
         >
           The checkbox and the eye toggle stay in sync because the parent holds

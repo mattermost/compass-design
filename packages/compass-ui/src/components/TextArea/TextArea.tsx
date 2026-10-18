@@ -1,6 +1,7 @@
 import type { TextareaHTMLAttributes, ReactNode, ChangeEvent } from 'react';
 import { forwardRef, useId, useState, useCallback } from 'react';
 import {
+  hasFieldMessage,
   isFieldInvalid,
   mergeFieldDescribedBy,
 } from '@/components/field/fieldDescribedBy';
@@ -103,6 +104,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
 
     const showInvalid = isFieldInvalid(invalid, message, messageTone);
+    const showMessage = hasFieldMessage(message);
     const sizeClass = styles[`text-area--size-${toKebab(size)}`];
     const invalidClass = showInvalid ? styles['text-area--invalid'] : '';
     const labelFloatedClass =
@@ -121,7 +123,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const currentLength = typeof value === 'string' ? value.length : 0;
     const counterId =
       showCharacterCount && maxLength != null ? `${id}-counter` : undefined;
-    const messageId = message != null ? `${id}-message` : undefined;
+    const messageId = showMessage ? `${id}-message` : undefined;
     const resolvedTone = messageTone ?? 'error';
 
     return (
@@ -155,9 +157,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             {...rest}
           />
         </div>
-        {(message != null || (showCharacterCount && maxLength != null)) && (
+        {(showMessage || (showCharacterCount && maxLength != null)) && (
           <div className={styles['text-area__footer']}>
-            {message != null && (
+            {showMessage && (
               <FieldMessage
                 id={messageId}
                 className={styles['text-area__footer-message']}

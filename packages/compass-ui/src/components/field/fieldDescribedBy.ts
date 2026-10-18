@@ -1,5 +1,13 @@
 import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
 
+/**
+ * True when a field message should render / contribute describedby / invalid chrome.
+ * Treats `null`, `undefined`, `false`, and `''` as absent.
+ */
+export function hasFieldMessage(message: unknown): boolean {
+  return !(message == null || message === false || message === '');
+}
+
 /** True when the field should show invalid chrome from props or an error message. */
 export function isFieldInvalid(
   invalid: boolean,
@@ -7,7 +15,7 @@ export function isFieldInvalid(
   messageTone: FieldMessageTone | undefined,
 ): boolean {
   if (invalid) return true;
-  if (message == null || message === false) return false;
+  if (!hasFieldMessage(message)) return false;
   return (messageTone ?? 'error') === 'error';
 }
 

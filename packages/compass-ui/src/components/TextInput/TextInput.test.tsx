@@ -48,6 +48,17 @@ describe('TextInput message', () => {
     expect(queryAllByRole('alert')).toHaveLength(0);
   });
 
+  it('empty string message is treated as absent', () => {
+    const { container } = render(
+      <TextInput id="name" label="Name" message="" />,
+    );
+    expect(
+      container.querySelector('input')!.getAttribute('aria-invalid'),
+    ).toBeNull();
+    expect(container.querySelector('#name-message')).toBeNull();
+    expect(queryAllByRole('alert')).toHaveLength(0);
+  });
+
   it('aria-describedby includes message id then counter id', () => {
     const { container } = render(
       <TextInput
@@ -92,6 +103,27 @@ describe('TextInput clearable', () => {
 
     render(<TextInput label="Q" clearable defaultValue="abc" disabled />);
     expect(queryAllByRole('button', 'Clear')).toHaveLength(0);
+
+    render(<TextInput label="Q" clearable defaultValue="abc" readOnly />);
+    expect(queryAllByRole('button', 'Clear')).toHaveLength(0);
+  });
+
+  it('Escape does not clear when readOnly', () => {
+    const onClear = vi.fn();
+    const { container } = render(
+      <TextInput
+        label="Q"
+        clearable
+        defaultValue="abc"
+        readOnly
+        onClear={onClear}
+      />,
+    );
+    const input = container.querySelector('input')!;
+    focus(input);
+    keyDown(input, 'Escape');
+    expect(onClear).not.toHaveBeenCalled();
+    expect(input.value).toBe('abc');
   });
 
   it('Escape clears when clearable and focuses again after onClear', () => {

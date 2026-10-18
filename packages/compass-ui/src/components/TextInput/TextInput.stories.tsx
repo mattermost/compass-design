@@ -32,7 +32,7 @@ const meta = {
       control: 'select',
       options: ['text', 'password', 'email', 'url', 'tel', 'search', 'number'],
       description:
-        'Native input type. Use `password` with a show/hide control in `trailingIcon`.',
+        'Native input type. For passwords with show/hide, prefer PasswordInput.',
       table: { category: 'HTML', type: { summary: 'string' } },
     },
     messageTone: { control: 'select', options: [...MESSAGE_TONES] },

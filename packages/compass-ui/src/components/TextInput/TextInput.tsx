@@ -10,6 +10,7 @@ import { IconSlotContext } from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
 import FieldClearButton from '@/components/field/FieldClearButton';
 import {
+  hasFieldMessage,
   isFieldInvalid,
   mergeFieldDescribedBy,
 } from '@/components/field/fieldDescribedBy';
@@ -174,7 +175,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     );
 
     const { showClearButton, handleClear, handleKeyDown } = useFieldClear({
-      disabled,
+      disabled: Boolean(disabled || readOnly),
       hasValue,
       clearEnabled: clearable,
       isControlled,
@@ -188,6 +189,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     });
 
     const showInvalid = isFieldInvalid(invalid, message, messageTone);
+    const showMessage = hasFieldMessage(message);
     const sizeClass = styles[`text-input--size-${toKebab(size)}`];
     const invalidClass = showInvalid ? styles['text-input--invalid'] : '';
     const labelFloatedClass =
@@ -215,7 +217,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const currentLength = typeof value === 'string' ? value.length : 0;
     const counterId =
       showCharacterCount && maxLength != null ? `${id}-counter` : undefined;
-    const messageId = message != null ? `${id}-message` : undefined;
+    const messageId = showMessage ? `${id}-message` : undefined;
     const resolvedTone = messageTone ?? 'error';
 
     const fieldBody = (
@@ -273,9 +275,9 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             )}
           </label>
         </div>
-        {(message != null || (showCharacterCount && maxLength != null)) && (
+        {(showMessage || (showCharacterCount && maxLength != null)) && (
           <div className={styles['text-input__footer']}>
-            {message != null && (
+            {showMessage && (
               <FieldMessage
                 id={messageId}
                 className={styles['text-input__footer-message']}

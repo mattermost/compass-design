@@ -11,6 +11,7 @@ import Icon from '@/components/Icon/Icon';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import FieldClearButton from '@/components/field/FieldClearButton';
 import {
+  hasFieldMessage,
   isFieldInvalid,
   mergeFieldDescribedBy,
 } from '@/components/field/fieldDescribedBy';
@@ -80,6 +81,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       onBlur,
       onChange,
       disabled,
+      readOnly,
       onKeyDown,
       'aria-describedby': describedBy,
       ...rest
@@ -135,7 +137,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     );
 
     const { showClearButton, handleClear, handleKeyDown } = useFieldClear({
-      disabled,
+      disabled: Boolean(disabled || readOnly),
       hasValue,
       clearEnabled: true,
       isControlled,
@@ -149,6 +151,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     });
 
     const showInvalid = isFieldInvalid(invalid, message, messageTone);
+    const showMessage = hasFieldMessage(message);
     const sizeClass = styles[`search-input--size-${toKebab(size)}`];
     const invalidClass = showInvalid ? styles['search-input--invalid'] : '';
     const labelFloatedClass =
@@ -173,7 +176,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       .filter(Boolean)
       .join(' ');
 
-    const messageId = message != null ? `${id}-message` : undefined;
+    const messageId = showMessage ? `${id}-message` : undefined;
     const resolvedTone = messageTone ?? 'error';
 
     return (
@@ -197,6 +200,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
               defaultValue={isControlled ? undefined : defaultValue}
               placeholder={placeholder}
               disabled={disabled}
+              readOnly={readOnly}
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -222,7 +226,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             )}
           </div>
         </div>
-        {message != null && (
+        {showMessage && (
           <FieldMessage id={messageId} message={message} tone={resolvedTone} />
         )}
       </div>

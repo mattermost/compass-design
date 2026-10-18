@@ -5,6 +5,7 @@ import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import type { IconSize } from '@/components/Icon/Icon';
 import Icon from '@/components/Icon/Icon';
 import {
+  hasFieldMessage,
   isFieldInvalid,
   mergeFieldDescribedBy,
 } from '@/components/field/fieldDescribedBy';
@@ -166,6 +167,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     } = revealButtonProps ?? {};
 
     const showInvalid = isFieldInvalid(invalid, message, messageTone);
+    const showMessage = hasFieldMessage(message);
     const sizeClass = styles[`password-input--size-${toKebab(size)}`];
     const invalidClass = showInvalid ? styles['password-input--invalid'] : '';
     const labelFloatedClass =
@@ -185,7 +187,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       .filter(Boolean)
       .join(' ');
 
-    const messageId = message != null ? `${id}-message` : undefined;
+    const messageId = showMessage ? `${id}-message` : undefined;
     const resolvedTone = messageTone ?? 'error';
 
     return (
@@ -246,7 +248,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             </span>
           </div>
         </div>
-        {message != null && (
+        {showMessage && (
           <FieldMessage id={messageId} message={message} tone={resolvedTone} />
         )}
       </div>
