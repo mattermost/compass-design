@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.17] - 2026-10-18
+
 ### Added
 
 - **`FieldMessage`:** inline field status line with `tone` (`error` | `warning` | `info` | `success`). Error and warning use `role="alert"`.
@@ -340,7 +342,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...HEAD
+[0.1.0-alpha.17]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...0.1.0-alpha.17
 [0.1.0-alpha.16]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...0.1.0-alpha.16
 [0.1.0-alpha.15]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.14...0.1.0-alpha.15
 [0.1.0-alpha.14]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.13...0.1.0-alpha.14
