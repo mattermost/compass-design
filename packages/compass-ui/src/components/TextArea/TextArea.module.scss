@@ -108,8 +108,9 @@
   &__counter {
     margin-top: var(--spacing-xxxs);
     font-family: 'Open Sans', sans-serif;
-    font-size: var(--font-size-25);
-    line-height: 14px;
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-75);
     color: rgba(var(--center-channel-color-rgb), 0.64);
   }
 
