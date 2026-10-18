@@ -77,12 +77,8 @@ describe('TextInput message', () => {
       />,
     );
     const footer = container.querySelector('[class*="text-input__footer"]')!;
-    expect(footer.contains(container.querySelector('#bio-message'))).toBe(
-      true,
-    );
-    expect(footer.contains(container.querySelector('#bio-counter'))).toBe(
-      true,
-    );
+    expect(footer.contains(container.querySelector('#bio-message'))).toBe(true);
+    expect(footer.contains(container.querySelector('#bio-counter'))).toBe(true);
   });
 });
 
