@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+import EyeOffOutlineIcon from '@mattermost/compass-icons/components/eye-off-outline';
 import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import Button from '../Button/Button';
@@ -123,24 +124,39 @@ export const Clearable: Story = {
   },
 };
 
-export const PasswordShowHide: Story = {
-  args: {
-    label: 'Password',
-    type: 'password',
-    defaultValue: 'secret-value',
-  },
-  render: (args) => (
+function PasswordExample(args: TextInputStoryArgs) {
+  const [visible, setVisible] = useState(false);
+  const [value, setValue] = useState('secret-value');
+
+  return (
     <TextInput
       {...args}
+      label={args.label ?? 'Password'}
+      type={visible ? 'text' : 'password'}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
       leadingIcon={undefined}
       trailingIcon={
         <IconButton
-          aria-label="Show password"
-          icon={<Icon glyph={<EyeOutlineIcon />} />}
+          aria-label={visible ? 'Hide password' : 'Show password'}
+          icon={
+            <Icon
+              glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />}
+            />
+          }
+          onClick={() => setVisible((v) => !v)}
         />
       }
     />
-  ),
+  );
+}
+
+/** In-field show/hide via `trailingIcon` — not combined with `clearable`. */
+export const Password: Story = {
+  args: {
+    label: 'Password',
+  },
+  render: (args) => <PasswordExample {...args} />,
 };
 
 export const TrailingAction: Story = {
