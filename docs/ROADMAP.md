@@ -57,8 +57,40 @@ Layout specimens import ui + proto (and docs chrome where needed) to show full s
 | **Later — Drop `@mattermost/shared` Button type dependency in webapp** | Planned                                 | The webapp currently imports `ButtonVariant = '' \| 'destructive' \| 'inverted'` from `@mattermost/shared/components/button` as a bridge type after migrating `Button` itself to `@mattermost/compass-ui`. This type is an app-level adapter concept (flattening compass-ui's separate `destructive` bool and `appearance` string into one string), not a design system type — it should not be added to compass-ui. The fix is to define the type locally in the webapp (inline or in a shared adapter util) and remove the `@mattermost/shared` import site-wide. Scope: audit all webapp files that import `ButtonVariant` from shared and migrate each to a local definition. |
 | **Later — Webapp i18n**                                                | Deferred                                | Host-owned copy can be translated at the call site today. Compass chrome is English-only. Do not ship locale JSON from this package. Revisit after the webapp localization pipeline (extract, Weblate, in-repo translations, ICU checks) is stable — see INTEGRATION.md Translation.                                                                                                                                                                                                                                                                                                                                                                                              |
 | **Later — Right-to-left (RTL) layout**                                 | Planned                                 | Make `@mattermost/compass-ui` chrome mirror correctly under `dir="rtl"`. Prefer logical CSS and inherited `dir` over a parallel RTL stylesheet or per-component `rtl` prop. See [Right-to-left (RTL) layout](#right-to-left-rtl-layout) below. Couples with webapp setting `dir` from locale; independent of shipping locale JSON (i18n phase).                                                                                                                                                                                                                                                                                                                              |
+| **Later — Unit testing (compass-ui)**                                  | Planned                                 | Keep Vitest + happy-dom; grow contract + behavior coverage for every new/changed component. Do **not** switch to Jest. Optionally adopt Testing Library on Vitest later if the custom harness becomes a burden. See [Unit testing (compass-ui)](#unit-testing-compass-ui) below.                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 Stop after each phase; verify before starting the next.
+
+### Unit testing (compass-ui)
+
+`@mattermost/compass-ui` already runs **Vitest** (`happy-dom`) via `npm test --workspace=@mattermost/compass-ui`, with a thin custom render harness in `packages/compass-ui/src/test-utils/render.tsx` (not `@testing-library/react`). The Mattermost webapp uses **Jest + Testing Library + `renderWithContext`**; that stack stays in product code. Library tests do not need to match the webapp runner.
+
+**What exists today:**
+
+| Kind | Files | Role |
+| ---- | ----- | ---- |
+| Contract / API guards | `contract.test.tsx`, `englishLiterals.test.ts`, `labels.test.tsx`, `translatedContent.test.tsx`, `refs.test.tsx`, `markup.test.tsx` | Enforce the [Component API contract](../packages/compass-ui/AGENTS.md#component-api-contract-consumers-mattermost-webapp-and-plugins); failures mean a rule broke, not a flake |
+| Behavior | Per-component `*.test.tsx` (e.g. Modal, Combobox, Select, Button) + utils | Interaction, ARIA, callbacks — sparse coverage today |
+| Consumer Jest | Documented in [INTEGRATION.md](../packages/compass-ui/INTEGRATION.md) | Webapp: subpath imports + `moduleNameMapper`; never require the root barrel in Jest |
+
+**Approach (stay on Vitest):**
+
+- **Contract tables first** — every new composite lands in `contract.test.tsx` (root attrs; every `*ButtonProps`); interactive primitives in `refs.test.tsx`; text props in `translatedContent` / `labels` as needed; `englishLiterals` stays clean.
+- **Behavior tests for new props** — rendered content, ARIA, callbacks; use the existing helpers (`render`, `getByRole`, `click`, `keyDown`, `type`, `withoutScrollIntoView`).
+- **Default DOM** — leave `markup.test.tsx` untouched unless the default DOM intentionally changes (then update/add the inline snapshot).
+- **No Jest migration** — Vite build + Vitest + happy-dom already match the package toolchain; Jest would duplicate runners and fight ESM/`@/` aliases.
+- **Testing Library (optional, later)** — if interaction suites need richer a11y queries, `userEvent`, or `waitFor`, add `@testing-library/react` + `user-event` **on Vitest**, not as a runner swap. Contract suites do not require it.
+- **Webapp contrast** — product tests stay user-centric (`getByRole`, `userEvent`, `renderWithContext`). compass-ui mirrors role-ish queries via the local harness; do not pull Redux/Router/i18n providers into package tests.
+- **RTL layout tests** — when mirroring lands, mount under `dir="rtl"` in Vitest (see [Right-to-left (RTL) layout](#right-to-left-rtl-layout)); unrelated to Testing Library.
+
+**Sequencing:**
+
+| Layer | When |
+| ----- | ---- |
+| New / changed components | Follow the [review checklist](../.cursor/skills/review-compass-ui-component/SKILL.md) test steps on every PR |
+| High-risk widgets | Deepen behavior coverage for Combobox, Select, Modal, menus, form fields |
+| Harness | Keep custom render until friction shows; then evaluate Testing Library under Vitest |
+| Docs | Keep AGENTS.md + review skill as the source of required suites; expand this roadmap section if conventions change |
 
 ### Right-to-left (RTL) layout
 
