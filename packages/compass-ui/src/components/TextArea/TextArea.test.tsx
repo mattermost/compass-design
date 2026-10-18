@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { getByRole, queryAllByRole, render } from '@/test-utils/render';
-import Button from '@/components/Button/Button';
 import TextArea from './TextArea';
 
 describe('TextArea message', () => {
@@ -47,23 +46,9 @@ describe('TextArea message', () => {
   });
 });
 
-describe('TextArea trailingAction', () => {
+describe('TextArea clear', () => {
   it('does not render a clear button', () => {
     render(<TextArea label="Purpose" defaultValue="hello world" />);
     expect(queryAllByRole('button')).toHaveLength(0);
-  });
-
-  it('trailingAction is outside the bordered wrapper', () => {
-    const { container } = render(
-      <TextArea
-        label="Invite"
-        message="Ready"
-        messageTone="success"
-        trailingAction={<Button>Copy</Button>}
-      />,
-    );
-    const wrapper = container.querySelector('[class*="text-area__wrapper"]');
-    const action = getByRole('button', 'Copy');
-    expect(wrapper!.contains(action)).toBe(false);
   });
 });

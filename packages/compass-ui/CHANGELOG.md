@@ -11,7 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`FieldMessage`:** inline field status line with `tone` (`error` | `warning` | `info` | `success`). Error and warning use `role="alert"`.
 - **`TextInput`, `TextArea`, `SearchInput` `message` / `messageTone`:** host-driven status under the field; error tone (or bare `invalid`) drives invalid chrome; message id is merged into `aria-describedby` ahead of the character counter.
 - **`TextInput` `clearable`:** opt-in clear button (default off) with `onClear`, `clearLabel` (default `"Clear"`), and `clearButtonProps`. Escape clears when the button would be visible. Clear sits after `trailingIcon` and stays in tab order.
-- **`TextInput` / `TextArea` `trailingAction`:** control outside the bordered wrapper; message and counter stay as wide as the field column. Slot height matches the Text Input control for the field’s `size` (32 / 40 / 48). Prefer a primary `Button` (Button defaults).
+- **`TextInput` `trailingAction`:** control outside the bordered wrapper; message and counter stay as wide as the field column. Slot height matches the field control for `size` (32 / 40 / 48). Prefer a primary `Button` (Button defaults). TextArea does not take `trailingAction`.
 
 ### Changed
 

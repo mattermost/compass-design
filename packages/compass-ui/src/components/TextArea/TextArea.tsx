@@ -34,12 +34,6 @@ export interface TextAreaProps extends Omit<
   message?: ReactNode;
   /** Visual tone for `message`. Default: `error` when `message` is set. */
   messageTone?: FieldMessageTone;
-  /**
-   * Rendered outside the border, beside the field. Prefer a `Button` with matching `size`
-   * and primary emphasis (Button defaults). Height matches the Text Input control for the
-   * same size token. Message and counter stay as wide as the field column.
-   */
-  trailingAction?: ReactNode;
 }
 
 /**
@@ -58,7 +52,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       showCharacterCount = false,
       message,
       messageTone,
-      trailingAction,
       id: idProp,
       value: valueProp,
       defaultValue,
@@ -131,8 +124,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const messageId = message != null ? `${id}-message` : undefined;
     const resolvedTone = messageTone ?? 'error';
 
-    const fieldBody = (
-      <>
+    return (
+      <div className={rootClass}>
         <div className={styles['text-area__wrapper']}>
           {label != null && (
             <label className={styles['text-area__label']} htmlFor={id}>
@@ -178,21 +171,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           >
             {currentLength} / {maxLength}
           </div>
-        )}
-      </>
-    );
-
-    return (
-      <div className={rootClass}>
-        {trailingAction != null ? (
-          <div className={styles['text-area__row']}>
-            <div className={styles['text-area__field']}>{fieldBody}</div>
-            <div className={styles['text-area__trailing-action']}>
-              {trailingAction}
-            </div>
-          </div>
-        ) : (
-          fieldBody
         )}
       </div>
     );

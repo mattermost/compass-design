@@ -133,7 +133,7 @@ export const TrailingAction: Story = {
       {...args}
       leadingIcon={undefined}
       trailingIcon={undefined}
-      trailingAction={<Button>Copy</Button>}
+      trailingAction={<Button emphasis="primary">Copy</Button>}
     />
   ),
 };
@@ -236,7 +236,7 @@ export const AllVariants: Story = {
           defaultValue="abc-123"
           message="Copied to clipboard."
           messageTone="success"
-          trailingAction={<Button>Copy</Button>}
+          trailingAction={<Button emphasis="primary">Copy</Button>}
         />
       </Row>
     </div>

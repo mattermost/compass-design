@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
-import Button from '../Button/Button';
 import TextArea from './TextArea';
 import type { TextAreaSize } from './TextArea';
 
@@ -78,19 +77,6 @@ export const WithMessage: Story = {
   },
 };
 
-export const TrailingAction: Story = {
-  args: {
-    label: 'Invite password',
-    defaultValue: 'secret-value',
-    rows: 2,
-    message: 'Ready to share.',
-    messageTone: 'success',
-  },
-  render: (args) => (
-    <TextArea {...args} trailingAction={<Button>Copy</Button>} />
-  ),
-};
-
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -130,15 +116,6 @@ export const AllVariants: Story = {
           label="Notes"
           message="Optional context for your team."
           messageTone="info"
-        />
-      </Row>
-      <Row label="Trailing action">
-        <TextArea
-          label="Invite password"
-          defaultValue="secret-value"
-          message="Ready to share."
-          messageTone="success"
-          trailingAction={<Button>Copy</Button>}
         />
       </Row>
     </div>
