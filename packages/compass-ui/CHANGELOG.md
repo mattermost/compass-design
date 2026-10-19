@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.18] - 2026-10-19
+
 ### Fixed
 
 - **`SectionNotice` title:** host System Console rules such as `.admin-console h4 { margin-bottom: 2em; font-weight: 600 }` overrode the single-class title resets — leaving a large gap under the title, and letting host win `font-weight` on specificity even when the value matched. Margin and `font-weight` now use a doubled class selector so unlayered module CSS wins without `!important`.
@@ -346,7 +348,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...HEAD
+[0.1.0-alpha.18]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...0.1.0-alpha.18
 [0.1.0-alpha.17]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...0.1.0-alpha.17
 [0.1.0-alpha.16]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...0.1.0-alpha.16
 [0.1.0-alpha.15]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.14...0.1.0-alpha.15
