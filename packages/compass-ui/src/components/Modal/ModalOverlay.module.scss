@@ -4,9 +4,10 @@
   }
 }
 
-// Scrim and centering for a host-rendered overlay element (e.g. floating-ui
-// `FloatingOverlay`). The host owns the portal, z-index, scroll lock and
-// backdrop clicks.
+// Scrim, centering, and full-viewport fixed positioning for a host-rendered
+// overlay element. The host owns the portal, z-index, scroll lock and
+// backdrop clicks. FloatingOverlay sets position/inset inline; Storybook
+// stages may override to `absolute` — both are fine.
 .modal-overlay {
   position: fixed;
   inset: 0;
