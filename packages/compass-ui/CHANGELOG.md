@@ -8,29 +8,72 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
-- **`AdminPanelFooter`:** action rail for Admin Panel with `leftActions` and `rightActions` slots for `Button`, `IconButton`, or pagination. Compose via the new optional `AdminPanel` `footer` prop (collapses with the body when expandable).
-- **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
 - **`Modal` `manageFocus`:** set `false` when the host owns focus (e.g. a floating-ui focus manager) to turn off initial focus, the Tab trap and focus restore. The modal still joins the modal stack, so modals below it stay inert, and Escape still follows `closeOnEscape`. Initial focus and restore use the value at mount; the Tab trap follows later updates (so a host `enforceFocus` prop can toggle). Default `true` keeps the current behavior.
 - **`modalOverlayStyles`** (`@mattermost/compass-ui/components/modal`): class names for a host-rendered overlay element — `modal-overlay` (scrim via `--modal-overlay-bg`, centers the dialog 24px above true center, fades in on mount) and `modal-overlay--exiting` (fades out). The host still owns the portal, z-index, scroll lock and backdrop clicks.
 - **`--modal-overlay-bg`:** additive token for the modal scrim — `rgba(var(--color-neutral-1200-rgb), 0.64)` (near-black at 64%, matching webapp `.modal-backdrop.in`).
 - **`Scrollbar` `size`:** optional `'default' | 'wide'`. `default` keeps the 8px track; `wide` uses a 10px track.
-- **`Combobox` and `Select` `menuItemProps`:** forward any `MenuItem` prop that the menu doesn't own (`secondaryLabelPosition`, `trailingVisual`, `tag`, `tagLabel`, `mentionCount`, `customStatusEmoji`, `destructive`, `className`, `data-*`, …) to the option rows, either on the component (all rows) or on a single option (`ComboboxOption.menuItemProps` / `SelectOption.menuItemProps`, which wins; `className` is merged). Props the menu sets itself (ARIA, selection state, the click / pointer handlers it uses, `label`, `secondaryLabel`, `leadingVisual`, `disabled`) can't be overridden, and neither can `autoFocus`, which would pull focus off the input / trigger when the menu opens. `Combobox` selects on `onClick`, so it accepts `onPointerUp`; `Select` selects on `onPointerUp`, so it accepts `onClick`. `Combobox` doesn't apply it to the create row. New exported types `MenuItemPassthroughProps` (generic over the props the host owns) and `MenuItemOwnedProps`.
-
-### Changed
-
-- **`AdminPanelFooter` → `AdminConsoleFooter`:** renamed the component, types (`AdminConsoleFooterProps`, `AdminConsoleFooterStatus`), CSS block (`.admin-console-footer`), docs slug (`/components/admin-console-footer`), and subpath export (`@mattermost/compass-ui/components/admin-console-footer`) to match `AdminConsoleHeader`.
-- **`SectionNotice` secondary action:** uses `emphasis="tertiary"` instead of `emphasis="secondary"` so the supporting action stays lower-emphasis than the page’s main controls.
 
 ### Fixed
 
 - **`Modal` max size:** the dialog now caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall), as the Modal guideline specifies, and its width at the viewport minus 40px. The body is a single `minmax(0, 1fr)` grid row so it sizes to its content when short and gets a definite height under that cap. Overflow always uses `Scrollbar` (default 8px track), including `scrollable={false}` (that mode only fills the body for host-owned panes; the dialog no longer grows past the viewport).
 - **`Modal` stacking across compass-ui copies:** the modal stack lived in each copy's module, so with a plugin's compass-ui copy on the page, both open modals handled Escape and Tab. The stack is now shared on `globalThis` under `Symbol.for('@mattermost/compass-ui/modal-stack/v1')`, so only the topmost modal reacts. The v1 entry format is frozen (opaque tokens, push/splice, last is top); incompatible changes would mint `v2`. Copies on `0.1.0-alpha.15` or earlier still keep their own stack.
 - **`Scrollbar` thumb:** uses `--radius-pill` instead of a hardcoded `3px` corner radius.
+
+## [0.1.0-alpha.18] - 2026-10-19
+
+### Fixed
+
+- **`SectionNotice` title:** host System Console rules such as `.admin-console h4 { margin-bottom: 2em; font-weight: 600 }` overrode the single-class title resets — leaving a large gap under the title, and letting host win `font-weight` on specificity even when the value matched. Margin and `font-weight` now use a doubled class selector so unlayered module CSS wins without `!important`.
+
+## [0.1.0-alpha.17] - 2026-10-18
+
+### Added
+
+- **`FieldMessage`:** inline field status line with `tone` (`error` | `warning` | `info` | `success`). Error and warning use `role="alert"`.
+- **`TextInput`, `TextArea`, `SearchInput` `message` / `messageTone`:** host-driven status under the field; error tone (or bare `invalid`) drives invalid chrome; message id is merged into `aria-describedby` ahead of the character counter.
+- **`TextInput` `clearable`:** opt-in clear button (default off) with `onClear`, `clearLabel` (default `"Clear"`), and `clearButtonProps`. Escape clears when the button would be visible. Clear sits after `trailingIcon` and stays in tab order.
+- **`TextInput` `trailingAction`:** control outside the bordered wrapper; message and counter stay as wide as the field column. Slot height matches the field control for `size` (32 / 40 / 48). Prefer a primary `Button` (Button defaults). TextArea does not take `trailingAction`.
+- **`PasswordInput`:** dedicated password field (Search Input pattern) with built-in show/hide toggle — `showPasswordLabel` / `hidePasswordLabel` / `revealButtonProps`, optional controlled `revealed`, plus `message` / `messageTone`. Prefer this over composing Text Input when migrating webapp `PasswordInput`.
+
+### Changed
+
+- **`ErrorMessage`:** now renders `FieldMessage` with `tone="error"` (imports stay valid — used by Agents plugin).
+- **`SearchInput` clear:** shared clear control; still always-on when filled, default `clearLabel` `"Clear search"`, `tabIndex={-1}`. Clear is also hidden (and Escape does not clear) when `readOnly`, matching Text Input.
+- **`FieldMessage` icon:** top padding set to 2px so the 12px glyph optically centers with the 16px text line (was ~1–2px high / unpadded).
+- **`TextInput` / `TextArea` character counter:** uses the same type size as Field Message (`font-size-75` / `line-height-75`).
+- **`TextInput` / `TextArea` / `SearchInput` field message spacing:** `gap: var(--spacing-xs)` (8px) between the control and Field Message / counter instead of margin-top.
+- **`FieldMessage` tones:** error / warning / success prefer host theme roles (`--error-text`, `--away-indicator`, `--online-indicator`) with Compass semantic fallbacks (`--color-danger|warning|success`). Info is text-only at `rgba(--center-channel-color-rgb, 0.75)` with no icon.
+- **`TextInput` / `TextArea` footer:** Field Message and character counter sit on one row (message start, counter end) when both are set.
+- **`TextInput` leading/trailing icons:** Icon slot context follows field `size` (12 / 16 / 16), matching the clear control. Small leading-icon label offset updated for the 12px glyph.
+
+### Fixed
+
+- **`FieldMessage` icon:** optical vertical alignment with the first line of text (was ~1–2px high).
+- **Built-in clear `onChange`:** synthetic clear event includes `preventDefault` / `nativeEvent` so host handlers that touch those fields don’t throw.
+- **`TextInput` label markup:** floating label uses `htmlFor` and sits beside the field chrome (same pattern as Search Input / Password Input), so the clear button is no longer a second labelable control inside `<label>`.
+
+## [0.1.0-alpha.16] - 2026-10-16
+
+### Added
+
+- **`AdminPanelFooter`:** action rail for Admin Panel with `leftActions` and `rightActions` slots for `Button`, `IconButton`, or pagination. Compose via the new optional `AdminPanel` `footer` prop (collapses with the body when expandable).
+- **`Select` `dividerAfter`:** optional flag on `SelectOption` that renders a menu divider after that option.
+- **`Combobox` and `Select` `menuItemProps`:** forward any `MenuItem` prop that the menu doesn't own (`secondaryLabelPosition`, `trailingVisual`, `tag`, `tagLabel`, `mentionCount`, `customStatusEmoji`, `destructive`, `className`, `data-*`, …) to the option rows, either on the component (all rows) or on a single option (`ComboboxOption.menuItemProps` / `SelectOption.menuItemProps`, which wins; `className` is merged). Props the menu sets itself (ARIA, selection state, the click / pointer handlers it uses, `label`, `secondaryLabel`, `leadingVisual`, `disabled`) can't be overridden, and neither can `autoFocus`, which would pull focus off the input / trigger when the menu opens. `Combobox` selects on `onClick`, so it accepts `onPointerUp`; `Select` selects on `onPointerUp`, so it accepts `onClick`. `Combobox` doesn't apply it to the create row. New exported types `MenuItemPassthroughProps` (generic over the props the host owns) and `MenuItemOwnedProps`.
+
+### Changed
+
+- **`AdminPanel`:** `title` is optional when `children` are provided (body-only panels). Footer remains optional. TypeScript requires a header (`title`) or a body (`children`) — footer-only is not allowed. Expand/collapse still requires a header.
+- **`AdminPanelFooter` → `AdminConsoleFooter`:** renamed the component, types (`AdminConsoleFooterProps`, `AdminConsoleFooterStatus`), CSS block (`.admin-console-footer`), docs slug (`/components/admin-console-footer`), and subpath export (`@mattermost/compass-ui/components/admin-console-footer`) to match `AdminConsoleHeader`.
+- **`SectionNotice` secondary action:** uses `emphasis="tertiary"` instead of `emphasis="secondary"` so the supporting action stays lower-emphasis than the page’s main controls.
+
+### Fixed
+
+- **`SectionNotice` title:** renders as a semantic `<h4>` (was `<p>`) for document-outline parity with the Mattermost webapp notice. Title styles explicitly set margin, padding, font-family, size, weight, line-height, letter-spacing, text-transform, and color so host global `h4` rules do not bleed into Compass typography. Intentional default DOM change.
 - **`AdminPanel`:** omits the padded `admin-panel__body` (and the expandable collapse wrapper) when `children` is empty, and omits the header divider when there is no body or footer, so header-only panels (e.g. System Console nav banners) no longer leave a blank strip.
 - **`Combobox`, `Select` menu width:** the "match the field width" rule (`width: 100%; max-width: none`) had the same specificity as `PopoverMenu`'s `max-width: 496px`, so in the aggregated stylesheet (where `PopoverMenu` is emitted later) the menu was capped at 496px. The rule now nests under the popup so it wins regardless of order.
 - **`MenuItem` vertical centering:** with a leading visual taller than the label row (e.g. a 24px avatar next to a single-line or inline-secondary-label row), the label and trailing visual sat at the top of the row. They now center on the row. A trailing check on a two-line row (secondary label below) now centers too instead of sitting at the top.
 - **`Combobox`, `Select` hover scrolling:** hovering a row that was partly clipped at the edge of the menu scrolled it into view, which moved the next clipped row under the pointer and kept the list scrolling on its own. Hover now only moves the highlight; keyboard navigation still scrolls the highlighted row into view.
-- **`Switch`, `Checkbox`, `Radio`:** in the Mattermost webapp, the global `label { margin-bottom }` rule added space under the root `<label>` and pushed the control off-center in its row. The root now resets `margin: 0`.
+- **`Switch`, `Checkbox`, `Radio`:** host Bootstrap / System Console rules such as `.form-horizontal label { margin-bottom: 5px }` overrode the single-class `margin: 0` reset and pushed the control off-center in flex rows. The margin reset now uses a doubled block selector so unlayered module CSS wins without `!important`.
 - **`Combobox` `multiple`:** with many or long chips the input's `min-height: 100%` resolved against the whole wrapped chip area, so the input grew taller than the field and its caret rendered outside it. The input now stretches only to its own flex line.
 - **`Chip`:** a long label kept the chip at its full text width, so it overflowed its container (e.g. inside a `Combobox`). The chip now shrinks to its container (`min-width: 0; max-width: 100%`) and the label ellipsizes.
 - **`MenuItem`:** a long label (nowrap, non-shrinking) pushed the trailing check icon out of the row. The label now truncates with an ellipsis so the trailing visual stays visible.
@@ -318,7 +361,10 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...HEAD
+[0.1.0-alpha.18]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...0.1.0-alpha.18
+[0.1.0-alpha.17]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...0.1.0-alpha.17
+[0.1.0-alpha.16]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...0.1.0-alpha.16
 [0.1.0-alpha.15]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.14...0.1.0-alpha.15
 [0.1.0-alpha.14]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.13...0.1.0-alpha.14
 [0.1.0-alpha.13]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.12...0.1.0-alpha.13

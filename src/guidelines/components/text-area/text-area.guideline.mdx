@@ -75,7 +75,31 @@ errors.
   <TextArea
     label="Invalid"
     defaultValue="This is required and not yet valid."
-    invalid
+    message="Add a purpose so teammates know what this channel is for."
+  />
+</div>
+
+<Divider />
+
+## Field message
+
+Same host-driven `message` / `messageTone` pattern as Text Input. Default
+tone is error. Text Area does not include a clear button — uncommon for
+multiline fields.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    maxWidth: '480px',
+  }}
+>
+  <TextArea label="Purpose" message="This field is required." />
+  <TextArea
+    label="Notes"
+    message="Optional context for your team."
+    messageTone="info"
   />
 </div>
 

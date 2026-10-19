@@ -1,7 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import Icon from '@/components/Icon/Icon';
-import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
-import styles from './ErrorMessage.module.scss';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
 
 export interface ErrorMessageProps extends HTMLAttributes<HTMLDivElement> {
   /** Optional CSS class name. */
@@ -11,25 +9,20 @@ export interface ErrorMessageProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Error Message is the inline red error line that appears below a form input when validation
- * fails. It pairs an alert glyph with a short, human-readable explanation so the user can
- * fix the field and move on.
+ * Error Message is the inline red error line under a form field. It is `FieldMessage` with
+ * `tone="error"` — kept so existing imports (e.g. Agents plugin) stay valid.
  */
 export default function ErrorMessage({
   className = '',
   message,
   ...rest
 }: ErrorMessageProps) {
-  const rootClass = [styles['error-message'], className]
-    .filter(Boolean)
-    .join(' ');
-
   return (
-    <div {...rest} className={rootClass} role="alert">
-      <span className={styles['error-message__icon']} aria-hidden>
-        <Icon size="12" glyph={<AlertCircleOutlineIcon />} />
-      </span>
-      <span className={styles['error-message__text']}>{message}</span>
-    </div>
+    <FieldMessage
+      {...rest}
+      className={className}
+      message={message}
+      tone="error"
+    />
   );
 }

@@ -9,9 +9,16 @@ import { toKebab } from '@/utils/string';
 import type { IconSize } from '@/components/Icon/Icon';
 import Icon from '@/components/Icon/Icon';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
-import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
+import FieldClearButton from '@/components/field/FieldClearButton';
+import {
+  hasFieldMessage,
+  isFieldInvalid,
+  mergeFieldDescribedBy,
+} from '@/components/field/fieldDescribedBy';
+import { useFieldClear } from '@/components/field/useFieldClear';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
+import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
 import type { BuiltInButtonProps } from '@/utils/props';
-import { mergeClassNames } from '@/utils/props';
 import styles from './SearchInput.module.scss';
 
 export type SearchInputSize = 'small' | 'medium' | 'large';
@@ -20,12 +27,6 @@ const ICON_SIZE_MAP: Record<SearchInputSize, IconSize> = {
   small: '12',
   medium: '16',
   large: '20',
-};
-
-const CLEAR_ICON_SIZE_MAP: Record<SearchInputSize, IconSize> = {
-  small: '12',
-  medium: '16',
-  large: '16',
 };
 
 export interface SearchInputProps extends Omit<
@@ -40,6 +41,13 @@ export interface SearchInputProps extends Omit<
   label?: ReactNode;
   /** Size variant. Default: Medium. */
   size?: SearchInputSize;
+  /**
+   * Field message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Defaults to error tone (invalid chrome) when set without `messageTone`.
+   */
+  message?: ReactNode;
+  /** Visual tone for `message`. Default: `error` when `message` is set. */
+  messageTone?: FieldMessageTone;
   /** Called when the clear button is pressed. Omit to use built-in clearing. */
   onClear?: () => void;
   /** Accessible name for the clear button. Default: "Clear search". */
@@ -60,6 +68,8 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       size = 'medium',
       label,
       invalid = false,
+      message,
+      messageTone,
       onClear,
       clearLabel = 'Clear search',
       clearButtonProps,
@@ -71,14 +81,16 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       onBlur,
       onChange,
       disabled,
+      readOnly,
       onKeyDown,
+      'aria-describedby': describedBy,
       ...rest
     },
     ref,
   ) {
     const generatedId = useId();
     const id = idProp ?? generatedId;
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const isControlled = valueProp !== undefined;
     const [uncontrolledValue, setUncontrolledValue] = useState(
@@ -124,45 +136,24 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       [ref],
     );
 
-    const handleClear = useCallback(() => {
-      if (disabled) return;
+    const { showClearButton, handleClear, handleKeyDown } = useFieldClear({
+      disabled: Boolean(disabled || readOnly),
+      hasValue,
+      clearEnabled: true,
+      isControlled,
+      onClear,
+      onChange: handleChange,
+      onKeyDown: onKeyDown as
+        | ((e: KeyboardEvent<HTMLInputElement>) => void)
+        | undefined,
+      inputRef,
+      setUncontrolledValue,
+    });
 
-      if (onClear) {
-        onClear();
-        inputRef.current?.focus();
-        return;
-      }
-
-      const input = inputRef.current;
-      if (input == null) return;
-
-      input.value = '';
-      if (!isControlled) setUncontrolledValue('');
-
-      onChange?.({
-        target: input,
-        currentTarget: input,
-      } as ChangeEvent<HTMLInputElement>);
-
-      input.focus();
-    }, [disabled, isControlled, onChange, onClear]);
-
-    const handleKeyDown = useCallback(
-      (e: KeyboardEvent<HTMLInputElement>) => {
-        onKeyDown?.(e);
-        if (e.defaultPrevented || disabled) return;
-        if (e.key === 'Escape' && hasValue) {
-          e.preventDefault();
-          handleClear();
-        }
-      },
-      [disabled, handleClear, hasValue, onKeyDown],
-    );
-
-    const showClearButton = hasValue && !disabled;
-
+    const showInvalid = isFieldInvalid(invalid, message, messageTone);
+    const showMessage = hasFieldMessage(message);
     const sizeClass = styles[`search-input--size-${toKebab(size)}`];
-    const invalidClass = invalid ? styles['search-input--invalid'] : '';
+    const invalidClass = showInvalid ? styles['search-input--invalid'] : '';
     const labelFloatedClass =
       label != null && labelFloated
         ? styles['search-input--label-floated']
@@ -172,7 +163,6 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       ? styles['search-input--has-trailing-icon']
       : '';
     const iconSize = ICON_SIZE_MAP[size];
-    const clearIconSize = CLEAR_ICON_SIZE_MAP[size];
 
     const rootClass = [
       styles['search-input'],
@@ -185,6 +175,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ]
       .filter(Boolean)
       .join(' ');
+
+    const messageId = showMessage ? `${id}-message` : undefined;
+    const resolvedTone = messageTone ?? 'error';
 
     return (
       <div className={rootClass}>
@@ -207,32 +200,35 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
               defaultValue={isControlled ? undefined : defaultValue}
               placeholder={placeholder}
               disabled={disabled}
+              readOnly={readOnly}
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
-              aria-invalid={invalid ? true : undefined}
+              aria-invalid={showInvalid ? true : undefined}
+              aria-describedby={mergeFieldDescribedBy(
+                describedBy,
+                messageId,
+                undefined,
+              )}
               {...rest}
             />
             {showClearButton && (
               <span className={styles['search-input__trailing-icon']}>
-                <button
-                  {...clearButtonProps}
-                  type="button"
-                  className={mergeClassNames(
-                    styles['search-input__clear-button'],
-                    clearButtonProps?.className,
-                  )}
+                <FieldClearButton
+                  size={size}
+                  clearLabel={clearLabel}
+                  clearButtonProps={clearButtonProps}
                   onClick={handleClear}
-                  aria-label={clearLabel}
                   tabIndex={clearButtonProps?.tabIndex ?? -1}
-                >
-                  <Icon size={clearIconSize} glyph={<CloseCircleIcon />} />
-                </button>
+                />
               </span>
             )}
           </div>
         </div>
+        {showMessage && (
+          <FieldMessage id={messageId} message={message} tone={resolvedTone} />
+        )}
       </div>
     );
   },

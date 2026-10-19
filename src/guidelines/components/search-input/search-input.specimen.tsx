@@ -19,6 +19,28 @@ export default function SearchInputLibrary() {
             label="Search channels"
             placeholder="Find a channel..."
           />
+          <SearchInput label="With value" defaultValue="release notes" />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>States</span>
+          <SearchInput
+            label="Disabled"
+            disabled
+            placeholder="Disabled search..."
+          />
+          <SearchInput label="Invalid" defaultValue="bad query" invalid />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Field message
+          </span>
+          <SearchInput label="Search" message="No matches found." />
+          <SearchInput
+            label="Search"
+            defaultValue="design"
+            message="Try another keyword."
+            messageTone="info"
+          />
         </div>
       </div>
     </>

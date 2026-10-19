@@ -110,7 +110,7 @@ export default function SectionNotice({
           </span>
         )}
         <div className={styles['section-notice__body']}>
-          <p className={styles['section-notice__title']}>{title}</p>
+          <h4 className={styles['section-notice__title']}>{title}</h4>
           {description != null && (
             <div className={styles['section-notice__description']}>
               {description}

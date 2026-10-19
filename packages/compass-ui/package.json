@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/compass-ui",
-  "version": "0.1.0-alpha.15",
+  "version": "0.1.0-alpha.18",
   "description": "Compass design system UI components for Mattermost products",
   "repository": {
     "type": "git",
@@ -176,6 +176,9 @@
       "components/feature-discovery-panel": [
         "./dist/components/feature-discovery-panel/index.d.ts"
       ],
+      "components/field-message": [
+        "./dist/components/field-message/index.d.ts"
+      ],
       "components/global-banner": [
         "./dist/components/global-banner/index.d.ts"
       ],
@@ -229,6 +232,9 @@
       ],
       "components/pagination-dots": [
         "./dist/components/pagination-dots/index.d.ts"
+      ],
+      "components/password-input": [
+        "./dist/components/password-input/index.d.ts"
       ],
       "components/permalink-preview": [
         "./dist/components/permalink-preview/index.d.ts"

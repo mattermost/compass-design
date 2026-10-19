@@ -3,7 +3,9 @@ import { AdminPanelFooter } from '@mattermost/compass-ui/components/admin-panel-
 import { Button } from '@mattermost/compass-ui/components/button';
 
 Admin Panel Footer is the action rail at the bottom of an
-[`Admin Panel`](/patterns/admin-panel). It provides start- and end-edge slots
+[`Admin Panel`](/patterns/admin-panel). Compose it via the panel’s optional
+`footer` prop (the panel still needs a header or a body). It provides start-
+and end-edge slots
 for `Button`, `IconButton`, or pagination controls — layout and divider chrome
 only; the host owns labels and handlers.
 

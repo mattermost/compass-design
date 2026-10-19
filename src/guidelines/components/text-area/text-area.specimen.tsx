@@ -44,6 +44,17 @@ export default function TextAreaLibrary() {
             defaultValue="Read only content."
           />
         </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Field message
+          </span>
+          <TextArea label="Purpose" message="This field is required." />
+          <TextArea
+            label="Notes"
+            message="Optional context for your team."
+            messageTone="info"
+          />
+        </div>
       </div>
     </>
   );

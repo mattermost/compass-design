@@ -6,6 +6,7 @@
 .search-input {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-xs);
   width: 100%;
 
   // ---------------------------------------------------------------------------
@@ -136,23 +137,6 @@
     margin-left: var(--spacing-xs);
   }
 
-  &__clear-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    color: inherit;
-    transition: color var(--duration-quick) var(--ease-transition);
-
-    &:hover {
-      color: var(--center-channel-color);
-    }
-  }
-
   // ---------------------------------------------------------------------------
   // Size modifiers (fixed height; label floats within same height, no wrapper growth)
   // ---------------------------------------------------------------------------
@@ -238,19 +222,27 @@
   // ---------------------------------------------------------------------------
   &--has-leading-icon {
     .search-input__label {
-      left: var(
-        --spacing-xxxl
-      ); // Small: 12px padding + 16px icon + 8px gap − 4px label-padding
+      // Small: 12px padding + 12px icon + 8px gap − 4px label padding
+      left: 28px;
     }
 
     &.search-input--label-floated .search-input__label {
       left: var(--spacing-xs);
     }
 
-    &.search-input--size-medium,
-    &.search-input--size-large {
+    &.search-input--size-medium {
       .search-input__label {
         left: 36px; // 16px padding + 16px icon + 8px gap − 4px label-padding
+      }
+
+      &.search-input--label-floated .search-input__label {
+        left: var(--spacing-m);
+      }
+    }
+
+    &.search-input--size-large {
+      .search-input__label {
+        left: 40px; // 16px padding + 20px icon + 8px gap − 4px label-padding
       }
 
       &.search-input--label-floated .search-input__label {
