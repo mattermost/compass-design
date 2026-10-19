@@ -333,6 +333,12 @@
     --elevation-6: 0 20px 32px 0 #0000001f; // Highest - full-screen overlays
 
     // ============================================================
+    // Overlays
+    // ============================================================
+    // Modal scrim — near-black at 64% (matches webapp `.modal-backdrop.in`).
+    --modal-overlay-bg: rgba(var(--color-neutral-1200-rgb), 0.64);
+
+    // ============================================================
     // Animation
     // ============================================================
     --duration-quick: 150ms;

@@ -259,6 +259,7 @@
       "--elevation-4": "0 8px 24px 0 #0000001f",
       "--elevation-5": "0 12px 32px 0 #0000001f",
       "--elevation-6": "0 20px 32px 0 #0000001f",
+      "--modal-overlay-bg": "rgba(var(--color-neutral-1200-rgb), 0.64)",
       "--duration-quick": "150ms",
       "--duration-moderate": "300ms",
       "--ease-transition": "ease-in-out",

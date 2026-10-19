@@ -16,8 +16,7 @@
   // Extra bottom inset lifts the dialog 24px above true center.
   padding: var(--spacing-xl) var(--spacing-xl)
     calc(var(--spacing-xl) + 2 * var(--spacing-xxl));
-  // Fixed 64% black in every theme.
-  background-color: rgba(0, 0, 0, 0.64);
+  background-color: var(--modal-overlay-bg);
   animation: modal-overlay-fade-in var(--duration-quick) var(--ease-entrance);
   transition: opacity var(--duration-quick) var(--ease-exit);
 
