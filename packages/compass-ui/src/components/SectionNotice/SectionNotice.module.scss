@@ -34,7 +34,11 @@
   }
 
   &__title {
-    margin: 0;
+    // Doubled class beats host compound selectors (e.g. `.admin-console h4`)
+    // so System Console heading margins cannot open a gap under the title.
+    &#{&} {
+      margin: 0;
+    }
     padding: 0;
     font-family: var(--font-family-body);
     font-size: var(--font-size-100);
