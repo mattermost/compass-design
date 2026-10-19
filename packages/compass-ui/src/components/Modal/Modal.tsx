@@ -79,7 +79,7 @@ export interface ModalProps extends Omit<
   /**
    * When false, the body fills the dialog height so host panes can manage
    * their own scroll regions (settings-style layouts). Default true sizes the
-   * body to its content. Overflow always uses Scrollbar (`size="wide"`).
+   * body to its content. Overflow always uses Scrollbar (default track width).
    */
   scrollable?: boolean;
   /** Body content. */
