@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`PopoverNotice`:** container corner radius is `--radius-m` (8px), up from `--radius-s` (4px).
+
 ## [0.1.0-alpha.18] - 2026-10-19
 
 ### Fixed
