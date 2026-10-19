@@ -73,6 +73,14 @@
   &__scroll {
     min-height: 0;
     max-height: 100%;
+
+    // Host-owned panes (`scrollable={false}`): fill the dialog body so nested
+    // flex/scroll regions can size. Overflow still goes through SimpleBar.
+    &--fill {
+      :global(.simplebar-content) {
+        height: 100%;
+      }
+    }
   }
 
   &__body-inner {
@@ -85,12 +93,10 @@
     &--none {
       padding: 0;
     }
-  }
 
-  // When scrollable=false, body-inner fills the flex body so host panes can stretch.
-  &__body > &__body-inner {
-    height: 100%;
-    min-height: 0;
-    overflow: auto;
+    &--fill {
+      height: 100%;
+      min-height: 0;
+    }
   }
 }

@@ -77,8 +77,9 @@ export interface ModalProps extends Omit<
    */
   bodyPadding?: ModalBodyPadding;
   /**
-   * When true (default), wraps body content in Scrollbar. Set false when the
-   * host manages scroll inside panes.
+   * When false, the body fills the dialog height so host panes can manage
+   * their own scroll regions (settings-style layouts). Default true sizes the
+   * body to its content. Overflow always uses Scrollbar (`size="wide"`).
    */
   scrollable?: boolean;
   /** Body content. */
@@ -172,11 +173,18 @@ function ModalPanel({
     styles['modal__body-inner'],
     bodyPadding === 'menu' && styles['modal__body-inner--menu'],
     bodyPadding === 'none' && styles['modal__body-inner--none'],
+    !scrollable && styles['modal__body-inner--fill'],
   ]
     .filter(Boolean)
     .join(' ');
 
   const bodyInner = <div className={bodyInnerClass}>{children}</div>;
+  const scrollClass = [
+    styles['modal__scroll'],
+    !scrollable && styles['modal__scroll--fill'],
+  ]
+    .filter(Boolean)
+    .join(' ');
   const showFooter =
     footer != null ||
     footerLeading != null ||
@@ -221,13 +229,9 @@ function ModalPanel({
       />
 
       <div className={styles['modal__body']}>
-        {scrollable ? (
-          <Scrollbar className={styles['modal__scroll']} size="wide">
-            {bodyInner}
-          </Scrollbar>
-        ) : (
-          bodyInner
-        )}
+        <Scrollbar className={scrollClass} size="wide">
+          {bodyInner}
+        </Scrollbar>
       </div>
 
       {showFooter && (
