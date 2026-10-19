@@ -31,9 +31,11 @@ const scrollShellStyle = {
 function ScrollList({
   scrollPercent = 0,
   color,
+  size,
 }: {
   scrollPercent?: number;
   color?: string;
+  size?: 'default' | 'wide';
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -48,7 +50,7 @@ function ScrollList({
   }, [scrollPercent]);
 
   return (
-    <Scrollbar ref={ref} alwaysVisible color={color}>
+    <Scrollbar ref={ref} alwaysVisible color={color} size={size}>
       <ul style={listStyle}>
         {ITEMS.map((n) => (
           <li key={n}>Item {n}</li>
@@ -65,6 +67,7 @@ const meta = {
   argTypes: {
     color: { control: 'text' },
     alwaysVisible: { control: 'boolean' },
+    size: { control: 'select', options: ['default', 'wide'] },
   },
 } satisfies Meta<typeof Scrollbar>;
 
@@ -74,10 +77,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     alwaysVisible: true,
+    size: 'default',
   },
-  render: ({ alwaysVisible, color }) => (
+  render: ({ alwaysVisible, color, size }) => (
     <div style={scrollShellStyle}>
-      <Scrollbar alwaysVisible={alwaysVisible} color={color}>
+      <Scrollbar alwaysVisible={alwaysVisible} color={color} size={size}>
         <ul style={listStyle}>
           {ITEMS.map((n) => (
             <li key={n}>Item {n}</li>
