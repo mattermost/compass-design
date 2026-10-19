@@ -114,6 +114,8 @@ export const Default: Story = {
       <Modal
         title="Delete Channel"
         size="small"
+        headerDivider={false}
+        footerDivider={false}
         footer={modalFooter}
         onClose={fn()}
       >
@@ -130,6 +132,8 @@ export const WithSubtitle: Story = {
         title="Invite Members"
         subtitle="Add people to #design"
         size="medium"
+        headerDivider={false}
+        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -152,6 +156,8 @@ export const SubtitleBeside: Story = {
         subtitle="Matty"
         subtitlePlacement="beside"
         size="large"
+        headerDivider={false}
+        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -175,6 +181,8 @@ export const WithHeaderAction: Story = {
       <Modal
         title="Browse Channels"
         size="medium"
+        headerDivider={false}
+        footerDivider={false}
         headerAction={
           <Button emphasis="secondary" size="small">
             Create
@@ -203,24 +211,9 @@ export const WithBackButton: Story = {
         showBackButton
         onBack={fn()}
         onClose={fn()}
-        footer={modalFooter}
-      >
-        {modalBody}
-      </Modal>
-    </ModalCanvas>
-  ),
-};
-
-export const WithoutDividers: Story = {
-  render: () => (
-    <ModalCanvas>
-      <Modal
-        title="Delete Channel"
-        size="small"
         headerDivider={false}
         footerDivider={false}
         footer={modalFooter}
-        onClose={fn()}
       >
         {modalBody}
       </Modal>
@@ -234,6 +227,8 @@ export const FooterSeparated: Story = {
       <Modal
         title="Share"
         size="small"
+        headerDivider={false}
+        footerDivider={false}
         footerType="2-actions-separated"
         footer={
           <>
@@ -257,6 +252,8 @@ export const FooterPagination: Story = {
       <Modal
         title="Members"
         size="medium"
+        headerDivider={false}
+        footerDivider={false}
         footerType="pagination"
         footerLeading="Showing 1–30 of 132"
         footer={
@@ -287,8 +284,6 @@ export const MenuItemList: Story = {
         subtitle="Choose members to add to #design"
         size="small"
         bodyPadding="menu"
-        headerDivider={false}
-        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -312,6 +307,44 @@ export const MenuItemList: Story = {
   ),
 };
 
+/** Scrollable body with header/footer dividers (default divider props). */
+export const ScrollableBody: Story = {
+  render: () => (
+    <ModalCanvas tall>
+      <Modal
+        title="Notification preferences"
+        size="medium"
+        style={{ maxHeight: '100%' }}
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Save</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--spacing-s)',
+          }}
+        >
+          {Array.from({ length: 24 }, (_, i) => (
+            <p
+              key={i}
+              style={{ margin: 0, color: 'var(--center-channel-color)' }}
+            >
+              Setting row {i + 1}: the body scrolls once the dialog reaches its
+              maximum height. Header and footer dividers stay visible.
+            </p>
+          ))}
+        </div>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
 /** Host owns body padding + scroll (settings-style sidebar layout). */
 export const HostOwnedLayout: Story = {
   render: () => (
@@ -323,7 +356,6 @@ export const HostOwnedLayout: Story = {
         style={{ height: '100%', maxHeight: '100%' }}
         bodyPadding="none"
         scrollable={false}
-        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -432,6 +464,8 @@ export const Sizes: Story = {
             <Modal
               title={`${size[0].toUpperCase()}${size.slice(1)} Modal`}
               size={size}
+              headerDivider={false}
+              footerDivider={false}
               onClose={fn()}
             >
               <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
@@ -451,6 +485,8 @@ function FormModalDemo() {
     <ModalCanvas>
       <Modal
         title="Create Channel"
+        headerDivider={false}
+        footerDivider={false}
         onClose={fn()}
         initialFocusRef={nameRef}
         footer={<Button>Create</Button>}
@@ -479,6 +515,8 @@ function TransitionDemo() {
           title="Transition"
           open={open}
           onClose={() => setOpen(false)}
+          headerDivider={false}
+          footerDivider={false}
           footer={<Button onClick={() => setOpen(false)}>Done</Button>}
         >
           <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
