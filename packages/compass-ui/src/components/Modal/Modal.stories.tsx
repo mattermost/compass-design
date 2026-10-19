@@ -194,30 +194,6 @@ export const WithHeaderAction: Story = {
   ),
 };
 
-export const CloseOnlyHeader: Story = {
-  render: () => (
-    <ModalCanvas>
-      <Modal
-        title="New Agent"
-        hideTitle
-        headerDivider={false}
-        footerDivider={false}
-        footer={
-          <>
-            <Button emphasis="tertiary">Cancel</Button>
-            <Button emphasis="primary">Create</Button>
-          </>
-        }
-        onClose={fn()}
-      >
-        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
-          Close-only header (Figma Title = Off). Title stays for screen readers.
-        </p>
-      </Modal>
-    </ModalCanvas>
-  ),
-};
-
 export const WithBackButton: Story = {
   render: () => (
     <ModalCanvas>
