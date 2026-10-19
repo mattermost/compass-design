@@ -113,7 +113,6 @@ export const Default: Story = {
     <ModalCanvas>
       <Modal
         title="Delete Channel"
-        size="small"
         headerDivider={false}
         footerDivider={false}
         footer={modalFooter}
@@ -131,7 +130,6 @@ export const WithSubtitle: Story = {
       <Modal
         title="Invite Members"
         subtitle="Add people to #design"
-        size="medium"
         headerDivider={false}
         footerDivider={false}
         footer={
@@ -155,7 +153,6 @@ export const SubtitleBeside: Story = {
         title="Agent Settings"
         subtitle="Matty"
         subtitlePlacement="beside"
-        size="large"
         headerDivider={false}
         footerDivider={false}
         footer={
@@ -180,7 +177,6 @@ export const WithHeaderAction: Story = {
     <ModalCanvas>
       <Modal
         title="Browse Channels"
-        size="medium"
         headerDivider={false}
         footerDivider={false}
         headerAction={
@@ -207,7 +203,6 @@ export const WithBackButton: Story = {
     <ModalCanvas>
       <Modal
         title="Confirm Deletion"
-        size="small"
         showBackButton
         onBack={fn()}
         onClose={fn()}
@@ -226,7 +221,6 @@ export const FooterSeparated: Story = {
     <ModalCanvas>
       <Modal
         title="Share"
-        size="small"
         headerDivider={false}
         footerDivider={false}
         footerType="2-actions-separated"
@@ -251,7 +245,6 @@ export const FooterPagination: Story = {
     <ModalCanvas>
       <Modal
         title="Members"
-        size="medium"
         headerDivider={false}
         footerDivider={false}
         footerType="pagination"
@@ -282,7 +275,6 @@ export const MenuItemList: Story = {
       <Modal
         title="Add People"
         subtitle="Choose members to add to #design"
-        size="small"
         bodyPadding="menu"
         footer={
           <>
@@ -313,7 +305,6 @@ export const ScrollableBody: Story = {
     <ModalCanvas tall>
       <Modal
         title="Notification preferences"
-        size="medium"
         style={{ maxHeight: '100%' }}
         footer={
           <>
@@ -576,7 +567,6 @@ function HostOverlayDemo() {
         >
           <Modal
             title="Notification preferences"
-            size="medium"
             open={open}
             onClose={() => setOpen(false)}
             onExited={() => setMounted(false)}
