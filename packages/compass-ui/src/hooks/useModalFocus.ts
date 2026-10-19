@@ -38,8 +38,13 @@ function getFocusable(root: HTMLElement): HTMLElement[] {
  * Open modals in mount order; only the last one reacts to Tab and Escape.
  * Shared through `globalThis` so compass-ui copies bundled by plugins agree on
  * which modal is topmost.
+ *
+ * **Frozen v1 protocol** (additive-only, like tokens): opaque `{}` tokens,
+ * push while active, splice on leave, last entry is top. Do not change the
+ * entry shape or those rules in place — mint `…/modal-stack/v2` instead.
+ * A new key means new copies stop cooperating with old ones.
  */
-const STACK_KEY = Symbol.for('@mattermost/compass-ui/modal-stack');
+const STACK_KEY = Symbol.for('@mattermost/compass-ui/modal-stack/v1');
 const stackHost = globalThis as typeof globalThis & {
   [STACK_KEY]?: object[];
 };
