@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 
 const FOCUSABLE_SELECTOR = [
@@ -92,12 +92,16 @@ export function useModalFocus(
     active = true,
   }: UseModalFocusOptions,
 ): void {
-  const initialFocusRefRef = useRef(initialFocusRef);
-  initialFocusRefRef.current = initialFocusRef;
   // Initial focus + restore only run once; the Tab trap reads `manageFocus` live.
   const manageFocusOnMount = useRef(manageFocus);
+  const initialFocusRefRef = useRef(initialFocusRef);
   const latest = useRef({ closeOnEscape, manageFocus, onClose });
-  latest.current = { closeOnEscape, manageFocus, onClose };
+  // Commit-only writes: avoid leaking options from a discarded concurrent render,
+  // without the post-paint stale window of a passive effect.
+  useLayoutEffect(() => {
+    initialFocusRefRef.current = initialFocusRef;
+    latest.current = { closeOnEscape, manageFocus, onClose };
+  });
   const keyToken = useRef<object | null>(null);
   // Stack position recorded when the token leaves the stack (exit start).
   const exit = useRef<{ wasTop: boolean; below: object | undefined } | null>(
