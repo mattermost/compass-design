@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
-- **`SectionNotice` title:** host System Console rules such as `.admin-console h4 { margin-bottom: 2em }` overrode the single-class `margin: 0` reset and left a large gap under the title. The margin reset now uses a doubled class selector so unlayered module CSS wins without `!important`.
+- **`SectionNotice` title:** host System Console rules such as `.admin-console h4 { margin-bottom: 2em; font-weight: 600 }` overrode the single-class title resets — leaving a large gap under the title, and letting host win `font-weight` on specificity even when the value matched. Margin and `font-weight` now use a doubled class selector so unlayered module CSS wins without `!important`.
 
 ## [0.1.0-alpha.17] - 2026-10-18
 
