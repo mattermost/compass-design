@@ -100,7 +100,8 @@ export interface ModalProps extends Omit<
   /**
    * Initial focus, Tab trap and focus restore. Set false when the host owns
    * focus (e.g. a floating-ui `FloatingFocusManager`); pair with
-   * `closeOnEscape={false}` when the host also handles Escape. Read on mount.
+   * `closeOnEscape={false}` when the host also handles Escape. Initial focus
+   * and restore use the value at mount; the Tab trap follows later updates.
    * Default: true.
    */
   manageFocus?: boolean;
@@ -229,9 +230,7 @@ function ModalPanel({
       />
 
       <div className={styles['modal__body']}>
-        <Scrollbar className={scrollClass} size="wide">
-          {bodyInner}
-        </Scrollbar>
+        <Scrollbar className={scrollClass}>{bodyInner}</Scrollbar>
       </div>
 
       {showFooter && (

@@ -258,6 +258,26 @@ describe('Modal manageFocus={false}', () => {
     key(document.body, 'Escape');
     expect(lower).not.toHaveBeenCalled();
   });
+
+  it('picks up Tab-trap changes to manageFocus after mount', () => {
+    const { rerender } = render(
+      <Modal title="T" onClose={() => {}} manageFocus={false}>
+        <button data-testid="ok">ok</button>
+      </Modal>,
+    );
+    const ok = document.querySelector('[data-testid="ok"]') as HTMLElement;
+    ok.focus();
+    expect(key(ok, 'Tab').defaultPrevented).toBe(false);
+
+    rerender(
+      <Modal title="T" onClose={() => {}} manageFocus>
+        <button data-testid="ok">ok</button>
+      </Modal>,
+    );
+    ok.focus();
+    expect(key(ok, 'Tab').defaultPrevented).toBe(true);
+    expect(dialog().contains(document.activeElement)).toBe(true);
+  });
 });
 
 describe('Modal stack across compass-ui copies', () => {

@@ -58,7 +58,9 @@ export interface UseModalFocusOptions {
   /**
    * Initial focus, Tab trap and focus restore. Set false when the host owns
    * focus (e.g. a floating-ui focus manager). The modal still joins the stack,
-   * so modals below it stay inert. Read on mount. Default true.
+   * so modals below it stay inert. Initial focus and restore use the value at
+   * mount; the Tab trap follows later updates (like `closeOnEscape`). Default
+   * true.
    */
   manageFocus?: boolean;
   onClose?: () => void;
@@ -92,9 +94,10 @@ export function useModalFocus(
 ): void {
   const initialFocusRefRef = useRef(initialFocusRef);
   initialFocusRefRef.current = initialFocusRef;
+  // Initial focus + restore only run once; the Tab trap reads `manageFocus` live.
   const manageFocusOnMount = useRef(manageFocus);
-  const latest = useRef({ closeOnEscape, onClose });
-  latest.current = { closeOnEscape, onClose };
+  const latest = useRef({ closeOnEscape, manageFocus, onClose });
+  latest.current = { closeOnEscape, manageFocus, onClose };
   const keyToken = useRef<object | null>(null);
   // Stack position recorded when the token leaves the stack (exit start).
   const exit = useRef<{ wasTop: boolean; below: object | undefined } | null>(
@@ -143,7 +146,7 @@ export function useModalFocus(
         if (latest.current.closeOnEscape) latest.current.onClose?.();
         return;
       }
-      if (e.key !== 'Tab' || !manageFocusOnMount.current) return;
+      if (e.key !== 'Tab' || !latest.current.manageFocus) return;
       const focusable = getFocusable(dialog);
       if (focusable.length === 0) {
         e.preventDefault();
