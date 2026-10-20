@@ -13,6 +13,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`--modal-overlay-bg`:** additive token for the modal scrim — `rgba(var(--color-neutral-1200-rgb), 0.64)` (near-black at 64%, matching webapp `.modal-backdrop.in`).
 - **`Scrollbar` `size`:** optional `'default' | 'wide'`. `default` keeps the 8px track; `wide` uses a 10px track.
 
+### Changed
+
+- **`PopoverNotice`:** container corner radius is `--radius-m` (8px), up from `--radius-s` (4px).
+
 ### Fixed
 
 - **`Modal` max size:** the dialog now caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall), as the Modal guideline specifies, and its width at the viewport minus 40px. The body is a single `minmax(0, 1fr)` grid row so it sizes to its content when short and gets a definite height under that cap. Overflow always uses `Scrollbar` (default 8px track), including `scrollable={false}` (that mode only fills the body for host-owned panes; the dialog no longer grows past the viewport).
