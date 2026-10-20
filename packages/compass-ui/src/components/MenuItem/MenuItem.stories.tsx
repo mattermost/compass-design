@@ -126,7 +126,6 @@ export const LeadingAvatars: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div style={menuDemoStyle}>
-      <MenuItem label="With icon" />
       <MenuItem
         label="Leonard Riley"
         secondaryLabel="@leonard"
