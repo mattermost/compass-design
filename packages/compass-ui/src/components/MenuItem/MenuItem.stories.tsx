@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import MenuItem from './MenuItem';
 import type { MenuItemProps } from './MenuItem';
+import UserAvatar from '../UserAvatar/UserAvatar';
+import TeamAvatar from '../TeamAvatar/TeamAvatar';
 import {
   ICON_DEFAULT,
   ICON_NONE,
@@ -118,6 +122,41 @@ export const WithTag: Story = {
   },
 };
 
+export const LeadingAvatars: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={menuDemoStyle}>
+      <MenuItem label="With icon" />
+      <MenuItem
+        label="Leonard Riley"
+        secondaryLabel="@leonard"
+        secondaryLabelPosition="inline"
+        leadingVisual={
+          <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
+        }
+      />
+      <MenuItem
+        label="Staff Team"
+        leadingVisual={
+          <TeamAvatar
+            src={avatarStaffTeam}
+            alt="Staff Team"
+            size="24"
+            initials="St"
+          />
+        }
+      />
+      <MenuItem
+        label="Leonard Riley"
+        secondaryLabel="leonard@example.com"
+        leadingVisual={
+          <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
+        }
+      />
+    </div>
+  ),
+};
+
 export const Destructive: Story = {
   args: {
     label: 'Delete item',
@@ -143,6 +182,23 @@ export const AllVariants: Story = {
           <MenuItem label="Menu Item" />
           <MenuItem label="With trailing check" trailingElement />
           <MenuItem label="No leading visual" leadingElement={false} />
+          <MenuItem
+            label="Leonard Riley"
+            leadingVisual={
+              <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
+            }
+          />
+          <MenuItem
+            label="Staff Team"
+            leadingVisual={
+              <TeamAvatar
+                src={avatarStaffTeam}
+                alt="Staff Team"
+                size="24"
+                initials="St"
+              />
+            }
+          />
         </div>
       </section>
       <section>

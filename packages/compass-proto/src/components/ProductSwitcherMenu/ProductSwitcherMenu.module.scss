@@ -10,10 +10,4 @@
       color: var(--button-bg);
     }
   }
-
-  // Cancel MenuItem leading-visual padding so 24px product icons match Figma slot width
-  &__product-icon {
-    display: inline-flex;
-    margin: calc(-1 * var(--spacing-xxxs));
-  }
 }

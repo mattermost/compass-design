@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`MenuItem` leading slot:** the slot padded every visual by 4px, which is correct for a 16px icon (24px box, matching the label line) but turned a 24px user or team avatar into a 32px box. The label then sat lower than it does on icon rows. The slot is now a 24px minimum with the visual centered inside it, so a 24px avatar shares that box and the label stays aligned. Taller visuals still grow the row and keep the label vertically centered.
+
 ## [0.1.0-alpha.19] - 2026-10-20
 
 ### Added

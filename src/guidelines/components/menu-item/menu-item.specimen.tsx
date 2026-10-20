@@ -1,4 +1,8 @@
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MenuItemLibrary() {
@@ -11,6 +15,23 @@ export default function MenuItemLibrary() {
             <MenuItem label="Menu Item" />
             <MenuItem label="With trailing check" trailingElement />
             <MenuItem label="No leading visual" leadingElement={false} />
+            <MenuItem
+              label="Leonard Riley"
+              leadingVisual={
+                <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
+              }
+            />
+            <MenuItem
+              label="Staff Team"
+              leadingVisual={
+                <TeamAvatar
+                  src={avatarStaffTeam}
+                  alt="Staff Team"
+                  size="24"
+                  initials="St"
+                />
+              }
+            />
           </div>
         </div>
         <div className={styles['components__button-row']}>
