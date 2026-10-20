@@ -6,9 +6,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Modal` `manageFocus`:** set `false` when the host owns focus (e.g. a floating-ui focus manager) to turn off initial focus, the Tab trap and focus restore. The modal still joins the modal stack, so modals below it stay inert, and Escape still follows `closeOnEscape`. Initial focus and restore use the value at mount; the Tab trap follows later updates (so a host `enforceFocus` prop can toggle). Default `true` keeps the current behavior.
+- **`modalOverlayStyles`** (`@mattermost/compass-ui/components/modal`): class names for a host-rendered overlay element — `modal-overlay` (scrim via `--modal-overlay-bg`, centers the dialog 24px above true center, fades in on mount) and `modal-overlay--exiting` (fades out). The host still owns the portal, z-index, scroll lock and backdrop clicks.
+- **`--modal-overlay-bg`:** additive token for the modal scrim — `rgba(var(--color-neutral-1200-rgb), 0.64)` (near-black at 64%, matching webapp `.modal-backdrop.in`).
+- **`Scrollbar` `size`:** optional `'default' | 'wide'`. `default` keeps the 8px track; `wide` uses a 10px track.
+
 ### Changed
 
 - **`PopoverNotice`:** container corner radius is `--radius-m` (8px), up from `--radius-s` (4px).
+
+### Fixed
+
+- **`Modal` max size:** the dialog now caps its height at the viewport minus 160px (minus 240px when the viewport is at least 900px tall), as the Modal guideline specifies, and its width at the viewport minus 40px. The body is a single `minmax(0, 1fr)` grid row so it sizes to its content when short and gets a definite height under that cap. Overflow always uses `Scrollbar` (default 8px track), including `scrollable={false}` (that mode only fills the body for host-owned panes; the dialog no longer grows past the viewport).
+- **`Modal` stacking across compass-ui copies:** the modal stack lived in each copy's module, so with a plugin's compass-ui copy on the page, both open modals handled Escape and Tab. The stack is now shared on `globalThis` under `Symbol.for('@mattermost/compass-ui/modal-stack/v1')`, so only the topmost modal reacts. The v1 entry format is frozen (opaque tokens, push/splice, last is top); incompatible changes would mint `v2`. Copies on `0.1.0-alpha.15` or earlier still keep their own stack.
+- **`Scrollbar` thumb:** uses `--radius-pill` instead of a hardcoded `3px` corner radius.
 
 ## [0.1.0-alpha.18] - 2026-10-19
 

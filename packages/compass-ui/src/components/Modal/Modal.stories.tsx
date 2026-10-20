@@ -14,6 +14,7 @@ import TextInput from '../TextInput/TextInput';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import Modal from './Modal';
 import type { ModalSize } from './Modal';
+import modalOverlayStyles from './ModalOverlay.module.scss';
 
 const SIZES: ModalSize[] = ['small', 'medium', 'large'];
 
@@ -112,7 +113,8 @@ export const Default: Story = {
     <ModalCanvas>
       <Modal
         title="Delete Channel"
-        size="small"
+        headerDivider={false}
+        footerDivider={false}
         footer={modalFooter}
         onClose={fn()}
       >
@@ -128,7 +130,8 @@ export const WithSubtitle: Story = {
       <Modal
         title="Invite Members"
         subtitle="Add people to #design"
-        size="medium"
+        headerDivider={false}
+        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -150,7 +153,8 @@ export const SubtitleBeside: Story = {
         title="Agent Settings"
         subtitle="Matty"
         subtitlePlacement="beside"
-        size="large"
+        headerDivider={false}
+        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -173,7 +177,8 @@ export const WithHeaderAction: Story = {
     <ModalCanvas>
       <Modal
         title="Browse Channels"
-        size="medium"
+        headerDivider={false}
+        footerDivider={false}
         headerAction={
           <Button emphasis="secondary" size="small">
             Create
@@ -193,57 +198,17 @@ export const WithHeaderAction: Story = {
   ),
 };
 
-export const CloseOnlyHeader: Story = {
-  render: () => (
-    <ModalCanvas>
-      <Modal
-        title="New Agent"
-        hideTitle
-        headerDivider={false}
-        footerDivider={false}
-        footer={
-          <>
-            <Button emphasis="tertiary">Cancel</Button>
-            <Button emphasis="primary">Create</Button>
-          </>
-        }
-        onClose={fn()}
-      >
-        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
-          Close-only header (Figma Title = Off). Title stays for screen readers.
-        </p>
-      </Modal>
-    </ModalCanvas>
-  ),
-};
-
 export const WithBackButton: Story = {
   render: () => (
     <ModalCanvas>
       <Modal
         title="Confirm Deletion"
-        size="small"
         showBackButton
         onBack={fn()}
         onClose={fn()}
-        footer={modalFooter}
-      >
-        {modalBody}
-      </Modal>
-    </ModalCanvas>
-  ),
-};
-
-export const WithoutDividers: Story = {
-  render: () => (
-    <ModalCanvas>
-      <Modal
-        title="Delete Channel"
-        size="small"
         headerDivider={false}
         footerDivider={false}
         footer={modalFooter}
-        onClose={fn()}
       >
         {modalBody}
       </Modal>
@@ -256,7 +221,8 @@ export const FooterSeparated: Story = {
     <ModalCanvas>
       <Modal
         title="Share"
-        size="small"
+        headerDivider={false}
+        footerDivider={false}
         footerType="2-actions-separated"
         footer={
           <>
@@ -279,7 +245,8 @@ export const FooterPagination: Story = {
     <ModalCanvas>
       <Modal
         title="Members"
-        size="medium"
+        headerDivider={false}
+        footerDivider={false}
         footerType="pagination"
         footerLeading="Showing 1–30 of 132"
         footer={
@@ -308,10 +275,7 @@ export const MenuItemList: Story = {
       <Modal
         title="Add People"
         subtitle="Choose members to add to #design"
-        size="small"
         bodyPadding="menu"
-        headerDivider={false}
-        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -335,6 +299,43 @@ export const MenuItemList: Story = {
   ),
 };
 
+/** Scrollable body with header/footer dividers (default divider props). */
+export const ScrollableBody: Story = {
+  render: () => (
+    <ModalCanvas tall>
+      <Modal
+        title="Notification preferences"
+        style={{ maxHeight: '100%' }}
+        footer={
+          <>
+            <Button emphasis="tertiary">Cancel</Button>
+            <Button emphasis="primary">Save</Button>
+          </>
+        }
+        onClose={fn()}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--spacing-s)',
+          }}
+        >
+          {Array.from({ length: 24 }, (_, i) => (
+            <p
+              key={i}
+              style={{ margin: 0, color: 'var(--center-channel-color)' }}
+            >
+              Setting row {i + 1}: the body scrolls once the dialog reaches its
+              maximum height. Header and footer dividers stay visible.
+            </p>
+          ))}
+        </div>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
 /** Host owns body padding + scroll (settings-style sidebar layout). */
 export const HostOwnedLayout: Story = {
   render: () => (
@@ -346,7 +347,6 @@ export const HostOwnedLayout: Story = {
         style={{ height: '100%', maxHeight: '100%' }}
         bodyPadding="none"
         scrollable={false}
-        footerDivider={false}
         footer={
           <>
             <Button emphasis="tertiary">Cancel</Button>
@@ -455,6 +455,8 @@ export const Sizes: Story = {
             <Modal
               title={`${size[0].toUpperCase()}${size.slice(1)} Modal`}
               size={size}
+              headerDivider={false}
+              footerDivider={false}
               onClose={fn()}
             >
               <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
@@ -474,6 +476,8 @@ function FormModalDemo() {
     <ModalCanvas>
       <Modal
         title="Create Channel"
+        headerDivider={false}
+        footerDivider={false}
         onClose={fn()}
         initialFocusRef={nameRef}
         footer={<Button>Create</Button>}
@@ -502,6 +506,8 @@ function TransitionDemo() {
           title="Transition"
           open={open}
           onClose={() => setOpen(false)}
+          headerDivider={false}
+          footerDivider={false}
           footer={<Button onClick={() => setOpen(false)}>Done</Button>}
         >
           <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
@@ -516,4 +522,87 @@ function TransitionDemo() {
 
 export const Transition: Story = {
   render: () => <TransitionDemo />,
+};
+
+function HostOverlayDemo() {
+  const [open, setOpen] = useState(true);
+  const [mounted, setMounted] = useState(true);
+  const show = () => {
+    setMounted(true);
+    setOpen(true);
+  };
+  return (
+    // Tall stage so Docs doesn't clip a viewport-sized dialog. Product hosts
+    // use position:fixed on the overlay; absolute keeps the demo inside this
+    // frame. Modal max-height is overridden the same way — production keeps
+    // the built-in 100dvh cap.
+    <div
+      style={{
+        position: 'relative',
+        height: 720,
+        overflow: 'hidden',
+        background: 'var(--center-channel-bg)',
+        border: '1px solid rgba(var(--center-channel-color-rgb), 0.12)',
+        borderRadius: 'var(--radius-l)',
+      }}
+    >
+      <div style={{ padding: 'var(--spacing-l)' }}>
+        <Button emphasis="secondary" onClick={show}>
+          Open modal
+        </Button>
+      </div>
+      {mounted && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop click is a pointer shortcut; keyboard users close with Escape
+        <div
+          className={[
+            modalOverlayStyles['modal-overlay'],
+            !open && modalOverlayStyles['modal-overlay--exiting'],
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          style={{ position: 'absolute', zIndex: 1 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setOpen(false);
+          }}
+        >
+          <Modal
+            title="Notification preferences"
+            open={open}
+            onClose={() => setOpen(false)}
+            onExited={() => setMounted(false)}
+            style={{ maxHeight: 'calc(100% - 80px)' }}
+            footer={<Button onClick={() => setOpen(false)}>Done</Button>}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--spacing-s)',
+              }}
+            >
+              {Array.from({ length: 30 }, (_, i) => (
+                <p
+                  key={i}
+                  style={{ margin: 0, color: 'var(--center-channel-color)' }}
+                >
+                  Setting row {i + 1}: the body scrolls once the dialog reaches
+                  its maximum height.
+                </p>
+              ))}
+            </div>
+          </Modal>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Host recipe: overlay styles on a host-owned element, unmounted after `onExited`. */
+export const HostOverlay: Story = {
+  parameters: {
+    docs: {
+      story: { inline: true, height: '740px' },
+    },
+  },
+  render: () => <HostOverlayDemo />,
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 
 const FOCUSABLE_SELECTOR = [
@@ -34,14 +34,35 @@ function getFocusable(root: HTMLElement): HTMLElement[] {
   );
 }
 
-/** Open modals in mount order; only the last one reacts to Tab and Escape. */
-const modalStack: object[] = [];
+/**
+ * Open modals in mount order; only the last one reacts to Tab and Escape.
+ * Shared through `globalThis` so compass-ui copies bundled by plugins agree on
+ * which modal is topmost.
+ *
+ * **Frozen v1 protocol** (additive-only, like tokens): opaque `{}` tokens,
+ * push while active, splice on leave, last entry is top. Do not change the
+ * entry shape or those rules in place — mint `…/modal-stack/v2` instead.
+ * A new key means new copies stop cooperating with old ones.
+ */
+const STACK_KEY = Symbol.for('@mattermost/compass-ui/modal-stack/v1');
+const stackHost = globalThis as typeof globalThis & {
+  [STACK_KEY]?: object[];
+};
+const modalStack: object[] = (stackHost[STACK_KEY] ??= []);
 
 export interface UseModalFocusOptions {
   /** Element to focus on mount. Falls back to the dialog root. */
   initialFocusRef?: RefObject<HTMLElement | null>;
   /** Close on Escape. Default true. */
   closeOnEscape?: boolean;
+  /**
+   * Initial focus, Tab trap and focus restore. Set false when the host owns
+   * focus (e.g. a floating-ui focus manager). The modal still joins the stack,
+   * so modals below it stay inert. Initial focus and restore use the value at
+   * mount; the Tab trap follows later updates (like `closeOnEscape`). Default
+   * true.
+   */
+  manageFocus?: boolean;
   onClose?: () => void;
   /**
    * When false (e.g. during an exit transition) Tab and Escape are no longer
@@ -66,14 +87,21 @@ export function useModalFocus(
   {
     initialFocusRef,
     closeOnEscape = true,
+    manageFocus = true,
     onClose,
     active = true,
   }: UseModalFocusOptions,
 ): void {
+  // Initial focus + restore only run once; the Tab trap reads `manageFocus` live.
+  const manageFocusOnMount = useRef(manageFocus);
   const initialFocusRefRef = useRef(initialFocusRef);
-  initialFocusRefRef.current = initialFocusRef;
-  const latest = useRef({ closeOnEscape, onClose });
-  latest.current = { closeOnEscape, onClose };
+  const latest = useRef({ closeOnEscape, manageFocus, onClose });
+  // Commit-only writes: avoid leaking options from a discarded concurrent render,
+  // without the post-paint stale window of a passive effect.
+  useLayoutEffect(() => {
+    initialFocusRefRef.current = initialFocusRef;
+    latest.current = { closeOnEscape, manageFocus, onClose };
+  });
   const keyToken = useRef<object | null>(null);
   // Stack position recorded when the token leaves the stack (exit start).
   const exit = useRef<{ wasTop: boolean; below: object | undefined } | null>(
@@ -81,6 +109,7 @@ export function useModalFocus(
   );
 
   useEffect(() => {
+    if (!manageFocusOnMount.current) return;
     const previous = document.activeElement as HTMLElement | null;
     function shouldRestoreFocus(): boolean {
       const top = modalStack[modalStack.length - 1];
@@ -121,7 +150,7 @@ export function useModalFocus(
         if (latest.current.closeOnEscape) latest.current.onClose?.();
         return;
       }
-      if (e.key !== 'Tab') return;
+      if (e.key !== 'Tab' || !latest.current.manageFocus) return;
       const focusable = getFocusable(dialog);
       if (focusable.length === 0) {
         e.preventDefault();

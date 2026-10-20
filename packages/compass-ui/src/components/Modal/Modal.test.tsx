@@ -1,4 +1,4 @@
-import { act, createRef, useState } from 'react';
+import { act, createRef, useRef, useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POPOVER_TRANSITION_MS } from '@/hooks/usePopoverTransition';
 import { render } from '@/test-utils/render';
@@ -180,6 +180,132 @@ describe('Modal focus and keyboard', () => {
         <Modal title="B" onClose={upper}>
           b
         </Modal>
+      </>,
+    );
+    key(document.body, 'Escape');
+    expect(upper).toHaveBeenCalledTimes(1);
+    expect(lower).not.toHaveBeenCalled();
+  });
+});
+
+describe('Modal manageFocus={false}', () => {
+  it('leaves initial focus, the Tab trap and focus restore to the host', () => {
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
+    const { rerender } = render(
+      <Modal title="T" onClose={() => {}} manageFocus={false}>
+        <button data-testid="ok">ok</button>
+      </Modal>,
+    );
+    expect(document.activeElement).toBe(trigger);
+
+    const ok = document.querySelector('[data-testid="ok"]') as HTMLElement;
+    ok.focus();
+    expect(key(ok, 'Tab').defaultPrevented).toBe(false);
+
+    const other = document.createElement('button');
+    document.body.appendChild(other);
+    other.focus();
+    rerender(<div />);
+    expect(document.activeElement).toBe(other);
+  });
+
+  it('still closes on Escape unless closeOnEscape is false', () => {
+    const onClose = vi.fn();
+    const { rerender } = render(
+      <Modal title="T" onClose={onClose} manageFocus={false}>
+        body
+      </Modal>,
+    );
+    key(document.body, 'Escape');
+    expect(onClose).toHaveBeenCalledTimes(1);
+
+    rerender(
+      <Modal
+        title="T"
+        onClose={onClose}
+        manageFocus={false}
+        closeOnEscape={false}
+      >
+        body
+      </Modal>,
+    );
+    key(document.body, 'Escape');
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps a lower modal from trapping Tab or handling Escape', () => {
+    const lower = vi.fn();
+    render(
+      <>
+        <Modal title="A" onClose={lower}>
+          a
+        </Modal>
+        <Modal
+          title="B"
+          manageFocus={false}
+          closeOnEscape={false}
+          onClose={() => {}}
+        >
+          <button data-testid="b">b</button>
+        </Modal>
+      </>,
+    );
+    const b = document.querySelector('[data-testid="b"]') as HTMLElement;
+    b.focus();
+    expect(key(b, 'Tab').defaultPrevented).toBe(false);
+    key(document.body, 'Escape');
+    expect(lower).not.toHaveBeenCalled();
+  });
+
+  it('picks up Tab-trap changes to manageFocus after mount', () => {
+    const { rerender } = render(
+      <Modal title="T" onClose={() => {}} manageFocus={false}>
+        <button data-testid="ok">ok</button>
+      </Modal>,
+    );
+    const ok = document.querySelector('[data-testid="ok"]') as HTMLElement;
+    ok.focus();
+    expect(key(ok, 'Tab').defaultPrevented).toBe(false);
+
+    rerender(
+      <Modal title="T" onClose={() => {}} manageFocus>
+        <button data-testid="ok">ok</button>
+      </Modal>,
+    );
+    ok.focus();
+    expect(key(ok, 'Tab').defaultPrevented).toBe(true);
+    expect(dialog().contains(document.activeElement)).toBe(true);
+  });
+});
+
+describe('Modal stack across compass-ui copies', () => {
+  it('only the topmost modal handles Escape when each copy has its own module', async () => {
+    vi.resetModules();
+    const { useModalFocus: useCopyA } = await import('@/hooks/useModalFocus');
+    vi.resetModules();
+    const { useModalFocus: useCopyB } = await import('@/hooks/useModalFocus');
+    expect(useCopyA).not.toBe(useCopyB);
+
+    function CopyModal({
+      hook,
+      onClose,
+    }: {
+      hook: typeof useCopyA;
+      onClose: () => void;
+    }) {
+      const ref = useRef<HTMLDivElement>(null);
+      hook(ref, { onClose });
+      return <div ref={ref} tabIndex={-1} />;
+    }
+
+    const lower = vi.fn();
+    const upper = vi.fn();
+    render(
+      <>
+        <CopyModal hook={useCopyA} onClose={lower} />
+        <CopyModal hook={useCopyB} onClose={upper} />
       </>,
     );
     key(document.body, 'Escape');

@@ -77,8 +77,9 @@ export interface ModalProps extends Omit<
    */
   bodyPadding?: ModalBodyPadding;
   /**
-   * When true (default), wraps body content in Scrollbar. Set false when the
-   * host manages scroll inside panes.
+   * When false, the body fills the dialog height so host panes can manage
+   * their own scroll regions (settings-style layouts). Default true sizes the
+   * body to its content. Overflow always uses Scrollbar (default track width).
    */
   scrollable?: boolean;
   /** Body content. */
@@ -96,6 +97,14 @@ export interface ModalProps extends Omit<
    * handled by an inner widget (`defaultPrevented`) are ignored. Default: true.
    */
   closeOnEscape?: boolean;
+  /**
+   * Initial focus, Tab trap and focus restore. Set false when the host owns
+   * focus (e.g. a floating-ui `FloatingFocusManager`); pair with
+   * `closeOnEscape={false}` when the host also handles Escape. Initial focus
+   * and restore use the value at mount; the Tab trap follows later updates.
+   * Default: true.
+   */
+  manageFocus?: boolean;
   /**
    * Element to focus when the modal mounts (e.g. the first form field).
    * Default: the dialog root.
@@ -144,6 +153,7 @@ function ModalPanel({
   footerType = '2-actions',
   footerDivider = true,
   closeOnEscape = true,
+  manageFocus = true,
   initialFocusRef,
   active,
   transition,
@@ -154,6 +164,7 @@ function ModalPanel({
   useModalFocus(rootRef, {
     initialFocusRef,
     closeOnEscape,
+    manageFocus,
     onClose,
     active,
   });
@@ -163,11 +174,18 @@ function ModalPanel({
     styles['modal__body-inner'],
     bodyPadding === 'menu' && styles['modal__body-inner--menu'],
     bodyPadding === 'none' && styles['modal__body-inner--none'],
+    !scrollable && styles['modal__body-inner--fill'],
   ]
     .filter(Boolean)
     .join(' ');
 
   const bodyInner = <div className={bodyInnerClass}>{children}</div>;
+  const scrollClass = [
+    styles['modal__scroll'],
+    !scrollable && styles['modal__scroll--fill'],
+  ]
+    .filter(Boolean)
+    .join(' ');
   const showFooter =
     footer != null ||
     footerLeading != null ||
@@ -212,7 +230,7 @@ function ModalPanel({
       />
 
       <div className={styles['modal__body']}>
-        {scrollable ? <Scrollbar>{bodyInner}</Scrollbar> : bodyInner}
+        <Scrollbar className={scrollClass}>{bodyInner}</Scrollbar>
       </div>
 
       {showFooter && (
