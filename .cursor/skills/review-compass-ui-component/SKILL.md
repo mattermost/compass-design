@@ -32,7 +32,7 @@ Rules live in [packages/compass-ui/AGENTS.md → Component API contract](../../.
 1. Optional-chain browser APIs missing in jsdom / happy-dom.
 2. No new optional peers for runtime imports; no CSS that depends on another package's copy.
 3. Styles follow the styling rule pair (layers, additive-only tokens, `--radius-pill`, unlayered component CSS).
-4. Overlay primitives stay chrome only.
+4. Overlay primitives stay chrome only; `ModalOverlay` is the only published component that renders a scrim, portal and scroll lock.
 
 ## 5. Tests and docs
 

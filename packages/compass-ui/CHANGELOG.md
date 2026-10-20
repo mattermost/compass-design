@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`ModalOverlay`** (`@mattermost/compass-ui/components/modal`): the modal scrim as a component. Wrap `Modal` in `<ModalOverlay open onClose>` and it portals to `document.body` (or `container`), locks body scroll while shown (`lockScroll={false}` to opt out), closes on backdrop press (a press that starts inside the dialog does not), and stays mounted for `--duration-quick` after `open` becomes false, with `modal-overlay--exiting`, before it unmounts and calls `onExited`. `zIndex` and `style` are host inputs (`style` wins, so a staged overlay can set `position: 'absolute'`). Escape and focus stay on `Modal`. `modalOverlayStyles` stays exported for hosts that already position their own node.
+
 ## [0.1.0-alpha.19] - 2026-10-20
 
 ### Added

@@ -116,16 +116,6 @@
     }
   }
 
-  &__modal-overlay {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-l);
-  }
-
   &__modal-body-content {
     display: flex;
     flex-direction: column;

@@ -4,10 +4,10 @@
   }
 }
 
-// Scrim, centering, and full-viewport fixed positioning for a host-rendered
-// overlay element. The host owns the portal, z-index, scroll lock and
-// backdrop clicks. FloatingOverlay sets position/inset inline; Storybook
-// stages may override to `absolute` — both are fine.
+// Scrim, centering, and full-viewport fixed positioning. Rendered by
+// ModalOverlay (which adds the portal, scroll lock and backdrop clicks) or by
+// a host that already positions its own node — FloatingOverlay sets
+// position/inset inline, and Storybook stages may override to `absolute`.
 .modal-overlay {
   position: fixed;
   inset: 0;

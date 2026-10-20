@@ -44,13 +44,16 @@ Shift+Tab stay inside it, Escape calls `onClose` (set `closeOnEscape={false}` to
 disable; Escapes already handled by an inner widget are ignored), and focus
 returns to the previously focused element on unmount. When the host already
 manages focus, set `manageFocus={false}` (and `closeOnEscape={false}` if it
-also handles Escape) so the two don't compete. The host still owns the
-portal, backdrop, scroll lock and open state; it can style its overlay
-element with `modalOverlayStyles` for the scrim, centering and fade. Pass `open` for the enter/exit
-transition (fade, drop from the top and a subtle scale from 98% to 100%, `--duration-quick`, reduced-motion aware): Tab and
-Escape stop when the exit starts, and the modal unmounts, restores focus, then
-calls `onExited`. Without `open` the modal is mount-controlled and has no
-transition.
+also handles Escape) so the two don't compete. `ModalOverlay` wraps the modal and provides the
+dimmed overlay: it portals to the page, locks page scroll while shown, closes
+on a backdrop click (a press that starts inside the dialog does not count), and
+fades out together with the dialog. Escape and focus stay with the modal. Hosts
+that already position their own layer can render the overlay element themselves
+with `modalOverlayStyles`. Pass `open` to both for the enter/exit transition
+(fade, drop from the top and a subtle scale from 98% to 100%, reduced-motion
+aware): Tab and Escape stop when the exit starts, and the modal unmounts,
+restores focus, then calls `onExited`. Without `open` the modal is
+mount-controlled and has no transition.
 
 The title should be a short statement or question; add a subtitle only when
 users need more guidance. Use `subtitlePlacement="beside"` for an inline
@@ -125,7 +128,21 @@ documentation.
 
 <Divider />
 
-## Live reference
+## Implementation
+
+Wrap `Modal` in `ModalOverlay` and drive both from the same `open` state. The
+host owns that state and the stacking order (`zIndex`); pass `container` to
+portal into another layer instead of the page.
+
+```tsx
+import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
+
+<ModalOverlay open={open} onClose={close}>
+  <Modal open={open} onClose={close} title="Tickets">
+    {children}
+  </Modal>
+</ModalOverlay>;
+```
 
 Use the Specimen tab for interactive examples: header variants, body spacing with
 menu items, divider on/off, footer actions, and sizes.
