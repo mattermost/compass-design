@@ -6,12 +6,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.19] - 2026-10-20
+
 ### Added
 
 - **`Modal` `manageFocus`:** set `false` when the host owns focus (e.g. a floating-ui focus manager) to turn off initial focus, the Tab trap and focus restore. The modal still joins the modal stack, so modals below it stay inert, and Escape still follows `closeOnEscape`. Initial focus and restore use the value at mount; the Tab trap follows later updates (so a host `enforceFocus` prop can toggle). Default `true` keeps the current behavior.
 - **`modalOverlayStyles`** (`@mattermost/compass-ui/components/modal`): class names for a host-rendered overlay element — `modal-overlay` (scrim via `--modal-overlay-bg`, centers the dialog 24px above true center, fades in on mount) and `modal-overlay--exiting` (fades out). The host still owns the portal, z-index, scroll lock and backdrop clicks.
 - **`--modal-overlay-bg`:** additive token for the modal scrim — `rgba(var(--color-neutral-1200-rgb), 0.64)` (near-black at 64%, matching webapp `.modal-backdrop.in`).
 - **`Scrollbar` `size`:** optional `'default' | 'wide'`. `default` keeps the 8px track; `wide` uses a 10px track.
+- **OAuth illustrations:** `oauth` and `outgoing-oauth-connections` ship from `@mattermost/compass-ui/illustrations/oauth` and `@mattermost/compass-ui/illustrations/outgoing-oauth-connections` (OAuth 2.0 Applications seal and Outgoing OAuth Connections arrow).
 
 ### Changed
 
@@ -365,7 +368,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...HEAD
+[0.1.0-alpha.19]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...0.1.0-alpha.19
 [0.1.0-alpha.18]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...0.1.0-alpha.18
 [0.1.0-alpha.17]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...0.1.0-alpha.17
 [0.1.0-alpha.16]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.15...0.1.0-alpha.16
