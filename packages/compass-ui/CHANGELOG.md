@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
-- **`ActionButton` width:** the default width is now 108px, up from 88px, to leave room for longer labels. Hosts that set their own width are unaffected.
+- **`ActionButton` width:** the default width is now 108px, up from 88px, to leave room for longer labels. Hosts that set their own width keep it, but it is now bounded: never below 64px (`min-width`) and never wider than the container (`max-width: 100%`).
 
 ### Fixed
 
