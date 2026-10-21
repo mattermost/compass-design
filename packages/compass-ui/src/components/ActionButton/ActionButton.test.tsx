@@ -104,3 +104,17 @@ describe('ActionButton asChild', () => {
     expect(className).toContain('child');
   });
 });
+
+describe('ActionButton long labels', () => {
+  it('keeps the full label in the DOM without overriding the accessible name', () => {
+    const label = 'Add people to this channel and notify them';
+    const { container } = render(<ActionButton icon={null} label={label} />);
+    const button = container.querySelector('button')!;
+    expect(
+      button.querySelector('[class*="action-button__label"]')?.textContent,
+    ).toBe(label);
+    expect(button.textContent).toBe(label);
+    expect(button.hasAttribute('aria-label')).toBe(false);
+    expect(button.hasAttribute('title')).toBe(false);
+  });
+});
