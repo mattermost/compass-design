@@ -35,6 +35,24 @@ const meta = {
     state: { control: 'select', options: ['default', 'active'] },
     variant: { control: 'select', options: ['sidebar', 'menu'] },
   },
+  decorators: [
+    (Story, context) => {
+      if (context.name === 'All Variants') {
+        return <Story />;
+      }
+      return (
+        <div
+          style={
+            context.args.variant === 'menu'
+              ? centerChannelSurface
+              : sidebarSurface
+          }
+        >
+          <Story />
+        </div>
+      );
+    },
+  ],
 } satisfies Meta<typeof TeamAvatar>;
 
 export default meta;
@@ -72,19 +90,6 @@ export const Menu: Story = {
     size: '24',
     variant: 'menu',
   },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          padding: 16,
-          borderRadius: 8,
-          background: 'var(--center-channel-bg)',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export const WithBadge: Story = {
