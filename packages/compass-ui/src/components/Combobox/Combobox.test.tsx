@@ -535,3 +535,24 @@ describe('Combobox hover and scrolling', () => {
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('Combobox leadingTeamAvatar', () => {
+  it('renders a menu-variant team avatar in the row', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'core',
+            label: 'Core Team',
+            leadingTeamAvatar: { initials: 'Co', alt: 'Core Team' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    const avatar = document.querySelector('[class*="team-avatar--menu"]');
+    expect(avatar).not.toBeNull();
+    expect(avatar?.textContent).toBe('Co');
+  });
+});

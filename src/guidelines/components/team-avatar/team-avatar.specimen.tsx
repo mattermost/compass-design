@@ -134,6 +134,32 @@ export default function TeamAvatarLibrary() {
           />
         </div>
       </div>
+      <div className={styles['components__button-block']}>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Menu — Image
+          </span>
+          <TeamAvatar
+            src={avatarStaffTeam}
+            alt="Staff Team"
+            size="24"
+            variant="menu"
+          />
+          <TeamAvatar
+            src={avatarStaffTeam}
+            alt="Staff Team"
+            size="32"
+            variant="menu"
+          />
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Menu — Fallback
+          </span>
+          <TeamAvatar initials="Ac" alt="Core Team" size="24" variant="menu" />
+          <TeamAvatar initials="Ac" alt="Core Team" size="32" variant="menu" />
+        </div>
+      </div>
     </>
   );
 }

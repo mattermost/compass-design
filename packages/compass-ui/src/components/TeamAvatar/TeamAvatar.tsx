@@ -13,6 +13,7 @@ export type TeamAvatarSize =
   | '96'
   | '120';
 export type TeamAvatarState = 'default' | 'active';
+export type TeamAvatarVariant = 'sidebar' | 'menu';
 
 export interface TeamAvatarProps {
   alt?: string;
@@ -22,6 +23,12 @@ export interface TeamAvatarProps {
   size?: TeamAvatarSize;
   src?: string;
   state?: TeamAvatarState;
+  /**
+   * `sidebar` (default) is interactive and uses sidebar colors. `menu` is decorative and uses
+   * center-channel colors — for menu rows and other surfaces on `center-channel-bg`. It has no
+   * hover or pointer affordance and ignores `state` and `badge`.
+   */
+  variant?: TeamAvatarVariant;
 }
 
 /**
@@ -36,15 +43,19 @@ export default function TeamAvatar({
   size = '40',
   src,
   state = 'default',
+  variant = 'sidebar',
 }: TeamAvatarProps) {
   const numSize = parseInt(size, 10);
-  const isActive = state === 'active';
-  const showBadge = badge != null && badge > 0 && numSize <= 64 && !isActive;
+  const isMenu = variant === 'menu';
+  const isActive = state === 'active' && !isMenu;
+  const showBadge =
+    badge != null && badge > 0 && numSize <= 64 && !isActive && !isMenu;
 
   const rootClasses = [
     styles['team-avatar'],
     styles[`team-avatar--size-${size}`],
     isActive && styles['team-avatar--active'],
+    isMenu && styles['team-avatar--menu'],
     className,
   ]
     .filter(Boolean)

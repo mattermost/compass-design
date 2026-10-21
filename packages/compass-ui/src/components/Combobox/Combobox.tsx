@@ -32,6 +32,7 @@ import PopoverMenu, {
   PopoverMenuScroll,
 } from '@/components/PopoverMenu/PopoverMenu';
 import Spinner from '@/components/Spinner/Spinner';
+import TeamAvatar from '@/components/TeamAvatar/TeamAvatar';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
@@ -58,6 +59,12 @@ export type ComboboxOption = {
   leadingVisual?: ReactNode;
   /** Avatar for chips / list when a photo is preferred over `leadingVisual`. */
   leadingAvatar?: { src: string; alt: string };
+  /**
+   * Team avatar for the list row — a non-interactive `TeamAvatar` (`variant="menu"`, 24px) with an
+   * image or an initials fallback. List rows only; chips don't render it. `leadingVisual` and
+   * `leadingAvatar` take precedence.
+   */
+  leadingTeamAvatar?: { src?: string; initials?: string; alt: string };
   /** Accepts translated nodes. */
   secondaryLabel?: ReactNode;
   /**
@@ -211,6 +218,17 @@ function optionLeadingVisual(option: ComboboxOption): ReactNode | undefined {
         src={option.leadingAvatar.src}
         alt={option.leadingAvatar.alt}
         size="24"
+      />
+    );
+  }
+  if (option.leadingTeamAvatar != null) {
+    return (
+      <TeamAvatar
+        src={option.leadingTeamAvatar.src}
+        initials={option.leadingTeamAvatar.initials}
+        alt={option.leadingTeamAvatar.alt}
+        size="24"
+        variant="menu"
       />
     );
   }

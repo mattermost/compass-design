@@ -337,4 +337,23 @@
       outline-color: var(--sidebar-text-active-border, #5d89ea);
     }
   }
+
+  // Non-interactive variant for center-channel surfaces (menus). Declared last so it wins
+  // over the per-size hover rules at equal specificity.
+  &--menu {
+    cursor: default;
+
+    &:hover {
+      outline-color: transparent;
+    }
+
+    &:hover .team-avatar__inner::after {
+      border-width: 0;
+    }
+
+    .team-avatar__fallback {
+      background: rgba(var(--center-channel-color-rgb), 0.08);
+      color: var(--center-channel-color);
+    }
+  }
 }
