@@ -483,13 +483,21 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 ```tsx
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 
-function GenericModal({ show, onHide, onExited, title, children, footer }) {
+function GenericModal({
+  show,
+  onHide,
+  onExited,
+  zIndex,
+  title,
+  children,
+  footer,
+}) {
   return (
     <ModalOverlay
       open={show}
       onClose={onHide}
       onExited={onExited}
-      zIndex={modalZIndex}
+      zIndex={zIndex}
     >
       <Modal open={show} onClose={onHide} title={title} footer={footer}>
         {children}
@@ -510,7 +518,15 @@ import {
   modalOverlayStyles,
 } from '@mattermost/compass-ui/components/modal';
 
-function GenericModal({ show, onHide, onExited, title, children, footer }) {
+function GenericModal({
+  show,
+  onHide,
+  onExited,
+  zIndex,
+  title,
+  children,
+  footer,
+}) {
   const [mounted, setMounted] = useState(show);
   useEffect(() => {
     if (show) setMounted(true);
@@ -525,7 +541,7 @@ function GenericModal({ show, onHide, onExited, title, children, footer }) {
           modalOverlayStyles['modal-overlay'],
           !show && modalOverlayStyles['modal-overlay--exiting'],
         )}
-        style={{ zIndex: modalZIndex }}
+        style={{ zIndex }}
         onClick={(e) => e.target === e.currentTarget && onHide()}
       >
         <Modal
