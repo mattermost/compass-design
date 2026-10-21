@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
+import SlashForwardIcon from '@mattermost/compass-icons/components/slash-forward';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import Emoji from '../Emoji/Emoji';
 import Icon from '../Icon/Icon';
@@ -137,25 +138,20 @@ export const UserAutocomplete: Story = {
   ),
 };
 
-/** The command tile is larger than a row icon: 40px, so the row grows and the label stays centered on it. */
+/** Figma "Leading Visual / Slash Command": a 32px tile (8px padding around a 16px glyph) with 4px above and below, so the slot is 40px tall. */
 function SlashCommandTile() {
   return (
     <span
       aria-hidden
       style={{
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 40,
-        height: 40,
+        padding: 'var(--spacing-xs)',
+        margin: 'var(--spacing-xxxs) 0',
         borderRadius: 'var(--radius-s)',
         background: 'rgba(var(--center-channel-color-rgb), 0.08)',
-        color: 'rgba(var(--center-channel-color-rgb), 0.72)',
-        fontSize: 'var(--font-size-400)',
-        lineHeight: 1,
       }}
     >
-      /
+      <Icon glyph={<SlashForwardIcon />} />
     </span>
   );
 }
