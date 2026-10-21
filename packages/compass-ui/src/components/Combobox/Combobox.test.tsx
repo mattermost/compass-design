@@ -555,4 +555,23 @@ describe('Combobox leadingTeamAvatar', () => {
     expect(avatar).not.toBeNull();
     expect(avatar?.textContent).toBe('Co');
   });
+
+  it('renders without alt', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'core',
+            label: 'Core Team',
+            leadingTeamAvatar: { initials: 'Co' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(
+      document.querySelector('[class*="team-avatar--menu"]'),
+    ).not.toBeNull();
+  });
 });

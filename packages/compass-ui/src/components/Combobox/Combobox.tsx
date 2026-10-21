@@ -61,10 +61,11 @@ export type ComboboxOption = {
   leadingAvatar?: { src: string; alt: string };
   /**
    * Team avatar for the list row — a non-interactive `TeamAvatar` (`variant="menu"`, 24px) with an
-   * image or an initials fallback. List rows only; chips don't render it. `leadingVisual` and
-   * `leadingAvatar` take precedence.
+   * image or an initials fallback. The row's `label` names the team and `MenuItem` hides the
+   * leading visual from assistive tech, so `alt` is optional. List rows only; chips don't render
+   * it. `leadingVisual` and `leadingAvatar` take precedence.
    */
-  leadingTeamAvatar?: { src?: string; initials?: string; alt: string };
+  leadingTeamAvatar?: { src?: string; initials?: string; alt?: string };
   /** Accepts translated nodes. */
   secondaryLabel?: ReactNode;
   /**
