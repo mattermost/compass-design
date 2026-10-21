@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import MenuItem from './MenuItem';
 import type { MenuItemProps } from './MenuItem';
+import TeamAvatar from '../TeamAvatar/TeamAvatar';
 import {
   ICON_DEFAULT,
   ICON_NONE,
@@ -118,6 +120,32 @@ export const WithTag: Story = {
   },
 };
 
+/** A team's avatar as the leading visual; use `variant="menu"` at 24px so it stays non-interactive on `center-channel-bg`. */
+export const WithTeamAvatar: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={menuDemoStyle}>
+      <MenuItem
+        label="Staff Team"
+        leadingVisual={
+          <TeamAvatar
+            src={avatarStaffTeam}
+            alt="Staff Team"
+            size="24"
+            variant="menu"
+          />
+        }
+      />
+      <MenuItem
+        label="Core Team"
+        leadingVisual={
+          <TeamAvatar initials="Co" alt="Core Team" size="24" variant="menu" />
+        }
+      />
+    </div>
+  ),
+};
+
 export const Destructive: Story = {
   args: {
     label: 'Delete item',
@@ -161,6 +189,41 @@ export const AllVariants: Story = {
             label="Menu Item"
             secondaryLabel="Inline text"
             secondaryLabelPosition="inline"
+          />
+        </div>
+      </section>
+      <section>
+        <h3
+          style={{
+            marginBottom: 12,
+            fontSize: 12,
+            color: 'var(--center-channel-color)',
+          }}
+        >
+          Team avatar
+        </h3>
+        <div style={menuDemoStyle}>
+          <MenuItem
+            label="Staff Team"
+            leadingVisual={
+              <TeamAvatar
+                src={avatarStaffTeam}
+                alt="Staff Team"
+                size="24"
+                variant="menu"
+              />
+            }
+          />
+          <MenuItem
+            label="Core Team"
+            leadingVisual={
+              <TeamAvatar
+                initials="Co"
+                alt="Core Team"
+                size="24"
+                variant="menu"
+              />
+            }
           />
         </div>
       </section>

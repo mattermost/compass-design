@@ -1,4 +1,6 @@
+import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MenuItemLibrary() {
@@ -26,6 +28,35 @@ export default function MenuItemLibrary() {
               label="Menu Item"
               secondaryLabel="Inline text"
               secondaryLabelPosition="inline"
+            />
+          </div>
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Team avatar
+          </span>
+          <div className={styles['components__menu-demo']}>
+            <MenuItem
+              label="Staff Team"
+              leadingVisual={
+                <TeamAvatar
+                  src={avatarStaffTeam}
+                  alt="Staff Team"
+                  size="24"
+                  variant="menu"
+                />
+              }
+            />
+            <MenuItem
+              label="Core Team"
+              leadingVisual={
+                <TeamAvatar
+                  initials="Co"
+                  alt="Core Team"
+                  size="24"
+                  variant="menu"
+                />
+              }
             />
           </div>
         </div>
