@@ -12,7 +12,10 @@ export function useOnExited(
 ) {
   const wasMounted = useRef(mounted);
   const onExitedRef = useRef(onExited);
-  onExitedRef.current = onExited;
+  // Declared before the exit effect so it commits the latest callback first.
+  useEffect(() => {
+    onExitedRef.current = onExited;
+  });
 
   useEffect(() => {
     if (wasMounted.current && !mounted && enabled) onExitedRef.current?.();
