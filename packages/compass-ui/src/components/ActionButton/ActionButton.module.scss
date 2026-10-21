@@ -114,6 +114,7 @@
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-50);
     letter-spacing: 0.11px;
+    box-sizing: border-box;
     max-width: 100%;
     // 16px side padding at 88px wide or more, easing to 8px at the 64px floor.
     // Percentages resolve against the button's width. Hosts can override via
