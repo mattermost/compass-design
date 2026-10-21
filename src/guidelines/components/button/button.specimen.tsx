@@ -14,6 +14,7 @@ const EMPHASES: ButtonEmphasis[] = [
   'secondary',
   'tertiary',
   'quaternary',
+  'dim',
   'link',
 ];
 
@@ -159,6 +160,50 @@ export default function ButtonLibrary() {
               Saving
             </Button>
           ))}
+        </div>
+      </div>
+
+      <div className={styles['components__section']}>
+        <h3 className={styles['components__section-title']}>
+          Compact + Dim (toolbar)
+        </h3>
+        <div className={styles['components__button-row']}>
+          {SIZES.map((size) => (
+            <Button
+              key={size}
+              size={size}
+              compact
+              emphasis="dim"
+              leadingIcon={icon}
+            >
+              Filter
+            </Button>
+          ))}
+          <Button
+            size="small"
+            compact
+            emphasis="dim"
+            leadingIcon={icon}
+            trailingIcon={
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '0 6px',
+                  borderRadius: 10,
+                  background: 'rgba(var(--button-bg-rgb), 0.16)',
+                  color: 'var(--button-bg)',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  lineHeight: '18px',
+                }}
+              >
+                Status
+              </span>
+            }
+          >
+            Group by
+          </Button>
         </div>
       </div>
 

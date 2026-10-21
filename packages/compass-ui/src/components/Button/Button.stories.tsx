@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useRef } from 'react';
+import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { MemoryRouter, Link } from 'react-router-dom';
+import EyeOutlineIcon from '@mattermost/compass-icons/components/eye-outline';
+import FilterVariantIcon from '@mattermost/compass-icons/components/filter-variant';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import LayersOutlineIcon from '@mattermost/compass-icons/components/layers-outline';
+import SortAscendingIcon from '@mattermost/compass-icons/components/sort-ascending';
 import Button from './Button';
 import type {
   ButtonAppearance,
@@ -21,6 +25,7 @@ const EMPHASES: ButtonEmphasis[] = [
   'secondary',
   'tertiary',
   'quaternary',
+  'dim',
   'link',
 ];
 
@@ -37,6 +42,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     appearance: { control: 'select', options: ['default', 'inverted'] },
+    compact: { control: 'boolean' },
     emphasis: { control: 'select', options: EMPHASES },
     loading: { control: 'boolean' },
     size: { control: 'select', options: SIZES },
@@ -44,16 +50,17 @@ const meta = {
       optional: true,
       includeDefault: true,
       description:
-        'Leading icon. None hides it; Default uses the built-in Icon glyph.',
+        'Leading slot (icon or other JSX). None hides it; Default uses the built-in Icon glyph.',
     }),
     trailingIcon: iconSelectArgType({
       optional: true,
       includeDefault: true,
       description:
-        'Trailing icon. None hides it; Default uses the built-in Icon glyph.',
+        'Trailing slot (icon or other JSX). None hides it; Default uses the built-in Icon glyph.',
     }),
   },
   args: {
+    compact: false,
     leadingIcon: ICON_NONE,
     trailingIcon: ICON_NONE,
   },
@@ -106,6 +113,104 @@ export const WithLeadingIcon: Story = {
   args: {
     children: 'Label',
     leadingIcon: 'globe',
+  },
+};
+
+export const DimCompact: Story = {
+  args: {
+    children: 'Filter',
+    emphasis: 'dim',
+    compact: true,
+    size: 'small',
+    leadingIcon: 'globe',
+  },
+};
+
+function ToolbarBadge({ children }: { children: ReactNode }) {
+  return (
+    <span
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        minHeight: 18,
+        padding: '0 var(--spacing-xxs)',
+        borderRadius: 'var(--radius-pill)',
+        background: 'rgba(var(--button-bg-rgb), 0.16)',
+        color: 'var(--button-bg)',
+        fontSize: 'var(--font-size-50)',
+        fontWeight: 'var(--font-weight-semibold)',
+        lineHeight: '18px',
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** Boards-style view toolbar — dim + compact buttons with a trailing badge slot. */
+export const ViewToolbar: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: function Render() {
+    const [filterOn, setFilterOn] = useState(false);
+    const [sortOn, setSortOn] = useState(false);
+
+    const activeStyle = {
+      '--button-fg': 'var(--button-bg)',
+      backgroundColor: 'rgba(var(--button-bg-rgb), 0.08)',
+    } as CSSProperties;
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: 4,
+        }}
+      >
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<LayersOutlineIcon />} />}
+          trailingIcon={<ToolbarBadge>Status</ToolbarBadge>}
+        >
+          Group by
+        </Button>
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<EyeOutlineIcon />} />}
+        >
+          Properties
+        </Button>
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<FilterVariantIcon />} />}
+          aria-pressed={filterOn}
+          style={filterOn ? activeStyle : undefined}
+          onClick={() => setFilterOn((v) => !v)}
+        >
+          Filter
+        </Button>
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<SortAscendingIcon />} />}
+          aria-pressed={sortOn}
+          style={sortOn ? activeStyle : undefined}
+          onClick={() => setSortOn((v) => !v)}
+        >
+          Sort
+        </Button>
+      </div>
+    );
   },
 };
 

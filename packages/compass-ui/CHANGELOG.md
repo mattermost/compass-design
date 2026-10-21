@@ -6,8 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Button` `emphasis="dim"`:** muted center-channel label with a transparent surface and a light hover fill — for quiet toolbar / view-header actions (e.g. Properties, Filter, Sort).
+- **`Button` `compact`:** optional denser padding (default `false`). On `small`, padding is `6px 10px` (28px tall) with a 6px icon/label gap. On `x-small`, compact only tightens horizontal padding (8px → 6px) and keeps the 24px height / 4px gap. No-op on `emphasis="link"` (padding stays `0`).
+
 ### Changed
 
+- **`Button` `x-small`:** horizontal padding reduced from 12px to 8px; icon/label gap set to 4px (stays 24px tall).
+- **`Button` `large`:** icon/label gap increased from 8px to 12px (compact: 10px) so it scales with the 20px icon.
+- **`Button` leading/trailing slots:** accept any React node (icons, badges, custom markup), not only Icon elements.
 - **`ActionButton` width:** the default width is now 108px, up from 88px, to leave room for longer labels. Hosts that set their own width keep it, but it is now bounded: never below 64px (`min-width`) and never wider than the container (`max-width: 100%`).
 
 ### Fixed

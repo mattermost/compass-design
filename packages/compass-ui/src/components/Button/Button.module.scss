@@ -67,11 +67,18 @@
   // Size modifiers
   // ---------------------------------------------------------------------------
   &--size-x-small {
-    padding: var(--spacing-xxxs) var(--spacing-m);
+    // 4px vertical + 16px line → 24px tall; 4px icon/label gap.
+    padding: var(--spacing-xxxs) var(--spacing-xs);
+    gap: var(--spacing-xxxs);
 
     .button__label {
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
+    }
+
+    // Compact: keep 24px height; horizontal 8px → 6px; gap stays 4px.
+    &.button--compact {
+      padding-inline: var(--spacing-xxs);
     }
   }
 
@@ -82,6 +89,12 @@
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
     }
+
+    // Compact: 32px → 28px (8px → 6px vertical); horizontal 16px → 10px; gap 6px.
+    &.button--compact {
+      padding: var(--spacing-xxs) var(--spacing-s);
+      gap: var(--spacing-xxs);
+    }
   }
 
   &--size-medium {
@@ -91,14 +104,28 @@
       font-size: var(--font-size-100);
       line-height: var(--line-height-100);
     }
+
+    // Compact: 40px → 36px; horizontal 20px → 12px; gap 6px.
+    &.button--compact {
+      padding: var(--spacing-xs) var(--spacing-m);
+      gap: var(--spacing-xxs);
+    }
   }
 
   &--size-large {
+    // Larger icon (20px) needs more air than the default 8px gap.
     padding: var(--spacing-m) var(--spacing-xxl);
+    gap: var(--spacing-m);
 
     .button__label {
       font-size: var(--font-size-200);
       line-height: var(--line-height-200);
+    }
+
+    // Compact: tighter pad; gap 12px → 10px (still above smaller sizes' 6px).
+    &.button--compact {
+      padding: var(--spacing-s) var(--spacing-l);
+      gap: var(--spacing-s);
     }
   }
 
@@ -177,6 +204,27 @@
     }
   }
 
+  // Quiet toolbar / view-header actions (e.g. Properties, Filter, Sort).
+  &--emphasis-dim {
+    --button-fg: rgba(var(--center-channel-color-rgb), 0.72);
+
+    background-color: transparent;
+
+    &:hover:not(:disabled, .button--disabled) {
+      --button-fg: rgba(var(--center-channel-color-rgb), 0.88);
+
+      background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+    &:active:not(:disabled, .button--disabled) {
+      --button-fg: var(--button-bg);
+
+      background-color: rgba(var(--button-bg-rgb), 0.08);
+    }
+    &:is(:disabled, .button--disabled) {
+      --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+    }
+  }
+
   &--emphasis-link {
     --focus-ring-color: var(--link-color);
     --button-fg: var(--link-color);
@@ -186,6 +234,11 @@
     // Shrink-wrap in flex/grid rows — don't stretch to a sibling Primary's height.
     align-self: flex-start;
     height: fit-content;
+
+    // Compact must not restore padded sizes on link emphasis.
+    &.button--compact {
+      padding: 0;
+    }
 
     &:hover:not(:disabled, .button--disabled) {
       .button__label {
@@ -300,6 +353,30 @@
       }
     }
 
+    &.button--emphasis-dim {
+      --button-fg: var(--error-text, var(--color-danger));
+
+      &:hover:not(:disabled, .button--disabled) {
+        --button-fg: var(--error-text, var(--color-danger));
+
+        background-color: rgba(
+          var(--error-text-color-rgb, var(--color-danger-rgb)),
+          0.08
+        );
+      }
+      &:active:not(:disabled, .button--disabled) {
+        --button-fg: var(--error-text, var(--color-danger));
+
+        background-color: rgba(
+          var(--error-text-color-rgb, var(--color-danger-rgb)),
+          0.12
+        );
+      }
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+      }
+    }
+
     &.button--emphasis-link {
       --button-fg: var(--error-text, var(--color-danger));
 
@@ -375,6 +452,24 @@
       }
       &:active:not(:disabled, .button--disabled) {
         background-color: rgba(var(--sidebar-text-rgb), 0.2);
+      }
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--sidebar-text-rgb), 0.32);
+      }
+    }
+
+    &.button--emphasis-dim {
+      --button-fg: rgba(var(--sidebar-text-rgb), 0.72);
+
+      &:hover:not(:disabled, .button--disabled) {
+        --button-fg: var(--sidebar-text);
+
+        background-color: rgba(var(--sidebar-text-rgb), 0.08);
+      }
+      &:active:not(:disabled, .button--disabled) {
+        --button-fg: var(--sidebar-text);
+
+        background-color: rgba(var(--sidebar-text-rgb), 0.12);
       }
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--sidebar-text-rgb), 0.32);
