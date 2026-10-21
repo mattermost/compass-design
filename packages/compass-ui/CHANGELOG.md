@@ -16,6 +16,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`Button` `x-small`:** horizontal padding reduced from 12px to 8px; icon/label gap set to 4px (stays 24px tall).
 - **`Button` `large`:** icon/label gap increased from 8px to 12px (compact: 10px) so it scales with the 20px icon.
 - **`Button` leading/trailing slots:** accept any React node (icons, badges, custom markup), not only Icon elements.
+- **`ActionButton` width:** the default width is now 108px, up from 88px, to leave room for longer labels. Hosts that set their own width keep it, but it is now bounded: never below 64px (`min-width`) and never wider than the container (`max-width: 100%`).
+
+### Fixed
+
+- **`ActionButton` long labels:** the label no longer forces a single line. It wraps to two lines (centred, balanced), clamps with an ellipsis after that, and breaks a single over-long word, so translated labels stay inside the button. The button also shrinks when its container is narrower than its width, down to a minimum of 64px, and never grows to fill it. Side padding moves from the button to the label and eases from 16px (at 88px wide or more) to 8px (at 64px) so narrow buttons wrap less; hosts can set `--action-button-padding-inline` to override it. Host `padding-left` / `padding-right` overrides on the button now add to the label padding instead of replacing it. The icon stays top-aligned across a row. The full label remains in the DOM, so the accessible name is unchanged.
 
 ## [0.1.0-alpha.19] - 2026-10-20
 
