@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 import { MemoryRouter, Link } from 'react-router-dom';
 import BellOffOutlineIcon from '@mattermost/compass-icons/components/bell-off-outline';
+import AccountPlusOutlineIcon from '@mattermost/compass-icons/components/account-plus-outline';
 import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
@@ -41,14 +42,22 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function Row({ label, children }: { label: string; children: ReactNode }) {
+function Row({
+  label,
+  children,
+  align = 'center',
+}: {
+  label: string;
+  children: ReactNode;
+  align?: 'center' | 'stretch';
+}) {
   return (
     <div
       style={{
         display: 'flex',
         flexWrap: 'wrap',
         gap: 16,
-        alignItems: 'center',
+        alignItems: align,
       }}
     >
       <span
@@ -136,6 +145,67 @@ export const AllVariants: Story = {
       </Row>
     </div>
   ),
+};
+
+export const LongLabels: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const labels = [
+      { glyph: <AccountPlusOutlineIcon />, label: 'Personen hinzufügen' },
+      { glyph: <BellOffOutlineIcon />, label: 'Stummgeschaltet' },
+      { glyph: <EmoticonHappyOutlineIcon />, label: 'Ajouter des personnes' },
+      { glyph: <LinkVariantIcon />, label: 'Copy Link' },
+    ];
+    const Container = ({ width }: { width: number }) => (
+      <div
+        style={{
+          display: 'flex',
+          gap: 8,
+          justifyContent: 'center',
+          width,
+          outline: '1px dashed rgba(var(--center-channel-color-rgb), 0.24)',
+          outlineOffset: 4,
+        }}
+      >
+        {labels.map(({ glyph, label }) => (
+          <ActionButton
+            key={label}
+            icon={<Icon glyph={glyph} />}
+            label={label}
+          />
+        ))}
+      </div>
+    );
+    return (
+      <div style={{ display: 'grid', gap: 20 }}>
+        <Row label="Default width" align="stretch">
+          {labels.map(({ glyph, label }) => (
+            <ActionButton
+              key={label}
+              icon={<Icon glyph={glyph} />}
+              label={label}
+            />
+          ))}
+        </Row>
+        <Row label="Narrow container">
+          <Container width={320} />
+        </Row>
+        <Row label="Wide container">
+          <Container width={560} />
+        </Row>
+        <Row label="Clamped" align="stretch">
+          <ActionButton
+            icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
+            label="Add people to this channel and notify them"
+          />
+          <ActionButton
+            icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
+            label="Donaudampfschifffahrtsgesellschaft"
+          />
+        </Row>
+      </div>
+    );
+  },
 };
 
 export const AsLink: Story = {

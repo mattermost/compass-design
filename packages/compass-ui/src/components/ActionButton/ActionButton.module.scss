@@ -3,7 +3,9 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-xxxs);
-  width: 88px;
+  width: 108px;
+  min-width: 64px;
+  max-width: 100%;
   padding: var(--spacing-m) var(--spacing-l) var(--spacing-s);
   border: none;
   border-radius: var(--radius-s);
@@ -112,7 +114,15 @@
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-50);
     letter-spacing: 0.11px;
-    white-space: nowrap;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    white-space: normal;
     text-align: center;
     color: var(--action-button-fg);
   }

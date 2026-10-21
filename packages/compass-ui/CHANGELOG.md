@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`ActionButton` width:** the default width is now 108px, up from 88px, to leave room for longer labels. Hosts that set their own width are unaffected.
+
+### Fixed
+
+- **`ActionButton` long labels:** the label no longer forces a single line. It wraps to two lines (centred, balanced), clamps with an ellipsis after that, and breaks a single over-long word, so translated labels stay inside the button. The button also shrinks when its container is narrower than its width, down to a minimum of 64px, and never grows to fill it. The icon stays top-aligned across a row. The full label remains in the DOM, so the accessible name is unchanged. A tooltip for clamped labels is not included; it waits on a published tooltip host (#82, #101).
+
 ## [0.1.0-alpha.19] - 2026-10-20
 
 ### Added
