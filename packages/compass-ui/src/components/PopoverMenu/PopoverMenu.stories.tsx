@@ -156,6 +156,28 @@ function SlashCommandTile() {
   );
 }
 
+/** Integration commands bring their own image instead of the "/" tile; same 32px footprint and 4px margins. */
+const APP_ICON_SRC = `data:image/svg+xml;utf8,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#E0622F"/><path d="M16 6l8 10-8 10-8-10z" fill="#fff"/></svg>',
+)}`;
+
+function SlashCommandAppIcon() {
+  return (
+    <img
+      src={APP_ICON_SRC}
+      alt=""
+      style={{
+        display: 'block',
+        width: 32,
+        height: 32,
+        margin: 'var(--spacing-xxxs) 0',
+        borderRadius: 'var(--radius-pill)',
+        objectFit: 'cover',
+      }}
+    />
+  );
+}
+
 export const SlashCommandAutocomplete: Story = {
   name: 'Slash command autocomplete',
   render: () => (
@@ -168,6 +190,11 @@ export const SlashCommandAutocomplete: Story = {
             label="agenda [command]"
             secondaryLabel="Available commands: list, queue, setting, help"
             leadingVisual={<SlashCommandTile />}
+          />
+          <MenuItem
+            label="deploy [command]"
+            secondaryLabel="Available commands: status, releases, rollbacks, expire_freeze, help, about"
+            leadingVisual={<SlashCommandAppIcon />}
           />
           <MenuItem
             label="away"
