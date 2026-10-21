@@ -9,7 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`TeamAvatar` `variant`:** `'sidebar'` (default) keeps the current interactive, sidebar-colored look. `'menu'` is a decorative variant for menu rows and other surfaces on `center-channel-bg` — no pointer cursor, no hover outline or border, `state` and `badge` are ignored, and the initials fallback uses center-channel colors so it stays legible on light-sidebar themes.
-- **`ComboboxOption` `leadingTeamAvatar`:** `{ src?, initials?, alt }` renders a 24px `TeamAvatar` (`variant="menu"`) as the leading visual of a list row, for team pickers. List rows only — chips don't render it; `leadingVisual` and `leadingAvatar` take precedence.
+- **`ComboboxOption` `leadingTeamAvatar`:** `{ src?, initials?, alt? }` renders a 24px `TeamAvatar` (`variant="menu"`) as the leading visual of a list row, for team pickers. List rows only — chips don't render it; `leadingVisual` and `leadingAvatar` take precedence.
 
 ### Fixed
 
