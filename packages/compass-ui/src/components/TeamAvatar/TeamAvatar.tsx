@@ -26,7 +26,7 @@ export interface TeamAvatarProps {
   /**
    * `sidebar` (default) is interactive and uses sidebar colors. `menu` is decorative and uses
    * center-channel colors — for menu rows and other surfaces on `center-channel-bg`. It has no
-   * hover or pointer affordance and ignores `state` and `badge`.
+   * hover or pointer affordance, is hidden from assistive tech, and ignores `state` and `badge`.
    */
   variant?: TeamAvatarVariant;
 }
@@ -62,7 +62,7 @@ export default function TeamAvatar({
     .join(' ');
 
   return (
-    <div className={rootClasses}>
+    <div className={rootClasses} aria-hidden={isMenu || undefined}>
       <div className={styles['team-avatar__inner']}>
         {src ? (
           <img src={src} alt={alt} className={styles['team-avatar__image']} />

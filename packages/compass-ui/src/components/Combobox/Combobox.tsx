@@ -63,7 +63,8 @@ export type ComboboxOption = {
    * Team avatar for the list row — a non-interactive `TeamAvatar` (`variant="menu"`, 24px) with an
    * image or an initials fallback. The row's `label` names the team and `MenuItem` hides the
    * leading visual from assistive tech, so `alt` is optional. List rows only; chips don't render
-   * it. `leadingVisual` and `leadingAvatar` take precedence.
+   * it. With neither `src` nor `initials`, the fallback shows the first two letters of `label`.
+   * `leadingVisual` and `leadingAvatar` take precedence.
    */
   leadingTeamAvatar?: { src?: string; initials?: string; alt?: string };
   /** Accepts translated nodes. */
@@ -226,7 +227,10 @@ function optionLeadingVisual(option: ComboboxOption): ReactNode | undefined {
     return (
       <TeamAvatar
         src={option.leadingTeamAvatar.src}
-        initials={option.leadingTeamAvatar.initials}
+        initials={
+          option.leadingTeamAvatar.initials ??
+          (option.leadingTeamAvatar.src ? undefined : option.label.slice(0, 2))
+        }
         alt={option.leadingTeamAvatar.alt}
         size="24"
         variant="menu"

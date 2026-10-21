@@ -427,6 +427,7 @@ export const AllVariants: Story = {
                 alt="Staff Team"
                 size="24"
                 initials="St"
+                variant="menu"
               />
             }
           />

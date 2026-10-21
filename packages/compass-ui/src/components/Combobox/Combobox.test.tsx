@@ -574,4 +574,23 @@ describe('Combobox leadingTeamAvatar', () => {
       document.querySelector('[class*="team-avatar--menu"]'),
     ).not.toBeNull();
   });
+
+  it('derives initials from the label when the avatar has neither image nor initials', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'design',
+            label: 'Design Team',
+            leadingTeamAvatar: { alt: 'Design Team' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(
+      document.querySelector('[class*="team-avatar--menu"]')?.textContent,
+    ).toBe('De');
+  });
 });
