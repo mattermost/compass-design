@@ -10,6 +10,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`ModalOverlay`** (`@mattermost/compass-ui/components/modal`): the modal scrim as a component. Wrap `Modal` in `<ModalOverlay open={open} onClose={handleClose}>` and it portals to `document.body` (or `container`), locks body scroll while shown (ref-counted across compass-ui copies on the page; `lockScroll={false}` to opt out), closes on backdrop press (a press that starts inside the dialog does not), and stays mounted for `--duration-quick` after `open` becomes false, with `modal-overlay--exiting`, before it unmounts and calls `onExited`. `zIndex` and `style` are host inputs (`style` wins, so a staged overlay can set `position: 'absolute'`). Escape and focus stay on `Modal`. `modalOverlayStyles` stays exported for hosts that already position their own node.
 
+## [0.1.0-alpha.20] - 2026-10-21
+
+### Added
+
+- **`Button` `emphasis="dim"`:** muted center-channel label with a transparent surface and a light hover fill — for quiet toolbar / view-header actions (e.g. Properties, Filter, Sort).
+- **`Button` `compact`:** optional denser padding (default `false`). On `small`, padding is `6px 10px` (28px tall) with a 6px icon/label gap. On `x-small`, compact only tightens horizontal padding (8px → 6px) and keeps the 24px height / 4px gap. No-op on `emphasis="link"` (padding stays `0`).
+
+### Changed
+
+- **`Button` `x-small`:** horizontal padding reduced from 12px to 8px; icon/label gap set to 4px (stays 24px tall).
+- **`Button` `large`:** icon/label gap increased from 8px to 12px (compact: 10px) so it scales with the 20px icon.
+- **`Button` leading/trailing slots:** accept any React node (icons, badges, custom markup), not only Icon elements.
+- **`ActionButton` width:** the default width is now 108px, up from 88px, to leave room for longer labels. Hosts that set their own width keep it, but it is now bounded: never below 64px (`min-width`) and never wider than the container (`max-width: 100%`).
+
+### Fixed
+
+- **`ActionButton` long labels:** the label no longer forces a single line. It wraps to two lines (centred, balanced), clamps with an ellipsis after that, and breaks a single over-long word, so translated labels stay inside the button. The button also shrinks when its container is narrower than its width, down to a minimum of 64px, and never grows to fill it. Side padding moves from the button to the label and eases from 16px (at 88px wide or more) to 8px (at 64px) so narrow buttons wrap less; hosts can set `--action-button-padding-inline` to override it. Host `padding-left` / `padding-right` overrides on the button now add to the label padding instead of replacing it. The icon stays top-aligned across a row. The full label remains in the DOM, so the accessible name is unchanged.
+
 ## [0.1.0-alpha.19] - 2026-10-20
 
 ### Added
@@ -372,7 +390,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.20...HEAD
+[0.1.0-alpha.20]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...0.1.0-alpha.20
 [0.1.0-alpha.19]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...0.1.0-alpha.19
 [0.1.0-alpha.18]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...0.1.0-alpha.18
 [0.1.0-alpha.17]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...0.1.0-alpha.17

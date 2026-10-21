@@ -8,6 +8,74 @@ function FakeGlyph() {
   return <svg data-testid="glyph" />;
 }
 
+describe('Button', () => {
+  it('applies compact and dim modifiers', () => {
+    const { container } = render(
+      <Button compact emphasis="dim">
+        Filter
+      </Button>,
+    );
+    const button = container.querySelector('button')!;
+    expect(button.className).toMatch(/button--compact/);
+    expect(button.className).toMatch(/emphasis-dim/);
+  });
+
+  it('renders non-icon JSX in leading and trailing slots', () => {
+    const { container } = render(
+      <Button
+        leadingIcon={<span data-testid="leading-badge">3</span>}
+        trailingIcon={<span data-testid="trailing-badge">Status</span>}
+      >
+        Group by
+      </Button>,
+    );
+    expect(
+      container.querySelector('[data-testid="leading-badge"]'),
+    ).not.toBeNull();
+    expect(
+      container.querySelector('[data-testid="trailing-badge"]'),
+    ).not.toBeNull();
+    expect(
+      container.querySelectorAll('[class*="button__icon-slot"]'),
+    ).toHaveLength(2);
+  });
+
+  it('does not aria-hide meaningful leading/trailing slot content', () => {
+    const { container } = render(
+      <Button leadingIcon={<span>3</span>} trailingIcon={<span>Status</span>}>
+        Group by
+      </Button>,
+    );
+    const slots = container.querySelectorAll('[class*="button__icon-slot"]');
+    expect(slots).toHaveLength(2);
+    for (const slot of slots) {
+      expect(slot.hasAttribute('aria-hidden')).toBe(false);
+    }
+    expect(container.querySelector('button')?.textContent).toContain('Status');
+  });
+
+  it('hides the loading spinner slot from assistive tech', () => {
+    const { container } = render(
+      <Button loading leadingIcon={<span>3</span>}>
+        Saving
+      </Button>,
+    );
+    const leadingSlot = container.querySelector('[class*="button__icon-slot"]');
+    expect(leadingSlot?.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('omits slots when leading/trailing content is absent', () => {
+    const { container } = render(
+      <Button leadingIcon={false} trailingIcon={null}>
+        Label
+      </Button>,
+    );
+    expect(
+      container.querySelectorAll('[class*="button__icon-slot"]'),
+    ).toHaveLength(0);
+  });
+});
+
 describe('Button asChild', () => {
   it('renders a single <a> with Button anatomy and no nested <button>', () => {
     const { container } = render(
