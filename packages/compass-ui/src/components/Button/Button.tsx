@@ -187,7 +187,10 @@ const Button = forwardRef(function Button(
     const child = children as ReactElement<{ children?: ReactNode }>;
 
     const leading = showLeadingSlot ? (
-      <span className={styles['button__icon-slot']} aria-hidden>
+      <span
+        className={styles['button__icon-slot']}
+        aria-hidden={loading || undefined}
+      >
         {loading ? (
           <Spinner
             size={iconSize as SpinnerSize}
@@ -203,7 +206,7 @@ const Button = forwardRef(function Button(
 
     const trailing =
       !loading && hasSlotContent(trailingIcon) ? (
-        <span className={styles['button__icon-slot']} aria-hidden>
+        <span className={styles['button__icon-slot']}>
           <IconSlotContext.Provider value={{ size: iconSize }}>
             {trailingIcon}
           </IconSlotContext.Provider>
@@ -271,7 +274,10 @@ const Button = forwardRef(function Button(
       {...rest}
     >
       {showLeadingSlot ? (
-        <span className={styles['button__icon-slot']} aria-hidden>
+        <span
+          className={styles['button__icon-slot']}
+          aria-hidden={loading || undefined}
+        >
           {loading ? (
             <Spinner
               size={iconSize as SpinnerSize}
@@ -286,7 +292,7 @@ const Button = forwardRef(function Button(
       ) : null}
       <span className={styles['button__label']}>{children}</span>
       {!loading && hasSlotContent(trailingIcon) ? (
-        <span className={styles['button__icon-slot']} aria-hidden>
+        <span className={styles['button__icon-slot']}>
           <IconSlotContext.Provider value={{ size: iconSize }}>
             {trailingIcon}
           </IconSlotContext.Provider>

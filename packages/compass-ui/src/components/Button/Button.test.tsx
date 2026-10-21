@@ -40,6 +40,30 @@ describe('Button', () => {
     ).toHaveLength(2);
   });
 
+  it('does not aria-hide meaningful leading/trailing slot content', () => {
+    const { container } = render(
+      <Button leadingIcon={<span>3</span>} trailingIcon={<span>Status</span>}>
+        Group by
+      </Button>,
+    );
+    const slots = container.querySelectorAll('[class*="button__icon-slot"]');
+    expect(slots).toHaveLength(2);
+    for (const slot of slots) {
+      expect(slot.hasAttribute('aria-hidden')).toBe(false);
+    }
+    expect(container.querySelector('button')?.textContent).toContain('Status');
+  });
+
+  it('hides the loading spinner slot from assistive tech', () => {
+    const { container } = render(
+      <Button loading leadingIcon={<span>3</span>}>
+        Saving
+      </Button>,
+    );
+    const leadingSlot = container.querySelector('[class*="button__icon-slot"]');
+    expect(leadingSlot?.getAttribute('aria-hidden')).toBe('true');
+  });
+
   it('omits slots when leading/trailing content is absent', () => {
     const { container } = render(
       <Button leadingIcon={false} trailingIcon={null}>

@@ -356,12 +356,16 @@
       --button-fg: var(--error-text, var(--color-danger));
 
       &:hover:not(:disabled, .button--disabled) {
+        --button-fg: var(--error-text, var(--color-danger));
+
         background-color: rgba(
           var(--error-text-color-rgb, var(--color-danger-rgb)),
           0.08
         );
       }
       &:active:not(:disabled, .button--disabled) {
+        --button-fg: var(--error-text, var(--color-danger));
+
         background-color: rgba(
           var(--error-text-color-rgb, var(--color-danger-rgb)),
           0.12
