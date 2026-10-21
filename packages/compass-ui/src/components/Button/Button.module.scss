@@ -211,7 +211,7 @@
     background-color: transparent;
 
     &:hover:not(:disabled, .button--disabled) {
-      --button-fg: var(--center-channel-color);
+      --button-fg: rgba(var(--center-channel-color-rgb), 0.88);
 
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
@@ -467,9 +467,9 @@
         background-color: rgba(var(--sidebar-text-rgb), 0.08);
       }
       &:active:not(:disabled, .button--disabled) {
-        --button-fg: var(--button-bg);
+        --button-fg: var(--sidebar-text);
 
-        background-color: rgba(var(--button-bg-rgb), 0.08);
+        background-color: rgba(var(--sidebar-text-rgb), 0.12);
       }
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--sidebar-text-rgb), 0.32);

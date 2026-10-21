@@ -165,123 +165,50 @@ export const ViewToolbar: Story = {
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          minHeight: 280,
-          margin: -16,
-          padding: '16px 20px',
-          background: 'var(--center-channel-bg)',
-          color: 'var(--center-channel-color)',
-          fontFamily: 'var(--font-family-body)',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: 4,
         }}
       >
-        <div
-          style={{
-            marginBottom: 12,
-            fontSize: 16,
-            fontWeight: 600,
-          }}
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<LayersOutlineIcon />} />}
+          trailingIcon={<ToolbarBadge>Status</ToolbarBadge>}
         >
-          Test
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 4,
-            marginBottom: 12,
-            borderBottom:
-              '1px solid rgba(var(--center-channel-color-rgb), 0.08)',
-          }}
+          Group by
+        </Button>
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<EyeOutlineIcon />} />}
         >
-          <Button emphasis="dim" compact size="small">
-            Board
-          </Button>
-          <Button emphasis="dim" compact size="small">
-            Table Test
-          </Button>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            gap: 4,
-            marginBottom: 20,
-          }}
+          Properties
+        </Button>
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<FilterVariantIcon />} />}
+          aria-pressed={filterOn}
+          style={filterOn ? activeStyle : undefined}
+          onClick={() => setFilterOn((v) => !v)}
         >
-          <Button
-            emphasis="dim"
-            compact
-            size="small"
-            leadingIcon={<Icon glyph={<LayersOutlineIcon />} />}
-            trailingIcon={<ToolbarBadge>Status</ToolbarBadge>}
-          >
-            Group by
-          </Button>
-          <Button
-            emphasis="dim"
-            compact
-            size="small"
-            leadingIcon={<Icon glyph={<EyeOutlineIcon />} />}
-          >
-            Properties
-          </Button>
-          <Button
-            emphasis="dim"
-            compact
-            size="small"
-            leadingIcon={<Icon glyph={<FilterVariantIcon />} />}
-            aria-pressed={filterOn}
-            style={filterOn ? activeStyle : undefined}
-            onClick={() => setFilterOn((v) => !v)}
-          >
-            Filter
-          </Button>
-          <Button
-            emphasis="dim"
-            compact
-            size="small"
-            leadingIcon={<Icon glyph={<SortAscendingIcon />} />}
-            aria-pressed={sortOn}
-            style={sortOn ? activeStyle : undefined}
-            onClick={() => setSortOn((v) => !v)}
-          >
-            Sort
-          </Button>
-        </div>
-        <div style={{ display: 'flex', gap: 16, flex: 1, minHeight: 0 }}>
-          {(['To Do', 'In Progress'] as const).map((column) => (
-            <div
-              key={column}
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-                minWidth: 0,
-              }}
-            >
-              <div style={{ fontSize: 12, fontWeight: 600, opacity: 0.72 }}>
-                {column} · 1
-              </div>
-              <div
-                style={{
-                  padding: 12,
-                  borderRadius: 4,
-                  background: 'rgba(var(--center-channel-color-rgb), 0.04)',
-                  border:
-                    '1px solid rgba(var(--center-channel-color-rgb), 0.08)',
-                  fontSize: 14,
-                }}
-              >
-                {column === 'To Do' ? 'This is a card title' : 'Test'}
-              </div>
-              <Button emphasis="dim" compact size="small">
-                + New
-              </Button>
-            </div>
-          ))}
-        </div>
+          Filter
+        </Button>
+        <Button
+          emphasis="dim"
+          compact
+          size="small"
+          leadingIcon={<Icon glyph={<SortAscendingIcon />} />}
+          aria-pressed={sortOn}
+          style={sortOn ? activeStyle : undefined}
+          onClick={() => setSortOn((v) => !v)}
+        >
+          Sort
+        </Button>
       </div>
     );
   },
