@@ -138,7 +138,7 @@ export const UserAutocomplete: Story = {
   ),
 };
 
-/** Figma "Leading Visual / Slash Command": a 32px tile (8px padding around a 16px glyph) with 4px above and below, so the slot is 40px tall. */
+/** Figma "Leading Visual / Slash Command": a 32px tile (8px padding around a 16px glyph) with 2px above and below (one spacing step under the 4px in Figma), so the slot is 36px tall. */
 function SlashCommandTile() {
   return (
     <span
@@ -146,7 +146,7 @@ function SlashCommandTile() {
       style={{
         display: 'flex',
         padding: 'var(--spacing-xs)',
-        margin: 'var(--spacing-xxxs) 0',
+        margin: 'var(--spacing-xxxxs) 0',
         borderRadius: 'var(--radius-s)',
         background: 'rgba(var(--center-channel-color-rgb), 0.08)',
       }}
@@ -156,7 +156,7 @@ function SlashCommandTile() {
   );
 }
 
-/** Integration commands bring their own image instead of the "/" tile; same 32px footprint and 4px margins. */
+/** Integration commands bring their own image instead of the "/" tile; same 32px footprint and 2px margins. */
 const APP_ICON_SRC = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#E0622F"/><path d="M16 6l8 10-8 10-8-10z" fill="#fff"/></svg>',
 )}`;
@@ -170,7 +170,7 @@ function SlashCommandAppIcon() {
         display: 'block',
         width: 32,
         height: 32,
-        margin: 'var(--spacing-xxxs) 0',
+        margin: 'var(--spacing-xxxxs) 0',
         borderRadius: 'var(--radius-pill)',
         objectFit: 'cover',
       }}
