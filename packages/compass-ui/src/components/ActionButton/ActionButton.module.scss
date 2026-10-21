@@ -6,7 +6,7 @@
   width: 108px;
   min-width: 64px;
   max-width: 100%;
-  padding: var(--spacing-m) var(--spacing-l) var(--spacing-s);
+  padding: var(--spacing-m) 0 var(--spacing-s);
   border: none;
   border-radius: var(--radius-s);
   background-color: rgba(var(--center-channel-color-rgb), 0.04);
@@ -115,6 +115,13 @@
     line-height: var(--line-height-50);
     letter-spacing: 0.11px;
     max-width: 100%;
+    // 16px side padding at 88px wide or more, easing to 8px at the 64px floor.
+    // Percentages resolve against the button's width. Hosts can override via
+    // --action-button-padding-inline.
+    padding-inline: var(
+      --action-button-padding-inline,
+      clamp(var(--spacing-xs), calc(33.33% - 13.33px), var(--spacing-l))
+    );
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
