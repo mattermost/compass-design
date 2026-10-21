@@ -90,6 +90,12 @@ export const Menu: Story = {
     size: '24',
     variant: 'menu',
   },
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <TeamAvatar {...args} />
+      <TeamAvatar {...args} src={undefined} alt="Core Team" initials="Ac" />
+    </div>
+  ),
 };
 
 export const WithBadge: Story = {
