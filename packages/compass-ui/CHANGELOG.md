@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.20] - 2026-10-21
+
 ### Added
 
 - **`Button` `emphasis="dim"`:** muted center-channel label with a transparent surface and a light hover fill — for quiet toolbar / view-header actions (e.g. Properties, Filter, Sort).
@@ -384,7 +386,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.20...HEAD
+[0.1.0-alpha.20]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...0.1.0-alpha.20
 [0.1.0-alpha.19]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...0.1.0-alpha.19
 [0.1.0-alpha.18]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...0.1.0-alpha.18
 [0.1.0-alpha.17]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.16...0.1.0-alpha.17
