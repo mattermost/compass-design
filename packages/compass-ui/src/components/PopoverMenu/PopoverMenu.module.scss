@@ -12,6 +12,16 @@
   border-radius: var(--radius-m);
   color: var(--center-channel-color);
 
+  // A scroll region owns the vertical padding (see `__scroll-content`) so it can run edge to edge.
+  &:has(> .popover-menu__scroll) {
+    padding: 0;
+    overflow: hidden;
+
+    > .popover-menu__title:first-child {
+      margin-top: var(--spacing-xs);
+    }
+  }
+
   &--parent {
     box-shadow: var(--elevation-4);
   }
@@ -51,6 +61,10 @@
 
   &__scroll {
     min-height: 0;
+  }
+
+  &__scroll-content {
+    padding: var(--spacing-xs) 0;
   }
 
   &__title {

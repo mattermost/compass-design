@@ -15,6 +15,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **Popover container radius:** `PopoverMenu` (and so the `Combobox` and `Select` menus), `EmojiPopover`, `ProfilePopover` and the `DateRangePicker` calendar popover now use `--radius-m` (8px), up from `--radius-s` (4px), matching `PopoverNotice`.
 
+- **`PopoverMenuScroll` padding:** the menu's 8px top and bottom padding now lives inside the scroll region (and moves to it when a `PopoverMenu` contains one), so rows scroll under the border instead of stopping 8px short, and the scrollbar runs the full height. `maxHeight` now includes that padding, which makes `Combobox` and `Select` lists 16px shorter than before but keeps them within `maxHeight` plus the 2px border. Menus without a scroll region are unchanged.
+
 ### Fixed
 
 - **`MenuItem` leading slot:** the slot padded every visual by 4px, which is correct for a 16px icon (24px box, matching the label line) but turned a 24px user or team avatar into a 32px box. The label then sat lower than it does on icon rows. The slot is now a 24px minimum with the visual centered inside it, so a 24px avatar shares that box and the label stays aligned. Taller visuals still grow the row and keep the label vertically centered.

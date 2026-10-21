@@ -91,10 +91,10 @@ export const OpenTransition: Story = {
 /**
  * Autocomplete popovers are 480px wide and at most 304px tall. They are plain popover menus: the
  * host positions them above the message box and moves `active` as the user arrows through the
- * rows. The scroll region leaves room for the menu's 8px vertical padding and 1px border.
+ * rows. The scroll region owns the vertical padding, so only the 1px border is subtracted.
  */
 const AUTOCOMPLETE_WIDTH = 480;
-const AUTOCOMPLETE_MAX_HEIGHT = 'calc(304px - 18px)';
+const AUTOCOMPLETE_MAX_HEIGHT = 'calc(304px - 2px)';
 
 export const UserAutocomplete: Story = {
   name: 'User autocomplete',
