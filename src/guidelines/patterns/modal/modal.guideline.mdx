@@ -131,7 +131,8 @@ documentation.
 ## Implementation
 
 Wrap `Modal` in `ModalOverlay` and drive both from the same `open` state. The
-host owns that state and the stacking order (`zIndex`); pass `container` to
+host owns that state. The scrim stacks at `--z-modal` by default; override it
+with `zIndex`. Pass `container` to
 portal into another layer instead of the page.
 
 ```tsx

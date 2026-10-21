@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import { mergeClassNames } from '@/utils/props';
 import { lockBodyScroll } from '@/utils/scrollLock';
+import { useOnExited } from '@/utils/useOnExited';
 import styles from './ModalOverlay.module.scss';
 
 export interface ModalOverlayProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,12 +17,18 @@ export interface ModalOverlayProps extends HTMLAttributes<HTMLDivElement> {
   open: boolean;
   /** Called when the backdrop is pressed. Presses that start inside the dialog do not call it. */
   onClose?: () => void;
-  /** Called once the exit finishes and the overlay has unmounted. */
+  /**
+   * Called once the exit finishes and the overlay has unmounted. Not called if
+   * the overlay itself is unmounted before the exit finishes, so do any
+   * cleanup on unmount as well.
+   */
   onExited?: () => void;
   /**
    * Portal node. Defaults to `document.body`; pass another element so a modal
-   * inside another top layer can join it. Override `position` through `style`
-   * when the container is a positioned stage.
+   * inside another top layer can join it. `null` renders nothing until the node
+   * exists (e.g. a ref held in state). Override `position` through `style`
+   * when the container is a positioned stage. Scroll lock applies to that
+   * node's document.
    */
   container?: HTMLElement | null;
   /**
@@ -29,7 +36,11 @@ export interface ModalOverlayProps extends HTMLAttributes<HTMLDivElement> {
    * overlay staged inside a frame (docs, Storybook) so it doesn't freeze the page.
    */
   lockScroll?: boolean;
-  /** Stacking order. Host input; applied before `style`, so `style.zIndex` wins. */
+  /**
+   * Stacking order. Defaults to `--z-modal` (200); a host whose chrome sits
+   * higher passes this or redefines `--z-modal`. Applied before `style`, so
+   * `style.zIndex` wins.
+   */
   zIndex?: number;
   /** Usually a `Modal`. */
   children?: ReactNode;
@@ -57,22 +68,22 @@ export default function ModalOverlay({
   ...rest
 }: ModalOverlayProps) {
   const { mounted } = usePopoverTransition(open);
-  const wasMounted = useRef(mounted);
-  const onExitedRef = useRef(onExited);
-  onExitedRef.current = onExited;
+  useOnExited(mounted, onExited);
   const pressStartedInside = useRef(false);
 
-  useEffect(() => {
-    if (wasMounted.current && !mounted) onExitedRef.current?.();
-    wasMounted.current = mounted;
-  }, [mounted]);
+  const target =
+    container === undefined
+      ? typeof document === 'undefined'
+        ? null
+        : document.body
+      : container;
 
   useEffect(() => {
-    if (!mounted || !lockScroll) return undefined;
-    return lockBodyScroll();
-  }, [mounted, lockScroll]);
+    if (!mounted || !target || !lockScroll) return undefined;
+    return lockBodyScroll(target.ownerDocument);
+  }, [mounted, target, lockScroll]);
 
-  if (!mounted || typeof document === 'undefined') return null;
+  if (!mounted || !target) return null;
 
   const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     pressStartedInside.current = e.target !== e.currentTarget;
@@ -101,6 +112,6 @@ export default function ModalOverlay({
     >
       {children}
     </div>,
-    container ?? document.body,
+    target,
   );
 }

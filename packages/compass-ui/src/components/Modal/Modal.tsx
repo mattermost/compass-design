@@ -4,7 +4,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react';
-import { useEffect, useId, useRef } from 'react';
+import { useId, useRef } from 'react';
 import { useModalFocus } from '@/hooks/useModalFocus';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
@@ -14,6 +14,7 @@ import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import type { ModalSubtitlePlacement } from '@/components/ModalHeader/ModalHeader';
 import type { BuiltInButtonProps } from '@/utils/props';
 import { toKebab } from '@/utils/string';
+import { useOnExited } from '@/utils/useOnExited';
 import styles from './Modal.module.scss';
 
 export type ModalSize = 'small' | 'medium' | 'large';
@@ -256,16 +257,7 @@ function ModalPanel({
 export default function Modal({ open, onExited, ...props }: ModalProps) {
   const controlled = open !== undefined;
   const { mounted, visible } = usePopoverTransition(open ?? true);
-  const wasMounted = useRef(mounted);
-  const onExitedRef = useRef(onExited);
-  onExitedRef.current = onExited;
-
-  useEffect(() => {
-    if (wasMounted.current && !mounted && controlled) {
-      onExitedRef.current?.();
-    }
-    wasMounted.current = mounted;
-  }, [mounted, controlled]);
+  useOnExited(mounted, onExited, controlled);
 
   if (controlled && !mounted) return null;
 

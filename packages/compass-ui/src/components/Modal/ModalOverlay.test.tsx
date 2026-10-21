@@ -66,6 +66,37 @@ describe('ModalOverlay', () => {
       expect(scrim()?.parentElement).toBe(stage);
     });
 
+    it('renders nothing and does not lock scroll while container is null', () => {
+      const { rerender } = render(
+        <ModalOverlay open container={null} data-testid="scrim">
+          content
+        </ModalOverlay>,
+      );
+      expect(scrim()).toBeNull();
+      expect(document.body.style.overflow).toBe('');
+
+      const stage = document.createElement('div');
+      document.body.appendChild(stage);
+      rerender(
+        <ModalOverlay open container={stage} data-testid="scrim">
+          content
+        </ModalOverlay>,
+      );
+      expect(scrim()?.parentElement).toBe(stage);
+      expect(document.body.style.overflow).toBe('hidden');
+    });
+
+    it("locks scroll on the container's own document", () => {
+      const other = document.implementation.createHTMLDocument('other');
+      render(
+        <ModalOverlay open container={other.body} data-testid="scrim">
+          content
+        </ModalOverlay>,
+      );
+      expect(other.body.style.overflow).toBe('hidden');
+      expect(document.body.style.overflow).toBe('');
+    });
+
     it('renders nothing when initially closed, and does not call onExited', () => {
       const onExited = vi.fn();
       render(
@@ -102,6 +133,24 @@ describe('ModalOverlay', () => {
       advance(POPOVER_TRANSITION_MS + 1);
       expect(scrim()).toBeNull();
       expect(onExited).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not call onExited when the overlay unmounts mid-exit', () => {
+      const onExited = vi.fn();
+      const { rerender } = render(
+        <ModalOverlay open onExited={onExited} data-testid="scrim">
+          content
+        </ModalOverlay>,
+      );
+      rerender(
+        <ModalOverlay open={false} onExited={onExited} data-testid="scrim">
+          content
+        </ModalOverlay>,
+      );
+      rerender(<div />);
+      advance(POPOVER_TRANSITION_MS + 1);
+      expect(scrim()).toBeNull();
+      expect(onExited).not.toHaveBeenCalled();
     });
 
     it('waits for the --duration-quick token, not a hard-coded value', () => {

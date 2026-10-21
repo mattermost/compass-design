@@ -471,14 +471,15 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 | Initial focus, Tab trap, focus restore                       | `Modal` (opt out with `manageFocus={false}`)   |
 | Escape (topmost modal only; skips `defaultPrevented` events) | `Modal` (opt out with `closeOnEscape={false}`) |
 | Scrim, portal, scroll lock, backdrop click, overlay fade     | `ModalOverlay`                                 |
-| Open state, portal container, z-index                        | Host                                           |
+| Open state, portal container                                 | Host                                           |
+| Stacking: default `--z-modal` (200); override per use        | Host (`zIndex` prop or redefine `--z-modal`)   |
 
 `Modal` (since `0.1.0-alpha.14`) focuses the dialog or `initialFocusRef` on mount, traps Tab, closes on Escape, and restores focus on unmount. The modal stack is shared across compass-ui copies on the page (from the release after `0.1.0-alpha.15`), so only the topmost Compass modal reacts. Pick **one** owner for focus and Escape:
 
 - **Compass owns it:** render `ModalOverlay` around `Modal`; don't add `FloatingFocusManager`, another focus trap, or another Escape handler.
 - **Host owns it:** pass `manageFocus={false}` and `closeOnEscape={false}`, and keep the host's focus manager and dismiss handling.
 
-`ModalOverlay` (`@mattermost/compass-ui/components/modal`) is the default host for `Modal`. It portals to `document.body`, locks body scroll while shown, closes on a backdrop press, and stays mounted for `--duration-quick` after `open` becomes false (adding `modal-overlay--exiting` for the fade-out) before it unmounts and calls `onExited`. Pass `open` to both, driven by the same host state, so the scrim and dialog exit together. `GenericModal` sketch:
+`ModalOverlay` (`@mattermost/compass-ui/components/modal`) is the default host for `Modal`. It portals to `document.body`, locks body scroll while shown, closes on a backdrop press, and stays mounted for `--duration-quick` after `open` becomes false (adding `modal-overlay--exiting` for the fade-out) before it unmounts and calls `onExited` (not called if the overlay itself unmounts mid-exit, so do cleanup on unmount too). Pass `open` to both, driven by the same host state, so the scrim and dialog exit together. `GenericModal` sketch:
 
 ```tsx
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
@@ -507,7 +508,7 @@ function GenericModal({
 }
 ```
 
-Backdrop presses call `onClose`; presses that start inside the dialog do not. Escape is handled by `Modal` only — the overlay adds no key listener. `container` portals into another top layer (a modal inside another layer joins it); `zIndex` and `style` are host inputs, and `style` wins, so a stage can set `position: 'absolute'`. Set `lockScroll={false}` for an overlay staged inside a frame so it doesn't freeze the page. Omitting `open` is not a mode for the overlay: inline specimens keep using `Modal` alone.
+Backdrop presses call `onClose`; presses that start inside the dialog do not. Escape is handled by `Modal` only — the overlay adds no key listener. `container` portals into another top layer (a modal inside another layer joins it); The scrim stacks at `--z-modal` (200) by default, below `--z-tooltip`. Hosts whose chrome sits higher (the webapp's does) pass `zIndex` or define `--z-modal` once; an unlayered host value beats the token sheet. `zIndex` and `style` are host inputs, and `style` wins, so a stage can set `position: 'absolute'`. Set `lockScroll={false}` for an overlay staged inside a frame so it doesn't freeze the page. Omitting `open` is not a mode for the overlay: inline specimens keep using `Modal` alone.
 
 **Escape hatch: host-rendered overlay.** When the host already portals and positions the node (floating-ui `FloatingPortal` + `FloatingOverlay lockScroll`), keep rendering it yourself and apply `modalOverlayStyles`. Keep the node mounted until `Modal`'s `onExited` so the exit finishes and focus restores afterwards:
 
