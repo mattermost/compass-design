@@ -44,9 +44,9 @@ interface ButtonOwnProps {
   /** Optional CSS class name. */
   className?: string;
   /**
-   * When true, uses denser padding and a 6px icon/label gap. On `small`,
-   * height drops from 32px to 28px (6px × 10px padding). For dense toolbars.
-   * Default: false.
+   * When true, uses denser padding. On `small`, height drops from 32px to 28px
+   * (`6px 10px`, 6px gap). On `x-small`, height stays 24px with a 4px gap;
+   * only horizontal padding tightens. For dense toolbars. Default: false.
    */
   compact?: boolean;
   /** When true, uses destructive (danger) styling. */

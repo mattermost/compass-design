@@ -67,17 +67,18 @@
   // Size modifiers
   // ---------------------------------------------------------------------------
   &--size-x-small {
+    // 4px vertical + 16px line → 24px tall; 4px icon/label gap.
     padding: var(--spacing-xxxs) var(--spacing-xs);
+    gap: var(--spacing-xxxs);
 
     .button__label {
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
     }
 
-    // Compact: 4px → 2px vertical; 8px → 6px horizontal; gap 6px.
+    // Compact: keep 24px height; horizontal 8px → 6px; gap stays 4px.
     &.button--compact {
-      padding: var(--spacing-xxxxs) var(--spacing-xxs);
-      gap: var(--spacing-xxs);
+      padding-inline: var(--spacing-xxs);
     }
   }
 
