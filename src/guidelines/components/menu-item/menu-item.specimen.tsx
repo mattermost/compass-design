@@ -1,6 +1,8 @@
+import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MenuItemLibrary() {
@@ -56,6 +58,21 @@ export default function MenuItemLibrary() {
                   size="24"
                   variant="menu"
                 />
+              }
+            />
+          </div>
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            User avatar
+          </span>
+          <div className={styles['components__menu-demo']}>
+            <MenuItem
+              label="Emma Novak"
+              secondaryLabel="@emma"
+              secondaryLabelPosition="inline"
+              leadingVisual={
+                <UserAvatar src={avatarEmma} alt="Emma Novak" size="24" />
               }
             />
           </div>

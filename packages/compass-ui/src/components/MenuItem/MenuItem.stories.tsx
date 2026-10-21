@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import MenuItem from './MenuItem';
 import type { MenuItemProps } from './MenuItem';
 import TeamAvatar from '../TeamAvatar/TeamAvatar';
+import UserAvatar from '../UserAvatar/UserAvatar';
 import {
   ICON_DEFAULT,
   ICON_NONE,
@@ -146,6 +148,23 @@ export const WithTeamAvatar: Story = {
   ),
 };
 
+/** A person's avatar as the leading visual, at 24px. */
+export const WithUserAvatar: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={menuDemoStyle}>
+      <MenuItem
+        label="Emma Novak"
+        secondaryLabel="@emma"
+        secondaryLabelPosition="inline"
+        leadingVisual={
+          <UserAvatar src={avatarEmma} alt="Emma Novak" size="24" />
+        }
+      />
+    </div>
+  ),
+};
+
 export const Destructive: Story = {
   args: {
     label: 'Delete item',
@@ -223,6 +242,27 @@ export const AllVariants: Story = {
                 size="24"
                 variant="menu"
               />
+            }
+          />
+        </div>
+      </section>
+      <section>
+        <h3
+          style={{
+            marginBottom: 12,
+            fontSize: 12,
+            color: 'var(--center-channel-color)',
+          }}
+        >
+          User avatar
+        </h3>
+        <div style={menuDemoStyle}>
+          <MenuItem
+            label="Emma Novak"
+            secondaryLabel="@emma"
+            secondaryLabelPosition="inline"
+            leadingVisual={
+              <UserAvatar src={avatarEmma} alt="Emma Novak" size="24" />
             }
           />
         </div>
