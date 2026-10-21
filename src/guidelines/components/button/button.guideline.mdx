@@ -15,14 +15,15 @@ optional icon slots compose every variant.
 - <Num>1</Num> **Label** — the action text. Keep to four words or fewer.
 - <Num>2</Num> **Container** — the surface that gives the button its shape and
   emphasis.
-- <Num>3</Num> **Leading icon** — optional; sits left of the label. Preferred
-  over trailing.
-- <Num>4</Num> **Trailing icon** — optional; reserved for cases where the icon
-  belongs after the label (e.g. a chevron that signals "this opens something").
+- <Num>3</Num> **Leading slot** — optional; sits left of the label. Usually an
+  icon; may be any React node. Preferred over trailing.
+- <Num>4</Num> **Trailing slot** — optional; reserved for content that belongs
+  after the label (e.g. a chevron that signals "this opens something", or a
+  small badge).
 
-The label does the work; the icons are scaffolding. Reach for a leading icon
+The label does the work; the slots are scaffolding. Reach for a leading icon
 to reinforce a recognisable action (download, share, globe), and only use a
-trailing icon when the icon clearly belongs after the label.
+trailing slot when the content clearly belongs after the label.
 
 <Divider />
 
@@ -42,7 +43,7 @@ the same action group; pick one and stick with it.
 ## Emphasis
 
 Emphasis is how a button signals its rank in the screen's action hierarchy.
-Compass exposes four levels — pick the lowest that still reads as the right
+Compass exposes several levels — pick the lowest that still reads as the right
 action.
 
 <ButtonEmphasis />
@@ -53,6 +54,7 @@ action.
 | Secondary  | A standalone action that needs weight, but no Primary is present.                                                                                                    |
 | Tertiary   | The default for grouped actions. Pairs naturally with a Primary.                                                                                                     |
 | Quaternary | Low-emphasis actions that should sit quietly until the user looks for them. Use for toolbar-style text actions and other cases where Tertiary still feels too heavy. |
+| Dim        | The quietest filled-surface actions — muted label, no tint until hover. Use for dense toolbars (Properties, Filter, Sort) where Quaternary still feels branded.      |
 
 A few rules of thumb:
 
@@ -61,7 +63,11 @@ A few rules of thumb:
 - **In a group with a Primary, pair it with Tertiary** — never two Primaries,
   and never Primary + Secondary.
 - **In a group without a Primary, lead with Tertiary.** Reach for Quaternary
-  when even Tertiary feels too loud.
+  when even Tertiary feels too loud, and Dim for the quietest toolbar controls.
+
+Pass `compact` for denser padding on toolbars — on `small`, that is `6px 10px`
+(28px tall) with a 6px icon/label gap. Leading and trailing slots accept icons
+or any other React node (for example a status badge after the label).
 
 <Divider />
 

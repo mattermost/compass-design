@@ -1,6 +1,5 @@
 import {
   forwardRef,
-  isValidElement,
   type ButtonHTMLAttributes,
   type HTMLAttributes,
   type ReactElement,
@@ -21,28 +20,54 @@ export type ButtonEmphasis =
   | 'secondary'
   | 'tertiary'
   | 'quaternary'
+  | 'dim'
   | 'link';
 
 export type ButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 
 export type ButtonAppearance = 'default' | 'inverted';
 
+/** True when the slot should render (icons, badges, or other JSX). */
+function hasSlotContent(node: ReactNode): boolean {
+  if (node == null || typeof node === 'boolean') {
+    return false;
+  }
+  if (typeof node === 'string') {
+    return node.length > 0;
+  }
+  return true;
+}
+
 interface ButtonOwnProps {
   /** default | inverted (for use on dark backgrounds). Maps to Figma "Style". */
   appearance?: ButtonAppearance;
   /** Optional CSS class name. */
   className?: string;
+  /**
+   * When true, uses denser padding and a 6px icon/label gap. On `small`,
+   * height drops from 32px to 28px (6px × 10px padding). For dense toolbars.
+   * Default: false.
+   */
+  compact?: boolean;
   /** When true, uses destructive (danger) styling. */
   destructive?: boolean;
   /** Visual emphasis. Default: primary. */
   emphasis?: ButtonEmphasis;
-  /** Leading icon — pass `<Icon glyph={<YourIcon />} />`. Button provides the correct size via context; no `size` prop needed on the Icon. */
+  /**
+   * Leading slot — typically `<Icon glyph={<YourIcon />} />`, or any other
+   * React node (badge, custom markup). Button provides Icon size via context
+   * when an Icon is used; no `size` prop needed on the Icon.
+   */
   leadingIcon?: ReactNode;
   /** When true, shows a Spinner in the leading slot and disables the button (or blocks navigation when `asChild`). */
   loading?: boolean;
   /** Size variant. Default: medium. */
   size?: ButtonSize;
-  /** Trailing icon — pass `<Icon glyph={<YourIcon />} />`. Button provides the correct size via context; no `size` prop needed on the Icon. */
+  /**
+   * Trailing slot — typically `<Icon glyph={<YourIcon />} />`, or any other
+   * React node (badge, custom markup). Button provides Icon size via context
+   * when an Icon is used; no `size` prop needed on the Icon.
+   */
   trailingIcon?: ReactNode;
   /**
    * When true, disables the control. On a native `<button>`, sets the `disabled`
@@ -93,12 +118,14 @@ type ButtonComponent = {
 function buildRootClass({
   appearance = 'default',
   className = '',
+  compact = false,
   destructive = false,
   emphasis = 'primary',
   size = 'medium',
 }: {
   appearance?: ButtonAppearance;
   className?: string;
+  compact?: boolean;
   destructive?: boolean;
   emphasis?: ButtonEmphasis;
   size?: ButtonSize;
@@ -108,6 +135,7 @@ function buildRootClass({
     styles[`button--emphasis-${toKebab(emphasis)}`],
     styles[`button--size-${toKebab(size)}`],
     appearance === 'inverted' ? styles['button--appearance-inverted'] : '',
+    compact ? styles['button--compact'] : '',
     destructive ? styles['button--destructive'] : '',
     className,
   ]
@@ -131,6 +159,7 @@ const Button = forwardRef(function Button(
     const {
       appearance = 'default',
       className = '',
+      compact = false,
       destructive = false,
       emphasis = 'primary',
       children,
@@ -147,12 +176,13 @@ const Button = forwardRef(function Button(
     const rootClass = buildRootClass({
       appearance,
       className,
+      compact,
       destructive,
       emphasis,
       size,
     });
     const iconSize = SIZE_ICON_MAP[size];
-    const showLeadingSlot = loading || isValidElement(leadingIcon);
+    const showLeadingSlot = loading || hasSlotContent(leadingIcon);
     const isDisabled = Boolean(disabled || loading);
     const child = children as ReactElement<{ children?: ReactNode }>;
 
@@ -172,7 +202,7 @@ const Button = forwardRef(function Button(
     ) : null;
 
     const trailing =
-      !loading && isValidElement(trailingIcon) ? (
+      !loading && hasSlotContent(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           <IconSlotContext.Provider value={{ size: iconSize }}>
             {trailingIcon}
@@ -205,6 +235,7 @@ const Button = forwardRef(function Button(
   const {
     appearance = 'default',
     className = '',
+    compact = false,
     destructive = false,
     emphasis = 'primary',
     children,
@@ -222,12 +253,13 @@ const Button = forwardRef(function Button(
   const rootClass = buildRootClass({
     appearance,
     className,
+    compact,
     destructive,
     emphasis,
     size,
   });
   const iconSize = SIZE_ICON_MAP[size];
-  const showLeadingSlot = loading || isValidElement(leadingIcon);
+  const showLeadingSlot = loading || hasSlotContent(leadingIcon);
   const isDisabled = Boolean(disabled || loading);
 
   return (
@@ -253,7 +285,7 @@ const Button = forwardRef(function Button(
         </span>
       ) : null}
       <span className={styles['button__label']}>{children}</span>
-      {!loading && isValidElement(trailingIcon) ? (
+      {!loading && hasSlotContent(trailingIcon) ? (
         <span className={styles['button__icon-slot']} aria-hidden>
           <IconSlotContext.Provider value={{ size: iconSize }}>
             {trailingIcon}

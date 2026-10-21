@@ -72,6 +72,7 @@ export function ButtonEmphasis() {
       <Button emphasis="secondary">Secondary</Button>
       <Button emphasis="tertiary">Tertiary</Button>
       <Button emphasis="quaternary">Quaternary</Button>
+      <Button emphasis="dim">Dim</Button>
     </div>
   );
 }
@@ -97,6 +98,9 @@ export function ButtonInverted() {
       </Button>
       <Button appearance="inverted" emphasis="quaternary">
         Quaternary
+      </Button>
+      <Button appearance="inverted" emphasis="dim">
+        Dim
       </Button>
     </div>
   );
