@@ -11,6 +11,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`TeamAvatar` `variant`:** `'sidebar'` (default) keeps the current interactive, sidebar-colored look. `'menu'` is a decorative variant for menu rows and other surfaces on `center-channel-bg` — no pointer cursor, no hover outline or border, `state` and `badge` are ignored, and the initials fallback uses center-channel colors so it stays legible on light-sidebar themes.
 - **`ComboboxOption` `leadingTeamAvatar`:** `{ src?, initials?, alt }` renders a 24px `TeamAvatar` (`variant="menu"`) as the leading visual of a list row, for team pickers. List rows only — chips don't render it; `leadingVisual` and `leadingAvatar` take precedence.
 
+### Changed
+
+- **Popover container radius:** `PopoverMenu` (and so the `Combobox` and `Select` menus), `EmojiPopover`, `ProfilePopover` and the `DateRangePicker` calendar popover now use `--radius-m` (8px), up from `--radius-s` (4px), matching `PopoverNotice`.
+
 ### Fixed
 
 - **`MenuItem` leading slot:** the slot padded every visual by 4px, which is correct for a 16px icon (24px box, matching the label line) but turned a 24px user or team avatar into a 32px box. The label then sat lower than it does on icon rows. The slot is now a 24px minimum with the visual centered inside it, so a 24px avatar shares that box and the label stays aligned. Taller visuals still grow the row and keep the label vertically centered.
