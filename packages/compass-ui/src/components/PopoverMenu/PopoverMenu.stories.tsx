@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
@@ -138,6 +139,11 @@ export const UserAutocomplete: Story = {
   ),
 };
 
+/** Slash command rows sit one spacing step tighter between the label and the description. */
+const SLASH_COMMAND_ROW_STYLE = {
+  '--menu-item-label-gap': 'var(--spacing-xxxxs)',
+} as CSSProperties;
+
 /** Figma "Leading Visual / Slash Command": a 32px tile (8px padding around a 16px glyph) with 6px above and below (one spacing step over the 4px in Figma), so the slot is 44px tall. */
 function SlashCommandTile() {
   return (
@@ -186,27 +192,32 @@ export const SlashCommandAutocomplete: Story = {
         <PopoverMenuGroup>
           <PopoverMenuGroupTitle>Commands</PopoverMenuGroupTitle>
           <MenuItem
+            style={SLASH_COMMAND_ROW_STYLE}
             active
             label="agenda [command]"
             secondaryLabel="Available commands: list, queue, setting, help"
             leadingVisual={<SlashCommandTile />}
           />
           <MenuItem
+            style={SLASH_COMMAND_ROW_STYLE}
             label="deploy [command]"
             secondaryLabel="Available commands: status, releases, rollbacks, expire_freeze, help, about"
             leadingVisual={<SlashCommandAppIcon />}
           />
           <MenuItem
+            style={SLASH_COMMAND_ROW_STYLE}
             label="away"
             secondaryLabel="Set your status to away"
             leadingVisual={<SlashCommandTile />}
           />
           <MenuItem
+            style={SLASH_COMMAND_ROW_STYLE}
             label="call [subcommand]"
             secondaryLabel="Start or join a call in the current channel"
             leadingVisual={<SlashCommandTile />}
           />
           <MenuItem
+            style={SLASH_COMMAND_ROW_STYLE}
             label="code"
             secondaryLabel="Display text as a code block"
             leadingVisual={<SlashCommandTile />}

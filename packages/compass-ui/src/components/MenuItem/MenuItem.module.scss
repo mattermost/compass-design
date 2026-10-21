@@ -105,7 +105,8 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xxxs);
+    // Hosts can tighten the label / secondary label gap with `--menu-item-label-gap`.
+    gap: var(--menu-item-label-gap, var(--spacing-xxxs));
     align-items: flex-start;
     justify-content: center;
     padding-top: var(--spacing-xxxxs);
