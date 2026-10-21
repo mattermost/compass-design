@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
-import SlashForwardBoxOutlineIcon from '@mattermost/compass-icons/components/slash-forward-box-outline';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import Emoji from '../Emoji/Emoji';
 import Icon from '../Icon/Icon';
@@ -138,30 +137,56 @@ export const UserAutocomplete: Story = {
   ),
 };
 
+/** The command tile is larger than a row icon: 40px, so the row grows and the label stays centered on it. */
+function SlashCommandTile() {
+  return (
+    <span
+      aria-hidden
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 40,
+        height: 40,
+        borderRadius: 'var(--radius-s)',
+        background: 'rgba(var(--center-channel-color-rgb), 0.08)',
+        color: 'rgba(var(--center-channel-color-rgb), 0.72)',
+        fontSize: 'var(--font-size-400)',
+        lineHeight: 1,
+      }}
+    >
+      /
+    </span>
+  );
+}
+
 export const SlashCommandAutocomplete: Story = {
   name: 'Slash command autocomplete',
   render: () => (
     <PopoverMenu style={{ width: AUTOCOMPLETE_WIDTH }} aria-label="Commands">
       <PopoverMenuScroll maxHeight={AUTOCOMPLETE_MAX_HEIGHT}>
         <PopoverMenuGroup>
+          <PopoverMenuGroupTitle>Commands</PopoverMenuGroupTitle>
           <MenuItem
             active
-            label="/away"
+            label="agenda [command]"
+            secondaryLabel="Available commands: list, queue, setting, help"
+            leadingVisual={<SlashCommandTile />}
+          />
+          <MenuItem
+            label="away"
             secondaryLabel="Set your status to away"
-            secondaryLabelPosition="inline"
-            leadingVisual={<Icon glyph={<SlashForwardBoxOutlineIcon />} />}
+            leadingVisual={<SlashCommandTile />}
           />
           <MenuItem
-            label="/call"
+            label="call [subcommand]"
             secondaryLabel="Start or join a call in the current channel"
-            secondaryLabelPosition="inline"
-            leadingVisual={<Icon glyph={<SlashForwardBoxOutlineIcon />} />}
+            leadingVisual={<SlashCommandTile />}
           />
           <MenuItem
-            label="/code"
+            label="code"
             secondaryLabel="Display text as a code block"
-            secondaryLabelPosition="inline"
-            leadingVisual={<Icon glyph={<SlashForwardBoxOutlineIcon />} />}
+            leadingVisual={<SlashCommandTile />}
           />
         </PopoverMenuGroup>
       </PopoverMenuScroll>
