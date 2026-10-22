@@ -11,7 +11,7 @@ export const TITLE_BANNERS_NEW_MESSAGE_BANNER =
 export const TITLE_BANNERS_SEARCH_TIP_BANNER =
   'Components/Banners/Search Tip Banner';
 
-export const TITLE_ACTIONS_ACTION_BUTTON = 'Components/Actions/Action Button';
+export const TITLE_ACTIONS_TILE_BUTTON = 'Components/Actions/Tile Button';
 export const TITLE_ACTIONS_BUTTON = 'Components/Actions/Button';
 export const TITLE_ACTIONS_ICON_BUTTON = 'Components/Actions/Icon Button';
 

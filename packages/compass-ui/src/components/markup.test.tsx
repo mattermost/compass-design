@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content -- asChild hosts replace empty anchor children with anatomy */
 import { describe, expect, it } from 'vitest';
 import { render } from '@/test-utils/render';
-import ActionButton from './ActionButton/ActionButton';
+import TileButton from './TileButton/TileButton';
 import Button from './Button/Button';
 import CardButton from './CardButton/CardButton';
 import Combobox from './Combobox/Combobox';
@@ -53,11 +53,9 @@ describe('default markup is unchanged', () => {
     );
   });
 
-  it('ActionButton', () => {
-    expect(
-      html(<ActionButton icon={null} label="Call" />),
-    ).toMatchInlineSnapshot(
-      `"<button class="_action-button_a2861e" type="button"><span class="_action-button__icon_a2861e" aria-hidden="true"></span><span class="_action-button__label_a2861e">Call</span></button>"`,
+  it('TileButton', () => {
+    expect(html(<TileButton icon={null} label="Call" />)).toMatchInlineSnapshot(
+      `"<button class="_tile-button_9e0b74" type="button"><span class="_tile-button__icon_9e0b74" aria-hidden="true"></span><span class="_tile-button__label_9e0b74">Call</span></button>"`,
     );
   });
 
@@ -182,15 +180,15 @@ describe('asChild markup', () => {
     );
   });
 
-  it('ActionButton asChild with <a>', () => {
+  it('TileButton asChild with <a>', () => {
     expect(
       html(
-        <ActionButton asChild icon={null} label="View profile">
+        <TileButton asChild icon={null} label="View profile">
           <a href="/users/me" />
-        </ActionButton>,
+        </TileButton>,
       ),
     ).toMatchInlineSnapshot(
-      `"<a href="/users/me" class="_action-button_a2861e"><span class="_action-button__icon_a2861e" aria-hidden="true"></span><span class="_action-button__label_a2861e">View profile</span></a>"`,
+      `"<a href="/users/me" class="_tile-button_9e0b74"><span class="_tile-button__icon_9e0b74" aria-hidden="true"></span><span class="_tile-button__label_9e0b74">View profile</span></a>"`,
     );
   });
 });

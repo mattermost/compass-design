@@ -1,5 +1,5 @@
-export { default as ActionButton } from './components/ActionButton/ActionButton';
-export type * from './components/ActionButton/ActionButton';
+export { default as TileButton } from './components/TileButton/TileButton';
+export type * from './components/TileButton/TileButton';
 export * from './components/AdminConsoleHeader/index';
 export * from './components/AdminPanel/index';
 export * from './components/AdminConsoleFooter/index';

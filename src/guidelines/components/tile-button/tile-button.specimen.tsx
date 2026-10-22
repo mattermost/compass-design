@@ -6,63 +6,63 @@ import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import StarIcon from '@mattermost/compass-icons/components/star';
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
-import { ActionButton } from '@mattermost/compass-ui/components/action-button';
+import { TileButton } from '@mattermost/compass-ui/components/tile-button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/components.module.scss';
 
-export default function ActionButtonLibrary() {
+export default function TileButtonLibrary() {
   return (
     <>
       <div className={styles['components__button-block']}>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Default</span>
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
             label="Action"
             aria-label="Action"
           />
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<StarOutlineIcon />} />}
             label="Favorite"
             aria-label="Favorite"
           />
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<BellOutlineIcon />} />}
             label="Mute"
             aria-label="Mute"
           />
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<LinkVariantIcon />} />}
             label="Copy Link"
             aria-label="Copy link"
           />
         </div>
         <div className={styles['components__button-row']}>
-          <span className={styles['components__instance-label']}>Active</span>
-          <ActionButton
+          <span className={styles['components__instance-label']}>Toggled</span>
+          <TileButton
             icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
             label="Action"
             aria-label="Action"
-            active
+            toggled
           />
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<StarIcon />} />}
             label="Favorited"
             aria-label="Favorited"
-            active
+            toggled
           />
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<BellOffOutlineIcon />} />}
             label="Muted"
             aria-label="Muted"
-            active
+            toggled
           />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
             Destructive
           </span>
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<TrashCanOutlineIcon />} />}
             label="Delete"
             aria-label="Delete"
@@ -71,7 +71,7 @@ export default function ActionButtonLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Disabled</span>
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
             label="Action"
             aria-label="Action"
@@ -80,15 +80,15 @@ export default function ActionButtonLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>As link</span>
-          <ActionButton
+          <TileButton
             asChild
             icon={<Icon glyph={<LinkVariantIcon />} />}
             label="View profile"
             aria-label="View profile"
           >
             <a href="#profile" />
-          </ActionButton>
-          <ActionButton
+          </TileButton>
+          <TileButton
             asChild
             icon={<Icon glyph={<LinkVariantIcon />} />}
             label="Unavailable"
@@ -96,7 +96,7 @@ export default function ActionButtonLibrary() {
             disabled
           >
             <a href="#disabled" />
-          </ActionButton>
+          </TileButton>
         </div>
       </div>
     </>

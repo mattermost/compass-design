@@ -10,18 +10,18 @@ import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import StarIcon from '@mattermost/compass-icons/components/star';
 import StarOutlineIcon from '@mattermost/compass-icons/components/star-outline';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
-import ActionButton from './ActionButton';
+import TileButton from './TileButton';
 import Icon from '@/components/Icon/Icon';
-import type { ActionButtonProps } from './ActionButton';
+import type { TileButtonProps } from './TileButton';
 import { iconSelectArgType, resolveStoryIcon } from '../../storybook/icons';
 
-type ActionButtonStoryArgs = Omit<ActionButtonProps, 'icon'> & {
+type TileButtonStoryArgs = Omit<TileButtonProps, 'icon'> & {
   icon: string;
 };
 
 const meta = {
-  title: 'Components/Actions/Action Button',
-  component: ActionButton,
+  title: 'Components/Actions/Tile Button',
+  component: TileButton,
   tags: ['autodocs'],
   argTypes: {
     icon: iconSelectArgType({
@@ -32,12 +32,12 @@ const meta = {
     icon: 'emoticon-happy-outline',
   },
   render: ({ icon, ...rest }) => (
-    <ActionButton
+    <TileButton
       {...rest}
       icon={resolveStoryIcon(icon, { wrapIcon: true }) as ReactNode}
     />
   ),
-} satisfies Meta<ActionButtonStoryArgs>;
+} satisfies Meta<TileButtonStoryArgs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -86,49 +86,49 @@ export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 20 }}>
       <Row label="Default">
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
           label="Action"
           aria-label="Action"
         />
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<StarOutlineIcon />} />}
           label="Favorite"
           aria-label="Favorite"
         />
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<BellOutlineIcon />} />}
           label="Mute"
           aria-label="Mute"
         />
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<LinkVariantIcon />} />}
           label="Copy Link"
           aria-label="Copy link"
         />
       </Row>
-      <Row label="Active">
-        <ActionButton
+      <Row label="Toggled">
+        <TileButton
           icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
           label="Action"
           aria-label="Action"
-          active
+          toggled
         />
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<StarIcon />} />}
           label="Favorited"
           aria-label="Favorited"
-          active
+          toggled
         />
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<BellOffOutlineIcon />} />}
           label="Muted"
           aria-label="Muted"
-          active
+          toggled
         />
       </Row>
       <Row label="Destructive">
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<TrashCanOutlineIcon />} />}
           label="Delete"
           aria-label="Delete"
@@ -136,7 +136,7 @@ export const AllVariants: Story = {
         />
       </Row>
       <Row label="Disabled">
-        <ActionButton
+        <TileButton
           icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
           label="Action"
           aria-label="Action"
@@ -168,11 +168,7 @@ export const LongLabels: Story = {
         }}
       >
         {labels.map(({ glyph, label }) => (
-          <ActionButton
-            key={label}
-            icon={<Icon glyph={glyph} />}
-            label={label}
-          />
+          <TileButton key={label} icon={<Icon glyph={glyph} />} label={label} />
         ))}
       </div>
     );
@@ -180,7 +176,7 @@ export const LongLabels: Story = {
       <div style={{ display: 'grid', gap: 20 }}>
         <Row label="Default width" align="stretch">
           {labels.map(({ glyph, label }) => (
-            <ActionButton
+            <TileButton
               key={label}
               icon={<Icon glyph={glyph} />}
               label={label}
@@ -194,11 +190,11 @@ export const LongLabels: Story = {
           <Container width={560} />
         </Row>
         <Row label="Clamped" align="stretch">
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
             label="Add people to this channel and notify them"
           />
-          <ActionButton
+          <TileButton
             icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
             label="Donaudampfschifffahrtsgesellschaft"
           />
@@ -210,13 +206,13 @@ export const LongLabels: Story = {
 
 export const AsLink: Story = {
   render: () => (
-    <ActionButton
+    <TileButton
       asChild
       icon={<Icon glyph={<LinkVariantIcon />} />}
       label="View profile"
     >
       <a href="https://mattermost.com" />
-    </ActionButton>
+    </TileButton>
   ),
 };
 
@@ -229,12 +225,12 @@ export const AsReactRouterLink: Story = {
     ),
   ],
   render: () => (
-    <ActionButton
+    <TileButton
       asChild
       icon={<Icon glyph={<LinkVariantIcon />} />}
       label="View profile"
     >
       <Link to="/users/me" />
-    </ActionButton>
+    </TileButton>
   ),
 };
