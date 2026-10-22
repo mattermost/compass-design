@@ -7,7 +7,9 @@ import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
+import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
 import MenuItem from './MenuItem';
+import Icon from '../Icon/Icon';
 import type { MenuItemProps } from './MenuItem';
 import ShortcutTag, { ShortcutTagGroup } from '../ShortcutTag/ShortcutTag';
 import UserAvatar from '../UserAvatar/UserAvatar';
@@ -413,10 +415,15 @@ export const Destructive: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div style={menuDemoStyle}>
-      <MenuItem label="Delete item" destructive />
+      <MenuItem
+        label="Delete item"
+        destructive
+        leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+      />
       <MenuItem
         label="Delete"
         destructive
+        leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
         trailingElement
         trailingVisual={<ShortcutTag label="delete" />}
       />
@@ -564,11 +571,21 @@ export const AllVariants: Story = {
           Destructive
         </h3>
         <div style={menuDemoStyle}>
-          <MenuItem label="Delete item" destructive />
-          <MenuItem label="Delete item" destructive trailingElement />
+          <MenuItem
+            label="Delete item"
+            destructive
+            leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+          />
+          <MenuItem
+            label="Delete item"
+            destructive
+            trailingElement
+            leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+          />
           <MenuItem
             label="Delete"
             destructive
+            leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
             trailingElement
             trailingVisual={<ShortcutTag label="delete" />}
           />

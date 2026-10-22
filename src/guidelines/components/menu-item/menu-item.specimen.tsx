@@ -1,5 +1,7 @@
+import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import {
   ShortcutTag,
@@ -113,11 +115,21 @@ export default function MenuItemLibrary() {
             Destructive
           </span>
           <div className={styles['components__menu-demo']}>
-            <MenuItem label="Delete item" destructive />
-            <MenuItem label="Delete item" destructive trailingElement />
+            <MenuItem
+              label="Delete item"
+              destructive
+              leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+            />
+            <MenuItem
+              label="Delete item"
+              destructive
+              trailingElement
+              leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+            />
             <MenuItem
               label="Delete"
               destructive
+              leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
               trailingElement
               trailingVisual={<ShortcutTag label="delete" />}
             />

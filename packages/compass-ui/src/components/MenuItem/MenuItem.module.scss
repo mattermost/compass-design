@@ -111,8 +111,8 @@
     color: var(--button-bg);
   }
 
-  // `__middle` and `__right` stretch to the row so their own centering applies when a
-  // leading visual is taller than the 24px slot; otherwise the label would sit at the top.
+  // `__middle` stretches to the row so its own centering applies when a leading visual is taller
+  // than the 24px slot; otherwise the label would sit at the top.
   &__middle {
     align-self: stretch;
     flex: 1 0 0;
@@ -186,12 +186,15 @@
     user-select: none;
   }
 
+  // Fixed 24px box, centered on the row: a trailing item taller than the label line overflows it
+  // instead of growing the row, so the label stays centered against the leading visual.
   &__right {
-    align-self: stretch;
+    align-self: center;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex-shrink: 0;
+    height: var(--spacing-xxl);
   }
 
   // ---------------------------------------------------------------------------

@@ -17,6 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **Popover container radius:** `PopoverMenu` (and so the `Combobox` and `Select` menus), `EmojiPopover`, `ProfilePopover` and the `DateRangePicker` calendar popover now use `--radius-m` (8px), up from `--radius-s` (4px), matching `PopoverNotice`.
 
 - **`ShortcutTag` in a `MenuItem` trailing slot:** keyboard shortcuts there now render as plain text — no chip background, no padding, regular weight, 72% center-channel color — with a 4px gap between keys in a `ShortcutTagGroup`. They follow the row's color on destructive rows. `ShortcutTag` elsewhere is unchanged.
+- **`MenuItem` trailing slot height:** the trailing slot is a fixed 24px box centered on the row, so a trailing item taller than the label line overflows it instead of growing the row and pushing the label down.
 - **`PopoverMenuScroll` padding:** the menu's 8px top and bottom padding now lives inside the scroll region (and moves to it when a `PopoverMenu` contains one), so rows scroll under the border instead of stopping 8px short, and the scrollbar runs the full height. `maxHeight` now includes that padding, which makes `Combobox` and `Select` lists 16px shorter than before but keeps them within `maxHeight` plus the 2px border. Menus without a scroll region are unchanged.
 
 ### Fixed
