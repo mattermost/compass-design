@@ -1,6 +1,10 @@
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  ShortcutTag,
+  ShortcutTagGroup,
+} from '@mattermost/compass-ui/components/shortcut-tag';
 import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from '@/styles/library-demo/components.module.scss';
@@ -74,6 +78,23 @@ export default function MenuItemLibrary() {
               leadingVisual={
                 <UserAvatar src={avatarEmma} alt="Emma Novak" size="24" />
               }
+            />
+          </div>
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Keyboard shortcut
+          </span>
+          <div className={styles['components__menu-demo']}>
+            <MenuItem
+              label="Mark as unread"
+              trailingElement
+              trailingVisual={<ShortcutTag label="U" />}
+            />
+            <MenuItem
+              label="Copy link"
+              trailingElement
+              trailingVisual={<ShortcutTagGroup labels={['Ctrl', 'K']} />}
             />
           </div>
         </div>

@@ -91,6 +91,20 @@
 
   &__trailing-visual {
     padding: var(--spacing-xxxs);
+
+    // Keyboard shortcuts (`ShortcutTag`) read as plain text here: no chip background or padding,
+    // regular weight, 72% center-channel text. Keys in a group get a gap since the chips no
+    // longer separate them.
+    kbd {
+      padding: 0;
+      background: transparent;
+      font-weight: var(--font-weight-regular);
+      color: rgba(var(--center-channel-color-rgb), 0.72);
+
+      + kbd {
+        margin-inline-start: var(--spacing-xxxs);
+      }
+    }
   }
 
   &__trailing-visual--check {
@@ -187,7 +201,8 @@
     color: var(--error-text, var(--color-danger));
 
     .menu-item__leading-visual,
-    .menu-item__trailing-visual {
+    .menu-item__trailing-visual,
+    .menu-item__trailing-visual kbd {
       color: var(--error-text, var(--color-danger));
     }
 
@@ -196,7 +211,8 @@
       color: var(--button-color);
 
       .menu-item__leading-visual,
-      .menu-item__trailing-visual {
+      .menu-item__trailing-visual,
+      .menu-item__trailing-visual kbd {
         color: inherit;
       }
     }
@@ -212,7 +228,8 @@
       color: var(--button-color);
 
       .menu-item__leading-visual,
-      .menu-item__trailing-visual {
+      .menu-item__trailing-visual,
+      .menu-item__trailing-visual kbd {
         color: inherit;
       }
     }
@@ -223,7 +240,8 @@
       color: var(--button-color);
 
       .menu-item__leading-visual,
-      .menu-item__trailing-visual {
+      .menu-item__trailing-visual,
+      .menu-item__trailing-visual kbd {
         color: inherit;
       }
     }

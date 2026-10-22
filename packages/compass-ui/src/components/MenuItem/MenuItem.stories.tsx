@@ -9,6 +9,7 @@ import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import MenuItem from './MenuItem';
 import type { MenuItemProps } from './MenuItem';
+import ShortcutTag, { ShortcutTagGroup } from '../ShortcutTag/ShortcutTag';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import type {
   UserAvatarFallbackColor,
@@ -386,6 +387,25 @@ export const LeadingTeamAvatar: Story = {
     label: 'Staff Team',
     leadingVisualKind: 'team-avatar',
   },
+};
+
+/** Keyboard shortcuts go in the trailing slot as `ShortcutTag`s. */
+export const WithKeyboardShortcut: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={menuDemoStyle}>
+      <MenuItem
+        label="Mark as unread"
+        trailingElement
+        trailingVisual={<ShortcutTag label="U" />}
+      />
+      <MenuItem
+        label="Copy link"
+        trailingElement
+        trailingVisual={<ShortcutTagGroup labels={['Ctrl', 'K']} />}
+      />
+    </div>
+  ),
 };
 
 export const Destructive: Story = {
