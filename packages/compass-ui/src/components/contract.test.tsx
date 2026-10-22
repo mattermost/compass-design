@@ -19,6 +19,7 @@ import SectionNotice from './SectionNotice/SectionNotice';
 import Tabs from './Tabs/Tabs';
 import Tag from './Tag/Tag';
 import TextInput from './TextInput/TextInput';
+import TileButton from './TileButton/TileButton';
 import Toast from './Toast/Toast';
 import TourPoint from './TourPoint/TourPoint';
 
@@ -27,6 +28,7 @@ import TourPoint from './TourPoint/TourPoint';
  * their root element. Add new composites here.
  */
 const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
+  TileButton: (a) => <TileButton icon={null} label="Call" {...a} />,
   SectionNotice: (a) => <SectionNotice title="Heads up" {...a} />,
   TourPoint: (a) => (
     <TourPoint title="Tip" {...a}>

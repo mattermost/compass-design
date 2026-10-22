@@ -6,6 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING: `ActionButton` renamed to `TileButton`.** The other button components are named for how they look (`IconButton`, `CardButton`, `EmojiButton`, `ReactionButton`); `TileButton` describes the stacked icon-over-label tile, and avoids confusion with the "action buttons" on integration post actions and interactive dialogs. Update imports from `@mattermost/compass-ui/components/action-button` to `@mattermost/compass-ui/components/tile-button`, and the `ActionButton`, `ActionButtonProps` and `ActionButtonAsChildProps` names to `TileButton`, `TileButtonProps` and `TileButtonAsChildProps`. The Storybook title is now `Components/Actions/Tile Button`. No alias for the old name is provided.
+- **BREAKING: `TileButton` `active` renamed to `toggled`.** Matches `IconButton` and `EmojiButton`, where `toggled` sets `aria-pressed` and the toggled visual. Behavior is unchanged: omit the prop for a plain action, and it is still not available with `asChild`. Unlike `IconButton` and `EmojiButton`, there is no appearance-only `active` prop.
+- **`TileButton` CSS:** class names are now `tile-button*` (was `action-button*`), the toggled modifier is `tile-button--toggled` (was `action-button--active`), and the host override for label side padding is `--tile-button-padding-inline` (was `--action-button-padding-inline`).
+- **`TileButton` label contrast:** the resting label is now 72% center-channel (was 64%) to meet the text opacity floor. The icon stays at 64%. Hover, pressed, toggled and destructive states are unchanged.
+
 ## [0.1.0-alpha.20] - 2026-10-21
 
 ### Added

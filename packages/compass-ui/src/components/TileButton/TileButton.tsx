@@ -9,10 +9,10 @@ import {
 } from 'react';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import { renderAsChild } from '@/utils/slot';
-import styles from './ActionButton.module.scss';
+import styles from './TileButton.module.scss';
 
-interface ActionButtonOwnProps {
-  /** Pass `<Icon glyph={<SomeIcon />} />` — ActionButton provides the correct size (20) via context. */
+interface TileButtonOwnProps {
+  /** Pass `<Icon glyph={<SomeIcon />} />` — TileButton provides the correct size (20) via context. */
   icon: ReactNode;
   /** Visible label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   label: ReactNode;
@@ -26,10 +26,10 @@ interface ActionButtonOwnProps {
   disabled?: boolean;
 }
 
-export interface ActionButtonProps
-  extends ActionButtonOwnProps, ButtonHTMLAttributes<HTMLButtonElement> {
+export interface TileButtonProps
+  extends TileButtonOwnProps, ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-   * When true, merges ActionButton props onto the single child element instead of
+   * When true, merges TileButton props onto the single child element instead of
    * rendering a `<button>`. Use with `<a>` or a router `Link`. Default: false.
    */
   asChild?: false;
@@ -37,44 +37,44 @@ export interface ActionButtonProps
    * When set, this is a toggle; maps to `aria-pressed`. Only applies to the native
    * `<button>`; not available with `asChild`.
    */
-  active?: boolean;
+  toggled?: boolean;
 }
 
-export interface ActionButtonAsChildProps
+export interface TileButtonAsChildProps
   extends
-    ActionButtonOwnProps,
+    TileButtonOwnProps,
     Omit<HTMLAttributes<HTMLElement>, 'children' | 'color'> {
   /**
-   * Merges ActionButton props onto the single child element instead of rendering a
+   * Merges TileButton props onto the single child element instead of rendering a
    * `<button>`. The child's own props (`href`, `to`, `target`, …) stay on the
-   * child. Do not pass `type` or `active` — they are not available on links.
-   * Pass an empty child; ActionButton supplies the icon and label anatomy.
+   * child. Do not pass `type` or `toggled` — they are not available on links.
+   * Pass an empty child; TileButton supplies the icon and label anatomy.
    */
   asChild: true;
-  /** Single empty element to render as the ActionButton (e.g. `<a href="…" />`). */
+  /** Single empty element to render as the TileButton (e.g. `<a href="…" />`). */
   children: ReactElement;
 }
 
-type ActionButtonComponent = {
+type TileButtonComponent = {
   (
-    props: ActionButtonAsChildProps & RefAttributes<HTMLElement>,
+    props: TileButtonAsChildProps & RefAttributes<HTMLElement>,
   ): ReactElement | null;
   (
-    props: ActionButtonProps & RefAttributes<HTMLButtonElement>,
+    props: TileButtonProps & RefAttributes<HTMLButtonElement>,
   ): ReactElement | null;
   displayName?: string;
 };
 
 /**
- * Action Buttons surface a small set of high-frequency actions in a fixed context — a
+ * Tile Buttons surface a small set of high-frequency actions in a fixed context — a
  * profile popover, a channel info panel, a card. They sit close to the content they act on
  * and read as a row of equal-weight choices.
  *
  * Pass `asChild` with a single empty `<a>` or router `Link` child to render a navigational
- * action with Action Button styling (no nested `<button>`).
+ * action with Tile Button styling (no nested `<button>`).
  */
-const ActionButton = forwardRef(function ActionButton(
-  props: ActionButtonProps | ActionButtonAsChildProps,
+const TileButton = forwardRef(function TileButton(
+  props: TileButtonProps | TileButtonAsChildProps,
   ref: Ref<HTMLButtonElement | HTMLElement>,
 ) {
   if (props.asChild) {
@@ -91,8 +91,8 @@ const ActionButton = forwardRef(function ActionButton(
     void asChild;
 
     const rootClass = [
-      styles['action-button'],
-      destructive ? styles['action-button--destructive'] : '',
+      styles['tile-button'],
+      destructive ? styles['tile-button--destructive'] : '',
       className ?? '',
     ]
       .filter(Boolean)
@@ -100,12 +100,12 @@ const ActionButton = forwardRef(function ActionButton(
 
     const anatomy = (
       <>
-        <span className={styles['action-button__icon']} aria-hidden>
+        <span className={styles['tile-button__icon']} aria-hidden>
           <IconSlotContext.Provider value={{ size: '20' }}>
             {icon}
           </IconSlotContext.Provider>
         </span>
-        <span className={styles['action-button__label']}>{label}</span>
+        <span className={styles['tile-button__label']}>{label}</span>
       </>
     );
 
@@ -118,7 +118,7 @@ const ActionButton = forwardRef(function ActionButton(
       ref,
       content: anatomy,
       disabled: Boolean(disabled),
-      disabledClassName: styles['action-button--disabled'],
+      disabledClassName: styles['tile-button--disabled'],
       warnOnChildContent: true,
     });
   }
@@ -126,7 +126,7 @@ const ActionButton = forwardRef(function ActionButton(
   const {
     icon,
     label,
-    active,
+    toggled,
     destructive = false,
     className,
     disabled,
@@ -137,9 +137,9 @@ const ActionButton = forwardRef(function ActionButton(
   void asChild;
 
   const rootClass = [
-    styles['action-button'],
-    active ? styles['action-button--active'] : '',
-    destructive ? styles['action-button--destructive'] : '',
+    styles['tile-button'],
+    toggled ? styles['tile-button--toggled'] : '',
+    destructive ? styles['tile-button--destructive'] : '',
     className ?? '',
   ]
     .filter(Boolean)
@@ -151,19 +151,19 @@ const ActionButton = forwardRef(function ActionButton(
       className={rootClass}
       type={type}
       disabled={disabled}
-      aria-pressed={active === undefined ? undefined : active}
+      aria-pressed={toggled === undefined ? undefined : toggled}
       {...htmlProps}
     >
-      <span className={styles['action-button__icon']} aria-hidden>
+      <span className={styles['tile-button__icon']} aria-hidden>
         <IconSlotContext.Provider value={{ size: '20' }}>
           {icon}
         </IconSlotContext.Provider>
       </span>
-      <span className={styles['action-button__label']}>{label}</span>
+      <span className={styles['tile-button__label']}>{label}</span>
     </button>
   );
-}) as ActionButtonComponent;
+}) as TileButtonComponent;
 
-ActionButton.displayName = 'ActionButton';
+TileButton.displayName = 'TileButton';
 
-export default ActionButton;
+export default TileButton;
