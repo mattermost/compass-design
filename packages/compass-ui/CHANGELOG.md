@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.21] - 2026-10-22
+
 ### Added
 
 - **`TeamAvatar` `variant`:** `'sidebar'` (default) keeps the current interactive, sidebar-colored look. `'menu'` is a decorative variant for menu rows and other surfaces on `center-channel-bg` — no pointer cursor, no hover outline or border, hidden from assistive tech, `state` and `badge` are ignored, and the initials fallback uses center-channel colors so it stays legible on light-sidebar themes.
@@ -407,7 +409,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.20...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.21...HEAD
+[0.1.0-alpha.21]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.20...0.1.0-alpha.21
 [0.1.0-alpha.20]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...0.1.0-alpha.20
 [0.1.0-alpha.19]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...0.1.0-alpha.19
 [0.1.0-alpha.18]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.17...0.1.0-alpha.18
