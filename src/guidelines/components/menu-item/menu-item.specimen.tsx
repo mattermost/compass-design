@@ -1,4 +1,14 @@
+import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
+import avatarEmma from '@/assets/avatars/Emma Novak.png';
+import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  ShortcutTag,
+  ShortcutTagGroup,
+} from '@mattermost/compass-ui/components/shortcut-tag';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from '@/styles/library-demo/components.module.scss';
 
 export default function MenuItemLibrary() {
@@ -31,6 +41,67 @@ export default function MenuItemLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
+            Team avatar
+          </span>
+          <div className={styles['components__menu-demo']}>
+            <MenuItem
+              label="Staff Team"
+              leadingVisual={
+                <TeamAvatar
+                  src={avatarStaffTeam}
+                  alt="Staff Team"
+                  size="24"
+                  variant="menu"
+                />
+              }
+            />
+            <MenuItem
+              label="Core Team"
+              leadingVisual={
+                <TeamAvatar
+                  initials="Co"
+                  alt="Core Team"
+                  size="24"
+                  variant="menu"
+                />
+              }
+            />
+          </div>
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            User avatar
+          </span>
+          <div className={styles['components__menu-demo']}>
+            <MenuItem
+              label="Emma Novak"
+              secondaryLabel="@emma"
+              secondaryLabelPosition="inline"
+              leadingVisual={
+                <UserAvatar src={avatarEmma} alt="Emma Novak" size="24" />
+              }
+            />
+          </div>
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
+            Keyboard shortcut
+          </span>
+          <div className={styles['components__menu-demo']}>
+            <MenuItem
+              label="Mark as unread"
+              trailingElement
+              trailingVisual={<ShortcutTag label="U" />}
+            />
+            <MenuItem
+              label="Copy link"
+              trailingElement
+              trailingVisual={<ShortcutTagGroup labels={['Ctrl', 'K']} />}
+            />
+          </div>
+        </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>
             Badges & tag
           </span>
           <div className={styles['components__menu-demo']}>
@@ -44,8 +115,24 @@ export default function MenuItemLibrary() {
             Destructive
           </span>
           <div className={styles['components__menu-demo']}>
-            <MenuItem label="Delete item" destructive />
-            <MenuItem label="Delete item" destructive trailingElement />
+            <MenuItem
+              label="Delete item"
+              destructive
+              leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+            />
+            <MenuItem
+              label="Delete item"
+              destructive
+              trailingElement
+              leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+            />
+            <MenuItem
+              label="Delete"
+              destructive
+              leadingVisual={<Icon glyph={<TrashCanOutlineIcon />} />}
+              trailingElement
+              trailingVisual={<ShortcutTag label="delete" />}
+            />
           </div>
         </div>
         <div className={styles['components__button-row']}>

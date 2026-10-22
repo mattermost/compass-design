@@ -6,12 +6,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`TeamAvatar` `variant`:** `'sidebar'` (default) keeps the current interactive, sidebar-colored look. `'menu'` is a decorative variant for menu rows and other surfaces on `center-channel-bg` — no pointer cursor, no hover outline or border, hidden from assistive tech, `state` and `badge` are ignored, and the initials fallback uses center-channel colors so it stays legible on light-sidebar themes.
+- **`--menu-item-label-gap`:** optional custom property on `MenuItem` for the gap between the label and a below-position secondary label (default `--spacing-xxxs`, 4px). Slash command rows set it to `--spacing-xxxxs`.
+- **`ComboboxOption` `leadingTeamAvatar`:** `{ src?, initials?, alt? }` renders a 24px `TeamAvatar` (`variant="menu"`) as the leading visual of a list row, for team pickers. With neither `src` nor `initials`, the fallback shows the first two letters of `label`. List rows only — chips don't render it; `leadingVisual` and `leadingAvatar` take precedence.
+
 ### Changed
 
 - **BREAKING: `ActionButton` renamed to `TileButton`.** The other button components are named for how they look (`IconButton`, `CardButton`, `EmojiButton`, `ReactionButton`); `TileButton` describes the stacked icon-over-label tile, and avoids confusion with the "action buttons" on integration post actions and interactive dialogs. Update imports from `@mattermost/compass-ui/components/action-button` to `@mattermost/compass-ui/components/tile-button`, and the `ActionButton`, `ActionButtonProps` and `ActionButtonAsChildProps` names to `TileButton`, `TileButtonProps` and `TileButtonAsChildProps`. The Storybook title is now `Components/Actions/Tile Button`. No alias for the old name is provided.
 - **BREAKING: `TileButton` `active` renamed to `toggled`.** Matches `IconButton` and `EmojiButton`, where `toggled` sets `aria-pressed` and the toggled visual. Behavior is unchanged: omit the prop for a plain action, and it is still not available with `asChild`. Unlike `IconButton` and `EmojiButton`, there is no appearance-only `active` prop.
 - **`TileButton` CSS:** class names are now `tile-button*` (was `action-button*`), the toggled modifier is `tile-button--toggled` (was `action-button--active`), and the host override for label side padding is `--tile-button-padding-inline` (was `--action-button-padding-inline`).
 - **`TileButton` label contrast:** the resting label is now 72% center-channel (was 64%) to meet the text opacity floor. The icon stays at 64%. Hover, pressed, toggled and destructive states are unchanged.
+- **Popover container radius:** `PopoverMenu` (and so the `Combobox` and `Select` menus), `EmojiPopover`, `ProfilePopover` and the `DateRangePicker` calendar popover now use `--radius-m` (8px), up from `--radius-s` (4px), matching `PopoverNotice`.
+- **`ShortcutTag` in a `MenuItem` trailing slot:** keyboard shortcuts there now render as plain text — no chip background, no padding, regular weight, 72% center-channel color — with a 4px gap between keys in a `ShortcutTagGroup`. They follow the row's color on destructive rows. `ShortcutTag` elsewhere is unchanged.
+- **`MenuItem` trailing slot height:** the trailing slot is a fixed 24px box centered on the row, so a trailing item taller than the label line overflows it instead of growing the row and pushing the label down.
+- **`PopoverMenuScroll` padding:** the menu's 8px top and bottom padding now lives inside the scroll region (and moves to it when a `PopoverMenu` contains one), so rows scroll under the border instead of stopping 8px short, and the scrollbar runs the full height. `maxHeight` now includes that padding, which makes `Combobox` and `Select` lists 16px shorter than before but keeps them within `maxHeight` plus the 2px border. Menus without a scroll region are unchanged.
+
+### Fixed
+
+- **`MenuItem` leading slot:** the slot padded every visual by 4px, which is correct for a 16px icon (24px box, matching the label line) but turned a 24px user or team avatar into a 32px box. The label then sat lower than it does on icon rows. The slot is now a 24px minimum with the visual centered inside it, so a 24px avatar shares that box and the label stays aligned. Taller visuals still grow the row and keep the label vertically centered.
 
 ## [0.1.0-alpha.20] - 2026-10-21
 

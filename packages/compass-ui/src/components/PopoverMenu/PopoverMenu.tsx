@@ -68,12 +68,16 @@ export default function PopoverMenu({
 
 export interface PopoverMenuScrollProps {
   children: ReactNode;
-  /** Maximum height of the scrollable region (coerces numbers to px). */
+  /** Maximum height of the scrollable region, including its vertical padding (coerces numbers to px). */
   maxHeight: string | number;
   className?: string;
 }
 
-/** Scrollable region for long item lists; keeps a sibling title visible when used with `maxHeight`. */
+/**
+ * Scrollable region for long item lists; keeps a sibling title visible when used with `maxHeight`.
+ * It owns the menu's vertical padding, so the region runs edge to edge and rows scroll under the
+ * border instead of stopping 8px short of it.
+ */
 export function PopoverMenuScroll({
   maxHeight,
   children,
@@ -87,7 +91,7 @@ export function PopoverMenuScroll({
         .join(' ')}
       style={{ maxHeight: maxH }}
     >
-      {children}
+      <div className={styles['popover-menu__scroll-content']}>{children}</div>
     </Scrollbar>
   );
 }

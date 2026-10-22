@@ -4,6 +4,7 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
 import avatarArjun from '@/assets/avatars/Arjun Patel.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import Combobox from './Combobox';
 import type { ComboboxOption, ComboboxProps, ComboboxSize } from './Combobox';
 import Icon from '../Icon/Icon';
@@ -45,6 +46,24 @@ const PEOPLE_OPTIONS: ComboboxOption[] = [
     secondaryLabel: '@sofia',
     leadingAvatar: { src: avatarSofia, alt: 'Sofia Bauer' },
     leadingVisual: <UserAvatar src={avatarSofia} alt="Sofia Bauer" size="24" />,
+  },
+];
+
+const TEAM_OPTIONS: ComboboxOption[] = [
+  {
+    value: 'staff',
+    label: 'Staff Team',
+    leadingTeamAvatar: { src: avatarStaffTeam, alt: 'Staff Team' },
+  },
+  {
+    value: 'core',
+    label: 'Core Team',
+    leadingTeamAvatar: { initials: 'Co', alt: 'Core Team' },
+  },
+  {
+    value: 'design',
+    label: 'Design Team',
+    leadingTeamAvatar: { initials: 'De', alt: 'Design Team' },
   },
 ];
 
@@ -111,6 +130,30 @@ export const InlineSecondaryLabel: Story = {
       { value: 'ts', label: 'Town Square', secondaryLabel: 'Engineering' },
       { value: 'ot', label: 'Off-Topic', secondaryLabel: 'Engineering' },
       { value: 'rl', label: 'Releases', secondaryLabel: 'Design' },
+    ],
+  },
+};
+
+/** `leadingTeamAvatar` renders a non-interactive `TeamAvatar` (menu variant) in each row. */
+export const TeamPicker: Story = {
+  args: {
+    label: 'Team',
+    placeholder: 'Search teams…',
+    options: TEAM_OPTIONS,
+  },
+};
+
+/** Teams and channels can share one list: each option picks its own leading visual. */
+export const TeamsAndChannels: Story = {
+  args: {
+    label: 'Jump to',
+    placeholder: 'Search teams and channels…',
+    options: [
+      ...TEAM_OPTIONS,
+      ...CHANNEL_OPTIONS.map((option) => ({
+        ...option,
+        leadingVisual: <Icon glyph={<GlobeIcon />} />,
+      })),
     ],
   },
 };

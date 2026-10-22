@@ -75,24 +75,52 @@
   &__trailing-visual {
     display: flex;
     align-items: center;
-    padding: var(--spacing-xxxs);
+    justify-content: center;
     flex-shrink: 0;
     color: rgba(var(--center-channel-color-rgb), 0.64);
+  }
+
+  // 16px icon centered in a 24px box — the same height as the label line
+  // (20px line-height + 2px padding above and below). Padding around the
+  // child would turn a 24px avatar into a 32px slot and drop the label.
+  &__leading-visual {
+    box-sizing: border-box;
+    min-width: calc(var(--icon-size-16) + (var(--spacing-xxxs) * 2));
+    min-height: calc(var(--icon-size-16) + (var(--spacing-xxxs) * 2));
+  }
+
+  &__trailing-visual {
+    padding: var(--spacing-xxxs);
+
+    // Keyboard shortcuts (`ShortcutTag`) read as plain text here: no chip background or padding,
+    // regular weight, 72% center-channel text. Keys in a group get a gap since the chips no
+    // longer separate them.
+    kbd {
+      padding: 0;
+      background: transparent;
+      font-weight: var(--font-weight-regular);
+      color: rgba(var(--center-channel-color-rgb), 0.72);
+
+      + kbd {
+        margin-inline-start: var(--spacing-xxxs);
+      }
+    }
   }
 
   &__trailing-visual--check {
     color: var(--button-bg);
   }
 
-  // `__middle` and `__right` stretch to the row so their own centering applies when a
-  // taller leading visual (e.g. a 24px avatar) is the tallest item; otherwise they'd sit at the top.
+  // `__middle` stretches to the row so its own centering applies when a leading visual is taller
+  // than the 24px slot; otherwise the label would sit at the top.
   &__middle {
     align-self: stretch;
     flex: 1 0 0;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xxxs);
+    // Hosts can tighten the label / secondary label gap with `--menu-item-label-gap`.
+    gap: var(--menu-item-label-gap, var(--spacing-xxxs));
     align-items: flex-start;
     justify-content: center;
     padding-top: var(--spacing-xxxxs);
@@ -158,12 +186,15 @@
     user-select: none;
   }
 
+  // Fixed 24px box, centered on the row: a trailing item taller than the label line overflows it
+  // instead of growing the row, so the label stays centered against the leading visual.
   &__right {
-    align-self: stretch;
+    align-self: center;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex-shrink: 0;
+    height: var(--spacing-xxl);
   }
 
   // ---------------------------------------------------------------------------
@@ -173,7 +204,8 @@
     color: var(--error-text, var(--color-danger));
 
     .menu-item__leading-visual,
-    .menu-item__trailing-visual {
+    .menu-item__trailing-visual,
+    .menu-item__trailing-visual kbd {
       color: var(--error-text, var(--color-danger));
     }
 
@@ -182,7 +214,8 @@
       color: var(--button-color);
 
       .menu-item__leading-visual,
-      .menu-item__trailing-visual {
+      .menu-item__trailing-visual,
+      .menu-item__trailing-visual kbd {
         color: inherit;
       }
     }
@@ -198,7 +231,8 @@
       color: var(--button-color);
 
       .menu-item__leading-visual,
-      .menu-item__trailing-visual {
+      .menu-item__trailing-visual,
+      .menu-item__trailing-visual kbd {
         color: inherit;
       }
     }
@@ -209,7 +243,8 @@
       color: var(--button-color);
 
       .menu-item__leading-visual,
-      .menu-item__trailing-visual {
+      .menu-item__trailing-visual,
+      .menu-item__trailing-visual kbd {
         color: inherit;
       }
     }
