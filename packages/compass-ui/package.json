@@ -473,14 +473,8 @@
       "illustrations/no-unreads-on-sidebar-bg": [
         "./dist/illustrations/no-unreads-on-sidebar-bg.d.ts"
       ],
-      "illustrations/oauth": [
-        "./dist/illustrations/oauth.d.ts"
-      ],
       "illustrations/office": [
         "./dist/illustrations/office.d.ts"
-      ],
-      "illustrations/outgoing-oauth-connections": [
-        "./dist/illustrations/outgoing-oauth-connections.d.ts"
       ],
       "illustrations/outgoing-webhook": [
         "./dist/illustrations/outgoing-webhook.d.ts"
