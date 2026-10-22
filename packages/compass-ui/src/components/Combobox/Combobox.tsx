@@ -229,7 +229,9 @@ function optionLeadingVisual(option: ComboboxOption): ReactNode | undefined {
         src={option.leadingTeamAvatar.src}
         initials={
           option.leadingTeamAvatar.initials ??
-          (option.leadingTeamAvatar.src ? undefined : option.label.slice(0, 2))
+          (option.leadingTeamAvatar.src
+            ? undefined
+            : Array.from(option.label).slice(0, 2).join(''))
         }
         alt={option.leadingTeamAvatar.alt}
         size="24"

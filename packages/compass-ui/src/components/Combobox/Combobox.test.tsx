@@ -593,4 +593,23 @@ describe('Combobox leadingTeamAvatar', () => {
       document.querySelector('[class*="team-avatar--menu"]')?.textContent,
     ).toBe('De');
   });
+
+  it('does not split astral characters when deriving initials from the label', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'rocket',
+            label: 'A🚀 Team',
+            leadingTeamAvatar: { alt: 'Rocket Team' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(
+      document.querySelector('[class*="team-avatar--menu"]')?.textContent,
+    ).toBe('A🚀');
+  });
 });
