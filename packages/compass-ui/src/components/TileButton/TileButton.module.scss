@@ -10,7 +10,9 @@
   border: none;
   border-radius: var(--radius-s);
   background-color: rgba(var(--center-channel-color-rgb), 0.04);
-  --tile-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
+  --tile-button-fg: rgba(var(--center-channel-color-rgb), 0.72);
+  // Icons may rest at 0.64 (icon floor 0.56); text may not (floor 0.72).
+  --tile-button-icon-fg: rgba(var(--center-channel-color-rgb), 0.64);
   color: var(--tile-button-fg);
   cursor: pointer;
   text-decoration: none;
@@ -98,6 +100,14 @@
     }
   }
 
+  // Hover, pressed, toggled and destructive colour the icon and label alike.
+  &:hover:not(:disabled, .tile-button--disabled),
+  &:active:not(:disabled, .tile-button--disabled),
+  &--toggled,
+  &--destructive {
+    --tile-button-icon-fg: initial;
+  }
+
   &__icon {
     display: flex;
     align-items: center;
@@ -105,7 +115,7 @@
     width: var(--icon-size-20);
     height: var(--icon-size-20);
     flex-shrink: 0;
-    color: var(--tile-button-fg);
+    color: var(--tile-button-icon-fg, var(--tile-button-fg));
   }
 
   &__label {
