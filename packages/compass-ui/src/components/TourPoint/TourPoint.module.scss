@@ -234,7 +234,7 @@
   &__next-wrap {
     flex-shrink: 0;
 
-    :global(button) {
+    button {
       --focus-ring-color: var(--neutral-0);
       --button-fg: var(--button-bg);
 
