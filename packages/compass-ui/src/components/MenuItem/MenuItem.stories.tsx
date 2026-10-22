@@ -408,11 +408,20 @@ export const WithKeyboardShortcut: Story = {
   ),
 };
 
+/** The shortcut follows the destructive color, including on hover. */
 export const Destructive: Story = {
-  args: {
-    label: 'Delete item',
-    destructive: true,
-  },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={menuDemoStyle}>
+      <MenuItem label="Delete item" destructive />
+      <MenuItem
+        label="Delete"
+        destructive
+        trailingElement
+        trailingVisual={<ShortcutTag label="delete" />}
+      />
+    </div>
+  ),
 };
 
 export const AllVariants: Story = {
@@ -557,6 +566,12 @@ export const AllVariants: Story = {
         <div style={menuDemoStyle}>
           <MenuItem label="Delete item" destructive />
           <MenuItem label="Delete item" destructive trailingElement />
+          <MenuItem
+            label="Delete"
+            destructive
+            trailingElement
+            trailingVisual={<ShortcutTag label="delete" />}
+          />
         </div>
       </section>
       <section>

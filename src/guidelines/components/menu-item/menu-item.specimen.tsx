@@ -115,6 +115,12 @@ export default function MenuItemLibrary() {
           <div className={styles['components__menu-demo']}>
             <MenuItem label="Delete item" destructive />
             <MenuItem label="Delete item" destructive trailingElement />
+            <MenuItem
+              label="Delete"
+              destructive
+              trailingElement
+              trailingVisual={<ShortcutTag label="delete" />}
+            />
           </div>
         </div>
         <div className={styles['components__button-row']}>
