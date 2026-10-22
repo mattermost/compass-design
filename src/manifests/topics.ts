@@ -252,16 +252,6 @@ export const TOPICS: Topic[] = [
   // Components
   // ===========================================================================
   {
-    slug: 'action-button',
-    name: 'Action Button',
-    category: 'components',
-    status: 'stable',
-    guidelinePage: () =>
-      import('@/guidelines/components/action-button/action-button.guideline.mdx'),
-    specimenPage: () =>
-      import('@/guidelines/components/action-button/action-button.specimen'),
-  },
-  {
     slug: 'admin-console-header',
     name: 'Admin Console Header',
     category: 'components',
@@ -915,6 +905,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/thread-list-item/thread-list-item.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/components/thread-list-item/thread-list-item.specimen'),
+  },
+  {
+    slug: 'tile-button',
+    name: 'Tile Button',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/tile-button/tile-button.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/tile-button/tile-button.specimen'),
   },
   {
     slug: 'toast',

@@ -2,48 +2,48 @@
 import { createRef, forwardRef, type ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render } from '@/test-utils/render';
-import ActionButton from './ActionButton';
+import TileButton from './TileButton';
 
-describe('ActionButton asChild', () => {
+describe('TileButton asChild', () => {
   it('renders a single <a> with icon and label anatomy and no nested <button>', () => {
     const { container } = render(
-      <ActionButton asChild icon={null} label="View profile">
+      <TileButton asChild icon={null} label="View profile">
         <a href="/users/me" />
-      </ActionButton>,
+      </TileButton>,
     );
     expect(container.querySelectorAll('button')).toHaveLength(0);
     const anchor = container.querySelector('a');
     expect(anchor?.getAttribute('href')).toBe('/users/me');
-    expect(anchor?.className).toMatch(/action-button/);
+    expect(anchor?.className).toMatch(/tile-button/);
     expect(
-      anchor?.querySelector('[class*="action-button__label"]')?.textContent,
+      anchor?.querySelector('[class*="tile-button__label"]')?.textContent,
     ).toBe('View profile');
     expect(anchor?.hasAttribute('aria-pressed')).toBe(false);
   });
 
   it('does not forward type', () => {
     const { container } = render(
-      <ActionButton
+      <TileButton
         asChild
         icon={null}
         label="Go"
         {...({ type: 'submit' } as object)}
       >
         <a href="/x" />
-      </ActionButton>,
+      </TileButton>,
     );
     expect(container.querySelector('a')?.hasAttribute('type')).toBe(false);
   });
 
   it('sets aria-disabled when disabled', () => {
     const { container } = render(
-      <ActionButton asChild icon={null} label="Go" disabled>
+      <TileButton asChild icon={null} label="Go" disabled>
         <a href="/x" />
-      </ActionButton>,
+      </TileButton>,
     );
     const anchor = container.querySelector('a')!;
     expect(anchor.getAttribute('aria-disabled')).toBe('true');
-    expect(anchor.className).toMatch(/action-button--disabled/);
+    expect(anchor.className).toMatch(/tile-button--disabled/);
     const event = new MouseEvent('click', { bubbles: true, cancelable: true });
     anchor.dispatchEvent(event);
     expect(event.defaultPrevented).toBe(true);
@@ -52,9 +52,9 @@ describe('ActionButton asChild', () => {
   it('forwards ref to the anchor', () => {
     const ref = createRef<HTMLAnchorElement>();
     render(
-      <ActionButton asChild ref={ref} icon={null} label="Go">
+      <TileButton asChild ref={ref} icon={null} label="Go">
         <a href="/x" />
-      </ActionButton>,
+      </TileButton>,
     );
     expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
     ref.current?.focus();
@@ -73,9 +73,9 @@ describe('ActionButton asChild', () => {
       );
     });
     const { container } = render(
-      <ActionButton asChild icon={null} label="Profile">
+      <TileButton asChild icon={null} label="Profile">
         <Link to="/users/me" />
-      </ActionButton>,
+      </TileButton>,
     );
     expect(container.querySelector('a')?.getAttribute('href')).toBe(
       '/users/me',
@@ -85,9 +85,9 @@ describe('ActionButton asChild', () => {
   it('warns when the child has content', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     render(
-      <ActionButton asChild icon={null} label="Go">
+      <TileButton asChild icon={null} label="Go">
         <a href="/x">oops</a>
-      </ActionButton>,
+      </TileButton>,
     );
     expect(warn).toHaveBeenCalled();
     warn.mockRestore();
@@ -95,9 +95,9 @@ describe('ActionButton asChild', () => {
 
   it('composes className', () => {
     const { container } = render(
-      <ActionButton asChild icon={null} label="Go" className="host">
+      <TileButton asChild icon={null} label="Go" className="host">
         <a href="/x" className="child" />
-      </ActionButton>,
+      </TileButton>,
     );
     const className = container.querySelector('a')?.className ?? '';
     expect(className).toContain('host');
@@ -105,16 +105,38 @@ describe('ActionButton asChild', () => {
   });
 });
 
-describe('ActionButton long labels', () => {
+describe('TileButton long labels', () => {
   it('keeps the full label in the DOM without overriding the accessible name', () => {
     const label = 'Add people to this channel and notify them';
-    const { container } = render(<ActionButton icon={null} label={label} />);
+    const { container } = render(<TileButton icon={null} label={label} />);
     const button = container.querySelector('button')!;
     expect(
-      button.querySelector('[class*="action-button__label"]')?.textContent,
+      button.querySelector('[class*="tile-button__label"]')?.textContent,
     ).toBe(label);
     expect(button.textContent).toBe(label);
     expect(button.hasAttribute('aria-label')).toBe(false);
     expect(button.hasAttribute('title')).toBe(false);
+  });
+});
+
+describe('TileButton toggled', () => {
+  it('is not a toggle when toggled is omitted', () => {
+    const { container } = render(<TileButton icon={null} label="Mute" />);
+    expect(
+      container.querySelector('button')!.hasAttribute('aria-pressed'),
+    ).toBe(false);
+  });
+
+  it('maps toggled to aria-pressed', () => {
+    const { container, rerender } = render(
+      <TileButton icon={null} label="Mute" toggled />,
+    );
+    const button = container.querySelector('button')!;
+    expect(button.getAttribute('aria-pressed')).toBe('true');
+    expect(button.className).toMatch(/tile-button--toggled/);
+
+    rerender(<TileButton icon={null} label="Mute" toggled={false} />);
+    expect(button.getAttribute('aria-pressed')).toBe('false');
+    expect(button.className).not.toMatch(/tile-button--toggled/);
   });
 });

@@ -2,7 +2,7 @@
 import { createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render } from '@/test-utils/render';
-import ActionButton from './ActionButton/ActionButton';
+import TileButton from './TileButton/TileButton';
 import Button from './Button/Button';
 import CardButton from './CardButton/CardButton';
 import Checkbox from './Checkbox/Checkbox';
@@ -24,9 +24,9 @@ describe('button primitives forward refs to the <button>', () => {
       ),
     ],
     [
-      'ActionButton',
+      'TileButton',
       (ref: React.Ref<HTMLButtonElement>) => (
-        <ActionButton ref={ref} icon={null} label="Call" />
+        <TileButton ref={ref} icon={null} label="Call" />
       ),
     ],
     [
@@ -106,11 +106,11 @@ describe('asChild forwards refs to the <a>', () => {
       ),
     ],
     [
-      'ActionButton',
+      'TileButton',
       (ref: React.Ref<HTMLAnchorElement>) => (
-        <ActionButton asChild ref={ref} icon={null} label="Call">
+        <TileButton asChild ref={ref} icon={null} label="Call">
           <a href="/x" />
-        </ActionButton>
+        </TileButton>
       ),
     ],
   ])('%s', (_name, renderWithRef) => {
@@ -126,7 +126,7 @@ describe('displayName', () => {
   it.each([
     [Button, 'Button'],
     [IconButton, 'IconButton'],
-    [ActionButton, 'ActionButton'],
+    [TileButton, 'TileButton'],
     [CardButton, 'CardButton'],
     [MenuItem, 'MenuItem'],
     [Checkbox, 'Checkbox'],

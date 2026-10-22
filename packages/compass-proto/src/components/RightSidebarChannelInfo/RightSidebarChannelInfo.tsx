@@ -7,7 +7,7 @@ import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
 import PinOutlineIcon from '@mattermost/compass-icons/components/pin-outline';
 import FileTextOutlineIcon from '@mattermost/compass-icons/components/file-text-outline';
-import { ActionButton } from '@mattermost/compass-ui/components/action-button';
+import { TileButton } from '@mattermost/compass-ui/components/tile-button';
 import { Divider } from '@mattermost/compass-ui/components/divider';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
@@ -17,22 +17,22 @@ export default function RightSidebarChannelInfo() {
   return (
     <>
       <div className={styles['right-sidebar-channel-info__actions']}>
-        <ActionButton
+        <TileButton
           className={styles['right-sidebar-channel-info__action']}
           icon={<Icon glyph={<StarOutlineIcon />} />}
           label="Favorite"
         />
-        <ActionButton
+        <TileButton
           className={styles['right-sidebar-channel-info__action']}
           icon={<Icon glyph={<BellOutlineIcon />} />}
           label="Mute"
         />
-        <ActionButton
+        <TileButton
           className={styles['right-sidebar-channel-info__action']}
           icon={<Icon glyph={<AccountPlusOutlineIcon />} />}
           label="Add people"
         />
-        <ActionButton
+        <TileButton
           className={styles['right-sidebar-channel-info__action']}
           icon={<Icon glyph={<LinkVariantIcon />} />}
           label="Copy Link"

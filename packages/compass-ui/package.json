@@ -107,9 +107,6 @@
       "utils/string": [
         "./dist/utils/string.d.ts"
       ],
-      "components/action-button": [
-        "./dist/components/action-button/index.d.ts"
-      ],
       "components/admin-console-footer": [
         "./dist/components/admin-console-footer/index.d.ts"
       ],
@@ -314,6 +311,9 @@
       "components/thread-list-item": [
         "./dist/components/thread-list-item/index.d.ts"
       ],
+      "components/tile-button": [
+        "./dist/components/tile-button/index.d.ts"
+      ],
       "components/toast": [
         "./dist/components/toast/index.d.ts"
       ],
@@ -473,8 +473,14 @@
       "illustrations/no-unreads-on-sidebar-bg": [
         "./dist/illustrations/no-unreads-on-sidebar-bg.d.ts"
       ],
+      "illustrations/oauth": [
+        "./dist/illustrations/oauth.d.ts"
+      ],
       "illustrations/office": [
         "./dist/illustrations/office.d.ts"
+      ],
+      "illustrations/outgoing-oauth-connections": [
+        "./dist/illustrations/outgoing-oauth-connections.d.ts"
       ],
       "illustrations/outgoing-webhook": [
         "./dist/illustrations/outgoing-webhook.d.ts"

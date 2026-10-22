@@ -55,7 +55,7 @@ export type ResolveIconOptions = {
   wrapSize?: IconSize;
   /** Wrap the glyph in `<Icon>` without an explicit size — uses IconSlotContext from the host. */
   wrapIcon?: boolean;
-  /** Pixel size on the raw compass-icons component (ActionButton, Tag, Chip). */
+  /** Pixel size on the raw compass-icons component (TileButton, Tag, Chip). */
   glyphSize?: number;
   /**
    * When the control is `Default`:

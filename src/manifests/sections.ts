@@ -54,7 +54,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
   components: [
     {
       label: 'Actions',
-      slugs: ['action-button', 'button', 'emoji-button', 'icon-button'],
+      slugs: ['button', 'emoji-button', 'icon-button', 'tile-button'],
     },
     {
       label: 'Banners',

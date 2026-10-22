@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { ReactNode } from 'react';
 import { click, getByRole, render } from '@/test-utils/render';
-import ActionButton from './ActionButton/ActionButton';
+import TileButton from './TileButton/TileButton';
 import AdminPanel from './AdminPanel/AdminPanel';
 import AdminConsoleFooter from './AdminConsoleFooter/AdminConsoleFooter';
 import EmptyState from './EmptyState/EmptyState';
@@ -162,9 +162,9 @@ describe('text props accept translated nodes', () => {
     expect(messages(container)).toEqual(['Hide']);
   });
 
-  it('ActionButton label', () => {
+  it('TileButton label', () => {
     const { container } = render(
-      <ActionButton icon={null} label={<Msg>Call</Msg>} />,
+      <TileButton icon={null} label={<Msg>Call</Msg>} />,
     );
     expect(getByRole('button').textContent).toBe('Call');
     expect(messages(container)).toEqual(['Call']);
