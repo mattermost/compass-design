@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`TourPoint` footer button:** the label and chevron rendered white on the button's white background. The override now sets `--button-fg` (which `Button` reads for its label and icon) instead of only `color`, so they use the panel color again.
+
 ## [0.1.0-alpha.21] - 2026-10-22
 
 ### Added
