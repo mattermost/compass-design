@@ -12,6 +12,13 @@ const sidebarSurface = {
   background: 'var(--sidebar-header-bg)',
 } as const;
 
+const centerChannelSurface = {
+  padding: 16,
+  borderRadius: 8,
+  background: 'var(--center-channel-bg)',
+  border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+} as const;
+
 const labelStyle = {
   width: '100%',
   fontSize: 12,
@@ -26,7 +33,26 @@ const meta = {
   argTypes: {
     size: { control: 'select', options: SIZES },
     state: { control: 'select', options: ['default', 'active'] },
+    variant: { control: 'select', options: ['sidebar', 'menu'] },
   },
+  decorators: [
+    (Story, context) => {
+      if (context.name === 'All Variants') {
+        return <Story />;
+      }
+      return (
+        <div
+          style={
+            context.args.variant === 'menu'
+              ? centerChannelSurface
+              : sidebarSurface
+          }
+        >
+          <Story />
+        </div>
+      );
+    },
+  ],
 } satisfies Meta<typeof TeamAvatar>;
 
 export default meta;
@@ -57,6 +83,21 @@ export const Fallback: Story = {
   },
 };
 
+export const Menu: Story = {
+  args: {
+    src: avatarStaffTeam,
+    alt: 'Staff Team',
+    size: '24',
+    variant: 'menu',
+  },
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <TeamAvatar {...args} />
+      <TeamAvatar {...args} src={undefined} alt="Core Team" initials="Ac" />
+    </div>
+  ),
+};
+
 export const WithBadge: Story = {
   args: {
     src: avatarStaffTeam,
@@ -66,10 +107,20 @@ export const WithBadge: Story = {
   },
 };
 
-function Row({ label, children }: { label: string; children: ReactNode }) {
+function Row({
+  label,
+  labelColor,
+  children,
+}: {
+  label: string;
+  labelColor?: string;
+  children: ReactNode;
+}) {
   return (
     <div style={{ display: 'grid', gap: 8 }}>
-      <span style={labelStyle}>{label}</span>
+      <span style={{ ...labelStyle, color: labelColor ?? labelStyle.color }}>
+        {label}
+      </span>
       <div
         style={{
           display: 'flex',
@@ -87,64 +138,90 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ ...sidebarSurface, display: 'grid', gap: 24 }}>
-      <Row label="Default — Image">
-        {SIZES.map((size) => (
+    <div style={{ display: 'grid', gap: 16 }}>
+      <div style={{ ...sidebarSurface, display: 'grid', gap: 24 }}>
+        <Row label="Default — Image">
+          {SIZES.map((size) => (
+            <TeamAvatar
+              key={size}
+              src={avatarStaffTeam}
+              alt="Staff Team"
+              size={size}
+            />
+          ))}
+        </Row>
+        <Row label="Active — Image">
+          {SIZES.map((size) => (
+            <TeamAvatar
+              key={size}
+              src={avatarStaffTeam}
+              alt="Staff Team"
+              size={size}
+              state="active"
+            />
+          ))}
+        </Row>
+        <Row label="Default — Fallback">
+          {SIZES.map((size) => (
+            <TeamAvatar key={size} alt="Core Team" initials="Ac" size={size} />
+          ))}
+        </Row>
+        <Row label="Active — Fallback">
+          {SIZES.map((size) => (
+            <TeamAvatar
+              key={size}
+              alt="Design Team"
+              initials="Ac"
+              size={size}
+              state="active"
+            />
+          ))}
+        </Row>
+        <Row label="Badge">
           <TeamAvatar
-            key={size}
             src={avatarStaffTeam}
             alt="Staff Team"
-            size={size}
+            size="32"
+            badge={1}
           />
-        ))}
-      </Row>
-      <Row label="Active — Image">
-        {SIZES.map((size) => (
           <TeamAvatar
-            key={size}
             src={avatarStaffTeam}
             alt="Staff Team"
-            size={size}
-            state="active"
+            size="40"
+            badge={5}
           />
-        ))}
-      </Row>
-      <Row label="Default — Fallback">
-        {SIZES.map((size) => (
-          <TeamAvatar key={size} alt="Core Team" initials="Ac" size={size} />
-        ))}
-      </Row>
-      <Row label="Active — Fallback">
-        {SIZES.map((size) => (
           <TeamAvatar
-            key={size}
-            alt="Design Team"
-            initials="Ac"
-            size={size}
-            state="active"
+            src={avatarStaffTeam}
+            alt="Staff Team"
+            size="56"
+            badge={99}
           />
-        ))}
-      </Row>
-      <Row label="Badge">
-        <TeamAvatar
-          src={avatarStaffTeam}
-          alt="Staff Team"
-          size="32"
-          badge={1}
-        />
-        <TeamAvatar
-          src={avatarStaffTeam}
-          alt="Staff Team"
-          size="40"
-          badge={5}
-        />
-        <TeamAvatar
-          src={avatarStaffTeam}
-          alt="Staff Team"
-          size="56"
-          badge={99}
-        />
-      </Row>
+        </Row>
+      </div>
+      <div style={{ ...centerChannelSurface, display: 'grid', gap: 24 }}>
+        <Row label="Menu — Image" labelColor="var(--center-channel-color)">
+          {SIZES.map((size) => (
+            <TeamAvatar
+              key={size}
+              src={avatarStaffTeam}
+              alt="Staff Team"
+              size={size}
+              variant="menu"
+            />
+          ))}
+        </Row>
+        <Row label="Menu — Fallback" labelColor="var(--center-channel-color)">
+          {SIZES.map((size) => (
+            <TeamAvatar
+              key={size}
+              alt="Core Team"
+              initials="Ac"
+              size={size}
+              variant="menu"
+            />
+          ))}
+        </Row>
+      </div>
     </div>
   ),
 };

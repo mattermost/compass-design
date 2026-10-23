@@ -430,7 +430,7 @@ const SHARED_TO_COMPASS_SIZE = {
 Other intentional differences during migration:
 
 - **Destructive:** shared uses a `destructive` boolean; Compass uses `emphasis="primary"` + `destructive` or danger tokens on other components — match the Compass API per component docs.
-- **Toggle controls:** Compass `ActionButton` and `IconButton` expose `aria-pressed` only when the toggle prop is set (`active` / `toggled`). Omit the prop for plain actions.
+- **Toggle controls:** Compass `TileButton` and `IconButton` expose `aria-pressed` only when the toggle prop is set (`toggled`). Omit the prop for plain actions.
 - **Switch vs Toggle:** Compass `Switch` is `role="switch"`; webapp `toggle.tsx` is an `aria-pressed` button — not interchangeable without host behavior changes.
 
 ### Theme alignment

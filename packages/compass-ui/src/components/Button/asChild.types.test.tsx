@@ -8,7 +8,7 @@ import { describe, it, expectTypeOf } from 'vitest';
 import type { ComponentProps } from 'react';
 import Button from './Button';
 import IconButton from '../IconButton/IconButton';
-import ActionButton from '../ActionButton/ActionButton';
+import TileButton from '../TileButton/TileButton';
 
 describe('asChild type narrowing', () => {
   it('keeps ComponentProps on the native button overload', () => {
@@ -33,10 +33,10 @@ describe('asChild type narrowing', () => {
       <a href="/x" />
     </IconButton>;
 
-    // @ts-expect-error — active is not valid with asChild
-    <ActionButton asChild icon={null} label="X" active>
+    // @ts-expect-error — toggled is not valid with asChild
+    <TileButton asChild icon={null} label="X" toggled>
       <a href="/x" />
-    </ActionButton>;
+    </TileButton>;
 
     // @ts-expect-error — aria-label is required with IconButton asChild
     <IconButton asChild icon={null}>

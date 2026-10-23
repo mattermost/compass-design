@@ -535,3 +535,81 @@ describe('Combobox hover and scrolling', () => {
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('Combobox leadingTeamAvatar', () => {
+  it('renders a menu-variant team avatar in the row', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'core',
+            label: 'Core Team',
+            leadingTeamAvatar: { initials: 'Co', alt: 'Core Team' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    const avatar = document.querySelector('[class*="team-avatar--menu"]');
+    expect(avatar).not.toBeNull();
+    expect(avatar?.textContent).toBe('Co');
+  });
+
+  it('renders without alt', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'core',
+            label: 'Core Team',
+            leadingTeamAvatar: { initials: 'Co' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(
+      document.querySelector('[class*="team-avatar--menu"]'),
+    ).not.toBeNull();
+  });
+
+  it('derives initials from the label when the avatar has neither image nor initials', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'design',
+            label: 'Design Team',
+            leadingTeamAvatar: { alt: 'Design Team' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(
+      document.querySelector('[class*="team-avatar--menu"]')?.textContent,
+    ).toBe('De');
+  });
+
+  it('does not split astral characters when deriving initials from the label', () => {
+    render(
+      <Combobox
+        aria-label="Team"
+        options={[
+          {
+            value: 'rocket',
+            label: 'A🚀 Team',
+            leadingTeamAvatar: { alt: 'Rocket Team' },
+          },
+        ]}
+      />,
+    );
+    openMenu();
+    expect(
+      document.querySelector('[class*="team-avatar--menu"]')?.textContent,
+    ).toBe('A🚀');
+  });
+});

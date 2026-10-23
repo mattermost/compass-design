@@ -139,7 +139,7 @@ export interface RenderAsChildOptions {
   /**
    * When true, warn in development if the child already has children (they
    * will be replaced). Use for hosts that own their full anatomy
-   * (IconButton, ActionButton). Leave false when the host wraps the child's
+   * (IconButton, TileButton). Leave false when the host wraps the child's
    * text (Button label).
    */
   warnOnChildContent?: boolean;

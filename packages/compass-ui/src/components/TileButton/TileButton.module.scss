@@ -1,4 +1,4 @@
-.action-button {
+.tile-button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,8 +10,10 @@
   border: none;
   border-radius: var(--radius-s);
   background-color: rgba(var(--center-channel-color-rgb), 0.04);
-  --action-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
-  color: var(--action-button-fg);
+  --tile-button-fg: rgba(var(--center-channel-color-rgb), 0.72);
+  // Icons may rest at 0.64 (icon floor 0.56); text may not (floor 0.72).
+  --tile-button-icon-fg: rgba(var(--center-channel-color-rgb), 0.64);
+  color: var(--tile-button-fg);
   cursor: pointer;
   text-decoration: none;
   transition:
@@ -29,7 +31,7 @@
   &:focus,
   &:active,
   &:visited {
-    color: var(--action-button-fg);
+    color: var(--tile-button-fg);
     text-decoration: none;
   }
 
@@ -38,64 +40,72 @@
     outline-offset: 3px;
   }
 
-  &:hover:not(:disabled, .action-button--disabled) {
+  &:hover:not(:disabled, .tile-button--disabled) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
-    --action-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
+    --tile-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
   }
 
-  &:active:not(:disabled, .action-button--disabled) {
+  &:active:not(:disabled, .tile-button--disabled) {
     background-color: rgba(var(--button-bg-rgb), 0.08);
-    --action-button-fg: var(--link-color);
+    --tile-button-fg: var(--link-color);
   }
 
-  &:is(:disabled, .action-button--disabled) {
+  &:is(:disabled, .tile-button--disabled) {
     opacity: 0.48;
     cursor: not-allowed;
   }
 
-  &--active {
-    --action-button-fg: var(--link-color);
+  &--toggled {
+    --tile-button-fg: var(--link-color);
 
     background-color: rgba(var(--button-bg-rgb), 0.08);
 
-    .action-button__icon,
-    .action-button__label {
+    .tile-button__icon,
+    .tile-button__label {
       color: var(--link-color);
     }
 
-    &:hover:not(:disabled, .action-button--disabled) {
+    &:hover:not(:disabled, .tile-button--disabled) {
       background-color: rgba(var(--button-bg-rgb), 0.12);
     }
 
-    &:active:not(:disabled, .action-button--disabled) {
+    &:active:not(:disabled, .tile-button--disabled) {
       background-color: rgba(var(--button-bg-rgb), 0.16);
     }
   }
 
   &--destructive {
     --focus-ring-color: var(--error-text, var(--color-danger));
-    --action-button-fg: var(--error-text, var(--color-danger));
+    --tile-button-fg: var(--error-text, var(--color-danger));
 
     background-color: rgba(
       var(--error-text-color-rgb, var(--color-danger-rgb)),
       0.04
     );
 
-    &:hover:not(:disabled, .action-button--disabled) {
+    &:hover:not(:disabled, .tile-button--disabled) {
       background-color: rgba(
         var(--error-text-color-rgb, var(--color-danger-rgb)),
         0.08
       );
-      --action-button-fg: var(--error-text, var(--color-danger));
+      --tile-button-fg: var(--error-text, var(--color-danger));
     }
 
-    &:active:not(:disabled, .action-button--disabled) {
+    &:active:not(:disabled, .tile-button--disabled) {
       background-color: rgba(
         var(--error-text-color-rgb, var(--color-danger-rgb)),
         0.16
       );
-      --action-button-fg: var(--error-text, var(--color-danger));
+      --tile-button-fg: var(--error-text, var(--color-danger));
     }
+  }
+
+  // Hover, pressed, toggled and destructive colour the icon and label alike.
+  &:hover:not(:disabled, .tile-button--disabled),
+  &:active:not(:disabled, .tile-button--disabled),
+  &--toggled,
+  &--destructive {
+    --tile-button-icon-fg: initial;
   }
 
   &__icon {
@@ -105,7 +115,7 @@
     width: var(--icon-size-20);
     height: var(--icon-size-20);
     flex-shrink: 0;
-    color: var(--action-button-fg);
+    color: var(--tile-button-icon-fg, var(--tile-button-fg));
   }
 
   &__label {
@@ -118,9 +128,9 @@
     max-width: 100%;
     // 16px side padding at 88px wide or more, easing to 8px at the 64px floor.
     // Percentages resolve against the button's width. Hosts can override via
-    // --action-button-padding-inline.
+    // --tile-button-padding-inline.
     padding-inline: var(
-      --action-button-padding-inline,
+      --tile-button-padding-inline,
       clamp(var(--spacing-xs), calc(33.33% - 13.33px), var(--spacing-l))
     );
     display: -webkit-box;
@@ -132,6 +142,6 @@
     text-wrap: balance;
     white-space: normal;
     text-align: center;
-    color: var(--action-button-fg);
+    color: var(--tile-button-fg);
   }
 }

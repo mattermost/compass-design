@@ -75,11 +75,7 @@ export const DEFAULT_PRODUCT_SWITCHER_PRODUCTS: ProductSwitcherProductItem[] = [
 ];
 
 function productLeadingVisual(glyph: ReactNode) {
-  return (
-    <span className={styles['product-switcher-menu__product-icon']}>
-      <Icon glyph={glyph} size="24" />
-    </span>
-  );
+  return <Icon glyph={glyph} size="24" />;
 }
 
 /**

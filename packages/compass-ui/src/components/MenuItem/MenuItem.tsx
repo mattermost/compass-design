@@ -15,7 +15,12 @@ export interface MenuItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   secondaryLabel?: ReactNode;
   /** Where the secondary label appears. Default: 'below'. */
   secondaryLabelPosition?: 'inline' | 'below';
-  /** Custom content for the leading slot. When omitted, shows placeholder icon. When passing an icon, use `<Icon glyph={<SomeIcon />} />` — MenuItem provides the correct size via context. */
+  /**
+   * Custom content for the leading slot. When omitted, shows placeholder icon.
+   * When passing an icon, use `<Icon glyph={<SomeIcon />} />` — MenuItem provides
+   * the correct size via context. A 24px avatar (User Avatar or Team Avatar)
+   * fills the same slot as that icon, so the label stays on the same line.
+   */
   leadingVisual?: ReactNode;
   /** Show the leading visual slot. Default: true. */
   leadingElement?: boolean;
