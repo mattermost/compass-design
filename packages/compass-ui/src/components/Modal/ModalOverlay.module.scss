@@ -4,10 +4,10 @@
   }
 }
 
-// Scrim, centering, and full-viewport fixed positioning for a host-rendered
-// overlay element. The host owns the portal, z-index, scroll lock and
-// backdrop clicks. FloatingOverlay sets position/inset inline; Storybook
-// stages may override to `absolute` — both are fine.
+// Scrim, centering, and full-viewport fixed positioning. Rendered by
+// ModalOverlay (which adds the portal, scroll lock and backdrop clicks) or by
+// a host that already positions its own node — FloatingOverlay sets
+// position/inset inline, and Storybook stages may override to `absolute`.
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -17,6 +17,7 @@
   // Extra bottom inset lifts the dialog 24px above true center.
   padding: var(--spacing-xl) var(--spacing-xl)
     calc(var(--spacing-xl) + 2 * var(--spacing-xxl));
+  z-index: var(--z-modal);
   background-color: var(--modal-overlay-bg);
   animation: modal-overlay-fade-in var(--duration-quick) var(--ease-entrance);
   transition: opacity var(--duration-quick) var(--ease-exit);

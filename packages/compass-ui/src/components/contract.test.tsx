@@ -10,6 +10,7 @@ import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FieldMessage from './FieldMessage/FieldMessage';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
 import Modal from './Modal/Modal';
+import ModalOverlay from './Modal/ModalOverlay';
 import ModalHeader from './ModalHeader/ModalHeader';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import ProgressBar from './ProgressBar/ProgressBar';
@@ -42,6 +43,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
       Body
     </Modal>
   ),
+  ModalOverlay: (a) => <ModalOverlay open {...a} />,
   ErrorMessage: (a) => <ErrorMessage message="Required" {...a} />,
   FieldMessage: (a) => <FieldMessage message="Required" {...a} />,
   ProgressBar: (a) => <ProgressBar value={40} {...a} />,
@@ -83,7 +85,10 @@ describe('composite root attribute pass-through', () => {
           className: 'host-class',
         }),
       );
-      const root = container.firstElementChild!;
+      // Portaled composites (ModalOverlay) render outside the container.
+      const root =
+        container.firstElementChild ??
+        container.ownerDocument.querySelector(`[data-testid="${name}-root"]`)!;
       expect(root.getAttribute('data-testid')).toBe(`${name}-root`);
       expect(root.id).toBe(`${name}-id`);
       expect(root.getAttribute('aria-describedby')).toBe('hint');

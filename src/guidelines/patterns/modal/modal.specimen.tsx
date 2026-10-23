@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import avatarAiko from '@/assets/avatars/Aiko Tan.png';
 import avatarArjun from '@/assets/avatars/Arjun Patel.png';
@@ -7,7 +8,7 @@ import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
-import { Modal } from '@mattermost/compass-ui/components/modal';
+import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from '@/styles/library-demo/patterns.module.scss';
@@ -53,6 +54,8 @@ const settingsFooter = (
   </>
 );
 
+// Stages the real ModalOverlay inside the canvas frame: the frame is the portal
+// container, and the page keeps scrolling while the example is open.
 function ModalCanvas({
   children,
   tall = false,
@@ -60,8 +63,10 @@ function ModalCanvas({
   children: ReactNode;
   tall?: boolean;
 }) {
+  const [stage, setStage] = useState<HTMLDivElement | null>(null);
   return (
     <div
+      ref={setStage}
       className={[
         styles['patterns__modal-canvas'],
         tall && styles['patterns__modal-canvas--tall'],
@@ -69,7 +74,16 @@ function ModalCanvas({
         .filter(Boolean)
         .join(' ')}
     >
-      <div className={styles['patterns__modal-overlay']}>{children}</div>
+      {stage && (
+        <ModalOverlay
+          open
+          container={stage}
+          lockScroll={false}
+          style={{ position: 'absolute' }}
+        >
+          {children}
+        </ModalOverlay>
+      )}
     </div>
   );
 }

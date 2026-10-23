@@ -13,6 +13,7 @@ import MenuItem from '../MenuItem/MenuItem';
 import TextInput from '../TextInput/TextInput';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import Modal from './Modal';
+import ModalOverlay from './ModalOverlay';
 import type { ModalSize } from './Modal';
 import modalOverlayStyles from './ModalOverlay.module.scss';
 
@@ -52,15 +53,22 @@ const people = [
   { name: 'Sofia Bauer', handle: '@sofia', src: avatarSofia },
 ] as const;
 
+// Stages a real ModalOverlay inside a frame: the frame is the portal container,
+// `position: absolute` keeps the scrim in the frame, and `lockScroll={false}`
+// keeps open demos from freezing the docs page.
 function ModalCanvas({
   children,
   tall = false,
+  open = true,
 }: {
   children: ReactNode;
   tall?: boolean;
+  open?: boolean;
 }) {
+  const [stage, setStage] = useState<HTMLDivElement | null>(null);
   return (
     <div
+      ref={setStage}
       style={{
         position: 'relative',
         height: tall ? 600 : 480,
@@ -70,19 +78,16 @@ function ModalCanvas({
         overflow: 'hidden',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'var(--spacing-l)',
-        }}
-      >
-        {children}
-      </div>
+      {stage && (
+        <ModalOverlay
+          open={open}
+          container={stage}
+          lockScroll={false}
+          style={{ position: 'absolute' }}
+        >
+          {children}
+        </ModalOverlay>
+      )}
     </div>
   );
 }
@@ -501,7 +506,7 @@ function TransitionDemo() {
           {open ? 'Close modal' : 'Open modal'}
         </Button>
       </div>
-      <ModalCanvas>
+      <ModalCanvas open={open}>
         <Modal
           title="Transition"
           open={open}
@@ -597,7 +602,37 @@ function HostOverlayDemo() {
   );
 }
 
-/** Host recipe: overlay styles on a host-owned element, unmounted after `onExited`. */
+function OverlayDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button emphasis="secondary" onClick={() => setOpen(true)}>
+        Open modal
+      </Button>
+      <ModalOverlay open={open} onClose={() => setOpen(false)}>
+        <Modal
+          title="Notification preferences"
+          open={open}
+          onClose={() => setOpen(false)}
+          footer={<Button onClick={() => setOpen(false)}>Done</Button>}
+        >
+          <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+            The scrim portals to the page, locks body scroll, closes on a
+            backdrop click and fades out with the dialog. Escape is handled by
+            the Modal.
+          </p>
+        </Modal>
+      </ModalOverlay>
+    </>
+  );
+}
+
+/** Default host setup: `ModalOverlay` around `Modal`, both driven by the host's `open` state. */
+export const Overlay: Story = {
+  render: () => <OverlayDemo />,
+};
+
+/** Escape hatch: overlay styles on a host-owned element, unmounted after `onExited`. */
 export const HostOverlay: Story = {
   parameters: {
     docs: {
