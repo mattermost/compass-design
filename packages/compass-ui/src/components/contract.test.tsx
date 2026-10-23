@@ -105,6 +105,50 @@ describe('composite root attribute pass-through', () => {
   });
 });
 
+/**
+ * Field composites put host attributes on their focusable input (the ref
+ * target) and keep `className` on the root. Add new field composites here.
+ */
+const FIELD_INPUT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
+  Combobox: (a) => (
+    <Combobox
+      aria-label="Model"
+      options={[{ value: 'a', label: 'A' }]}
+      {...a}
+    />
+  ),
+  'Combobox multiple': (a) => (
+    <Combobox
+      aria-label="Models"
+      multiple
+      value={['a']}
+      options={[{ value: 'a', label: 'A' }]}
+      {...a}
+    />
+  ),
+};
+
+describe('field input attribute pass-through', () => {
+  for (const [name, renderCase] of Object.entries(FIELD_INPUT_CASES)) {
+    it(`${name} puts data-*, id and aria-* on its input`, () => {
+      const { container } = render(
+        renderCase({
+          'data-testid': 'field',
+          id: 'field-id',
+          'aria-describedby': 'hint',
+          className: 'host-class',
+        }),
+      );
+      const input = container.querySelector('[data-testid="field"]')!;
+      expect(input.tagName).toBe('INPUT');
+      expect(input.id).toBe('field-id');
+      expect(input.getAttribute('aria-describedby')).toBe('hint');
+      expect(input.classList).not.toContain('host-class');
+      expect(container.firstElementChild!.classList).toContain('host-class');
+    });
+  }
+});
+
 /** Every built-in button accepts `*ButtonProps`. Add new ones here. */
 const BUTTON_CASES: Record<
   string,

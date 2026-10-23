@@ -7,6 +7,7 @@ import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import Combobox from './Combobox';
 import type { ComboboxOption, ComboboxProps, ComboboxSize } from './Combobox';
+import FieldMessage from '../FieldMessage/FieldMessage';
 import Icon from '../Icon/Icon';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import {
@@ -351,6 +352,55 @@ export const Invalid: Story = {
     invalid: true,
     defaultValue: 'design',
     options: CHANNEL_OPTIONS,
+  },
+};
+
+/**
+ * The host renders help and error text and points the input at them with
+ * `aria-describedby`. `aria-errormessage` names the error too, but screen
+ * reader support is partial, so keep the error in `aria-describedby`.
+ */
+export const WithDescriptionAndError: Story = {
+  args: {
+    label: 'Channel',
+    options: CHANNEL_OPTIONS,
+    invalid: true,
+    required: true,
+  },
+  render: ({ leadingIcon, ...args }) => (
+    <div
+      style={{
+        maxWidth: 320,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--spacing-xxs)',
+      }}
+    >
+      <Combobox
+        {...args}
+        leadingIcon={
+          resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+        }
+        aria-describedby="combobox-story-help combobox-story-error"
+        aria-errormessage="combobox-story-error"
+      />
+      <FieldMessage
+        id="combobox-story-help"
+        tone="info"
+        message="Members get a notification when you post."
+      />
+      <FieldMessage id="combobox-story-error" message="Choose a channel." />
+    </div>
+  ),
+};
+
+/** `required` sets `aria-required` on the input; the host validates. */
+export const Required: Story = {
+  args: {
+    label: 'Channel',
+    placeholder: 'Search channels…',
+    options: CHANNEL_OPTIONS,
+    required: true,
   },
 };
 
