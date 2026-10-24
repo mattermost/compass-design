@@ -23,7 +23,6 @@ import PlusIcon from '@mattermost/compass-icons/components/plus';
 import Chip from '@/components/Chip/Chip';
 import ChipGroup from '@/components/Chip/ChipGroup';
 import type { ChipSize } from '@/components/Chip/Chip';
-import { mergeFieldDescribedBy } from '@/components/field/fieldDescribedBy';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
@@ -233,8 +232,6 @@ export interface ComboboxProps
   className?: string;
   id?: string;
   'aria-label'?: string;
-  /** Kept and placed on the input; Combobox owns no describedby ids yet. */
-  'aria-describedby'?: string;
   /**
    * Runs after Combobox's own focus handling (which opens the menu). Also runs
    * when the clear button hands focus back to the input.
@@ -746,7 +743,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     setIsFocused(false);
   };
 
-  const handleComboboxKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (disabled) return;
 
     switch (e.key) {
@@ -819,7 +816,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    handleComboboxKeyDown(e);
+    handleKeyDown(e);
     onKeyDown?.(e);
   };
 
@@ -954,11 +951,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               }
               value={displayInput}
               aria-label={ariaLabel}
-              aria-describedby={mergeFieldDescribedBy(
-                describedBy,
-                undefined,
-                undefined,
-              )}
+              aria-describedby={describedBy || undefined}
               aria-required={required ? true : undefined}
               aria-invalid={invalid ? true : undefined}
               aria-expanded={isOpen}
