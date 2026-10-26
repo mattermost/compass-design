@@ -160,11 +160,15 @@ export const TeamsAndChannels: Story = {
 };
 
 export const MultiSelect: Story = {
-  render: function MultiSelectStory() {
+  render: function MultiSelectStory({ leadingIcon, ...args }) {
     const [value, setValue] = useState<string[]>(['emma']);
     return (
       <div style={{ maxWidth: 360 }}>
         <Combobox
+          {...args}
+          leadingIcon={
+            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+          }
           label="Invite people"
           placeholder="Search people…"
           multiple
@@ -180,7 +184,7 @@ export const MultiSelect: Story = {
 
 /** Regression: many long chips wrap; the input must keep a usable width instead of collapsing outside the field. */
 export const MultiSelectManyLongChips: Story = {
-  render: function MultiSelectManyLongChipsStory() {
+  render: function MultiSelectManyLongChipsStory({ leadingIcon, ...args }) {
     const options: ComboboxOption[] = Array.from({ length: 12 }, (_, i) => ({
       value: `channel-${i}`,
       label: `A very long channel name number ${i + 1} for overflow testing`,
@@ -191,6 +195,10 @@ export const MultiSelectManyLongChips: Story = {
     return (
       <div style={{ maxWidth: 360 }}>
         <Combobox
+          {...args}
+          leadingIcon={
+            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+          }
           label="Channels"
           placeholder="Search channels…"
           multiple
@@ -224,7 +232,7 @@ function searchPeople(query: string): Promise<ComboboxOption[]> {
 
 /** Server-side search: the host fetches on input, owns `selectedOptions`, and turns off client filtering. */
 export const AsyncMultiSelect: Story = {
-  render: function AsyncMultiSelectStory() {
+  render: function AsyncMultiSelectStory({ leadingIcon, ...args }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ComboboxOption[]>([]);
     const [loading, setLoading] = useState(false);
@@ -248,6 +256,10 @@ export const AsyncMultiSelect: Story = {
     return (
       <div style={{ maxWidth: 360 }}>
         <Combobox
+          {...args}
+          leadingIcon={
+            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+          }
           label="Allowed users"
           placeholder="Search people…"
           multiple
@@ -290,11 +302,15 @@ const MODEL_OPTIONS: ComboboxOption[] = [
 
 /** Type a name that isn't listed and pick the create row (or press Enter) to use it. */
 export const Creatable: Story = {
-  render: function CreatableStory() {
+  render: function CreatableStory({ leadingIcon, ...args }) {
     const [value, setValue] = useState<string | null>('my-fine-tune');
     return (
       <div style={{ maxWidth: 320 }}>
         <Combobox
+          {...args}
+          leadingIcon={
+            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+          }
           label="Model"
           placeholder="Pick or type a model name…"
           creatable
@@ -309,11 +325,15 @@ export const Creatable: Story = {
 
 /** An empty value means "use the service default"; the clear button resets to it. */
 export const Clearable: Story = {
-  render: function ClearableStory() {
+  render: function ClearableStory({ leadingIcon, ...args }) {
     const [value, setValue] = useState<string | null>('claude-sonnet-4');
     return (
       <div style={{ maxWidth: 320 }}>
         <Combobox
+          {...args}
+          leadingIcon={
+            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+          }
           label="Default model"
           placeholder="Use the service default"
           clearable
@@ -327,11 +347,15 @@ export const Clearable: Story = {
 };
 
 export const CreatableMultiSelect: Story = {
-  render: function CreatableMultiSelectStory() {
+  render: function CreatableMultiSelectStory({ leadingIcon, ...args }) {
     const [value, setValue] = useState<string[]>(['gpt-4o', 'my-fine-tune']);
     return (
       <div style={{ maxWidth: 360 }}>
         <Combobox
+          {...args}
+          leadingIcon={
+            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+          }
           label="Allowed models"
           placeholder="Add models…"
           multiple

@@ -13,6 +13,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- `Combobox` Storybook controls (`size`, `disabled`, `invalid`, `leadingIcon`, …) for the `MultiSelect`, `MultiSelectManyLongChips`, `AsyncMultiSelect`, `Creatable`, `Clearable`, and `CreatableMultiSelect` stories (each defined its own `render` with no args parameter, so Controls panel changes never reached the rendered component).
 - **`TourPoint` footer button:** the label and chevron rendered white on the button's white background. The override now sets `--button-fg` (which `Button` reads for its label and icon) instead of only `color`, so they use the panel color again.
 - **`Combobox` invalid + focused border:** the outer ring was 2px, thicker than the 1px focus ring everywhere else (standard focus, and `TextInput`/`Select` invalid + focused). Now 1px, matching those.
 
