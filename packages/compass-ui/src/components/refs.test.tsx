@@ -6,6 +6,7 @@ import TileButton from './TileButton/TileButton';
 import Button from './Button/Button';
 import CardButton from './CardButton/CardButton';
 import Checkbox from './Checkbox/Checkbox';
+import Combobox from './Combobox/Combobox';
 import IconButton from './IconButton/IconButton';
 import MenuItem from './MenuItem/MenuItem';
 import Radio from './Radio/Radio';
@@ -67,6 +68,26 @@ describe('form primitives forward refs to the <input>', () => {
       'checkbox',
       (ref: React.Ref<HTMLInputElement>) => <Switch ref={ref}>A</Switch>,
     ],
+    [
+      'Combobox',
+      'text',
+      (ref: React.Ref<HTMLInputElement>) => (
+        <Combobox ref={ref} aria-label="Model" options={[]} />
+      ),
+    ],
+    [
+      'Combobox multiple',
+      'text',
+      (ref: React.Ref<HTMLInputElement>) => (
+        <Combobox
+          ref={ref}
+          aria-label="Models"
+          multiple
+          value={['a']}
+          options={[{ value: 'a', label: 'A' }]}
+        />
+      ),
+    ],
   ])('%s', (_name, inputType, renderWithRef) => {
     const ref = createRef<HTMLInputElement>();
     render(renderWithRef(ref));
@@ -84,6 +105,22 @@ describe('form primitives forward refs to the <input>', () => {
     const callback = vi.fn();
     render(<Switch ref={callback} />);
     expect(callback).toHaveBeenCalledWith(expect.any(HTMLInputElement));
+  });
+
+  it('Combobox supports callback refs and props follow the ref', () => {
+    const callback = vi.fn();
+    render(
+      <Combobox
+        ref={callback}
+        aria-label="Model"
+        options={[]}
+        data-testid="model"
+      />,
+    );
+    const node = callback.mock.calls[0][0] as HTMLInputElement;
+    expect(node).toBeInstanceOf(HTMLInputElement);
+    expect(node.getAttribute('role')).toBe('combobox');
+    expect(node.getAttribute('data-testid')).toBe('model');
   });
 });
 

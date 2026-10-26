@@ -1,7 +1,10 @@
 import type {
   ChangeEvent,
   FocusEvent,
+  FocusEventHandler,
+  InputHTMLAttributes,
   KeyboardEvent,
+  KeyboardEventHandler,
   MouseEvent,
   ReactNode,
 } from 'react';
@@ -38,7 +41,7 @@ import { useAnchoredPopupPortal } from '@/hooks/useAnchoredPopupPortal';
 import { useOutsideClose } from '@/hooks/useOutsideClose';
 import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import { mergeMenuItemProps } from '@/utils/menuItemProps';
-import type { BuiltInButtonProps } from '@/utils/props';
+import type { BuiltInButtonProps, DataAttributes } from '@/utils/props';
 import { mergeClassNames } from '@/utils/props';
 import { toKebab } from '@/utils/string';
 import styles from './Combobox.module.scss';
@@ -77,7 +80,72 @@ export type ComboboxOption = {
   menuItemProps?: ComboboxMenuItemProps;
 };
 
-export interface ComboboxProps {
+/**
+ * Native input attributes `Combobox` sets or can't honor, so they're left out
+ * of `ComboboxProps`. The ones it renders (`role`, `type`, `autoComplete`,
+ * `aria-expanded`, …) also win at runtime over anything spread onto the input.
+ */
+export type ComboboxOwnedInputProps =
+  // Value model: Combobox's own `value` / `defaultValue` / `onChange` / `multiple` / `size`.
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'multiple'
+  | 'size'
+  | 'type'
+  | 'children'
+  | 'dangerouslySetInnerHTML'
+  // Combobox semantics.
+  | 'role'
+  | 'autoComplete'
+  | 'spellCheck'
+  | 'list'
+  | 'aria-expanded'
+  | 'aria-controls'
+  | 'aria-activedescendant'
+  | 'aria-autocomplete'
+  | 'aria-busy'
+  | 'aria-haspopup'
+  | 'aria-invalid'
+  | 'aria-required'
+  // First-class props with Combobox meaning (re-declared below).
+  | 'required'
+  // No form participation or constraint validation yet.
+  | 'name'
+  | 'form'
+  | 'formAction'
+  | 'formEncType'
+  | 'formMethod'
+  | 'formNoValidate'
+  | 'formTarget'
+  | 'readOnly'
+  | 'maxLength'
+  | 'minLength'
+  | 'pattern'
+  | 'min'
+  | 'max'
+  | 'step'
+  // Not meaningful for a text combobox.
+  | 'accept'
+  | 'alt'
+  | 'capture'
+  | 'checked'
+  | 'defaultChecked'
+  | 'height'
+  | 'width'
+  | 'src';
+
+/**
+ * Extra native input attributes (`data-*`, `aria-describedby`,
+ * `aria-errormessage`, `aria-labelledby`, `autoFocus`, `tabIndex`, `style`,
+ * `onFocus`, …) go on the `<input role="combobox">`, the element the ref
+ * targets. `className` goes on the root. Attributes in
+ * `ComboboxOwnedInputProps` can't be set.
+ */
+export interface ComboboxProps
+  extends
+    Omit<InputHTMLAttributes<HTMLInputElement>, ComboboxOwnedInputProps>,
+    DataAttributes {
   options: ComboboxOption[];
   /**
    * `MenuItem` props applied to every option row, e.g.
@@ -99,6 +167,13 @@ export interface ComboboxProps {
   size?: ComboboxSize;
   invalid?: boolean;
   disabled?: boolean;
+  /**
+   * Marks the field required for assistive tech (`aria-required="true"`).
+   * No native `required`, so the browser doesn't validate; the host does.
+   * Safe in `multiple` mode, where the input is empty once chips are picked.
+   * Default: false.
+   */
+  required?: boolean;
   /**
    * Client-side filter. `true` (default) matches labels case-insensitively.
    * `false` shows all options (caller filters via `inputValue` / `onInputChange`).
@@ -157,6 +232,26 @@ export interface ComboboxProps {
   className?: string;
   id?: string;
   'aria-label'?: string;
+  /**
+   * Runs after Combobox's own focus handling (which opens the menu). Also runs
+   * when the clear button hands focus back to the input.
+   */
+  onFocus?: FocusEventHandler<HTMLInputElement>;
+  /**
+   * Runs after Combobox's own blur handling, on every input blur — including
+   * when focus moves to the clear button or a chip's remove button. Not called
+   * when those buttons blur.
+   */
+  onBlur?: FocusEventHandler<HTMLInputElement>;
+  /**
+   * Runs after Combobox's own key handling. `event.defaultPrevented` is true
+   * when Combobox handled the key (arrows, Home / End while open, Enter on a
+   * row, Escape while open, Backspace removing a chip). Calling
+   * `preventDefault()` here doesn't stop Combobox's handling. Any `onChange`
+   * the key caused has already been called, but host state read here is
+   * still from before that change.
+   */
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
   /** Portal mount node for the menu; defaults to `document.body`. */
   portalContainer?: HTMLElement | null;
   /** Stacking order for the portaled menu. */
@@ -280,8 +375,14 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     className = '',
     id: idProp,
     'aria-label': ariaLabel,
+    'aria-describedby': describedBy,
+    required = false,
+    onFocus,
+    onBlur,
+    onKeyDown,
     portalContainer = null,
     zIndex,
+    ...rest
   },
   ref,
 ) {
@@ -704,6 +805,21 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     }
   };
 
+  const handleInputFocus = (e: FocusEvent<HTMLInputElement>) => {
+    handleFocus();
+    onFocus?.(e);
+  };
+
+  const handleInputBlur = (e: FocusEvent<HTMLInputElement>) => {
+    handleBlur(e);
+    onBlur?.(e);
+  };
+
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    handleKeyDown(e);
+    onKeyDown?.(e);
+  };
+
   const handleWrapperMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
     // Don't steal focus from chips, their remove buttons, or the clear button
@@ -821,6 +937,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               </ChipGroup>
             )}
             <input
+              {...rest}
               ref={setInputRef}
               id={id}
               className={styles.combobox__control}
@@ -834,6 +951,8 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               }
               value={displayInput}
               aria-label={ariaLabel}
+              aria-describedby={describedBy || undefined}
+              aria-required={required ? true : undefined}
               aria-invalid={invalid ? true : undefined}
               aria-expanded={isOpen}
               aria-controls={listboxId}
@@ -841,9 +960,9 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               aria-activedescendant={activeDescendant}
               aria-busy={loading || undefined}
               onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              onKeyDown={handleKeyDown}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              onKeyDown={handleInputKeyDown}
             />
           </div>
           {showClearButton && (
