@@ -160,10 +160,27 @@ progress — an upload, an import, a quota — should never be decorative.
     maxWidth: '320px',
   }}
 >
-  <ProgressBar decorative size="small" value={100} />
-  <ProgressBar decorative size="small" value={69} />
-  <ProgressBar decorative size="small" value={35} />
+  {[
+    { id: 'INC-102', minutes: 130 },
+    { id: 'INC-087', minutes: 90 },
+    { id: 'INC-091', minutes: 45 },
+  ].map(({ id, minutes }) => (
+    <div
+      key={id}
+      style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}
+    >
+      <span
+        style={{ fontSize: '0.75rem', color: 'var(--center-channel-color)' }}
+      >
+        {id}: {minutes} min
+      </span>
+      <ProgressBar decorative size="small" value={(minutes / 130) * 100} />
+    </div>
+  ))}
 </div>
+
+Each row's visible label and value carry the comparison; the bar only adds the
+visual scale.
 
 <Divider />
 

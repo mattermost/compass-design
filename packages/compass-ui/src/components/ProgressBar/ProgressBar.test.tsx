@@ -48,6 +48,31 @@ describe('ProgressBar', () => {
     }
   });
 
+  it('drops caller-supplied progressbar attributes when decorative', () => {
+    const { container } = render(
+      <ProgressBar
+        decorative
+        value={35}
+        role="progressbar"
+        aria-valuenow={35}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuetext="35 percent"
+      />,
+    );
+    const bar = container.firstElementChild as HTMLElement;
+    expect(bar.getAttribute('aria-hidden')).toBe('true');
+    for (const attr of [
+      'role',
+      'aria-valuenow',
+      'aria-valuemin',
+      'aria-valuemax',
+      'aria-valuetext',
+    ]) {
+      expect(bar.hasAttribute(attr)).toBe(false);
+    }
+  });
+
   it('still sizes the fill from value when decorative', () => {
     const { container } = render(<ProgressBar decorative value={35} />);
     const fill = (container.firstElementChild as HTMLElement)

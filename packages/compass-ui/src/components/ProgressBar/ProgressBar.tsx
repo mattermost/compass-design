@@ -68,7 +68,14 @@ export default function ProgressBar({
     <div
       {...rest}
       {...(decorative
-        ? { 'aria-hidden': true }
+        ? {
+            'aria-hidden': true,
+            role: undefined,
+            'aria-valuenow': undefined,
+            'aria-valuemin': undefined,
+            'aria-valuemax': undefined,
+            'aria-valuetext': undefined,
+          }
         : {
             role: 'progressbar',
             'aria-valuenow': indeterminate ? undefined : clampedValue,
