@@ -87,6 +87,7 @@ export function Banner({
 - `src/components/contract.test.tsx` — each published composite passes `data-testid` / `id` / `aria-*` to its root, and each `*ButtonProps` reaches its button. Add new composites and built-in buttons to its tables.
 - `src/components/englishLiterals.test.ts` — fails on English literals in `aria-label`, `title`, `placeholder`, `alt` or `label` in component sources (stories, specimens and tests excluded). Move the text into a label prop; only add to its `ALLOWLIST` with a reason. JSX text nodes aren't scanned — review those by hand.
 - `src/components/markup.test.tsx` — default markup snapshots; a diff there means the default DOM changed.
+- `src/components/hasShadowPseudo.test.ts` — fails on any `.module.scss` selector (after Sass compilation, so nesting counts) that pairs `:has()` with a UA-shadow pseudo-element (`::placeholder`, `::file-selector-button`). Chromium can't scope style invalidation for that combination, so one such rule restyles the whole document on every DOM change. Express the condition without `:has()` — e.g. a sibling combinator when the element being tested for precedes the target.
 
 ## Icon slots
 
