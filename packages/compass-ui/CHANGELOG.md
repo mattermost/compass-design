@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Fixed
 
 - **`TourPoint` footer button:** the label and chevron rendered white on the button's white background. The override now sets `--button-fg` (which `Button` reads for its label and icon) instead of only `color`, so they use the panel color again.
+- **`Combobox` chip left inset:** with `multiple` chips, the field's left padding stayed at the text inset (8–16px depending on size) while the top/bottom padding was tightened to fit the chip row (6–8px), so the first chip sat with uneven clearance — more on the left than above/below. The left inset now matches the top/bottom padding when chips are present (skipped when a leading icon sets its own start indent).
 
 ## [0.1.0-alpha.21] - 2026-10-22
 
