@@ -384,8 +384,10 @@
     }
   }
 
-  // Hide placeholder-like resting control text under an unfloated label
-  &:has(.combobox__label):not(&--label-floated) .combobox__control {
+  // Hide placeholder-like resting control text under an unfloated label.
+  // The label precedes the control's container, so `~` stands in for `:has()`: Chromium
+  // restyles the whole page on every DOM change when `:has()` is paired with ::placeholder.
+  &:not(&--label-floated) .combobox__label ~ * .combobox__control {
     color: transparent;
 
     &::placeholder {

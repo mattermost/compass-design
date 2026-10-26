@@ -298,7 +298,11 @@
   }
 
   // Hide placeholder while the floating label is in the resting position to prevent overlap.
-  &:has(.text-input__label):not(&--label-floated)
+  // The label precedes the input's container, so `~` stands in for `:has()`: Chromium
+  // restyles the whole page on every DOM change when `:has()` is paired with ::placeholder.
+  &:not(&--label-floated)
+    .text-input__label
+    ~ *
     .text-input__input::placeholder {
     color: transparent;
   }
