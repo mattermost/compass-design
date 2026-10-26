@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.22] - 2026-10-26
+
 ### Added
 
 - **`ModalOverlay`** (`@mattermost/compass-ui/components/modal`): the modal scrim as a component. Wrap `Modal` in `<ModalOverlay open={open} onClose={handleClose}>` and it portals to `document.body` (or `container`; `container={null}` renders nothing until the node exists), locks body scroll while shown (ref-counted across compass-ui copies on the page and per document, so a popout window or iframe `container` locks its own body; pads the body by the scrollbar width so the page doesn't shift; `lockScroll={false}` to opt out), closes on backdrop press (a press that starts inside the dialog does not), and stays mounted for `--duration-quick` after `open` becomes false, with `modal-overlay--exiting`, before it unmounts and calls `onExited` (not called if the overlay itself unmounts mid-exit). The scrim stacks at `--z-modal` (200) by default; pass `zIndex` or redefine `--z-modal` when host chrome sits higher. `modalOverlayStyles` hosts that set no z-index now get the same default. `zIndex` and `style` are host inputs (`style` wins, so a staged overlay can set `position: 'absolute'`). Escape and focus stay on `Modal`. `modalOverlayStyles` stays exported for hosts that already position their own node.
@@ -422,7 +424,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.21...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.22...HEAD
+[0.1.0-alpha.22]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.21...0.1.0-alpha.22
 [0.1.0-alpha.21]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.20...0.1.0-alpha.21
 [0.1.0-alpha.20]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...0.1.0-alpha.20
 [0.1.0-alpha.19]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.18...0.1.0-alpha.19
