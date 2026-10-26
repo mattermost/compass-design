@@ -18,7 +18,15 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    * `aria-valuenow`. `value` and `semanticColors` are ignored. Default: false.
    */
   indeterminate?: boolean;
-  /** Accessible label for the progress bar. Default: "Progress". */
+  /**
+   * When true, the bar is purely visual: it renders `aria-hidden="true"` and omits
+   * `role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax` and
+   * `aria-label`. Use it for bars that don't report progress toward a goal (e.g.
+   * rows in a bar chart) and put the accessible text on the surrounding element.
+   * Default: false.
+   */
+  decorative?: boolean;
+  /** Accessible label for the progress bar. Ignored when `decorative`. Default: "Progress". */
   'aria-label'?: string;
   /** Optional CSS class name. */
   className?: string;
@@ -40,6 +48,7 @@ export default function ProgressBar({
   size = 'large',
   semanticColors = false,
   indeterminate = false,
+  decorative = false,
   'aria-label': ariaLabel = 'Progress',
   className = '',
   ...rest
@@ -58,11 +67,15 @@ export default function ProgressBar({
   return (
     <div
       {...rest}
-      role="progressbar"
-      aria-valuenow={indeterminate ? undefined : clampedValue}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-label={ariaLabel}
+      {...(decorative
+        ? { 'aria-hidden': true }
+        : {
+            role: 'progressbar',
+            'aria-valuenow': indeterminate ? undefined : clampedValue,
+            'aria-valuemin': 0,
+            'aria-valuemax': 100,
+            'aria-label': ariaLabel,
+          })}
       className={[
         styles['progress-bar'],
         sizeClass,
