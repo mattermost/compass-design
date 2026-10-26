@@ -476,54 +476,66 @@ const MANY_CHANNELS: ComboboxOption[] = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 export const PlacementNearBottom: Story = {
-  render: () => (
-    <div
-      style={{
-        minHeight: '120vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        padding: 24,
-        boxSizing: 'border-box',
-      }}
-    >
-      <div style={{ maxWidth: 320 }}>
-        <Combobox
-          label="Near bottom of viewport"
-          options={MANY_CHANNELS}
-          placeholder="Opens above…"
-        />
+  render: function PlacementNearBottomStory({ leadingIcon, ...args }) {
+    return (
+      <div
+        style={{
+          minHeight: '120vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          padding: 24,
+          boxSizing: 'border-box',
+        }}
+      >
+        <div style={{ maxWidth: 320 }}>
+          <Combobox
+            {...args}
+            leadingIcon={
+              resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            }
+            label="Near bottom of viewport"
+            options={MANY_CHANNELS}
+            placeholder="Opens above…"
+          />
+        </div>
       </div>
-    </div>
-  ),
+    );
+  },
 };
 
 export const InsideOverflowClip: Story = {
-  render: () => (
-    <div
-      style={{
-        height: 180,
-        overflow: 'hidden',
-        border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-        borderRadius: 8,
-        padding: 16,
-        maxWidth: 360,
-      }}
-    >
-      <p
+  render: function InsideOverflowClipStory({ leadingIcon, ...args }) {
+    return (
+      <div
         style={{
-          margin: '0 0 12px',
-          fontSize: 12,
-          color: 'var(--center-channel-color)',
+          height: 180,
+          overflow: 'hidden',
+          border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+          borderRadius: 8,
+          padding: 16,
+          maxWidth: 360,
         }}
       >
-        Overflow hidden — menu portals out and stays visible.
-      </p>
-      <Combobox
-        label="Clipped container"
-        options={MANY_CHANNELS}
-        placeholder="Search…"
-      />
-    </div>
-  ),
+        <p
+          style={{
+            margin: '0 0 12px',
+            fontSize: 12,
+            color: 'var(--center-channel-color)',
+          }}
+        >
+          Overflow hidden — menu portals out and stays visible.
+        </p>
+        <Combobox
+          {...args}
+          leadingIcon={
+            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+          }
+          label="Clipped container"
+          options={MANY_CHANNELS}
+          placeholder="Search…"
+        />
+      </div>
+    );
+  },
 };
