@@ -17,6 +17,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - `Combobox` Storybook controls (`size`, `disabled`, `invalid`, `leadingIcon`, …) for the `MultiSelect`, `MultiSelectManyLongChips`, `AsyncMultiSelect`, `Creatable`, `Clearable`, `CreatableMultiSelect`, `PlacementNearBottom`, and `InsideOverflowClip` stories (each defined its own `render` with no args parameter, so Controls panel changes never reached the rendered component).
 - **`TourPoint` footer button:** the label and chevron rendered white on the button's white background. The override now sets `--button-fg` (which `Button` reads for its label and icon) instead of only `color`, so they use the panel color again.
 - **`Combobox` invalid + focused border:** the outer ring was 2px, thicker than the 1px focus ring everywhere else (standard focus, and `TextInput`/`Select` invalid + focused). Now 1px, matching those.
+- **`Combobox` chip left inset:** with `multiple` chips, the field's left padding stayed at the text inset (8–16px depending on size) while the top/bottom padding was tightened to fit the chip row (6–8px), so the first chip sat with uneven clearance — more on the left than above/below. The left inset now matches the top/bottom padding when chips are present (skipped when a leading icon sets its own start indent).
 
 ## [0.1.0-alpha.21] - 2026-10-22
 

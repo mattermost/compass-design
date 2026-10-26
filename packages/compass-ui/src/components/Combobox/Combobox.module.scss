@@ -248,6 +248,12 @@
       padding-block: var(--spacing-xxs);
     }
 
+    // Match the first chip's left inset to its top/bottom clearance (skipped
+    // with a leading icon, which already sets its own start indent).
+    &.combobox--has-chips:not(.combobox--has-leading-icon) .combobox__inner {
+      padding-inline-start: var(--spacing-xxs);
+    }
+
     .combobox__control {
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
@@ -279,6 +285,12 @@
     // Medium chips are 24px — 8px block padding keeps a single row at 40px.
     &.combobox--has-chips .combobox__inner {
       padding-block: var(--spacing-xs);
+    }
+
+    // Match the first chip's left inset to its top/bottom clearance (skipped
+    // with a leading icon, which already sets its own start indent).
+    &.combobox--has-chips:not(.combobox--has-leading-icon) .combobox__inner {
+      padding-inline-start: var(--spacing-xs);
     }
 
     .combobox__control {
@@ -317,6 +329,12 @@
     // Large chips are 32px — 8px block padding keeps a single row at 48px.
     &.combobox--has-chips .combobox__inner {
       padding-block: var(--spacing-xs);
+    }
+
+    // Match the first chip's left inset to its top/bottom clearance (skipped
+    // with a leading icon, which already sets its own start indent).
+    &.combobox--has-chips:not(.combobox--has-leading-icon) .combobox__inner {
+      padding-inline-start: var(--spacing-xs);
     }
 
     .combobox__control {
