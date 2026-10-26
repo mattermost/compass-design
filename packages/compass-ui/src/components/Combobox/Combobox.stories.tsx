@@ -167,7 +167,7 @@ export const MultiSelect: Story = {
         <Combobox
           {...args}
           leadingIcon={
-            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
           }
           label="Invite people"
           placeholder="Search people…"
@@ -197,7 +197,7 @@ export const MultiSelectManyLongChips: Story = {
         <Combobox
           {...args}
           leadingIcon={
-            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
           }
           label="Channels"
           placeholder="Search channels…"
@@ -258,7 +258,7 @@ export const AsyncMultiSelect: Story = {
         <Combobox
           {...args}
           leadingIcon={
-            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
           }
           label="Allowed users"
           placeholder="Search people…"
@@ -309,7 +309,7 @@ export const Creatable: Story = {
         <Combobox
           {...args}
           leadingIcon={
-            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
           }
           label="Model"
           placeholder="Pick or type a model name…"
@@ -332,7 +332,7 @@ export const Clearable: Story = {
         <Combobox
           {...args}
           leadingIcon={
-            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
           }
           label="Default model"
           placeholder="Use the service default"
@@ -354,7 +354,7 @@ export const CreatableMultiSelect: Story = {
         <Combobox
           {...args}
           leadingIcon={
-            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
           }
           label="Allowed models"
           placeholder="Add models…"
@@ -492,7 +492,7 @@ export const PlacementNearBottom: Story = {
           <Combobox
             {...args}
             leadingIcon={
-              resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+              resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
             }
             label="Near bottom of viewport"
             options={MANY_CHANNELS}
@@ -529,7 +529,7 @@ export const InsideOverflowClip: Story = {
         <Combobox
           {...args}
           leadingIcon={
-            resolveStoryIcon(leadingIcon, { wrapSize: '16' }) as ReactNode
+            resolveStoryIcon(leadingIcon, { wrapIcon: true }) as ReactNode
           }
           label="Clipped container"
           options={MANY_CHANNELS}
