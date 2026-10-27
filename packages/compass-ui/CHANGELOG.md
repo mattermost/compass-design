@@ -6,6 +6,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.23] - 2026-10-27
+
+### Added
+
+- **`ProgressBar` `decorative`:** opt-in prop (default `false`) for bars that are purely visual, such as rows in a bar chart. It renders `aria-hidden="true"` and omits `role`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax` and `aria-label` (also clearing any of those passed through), so a screen reader doesn't announce a misleading percentage; put the accessible text on the surrounding element. Default markup and existing props are unchanged.
+
 ### Fixed
 
 - **`Dropdown` label, icons and chevron rendered link-blue:** since `Button` moved its foreground to `--button-fg` (alpha.15), the quaternary emphasis that `Dropdown` uses sets `--button-fg` to `--link-color`, so `Dropdown`'s own `color` no longer reaches the label or icon slots. `Dropdown` now sets `--button-fg` (`--center-channel-color`, or `--sidebar-text` for `appearance="inverted"`) with enough specificity to win regardless of stylesheet order. Markup is unchanged.
@@ -431,7 +437,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.22...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.23...HEAD
+[0.1.0-alpha.23]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.22...0.1.0-alpha.23
 [0.1.0-alpha.22]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.21...0.1.0-alpha.22
 [0.1.0-alpha.21]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.20...0.1.0-alpha.21
 [0.1.0-alpha.20]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.19...0.1.0-alpha.20
