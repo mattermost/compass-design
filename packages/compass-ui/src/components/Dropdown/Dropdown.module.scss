@@ -20,6 +20,13 @@
     outline-offset var(--duration-quick) var(--ease-transition);
   padding: 0;
 
+  // Button owns label/icon colour via `--button-fg` (quaternary defaults to the
+  // link colour), so set that, not just `color`. Doubled class so it beats
+  // Button's emphasis rule whichever stylesheet loads last.
+  &#{&} {
+    --button-fg: var(--center-channel-color);
+  }
+
   &:focus-visible {
     outline-color: var(--focus-ring-color);
     outline-offset: 3px;
@@ -225,7 +232,8 @@
   // ---------------------------------------------------------------------------
   // Appearance: Inverted (dark background)
   // ---------------------------------------------------------------------------
-  &--appearance-inverted {
+  &--appearance-inverted#{&} {
+    --button-fg: var(--sidebar-text);
     color: var(--sidebar-text);
 
     &:hover:not(:disabled) {

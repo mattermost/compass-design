@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`Dropdown` label, icons and chevron rendered link-blue:** since `Button` moved its foreground to `--button-fg` (alpha.15), the quaternary emphasis `Dropdown` is built on set that to `--link-color`, and `Dropdown`'s own `color` no longer reached the label or icon slots. `Dropdown` now sets `--button-fg` (`--center-channel-color`, or `--sidebar-text` for `appearance="inverted"`) with enough specificity to win regardless of stylesheet order. Markup is unchanged.
+
 ## [0.1.0-alpha.22] - 2026-10-26
 
 ### Added
