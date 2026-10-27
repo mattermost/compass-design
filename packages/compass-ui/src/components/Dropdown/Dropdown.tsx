@@ -1,5 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import Button from '@/components/Button/Button';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { toKebab } from '@/utils/string';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
@@ -33,19 +32,23 @@ export interface DropdownProps extends Omit<
 /**
  * A Dropdown is a heading-weight trigger that opens a Popover Menu. It reads as a title —
  * semibold, with a chevron — and signals "this label is also a control."
+ *
+ * Renders a plain `<button>` (not a Compass `Button`); `ref` points at it.
  */
-export default function Dropdown({
-  className = '',
-  children,
-  leadingIcon,
-  padding = 'tight',
-  size = 'medium',
-  appearance = 'default',
-  isOpen = false,
-  disabled,
-  type = 'button',
-  ...rest
-}: DropdownProps) {
+const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(function Dropdown(
+  {
+    className = '',
+    children,
+    leadingIcon,
+    padding = 'tight',
+    size = 'medium',
+    appearance = 'default',
+    isOpen = false,
+    type = 'button',
+    ...rest
+  },
+  ref,
+) {
   const sizeClass = styles[`dropdown--size-${toKebab(size)}`];
   const paddingClass =
     padding === 'compact' ? styles['dropdown--padding-compact'] : '';
@@ -65,15 +68,13 @@ export default function Dropdown({
     .join(' ');
 
   return (
-    <Button
-      className={rootClass}
-      emphasis="quaternary"
-      size="medium"
-      type={type}
-      disabled={disabled}
+    <button
       aria-expanded={isOpen}
       aria-haspopup="listbox"
       {...rest}
+      ref={ref}
+      type={type}
+      className={rootClass}
     >
       <span className={styles.dropdown__trigger}>
         <span className={styles.dropdown__content}>
@@ -90,6 +91,8 @@ export default function Dropdown({
           <Icon size="12" glyph={<ChevronDownIcon />} />
         </span>
       </span>
-    </Button>
+    </button>
   );
-}
+});
+
+export default Dropdown;

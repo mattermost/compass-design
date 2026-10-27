@@ -5,6 +5,7 @@ import type { BuiltInButtonProps } from '@/utils/props';
 import AdminPanel from './AdminPanel/AdminPanel';
 import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
 import Combobox from './Combobox/Combobox';
+import Dropdown from './Dropdown/Dropdown';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FieldMessage from './FieldMessage/FieldMessage';
@@ -37,6 +38,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
     </TourPoint>
   ),
   EmptyState: (a) => <EmptyState title="Nothing here" {...a} />,
+  Dropdown: (a) => <Dropdown {...a}>Agents</Dropdown>,
   Tag: (a) => <Tag label="Beta" {...a} />,
   Modal: (a) => (
     <Modal title="Settings" {...a}>

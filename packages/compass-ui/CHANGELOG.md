@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING — `Dropdown` is a plain `<button>`, no longer a Compass `Button`:** it used to wrap `Button emphasis="quaternary"` and fight it for colour, padding and label layout, which is how it turned link-blue when `Button` changed. The trigger now owns its styling (`--dropdown-fg` for the label, icon and chevron colour). The root no longer carries `button`, `button--emphasis-quaternary` and `button--size-medium` classes, and the `button__label` wrapper is gone; selectors that targeted them stop matching (use the `Dropdown` `className`). Props are unchanged, `ref` now reaches the `<button>`, and `aria-haspopup` / `aria-expanded` can be overridden by the host as before. Disabled label colour is the normal label colour at 56% opacity (previously Button's 32% colour under that same opacity).
+
 ### Fixed
 
 - **`Dropdown` label, icons and chevron rendered link-blue:** since `Button` moved its foreground to `--button-fg` (alpha.15), the quaternary emphasis `Dropdown` is built on set that to `--link-color`, and `Dropdown`'s own `color` no longer reached the label or icon slots. `Dropdown` now sets `--button-fg` (`--center-channel-color`, or `--sidebar-text` for `appearance="inverted"`) with enough specificity to win regardless of stylesheet order. Markup is unchanged.
