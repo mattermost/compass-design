@@ -41,6 +41,36 @@ export const Indeterminate: Story = {
   ],
 };
 
+export const Decorative: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <ul
+      style={{
+        display: 'grid',
+        gap: 12,
+        width: 360,
+        margin: 0,
+        padding: 0,
+        listStyle: 'none',
+        color: 'var(--center-channel-color)',
+      }}
+    >
+      {[
+        { id: 'INC-102', minutes: 130 },
+        { id: 'INC-087', minutes: 90 },
+        { id: 'INC-091', minutes: 45 },
+      ].map(({ id, minutes }) => (
+        <li key={id} style={{ display: 'grid', gap: 4 }}>
+          <span style={{ fontSize: 12 }}>
+            {id}: {minutes} min
+          </span>
+          <ProgressBar decorative size="small" value={(minutes / 130) * 100} />
+        </li>
+      ))}
+    </ul>
+  ),
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (

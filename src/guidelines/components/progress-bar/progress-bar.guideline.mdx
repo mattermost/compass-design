@@ -139,6 +139,49 @@ This is meaning, not decoration: only enable it when "more is worse".
 For "more is better" scenarios (download progress, file upload), keep the
 default brand fill.
 
+### Decorative
+
+Use the bar as a purely visual element when its width isn't progress toward a
+goal — for example, rows in a bar chart where each bar is sized relative to the
+largest value. Turn on `decorative` so screen readers skip the bar entirely
+instead of announcing a misleading percentage, and put the accessible text on
+the surrounding row, where the label and value are already visible. Real
+progress — an upload, an import, a quota — should never be decorative.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    border: '1px solid rgba(var(--center-channel-color-rgb),0.08)',
+    borderRadius: '8px',
+    maxWidth: '320px',
+  }}
+>
+  {[
+    { id: 'INC-102', minutes: 130 },
+    { id: 'INC-087', minutes: 90 },
+    { id: 'INC-091', minutes: 45 },
+  ].map(({ id, minutes }) => (
+    <div
+      key={id}
+      style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}
+    >
+      <span
+        style={{ fontSize: '0.75rem', color: 'var(--center-channel-color)' }}
+      >
+        {id}: {minutes} min
+      </span>
+      <ProgressBar decorative size="small" value={(minutes / 130) * 100} />
+    </div>
+  ))}
+</div>
+
+Each row's visible label and value carry the comparison; the bar only adds the
+visual scale.
+
 <Divider />
 
 ## Implementation
