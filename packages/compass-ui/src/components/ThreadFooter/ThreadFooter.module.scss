@@ -60,7 +60,7 @@
     &__follow-btn:not(
       #{&}__follow-btn--following
     )[class*='button--emphasis-quaternary'] {
-    color: rgba(var(--center-channel-color-rgb), 0.75);
+    --button-fg: rgba(var(--center-channel-color-rgb), 0.75);
 
     &:hover:not(:disabled) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -72,7 +72,7 @@
   }
 
   & &__follow-btn--following[class*='button--emphasis-quaternary'] {
-    color: var(--link-color);
+    --button-fg: var(--link-color);
     background-color: rgba(var(--link-color-rgb), 0.08);
 
     &:hover:not(:disabled) {

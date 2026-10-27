@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`Dropdown` label, icons and chevron rendered link-blue:** since `Button` moved its foreground to `--button-fg` (alpha.15), the quaternary emphasis that `Dropdown` uses sets `--button-fg` to `--link-color`, so `Dropdown`'s own `color` no longer reaches the label or icon slots. `Dropdown` now sets `--button-fg` (`--center-channel-color`, or `--sidebar-text` for `appearance="inverted"`) with enough specificity to win regardless of stylesheet order. Markup is unchanged.
+- **`Toast` action button, `GlobalBanner` action button, `ThreadFooter` reply/follow buttons:** same cause as `Dropdown` above. These buttons set `color` on a `Button`, so the root text had the correct colour (white or grey), but the label and icon stayed link-blue. They now set `--button-fg`. Markup is unchanged.
+
 ## [0.1.0-alpha.22] - 2026-10-26
 
 ### Added
