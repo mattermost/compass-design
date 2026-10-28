@@ -9,9 +9,9 @@ Show the change working. A short screen recording is preferred over screenshots,
 especially for interaction, motion, focus, or responsive behavior. Drag and drop
 the file into this box to upload it.
 
-- Visual or behavior changes: before/after screenshots or a demo video.
+- Visual changes (including how something looks or animates): before/after screenshots or a demo video.
 - Include light/dark or RTL where the change affects them.
-- No visual or behavior change (docs prose, CI, release, tooling)? Write "N/A" and say why.
+- Non-visual changes (docs prose, CI, release, tooling, logic or behavior with no visible effect)? Write "N/A" and say why.
 -->
 
 ## Test plan
