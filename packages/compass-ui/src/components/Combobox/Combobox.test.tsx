@@ -79,6 +79,44 @@ describe('Combobox opening', () => {
   });
 });
 
+describe('Combobox opening gestures', () => {
+  it('opens with the highlight on the last option on ArrowUp', () => {
+    render(<Combobox aria-label="Model" options={MODELS} />);
+    focus(input());
+    keyDown(input(), 'ArrowUp');
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    const active = document.getElementById(
+      input().getAttribute('aria-activedescendant') ?? '',
+    );
+    expect(active?.textContent).toContain(MODELS[MODELS.length - 1].label);
+  });
+
+  it('opens on focus when openOnFocus is set', () => {
+    render(<Combobox aria-label="Model" options={MODELS} openOnFocus />);
+    focus(input());
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('does not select-all after the user has typed or left', async () => {
+    const rafs: FrameRequestCallback[] = [];
+    const spy = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((cb) => rafs.push(cb));
+    const cancel = vi
+      .spyOn(window, 'cancelAnimationFrame')
+      .mockImplementation(() => {});
+    render(
+      <Combobox aria-label="Model" options={MODELS} defaultValue="gpt-4o" />,
+    );
+    focus(input());
+    expect(rafs).toHaveLength(1);
+    keyDown(input(), 'ArrowDown');
+    expect(cancel).toHaveBeenCalled();
+    spy.mockRestore();
+    cancel.mockRestore();
+  });
+});
+
 describe('Combobox loading', () => {
   it('shows a loading row instead of the empty message', () => {
     render(<Combobox aria-label="Users" options={[]} loading />);
