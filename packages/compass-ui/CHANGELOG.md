@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.24] - 2026-10-28
+
 ### Changed
 
 - **`Combobox` no longer opens its menu on focus:** Tab focus, `autoFocus`, focus returned after a dialog closes and focus handed back by the clear button leave the menu closed, with `aria-expanded="false"` and no `aria-activedescendant`, following the WAI-ARIA combobox pattern. The menu still opens on pointer press, typing, and ↓ / ↑. Select-all of the label on focus is unchanged, and is now cancelled if the user types, navigates or leaves before it runs. ↑ on a closed menu opens it with the last option highlighted.
@@ -442,7 +444,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.23...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.24...HEAD
+[0.1.0-alpha.24]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.23...0.1.0-alpha.24
 [0.1.0-alpha.23]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.22...0.1.0-alpha.23
 [0.1.0-alpha.22]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.21...0.1.0-alpha.22
 [0.1.0-alpha.21]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.20...0.1.0-alpha.21
