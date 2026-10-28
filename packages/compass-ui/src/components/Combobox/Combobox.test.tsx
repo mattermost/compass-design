@@ -27,6 +27,17 @@ function input() {
 
 function openMenu() {
   focus(input());
+  keyDown(input(), 'ArrowDown');
+}
+
+function setupUser() {
+  const user = userEvent.setup();
+  return {
+    click: (el: Element) => act(() => user.click(el)),
+    keyboard: (keys: string) => act(() => user.keyboard(keys)),
+    tab: (options?: { shift?: boolean }) => act(() => user.tab(options)),
+    type: (el: Element, text: string) => act(() => user.type(el, text)),
+  };
 }
 
 function chipLabels() {
@@ -34,6 +45,77 @@ function chipLabels() {
     (chip) => chip.textContent,
   );
 }
+
+describe('Combobox opening', () => {
+  it('stays closed on focus, with no active descendant', () => {
+    render(<Combobox aria-label="Model" options={MODELS} />);
+    focus(input());
+    expect(input().getAttribute('aria-expanded')).toBe('false');
+    expect(input().hasAttribute('aria-activedescendant')).toBe(false);
+  });
+
+  it('stays closed when Tab moves focus into it', async () => {
+    const user = setupUser();
+    render(<Combobox aria-label="Model" options={MODELS} />);
+    await user.tab();
+    expect(document.activeElement).toBe(input());
+    expect(input().getAttribute('aria-expanded')).toBe('false');
+    expect(input().hasAttribute('aria-activedescendant')).toBe(false);
+  });
+
+  it('opens on ArrowDown, typing and click', async () => {
+    const user = setupUser();
+    render(<Combobox aria-label="Model" options={MODELS} />);
+    await user.tab();
+    await user.keyboard('{ArrowDown}');
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    await user.keyboard('{Escape}');
+    expect(input().getAttribute('aria-expanded')).toBe('false');
+    await user.keyboard('g');
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    await user.keyboard('{Escape}');
+    await user.click(input());
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+  });
+});
+
+describe('Combobox opening gestures', () => {
+  it('opens with the highlight on the last option on ArrowUp', () => {
+    render(<Combobox aria-label="Model" options={MODELS} />);
+    focus(input());
+    keyDown(input(), 'ArrowUp');
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    const active = document.getElementById(
+      input().getAttribute('aria-activedescendant') ?? '',
+    );
+    expect(active?.textContent).toContain(MODELS[MODELS.length - 1].label);
+  });
+
+  it('opens on focus when openOnFocus is set', () => {
+    render(<Combobox aria-label="Model" options={MODELS} openOnFocus />);
+    focus(input());
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('does not select-all after the user has typed or left', async () => {
+    const rafs: FrameRequestCallback[] = [];
+    const spy = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((cb) => rafs.push(cb));
+    const cancel = vi
+      .spyOn(window, 'cancelAnimationFrame')
+      .mockImplementation(() => {});
+    render(
+      <Combobox aria-label="Model" options={MODELS} defaultValue="gpt-4o" />,
+    );
+    focus(input());
+    expect(rafs).toHaveLength(1);
+    keyDown(input(), 'ArrowDown');
+    expect(cancel).toHaveBeenCalled();
+    spy.mockRestore();
+    cancel.mockRestore();
+  });
+});
 
 describe('Combobox loading', () => {
   it('shows a loading row instead of the empty message', () => {
@@ -625,16 +707,6 @@ describe('Combobox input pass-through', () => {
     };
   }
 
-  function setupUser() {
-    const user = userEvent.setup();
-    return {
-      click: (el: Element) => act(() => user.click(el)),
-      keyboard: (keys: string) => act(() => user.keyboard(keys)),
-      tab: (options?: { shift?: boolean }) => act(() => user.tab(options)),
-      type: (el: Element, text: string) => act(() => user.type(el, text)),
-    };
-  }
-
   describe('attributes', () => {
     it('puts data-* on the input and className on the root', () => {
       const { container } = render(
@@ -776,11 +848,11 @@ describe('Combobox input pass-through', () => {
       expect(document.querySelector('label[for="cb"]')).not.toBeNull();
     });
 
-    it('focuses the input on mount with autoFocus, which opens the menu', () => {
+    it('focuses the input on mount with autoFocus without opening the menu', () => {
       // eslint-disable-next-line jsx-a11y/no-autofocus -- autoFocus pass-through is the behavior under test
       render(<Combobox aria-label="Model" options={MODELS} autoFocus />);
       expect(document.activeElement).toBe(input());
-      expect(input().getAttribute('aria-expanded')).toBe('true');
+      expect(input().getAttribute('aria-expanded')).toBe('false');
     });
   });
 
@@ -869,7 +941,7 @@ describe('Combobox input pass-through', () => {
   });
 
   describe('handlers', () => {
-    it('calls onFocus with the input event and still opens the menu', async () => {
+    it('calls onFocus with the input event, and a click opens the menu', async () => {
       const targets: EventTarget[] = [];
       const onFocus = vi.fn((e: FocusEvent<HTMLInputElement>) => {
         targets.push(e.target, e.currentTarget);
@@ -991,7 +1063,7 @@ describe('Combobox input pass-through', () => {
       expect(document.activeElement).toBe(input());
     });
 
-    it('calls onFocus again and reopens the menu when the clear button returns focus', async () => {
+    it('calls onFocus again and leaves the menu closed when the clear button returns focus', async () => {
       const onFocus = vi.fn();
       const onBlur = vi.fn();
       const user = setupUser();
@@ -1015,7 +1087,7 @@ describe('Combobox input pass-through', () => {
       expect(onBlur).toHaveBeenCalledTimes(1);
       expect(onFocus).toHaveBeenCalledTimes(2);
       expect(document.activeElement).toBe(input());
-      expect(input().getAttribute('aria-expanded')).toBe('true');
+      expect(input().getAttribute('aria-expanded')).toBe('false');
     });
 
     it('calls onKeyDown after Combobox, with defaultPrevented when it handled the key', async () => {
@@ -1057,7 +1129,8 @@ describe('Combobox input pass-through', () => {
           onKeyDown={recordKeys(seen)}
         />,
       );
-      openMenu();
+      focus(input());
+      keyDown(input(), 'ArrowDown');
       keyDown(input(), 'Escape');
       keyDown(input(), 'ArrowUp');
       expect(input().getAttribute('aria-expanded')).toBe('true');
@@ -1065,6 +1138,7 @@ describe('Combobox input pass-through', () => {
       keyDown(input(), 'ArrowDown');
       expect(input().getAttribute('aria-expanded')).toBe('true');
       expect(seen).toEqual([
+        ['ArrowDown', true],
         ['Escape', true],
         ['ArrowUp', true],
         ['Escape', true],
@@ -1083,6 +1157,7 @@ describe('Combobox input pass-through', () => {
         />,
       );
       openMenu();
+      seen.length = 0;
       keyDown(input(), 'End');
       const last = input().getAttribute('aria-activedescendant');
       keyDown(input(), 'Home');

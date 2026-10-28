@@ -215,6 +215,14 @@ export interface ComboboxProps
    * remove control). Default: false.
    */
   clearable?: boolean;
+  /**
+   * Opens the menu when the input receives focus, including keyboard Tab focus,
+   * `autoFocus` and focus handed back by the clear button. Off by default:
+   * focus alone doesn't open the menu, which then opens on pointer press,
+   * typing, or ↓ / ↑. Turn it on only for hosts that need the old
+   * focus-to-open behavior.
+   */
+  openOnFocus?: boolean;
   /** Accessible name for the clear button. Default: "Clear". */
   clearLabel?: string;
   /** Extra attributes for the clear button (e.g. `data-testid`). */
@@ -233,8 +241,8 @@ export interface ComboboxProps
   id?: string;
   'aria-label'?: string;
   /**
-   * Runs after Combobox's own focus handling (which opens the menu). Also runs
-   * when the clear button hands focus back to the input.
+   * Runs after Combobox's own focus handling. Focus alone doesn't open the
+   * menu. Also runs when the clear button hands focus back to the input.
    */
   onFocus?: FocusEventHandler<HTMLInputElement>;
   /**
@@ -368,6 +376,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     onCreateOption,
     formatCreateLabel = defaultFormatCreateLabel,
     clearable = false,
+    openOnFocus = false,
     clearLabel = 'Clear',
     clearButtonProps,
     selectionsLabel,
@@ -425,6 +434,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   const [activeIndex, setActiveIndex] = useState(-1);
   // Hover moves the highlight without scrolling; only keyboard changes scroll the row into view.
   const activatedByPointer = useRef(false);
+  const selectAllFrame = useRef<number | null>(null);
   const hoverRow = useCallback(
     (index: number) => {
       if (index === activeIndex) return;
@@ -719,18 +729,30 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
   }, [isOpen, activeIndex, rows, rowId]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    cancelSelectAll();
     const next = e.target.value;
     setInputDisplay(next);
     if (!isOpen) open();
     setActiveIndex(0);
   };
 
+  const cancelSelectAll = () => {
+    if (selectAllFrame.current === null) return;
+    cancelAnimationFrame(selectAllFrame.current);
+    selectAllFrame.current = null;
+  };
+
+  useEffect(() => cancelSelectAll, []);
+
   const handleFocus = () => {
     setIsFocused(true);
-    open();
+    if (openOnFocus) open();
     // Select-all so the next keystroke replaces the selected label (filter mode).
+    // Cancelled if the user types, navigates or leaves before the frame runs.
     if (!multiple && !isInputControlled && selectedOption) {
-      requestAnimationFrame(() => {
+      cancelSelectAll();
+      selectAllFrame.current = requestAnimationFrame(() => {
+        selectAllFrame.current = null;
         inputRef.current?.select();
       });
     }
@@ -740,11 +762,13 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     // Delay so option mousedown can run first
     const related = e.relatedTarget as Node | null;
     if (related && rootRef.current?.contains(related)) return;
+    cancelSelectAll();
     setIsFocused(false);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (disabled) return;
+    cancelSelectAll();
 
     switch (e.key) {
       case 'ArrowDown':
@@ -754,8 +778,16 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         break;
       case 'ArrowUp':
         e.preventDefault();
-        if (!isOpen) open();
-        else moveActive(-1);
+        if (!isOpen) {
+          // APG: opening with ArrowUp puts the highlight on the last option.
+          for (let i = rows.length - 1; i >= 0; i--) {
+            if (!isRowDisabled(rows[i])) {
+              setActiveIndex(i);
+              break;
+            }
+          }
+          open();
+        } else moveActive(-1);
         break;
       case 'Home':
         if (isOpen && rows.length > 0) {
