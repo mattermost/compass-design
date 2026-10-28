@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`Combobox` no longer opens its menu on focus:** Tab focus, `autoFocus`, focus returned after a dialog closes and focus handed back by the clear button leave the menu closed, with `aria-expanded="false"` and no `aria-activedescendant`, following the WAI-ARIA combobox pattern. The menu still opens on pointer press, typing, and ↓ / ↑. Consumers that relied on focus-to-open need to open it themselves. Select-all of the label on focus is unchanged.
+
 ## [0.1.0-alpha.23] - 2026-10-27
 
 ### Added

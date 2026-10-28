@@ -4,6 +4,7 @@ import {
   click,
   focus,
   getByRole,
+  keyDown,
   queryAllByRole,
   render,
 } from '@/test-utils/render';
@@ -286,6 +287,7 @@ describe('other overridable messages', () => {
       />,
     );
     focus(getByRole('combobox'));
+    keyDown(getByRole('combobox'), 'ArrowDown');
     expect(getByRole('listbox').getAttribute('aria-label')).toBe('Modelle');
   });
 

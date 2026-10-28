@@ -233,8 +233,8 @@ export interface ComboboxProps
   id?: string;
   'aria-label'?: string;
   /**
-   * Runs after Combobox's own focus handling (which opens the menu). Also runs
-   * when the clear button hands focus back to the input.
+   * Runs after Combobox's own focus handling. Focus alone doesn't open the
+   * menu. Also runs when the clear button hands focus back to the input.
    */
   onFocus?: FocusEventHandler<HTMLInputElement>;
   /**
@@ -727,7 +727,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const handleFocus = () => {
     setIsFocused(true);
-    open();
     // Select-all so the next keystroke replaces the selected label (filter mode).
     if (!multiple && !isInputControlled && selectedOption) {
       requestAnimationFrame(() => {
