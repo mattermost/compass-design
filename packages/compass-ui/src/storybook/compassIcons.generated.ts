@@ -223,6 +223,7 @@ import MessageArrowRightOutlineIcon from '@mattermost/compass-icons/components/m
 import MessageCheckOutlineIcon from '@mattermost/compass-icons/components/message-check-outline';
 import MessageCheckIcon from '@mattermost/compass-icons/components/message-check';
 import MessageMinusOutlineIcon from '@mattermost/compass-icons/components/message-minus-outline';
+import MessageOutlineIcon from '@mattermost/compass-icons/components/message-outline';
 import MessagePlusOutlineIcon from '@mattermost/compass-icons/components/message-plus-outline';
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
 import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-off';
@@ -555,6 +556,7 @@ export const STORYBOOK_ICONS = {
   'message-check-outline': MessageCheckOutlineIcon,
   'message-check': MessageCheckIcon,
   'message-minus-outline': MessageMinusOutlineIcon,
+  'message-outline': MessageOutlineIcon,
   'message-plus-outline': MessagePlusOutlineIcon,
   'message-text-outline': MessageTextOutlineIcon,
   'microphone-off': MicrophoneOffIcon,
