@@ -429,6 +429,122 @@ describe('Combobox clearable', () => {
   });
 });
 
+describe('Combobox inside a host with key listeners', () => {
+  const documentKeys: string[] = [];
+  const onDocumentKeyDown = (e: globalThis.KeyboardEvent) => {
+    documentKeys.push(e.key);
+  };
+
+  beforeEach(() => {
+    documentKeys.length = 0;
+    document.addEventListener('keydown', onDocumentKeyDown);
+  });
+
+  afterEach(() => {
+    document.removeEventListener('keydown', onDocumentKeyDown);
+  });
+
+  function renderInHost(props: Partial<ComboboxProps> = {}) {
+    const hostKeys: string[] = [];
+    render(
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- stands in for a host form or modal key listener
+      <div onKeyDown={(e) => hostKeys.push(e.key)}>
+        <Combobox aria-label="Model" options={MODELS} {...props} />
+      </div>,
+    );
+    return hostKeys;
+  }
+
+  function popupRoot() {
+    let el = getByRole('listbox') as HTMLElement;
+    while (el.parentElement && el.parentElement !== document.body) {
+      el = el.parentElement;
+    }
+    return el;
+  }
+
+  it('keeps Escape that closes the menu from reaching the host', async () => {
+    const user = setupUser();
+    const hostKeys = renderInHost();
+    await user.click(input());
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    await user.keyboard('{Escape}');
+    expect(input().getAttribute('aria-expanded')).toBe('false');
+    expect(hostKeys).toEqual([]);
+    expect(documentKeys).toEqual([]);
+
+    await user.keyboard('{Escape}');
+    expect(hostKeys).toEqual(['Escape']);
+    expect(documentKeys).toEqual(['Escape']);
+  });
+
+  it('keeps Enter that selects a row from reaching the host', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const hostKeys = renderInHost({ onChange });
+    await user.click(input());
+    await user.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledWith('gpt-4o');
+    expect(hostKeys).toEqual([]);
+    expect(documentKeys).toEqual([]);
+
+    await user.keyboard('{Enter}');
+    expect(hostKeys).toEqual(['Enter']);
+    expect(documentKeys).toEqual(['Enter']);
+  });
+
+  it('keeps focus on the input for a press outside the rows', async () => {
+    const user = setupUser();
+    const hostKeys = renderInHost();
+    await user.click(input());
+    const popup = popupRoot();
+    expect(
+      popup.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true, cancelable: true }),
+      ),
+    ).toBe(false);
+
+    await user.click(getByRole('listbox').parentElement!);
+    expect(document.activeElement).toBe(input());
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    await user.keyboard('{Escape}');
+    expect(input().getAttribute('aria-expanded')).toBe('false');
+    expect(hostKeys).toEqual([]);
+    expect(documentKeys).toEqual([]);
+  });
+
+  it('still selects a row on click', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    renderInHost({ onChange });
+    await user.click(input());
+    await user.click(getByRole('option', 'gpt-4o-mini'));
+    expect(onChange).toHaveBeenCalledWith('gpt-4o-mini');
+    expect(document.activeElement).toBe(input());
+  });
+
+  it('consumes Enter on the clear button', async () => {
+    const onChange = vi.fn();
+    const onClearKeyDown = vi.fn();
+    const user = setupUser();
+    const hostKeys = renderInHost({
+      value: 'gpt-4o',
+      onChange,
+      clearable: true,
+      clearButtonProps: { onKeyDown: onClearKeyDown },
+    });
+    act(() => getByRole('button', 'Clear').focus());
+    await user.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(null);
+    expect(document.activeElement).toBe(input());
+    expect(onClearKeyDown).toHaveBeenCalledTimes(1);
+    expect(onClearKeyDown.mock.calls[0][0].defaultPrevented).toBe(true);
+    expect(hostKeys).toEqual([]);
+    expect(documentKeys).toEqual([]);
+  });
+});
+
 describe('Combobox without scrollIntoView', () => {
   withoutScrollIntoView();
 

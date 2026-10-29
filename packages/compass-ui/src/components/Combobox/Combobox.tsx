@@ -254,7 +254,9 @@ export interface ComboboxProps
   /**
    * Runs after Combobox's own key handling. `event.defaultPrevented` is true
    * when Combobox handled the key (arrows, Home / End while open, Enter on a
-   * row, Escape while open, Backspace removing a chip). Calling
+   * row, Escape while open, Backspace removing a chip). The Enter and Escape
+   * presses it handles also stop propagating past the input, so host form and
+   * modal listeners don't see them. Calling
    * `preventDefault()` here doesn't stop Combobox's handling. Any `onChange`
    * the key caused has already been called, but host state read here is
    * still from before that change.
@@ -811,15 +813,18 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
           }
         }
         break;
+      // Also stopped so host form submit and modal Escape listeners skip them.
       case 'Enter':
         if (isOpen && activeIndex >= 0 && rows[activeIndex]) {
           e.preventDefault();
+          e.stopPropagation();
           selectRow(rows[activeIndex]);
         }
         break;
       case 'Escape':
         if (isOpen) {
           e.preventDefault();
+          e.stopPropagation();
           close();
         }
         break;
@@ -1008,6 +1013,16 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               aria-label={clearLabel}
               data-combobox-clear=""
               onClick={clearValue}
+              onKeyDown={(e) => {
+                // Consume Enter like the input does, so it doesn't bubble to
+                // a host form or modal; this also skips the native click.
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  clearValue();
+                }
+                clearButtonProps?.onKeyDown?.(e);
+              }}
               onBlur={(e) => {
                 clearButtonProps?.onBlur?.(e);
                 handleBlur(e);
@@ -1024,6 +1039,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
       {popupMounted &&
         renderPortal(
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keeps focus on the input for any press in the menu (rows, padding, scrollbar) so keys keep reaching it while open
           <div
             ref={portalRef}
             className={[
@@ -1034,6 +1050,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               .filter(Boolean)
               .join(' ')}
             style={popupStyle}
+            onMouseDown={(ev) => ev.preventDefault()}
           >
             <PopoverMenu className={styles.combobox__menu}>
               <PopoverMenuScroll maxHeight={maxHeight}>
@@ -1051,10 +1068,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                   >
                     {rows.map((row, index) => {
                       const active = index === activeIndex;
-                      const preventBlur = (ev: MouseEvent) => {
-                        // Prevent input blur before click handler
-                        ev.preventDefault();
-                      };
                       if (row.kind === 'create') {
                         return (
                           <li
@@ -1069,7 +1082,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                               leadingVisual={<Icon glyph={<PlusIcon />} />}
                               active={active}
                               aria-selected={false}
-                              onMouseDown={preventBlur}
                               onMouseEnter={() => hoverRow(index)}
                               onClick={() => createValue(row.inputValue)}
                             />
@@ -1100,7 +1112,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                             active={active}
                             disabled={option.disabled}
                             aria-selected={selected}
-                            onMouseDown={preventBlur}
                             onMouseEnter={() => hoverRow(index)}
                             onClick={() => selectOption(option)}
                           />

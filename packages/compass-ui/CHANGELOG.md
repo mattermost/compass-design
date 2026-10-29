@@ -6,6 +6,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`Combobox` keys leaking to host dialogs and forms:** Enter that selects a row and Escape that closes the menu now also stop propagating past the input, so a surrounding modal no longer closes and a form no longer submits on the same press. Enter and Escape on a closed menu still bubble. `onKeyDown` still runs, with `event.defaultPrevented` set as before.
+- **`Combobox` losing focus on presses inside the menu:** a press on the menu's padding, scrollbar, or empty or loading message no longer moves focus off the input while the menu stays open, so the next key still reaches the input. Row clicks are unchanged.
+- **`Combobox` clear button Enter:** Enter on the focused clear button now clears once, returns focus to the input and doesn't propagate, so it no longer submits a surrounding form. `clearButtonProps.onKeyDown` still runs after it. Markup is unchanged.
+
 ## [0.1.0-alpha.24] - 2026-10-28
 
 ### Changed
