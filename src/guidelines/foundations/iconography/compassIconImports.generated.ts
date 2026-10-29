@@ -232,6 +232,7 @@ export const COMPASS_ICON_LOADERS: Record<
   'message-check-outline': () => import('@mattermost/compass-icons/components/message-check-outline'),
   'message-check': () => import('@mattermost/compass-icons/components/message-check'),
   'message-minus-outline': () => import('@mattermost/compass-icons/components/message-minus-outline'),
+  'message-outline': () => import('@mattermost/compass-icons/components/message-outline'),
   'message-plus-outline': () => import('@mattermost/compass-icons/components/message-plus-outline'),
   'message-text-outline': () => import('@mattermost/compass-icons/components/message-text-outline'),
   'microphone-off': () => import('@mattermost/compass-icons/components/microphone-off'),
