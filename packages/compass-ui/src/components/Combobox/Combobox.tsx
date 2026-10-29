@@ -254,10 +254,9 @@ export interface ComboboxProps
   /**
    * Runs after Combobox's own key handling. `event.defaultPrevented` is true
    * when Combobox handled the key (arrows, Home / End while open, Enter on a
-   * row, Escape while open, Backspace removing a chip). The Enter and Escape
-   * presses it handles also stop propagating past the input, so host form and
-   * modal listeners don't see them. Calling
-   * `preventDefault()` here doesn't stop Combobox's handling. Any `onChange`
+   * row, Escape while open, Backspace removing a chip); those Enter and Escape
+   * presses also stop propagating. Calling `preventDefault()` here doesn't
+   * stop Combobox's handling. Any `onChange`
    * the key caused has already been called, but host state read here is
    * still from before that change.
    */
@@ -813,7 +812,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
           }
         }
         break;
-      // Also stopped so host form submit and modal Escape listeners skip them.
       case 'Enter':
         if (isOpen && activeIndex >= 0 && rows[activeIndex]) {
           e.preventDefault();
@@ -1014,8 +1012,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               data-combobox-clear=""
               onClick={clearValue}
               onKeyDown={(e) => {
-                // Consume Enter like the input does, so it doesn't bubble to
-                // a host form or modal; this also skips the native click.
+                // preventDefault() cancels the native click, so clear here.
                 if (e.key === 'Enter') {
                   e.preventDefault();
                   e.stopPropagation();
@@ -1039,7 +1036,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
       {popupMounted &&
         renderPortal(
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keeps focus on the input for any press in the menu (rows, padding, scrollbar) so keys keep reaching it while open
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keeps focus on the input for presses anywhere in the menu
           <div
             ref={portalRef}
             className={[

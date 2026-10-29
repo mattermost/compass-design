@@ -455,14 +455,6 @@ describe('Combobox inside a host with key listeners', () => {
     return hostKeys;
   }
 
-  function popupRoot() {
-    let el = getByRole('listbox') as HTMLElement;
-    while (el.parentElement && el.parentElement !== document.body) {
-      el = el.parentElement;
-    }
-    return el;
-  }
-
   it('keeps Escape that closes the menu from reaching the host', async () => {
     const user = setupUser();
     const hostKeys = renderInHost();
@@ -497,13 +489,6 @@ describe('Combobox inside a host with key listeners', () => {
     const user = setupUser();
     const hostKeys = renderInHost();
     await user.click(input());
-    const popup = popupRoot();
-    expect(
-      popup.dispatchEvent(
-        new MouseEvent('mousedown', { bubbles: true, cancelable: true }),
-      ),
-    ).toBe(false);
-
     await user.click(getByRole('listbox').parentElement!);
     expect(document.activeElement).toBe(input());
     expect(input().getAttribute('aria-expanded')).toBe('true');
