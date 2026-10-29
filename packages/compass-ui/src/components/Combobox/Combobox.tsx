@@ -867,6 +867,17 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     if (!isOpen) open();
   };
 
+  const handlePopupMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    // Text fields in a custom empty or loading message still need to take focus
+    if (
+      (e.target as HTMLElement).closest(
+        'input, textarea, select, [contenteditable="true"]',
+      )
+    )
+      return;
+    e.preventDefault();
+  };
+
   const hasSelection = multiple
     ? multiValue.length > 0
     : singleValue != null && singleValue !== '';
@@ -1047,7 +1058,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               .filter(Boolean)
               .join(' ')}
             style={popupStyle}
-            onMouseDown={(ev) => ev.preventDefault()}
+            onMouseDown={handlePopupMouseDown}
           >
             <PopoverMenu className={styles.combobox__menu}>
               <PopoverMenuScroll maxHeight={maxHeight}>

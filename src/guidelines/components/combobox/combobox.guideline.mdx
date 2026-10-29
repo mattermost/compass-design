@@ -225,15 +225,15 @@ Comboboxes share their state model with the rest of the input family.
 
 ## Keyboard
 
-| Key                | Action                                                                                                    |
-| ------------------ | --------------------------------------------------------------------------------------------------------- |
-| ↓ / ↑              | On the filter: open the list (if closed) and move the highlight. On a chip: previous or next chip.        |
-| ← / →              | On a chip: move between chips.                                                                            |
-| Enter              | On the filter: select the highlighted option or create row. On a chip: remove it.                         |
-| Space              | On the filter: types a space. On a chip: remove it.                                                       |
-| Open               | Focus alone doesn't open the list. Press the field, type, or press ↓ / ↑ (↑ highlights the last option).  |
-| Escape             | Close the list.                                                                                           |
-| Inside a dialog    | Enter and Escape that select or close the list, and Enter on the clear button, don't reach the dialog.    |
-| Home / End         | On the list: first or last enabled option. On a chip: first or last chip.                                 |
-| Delete / Backspace | On a chip: remove it. On an empty filter in multi-select: remove the last chip.                           |
-| Tab                | Into the field: the active chip (if any), then the filter. On the filter: close the list and move onward. |
+| Key                | Action                                                                                                                                                                                                     |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ↓ / ↑              | On the filter: open the list (if closed) and move the highlight. On a chip: previous or next chip.                                                                                                         |
+| ← / →              | On a chip: move between chips.                                                                                                                                                                             |
+| Enter              | On the filter: select the highlighted option or create row. On a chip: remove it.                                                                                                                          |
+| Space              | On the filter: types a space. On a chip: remove it.                                                                                                                                                        |
+| Open               | Focus alone doesn't open the list. Press the field, type, or press ↓ / ↑ (↑ highlights the last option).                                                                                                   |
+| Escape             | Close the list.                                                                                                                                                                                            |
+| Inside a dialog    | Enter and Escape that select or close the list, and Enter on the clear button, don't bubble up to the dialog. A dialog that listens in the capture phase sees them first, so it still needs its own check. |
+| Home / End         | On the list: first or last enabled option. On a chip: first or last chip.                                                                                                                                  |
+| Delete / Backspace | On a chip: remove it. On an empty filter in multi-select: remove the last chip.                                                                                                                            |
+| Tab                | Into the field: the active chip (if any), then the filter. On the filter: close the list and move onward.                                                                                                  |

@@ -508,6 +508,18 @@ describe('Combobox inside a host with key listeners', () => {
     expect(document.activeElement).toBe(input());
   });
 
+  it('lets a text field in a custom empty message take focus', async () => {
+    const user = setupUser();
+    renderInHost({
+      options: [],
+      emptyMessage: <input aria-label="Request a model" />,
+    });
+    await user.click(input());
+    const field = getByRole('textbox', 'Request a model');
+    await user.click(field);
+    expect(document.activeElement).toBe(field);
+  });
+
   it('consumes Enter on the clear button', async () => {
     const onChange = vi.fn();
     const onClearKeyDown = vi.fn();
