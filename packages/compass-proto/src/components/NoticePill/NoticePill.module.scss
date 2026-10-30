@@ -1,4 +1,4 @@
-.reaction-pill {
+.notice-pill {
   display: inline-flex;
   align-items: center;
   border-radius: var(--radius-pill);
@@ -52,17 +52,17 @@
   // ---------------------------------------------------------------------------
 
   &--size-small {
-    .reaction-pill__inner {
+    .notice-pill__inner {
       gap: var(--spacing-xxxs);
       padding: var(--spacing-xxxxs) var(--spacing-s) var(--spacing-xxxxs)
         var(--spacing-xxs);
     }
 
-    .reaction-pill__emoji {
+    .notice-pill__emoji {
       font-size: var(--font-size-75);
     }
 
-    .reaction-pill__label {
+    .notice-pill__label {
       font-size: var(--font-size-25);
       line-height: var(--line-height-75);
       letter-spacing: 0.1px;
@@ -70,34 +70,34 @@
   }
 
   &--size-medium {
-    .reaction-pill__inner {
+    .notice-pill__inner {
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
         var(--spacing-xs);
     }
 
-    .reaction-pill__emoji {
+    .notice-pill__emoji {
       font-size: var(--font-size-200);
     }
 
-    .reaction-pill__label {
+    .notice-pill__label {
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
     }
   }
 
   &--size-large {
-    .reaction-pill__inner {
+    .notice-pill__inner {
       gap: var(--spacing-xxs);
       padding: var(--spacing-xxs) var(--spacing-l) var(--spacing-xxs)
         var(--spacing-s);
     }
 
-    .reaction-pill__emoji {
+    .notice-pill__emoji {
       font-size: var(--font-size-400);
     }
 
-    .reaction-pill__label {
+    .notice-pill__label {
       font-size: var(--font-size-100);
       line-height: var(--line-height-100);
     }
@@ -112,17 +112,17 @@
     border-radius: var(--radius-xl);
     overflow: hidden;
 
-    .reaction-pill__inner {
+    .notice-pill__inner {
       background-color: transparent;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
         var(--spacing-xxxs);
     }
 
-    .reaction-pill__leading-icon {
+    .notice-pill__leading-icon {
       color: var(--calls-bg, var(--color-indigo-600));
     }
 
-    .reaction-pill__label {
+    .notice-pill__label {
       color: var(--calls-bg, var(--color-indigo-600));
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
@@ -130,13 +130,13 @@
   }
 
   &--type-other {
-    .reaction-pill__inner {
+    .notice-pill__inner {
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
         var(--spacing-xxxs);
     }
 
-    .reaction-pill__label {
+    .notice-pill__label {
       font-size: var(--font-size-75);
       line-height: var(--line-height-75);
     }

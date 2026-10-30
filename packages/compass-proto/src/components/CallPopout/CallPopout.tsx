@@ -14,7 +14,7 @@ import CallParticipantAvatar from '@/components/CallParticipantAvatar/CallPartic
 import CallInfoPanel from '@/components/CallInfoPanel/CallInfoPanel';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
-import RecordingPill from '@/components/RecordingPill/RecordingPill';
+import RecordingIndicator from '@/components/RecordingIndicator/RecordingIndicator';
 import ParticipantsPanel from '@/components/ParticipantsPanel/ParticipantsPanel';
 import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
 import type { Participant } from '@/types/callParticipant';
@@ -102,7 +102,7 @@ export default function CallPopout({
       <div className={styles['popout__container']}>
         <div className={styles['popout__header']}>
           <div className={styles['popout__header-left']}>
-            <RecordingPill state="recording" />
+            <RecordingIndicator state="recording" />
             <span className={styles['popout__elapsed']}>
               3:39 &middot; {participants.length} participants
             </span>

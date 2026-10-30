@@ -1,7 +1,7 @@
-import { RecordingPill } from '@mattermost/compass-proto';
+import { RecordingIndicator } from '@mattermost/compass-proto';
 import styles from '@/styles/library-demo/components.module.scss';
 
-export default function RecordingPillLibrary() {
+export default function RecordingIndicatorLibrary() {
   return (
     <>
       <div
@@ -9,9 +9,9 @@ export default function RecordingPillLibrary() {
       >
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>
-          <RecordingPill state="initializing" />
-          <RecordingPill state="recording" />
-          <RecordingPill state="hover" onStop={() => {}} />
+          <RecordingIndicator state="initializing" />
+          <RecordingIndicator state="recording" />
+          <RecordingIndicator state="hover" onStop={() => {}} />
         </div>
       </div>
     </>

@@ -3,13 +3,13 @@ import { Spinner } from '@mattermost/compass-ui/components/spinner';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import RecordCircleOutlineIcon from '@mattermost/compass-icons/components/record-circle-outline';
 import RecordSquareOutlineIcon from '@mattermost/compass-icons/components/record-square-outline';
-import styles from './RecordingPill.module.scss';
+import styles from './RecordingIndicator.module.scss';
 
-export type RecordingPillState = 'initializing' | 'recording' | 'hover';
+export type RecordingIndicatorState = 'initializing' | 'recording' | 'hover';
 
-export interface RecordingPillProps extends HTMLAttributes<HTMLDivElement> {
+export interface RecordingIndicatorProps extends HTMLAttributes<HTMLDivElement> {
   /** Current recording state. Default: Initializing. */
-  state?: RecordingPillState;
+  state?: RecordingIndicatorState;
   /** Called when the pill is clicked (stop recording). */
   onStop?: () => void;
   /** Optional CSS class name. */
@@ -21,15 +21,15 @@ export interface RecordingPillProps extends HTMLAttributes<HTMLDivElement> {
  * Displays 'REC' text with a spinner (initializing), record icon (recording),
  * or stop icon with tooltip (hover/click-to-stop).
  */
-export default function RecordingPill({
+export default function RecordingIndicator({
   state = 'initializing',
   onStop,
   className = '',
   ...rest
-}: RecordingPillProps) {
+}: RecordingIndicatorProps) {
   const rootClass = [
-    styles['recording-pill'],
-    styles[`recording-pill--${state.toLowerCase()}`],
+    styles['recording-indicator'],
+    styles[`recording-indicator--${state.toLowerCase()}`],
     className,
   ]
     .filter(Boolean)
@@ -39,13 +39,13 @@ export default function RecordingPill({
     <div className={rootClass} {...rest}>
       <button
         type="button"
-        className={styles['recording-pill__button']}
+        className={styles['recording-indicator__button']}
         onClick={onStop}
         aria-label={
           state === 'hover' ? 'Stop recording' : 'Recording in progress'
         }
       >
-        <span className={styles['recording-pill__icon']} aria-hidden>
+        <span className={styles['recording-indicator__icon']} aria-hidden>
           {state === 'initializing' && (
             <Spinner size="12" inverted aria-label="Initializing recording" />
           )}
@@ -56,11 +56,11 @@ export default function RecordingPill({
             <Icon size="12" glyph={<RecordSquareOutlineIcon />} />
           )}
         </span>
-        <span className={styles['recording-pill__label']}>REC</span>
+        <span className={styles['recording-indicator__label']}>REC</span>
       </button>
 
       {state === 'hover' && (
-        <div className={styles['recording-pill__tooltip']} role="tooltip">
+        <div className={styles['recording-indicator__tooltip']} role="tooltip">
           Click to Stop
         </div>
       )}

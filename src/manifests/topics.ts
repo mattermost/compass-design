@@ -748,24 +748,24 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/radio/radio.specimen'),
   },
   {
-    slug: 'reaction-pill',
-    name: 'Reaction Pill',
+    slug: 'notice-pill',
+    name: 'Notice Pill',
     category: 'components',
     status: 'stable',
     guidelinePage: () =>
-      import('@/guidelines/components/reaction-pill/reaction-pill.guideline.mdx'),
+      import('@/guidelines/components/notice-pill/notice-pill.guideline.mdx'),
     specimenPage: () =>
-      import('@/guidelines/components/reaction-pill/reaction-pill.specimen'),
+      import('@/guidelines/components/notice-pill/notice-pill.specimen'),
   },
   {
-    slug: 'recording-pill',
-    name: 'Recording Pill',
+    slug: 'recording-indicator',
+    name: 'Recording Indicator',
     category: 'components',
     status: 'stable',
     guidelinePage: () =>
-      import('@/guidelines/components/recording-pill/recording-pill.guideline.mdx'),
+      import('@/guidelines/components/recording-indicator/recording-indicator.guideline.mdx'),
     specimenPage: () =>
-      import('@/guidelines/components/recording-pill/recording-pill.specimen'),
+      import('@/guidelines/components/recording-indicator/recording-indicator.specimen'),
   },
   {
     slug: 'scrollbar',

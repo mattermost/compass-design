@@ -1,13 +1,13 @@
-import { ReactionPill } from '@mattermost/compass-proto';
+import { NoticePill } from '@mattermost/compass-proto';
 
-`ReactionPill` lives in `@mattermost/compass-proto` (call prototyping), alongside `RecordingPill`.
+`NoticePill` lives in `@mattermost/compass-proto` (call prototyping), alongside `RecordingIndicator`.
 
-Reaction Pills surface lightweight, transient signals during a call —
+Notice Pills surface lightweight, transient signals during a call —
 emoji reactions, raised hands, and system notifications like "you've been
 muted." They float over the call surface long enough to register and then
 disappear; they aren't meant to be durable UI.
 
-Reach for a Reaction Pill when something happens during a call that the
+Reach for a Notice Pill when something happens during a call that the
 participant should notice without leaving their current view.
 
 <Divider />
@@ -20,9 +20,9 @@ a trailing dismiss icon.
 <AnatomyStage
   style={{ flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}
 >
-  <ReactionPill type="reaction" emoji="🎉" label="Leonard R." />
-  <ReactionPill type="hand-raise" label="Leonard R." />
-  <ReactionPill type="other" message="You have been muted by the host" />
+  <NoticePill type="reaction" emoji="🎉" label="Leonard R." />
+  <NoticePill type="hand-raise" label="Leonard R." />
+  <NoticePill type="other" message="You have been muted by the host" />
 </AnatomyStage>
 
 - <Num>1</Num> **Leading symbol** — an emoji (Reaction) or compass icon (Hand
@@ -58,9 +58,9 @@ Three sizes match the call surface — **Small** for compact in-call rails,
     padding: '1rem 0',
   }}
 >
-  <ReactionPill size="small" emoji="👍" label="Leonard R." />
-  <ReactionPill size="medium" emoji="👍" label="Leonard R." />
-  <ReactionPill size="large" emoji="👍" label="Leonard R." />
+  <NoticePill size="small" emoji="👍" label="Leonard R." />
+  <NoticePill size="medium" emoji="👍" label="Leonard R." />
+  <NoticePill size="large" emoji="👍" label="Leonard R." />
 </div>
 
 <Divider />
@@ -68,4 +68,4 @@ Three sizes match the call surface — **Small** for compact in-call rails,
 ## Implementation
 
 For props, variants, and copy-ready examples, see the
-[Reaction Pill specimen page](/components/reaction-pill/specimen).
+[Notice Pill specimen page](/components/notice-pill/specimen).
