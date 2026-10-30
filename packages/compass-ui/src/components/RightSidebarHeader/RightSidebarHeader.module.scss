@@ -88,7 +88,11 @@
     background-color: transparent;
     cursor: pointer;
     outline: 2px solid
-      color-mix(in srgb, var(--focus-ring-color, var(--button-bg)) 0%, transparent);
+      color-mix(
+        in srgb,
+        var(--focus-ring-color, var(--button-bg)) 0%,
+        transparent
+      );
     outline-offset: 0;
     transition:
       background-color var(--duration-quick) var(--ease-transition),
