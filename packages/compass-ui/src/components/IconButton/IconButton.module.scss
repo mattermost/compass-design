@@ -163,6 +163,12 @@
   &--has-count {
     width: auto;
     gap: var(--spacing-xxxs);
+
+    // Ties the `size-*.padding-compact` fixed square (0,2,0) and wins by coming
+    // after the size rules, so compact count buttons still grow with the label.
+    &.icon-button--padding-compact {
+      width: auto;
+    }
   }
 
   // ---------------------------------------------------------------------------

@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`IconButton` with `count` stuck at a fixed width when `padding="compact"`:** the size and compact-padding square (for example 28×28 at `size="small"`) out-specified the count modifier's `width: auto`, so the count label was cramped against the icon. Count buttons now size to their content at every size, compact or default; height is unchanged. Markup is unchanged. Hosts can drop local `width: auto` overrides.
 - **`Combobox` keys leaking to host dialogs and forms:** Enter that selects a row and Escape that closes the menu now also stop propagating past the input, so a surrounding modal no longer closes and a form no longer submits on the same press. Enter and Escape on a closed menu still bubble. Host listeners in the capture phase still run first, so those hosts keep their own guard. `onKeyDown` still runs, with `event.defaultPrevented` set as before.
 - **`Combobox` losing focus on presses inside the menu:** a press on the menu's padding, scrollbar, or empty or loading message no longer moves focus off the input while the menu stays open, so the next key still reaches the input. Text fields inside a custom `emptyMessage` or `loadingMessage` can still take focus. Row clicks are unchanged.
 - **`Combobox` clear button Enter:** Enter on the focused clear button now clears once, returns focus to the input and doesn't propagate, so it no longer submits a surrounding form. `clearButtonProps.onKeyDown` still runs after it. Markup is unchanged.
