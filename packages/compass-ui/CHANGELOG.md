@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.25] - 2026-10-30
+
 ### Added
 
 - **`RightSidebarHeader` root attributes:** the header now accepts the root `<div>`'s HTML attributes (`data-testid`, `id`, `aria-*`, etc.), spread onto the root with `className` merged. Existing usage is unchanged.
@@ -469,7 +471,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.24...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.25...HEAD
+[0.1.0-alpha.25]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.24...0.1.0-alpha.25
 [0.1.0-alpha.24]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.23...0.1.0-alpha.24
 [0.1.0-alpha.23]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.22...0.1.0-alpha.23
 [0.1.0-alpha.22]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.21...0.1.0-alpha.22
