@@ -10,6 +10,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`RightSidebarHeader` `actions`:** optional `ReactNode` slot for custom controls (icon buttons, a Filters button with popover, etc.) in the header actions region, rendered after `actionLabel` and before the expand / pop out / close buttons. `actionLabel` / `onActionClick` / `actionActive` are unchanged.
 
+### Changed
+
+- **`RightSidebarHeader` back button:** now uses the `arrow-left` glyph instead of `arrow-back-ios`. Accessible name and props are unchanged.
+
 ### Fixed
 
 - **`IconButton` with `count` stuck at a fixed width when `padding="compact"`:** the size and compact-padding square (for example 28×28 at `size="small"`) out-specified the count modifier's `width: auto`, so the count label was cramped against the icon. Count buttons now size to their content at every size, compact or default; height is unchanged. Markup is unchanged. Hosts can drop local `width: auto` overrides.

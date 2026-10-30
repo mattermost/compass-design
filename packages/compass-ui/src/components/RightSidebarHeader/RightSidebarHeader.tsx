@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-ios';
 import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import ArrowExpandIcon from '@mattermost/compass-icons/components/arrow-expand';
+import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import DockWindowIcon from '@mattermost/compass-icons/components/dock-window';
 import Icon from '@/components/Icon/Icon';
@@ -88,7 +88,7 @@ export default function RightSidebarHeader({
               size="small"
               aria-label={backLabel}
               onClick={onBack}
-              icon={<Icon size="16" glyph={<ArrowBackIosIcon />} />}
+              icon={<Icon size="16" glyph={<ArrowLeftIcon />} />}
             />
           )}
           {leadingIcon && (
