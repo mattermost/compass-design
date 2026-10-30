@@ -3,6 +3,7 @@
   align-items: center;
   border-radius: var(--radius-pill);
   background-color: var(--calls-bg, var(--color-indigo-600));
+  box-shadow: var(--elevation-2);
 
   &__inner {
     display: inline-flex;
