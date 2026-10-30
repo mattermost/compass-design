@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Dropdown from './Dropdown';
 import Icon from '../Icon/Icon';
 import IconButton from '../IconButton/IconButton';
+import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import type {
   DropdownAppearance,
@@ -27,6 +28,34 @@ const SIZES: DropdownSize[] = [
 type DropdownStoryArgs = Omit<DropdownProps, 'leadingIcon'> & {
   leadingIcon?: string;
 };
+
+function Section({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section style={{ display: 'grid', gap: 12 }}>
+      <h3
+        style={{
+          margin: 0,
+          fontSize: 12,
+          fontWeight: 600,
+          lineHeight: 1,
+          color: 'var(--center-channel-color)',
+        }}
+      >
+        {title}
+      </h3>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 8,
+          alignItems: 'center',
+        }}
+      >
+        {children}
+      </div>
+    </section>
+  );
+}
 
 const meta = {
   title: 'Components/Forms and Input/Dropdown',
@@ -70,45 +99,48 @@ export const Default: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 24 }}>
-      {(['tight', 'compact'] satisfies DropdownPadding[]).map((padding) => (
-        <section key={padding} style={{ display: 'grid', gap: 12 }}>
-          <h3
-            style={{
-              margin: 0,
-              fontSize: 12,
-              fontWeight: 600,
-              lineHeight: 1,
-              color: 'var(--center-channel-color)',
-            }}
-          >
-            {padding === 'tight' ? 'Tight' : 'Compact'}
-          </h3>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 8,
-              alignItems: 'center',
-            }}
-          >
-            {SIZES.map((size) => (
-              <Dropdown key={size} size={size} padding={padding}>
-                {size}
-              </Dropdown>
-            ))}
-          </div>
-        </section>
-      ))}
+      <Section title="Tight">
+        {SIZES.map((size) => (
+          <Dropdown key={size} size={size} padding="tight">
+            {size}
+          </Dropdown>
+        ))}
+      </Section>
+      <Section title="Compact">
+        {SIZES.map((size) => (
+          <Dropdown key={size} size={size} padding="compact">
+            {size}
+          </Dropdown>
+        ))}
+      </Section>
     </div>
   ),
 };
 
 export const CompactPadding: Story = {
-  args: {
-    children: 'Compact',
-    size: 'medium',
-    padding: 'compact',
-  },
+  render: () => (
+    <div style={{ display: 'grid', gap: 24 }}>
+      <Section title="Without icon">
+        {SIZES.map((size) => (
+          <Dropdown key={size} size={size} padding="compact">
+            {size}
+          </Dropdown>
+        ))}
+      </Section>
+      <Section title="With leading icon">
+        {SIZES.map((size) => (
+          <Dropdown
+            key={size}
+            size={size}
+            padding="compact"
+            leadingIcon={<Icon glyph={<GlobeIcon />} />}
+          >
+            {size}
+          </Dropdown>
+        ))}
+      </Section>
+    </div>
+  ),
 };
 
 export const WithLeadingIcon: Story = {
