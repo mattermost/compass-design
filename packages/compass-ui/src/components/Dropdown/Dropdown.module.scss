@@ -227,9 +227,16 @@
       var(--spacing-xl);
   }
 
+  // medium compact: 4 / 10 / 8.
   &--size-medium#{&}--padding-compact {
-    padding: var(--spacing-xxs) var(--spacing-xs) var(--spacing-xxs)
-      var(--spacing-xs);
+    padding: var(--spacing-xxxs) var(--spacing-xs) var(--spacing-xxxs)
+      var(--spacing-s);
+  }
+
+  // large compact: 4 / 12 / 8.
+  &--size-large#{&}--padding-compact {
+    padding: var(--spacing-xxxs) var(--spacing-xs) var(--spacing-xxxs)
+      var(--spacing-m);
   }
 
   &--size-large {

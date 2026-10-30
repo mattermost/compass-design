@@ -126,13 +126,9 @@
     letter-spacing: 0.11px;
     box-sizing: border-box;
     max-width: 100%;
-    // 16px side padding at 88px wide or more, easing to 8px at the 64px floor.
-    // Percentages resolve against the button's width. Hosts can override via
-    // --tile-button-padding-inline.
-    padding-inline: var(
-      --tile-button-padding-inline,
-      clamp(var(--spacing-xs), calc(33.33% - 13.33px), var(--spacing-l))
-    );
+
+    // Hosts can override via --tile-button-padding-inline.
+    padding-inline: var(--tile-button-padding-inline, var(--spacing-xs));
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;

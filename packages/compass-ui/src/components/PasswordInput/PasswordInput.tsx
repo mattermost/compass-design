@@ -54,6 +54,14 @@ export interface PasswordInputProps extends Omit<
    * Default: `"Hide password"`.
    */
   hidePasswordLabel?: string;
+  /**
+   * Whether to render the show/hide toggle. Default: `true`. Set `false` for
+   * secrets that should stay masked with no reveal affordance (for example
+   * System Console API keys). The input stays `type="password"`, and
+   * `revealed`, `defaultRevealed`, `onRevealedChange`, `revealButtonProps`,
+   * `showPasswordLabel` and `hidePasswordLabel` are ignored.
+   */
+  revealable?: boolean;
   /** Extra attributes for the reveal toggle (e.g. `data-testid`). */
   revealButtonProps?: BuiltInButtonProps;
   /**
@@ -67,9 +75,9 @@ export interface PasswordInputProps extends Omit<
 }
 
 /**
- * Password Inputs are the dedicated field for secrets — login, signup, invite
- * passwords. They look like a text input with a built-in show/hide toggle so the
- * affordance is obvious, the same way Search Input always ships a magnifier.
+ * Password Inputs are the dedicated field for secrets — login, signup, invite passwords.
+ * They look like a text input with a built-in show/hide toggle so the affordance is obvious
+ * before the user reads a single word.
  */
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   function PasswordInput(
@@ -83,6 +91,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       showPasswordLabel = 'Show password',
       hidePasswordLabel = 'Hide password',
       revealButtonProps,
+      revealable = true,
       revealed: revealedProp,
       defaultRevealed = false,
       onRevealedChange,
@@ -114,7 +123,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     const [uncontrolledRevealed, setUncontrolledRevealed] =
       useState(defaultRevealed);
     const revealed = isRevealControlled ? revealedProp : uncontrolledRevealed;
-    const visible = revealed && !disabled;
+    const visible = revealable && revealed && !disabled;
 
     const [isFocused, setIsFocused] = useState(false);
     const labelFloated = isFocused || hasValue;
@@ -219,33 +228,35 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               )}
               {...rest}
             />
-            <span className={styles['password-input__trailing-icon']}>
-              <button
-                {...revealRest}
-                type="button"
-                className={mergeClassNames(
-                  styles['password-input__reveal'],
-                  revealClassName,
-                )}
-                aria-label={visible ? hidePasswordLabel : showPasswordLabel}
-                disabled={disabled}
-                onClick={(e) => {
-                  revealOnClick?.(e);
-                  if (e.defaultPrevented) return;
-                  toggleRevealed();
-                }}
-                onMouseDown={(e) => {
-                  // Keep focus in the field when pressing the toggle.
-                  e.preventDefault();
-                  revealOnMouseDown?.(e);
-                }}
-              >
-                <Icon
-                  size={iconSize}
-                  glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />}
-                />
-              </button>
-            </span>
+            {revealable && (
+              <span className={styles['password-input__trailing-icon']}>
+                <button
+                  {...revealRest}
+                  type="button"
+                  className={mergeClassNames(
+                    styles['password-input__reveal'],
+                    revealClassName,
+                  )}
+                  aria-label={visible ? hidePasswordLabel : showPasswordLabel}
+                  disabled={disabled}
+                  onClick={(e) => {
+                    revealOnClick?.(e);
+                    if (e.defaultPrevented) return;
+                    toggleRevealed();
+                  }}
+                  onMouseDown={(e) => {
+                    // Keep focus in the field when pressing the toggle.
+                    e.preventDefault();
+                    revealOnMouseDown?.(e);
+                  }}
+                >
+                  <Icon
+                    size={iconSize}
+                    glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />}
+                  />
+                </button>
+              </span>
+            )}
           </div>
         </div>
         {showMessage && (
