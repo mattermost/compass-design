@@ -19,6 +19,9 @@
     outline-color var(--duration-quick) var(--ease-transition),
     outline-offset var(--duration-quick) var(--ease-transition);
   padding: 0;
+  // Shrink to the host's space so a long label truncates instead of overflowing.
+  min-width: 0;
+  max-width: 100%;
 
   // Button owns label/icon colour via `--button-fg` (quaternary defaults to the
   // link colour), so set that, not just `color`. Tripled class so it beats
@@ -50,21 +53,27 @@
   // Elements
   // ---------------------------------------------------------------------------
 
-  // `button__label` is display: contents; label and chevron sit in `__trigger`
-  // so Button icon-slot `gap` does not sit between them (Figma label–chevron).
-  :global(.button__label) {
+  // Button's label wrapper (a CSS-module hashed class, so match it by position)
+  // is display: contents; label and chevron sit in `__trigger` so Button
+  // icon-slot `gap` does not sit between them (Figma label–chevron). Without
+  // this the wrapper is a non-shrinking flex item that defeats truncation.
+  > span {
     display: contents;
   }
 
   &__trigger {
     display: inline-flex;
     align-items: center;
+    min-width: 0;
+    max-width: 100%;
   }
 
   &__content {
     display: inline-flex;
     align-items: center;
-    flex-shrink: 0;
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: hidden;
   }
 
   &__leading-icon {
@@ -78,6 +87,9 @@
   &__label {
     white-space: nowrap;
     color: inherit;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__chevron {
