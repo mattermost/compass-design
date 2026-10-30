@@ -125,27 +125,13 @@ export const Padding: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 24 }}>
       {PADDINGS.map(({ padding, title }) => (
-        <div key={padding} style={{ display: 'grid', gap: 24 }}>
-          <Section title={title}>
-            {SIZES.map((size) => (
-              <Dropdown key={size} size={size} padding={padding}>
-                {size}
-              </Dropdown>
-            ))}
-          </Section>
-          <Section title={`${title} with leading icon`}>
-            {SIZES.map((size) => (
-              <Dropdown
-                key={size}
-                size={size}
-                padding={padding}
-                leadingIcon={<Icon glyph={<GlobeIcon />} />}
-              >
-                {size}
-              </Dropdown>
-            ))}
-          </Section>
-        </div>
+        <Section key={padding} title={title}>
+          {SIZES.map((size) => (
+            <Dropdown key={size} size={size} padding={padding}>
+              {size}
+            </Dropdown>
+          ))}
+        </Section>
       ))}
     </div>
   ),
