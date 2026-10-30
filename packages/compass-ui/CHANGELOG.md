@@ -6,8 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Dropdown` `padding="default"`:** the third Figma padding (alongside `tight` and `compact`), with the roomiest inset at `x-small`, `small`, `medium` and `large`. Existing values and the default (`tight`) are unchanged.
+
 ### Fixed
 
+- **`Dropdown` `padding="compact"` did nothing at `x-small` and `small`:** compact was only styled for `medium`, so the two smaller sizes rendered the same as `tight`. They now use the Figma compact inset (`x-small` 2px vertical, 6px left, 4px right; `small` 4px vertical, 8px left, 6px right). `tight` and the other sizes are unchanged.
 - **`Dropdown` long labels did not truncate:** the label kept its full `nowrap` width and the trigger overflowed its container. The label now ends in an ellipsis, and the root, trigger and content can shrink to the space the host gives them (the root has `min-width: 0; max-width: 100%`). The rule meant to make Button's label wrapper `display: contents` targeted an unhashed class that never matched the CSS-module name, so it now matches by position. Short labels size as before and markup is unchanged. Hosts can drop `[class*='dropdown__…']` overrides.
 - **`Dropdown` `x-small` and `small` had no usable inner padding:** the trigger hugged its label (about 16px tall at `x-small`), so the hover and active fill sat tight on the text. `x-small` now has balanced inset (4px vertical, 6px horizontal) for a 24px height, and `small` has 6px vertical and 8px horizontal for 28px, lining up with 24px and 28px `IconButton`s. Markup is unchanged. Hosts can drop the `size="medium" padding="tight"` workaround.
 - **`IconButton` with `count` stuck at a fixed width when `padding="compact"`:** the size and compact-padding square (for example 28×28 at `size="small"`) out-specified the count modifier's `width: auto`, so the count label was cramped against the icon. Count buttons now size to their content at every size, compact or default; height is unchanged. Markup is unchanged. Hosts can drop local `width: auto` overrides.

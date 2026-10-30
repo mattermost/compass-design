@@ -65,7 +65,7 @@ const meta = {
     size: { control: 'select', options: SIZES },
     padding: {
       control: 'select',
-      options: ['tight', 'compact'] satisfies DropdownPadding[],
+      options: ['tight', 'compact', 'default'] satisfies DropdownPadding[],
     },
     appearance: {
       control: 'select',
@@ -109,6 +109,13 @@ export const Sizes: Story = {
       <Section title="Compact">
         {SIZES.map((size) => (
           <Dropdown key={size} size={size} padding="compact">
+            {size}
+          </Dropdown>
+        ))}
+      </Section>
+      <Section title="Default">
+        {SIZES.map((size) => (
+          <Dropdown key={size} size={size} padding="default">
             {size}
           </Dropdown>
         ))}

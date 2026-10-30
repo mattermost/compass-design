@@ -190,6 +190,43 @@
     }
   }
 
+  // Compact and default padding per Figma (Dropdown v2.1.3): top/bottom,
+  // left, right. Tight keeps the base size rules above.
+  // x-small compact: 2 / 6 / 4.
+  &--size-x-small#{&}--padding-compact {
+    padding: var(--spacing-xxxxs) var(--spacing-xxxs) var(--spacing-xxxxs)
+      var(--spacing-xxs);
+  }
+
+  // small compact: 4 / 8 / 6.
+  &--size-small#{&}--padding-compact {
+    padding: var(--spacing-xxxs) var(--spacing-xxs) var(--spacing-xxxs)
+      var(--spacing-xs);
+  }
+
+  // x-small default: 4 / 8 / 6.
+  &--size-x-small#{&}--padding-default {
+    padding: var(--spacing-xxxs) var(--spacing-xxs) var(--spacing-xxxs)
+      var(--spacing-xs);
+  }
+
+  // small default: 8 / 12 / 8.
+  &--size-small#{&}--padding-default {
+    padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs)
+      var(--spacing-m);
+  }
+
+  // medium default: 10 / 16 / 12.
+  &--size-medium#{&}--padding-default {
+    padding: var(--spacing-s) var(--spacing-m) var(--spacing-s) var(--spacing-l);
+  }
+
+  // large default: 12 / 20 / 16.
+  &--size-large#{&}--padding-default {
+    padding: var(--spacing-m) var(--spacing-l) var(--spacing-m)
+      var(--spacing-xl);
+  }
+
   &--size-medium#{&}--padding-compact {
     padding: var(--spacing-xxs) var(--spacing-xs) var(--spacing-xxs)
       var(--spacing-xs);
