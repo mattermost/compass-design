@@ -65,6 +65,21 @@ Three sizes match the call surface — **Small** for compact in-call rails,
 
 <Divider />
 
+## When to use
+
+A Notice Pill looks a lot like a toast, but it is a different tool.
+
+| Notice Pill                                                         | Toast                                      |
+| ------------------------------------------------------------------- | ------------------------------------------ |
+| Floats over the call surface and belongs to the call's context.     | App-level, independent of any one surface. |
+| Carries signals from participants, like reactions and raised hands. | Reports the result of something you did.   |
+| Only system notices can be dismissed.                               | Usually dismissible or has an action.      |
+
+Use a Notice Pill for anything that happens inside a call. Use a toast for
+app-level feedback outside it.
+
+<Divider />
+
 ## Implementation
 
 For props, variants, and copy-ready examples, see the
