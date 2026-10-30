@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import Dropdown from './Dropdown';
 import Icon from '../Icon/Icon';
 import IconButton from '../IconButton/IconButton';
-import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import type {
   DropdownAppearance,
