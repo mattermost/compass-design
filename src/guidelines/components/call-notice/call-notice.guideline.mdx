@@ -15,7 +15,7 @@ participant should notice without leaving their current view.
 ## Anatomy
 
 Pills compose a leading symbol with a label, and — for system notifications —
-a trailing dismiss icon.
+a trailing icon.
 
 <AnatomyStage
   style={{ flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}
@@ -29,18 +29,18 @@ a trailing dismiss icon.
   Raise, Other).
 - <Num>2</Num> **Label** — the participant's name, the reaction text, or the
   system message.
-- <Num>3</Num> **Trailing dismiss** — only on the Other (system) variant; closes
-  the notification.
+- <Num>3</Num> **Trailing icon** — only on the Other (system) variant. It is
+  decorative; the notice is not dismissible.
 
 <Divider />
 
 ## Variants
 
-| Variant    | Use when                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------ |
-| Reaction   | A participant sends an emoji reaction. Show the emoji + their name.                        |
-| Hand Raise | A participant raises their hand. Show the hand icon + "[Name] Raised Hand".                |
-| Other      | A system notification (muted, removed, etc.). Show the system icon + a dismiss affordance. |
+| Variant    | Use when                                                                          |
+| ---------- | --------------------------------------------------------------------------------- |
+| Reaction   | A participant sends an emoji reaction. Show the emoji + their name.               |
+| Hand Raise | A participant raises their hand. Show the hand icon + "[Name] Raised Hand".       |
+| Other      | A system notification (muted, removed, etc.). Show the system icon + the message. |
 
 <Divider />
 
@@ -73,7 +73,6 @@ A Call Notice looks a lot like a toast, but it is a different tool.
 | ------------------------------------------------------------------- | ------------------------------------------ |
 | Floats over the call surface and belongs to the call's context.     | App-level, independent of any one surface. |
 | Carries signals from participants, like reactions and raised hands. | Reports the result of something you did.   |
-| Only system notices can be dismissed.                               | Usually dismissible or has an action.      |
 
 Use a Call Notice for anything that happens inside a call. Use a toast for
 app-level feedback outside it.

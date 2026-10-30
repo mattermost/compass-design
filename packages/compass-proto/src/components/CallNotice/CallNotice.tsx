@@ -73,7 +73,7 @@ export default function CallNotice({
           </>
         )}
 
-        {/* Other type: icon + message + dismiss */}
+        {/* Other type: icon + message + decorative trailing icon */}
         {type === 'other' && (
           <>
             <span className={styles['call-notice__leading-icon']} aria-hidden>
