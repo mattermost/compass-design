@@ -63,6 +63,7 @@ export const CustomActions: Story = {
       <Button
         emphasis="tertiary"
         size="small"
+        compact
         leadingIcon={<Icon glyph={<FilterVariantIcon />} />}
       >
         Filters
