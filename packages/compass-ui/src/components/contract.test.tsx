@@ -39,6 +39,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
   ),
   EmptyState: (a) => <EmptyState title="Nothing here" {...a} />,
   Tag: (a) => <Tag label="Beta" {...a} />,
+  RightSidebarHeader: (a) => <RightSidebarHeader title="Thread" {...a} />,
   Modal: (a) => (
     <Modal title="Settings" {...a}>
       Body

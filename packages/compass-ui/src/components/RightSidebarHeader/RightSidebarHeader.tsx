@@ -1,4 +1,4 @@
-import type { MouseEvent, ReactNode } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactNode } from 'react';
 import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import ArrowExpandIcon from '@mattermost/compass-icons/components/arrow-expand';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
@@ -12,7 +12,10 @@ import { mergeClassNames } from '@/utils/props';
 import type { BuiltInButtonProps } from '@/utils/props';
 import styles from './RightSidebarHeader.module.scss';
 
-export interface RightSidebarHeaderProps {
+export interface RightSidebarHeaderProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title'
+> {
   /** Primary title text. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   title: ReactNode;
   /** Secondary title shown to the right of a vertical divider (e.g. parent channel name). */
@@ -81,13 +84,14 @@ export default function RightSidebarHeader({
   actionActive = false,
   actions,
   className = '',
+  ...rest
 }: RightSidebarHeaderProps) {
   const rootClass = [styles['right-sidebar-header'], className]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <div className={rootClass}>
+    <div {...rest} className={rootClass}>
       <div className={styles['right-sidebar-header__left']}>
         <div className={styles['right-sidebar-header__primary']}>
           {onBack && (
