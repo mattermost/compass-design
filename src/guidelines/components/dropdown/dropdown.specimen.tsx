@@ -1,6 +1,20 @@
 import { Dropdown } from '@mattermost/compass-ui/components/dropdown';
 import styles from '@/styles/library-demo/components.module.scss';
 
+const SIZES = [
+  { size: 'x-small', label: 'X-Small' },
+  { size: 'small', label: 'Small' },
+  { size: 'medium', label: 'Medium' },
+  { size: 'large', label: 'Large' },
+  { size: 'x-large', label: 'X-Large' },
+] as const;
+
+const PADDINGS = [
+  { padding: 'tight', label: 'Tight' },
+  { padding: 'compact', label: 'Compact' },
+  { padding: 'default', label: 'Default' },
+] as const;
+
 export default function DropdownLibrary() {
   return (
     <>
@@ -13,13 +27,18 @@ export default function DropdownLibrary() {
           <Dropdown size="large">Large</Dropdown>
           <Dropdown size="x-large">X-Large</Dropdown>
         </div>
-        <div className={styles['components__button-row']}>
-          <span className={styles['components__instance-label']}>Padding</span>
-          <Dropdown size="medium">Tight</Dropdown>
-          <Dropdown size="medium" padding="compact">
-            Compact
-          </Dropdown>
-        </div>
+        {PADDINGS.map(({ padding, label }) => (
+          <div key={padding} className={styles['components__button-row']}>
+            <span className={styles['components__instance-label']}>
+              Padding: {label}
+            </span>
+            {SIZES.map(({ size, label: sizeLabel }) => (
+              <Dropdown key={size} size={size} padding={padding}>
+                {sizeLabel}
+              </Dropdown>
+            ))}
+          </div>
+        ))}
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>
           <Dropdown>Default</Dropdown>
