@@ -1,13 +1,13 @@
-import { NoticePill } from '@mattermost/compass-proto';
+import { CallNotice } from '@mattermost/compass-proto';
 
-`NoticePill` lives in `@mattermost/compass-proto` (call prototyping), alongside `RecordingIndicator`.
+`CallNotice` lives in `@mattermost/compass-proto` (call prototyping), alongside `RecordingIndicator`.
 
-Notice Pills surface lightweight, transient signals during a call —
+Call Notices surface lightweight, transient signals during a call —
 emoji reactions, raised hands, and system notifications like "you've been
 muted." They float over the call surface long enough to register and then
 disappear; they aren't meant to be durable UI.
 
-Reach for a Notice Pill when something happens during a call that the
+Reach for a Call Notice when something happens during a call that the
 participant should notice without leaving their current view.
 
 <Divider />
@@ -20,9 +20,9 @@ a trailing dismiss icon.
 <AnatomyStage
   style={{ flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}
 >
-  <NoticePill type="reaction" emoji="🎉" label="Leonard R." />
-  <NoticePill type="hand-raise" label="Leonard R." />
-  <NoticePill type="other" message="You have been muted by the host" />
+  <CallNotice type="reaction" emoji="🎉" label="Leonard R." />
+  <CallNotice type="hand-raise" label="Leonard R." />
+  <CallNotice type="other" message="You have been muted by the host" />
 </AnatomyStage>
 
 - <Num>1</Num> **Leading symbol** — an emoji (Reaction) or compass icon (Hand
@@ -58,24 +58,24 @@ Three sizes match the call surface — **Small** for compact in-call rails,
     padding: '1rem 0',
   }}
 >
-  <NoticePill size="small" emoji="👍" label="Leonard R." />
-  <NoticePill size="medium" emoji="👍" label="Leonard R." />
-  <NoticePill size="large" emoji="👍" label="Leonard R." />
+  <CallNotice size="small" emoji="👍" label="Leonard R." />
+  <CallNotice size="medium" emoji="👍" label="Leonard R." />
+  <CallNotice size="large" emoji="👍" label="Leonard R." />
 </div>
 
 <Divider />
 
 ## When to use
 
-A Notice Pill looks a lot like a toast, but it is a different tool.
+A Call Notice looks a lot like a toast, but it is a different tool.
 
-| Notice Pill                                                         | Toast                                      |
+| Call Notice                                                         | Toast                                      |
 | ------------------------------------------------------------------- | ------------------------------------------ |
 | Floats over the call surface and belongs to the call's context.     | App-level, independent of any one surface. |
 | Carries signals from participants, like reactions and raised hands. | Reports the result of something you did.   |
 | Only system notices can be dismissed.                               | Usually dismissible or has an action.      |
 
-Use a Notice Pill for anything that happens inside a call. Use a toast for
+Use a Call Notice for anything that happens inside a call. Use a toast for
 app-level feedback outside it.
 
 <Divider />
@@ -83,4 +83,4 @@ app-level feedback outside it.
 ## Implementation
 
 For props, variants, and copy-ready examples, see the
-[Notice Pill specimen page](/components/notice-pill/specimen).
+[Call Notice specimen page](/components/call-notice/specimen).

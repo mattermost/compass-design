@@ -748,14 +748,14 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/radio/radio.specimen'),
   },
   {
-    slug: 'notice-pill',
-    name: 'Notice Pill',
+    slug: 'call-notice',
+    name: 'Call Notice',
     category: 'components',
     status: 'stable',
     guidelinePage: () =>
-      import('@/guidelines/components/notice-pill/notice-pill.guideline.mdx'),
+      import('@/guidelines/components/call-notice/call-notice.guideline.mdx'),
     specimenPage: () =>
-      import('@/guidelines/components/notice-pill/notice-pill.specimen'),
+      import('@/guidelines/components/call-notice/call-notice.specimen'),
   },
   {
     slug: 'recording-indicator',
