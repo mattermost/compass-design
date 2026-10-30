@@ -69,23 +69,35 @@ export const Default: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ display: 'grid', gap: 24 }}>
       {(['tight', 'compact'] satisfies DropdownPadding[]).map((padding) => (
-        <div
-          key={padding}
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: 8,
-            alignItems: 'center',
-          }}
-        >
-          {SIZES.map((size) => (
-            <Dropdown key={size} size={size} padding={padding}>
-              {size} ({padding})
-            </Dropdown>
-          ))}
-        </div>
+        <section key={padding} style={{ display: 'grid', gap: 12 }}>
+          <h3
+            style={{
+              margin: 0,
+              fontSize: 12,
+              fontWeight: 600,
+              lineHeight: 1,
+              color: 'var(--center-channel-color)',
+            }}
+          >
+            {padding === 'tight' ? 'Tight' : 'Compact'}
+          </h3>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 8,
+              alignItems: 'center',
+            }}
+          >
+            {SIZES.map((size) => (
+              <Dropdown key={size} size={size} padding={padding}>
+                {size}
+              </Dropdown>
+            ))}
+          </div>
+        </section>
       ))}
     </div>
   ),
