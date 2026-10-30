@@ -56,6 +56,13 @@
     align-items: center;
     padding: 0 var(--spacing-xs);
     border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    transition: border-color var(--duration-quick) var(--ease-transition);
+
+    // Hide the divider while the secondary title button is hovered so the
+    // hover background doesn't sit against it. Colour only, so layout holds.
+    &:has(.right-sidebar-header__secondary-button:hover) {
+      border-left-color: transparent;
+    }
   }
 
   &__secondary-text {
