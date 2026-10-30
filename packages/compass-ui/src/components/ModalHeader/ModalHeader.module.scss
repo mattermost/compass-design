@@ -110,6 +110,13 @@
     height: 28px;
   }
 
+  // Negative vertical margin keeps the 40px hit target from growing the
+  // 28px title row (same treatment as __close).
+  &__back {
+    margin-top: -6px;
+    margin-bottom: -6px;
+  }
+
   &__close {
     margin-right: -12px;
     margin-top: -6px;
