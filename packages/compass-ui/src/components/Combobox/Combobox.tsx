@@ -254,8 +254,9 @@ export interface ComboboxProps
   /**
    * Runs after Combobox's own key handling. `event.defaultPrevented` is true
    * when Combobox handled the key (arrows, Home / End while open, Enter on a
-   * row, Escape while open, Backspace removing a chip). Calling
-   * `preventDefault()` here doesn't stop Combobox's handling. Any `onChange`
+   * row, Escape while open, Backspace removing a chip); those Enter and Escape
+   * presses also stop propagating. Calling `preventDefault()` here doesn't
+   * stop Combobox's handling. Any `onChange`
    * the key caused has already been called, but host state read here is
    * still from before that change.
    */
@@ -814,12 +815,14 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
       case 'Enter':
         if (isOpen && activeIndex >= 0 && rows[activeIndex]) {
           e.preventDefault();
+          e.stopPropagation();
           selectRow(rows[activeIndex]);
         }
         break;
       case 'Escape':
         if (isOpen) {
           e.preventDefault();
+          e.stopPropagation();
           close();
         }
         break;
@@ -862,6 +865,17 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
       inputRef.current?.focus();
     }
     if (!isOpen) open();
+  };
+
+  const handlePopupMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    // Text fields in a custom empty or loading message still need to take focus
+    if (
+      (e.target as HTMLElement).closest(
+        'input, textarea, select, [contenteditable="true"]',
+      )
+    )
+      return;
+    e.preventDefault();
   };
 
   const hasSelection = multiple
@@ -1008,6 +1022,15 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               aria-label={clearLabel}
               data-combobox-clear=""
               onClick={clearValue}
+              onKeyDown={(e) => {
+                // preventDefault() cancels the native click, so clear here.
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  clearValue();
+                }
+                clearButtonProps?.onKeyDown?.(e);
+              }}
               onBlur={(e) => {
                 clearButtonProps?.onBlur?.(e);
                 handleBlur(e);
@@ -1024,6 +1047,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
       {popupMounted &&
         renderPortal(
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keeps focus on the input for presses anywhere in the menu
           <div
             ref={portalRef}
             className={[
@@ -1034,6 +1058,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               .filter(Boolean)
               .join(' ')}
             style={popupStyle}
+            onMouseDown={handlePopupMouseDown}
           >
             <PopoverMenu className={styles.combobox__menu}>
               <PopoverMenuScroll maxHeight={maxHeight}>
@@ -1051,10 +1076,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                   >
                     {rows.map((row, index) => {
                       const active = index === activeIndex;
-                      const preventBlur = (ev: MouseEvent) => {
-                        // Prevent input blur before click handler
-                        ev.preventDefault();
-                      };
                       if (row.kind === 'create') {
                         return (
                           <li
@@ -1069,7 +1090,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                               leadingVisual={<Icon glyph={<PlusIcon />} />}
                               active={active}
                               aria-selected={false}
-                              onMouseDown={preventBlur}
                               onMouseEnter={() => hoverRow(index)}
                               onClick={() => createValue(row.inputValue)}
                             />
@@ -1100,7 +1120,6 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
                             active={active}
                             disabled={option.disabled}
                             aria-selected={selected}
-                            onMouseDown={preventBlur}
                             onMouseEnter={() => hoverRow(index)}
                             onClick={() => selectOption(option)}
                           />
