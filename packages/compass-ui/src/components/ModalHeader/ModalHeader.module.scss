@@ -111,8 +111,10 @@
   }
 
   // Negative vertical margin keeps the 40px hit target from growing the
-  // 28px title row (same treatment as __close).
+  // 28px title row (same treatment as __close); the left margin mirrors
+  // __close's right margin so the icon sits flush with the content edge.
   &__back {
+    margin-left: -12px;
     margin-top: -6px;
     margin-bottom: -6px;
   }
