@@ -1,20 +1,29 @@
-import type { ReactNode } from 'react';
-import ArrowBackIosIcon from '@mattermost/compass-icons/components/arrow-back-ios';
+import type { HTMLAttributes, MouseEvent, ReactNode } from 'react';
 import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import ArrowExpandIcon from '@mattermost/compass-icons/components/arrow-expand';
+import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import DockWindowIcon from '@mattermost/compass-icons/components/dock-window';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
 import type { TagType } from '@/components/Tag/Tag';
+import { mergeClassNames } from '@/utils/props';
+import type { BuiltInButtonProps } from '@/utils/props';
 import styles from './RightSidebarHeader.module.scss';
 
-export interface RightSidebarHeaderProps {
+export interface RightSidebarHeaderProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'title' | 'children' | 'dangerouslySetInnerHTML'
+> {
   /** Primary title text. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   title: ReactNode;
   /** Secondary title shown to the right of a vertical divider (e.g. parent channel name). */
   secondaryTitle?: ReactNode;
+  /** When set, the secondary title renders as a button (e.g. to open the parent channel) and calls this on click with the event. It looks the same at rest and shows a dim background on hover. */
+  onSecondaryTitleClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  /** Extra attributes for the secondary title button (e.g. `aria-label`, `data-testid`). Only used with `onSecondaryTitleClick`; its `onClick` also runs, after that handler. */
+  secondaryTitleButtonProps?: BuiltInButtonProps;
   /** Optional tag rendered next to the title (e.g. "BETA"). */
   tag?: ReactNode;
   /** Tag visual style. Default: Info. */
@@ -47,12 +56,16 @@ export interface RightSidebarHeaderProps {
   onActionClick?: () => void;
   /** When true, the action button shows in its active state. */
   actionActive?: boolean;
+  /** Optional custom actions (e.g. a Filters `Button` + popover) rendered in the actions region after `actionLabel` and before the expand / pop out / close buttons. */
+  actions?: ReactNode;
   className?: string;
 }
 
 export default function RightSidebarHeader({
   title,
   secondaryTitle,
+  onSecondaryTitleClick,
+  secondaryTitleButtonProps,
   tag,
   tagType = 'info',
   leadingIcon,
@@ -69,14 +82,16 @@ export default function RightSidebarHeader({
   actionLabel,
   onActionClick,
   actionActive = false,
+  actions,
   className = '',
+  ...rest
 }: RightSidebarHeaderProps) {
   const rootClass = [styles['right-sidebar-header'], className]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <div className={rootClass}>
+    <div {...rest} className={rootClass}>
       <div className={styles['right-sidebar-header__left']}>
         <div className={styles['right-sidebar-header__primary']}>
           {onBack && (
@@ -85,7 +100,7 @@ export default function RightSidebarHeader({
               size="small"
               aria-label={backLabel}
               onClick={onBack}
-              icon={<Icon size="16" glyph={<ArrowBackIosIcon />} />}
+              icon={<Icon size="16" glyph={<ArrowLeftIcon />} />}
             />
           )}
           {leadingIcon && (
@@ -107,9 +122,27 @@ export default function RightSidebarHeader({
         </div>
         {secondaryTitle && (
           <div className={styles['right-sidebar-header__secondary']}>
-            <span className={styles['right-sidebar-header__secondary-text']}>
-              {secondaryTitle}
-            </span>
+            {onSecondaryTitleClick ? (
+              <button
+                type="button"
+                {...secondaryTitleButtonProps}
+                className={mergeClassNames(
+                  styles['right-sidebar-header__secondary-text'],
+                  styles['right-sidebar-header__secondary-button'],
+                  secondaryTitleButtonProps?.className,
+                )}
+                onClick={(event) => {
+                  onSecondaryTitleClick(event);
+                  secondaryTitleButtonProps?.onClick?.(event);
+                }}
+              >
+                {secondaryTitle}
+              </button>
+            ) : (
+              <span className={styles['right-sidebar-header__secondary-text']}>
+                {secondaryTitle}
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -132,6 +165,7 @@ export default function RightSidebarHeader({
             {actionLabel}
           </button>
         )}
+        {actions}
         {onExpand && (
           <IconButton
             size="small"

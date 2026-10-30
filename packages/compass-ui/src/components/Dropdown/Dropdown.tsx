@@ -8,7 +8,7 @@ import styles from './Dropdown.module.scss';
 
 export type DropdownSize = 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 export type DropdownAppearance = 'default' | 'inverted';
-export type DropdownPadding = 'tight' | 'compact';
+export type DropdownPadding = 'tight' | 'compact' | 'default';
 
 export interface DropdownProps extends Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -20,7 +20,7 @@ export interface DropdownProps extends Omit<
   children: ReactNode;
   /** Optional leading icon — pass `<Icon glyph={<SomeIcon />} />`; Dropdown provides the correct size via context. */
   leadingIcon?: ReactNode;
-  /** Trigger inset. Tight is default; Compact adds more padding (Figma). Default: Tight. */
+  /** Trigger inset (Figma). Tight hugs the label, Compact adds more, Default adds the most. Default: Tight. */
   padding?: DropdownPadding;
   /** Size variant. Default: Medium. */
   size?: DropdownSize;
@@ -48,7 +48,7 @@ export default function Dropdown({
 }: DropdownProps) {
   const sizeClass = styles[`dropdown--size-${toKebab(size)}`];
   const paddingClass =
-    padding === 'compact' ? styles['dropdown--padding-compact'] : '';
+    padding === 'tight' ? '' : styles[`dropdown--padding-${padding}`];
   const appearanceClass =
     appearance === 'inverted' ? styles['dropdown--appearance-inverted'] : '';
   const openClass = isOpen ? styles['dropdown--open'] : '';

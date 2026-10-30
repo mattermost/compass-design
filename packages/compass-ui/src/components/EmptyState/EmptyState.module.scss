@@ -1,6 +1,10 @@
 .empty-state {
   width: 100%;
   height: 100%;
+  // Floor for shrink-to-fit parents (flex/grid centering), where the percentage
+  // width above contributes no intrinsic size and SimpleBar's content is
+  // out of flow, so the component would otherwise collapse to its padding.
+  min-width: min(360px, 100vw);
   background-color: var(--center-channel-bg);
 
   // Centering lives inside the scroll viewport (SimpleBar's .simplebar-content)

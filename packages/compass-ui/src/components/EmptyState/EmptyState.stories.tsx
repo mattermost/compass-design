@@ -41,3 +41,21 @@ export const WithAction: Story = {
     action: { children: 'Browse channels', onClick: fn() },
   },
 };
+
+export const InFlexCenteredParent: Story = {
+  args: TextOnly.args,
+  render: (args) => (
+    <div style={{ display: 'flex', justifyContent: 'center', height: 320 }}>
+      <EmptyState {...args} />
+    </div>
+  ),
+};
+
+export const InGridCenteredParent: Story = {
+  args: TextOnly.args,
+  render: (args) => (
+    <div style={{ display: 'grid', placeContent: 'center', height: 320 }}>
+      <EmptyState {...args} />
+    </div>
+  ),
+};

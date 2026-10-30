@@ -6,9 +6,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`RightSidebarHeader` root attributes:** the header now accepts the root `<div>`'s HTML attributes (`data-testid`, `id`, `aria-*`, etc.), spread onto the root with `className` merged. Existing usage is unchanged.
+- **`RightSidebarHeader` `onSecondaryTitleClick` / `secondaryTitleButtonProps`:** optional. When set, the secondary title (e.g. the parent channel of a thread) renders as a button. It looks the same at rest and shows a dim background on hover. Without it the markup is unchanged.
+- **`RightSidebarHeader` `actions`:** optional `ReactNode` slot for custom controls (icon buttons, a Filters button with popover, etc.) in the header actions region, rendered after `actionLabel` and before the expand / pop out / close buttons. `actionLabel` / `onActionClick` / `actionActive` are unchanged.
+- **`PasswordInput` `revealable`:** opt-out prop (default `true`) that hides the show/hide button for secrets that should stay masked, such as System Console API keys. The input stays `type="password"`, and `revealed`, `defaultRevealed` and `onRevealedChange` are ignored. Default markup is unchanged.
+- **`Dropdown` `padding="default"`:** the third Figma padding (alongside `tight` and `compact`), with the roomiest inset at `x-small`, `small`, `medium` and `large`. Existing values and the default (`tight`) are unchanged.
+
+### Changed
+
+- **`RightSidebarHeader` secondary title contrast:** text is now 72% opacity (was 56%) to meet the text contrast floor. Applies to both the plain-text and button variants.
+- **`RightSidebarHeader` back button:** now uses the `arrow-left` glyph instead of `arrow-back-ios`. Accessible name and props are unchanged.
+
 ### Fixed
 
 - **`ModalHeader` `showBackButton` stretching the header from 80px to 92px:** the built-in back `IconButton` (40px) now uses the same negative vertical margin as the close button, so the title row stays at the 28px title line height with or without it. It also takes a `-12px` left margin, mirroring the close button's right margin, so the arrow aligns with the content edge. The back button gets a `modal-header__back` class; `backButtonProps.className` is still merged.
+- **`AdminPanelFooter` opaque background bleeding past `AdminPanel` rounded corners:** the footer root no longer paints `background: var(--center-channel-bg)`, matching `AdminPanelHeader`. The panel's own background and `border-radius` provide the fill, and the top border still separates the footer. Previously the square fill showed through the bottom corners when a host set the panel to `overflow: visible`. Markup is unchanged. Hosts can drop local footer rounding or clipping workarounds.
+- **`Dropdown` `padding="compact"` now matches Figma at every size:** compact was only styled for `medium`, so `x-small`, `small` and `large` rendered the same as `tight`, and `medium` used a 6px vertical / 8px inset (32px tall). Compact now follows the Figma insets: `x-small` 2px vertical / 6px left / 4px right, `small` 4 / 8 / 6, `medium` 4 / 10 / 8 (28px tall) and `large` 4 / 12 / 8. `tight` is unchanged, so the compact sizes now have usable inset options (#159): at `x-small` compact is 20px tall and `default` 24px; at `small` compact is 24px and `default` 32px, lining up with 24px and 28px controls.
+- **`Dropdown` gap between the label and the chevron:** it was 4px at every size, looser than Figma. It is now 0px at `x-small`, `small` and `medium`, 2px at `large` and 3px at `x-large`. Markup is unchanged.
+- **`Dropdown` long labels did not truncate:** the label kept its full `nowrap` width and the trigger overflowed its container. The label now ends in an ellipsis, and the root, trigger and content can shrink to the space the host gives them (the root has `min-width: 0; max-width: 100%`). The rule meant to make Button's label wrapper `display: contents` targeted an unhashed class that never matched the CSS-module name, so it now matches by position. Short labels size as before and markup is unchanged. Hosts can drop `[class*='dropdown__…']` overrides.
 - **`IconButton` with `count` stuck at a fixed width when `padding="compact"`:** the size and compact-padding square (for example 28×28 at `size="small"`) out-specified the count modifier's `width: auto`, so the count label was cramped against the icon. Count buttons now size to their content at every size, compact or default; height is unchanged. Markup is unchanged. Hosts can drop local `width: auto` overrides.
 - **`Combobox` keys leaking to host dialogs and forms:** Enter that selects a row and Escape that closes the menu now also stop propagating past the input, so a surrounding modal no longer closes and a form no longer submits on the same press. Enter and Escape on a closed menu still bubble. Host listeners in the capture phase still run first, so those hosts keep their own guard. `onKeyDown` still runs, with `event.defaultPrevented` set as before.
 - **`Combobox` losing focus on presses inside the menu:** a press on the menu's padding, scrollbar, or empty or loading message no longer moves focus off the input while the menu stays open, so the next key still reaches the input. Text fields inside a custom `emptyMessage` or `loadingMessage` can still take focus. Row clicks are unchanged.

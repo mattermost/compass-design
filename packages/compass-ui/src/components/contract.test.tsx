@@ -15,6 +15,7 @@ import ModalHeader from './ModalHeader/ModalHeader';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import ProgressBar from './ProgressBar/ProgressBar';
 import PasswordInput from './PasswordInput/PasswordInput';
+import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
 import SearchInput from './SearchInput/SearchInput';
 import SectionNotice from './SectionNotice/SectionNotice';
 import Tabs from './Tabs/Tabs';
@@ -38,6 +39,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
   ),
   EmptyState: (a) => <EmptyState title="Nothing here" {...a} />,
   Tag: (a) => <Tag label="Beta" {...a} />,
+  RightSidebarHeader: (a) => <RightSidebarHeader title="Thread" {...a} />,
   Modal: (a) => (
     <Modal title="Settings" {...a}>
       Body
@@ -187,6 +189,17 @@ const BUTTON_CASES: Record<
         showBackButton
         onBack={on}
         backButtonProps={p}
+      />
+    ),
+  },
+  'RightSidebarHeader secondaryTitleButtonProps': {
+    label: 'UX Design',
+    render: (p, on) => (
+      <RightSidebarHeader
+        title="Thread"
+        secondaryTitle="UX Design"
+        onSecondaryTitleClick={on}
+        secondaryTitleButtonProps={p}
       />
     ),
   },

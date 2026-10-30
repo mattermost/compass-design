@@ -56,6 +56,13 @@
     align-items: center;
     padding: 0 var(--spacing-xs);
     border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    transition: border-color var(--duration-quick) var(--ease-transition);
+
+    // Hide the divider while the secondary title button is hovered so the
+    // hover background doesn't sit against it. Colour only, so layout holds.
+    &:has(.right-sidebar-header__secondary-button:hover) {
+      border-left-color: transparent;
+    }
   }
 
   &__secondary-text {
@@ -63,10 +70,51 @@
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-200);
-    color: rgba(var(--center-channel-color-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  // Keeps the resting text position of the plain span; the padding only
+  // widens the hover background around the label.
+  &__secondary-button {
+    min-width: 0;
+    max-width: calc(100% + var(--spacing-xxs) * 2);
+    margin: 0 calc(var(--spacing-xxs) * -1);
+    padding: var(--spacing-xxxxs) var(--spacing-xxs);
+    border: none;
+    border-radius: var(--radius-s);
+    background-color: transparent;
+    cursor: pointer;
+    outline: 2px solid
+      color-mix(
+        in srgb,
+        var(--focus-ring-color, var(--button-bg)) 0%,
+        transparent
+      );
+    outline-offset: 0;
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      outline-color var(--duration-quick) var(--ease-transition),
+      outline-offset var(--duration-quick) var(--ease-transition);
+
+    &:hover:not(:disabled) {
+      background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
+    &:active:not(:disabled) {
+      background-color: rgba(var(--center-channel-color-rgb), 0.12);
+    }
+
+    &:focus-visible {
+      outline-color: var(--focus-ring-color, var(--button-bg));
+      outline-offset: 3px;
+    }
+
+    &:disabled {
+      cursor: default;
+    }
   }
 
   &__actions {
