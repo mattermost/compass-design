@@ -4,7 +4,9 @@
   // Floor for shrink-to-fit parents (flex/grid centering), where the percentage
   // width above contributes no intrinsic size and SimpleBar's content is
   // out of flow, so the component would otherwise collapse to its padding.
-  min-width: min(360px, 100vw);
+  // The floor tracks the viewport, not the parent, so hosts narrower than
+  // 240px set --empty-state-min-width: 0.
+  min-width: var(--empty-state-min-width, min(240px, 100vw));
   background-color: var(--center-channel-bg);
 
   // Centering lives inside the scroll viewport (SimpleBar's .simplebar-content)
