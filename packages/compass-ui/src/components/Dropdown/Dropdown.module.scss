@@ -247,9 +247,9 @@
     padding: var(--spacing-xxxxs) var(--spacing-xxxs) var(--spacing-xxxxs)
       var(--spacing-xxs);
 
-    // Label ↔ chevron gap per Figma: 1px.
+    // Label ↔ chevron gap: 2px.
     .dropdown__trigger {
-      gap: 1px;
+      gap: var(--spacing-xxxxs);
     }
 
     .dropdown__content {
@@ -271,9 +271,9 @@
   &--size-x-large {
     padding: 0 var(--spacing-xxs) 0 var(--spacing-xs);
 
-    // Label ↔ chevron gap per Figma: 2px.
+    // Label ↔ chevron gap: 3px.
     .dropdown__trigger {
-      gap: var(--spacing-xxxxs);
+      gap: calc(var(--spacing-xxxxs) * 1.5);
     }
 
     .dropdown__content {
