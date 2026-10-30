@@ -58,7 +58,8 @@ export interface PasswordInputProps extends Omit<
    * Whether to render the show/hide toggle. Default: `true`. Set `false` for
    * secrets that should stay masked with no reveal affordance (for example
    * System Console API keys). The input stays `type="password"`, and
-   * `revealed` / `defaultRevealed` / `onRevealedChange` are ignored.
+   * `revealed`, `defaultRevealed`, `onRevealedChange`, `revealButtonProps`,
+   * `showPasswordLabel` and `hidePasswordLabel` are ignored.
    */
   revealable?: boolean;
   /** Extra attributes for the reveal toggle (e.g. `data-testid`). */
@@ -74,9 +75,9 @@ export interface PasswordInputProps extends Omit<
 }
 
 /**
- * Password Inputs are the dedicated field for secrets — login, signup, invite
- * passwords. They look like a text input with a built-in show/hide toggle so the
- * affordance is obvious, the same way Search Input always ships a magnifier.
+ * Password Inputs are the dedicated field for secrets — login, signup, invite passwords.
+ * They look like a text input with a built-in show/hide toggle so the affordance is obvious
+ * before the user reads a single word.
  */
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   function PasswordInput(
@@ -189,7 +190,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       sizeClass,
       invalidClass,
       labelFloatedClass,
-      revealable ? styles['password-input--has-trailing-icon'] : '',
+      styles['password-input--has-trailing-icon'],
       className,
     ]
       .filter(Boolean)
