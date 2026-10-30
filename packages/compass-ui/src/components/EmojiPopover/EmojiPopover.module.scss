@@ -10,9 +10,6 @@
   box-shadow: var(--elevation-4);
   overflow: hidden;
 
-  // The popover is narrower than EmptyState's 360px floor.
-  --empty-state-min-width: 0;
-
   // ── Header ────────────────────────────────────────────────────
   &__header {
     display: flex;

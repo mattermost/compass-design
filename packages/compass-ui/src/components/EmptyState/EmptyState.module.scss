@@ -5,8 +5,8 @@
   // width above contributes no intrinsic size and SimpleBar's content is
   // out of flow, so the component would otherwise collapse to its padding.
   // The floor tracks the viewport, not the parent, so hosts narrower than
-  // 360px (sidebars, popovers) set --empty-state-min-width: 0.
-  min-width: var(--empty-state-min-width, min(360px, 100vw));
+  // 240px set --empty-state-min-width: 0.
+  min-width: var(--empty-state-min-width, min(240px, 100vw));
   background-color: var(--center-channel-bg);
 
   // Centering lives inside the scroll viewport (SimpleBar's .simplebar-content)
