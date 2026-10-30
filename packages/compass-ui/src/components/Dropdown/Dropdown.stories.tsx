@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 import Dropdown from './Dropdown';
+import Icon from '../Icon/Icon';
+import IconButton from '../IconButton/IconButton';
+import PlusIcon from '@mattermost/compass-icons/components/plus';
 import type {
   DropdownAppearance,
   DropdownPadding,
@@ -66,18 +69,23 @@ export const Default: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 8,
-        alignItems: 'center',
-      }}
-    >
-      {SIZES.map((size) => (
-        <Dropdown key={size} size={size}>
-          {size}
-        </Dropdown>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {(['tight', 'compact'] satisfies DropdownPadding[]).map((padding) => (
+        <div
+          key={padding}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 8,
+            alignItems: 'center',
+          }}
+        >
+          {SIZES.map((size) => (
+            <Dropdown key={size} size={size} padding={padding}>
+              {size} ({padding})
+            </Dropdown>
+          ))}
+        </div>
       ))}
     </div>
   ),
@@ -140,6 +148,31 @@ export const AllStates: Story = {
       <Dropdown>Default</Dropdown>
       <Dropdown isOpen>Open</Dropdown>
       <Dropdown disabled>Disabled</Dropdown>
+    </div>
+  ),
+};
+
+/** Long labels end in an ellipsis and the trigger shrinks to the space its host gives it. */
+export const LongLabel: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        width: 320,
+        padding: 8,
+        border: '1px dashed rgba(var(--center-channel-color-rgb), 0.16)',
+        borderRadius: 8,
+      }}
+    >
+      <div style={{ display: 'flex', flex: 1, minWidth: 0 }}>
+        <Dropdown size="large">
+          Quarterly planning notes for the whole platform team and extended
+          stakeholders
+        </Dropdown>
+      </div>
+      <IconButton aria-label="Add" icon={<Icon glyph={<PlusIcon />} />} />
     </div>
   ),
 };
