@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import ArrowExpandIcon from '@mattermost/compass-icons/components/arrow-expand';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
@@ -17,9 +17,9 @@ export interface RightSidebarHeaderProps {
   title: ReactNode;
   /** Secondary title shown to the right of a vertical divider (e.g. parent channel name). */
   secondaryTitle?: ReactNode;
-  /** When set, the secondary title renders as a button (e.g. to open the parent channel) and calls this on click. It looks the same at rest and shows a dim background on hover. */
-  onSecondaryTitleClick?: () => void;
-  /** Extra attributes for the secondary title button (e.g. `aria-label`, `data-testid`). Only used with `onSecondaryTitleClick`. */
+  /** When set, the secondary title renders as a button (e.g. to open the parent channel) and calls this on click with the event. It looks the same at rest and shows a dim background on hover. */
+  onSecondaryTitleClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  /** Extra attributes for the secondary title button (e.g. `aria-label`, `data-testid`). Only used with `onSecondaryTitleClick`; its `onClick` also runs, after that handler. */
   secondaryTitleButtonProps?: BuiltInButtonProps;
   /** Optional tag rendered next to the title (e.g. "BETA"). */
   tag?: ReactNode;
@@ -127,7 +127,10 @@ export default function RightSidebarHeader({
                   styles['right-sidebar-header__secondary-button'],
                   secondaryTitleButtonProps?.className,
                 )}
-                onClick={onSecondaryTitleClick}
+                onClick={(event) => {
+                  onSecondaryTitleClick(event);
+                  secondaryTitleButtonProps?.onClick?.(event);
+                }}
               >
                 {secondaryTitle}
               </button>

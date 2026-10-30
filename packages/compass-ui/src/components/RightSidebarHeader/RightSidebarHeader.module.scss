@@ -81,14 +81,18 @@
   &__secondary-button {
     min-width: 0;
     max-width: calc(100% + var(--spacing-xxs) * 2);
-    height: 24px;
     margin: 0 calc(var(--spacing-xxs) * -1);
-    padding: 0 var(--spacing-xxs);
+    padding: var(--spacing-xxxxs) var(--spacing-xxs);
     border: none;
     border-radius: var(--radius-s);
     background-color: transparent;
     cursor: pointer;
-    transition: background-color var(--duration-quick) var(--ease-transition);
+    outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
+    outline-offset: 0;
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      outline-color var(--duration-quick) var(--ease-transition),
+      outline-offset var(--duration-quick) var(--ease-transition);
 
     &:hover {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -99,8 +103,8 @@
     }
 
     &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 2px var(--button-bg);
+      outline-color: var(--focus-ring-color);
+      outline-offset: 2px;
     }
   }
 
