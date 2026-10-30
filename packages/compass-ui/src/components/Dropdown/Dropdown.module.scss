@@ -116,8 +116,8 @@
   // (Figma sizes: X-Small=11px/tracking, Small=12px, Medium=14px, Large=16px, X-Large=28px)
   // ---------------------------------------------------------------------------
   &--size-x-small {
-    // 16px label line + 2 × 4px = 24px, matching a 24px IconButton.
-    padding: var(--spacing-xxxs) var(--spacing-xxs);
+    // Figma tight: 0 vertical / 4 left / 2 right (16px tall).
+    padding: 0 var(--spacing-xxxxs) 0 var(--spacing-xxxs);
 
     .dropdown__trigger {
       gap: var(--spacing-xxxs);
@@ -140,8 +140,9 @@
   }
 
   &--size-small {
-    // 16px label line + 2 × 6px = 28px, matching a 28px IconButton.
-    padding: var(--spacing-xxs) var(--spacing-xs);
+    // Figma tight: 2 vertical / 4 left / 2 right (20px tall).
+    padding: var(--spacing-xxxxs) var(--spacing-xxxxs) var(--spacing-xxxxs)
+      var(--spacing-xxxs);
 
     .dropdown__trigger {
       gap: var(--spacing-xxxs);
