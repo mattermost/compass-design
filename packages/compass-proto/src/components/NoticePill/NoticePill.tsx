@@ -80,10 +80,7 @@ export default function NoticePill({
               <Icon size="12" glyph={<MicrophoneOffIcon />} />
             </span>
             <span className={styles['notice-pill__label']}>{message}</span>
-            <span
-              className={styles['notice-pill__trailing-icon']}
-              aria-hidden
-            >
+            <span className={styles['notice-pill__trailing-icon']} aria-hidden>
               <Icon size="12" glyph={<CloseCircleIcon />} />
             </span>
           </>

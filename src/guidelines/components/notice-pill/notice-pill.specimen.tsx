@@ -9,10 +9,7 @@ export default function NoticePillLibrary() {
           <span className={styles['components__instance-label']}>Types</span>
           <NoticePill type="reaction" emoji="🎉" label="Leonard R." />
           <NoticePill type="hand-raise" label="Danielle O." />
-          <NoticePill
-            type="other"
-            message="You have been muted by the host"
-          />
+          <NoticePill type="other" message="You have been muted by the host" />
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>Sizes</span>
