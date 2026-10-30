@@ -120,6 +120,21 @@ describe('PasswordInput reveal', () => {
     expect(getByRole('button', 'Hide password')).toBeTruthy();
   });
 
+  it('omits the reveal control when revealToggle is false', () => {
+    const { container } = render(
+      <PasswordInput
+        label="Password"
+        defaultValue="secret"
+        defaultRevealed
+        revealToggle={false}
+      />,
+    );
+    expect(container.querySelector('input')!.getAttribute('type')).toBe(
+      'password',
+    );
+    expect(container.querySelector('button')).toBeNull();
+  });
+
   it('forwards ref to the input', () => {
     const ref = { current: null as HTMLInputElement | null };
     render(<PasswordInput ref={ref} label="Password" />);

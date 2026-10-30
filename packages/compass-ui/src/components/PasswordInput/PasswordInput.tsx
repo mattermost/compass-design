@@ -54,6 +54,13 @@ export interface PasswordInputProps extends Omit<
    * Default: `"Hide password"`.
    */
   hidePasswordLabel?: string;
+  /**
+   * Whether to render the show/hide toggle. Default: `true`. Set `false` for
+   * secrets that should stay masked with no reveal affordance (for example
+   * System Console API keys). The input stays `type="password"`, and
+   * `revealed` / `defaultRevealed` / `onRevealedChange` are ignored.
+   */
+  revealToggle?: boolean;
   /** Extra attributes for the reveal toggle (e.g. `data-testid`). */
   revealButtonProps?: BuiltInButtonProps;
   /**
@@ -83,6 +90,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       showPasswordLabel = 'Show password',
       hidePasswordLabel = 'Hide password',
       revealButtonProps,
+      revealToggle = true,
       revealed: revealedProp,
       defaultRevealed = false,
       onRevealedChange,
@@ -114,7 +122,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     const [uncontrolledRevealed, setUncontrolledRevealed] =
       useState(defaultRevealed);
     const revealed = isRevealControlled ? revealedProp : uncontrolledRevealed;
-    const visible = revealed && !disabled;
+    const visible = revealToggle && revealed && !disabled;
 
     const [isFocused, setIsFocused] = useState(false);
     const labelFloated = isFocused || hasValue;
@@ -181,7 +189,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       sizeClass,
       invalidClass,
       labelFloatedClass,
-      styles['password-input--has-trailing-icon'],
+      revealToggle ? styles['password-input--has-trailing-icon'] : '',
       className,
     ]
       .filter(Boolean)
@@ -219,33 +227,35 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               )}
               {...rest}
             />
-            <span className={styles['password-input__trailing-icon']}>
-              <button
-                {...revealRest}
-                type="button"
-                className={mergeClassNames(
-                  styles['password-input__reveal'],
-                  revealClassName,
-                )}
-                aria-label={visible ? hidePasswordLabel : showPasswordLabel}
-                disabled={disabled}
-                onClick={(e) => {
-                  revealOnClick?.(e);
-                  if (e.defaultPrevented) return;
-                  toggleRevealed();
-                }}
-                onMouseDown={(e) => {
-                  // Keep focus in the field when pressing the toggle.
-                  e.preventDefault();
-                  revealOnMouseDown?.(e);
-                }}
-              >
-                <Icon
-                  size={iconSize}
-                  glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />}
-                />
-              </button>
-            </span>
+            {revealToggle && (
+              <span className={styles['password-input__trailing-icon']}>
+                <button
+                  {...revealRest}
+                  type="button"
+                  className={mergeClassNames(
+                    styles['password-input__reveal'],
+                    revealClassName,
+                  )}
+                  aria-label={visible ? hidePasswordLabel : showPasswordLabel}
+                  disabled={disabled}
+                  onClick={(e) => {
+                    revealOnClick?.(e);
+                    if (e.defaultPrevented) return;
+                    toggleRevealed();
+                  }}
+                  onMouseDown={(e) => {
+                    // Keep focus in the field when pressing the toggle.
+                    e.preventDefault();
+                    revealOnMouseDown?.(e);
+                  }}
+                >
+                  <Icon
+                    size={iconSize}
+                    glyph={visible ? <EyeOffOutlineIcon /> : <EyeOutlineIcon />}
+                  />
+                </button>
+              </span>
+            )}
           </div>
         </div>
         {showMessage && (

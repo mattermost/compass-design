@@ -21,6 +21,11 @@ export default function PasswordInputLibrary() {
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>States</span>
           <PasswordInput
+            label="No reveal toggle"
+            defaultValue="secret-value"
+            revealToggle={false}
+          />
+          <PasswordInput
             label="Revealed"
             defaultValue="secret-value"
             defaultRevealed
