@@ -100,6 +100,10 @@ export default function ModalHeader({
                 <IconButton
                   {...backButtonProps}
                   aria-label={backLabel}
+                  className={mergeClassNames(
+                    styles['modal-header__back'],
+                    backButtonProps?.className,
+                  )}
                   icon={<Icon glyph={<ArrowLeftIcon />} size="20" />}
                   onClick={onBack}
                 />
