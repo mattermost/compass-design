@@ -126,6 +126,7 @@
     letter-spacing: 0.11px;
     box-sizing: border-box;
     max-width: 100%;
+
     // Hosts can override via --tile-button-padding-inline.
     padding-inline: var(--tile-button-padding-inline, var(--spacing-xs));
     display: -webkit-box;
