@@ -47,6 +47,8 @@ export interface RightSidebarHeaderProps {
   onActionClick?: () => void;
   /** When true, the action button shows in its active state. */
   actionActive?: boolean;
+  /** Optional custom actions (e.g. a Filters `Button` + popover) rendered in the actions region after `actionLabel` and before the expand / pop out / close buttons. */
+  actions?: ReactNode;
   className?: string;
 }
 
@@ -69,6 +71,7 @@ export default function RightSidebarHeader({
   actionLabel,
   onActionClick,
   actionActive = false,
+  actions,
   className = '',
 }: RightSidebarHeaderProps) {
   const rootClass = [styles['right-sidebar-header'], className]
@@ -132,6 +135,7 @@ export default function RightSidebarHeader({
             {actionLabel}
           </button>
         )}
+        {actions}
         {onExpand && (
           <IconButton
             size="small"
