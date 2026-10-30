@@ -573,6 +573,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/mention-badge/mention-badge.specimen'),
   },
   {
+    slug: 'right-sidebar-header',
+    name: 'Right Sidebar Header',
+    category: 'components',
+    description:
+      'Fixed header for Right Sidebar views: title, back, inline and custom actions, and expand, pop out, and close controls.',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/right-sidebar-header/right-sidebar-header.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/right-sidebar-header/right-sidebar-header.specimen'),
+  },
+  {
     slug: 'menu-group-heading',
     name: 'Menu Group Heading',
     category: 'components',

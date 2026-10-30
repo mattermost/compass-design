@@ -1,0 +1,87 @@
+import { Button } from '@mattermost/compass-ui/components/button';
+import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
+
+The Right Sidebar Header is the fixed strip at the top of a Right Sidebar
+surface. It names the current view, offers navigation back to a previous step,
+and holds the controls that expand, pop out, or dismiss the sidebar. It stays
+pinned while the body below it scrolls.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <div style={{ width: '100%', maxWidth: '400px' }}>
+    <RightSidebarHeader
+      title="Thread"
+      secondaryTitle="UX Design"
+      tag="BETA"
+      actionLabel="Follow"
+      onActionClick={() => {}}
+      onExpand={() => {}}
+      onPopout={() => {}}
+      onClose={() => {}}
+    />
+  </div>
+</AnatomyStage>
+
+- <Num>1</Num> **Title** — names the current sidebar mode (Thread, Info, Saved
+  Messages). A leading icon or avatar and a back button can sit before it.
+- <Num>2</Num> **Secondary title** — optional parent channel or scope, shown
+  beside a vertical divider.
+- <Num>3</Num> **Tag** — optional lifecycle chip such as Beta.
+- <Num>4</Num> **Inline action** — optional text action such as Follow, with an
+  active state.
+- <Num>5</Num> **Custom actions** — optional composed controls, such as a
+  Filters button with a popover, placed beside the standard controls.
+- <Num>6</Num> **Expand, Pop out, Close** — optional icon buttons, always in
+  that order at the trailing edge.
+
+<Divider />
+
+## Actions
+
+The header offers two ways to add controls beside the title chrome.
+
+| Use                    | When                                                                                    |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| Inline action          | A simple text toggle such as Follow / Following. No icon, no popover.                   |
+| Custom actions (slot)  | Anything richer: an icon button, a Filters button with a popover, a menu, or a control group. |
+
+Custom actions render after the inline action and before Expand, Pop out, and
+Close. The consuming product owns what goes in the slot, including any popover
+and its contents. Filter chips or a second toolbar row for overflow still belong
+below the header, not in it.
+
+<div style={{ width: '100%', maxWidth: '400px' }}>
+  <RightSidebarHeader
+    title="Recent mentions"
+    actions={
+      <Button emphasis="tertiary" size="small">
+        Filters
+      </Button>
+    }
+    onClose={() => {}}
+  />
+</div>
+
+<Divider />
+
+## Do and don't
+
+- **Do** keep the title short and specific to the current view.
+- **Do** use Icon Buttons or a small Button in the slot, and keep to one or two
+  controls so the title keeps its space.
+- **Don't** use the slot for primary content or long text; it is chrome.
+- **Don't** repeat Close or Expand in the slot; use the built-in controls.
+- **Don't** show Close in layouts where the column is persistent, such as
+  Threads View.
+
+<Divider />
+
+## Implementation
+
+For props, variants, and copy-ready examples, see the
+[Right Sidebar Header specimen page](/components/right-sidebar-header/specimen).
+For how the header composes into a full panel, see the
+[Right Sidebar pattern](/patterns/right-sidebar).
