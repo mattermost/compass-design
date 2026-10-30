@@ -1,4 +1,6 @@
 import { Button } from '@mattermost/compass-ui/components/button';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 
 The Right Sidebar Header is the fixed strip at the top of a Right Sidebar
@@ -13,7 +15,10 @@ pinned while the body below it scrolls.
 <AnatomyStage>
   <div style={{ width: '100%', maxWidth: '400px' }}>
     <RightSidebarHeader
-      title="Thread"
+      title="Leonard Riley"
+      leadingIcon={
+        <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
+      }
       secondaryTitle="UX Design"
       tag="BETA"
       actionLabel="Follow"
@@ -25,18 +30,22 @@ pinned while the body below it scrolls.
   </div>
 </AnatomyStage>
 
-- <Num>1</Num> **Title** — names the current sidebar mode (Thread, Info, Saved
-  Messages). A leading icon or avatar and a back button can sit before it.
-- <Num>2</Num> **Secondary title** — optional parent channel or scope, shown
+- <Num>1</Num> **Leading icon or avatar** — optional `leadingIcon` shown before
+  the title, such as a `UserAvatar` for a profile view or an icon for a tool.
+  For an icon, pass `<Icon glyph={<SomeIcon />} size="20" />` so it lines up
+  with the title. A back button, when present, sits before it.
+- <Num>2</Num> **Title** — names the current sidebar mode (Thread, Info, Saved
+  Messages).
+- <Num>3</Num> **Secondary title** — optional parent channel or scope, shown
   beside a vertical divider. When it names a channel, make it a button with
   `onSecondaryTitleClick` so it opens that channel in the main view. It looks
   the same at rest and gets a dim background on hover.
-- <Num>3</Num> **Tag** — optional lifecycle chip such as Beta.
-- <Num>4</Num> **Inline action** — optional text action such as Follow, with an
+- <Num>4</Num> **Tag** — optional lifecycle chip such as Beta.
+- <Num>5</Num> **Inline action** — optional text action such as Follow, with an
   active state.
-- <Num>5</Num> **Custom actions** — optional composed controls, such as a
+- <Num>6</Num> **Custom actions** — optional composed controls, such as a
   Filters button with a popover, placed beside the standard controls.
-- <Num>6</Num> **Expand, Pop out, Close** — optional icon buttons, always in
+- <Num>7</Num> **Expand, Pop out, Close** — optional icon buttons, always in
   that order at the trailing edge.
 
 <Divider />
