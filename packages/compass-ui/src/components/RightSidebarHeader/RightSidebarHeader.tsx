@@ -14,7 +14,7 @@ import styles from './RightSidebarHeader.module.scss';
 
 export interface RightSidebarHeaderProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
-  'title'
+  'title' | 'children' | 'dangerouslySetInnerHTML'
 > {
   /** Primary title text. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   title: ReactNode;
