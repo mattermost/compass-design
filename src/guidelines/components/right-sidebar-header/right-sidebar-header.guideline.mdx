@@ -28,7 +28,9 @@ pinned while the body below it scrolls.
 - <Num>1</Num> **Title** — names the current sidebar mode (Thread, Info, Saved
   Messages). A leading icon or avatar and a back button can sit before it.
 - <Num>2</Num> **Secondary title** — optional parent channel or scope, shown
-  beside a vertical divider.
+  beside a vertical divider. When it names a channel, make it a button with
+  `onSecondaryTitleClick` so it opens that channel in the main view. It looks
+  the same at rest and gets a dim background on hover.
 - <Num>3</Num> **Tag** — optional lifecycle chip such as Beta.
 - <Num>4</Num> **Inline action** — optional text action such as Follow, with an
   active state.

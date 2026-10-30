@@ -8,6 +8,8 @@ import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
 import type { TagType } from '@/components/Tag/Tag';
+import { mergeClassNames } from '@/utils/props';
+import type { BuiltInButtonProps } from '@/utils/props';
 import styles from './RightSidebarHeader.module.scss';
 
 export interface RightSidebarHeaderProps {
@@ -15,6 +17,10 @@ export interface RightSidebarHeaderProps {
   title: ReactNode;
   /** Secondary title shown to the right of a vertical divider (e.g. parent channel name). */
   secondaryTitle?: ReactNode;
+  /** When set, the secondary title renders as a button (e.g. to open the parent channel) and calls this on click. It looks the same at rest and shows a dim background on hover. */
+  onSecondaryTitleClick?: () => void;
+  /** Extra attributes for the secondary title button (e.g. `aria-label`, `data-testid`). Only used with `onSecondaryTitleClick`. */
+  secondaryTitleButtonProps?: BuiltInButtonProps;
   /** Optional tag rendered next to the title (e.g. "BETA"). */
   tag?: ReactNode;
   /** Tag visual style. Default: Info. */
@@ -55,6 +61,8 @@ export interface RightSidebarHeaderProps {
 export default function RightSidebarHeader({
   title,
   secondaryTitle,
+  onSecondaryTitleClick,
+  secondaryTitleButtonProps,
   tag,
   tagType = 'info',
   leadingIcon,
@@ -110,9 +118,26 @@ export default function RightSidebarHeader({
         </div>
         {secondaryTitle && (
           <div className={styles['right-sidebar-header__secondary']}>
-            <span className={styles['right-sidebar-header__secondary-text']}>
-              {secondaryTitle}
-            </span>
+            {onSecondaryTitleClick ? (
+              <button
+                type="button"
+                {...secondaryTitleButtonProps}
+                className={mergeClassNames(
+                  styles['right-sidebar-header__secondary-text'],
+                  styles['right-sidebar-header__secondary-button'],
+                  secondaryTitleButtonProps?.className,
+                )}
+                onClick={onSecondaryTitleClick}
+              >
+                {secondaryTitle}
+              </button>
+            ) : (
+              <span
+                className={styles['right-sidebar-header__secondary-text']}
+              >
+                {secondaryTitle}
+              </span>
+            )}
           </div>
         )}
       </div>

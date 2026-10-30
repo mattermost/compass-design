@@ -29,6 +29,14 @@ export default function RightSidebarHeaderLibrary() {
           onClose={() => {}}
         />
       </Demo>
+      <Demo label="Secondary title as button (hover to see it)">
+        <RightSidebarHeader
+          title="Thread"
+          secondaryTitle="UX Design"
+          onSecondaryTitleClick={() => {}}
+          onClose={() => {}}
+        />
+      </Demo>
       <Demo label="Back button">
         <RightSidebarHeader
           title="Edit Profile"

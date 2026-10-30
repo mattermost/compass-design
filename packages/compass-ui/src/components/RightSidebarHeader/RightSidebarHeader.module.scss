@@ -69,6 +69,34 @@
     white-space: nowrap;
   }
 
+  // Keeps the resting text position of the plain span; the padding only
+  // widens the hover background around the label.
+  &__secondary-button {
+    min-width: 0;
+    max-width: calc(100% + var(--spacing-xxs) * 2);
+    height: 24px;
+    margin: 0 calc(var(--spacing-xxs) * -1);
+    padding: 0 var(--spacing-xxs);
+    border: none;
+    border-radius: var(--radius-s);
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color var(--duration-quick) var(--ease-transition);
+
+    &:hover {
+      background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
+    &:active {
+      background-color: rgba(var(--center-channel-color-rgb), 0.12);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--button-bg);
+    }
+  }
+
   &__actions {
     display: flex;
     align-items: center;

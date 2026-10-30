@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **`RightSidebarHeader` `onSecondaryTitleClick` / `secondaryTitleButtonProps`:** optional. When set, the secondary title (e.g. the parent channel of a thread) renders as a button. It looks the same at rest and shows a dim background on hover. Without it the markup is unchanged.
 - **`RightSidebarHeader` `actions`:** optional `ReactNode` slot for custom controls (icon buttons, a Filters button with popover, etc.) in the header actions region, rendered after `actionLabel` and before the expand / pop out / close buttons. `actionLabel` / `onActionClick` / `actionActive` are unchanged.
 
 ### Changed

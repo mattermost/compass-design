@@ -33,6 +33,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const SecondaryTitleButton: Story = {
+  args: { onSecondaryTitleClick: () => {} },
+};
+
 export const WithBack: Story = {
   args: { title: 'Edit Profile', secondaryTitle: 'Account Settings', onBack: () => {} },
 };
