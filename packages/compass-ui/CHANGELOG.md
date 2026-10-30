@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`PasswordInput` `revealable`:** opt-out prop (default `true`) that hides the show/hide button for secrets that should stay masked, such as System Console API keys. The input stays `type="password"`, and `revealed`, `defaultRevealed` and `onRevealedChange` are ignored. Default markup is unchanged.
+
 ### Fixed
 
 - **`IconButton` with `count` stuck at a fixed width when `padding="compact"`:** the size and compact-padding square (for example 28×28 at `size="small"`) out-specified the count modifier's `width: auto`, so the count label was cramped against the icon. Count buttons now size to their content at every size, compact or default; height is unchanged. Markup is unchanged. Hosts can drop local `width: auto` overrides.

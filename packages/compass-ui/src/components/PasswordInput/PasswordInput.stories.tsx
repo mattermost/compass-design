@@ -67,6 +67,15 @@ export const Revealed: Story = {
   },
 };
 
+/** Masked with no reveal control — for secrets such as System Console API keys. */
+export const WithoutRevealToggle: Story = {
+  args: {
+    label: 'API key',
+    defaultValue: 'secret-value',
+    revealable: false,
+  },
+};
+
 export const WithMessage: Story = {
   args: {
     label: 'Password',
