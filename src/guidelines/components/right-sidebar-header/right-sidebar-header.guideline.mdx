@@ -1,6 +1,4 @@
 import { Button } from '@mattermost/compass-ui/components/button';
-import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 
 The Right Sidebar Header is the fixed strip at the top of a Right Sidebar
@@ -15,36 +13,30 @@ pinned while the body below it scrolls.
 <AnatomyStage>
   <div style={{ width: '100%', maxWidth: '400px' }}>
     <RightSidebarHeader
-      title="Leonard Riley"
-      leadingIcon={
-        <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
-      }
-      secondaryTitle="UX Design"
+      title="Channel Info"
+      secondaryTitle="Town Square"
       onExpand={() => {}}
-      onPopout={() => {}}
       onClose={() => {}}
     />
   </div>
 </AnatomyStage>
 
-- <Num>1</Num> **Leading icon or avatar** — optional `leadingIcon` shown before
-  the title, such as a `UserAvatar` for a profile view or an icon for a tool.
-  For an icon, pass `<Icon glyph={<SomeIcon />} size="20" />` so it lines up
-  with the title. A back button, when present, sits before it.
-- <Num>2</Num> **Title** — names the current sidebar mode (Thread, Info, Saved
+- <Num>1</Num> **Title** — names the current sidebar mode (Thread, Info, Saved
   Messages).
-- <Num>3</Num> **Secondary title** — optional parent channel or scope, shown
+- <Num>2</Num> **Secondary title** — optional parent channel or scope, shown
   beside a vertical divider. When it names a channel, make it a button with
   `onSecondaryTitleClick` so it opens that channel in the main view. It looks
   the same at rest and gets a dim background on hover.
-- <Num>4</Num> **Expand, Pop out, Close** — optional icon buttons, always in
-  that order at the trailing edge.
+- <Num>3</Num> **Expand, Pop out, Close** — optional icon buttons, always in
+  that order at the trailing edge. The preview shows Expand and Close.
 
-The header also supports an optional `tag` (a lifecycle chip such as Beta) after
-the title, an inline text action such as Follow with an active state, and a
-custom actions slot (see Actions below). The tag, inline action, and custom
-actions are shown on the
-[specimen page](/components/right-sidebar-header/specimen).
+The header also supports an optional `leadingIcon` before the title, such as a
+`UserAvatar` for a profile view or an icon for a tool (for an icon, pass
+`<Icon glyph={<SomeIcon />} size="20" />` so it lines up with the title). A back
+button, when present, sits before it. A `tag` (a lifecycle chip such as Beta)
+can follow the title, and the header has an inline text action such as Follow
+with an active state, plus a custom actions slot (see Actions below). These are
+shown on the [specimen page](/components/right-sidebar-header/specimen).
 
 <Divider />
 
