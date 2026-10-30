@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`RightSidebarHeader` `onSecondaryTitleClick` / `secondaryTitleButtonProps`:** optional. When set, the secondary title (e.g. the parent channel of a thread) renders as a button. It looks the same at rest and shows a dim background on hover. Without it the markup is unchanged.
 - **`RightSidebarHeader` `actions`:** optional `ReactNode` slot for custom controls (icon buttons, a Filters button with popover, etc.) in the header actions region, rendered after `actionLabel` and before the expand / pop out / close buttons. `actionLabel` / `onActionClick` / `actionActive` are unchanged.
+- **`PasswordInput` `revealable`:** opt-out prop (default `true`) that hides the show/hide button for secrets that should stay masked, such as System Console API keys. The input stays `type="password"`, and `revealed`, `defaultRevealed` and `onRevealedChange` are ignored. Default markup is unchanged.
 
 ### Changed
 
@@ -17,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
+- **`AdminPanelFooter` opaque background bleeding past `AdminPanel` rounded corners:** the footer root no longer paints `background: var(--center-channel-bg)`, matching `AdminPanelHeader`. The panel's own background and `border-radius` provide the fill, and the top border still separates the footer. Previously the square fill showed through the bottom corners when a host set the panel to `overflow: visible`. Markup is unchanged. Hosts can drop local footer rounding or clipping workarounds.
 - **`IconButton` with `count` stuck at a fixed width when `padding="compact"`:** the size and compact-padding square (for example 28×28 at `size="small"`) out-specified the count modifier's `width: auto`, so the count label was cramped against the icon. Count buttons now size to their content at every size, compact or default; height is unchanged. Markup is unchanged. Hosts can drop local `width: auto` overrides.
 - **`Combobox` keys leaking to host dialogs and forms:** Enter that selects a row and Escape that closes the menu now also stop propagating past the input, so a surrounding modal no longer closes and a form no longer submits on the same press. Enter and Escape on a closed menu still bubble. Host listeners in the capture phase still run first, so those hosts keep their own guard. `onKeyDown` still runs, with `event.defaultPrevented` set as before.
 - **`Combobox` losing focus on presses inside the menu:** a press on the menu's padding, scrollbar, or empty or loading message no longer moves focus off the input while the menu stays open, so the next key still reaches the input. Text fields inside a custom `emptyMessage` or `loadingMessage` can still take focus. Row clicks are unchanged.

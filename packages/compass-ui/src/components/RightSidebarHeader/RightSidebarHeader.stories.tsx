@@ -38,7 +38,11 @@ export const SecondaryTitleButton: Story = {
 };
 
 export const WithBack: Story = {
-  args: { title: 'Edit Profile', secondaryTitle: 'Account Settings', onBack: () => {} },
+  args: {
+    title: 'Edit Profile',
+    secondaryTitle: 'Account Settings',
+    onBack: () => {},
+  },
 };
 
 export const WithTag: Story = {

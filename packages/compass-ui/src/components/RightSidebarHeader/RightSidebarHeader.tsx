@@ -135,9 +135,7 @@ export default function RightSidebarHeader({
                 {secondaryTitle}
               </button>
             ) : (
-              <span
-                className={styles['right-sidebar-header__secondary-text']}
-              >
+              <span className={styles['right-sidebar-header__secondary-text']}>
                 {secondaryTitle}
               </span>
             )}
