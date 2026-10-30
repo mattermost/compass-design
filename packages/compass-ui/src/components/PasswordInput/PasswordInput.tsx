@@ -60,7 +60,7 @@ export interface PasswordInputProps extends Omit<
    * System Console API keys). The input stays `type="password"`, and
    * `revealed` / `defaultRevealed` / `onRevealedChange` are ignored.
    */
-  revealToggle?: boolean;
+  revealable?: boolean;
   /** Extra attributes for the reveal toggle (e.g. `data-testid`). */
   revealButtonProps?: BuiltInButtonProps;
   /**
@@ -90,7 +90,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       showPasswordLabel = 'Show password',
       hidePasswordLabel = 'Hide password',
       revealButtonProps,
-      revealToggle = true,
+      revealable = true,
       revealed: revealedProp,
       defaultRevealed = false,
       onRevealedChange,
@@ -122,7 +122,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     const [uncontrolledRevealed, setUncontrolledRevealed] =
       useState(defaultRevealed);
     const revealed = isRevealControlled ? revealedProp : uncontrolledRevealed;
-    const visible = revealToggle && revealed && !disabled;
+    const visible = revealable && revealed && !disabled;
 
     const [isFocused, setIsFocused] = useState(false);
     const labelFloated = isFocused || hasValue;
@@ -189,7 +189,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       sizeClass,
       invalidClass,
       labelFloatedClass,
-      revealToggle ? styles['password-input--has-trailing-icon'] : '',
+      revealable ? styles['password-input--has-trailing-icon'] : '',
       className,
     ]
       .filter(Boolean)
@@ -227,7 +227,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               )}
               {...rest}
             />
-            {revealToggle && (
+            {revealable && (
               <span className={styles['password-input__trailing-icon']}>
                 <button
                   {...revealRest}

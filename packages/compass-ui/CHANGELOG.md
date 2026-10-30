@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
-- **`PasswordInput` `revealToggle`:** opt-out prop (default `true`) that hides the show/hide button for secrets that should stay masked, such as System Console API keys. The input stays `type="password"`, and `revealed`, `defaultRevealed` and `onRevealedChange` are ignored. Default markup is unchanged.
+- **`PasswordInput` `revealable`:** opt-out prop (default `true`) that hides the show/hide button for secrets that should stay masked, such as System Console API keys. The input stays `type="password"`, and `revealed`, `defaultRevealed` and `onRevealedChange` are ignored. Default markup is unchanged.
 
 ### Fixed
 

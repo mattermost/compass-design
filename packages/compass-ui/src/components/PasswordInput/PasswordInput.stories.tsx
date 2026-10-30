@@ -72,7 +72,7 @@ export const WithoutRevealToggle: Story = {
   args: {
     label: 'API key',
     defaultValue: 'secret-value',
-    revealToggle: false,
+    revealable: false,
   },
 };
 

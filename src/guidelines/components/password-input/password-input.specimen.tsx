@@ -23,7 +23,7 @@ export default function PasswordInputLibrary() {
           <PasswordInput
             label="No reveal toggle"
             defaultValue="secret-value"
-            revealToggle={false}
+            revealable={false}
           />
           <PasswordInput
             label="Revealed"
