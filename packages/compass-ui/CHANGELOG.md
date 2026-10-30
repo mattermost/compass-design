@@ -8,8 +8,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **`RightSidebarHeader` root attributes:** the header now accepts the root `<div>`'s HTML attributes (`data-testid`, `id`, `aria-*`, etc.), spread onto the root with `className` merged. Existing usage is unchanged.
+- **`RightSidebarHeader` `onSecondaryTitleClick` / `secondaryTitleButtonProps`:** optional. When set, the secondary title (e.g. the parent channel of a thread) renders as a button. It looks the same at rest and shows a dim background on hover. Without it the markup is unchanged.
+- **`RightSidebarHeader` `actions`:** optional `ReactNode` slot for custom controls (icon buttons, a Filters button with popover, etc.) in the header actions region, rendered after `actionLabel` and before the expand / pop out / close buttons. `actionLabel` / `onActionClick` / `actionActive` are unchanged.
 - **`PasswordInput` `revealable`:** opt-out prop (default `true`) that hides the show/hide button for secrets that should stay masked, such as System Console API keys. The input stays `type="password"`, and `revealed`, `defaultRevealed` and `onRevealedChange` are ignored. Default markup is unchanged.
 - **`Dropdown` `padding="default"`:** the third Figma padding (alongside `tight` and `compact`), with the roomiest inset at `x-small`, `small`, `medium` and `large`. Existing values and the default (`tight`) are unchanged.
+
+### Changed
+
+- **`RightSidebarHeader` secondary title contrast:** text is now 72% opacity (was 56%) to meet the text contrast floor. Applies to both the plain-text and button variants.
+- **`RightSidebarHeader` back button:** now uses the `arrow-left` glyph instead of `arrow-back-ios`. Accessible name and props are unchanged.
 
 ### Fixed
 
