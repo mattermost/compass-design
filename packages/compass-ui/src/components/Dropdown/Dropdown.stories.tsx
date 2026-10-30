@@ -98,28 +98,19 @@ export const Default: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 24 }}>
-      <Section title="Tight">
-        {SIZES.map((size) => (
-          <Dropdown key={size} size={size} padding="tight">
-            {size}
-          </Dropdown>
-        ))}
-      </Section>
-      <Section title="Compact">
-        {SIZES.map((size) => (
-          <Dropdown key={size} size={size} padding="compact">
-            {size}
-          </Dropdown>
-        ))}
-      </Section>
-      <Section title="Default">
-        {SIZES.map((size) => (
-          <Dropdown key={size} size={size} padding="default">
-            {size}
-          </Dropdown>
-        ))}
-      </Section>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 8,
+        alignItems: 'center',
+      }}
+    >
+      {SIZES.map((size) => (
+        <Dropdown key={size} size={size}>
+          {size}
+        </Dropdown>
+      ))}
     </div>
   ),
 };
