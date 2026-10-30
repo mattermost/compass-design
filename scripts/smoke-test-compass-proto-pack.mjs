@@ -93,14 +93,14 @@ function writeConsumer(tempDir, uiTarballPath, protoTarballPath) {
     `import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Button } from '@mattermost/compass-ui/components/button';
-import { RecordingPill } from '@mattermost/compass-proto';
+import { RecordingIndicator } from '@mattermost/compass-proto';
 import '@mattermost/compass-ui/styles';
 
 function App() {
   return (
     <div style={{ padding: 24, fontFamily: 'system-ui', display: 'flex', gap: 16, alignItems: 'center' }}>
       <Button emphasis="primary">Core</Button>
-      <RecordingPill state="recording" />
+      <RecordingIndicator state="recording" />
     </div>
   );
 }

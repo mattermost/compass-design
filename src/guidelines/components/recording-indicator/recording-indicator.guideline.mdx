@@ -1,10 +1,10 @@
-import { RecordingPill } from '@mattermost/compass-proto';
+import { RecordingIndicator } from '@mattermost/compass-proto';
 
-The Recording Pill is the persistent indicator that a call is being recorded.
+The Recording Indicator is the persistent signal that a call is being recorded.
 It sits in the call surface, makes the recording state unmistakable, and
 gives anyone with permission a single click to stop.
 
-Privacy and consent depend on this pill being visible the entire time a
+Privacy and consent depend on this indicator being visible the entire time a
 recording is in progress — never hide it, even on compact layouts.
 
 <Divider />
@@ -21,7 +21,7 @@ container.
     backgroundColor: 'var(--calls-bg)',
   }}
 >
-  <RecordingPill state="recording" />
+  <RecordingIndicator state="recording" />
 </AnatomyStage>
 
 - <Num>1</Num> **Status icon** — a spinner while initializing, a record glyph
@@ -35,7 +35,7 @@ container.
 
 | State        | What it shows                                                                               |
 | ------------ | ------------------------------------------------------------------------------------------- |
-| Initializing | Spinner + REC. The recording is being set up; the pill is not yet actionable.               |
+| Initializing | Spinner + REC. The recording is being set up; the indicator is not yet actionable.          |
 | Recording    | Record icon + REC. The default in-progress state.                                           |
 | Hover        | Stop icon + REC + tooltip "Click to Stop". Reveals the stop affordance to authorised users. |
 
@@ -49,14 +49,14 @@ container.
     paddingBottom: 'var(--spacing-xxxl)',
   }}
 >
-  <RecordingPill state="initializing" />
-  <RecordingPill state="recording" />
-  <RecordingPill state="hover" />
+  <RecordingIndicator state="initializing" />
+  <RecordingIndicator state="recording" />
+  <RecordingIndicator state="hover" />
 </AnatomyStage>
 
 The hover state is only meaningful for users who can stop the recording.
 Hide the hover affordance for participants who don't have permission — for
-them, the pill stays in its Recording state and acts as a label, not a
+them, the indicator stays in its Recording state and acts as a label, not a
 button.
 
 <Divider />
@@ -64,4 +64,4 @@ button.
 ## Implementation
 
 For props, variants, and copy-ready examples, see the
-[Recording Pill specimen page](/components/recording-pill/specimen).
+[Recording Indicator specimen page](/components/recording-indicator/specimen).

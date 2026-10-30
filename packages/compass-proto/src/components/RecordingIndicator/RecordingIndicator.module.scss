@@ -1,4 +1,4 @@
-@keyframes recording-pill-spin {
+@keyframes recording-indicator-spin {
   from {
     transform: rotate(0deg);
   }
@@ -7,7 +7,7 @@
   }
 }
 
-.recording-pill {
+.recording-indicator {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -55,7 +55,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    animation: recording-pill-spin 1s linear infinite;
+    animation: recording-indicator-spin 1s linear infinite;
     transform-origin: center;
   }
 
@@ -103,7 +103,7 @@
   &--initializing {
     background-color: rgba(var(--button-color-rgb), 0.04);
 
-    .recording-pill__button {
+    .recording-indicator__button {
       background-color: rgba(var(--button-color-rgb), 0.08);
       color: var(--button-color);
     }
@@ -112,7 +112,7 @@
   &--recording {
     background-color: var(--error-text, var(--color-danger));
 
-    .recording-pill__button {
+    .recording-indicator__button {
       color: var(--button-color, var(--neutral-0));
     }
   }
@@ -123,7 +123,7 @@
     align-items: flex-start;
     gap: var(--spacing-xxs);
 
-    .recording-pill__button {
+    .recording-indicator__button {
       color: var(--button-color, var(--neutral-0));
     }
   }

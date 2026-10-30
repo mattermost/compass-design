@@ -8,8 +8,8 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 
 - Mobile\* shells and patterns
 - `ChannelShell`
-- Call\* composites (`CallWidget`, `CallPopout`, `CallParticipantAvatar`, `RecordingPill`, panels)
-- Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `TeamSidebar`, `RightSidebar` (shell), `ReactionPill`, `AppBarItem`
+- Call\* composites (`CallWidget`, `CallPopout`, `CallParticipantAvatar`, `CallNotice`, `RecordingIndicator`, panels)
+- Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `TeamSidebar`, `RightSidebar` (shell), `AppBarItem`
 - Hardcoded menu recipes: `PlusMenu`, `HelpMenu`, `ChannelMenu`, `TeamMenu`, `ChannelCategoryMenu`, `ChannelHeaderMenu`, `ThreadActionsMenu`, `MessageMoreOptionsMenu`, `ProductSwitcherMenu`
 - Demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`) and sidebar fixture helpers
 - `WithTooltip` (prototype tooltip host)
