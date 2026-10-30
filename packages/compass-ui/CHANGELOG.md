@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **`RightSidebarHeader` secondary title contrast:** text is now 72% opacity (was 56%) to meet the text contrast floor. Applies to both the plain-text and button variants.
 - **`RightSidebarHeader` back button:** now uses the `arrow-left` glyph instead of `arrow-back-ios`. Accessible name and props are unchanged.
 
 ### Fixed
