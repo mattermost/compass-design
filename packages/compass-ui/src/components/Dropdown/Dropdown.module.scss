@@ -104,8 +104,8 @@
   // (Figma sizes: X-Small=11px/tracking, Small=12px, Medium=14px, Large=16px, X-Large=28px)
   // ---------------------------------------------------------------------------
   &--size-x-small {
-    padding-left: var(--spacing-xxxs);
-    padding-right: var(--spacing-xxxxs);
+    // 16px label line + 2 × 4px = 24px, matching a 24px IconButton.
+    padding: var(--spacing-xxxs) var(--spacing-xxs);
 
     .dropdown__trigger {
       gap: var(--spacing-xxxs);
@@ -128,8 +128,8 @@
   }
 
   &--size-small {
-    padding: var(--spacing-xxxxs) var(--spacing-xxxxs) var(--spacing-xxxxs)
-      var(--spacing-xxxs);
+    // 16px label line + 2 × 6px = 28px, matching a 28px IconButton.
+    padding: var(--spacing-xxs) var(--spacing-xs);
 
     .dropdown__trigger {
       gap: var(--spacing-xxxs);
