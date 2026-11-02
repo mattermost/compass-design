@@ -10,7 +10,6 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xxxs);
-    background-color: rgba(var(--color-neutral-0-rgb), 0.16);
     border-radius: var(--radius-xl);
     width: 100%;
   }
@@ -128,7 +127,6 @@
     overflow: hidden;
 
     .call-notice__inner {
-      background-color: transparent;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
         calc(var(--spacing-xxxs) + var(--spacing-xxxxs));
     }
@@ -154,10 +152,6 @@
     background-color: var(--center-channel-bg);
     border-color: rgba(var(--center-channel-color-rgb), 0.16);
 
-    .call-notice__inner {
-      background-color: transparent;
-    }
-
     .call-notice__label,
     .call-notice__leading-icon,
     .call-notice__trailing-icon {
@@ -169,10 +163,6 @@
   // Text and icon stay on the center-channel foreground so they read in dark themes.
   &--appearance-center-channel.call-notice--type-hand-raise {
     background-color: var(--center-channel-bg);
-
-    .call-notice__inner {
-      background-color: transparent;
-    }
   }
 
   // Severity tones (type="other" only). Solid fills, declared after appearance so
@@ -181,10 +171,6 @@
     // Same fill and text as Toast type="warning".
     background-color: rgb(var(--semantic-color-warning));
     border-color: rgba(var(--center-channel-color-rgb), 0.08);
-
-    .call-notice__inner {
-      background-color: rgba(var(--color-neutral-0-rgb), 0.16);
-    }
 
     .call-notice__label,
     .call-notice__leading-icon,
@@ -197,10 +183,6 @@
     // Same fill and text as Toast type="danger".
     background-color: rgb(var(--semantic-color-danger));
     border-color: rgba(var(--center-channel-color-rgb), 0.08);
-
-    .call-notice__inner {
-      background-color: rgba(var(--color-neutral-0-rgb), 0.16);
-    }
 
     .call-notice__label,
     .call-notice__leading-icon,
