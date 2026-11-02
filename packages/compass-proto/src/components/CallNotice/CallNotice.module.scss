@@ -57,7 +57,7 @@
     .call-notice__inner {
       gap: var(--spacing-xxxs);
       padding: var(--spacing-xxxxs) var(--spacing-s) var(--spacing-xxxxs)
-        var(--spacing-xxs);
+        calc(var(--spacing-xxs) + var(--spacing-xxxxs));
     }
 
     .call-notice__emoji {
@@ -75,7 +75,7 @@
     .call-notice__inner {
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
-        var(--spacing-xs);
+        calc(var(--spacing-xs) + var(--spacing-xxxxs));
     }
 
     .call-notice__emoji {
@@ -92,7 +92,7 @@
     .call-notice__inner {
       gap: var(--spacing-xxs);
       padding: var(--spacing-xxs) var(--spacing-l) var(--spacing-xxs)
-        var(--spacing-s);
+        calc(var(--spacing-s) + var(--spacing-xxxxs));
     }
 
     .call-notice__emoji {
@@ -117,7 +117,7 @@
     .call-notice__inner {
       background-color: transparent;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
-        var(--spacing-xxxs);
+        calc(var(--spacing-xxxs) + var(--spacing-xxxxs));
     }
 
     .call-notice__leading-icon {
@@ -204,7 +204,7 @@
     .call-notice__inner {
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
-        var(--spacing-xxxs);
+        calc(var(--spacing-xxxs) + var(--spacing-xxxxs));
     }
 
     .call-notice__label {
