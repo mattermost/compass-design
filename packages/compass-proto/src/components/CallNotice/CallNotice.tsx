@@ -24,7 +24,7 @@ export interface CallNoticeProps extends HTMLAttributes<HTMLDivElement> {
    *   (stage, popout, mobile call screen).
    * - `center-channel`: light pill (`--center-channel-bg`) with a border for
    *   light surfaces such as the call widget. Works with every `type` and
-   *   `size`; `hand-raise` becomes an indigo-tinted pill with indigo text.
+   *   `size`; `hand-raise` keeps its indigo text and icon.
    * Default: `default`.
    */
   appearance?: CallNoticeAppearance;

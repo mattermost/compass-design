@@ -152,12 +152,12 @@
     }
   }
 
-  // Hand raise on a light surface: indigo-tinted fill, indigo text and icon.
+  // Hand raise on a light surface: no tint, indigo text and icon.
   &--appearance-center-channel.call-notice--type-hand-raise {
     background-color: var(--center-channel-bg);
 
     .call-notice__inner {
-      background-color: rgba(var(--calls-bg-rgb), 0.08);
+      background-color: transparent;
     }
 
     .call-notice__label,
