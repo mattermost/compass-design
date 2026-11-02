@@ -98,6 +98,20 @@ export default function CallNoticeLibrary() {
             size="large"
           />
         </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>Tones</span>
+          <CallNotice type="other" message="You have been muted by the host" />
+          <CallNotice
+            type="other"
+            tone="warning"
+            message="Call quality may be degraded due to unstable network conditions."
+          />
+          <CallNotice
+            type="other"
+            tone="error"
+            message="Allow microphone access to Mattermost."
+          />
+        </div>
       </div>
     </>
   );

@@ -83,6 +83,47 @@ indigo-tinted pill with indigo text and icon.
 
 <Divider />
 
+## Tone
+
+System notices (`type="other"`) take a `tone` for severity, mirroring the
+`warning` and `error` alerts in the Calls plugin.
+
+| Tone      | Use when                                                                               |
+| --------- | -------------------------------------------------------------------------------------- |
+| `default` | Neutral information: muted by the host, host changed, link copied.                     |
+| `warning` | Something may degrade the call but it still works: unstable network, device fell back. |
+| `error`   | Something is blocked and needs action: no microphone or camera, permission denied.     |
+
+Warning and error are solid fills (`--color-warning`, `--error-text`) and read
+the same on dark and light surfaces, so `appearance` does not change them.
+Reactions and raised hands are participant signals, not alerts, and ignore
+`tone`. Pass `icon` to match the cause (for example a camera-off icon for a
+missing camera); otherwise warning shows an alert icon and error an
+alert-circle icon.
+
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    padding: '1rem 0',
+  }}
+>
+  <CallNotice
+    type="other"
+    tone="warning"
+    message="Call quality may be degraded due to unstable network conditions."
+  />
+  <CallNotice
+    type="other"
+    tone="error"
+    message="Allow microphone access to Mattermost."
+  />
+</div>
+
+<Divider />
+
 ## Sizes
 
 Three sizes match the call surface — **Small** for compact in-call rails,
