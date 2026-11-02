@@ -223,6 +223,13 @@ export interface ComboboxProps
    * focus-to-open behavior.
    */
   openOnFocus?: boolean;
+  /**
+   * When false, Enter on the input with the menu closed is prevented and stops
+   * propagating, so it can't submit a surrounding form or reach host key
+   * listeners. Default: true (Enter with the menu closed behaves like Enter in a
+   * text input). Enter with the menu open is always handled by Combobox.
+   */
+  submitOnEnter?: boolean;
   /** Accessible name for the clear button. Default: "Clear". */
   clearLabel?: string;
   /** Extra attributes for the clear button (e.g. `data-testid`). */
@@ -253,10 +260,11 @@ export interface ComboboxProps
   onBlur?: FocusEventHandler<HTMLInputElement>;
   /**
    * Runs after Combobox's own key handling. `event.defaultPrevented` is true
-   * when Combobox handled the key (arrows, Home / End while open, Enter on a
-   * row, Escape while open, Backspace removing a chip); those Enter and Escape
-   * presses also stop propagating. Calling `preventDefault()` here doesn't
-   * stop Combobox's handling. Any `onChange`
+   * when Combobox handled the key (arrows, Home / End while open, Enter while
+   * the menu is open (picking the highlighted row, if any), Enter with the menu
+   * closed when `submitOnEnter` is false, Escape while open, Backspace removing
+   * a chip); those Enter and Escape presses also stop propagating. Calling
+   * `preventDefault()` here doesn't stop Combobox's handling. Any `onChange`
    * the key caused has already been called, but host state read here is
    * still from before that change.
    */
@@ -378,6 +386,7 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     formatCreateLabel = defaultFormatCreateLabel,
     clearable = false,
     openOnFocus = false,
+    submitOnEnter = true,
     clearLabel = 'Clear',
     clearButtonProps,
     selectionsLabel,
@@ -813,10 +822,17 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
         }
         break;
       case 'Enter':
-        if (isOpen && activeIndex >= 0 && rows[activeIndex]) {
+        // keyCode 229 covers older Safari, which doesn't set isComposing
+        if (e.nativeEvent.isComposing || e.keyCode === 229) break;
+        if (isOpen) {
           e.preventDefault();
           e.stopPropagation();
-          selectRow(rows[activeIndex]);
+          if (activeIndex >= 0 && rows[activeIndex]) {
+            selectRow(rows[activeIndex]);
+          }
+        } else if (!submitOnEnter) {
+          e.preventDefault();
+          e.stopPropagation();
         }
         break;
       case 'Escape':

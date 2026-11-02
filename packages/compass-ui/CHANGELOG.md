@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Combobox` `submitOnEnter`:** opt-out (default `true`). When `false`, Enter with the menu closed is prevented and stops propagating, so it can't submit a surrounding form. Default behavior is unchanged.
+
+### Fixed
+
+- **`Combobox` Enter with the menu open submitting a surrounding form:** with no row to pick (no matches, empty or loading message), Enter is now handled and stops propagating, so it no longer submits a form or reaches host key listeners. An Enter that commits IME composition is left alone and no longer picks the highlighted row.
+
 ## [0.1.0-alpha.25] - 2026-10-30
 
 ### Added

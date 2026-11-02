@@ -542,6 +542,178 @@ describe('Combobox inside a host with key listeners', () => {
   });
 });
 
+describe('Combobox inside a form', () => {
+  const documentKeys: string[] = [];
+  const onDocumentKeyDown = (e: globalThis.KeyboardEvent) => {
+    documentKeys.push(e.key);
+  };
+
+  beforeEach(() => {
+    documentKeys.length = 0;
+    document.addEventListener('keydown', onDocumentKeyDown);
+  });
+
+  afterEach(() => {
+    document.removeEventListener('keydown', onDocumentKeyDown);
+  });
+
+  function renderInForm(props: Partial<ComboboxProps> = {}) {
+    const onSubmit = vi.fn();
+    render(
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
+      >
+        <input type="text" aria-label="Name" />
+        <Combobox aria-label="Model" options={MODELS} {...props} />
+        <button type="submit">Save</button>
+      </form>,
+    );
+    return onSubmit;
+  }
+
+  /** Dispatches an Enter keydown and returns false if it was prevented. */
+  function pressEnter(el: Element, init: KeyboardEventInit = {}) {
+    let notPrevented = true;
+    act(() => {
+      notPrevented = el.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Enter',
+          bubbles: true,
+          cancelable: true,
+          ...init,
+        }),
+      );
+    });
+    return notPrevented;
+  }
+
+  it('consumes Enter with the menu open and no matching rows', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const onSubmit = renderInForm({ onChange });
+    await user.click(input());
+    await user.keyboard('zzz');
+    expect(queryAllByRole('option')).toEqual([]);
+    documentKeys.length = 0;
+    await user.keyboard('{Enter}');
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(documentKeys).toEqual([]);
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    expect(input().value).toBe('zzz');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('picks the highlighted row on Enter without submitting', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const onSubmit = renderInForm({ onChange });
+    await user.click(input());
+    await user.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledWith('gpt-4o');
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(documentKeys).toEqual([]);
+  });
+
+  it('consumes Enter with the menu open while loading', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const onSubmit = renderInForm({ options: [], loading: true, onChange });
+    await user.click(input());
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    await user.keyboard('{Enter}');
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(documentKeys).toEqual([]);
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('consumes Enter with the menu closed when submitOnEnter is false', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const onSubmit = renderInForm({
+      value: 'gpt-4o',
+      onChange,
+      submitOnEnter: false,
+    });
+    focus(input());
+    await user.keyboard('{Enter}');
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(documentKeys).toEqual([]);
+    expect(input().value).toBe('gpt-4o');
+    expect(input().getAttribute('aria-expanded')).toBe('false');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('consumes Enter with the menu closed in multiple mode when submitOnEnter is false', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const onSubmit = renderInForm({
+      multiple: true,
+      value: ['gpt-4o'],
+      onChange,
+      submitOnEnter: false,
+    });
+    focus(input());
+    await user.keyboard('{Enter}');
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(documentKeys).toEqual([]);
+    expect(chipLabels()).toEqual(['gpt-4o']);
+    expect(input().getAttribute('aria-expanded')).toBe('false');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('calls onKeyDown with defaultPrevented for a consumed closed Enter', async () => {
+    const prevented: boolean[] = [];
+    const user = setupUser();
+    renderInForm({
+      submitOnEnter: false,
+      onKeyDown: (e) => prevented.push(e.defaultPrevented),
+    });
+    focus(input());
+    await user.keyboard('{Enter}');
+    expect(prevented).toEqual([true]);
+  });
+
+  it('submits on Enter with the menu closed by default', async () => {
+    const user = setupUser();
+    const onSubmit = renderInForm({ value: 'gpt-4o' });
+    focus(input());
+    await user.keyboard('{Enter}');
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    expect(documentKeys).toEqual(['Enter']);
+  });
+
+  it('still submits on Enter in a sibling text input', async () => {
+    const user = setupUser();
+    const onSubmit = renderInForm({ submitOnEnter: false });
+    focus(getByRole('textbox', 'Name'));
+    await user.keyboard('{Enter}');
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it('leaves an Enter that commits IME composition alone', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    renderInForm({ onChange, submitOnEnter: false });
+    focus(input());
+    expect(pressEnter(input(), { isComposing: true })).toBe(true);
+
+    await user.click(input());
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+    expect(input().hasAttribute('aria-activedescendant')).toBe(true);
+    expect(pressEnter(input(), { isComposing: true })).toBe(true);
+    expect(onChange).not.toHaveBeenCalled();
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('leaves Enter alone when disabled', () => {
+    renderInForm({ disabled: true, submitOnEnter: false });
+    expect(pressEnter(input())).toBe(true);
+  });
+});
+
 describe('Combobox without scrollIntoView', () => {
   withoutScrollIntoView();
 
