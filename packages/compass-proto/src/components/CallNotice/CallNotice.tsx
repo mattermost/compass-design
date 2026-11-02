@@ -34,7 +34,7 @@ export interface CallNoticeProps extends HTMLAttributes<HTMLDivElement> {
    * `hand-raise` are participant signals, not alerts, and ignore it.
    * - `default`: neutral pill styled by `appearance`.
    * - `warning`: solid warning fill (same as Toast `type="warning"`) with light text.
-   * - `error`: solid error fill (`--error-text`) with `--button-color` text.
+   * - `error`: solid error fill (same as Toast `type="danger"`) with light text.
    * Warning and error are solid fills and look the same on either `appearance`.
    * Default: `default`.
    */

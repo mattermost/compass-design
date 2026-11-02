@@ -185,7 +185,8 @@
   }
 
   &--tone-error {
-    background-color: var(--error-text, var(--color-danger));
+    // Same fill and text as Toast type="danger".
+    background-color: rgb(var(--semantic-color-danger));
     border-color: rgba(var(--center-channel-color-rgb), 0.08);
 
     .call-notice__inner {
@@ -195,7 +196,7 @@
     .call-notice__label,
     .call-notice__leading-icon,
     .call-notice__trailing-icon {
-      color: var(--button-color, var(--color-neutral-0));
+      color: var(--color-neutral-0);
     }
   }
 
