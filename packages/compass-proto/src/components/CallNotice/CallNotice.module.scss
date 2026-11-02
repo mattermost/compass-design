@@ -15,6 +15,19 @@
     width: 100%;
   }
 
+  // Visually hidden severity text for screen readers (tone warning / error).
+  &__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   &__emoji {
     display: inline-flex;
     align-items: center;
@@ -152,17 +165,13 @@
     }
   }
 
-  // Hand raise on a light surface: no tint, indigo text and icon.
+  // Hand raise overrides the type's own white fill, so restore the surface fill.
+  // Text and icon stay on the center-channel foreground so they read in dark themes.
   &--appearance-center-channel.call-notice--type-hand-raise {
     background-color: var(--center-channel-bg);
 
     .call-notice__inner {
       background-color: transparent;
-    }
-
-    .call-notice__label,
-    .call-notice__leading-icon {
-      color: var(--calls-bg, var(--color-indigo-600));
     }
   }
 

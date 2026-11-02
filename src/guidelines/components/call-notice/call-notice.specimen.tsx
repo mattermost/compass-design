@@ -107,29 +107,6 @@ export default function CallNoticeLibrary() {
         </div>
         <div className={styles['components__button-row']}>
           <span className={styles['components__instance-label']}>
-            Tone sizes
-          </span>
-          <CallNotice
-            type="other"
-            tone="warning"
-            size="small"
-            message="Network is unstable"
-          />
-          <CallNotice
-            type="other"
-            tone="warning"
-            size="medium"
-            message="Network is unstable"
-          />
-          <CallNotice
-            type="other"
-            tone="warning"
-            size="large"
-            message="Network is unstable"
-          />
-        </div>
-        <div className={styles['components__button-row']}>
-          <span className={styles['components__instance-label']}>
             Custom icon
           </span>
           <CallNotice

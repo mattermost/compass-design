@@ -24,7 +24,7 @@ export interface CallNoticeProps extends HTMLAttributes<HTMLDivElement> {
    *   (stage, popout, mobile call screen).
    * - `center-channel`: light pill (`--center-channel-bg`) with a border for
    *   light surfaces such as the call widget. Works with every `type` and
-   *   `size`; `hand-raise` keeps its indigo text and icon.
+   *   `size`; `hand-raise` uses the same plain light pill.
    * Default: `default`.
    */
   appearance?: CallNoticeAppearance;
@@ -39,6 +39,12 @@ export interface CallNoticeProps extends HTMLAttributes<HTMLDivElement> {
    * Default: `default`.
    */
   tone?: CallNoticeTone;
+  /**
+   * Visually hidden severity text read before the message for `tone="warning"`
+   * and `tone="error"`, so screen readers can tell them apart. Defaults to
+   * "Warning" / "Error". Pass a translated string.
+   */
+  toneLabel?: ReactNode;
   /**
    * Leading icon for `type="other"`. Defaults to a muted-microphone icon, an
    * alert icon for `tone="warning"`, and an alert-circle icon for `tone="error"`.
@@ -66,6 +72,7 @@ export default function CallNotice({
   appearance = 'default',
   tone = 'default',
   icon,
+  toneLabel,
   emoji = '😀',
   label = 'Leonard R.',
   message = 'You have been muted by the host',
@@ -130,7 +137,15 @@ export default function CallNotice({
             <span className={styles['call-notice__leading-icon']} aria-hidden>
               <Icon size="12" glyph={icon ?? defaultOtherIcon} />
             </span>
-            <span className={styles['call-notice__label']}>{message}</span>
+            <span className={styles['call-notice__label']}>
+              {tone !== 'default' && (
+                <span className={styles['call-notice__sr-only']}>
+                  {toneLabel ?? (tone === 'warning' ? 'Warning' : 'Error')}
+                  {': '}
+                </span>
+              )}
+              {message}
+            </span>
             <span className={styles['call-notice__trailing-icon']} aria-hidden>
               <Icon size="12" glyph={<CloseCircleIcon />} />
             </span>
