@@ -33,7 +33,7 @@ export interface CallNoticeProps extends HTMLAttributes<HTMLDivElement> {
    * mattermost-plugin-calls. Only applies to `type="other"`; `reaction` and
    * `hand-raise` are participant signals, not alerts, and ignore it.
    * - `default`: neutral pill styled by `appearance`.
-   * - `warning`: solid warning fill (`--color-warning`) with dark text.
+   * - `warning`: solid amber fill (`--color-yellow-400`, the Calls plugin warning colour) with dark text.
    * - `error`: solid error fill (`--error-text`) with `--button-color` text.
    * Warning and error are solid fills and look the same on either `appearance`.
    * Default: `default`.
