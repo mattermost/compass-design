@@ -271,6 +271,12 @@
   padding-right: var(--spacing-l);
 }
 
+.components__button-row--center-channel-bg {
+  background-color: var(--center-channel-bg);
+  padding: var(--spacing-l);
+  border-radius: var(--radius-m);
+}
+
 .components__on-primary-dots {
   display: inline-flex;
   padding: var(--spacing-m) var(--spacing-xl);
