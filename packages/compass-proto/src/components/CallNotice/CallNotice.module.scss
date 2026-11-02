@@ -10,9 +10,21 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xxxs);
-    background-color: rgba(var(--color-neutral-0-rgb), 0.16);
     border-radius: var(--radius-xl);
     width: 100%;
+  }
+
+  // Visually hidden severity text for screen readers (tone warning / error).
+  &__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   &__emoji {
@@ -57,7 +69,7 @@
     .call-notice__inner {
       gap: var(--spacing-xxxs);
       padding: var(--spacing-xxxxs) var(--spacing-s) var(--spacing-xxxxs)
-        var(--spacing-xxs);
+        calc(var(--spacing-xxs) + var(--spacing-xxxxs));
     }
 
     .call-notice__emoji {
@@ -75,7 +87,7 @@
     .call-notice__inner {
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
-        var(--spacing-xs);
+        calc(var(--spacing-xs) + var(--spacing-xxxxs));
     }
 
     .call-notice__emoji {
@@ -92,7 +104,7 @@
     .call-notice__inner {
       gap: var(--spacing-xxs);
       padding: var(--spacing-xxs) var(--spacing-l) var(--spacing-xxs)
-        var(--spacing-s);
+        calc(var(--spacing-s) + var(--spacing-xxxxs));
     }
 
     .call-notice__emoji {
@@ -115,9 +127,8 @@
     overflow: hidden;
 
     .call-notice__inner {
-      background-color: transparent;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
-        var(--spacing-xxxs);
+        calc(var(--spacing-xxxs) + var(--spacing-xxxxs));
     }
 
     .call-notice__leading-icon {
@@ -131,11 +142,60 @@
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Appearance modifiers
+  // ---------------------------------------------------------------------------
+
+  // Light surfaces (e.g. the call widget). Declared after the hand-raise type
+  // modifier so it wins at equal specificity.
+  &--appearance-center-channel {
+    background-color: var(--center-channel-bg);
+    border-color: rgba(var(--center-channel-color-rgb), 0.16);
+
+    .call-notice__label,
+    .call-notice__leading-icon,
+    .call-notice__trailing-icon {
+      color: var(--center-channel-color);
+    }
+  }
+
+  // Hand raise overrides the type's own white fill, so restore the surface fill.
+  // Text and icon stay on the center-channel foreground so they read in dark themes.
+  &--appearance-center-channel.call-notice--type-hand-raise {
+    background-color: var(--center-channel-bg);
+  }
+
+  // Severity tones (type="other" only). Solid fills, declared after appearance so
+  // they win on either surface.
+  &--tone-warning {
+    // Same fill and text as Toast type="warning".
+    background-color: rgb(var(--semantic-color-warning));
+    border-color: rgba(var(--center-channel-color-rgb), 0.08);
+
+    .call-notice__label,
+    .call-notice__leading-icon,
+    .call-notice__trailing-icon {
+      color: var(--color-neutral-0);
+    }
+  }
+
+  &--tone-error {
+    // Same fill and text as Toast type="danger".
+    background-color: rgb(var(--semantic-color-danger));
+    border-color: rgba(var(--center-channel-color-rgb), 0.08);
+
+    .call-notice__label,
+    .call-notice__leading-icon,
+    .call-notice__trailing-icon {
+      color: var(--color-neutral-0);
+    }
+  }
+
   &--type-other {
     .call-notice__inner {
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
-        var(--spacing-xxxs);
+        calc(var(--spacing-xxxs) + var(--spacing-xxxxs));
     }
 
     .call-notice__label {

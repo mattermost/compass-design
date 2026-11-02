@@ -44,6 +44,88 @@ a trailing icon.
 
 <Divider />
 
+## Appearance
+
+The `appearance` prop picks the surface the notice sits on.
+
+| Appearance       | Use when                                                                                            |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| `default`        | The notice floats over a dark call surface — the stage, popout, or mobile call screen. Dark indigo. |
+| `center-channel` | The notice sits over a light surface, such as the call widget. Light fill, border, and dark text.   |
+
+`center-channel` works with every type and size. Reaction and Other use the
+center-channel colors; Hand Raise uses the same plain light pill
+as the others.
+
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    borderRadius: 'var(--radius-m)',
+  }}
+>
+  <CallNotice appearance="center-channel" emoji="🎉" label="Leonard R." />
+  <CallNotice
+    appearance="center-channel"
+    type="hand-raise"
+    label="Leonard R."
+  />
+  <CallNotice
+    appearance="center-channel"
+    type="other"
+    message="You have been muted by the host"
+  />
+</div>
+
+<Divider />
+
+## Tone
+
+System notices (`type="other"`) take a `tone` for severity, mirroring the
+`warning` and `error` alerts in the Calls plugin.
+
+| Tone      | Use when                                                                               |
+| --------- | -------------------------------------------------------------------------------------- |
+| `default` | Neutral information: muted by the host, host changed, link copied.                     |
+| `warning` | Something may degrade the call but it still works: unstable network, device fell back. |
+| `error`   | Something is blocked and needs action: no microphone or camera, permission denied.     |
+
+Warning (mustard with light text, matching the Toast) and error (red with light text) are solid fills
+that read the same on dark and light surfaces, so `appearance` does not change
+them.
+Reactions and raised hands are participant signals, not alerts, and ignore
+`tone`. Pass `icon` to match the cause (for example a camera-off icon for a
+missing camera); otherwise warning shows an alert icon and error an
+alert-circle icon. Screen readers hear a hidden "Warning" or
+"Error" before the message; pass `toneLabel` to translate it.
+
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    padding: '1rem 0',
+  }}
+>
+  <CallNotice
+    type="other"
+    tone="warning"
+    message="Call quality may be degraded due to unstable network conditions."
+  />
+  <CallNotice
+    type="other"
+    tone="error"
+    message="Allow microphone access to Mattermost."
+  />
+</div>
+
+<Divider />
+
 ## Sizes
 
 Three sizes match the call surface — **Small** for compact in-call rails,
@@ -83,3 +165,19 @@ app-level feedback outside it.
 
 For props, variants, and copy-ready examples, see the
 [Call Notice specimen page](/components/call-notice/specimen).
+
+```tsx
+import { CallNotice } from '@mattermost/compass-proto';
+import VideoOffOutlineIcon from '@mattermost/compass-icons/components/video-off-outline';
+
+// Over the call widget (light surface)
+<CallNotice appearance="center-channel" type="other" message="Call link copied" />
+
+// A blocking problem, with a matching icon
+<CallNotice
+  type="other"
+  tone="error"
+  icon={<VideoOffOutlineIcon />}
+  message="Allow camera access to Mattermost."
+/>
+```
