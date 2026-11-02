@@ -7,12 +7,24 @@ import styles from './CallNotice.module.scss';
 
 export type CallNoticeSize = 'small' | 'medium' | 'large';
 export type CallNoticeType = 'reaction' | 'hand-raise' | 'other';
+export type CallNoticeAppearance = 'default' | 'center-channel';
 
 export interface CallNoticeProps extends HTMLAttributes<HTMLDivElement> {
   /** Size variant. Default: Small. */
   size?: CallNoticeSize;
   /** Pill type. Default: Reaction. */
   type?: CallNoticeType;
+  /**
+   * Surface the notice sits on. Named `appearance` to match Compass UI
+   * (`Button`, `Dropdown`: `'default' | 'inverted'`).
+   * - `default`: dark indigo pill (`--calls-bg`) for dark call surfaces
+   *   (stage, popout, mobile call screen).
+   * - `center-channel`: light pill (`--center-channel-bg`) with a border for
+   *   light surfaces such as the call widget. Works with every `type` and
+   *   `size`; `hand-raise` becomes an indigo-tinted pill with indigo text.
+   * Default: `default`.
+   */
+  appearance?: CallNoticeAppearance;
   /** Emoji to display for Reaction type. Default: 😀 */
   emoji?: string;
   /** Participant name / label text. */
@@ -31,6 +43,7 @@ export interface CallNoticeProps extends HTMLAttributes<HTMLDivElement> {
 export default function CallNotice({
   size = 'small',
   type = 'reaction',
+  appearance = 'default',
   emoji = '😀',
   label = 'Leonard R.',
   message = 'You have been muted by the host',
@@ -43,6 +56,8 @@ export default function CallNotice({
     styles[
       `call-notice--type-${type === 'hand-raise' ? 'hand-raise' : type === 'other' ? 'other' : 'reaction'}`
     ],
+    appearance === 'center-channel' &&
+      styles['call-notice--appearance-center-channel'],
     className,
   ]
     .filter(Boolean)

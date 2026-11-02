@@ -131,6 +131,41 @@
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Appearance modifiers
+  // ---------------------------------------------------------------------------
+
+  // Light surfaces (e.g. the call widget). Declared after the hand-raise type
+  // modifier so it wins at equal specificity.
+  &--appearance-center-channel {
+    background-color: var(--center-channel-bg);
+    border-color: rgba(var(--center-channel-color-rgb), 0.16);
+
+    .call-notice__inner {
+      background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
+    .call-notice__label,
+    .call-notice__leading-icon,
+    .call-notice__trailing-icon {
+      color: var(--center-channel-color);
+    }
+  }
+
+  // Hand raise on a light surface: indigo-tinted fill, indigo text and icon.
+  &--appearance-center-channel.call-notice--type-hand-raise {
+    background-color: var(--center-channel-bg);
+
+    .call-notice__inner {
+      background-color: rgba(var(--calls-bg-rgb), 0.08);
+    }
+
+    .call-notice__label,
+    .call-notice__leading-icon {
+      color: var(--calls-bg, var(--color-indigo-600));
+    }
+  }
+
   &--type-other {
     .call-notice__inner {
       gap: 5px;

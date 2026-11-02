@@ -44,6 +44,45 @@ a trailing icon.
 
 <Divider />
 
+## Appearance
+
+The `appearance` prop picks the surface the notice sits on.
+
+| Appearance       | Use when                                                                                            |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| `default`        | The notice floats over a dark call surface — the stage, popout, or mobile call screen. Dark indigo. |
+| `center-channel` | The notice sits over a light surface, such as the call widget. Light fill, border, and dark text.   |
+
+`center-channel` works with every type and size. Reaction and Other use the
+center-channel colors; Hand Raise keeps its indigo identity as an
+indigo-tinted pill with indigo text and icon.
+
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    padding: '1rem',
+    background: 'var(--center-channel-bg)',
+    borderRadius: 'var(--radius-m)',
+  }}
+>
+  <CallNotice appearance="center-channel" emoji="🎉" label="Leonard R." />
+  <CallNotice
+    appearance="center-channel"
+    type="hand-raise"
+    label="Leonard R."
+  />
+  <CallNotice
+    appearance="center-channel"
+    type="other"
+    message="You have been muted by the host"
+  />
+</div>
+
+<Divider />
+
 ## Sizes
 
 Three sizes match the call surface — **Small** for compact in-call rails,
