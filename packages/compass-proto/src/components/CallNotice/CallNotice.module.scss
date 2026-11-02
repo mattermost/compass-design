@@ -169,20 +169,18 @@
   // Severity tones (type="other" only). Solid fills, declared after appearance so
   // they win on either surface.
   &--tone-warning {
-    // Matches the mattermost-plugin-calls warning banner (rgb(255, 188, 31)).
-    // Palette token on purpose: --color-warning resolves to a darker mustard
-    // that gives the dark text poor contrast.
-    background-color: var(--color-yellow-400);
-    border-color: rgba(var(--color-neutral-900-rgb), 0.08);
+    // Same fill and text as Toast type="warning".
+    background-color: rgb(var(--semantic-color-warning));
+    border-color: rgba(var(--center-channel-color-rgb), 0.08);
 
     .call-notice__inner {
-      background-color: rgba(var(--color-neutral-900-rgb), 0.08);
+      background-color: rgba(var(--color-neutral-0-rgb), 0.16);
     }
 
     .call-notice__label,
     .call-notice__leading-icon,
     .call-notice__trailing-icon {
-      color: var(--color-neutral-900);
+      color: var(--color-neutral-0);
     }
   }
 
