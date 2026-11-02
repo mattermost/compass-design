@@ -824,15 +824,12 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
       case 'Enter':
         // keyCode 229 covers older Safari, which doesn't set isComposing
         if (e.nativeEvent.isComposing || e.keyCode === 229) break;
-        if (isOpen) {
+        if (isOpen || !submitOnEnter) {
           e.preventDefault();
           e.stopPropagation();
-          if (activeIndex >= 0 && rows[activeIndex]) {
-            selectRow(rows[activeIndex]);
-          }
-        } else if (!submitOnEnter) {
-          e.preventDefault();
-          e.stopPropagation();
+        }
+        if (isOpen && activeIndex >= 0 && rows[activeIndex]) {
+          selectRow(rows[activeIndex]);
         }
         break;
       case 'Escape':
