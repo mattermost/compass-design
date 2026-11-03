@@ -14,11 +14,18 @@ import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import type { ComponentType } from 'react';
+import type { ComponentType, MouseEvent } from 'react';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
 export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
+
+/**
+ * Click handler for Global Header controls. Receives the click event so hosts can
+ * use `event.currentTarget` as the anchor for a menu or popover they own.
+ * Handlers that take no arguments remain valid.
+ */
+export type GlobalHeaderClickHandler = (event: MouseEvent<HTMLElement>) => void;
 
 export interface GlobalHeaderProps {
   /** Optional CSS class name. */
@@ -34,33 +41,33 @@ export interface GlobalHeaderProps {
   /** Alt text for the signed-in user avatar. */
   userAvatarAlt?: string;
   /** When set, Recent mentions (@) calls this on click. Channels product only. */
-  onRecentMentionsClick?: () => void;
+  onRecentMentionsClick?: GlobalHeaderClickHandler;
   /** When true, Recent mentions shows as toggled/selected. */
   recentMentionsActive?: boolean;
   /** When set, the Product switcher button calls this on click. */
-  onProductSwitcherClick?: () => void;
+  onProductSwitcherClick?: GlobalHeaderClickHandler;
   /** When true, the Product switcher shows as toggled/selected (e.g. while its menu is open). */
   productSwitcherActive?: boolean;
   /** When set, Back calls this on click. */
-  onBackClick?: () => void;
+  onBackClick?: GlobalHeaderClickHandler;
   /** When set, Forward calls this on click. */
-  onForwardClick?: () => void;
+  onForwardClick?: GlobalHeaderClickHandler;
   /** When set, Help calls this on click (center cluster on Channels, right cluster otherwise). */
-  onHelpClick?: () => void;
+  onHelpClick?: GlobalHeaderClickHandler;
   /** When true, Help shows as toggled/selected. */
   helpActive?: boolean;
   /** When set, the Search field calls this on click. Channels product only. */
-  onSearchClick?: () => void;
+  onSearchClick?: GlobalHeaderClickHandler;
   /** When set, Saved messages calls this on click. Channels product only. */
-  onSavedMessagesClick?: () => void;
+  onSavedMessagesClick?: GlobalHeaderClickHandler;
   /** When true, Saved messages shows as toggled/selected. */
   savedMessagesActive?: boolean;
   /** When set, Settings (cog) calls this on click. */
-  onSettingsClick?: () => void;
+  onSettingsClick?: GlobalHeaderClickHandler;
   /** When true, Settings shows as toggled/selected. */
   settingsActive?: boolean;
   /** When set, the Account menu button calls this on click. */
-  onAccountClick?: () => void;
+  onAccountClick?: GlobalHeaderClickHandler;
   /** When true, the Account menu button shows as active (`aria-expanded`, selected styling). */
   accountActive?: boolean;
 }
@@ -88,7 +95,7 @@ function InvertedIconButton({
 }: {
   ariaLabel: string;
   glyph: React.ReactNode;
-  onClick?: () => void;
+  onClick?: GlobalHeaderClickHandler;
   toggled?: boolean;
 }) {
   return (
@@ -124,8 +131,8 @@ function Navigator({
   onBackClick,
   onForwardClick,
 }: {
-  onBackClick?: () => void;
-  onForwardClick?: () => void;
+  onBackClick?: GlobalHeaderClickHandler;
+  onForwardClick?: GlobalHeaderClickHandler;
 }) {
   return (
     <div className={styles['global-header__navigator']}>
