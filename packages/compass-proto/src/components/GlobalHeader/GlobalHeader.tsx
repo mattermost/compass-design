@@ -37,6 +37,32 @@ export interface GlobalHeaderProps {
   onRecentMentionsClick?: () => void;
   /** When true, Recent mentions shows as toggled/selected. */
   recentMentionsActive?: boolean;
+  /** When set, the Product switcher button calls this on click. */
+  onProductSwitcherClick?: () => void;
+  /** When true, the Product switcher shows as toggled/selected (e.g. while its menu is open). */
+  productSwitcherActive?: boolean;
+  /** When set, Back calls this on click. */
+  onBackClick?: () => void;
+  /** When set, Forward calls this on click. */
+  onForwardClick?: () => void;
+  /** When set, Help calls this on click (center cluster on Channels, right cluster otherwise). */
+  onHelpClick?: () => void;
+  /** When true, Help shows as toggled/selected. */
+  helpActive?: boolean;
+  /** When set, the Search field calls this on click. Channels product only. */
+  onSearchClick?: () => void;
+  /** When set, Saved messages calls this on click. Channels product only. */
+  onSavedMessagesClick?: () => void;
+  /** When true, Saved messages shows as toggled/selected. */
+  savedMessagesActive?: boolean;
+  /** When set, Settings (cog) calls this on click. */
+  onSettingsClick?: () => void;
+  /** When true, Settings shows as toggled/selected. */
+  settingsActive?: boolean;
+  /** When set, the Account menu button calls this on click. */
+  onAccountClick?: () => void;
+  /** When true, the Account menu button shows as active (`aria-expanded`, selected styling). */
+  accountActive?: boolean;
 }
 
 const PRODUCT_ICON: Record<
@@ -68,6 +94,7 @@ function InvertedIconButton({
   return (
     <WithTooltip label={ariaLabel}>
       <IconButton
+        aria-label={ariaLabel}
         size="small"
         padding="compact"
         style="inverted"
@@ -93,11 +120,25 @@ function ProductBrand({ product }: { product: GlobalHeaderProduct }) {
   );
 }
 
-function Navigator() {
+function Navigator({
+  onBackClick,
+  onForwardClick,
+}: {
+  onBackClick?: () => void;
+  onForwardClick?: () => void;
+}) {
   return (
     <div className={styles['global-header__navigator']}>
-      <InvertedIconButton ariaLabel="Back" glyph={<ArrowLeftIcon />} />
-      <InvertedIconButton ariaLabel="Forward" glyph={<ArrowRightIcon />} />
+      <InvertedIconButton
+        ariaLabel="Back"
+        glyph={<ArrowLeftIcon />}
+        onClick={onBackClick}
+      />
+      <InvertedIconButton
+        ariaLabel="Forward"
+        glyph={<ArrowRightIcon />}
+        onClick={onForwardClick}
+      />
     </div>
   );
 }
@@ -122,6 +163,19 @@ export default function GlobalHeader({
   userAvatarAlt = 'User',
   onRecentMentionsClick,
   recentMentionsActive = false,
+  onProductSwitcherClick,
+  productSwitcherActive = false,
+  onBackClick,
+  onForwardClick,
+  onHelpClick,
+  helpActive = false,
+  onSearchClick,
+  onSavedMessagesClick,
+  savedMessagesActive = false,
+  onSettingsClick,
+  settingsActive = false,
+  onAccountClick,
+  accountActive = false,
 }: GlobalHeaderProps) {
   const isChannels = product === 'channels';
   const showBrand = isChannels ? showChannelsBranding : true;
@@ -142,9 +196,11 @@ export default function GlobalHeader({
         <InvertedIconButton
           ariaLabel="Product switcher"
           glyph={<ProductsIcon />}
+          onClick={onProductSwitcherClick}
+          toggled={productSwitcherActive}
         />
         {showBrand && <ProductBrand product={product} />}
-        <Navigator />
+        <Navigator onBackClick={onBackClick} onForwardClick={onForwardClick} />
       </div>
 
       {isChannels && (
@@ -158,11 +214,14 @@ export default function GlobalHeader({
               className={styles['global-header__search-input']}
               placeholder="Search"
               aria-label="Search"
+              onClick={onSearchClick}
             />
           </div>
           <InvertedIconButton
             ariaLabel="Help"
             glyph={<HelpCircleOutlineIcon />}
+            onClick={onHelpClick}
+            toggled={helpActive}
           />
         </div>
       )}
@@ -190,6 +249,8 @@ export default function GlobalHeader({
             <InvertedIconButton
               ariaLabel="Saved messages"
               glyph={<BookmarkOutlineIcon />}
+              onClick={onSavedMessagesClick}
+              toggled={savedMessagesActive}
             />
           </>
         )}
@@ -197,12 +258,27 @@ export default function GlobalHeader({
           <InvertedIconButton
             ariaLabel="Help"
             glyph={<HelpCircleOutlineIcon />}
+            onClick={onHelpClick}
+            toggled={helpActive}
           />
         )}
-        <InvertedIconButton ariaLabel="Settings" glyph={<CogOutlineIcon />} />
+        <InvertedIconButton
+          ariaLabel="Settings"
+          glyph={<CogOutlineIcon />}
+          onClick={onSettingsClick}
+          toggled={settingsActive}
+        />
         <button
-          className={styles['global-header__account']}
+          type="button"
+          className={[
+            styles['global-header__account'],
+            accountActive ? styles['global-header__account--active'] : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           aria-label="Account menu"
+          aria-expanded={accountActive || undefined}
+          onClick={onAccountClick}
         >
           <UserAvatar
             src={userAvatarSrc}

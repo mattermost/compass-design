@@ -121,6 +121,29 @@ another surface already states product context.
 
 <Divider />
 
+## Interactivity (props)
+
+All handlers are optional; omitting them leaves the control inert, as before.
+`*Active` props mirror `recentMentionsActive` and render the Icon Button as
+toggled (Account uses a selected background and `aria-expanded`).
+
+| Control                    | Click handler                         | Active prop             |
+| -------------------------- | ------------------------------------- | ----------------------- |
+| Product switcher           | `onProductSwitcherClick`              | `productSwitcherActive` |
+| Back                       | `onBackClick`                         | —                       |
+| Forward                    | `onForwardClick`                      | —                       |
+| Search (Channels)          | `onSearchClick` (on the search input) | —                       |
+| Help                       | `onHelpClick`                         | `helpActive`            |
+| Recent mentions (Channels) | `onRecentMentionsClick`               | `recentMentionsActive`  |
+| Saved messages (Channels)  | `onSavedMessagesClick`                | `savedMessagesActive`   |
+| Settings                   | `onSettingsClick`                     | `settingsActive`        |
+| Account menu               | `onAccountClick`                      | `accountActive`         |
+
+Each Icon Button receives its `aria-label` directly, so the accessible name does
+not depend on the tooltip wrapper.
+
+<Divider />
+
 ## Dimensions & search field
 
 - Header height is 40px, with tight horizontal padding on the bar and slightly
