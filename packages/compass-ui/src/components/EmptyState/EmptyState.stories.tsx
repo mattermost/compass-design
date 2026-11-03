@@ -73,3 +73,13 @@ export const InWideParent: Story = {
     </div>
   ),
 };
+
+export const BelowHeaderInFlexColumn: Story = {
+  args: TextOnly.args,
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', height: 320 }}>
+      <div style={{ flex: 'none', height: 60 }}>Header</div>
+      <EmptyState {...args} />
+    </div>
+  ),
+};

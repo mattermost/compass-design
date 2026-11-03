@@ -52,6 +52,23 @@ Tertiary button; don't stack multiple actions inside an empty state.
 
 <Divider />
 
+## Placement
+
+The empty state centers its content inside its own box, and its box is
+`height: 100%` of the parent. To center it in the space left over by a header or
+toolbar, make it a direct child of a **flex column with a definite height** — it
+shrinks to the free space and centers there without any extra styling.
+
+In a plain block parent with siblings above it, the box is still 100% of the
+parent, so it overflows by the height of those siblings and its content sits
+below the center of the free space. Switch the parent to a flex column instead
+of offsetting the empty state.
+
+When the parent sizes to its content (flex or grid centering), the component
+falls back to 240px wide; override it with `--empty-state-min-width`.
+
+<Divider />
+
 ## Implementation
 
 For props, variants, and copy-ready examples, see the
