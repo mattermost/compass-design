@@ -76,7 +76,7 @@ export interface GlobalHeaderProps {
   settingsActive?: boolean;
   /** When set, the Account menu button calls this on click. */
   onAccountClick?: GlobalHeaderClickHandler;
-  /** When true, the Account menu button shows as active (`aria-expanded`, selected styling). */
+  /** When true, the Account menu button shows as active (selected styling). Sets `aria-expanded` whenever `onAccountClick` is passed. */
   accountActive?: boolean;
 }
 
@@ -302,7 +302,9 @@ export default function GlobalHeader({
             .filter(Boolean)
             .join(' ')}
           aria-label="Account menu"
-          aria-expanded={accountActive || undefined}
+          aria-expanded={
+            onAccountClick ? accountActive : accountActive || undefined
+          }
           onClick={onAccountClick}
         >
           <UserAvatar
