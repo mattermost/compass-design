@@ -151,7 +151,8 @@
     cursor: pointer;
     transition: background-color var(--duration-quick) var(--ease-transition);
 
-    &:hover {
+    &:hover,
+    &--active {
       background: rgba(var(--sidebar-text-rgb), 0.08);
     }
   }

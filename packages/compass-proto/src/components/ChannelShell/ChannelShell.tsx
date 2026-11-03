@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ChannelsSidebar } from '../ChannelsSidebar';
 import type { ChannelsSidebarModel } from '../ChannelsSidebar';
 import { GlobalHeader } from '../GlobalHeader';
-import type { GlobalHeaderProduct } from '../GlobalHeader';
+import type { GlobalHeaderProduct, GlobalHeaderProps } from '../GlobalHeader';
 import { TeamSidebar, type TeamSidebarItem } from '../TeamSidebar';
 import styles from './ChannelShell.module.scss';
 
@@ -42,9 +42,29 @@ export interface ChannelShellProps {
   /** Layered surface over the shell (e.g. call popout). */
   overlay?: ReactNode;
   /** When set, Global Header Recent mentions (@) calls this on click. */
-  onRecentMentionsClick?: () => void;
+  onRecentMentionsClick?: GlobalHeaderProps['onRecentMentionsClick'];
   /** When true, Recent mentions shows as toggled/selected. */
   recentMentionsActive?: boolean;
+  /**
+   * Remaining Global Header click handlers and `*Active` flags, forwarded as-is.
+   * See `GlobalHeaderProps`.
+   */
+  globalHeaderProps?: Pick<
+    GlobalHeaderProps,
+    | 'onProductSwitcherClick'
+    | 'productSwitcherActive'
+    | 'onBackClick'
+    | 'onForwardClick'
+    | 'onHelpClick'
+    | 'helpActive'
+    | 'onSearchClick'
+    | 'onSavedMessagesClick'
+    | 'savedMessagesActive'
+    | 'onSettingsClick'
+    | 'settingsActive'
+    | 'onAccountClick'
+    | 'accountActive'
+  >;
   className?: string;
 }
 
@@ -66,6 +86,7 @@ export default function ChannelShell({
   overlay,
   onRecentMentionsClick,
   recentMentionsActive,
+  globalHeaderProps,
   className = '',
 }: ChannelShellProps) {
   const rootClass = [styles['channel-shell'], className]
@@ -98,6 +119,7 @@ export default function ChannelShell({
           userAvatarAlt={userAvatarAlt}
           onRecentMentionsClick={onRecentMentionsClick}
           recentMentionsActive={recentMentionsActive}
+          {...globalHeaderProps}
         />
       </div>
 

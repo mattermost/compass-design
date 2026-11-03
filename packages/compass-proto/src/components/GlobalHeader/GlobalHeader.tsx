@@ -14,11 +14,26 @@ import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import type { ComponentType } from 'react';
+import type { ComponentType, MouseEvent, SyntheticEvent } from 'react';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
 export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
+
+/**
+ * Click handler for Global Header controls. Receives the click event so hosts can
+ * use `event.currentTarget` as the anchor for a menu or popover they own.
+ * Handlers that take no arguments remain valid.
+ */
+export type GlobalHeaderClickHandler = (event: MouseEvent<HTMLElement>) => void;
+
+/**
+ * Handler for the Search field. Fires on click and on Enter, so it receives a
+ * `SyntheticEvent`; `event.currentTarget` is the search input.
+ */
+export type GlobalHeaderSearchHandler = (
+  event: SyntheticEvent<HTMLElement>,
+) => void;
 
 export interface GlobalHeaderProps {
   /** Optional CSS class name. */
@@ -34,9 +49,35 @@ export interface GlobalHeaderProps {
   /** Alt text for the signed-in user avatar. */
   userAvatarAlt?: string;
   /** When set, Recent mentions (@) calls this on click. Channels product only. */
-  onRecentMentionsClick?: () => void;
+  onRecentMentionsClick?: GlobalHeaderClickHandler;
   /** When true, Recent mentions shows as toggled/selected. */
   recentMentionsActive?: boolean;
+  /** When set, the Product switcher button calls this on click. */
+  onProductSwitcherClick?: GlobalHeaderClickHandler;
+  /** When true, the Product switcher shows as toggled/selected (e.g. while its menu is open). Also sets `aria-expanded` when a click handler is provided. */
+  productSwitcherActive?: boolean;
+  /** When set, Back calls this on click. */
+  onBackClick?: GlobalHeaderClickHandler;
+  /** When set, Forward calls this on click. */
+  onForwardClick?: GlobalHeaderClickHandler;
+  /** When set, Help calls this on click (center cluster on Channels, right cluster otherwise). */
+  onHelpClick?: GlobalHeaderClickHandler;
+  /** When true, Help shows as toggled/selected. Also sets `aria-expanded` when a click handler is provided. */
+  helpActive?: boolean;
+  /** When set, the Search field calls this on click and on Enter. Channels product only. */
+  onSearchClick?: GlobalHeaderSearchHandler;
+  /** When set, Saved messages calls this on click. Channels product only. */
+  onSavedMessagesClick?: GlobalHeaderClickHandler;
+  /** When true, Saved messages shows as toggled/selected. */
+  savedMessagesActive?: boolean;
+  /** When set, Settings (cog) calls this on click. */
+  onSettingsClick?: GlobalHeaderClickHandler;
+  /** When true, Settings shows as toggled/selected. */
+  settingsActive?: boolean;
+  /** When set, the Account menu button calls this on click. */
+  onAccountClick?: GlobalHeaderClickHandler;
+  /** When true, the Account menu button shows as active (selected styling). Sets `aria-expanded` whenever `onAccountClick` is passed. */
+  accountActive?: boolean;
 }
 
 const PRODUCT_ICON: Record<
@@ -59,21 +100,26 @@ function InvertedIconButton({
   glyph,
   onClick,
   toggled,
+  expanded,
 }: {
   ariaLabel: string;
   glyph: React.ReactNode;
-  onClick?: () => void;
+  onClick?: GlobalHeaderClickHandler;
   toggled?: boolean;
+  /** Menu triggers: exposes open/closed via `aria-expanded`. */
+  expanded?: boolean;
 }) {
   return (
     <WithTooltip label={ariaLabel}>
       <IconButton
+        aria-label={ariaLabel}
         size="small"
         padding="compact"
         style="inverted"
         icon={<Icon size="16" glyph={glyph} />}
         onClick={onClick}
         toggled={toggled}
+        aria-expanded={expanded}
       />
     </WithTooltip>
   );
@@ -93,11 +139,25 @@ function ProductBrand({ product }: { product: GlobalHeaderProduct }) {
   );
 }
 
-function Navigator() {
+function Navigator({
+  onBackClick,
+  onForwardClick,
+}: {
+  onBackClick?: GlobalHeaderClickHandler;
+  onForwardClick?: GlobalHeaderClickHandler;
+}) {
   return (
     <div className={styles['global-header__navigator']}>
-      <InvertedIconButton ariaLabel="Back" glyph={<ArrowLeftIcon />} />
-      <InvertedIconButton ariaLabel="Forward" glyph={<ArrowRightIcon />} />
+      <InvertedIconButton
+        ariaLabel="Back"
+        glyph={<ArrowLeftIcon />}
+        onClick={onBackClick}
+      />
+      <InvertedIconButton
+        ariaLabel="Forward"
+        glyph={<ArrowRightIcon />}
+        onClick={onForwardClick}
+      />
     </div>
   );
 }
@@ -122,6 +182,19 @@ export default function GlobalHeader({
   userAvatarAlt = 'User',
   onRecentMentionsClick,
   recentMentionsActive = false,
+  onProductSwitcherClick,
+  productSwitcherActive = false,
+  onBackClick,
+  onForwardClick,
+  onHelpClick,
+  helpActive = false,
+  onSearchClick,
+  onSavedMessagesClick,
+  savedMessagesActive = false,
+  onSettingsClick,
+  settingsActive = false,
+  onAccountClick,
+  accountActive = false,
 }: GlobalHeaderProps) {
   const isChannels = product === 'channels';
   const showBrand = isChannels ? showChannelsBranding : true;
@@ -142,9 +215,12 @@ export default function GlobalHeader({
         <InvertedIconButton
           ariaLabel="Product switcher"
           glyph={<ProductsIcon />}
+          onClick={onProductSwitcherClick}
+          toggled={productSwitcherActive}
+          expanded={onProductSwitcherClick ? productSwitcherActive : undefined}
         />
         {showBrand && <ProductBrand product={product} />}
-        <Navigator />
+        <Navigator onBackClick={onBackClick} onForwardClick={onForwardClick} />
       </div>
 
       {isChannels && (
@@ -158,11 +234,20 @@ export default function GlobalHeader({
               className={styles['global-header__search-input']}
               placeholder="Search"
               aria-label="Search"
+              onClick={onSearchClick}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
+                  onSearchClick?.(event);
+                }
+              }}
             />
           </div>
           <InvertedIconButton
             ariaLabel="Help"
             glyph={<HelpCircleOutlineIcon />}
+            onClick={onHelpClick}
+            toggled={helpActive}
+            expanded={onHelpClick ? helpActive : undefined}
           />
         </div>
       )}
@@ -190,6 +275,8 @@ export default function GlobalHeader({
             <InvertedIconButton
               ariaLabel="Saved messages"
               glyph={<BookmarkOutlineIcon />}
+              onClick={onSavedMessagesClick}
+              toggled={savedMessagesActive}
             />
           </>
         )}
@@ -197,12 +284,30 @@ export default function GlobalHeader({
           <InvertedIconButton
             ariaLabel="Help"
             glyph={<HelpCircleOutlineIcon />}
+            onClick={onHelpClick}
+            toggled={helpActive}
+            expanded={onHelpClick ? helpActive : undefined}
           />
         )}
-        <InvertedIconButton ariaLabel="Settings" glyph={<CogOutlineIcon />} />
+        <InvertedIconButton
+          ariaLabel="Settings"
+          glyph={<CogOutlineIcon />}
+          onClick={onSettingsClick}
+          toggled={settingsActive}
+        />
         <button
-          className={styles['global-header__account']}
+          type="button"
+          className={[
+            styles['global-header__account'],
+            accountActive ? styles['global-header__account--active'] : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           aria-label="Account menu"
+          aria-expanded={
+            onAccountClick ? accountActive : accountActive || undefined
+          }
+          onClick={onAccountClick}
         >
           <UserAvatar
             src={userAvatarSrc}
