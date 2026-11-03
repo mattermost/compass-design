@@ -43,8 +43,8 @@
     align-items: center;
     width: 100%;
     // Caps the line length of the title and description so they stay readable
-    // in wide views. Hosts override it per use; `none` removes the cap.
-    max-width: var(--empty-state-max-width, 480px);
+    // in wide views.
+    max-width: 480px;
     gap: var(--spacing-s);
   }
 

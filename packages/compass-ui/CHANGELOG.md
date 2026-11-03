@@ -12,7 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
-- **`EmptyState` text width:** the title and description block is now capped at `max-width: 480px` (centered), so line length stays readable in wide views. Narrower containers are unaffected, and markup is unchanged. Hosts can override the cap with `--empty-state-max-width`; `none` removes it.
+- **`EmptyState` text width:** the title and description block is now capped at `max-width: 480px` (centered), so line length stays readable in wide views. Narrower containers are unaffected, and markup is unchanged.
 
 ### Fixed
 
