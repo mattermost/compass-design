@@ -142,7 +142,11 @@ toggled (Account uses a selected background and `aria-expanded`).
 Handlers receive the click event (`GlobalHeaderClickHandler`), so use
 `event.currentTarget` as the anchor for a menu or popover your host owns —
 `GlobalHeader` does not render or position menus. Handlers that take no
-arguments still work. `ChannelShell` forwards these through `globalHeaderProps`.
+arguments still work. `ChannelShell` forwards these through `globalHeaderProps`,
+except `onRecentMentionsClick` and `recentMentionsActive`, which stay top-level
+`ChannelShell` props. Product switcher and Help also set `aria-expanded` when a
+click handler is passed, so menu state is exposed to assistive technology.
+Search fires on click and on Enter.
 
 Each Icon Button receives its `aria-label` directly, so the accessible name does
 not depend on the tooltip wrapper.

@@ -14,7 +14,7 @@ import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import type { ComponentType, MouseEvent } from 'react';
+import type { ComponentType, MouseEvent, SyntheticEvent } from 'react';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
@@ -26,6 +26,14 @@ export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
  * Handlers that take no arguments remain valid.
  */
 export type GlobalHeaderClickHandler = (event: MouseEvent<HTMLElement>) => void;
+
+/**
+ * Handler for the Search field. Fires on click and on Enter, so it receives a
+ * `SyntheticEvent`; `event.currentTarget` is the search input.
+ */
+export type GlobalHeaderSearchHandler = (
+  event: SyntheticEvent<HTMLElement>,
+) => void;
 
 export interface GlobalHeaderProps {
   /** Optional CSS class name. */
@@ -46,7 +54,7 @@ export interface GlobalHeaderProps {
   recentMentionsActive?: boolean;
   /** When set, the Product switcher button calls this on click. */
   onProductSwitcherClick?: GlobalHeaderClickHandler;
-  /** When true, the Product switcher shows as toggled/selected (e.g. while its menu is open). */
+  /** When true, the Product switcher shows as toggled/selected (e.g. while its menu is open). Also sets `aria-expanded` when a click handler is provided. */
   productSwitcherActive?: boolean;
   /** When set, Back calls this on click. */
   onBackClick?: GlobalHeaderClickHandler;
@@ -54,10 +62,10 @@ export interface GlobalHeaderProps {
   onForwardClick?: GlobalHeaderClickHandler;
   /** When set, Help calls this on click (center cluster on Channels, right cluster otherwise). */
   onHelpClick?: GlobalHeaderClickHandler;
-  /** When true, Help shows as toggled/selected. */
+  /** When true, Help shows as toggled/selected. Also sets `aria-expanded` when a click handler is provided. */
   helpActive?: boolean;
-  /** When set, the Search field calls this on click. Channels product only. */
-  onSearchClick?: GlobalHeaderClickHandler;
+  /** When set, the Search field calls this on click and on Enter. Channels product only. */
+  onSearchClick?: GlobalHeaderSearchHandler;
   /** When set, Saved messages calls this on click. Channels product only. */
   onSavedMessagesClick?: GlobalHeaderClickHandler;
   /** When true, Saved messages shows as toggled/selected. */
@@ -92,11 +100,14 @@ function InvertedIconButton({
   glyph,
   onClick,
   toggled,
+  expanded,
 }: {
   ariaLabel: string;
   glyph: React.ReactNode;
   onClick?: GlobalHeaderClickHandler;
   toggled?: boolean;
+  /** Menu triggers: exposes open/closed via `aria-expanded`. */
+  expanded?: boolean;
 }) {
   return (
     <WithTooltip label={ariaLabel}>
@@ -108,6 +119,7 @@ function InvertedIconButton({
         icon={<Icon size="16" glyph={glyph} />}
         onClick={onClick}
         toggled={toggled}
+        aria-expanded={expanded}
       />
     </WithTooltip>
   );
@@ -205,6 +217,7 @@ export default function GlobalHeader({
           glyph={<ProductsIcon />}
           onClick={onProductSwitcherClick}
           toggled={productSwitcherActive}
+          expanded={onProductSwitcherClick ? productSwitcherActive : undefined}
         />
         {showBrand && <ProductBrand product={product} />}
         <Navigator onBackClick={onBackClick} onForwardClick={onForwardClick} />
@@ -222,6 +235,9 @@ export default function GlobalHeader({
               placeholder="Search"
               aria-label="Search"
               onClick={onSearchClick}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') onSearchClick?.(event);
+              }}
             />
           </div>
           <InvertedIconButton
@@ -229,6 +245,7 @@ export default function GlobalHeader({
             glyph={<HelpCircleOutlineIcon />}
             onClick={onHelpClick}
             toggled={helpActive}
+            expanded={onHelpClick ? helpActive : undefined}
           />
         </div>
       )}
@@ -267,6 +284,7 @@ export default function GlobalHeader({
             glyph={<HelpCircleOutlineIcon />}
             onClick={onHelpClick}
             toggled={helpActive}
+            expanded={onHelpClick ? helpActive : undefined}
           />
         )}
         <InvertedIconButton
