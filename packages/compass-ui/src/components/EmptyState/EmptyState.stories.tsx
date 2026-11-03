@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
@@ -24,7 +24,8 @@ type Story = StoryObj<typeof meta>;
  * Sample `actionSlot` content: a button with a trailing chevron that opens a popover menu.
  * `PopoverMenu` is only the surface, so the host owns open state and positioning. The
  * empty state sits inside a scroll container that would clip a menu rendered in place, so
- * the menu is portaled to `document.body` and positioned under the button.
+ * the menu is portaled to `document.body` and positioned under the button. It closes on
+ * an outside click, Escape, scroll and resize.
  */
 function AddConnectionMenu() {
   const [open, setOpen] = useState(false);
@@ -34,6 +35,27 @@ function AddConnectionMenu() {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   useOutsideClose(triggerRef, open, () => setOpen(false), menuRef);
+
+  // Escape closes the menu and returns focus to the trigger. The menu is positioned
+  // from the trigger's rect when it opens, so close it if the trigger can move.
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        close();
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, [open]);
 
   const toggle = () => {
     if (!open) {
