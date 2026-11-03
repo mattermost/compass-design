@@ -112,6 +112,12 @@ function buildExports() {
       import: './dist/utils/string.js',
       require: './dist/utils/string.cjs',
     },
+    // Test-only: strips CSS-module hashes from consumer snapshots (#189).
+    './testing/snapshot-serializer': {
+      types: './dist/testing/snapshot-serializer.d.ts',
+      import: './dist/testing/snapshot-serializer.js',
+      require: './dist/testing/snapshot-serializer.cjs',
+    },
     './styles': {
       import: './dist/compass-ui.css',
       default: './dist/compass-ui.css',
@@ -129,6 +135,7 @@ function buildTypesVersions(components, hooks, illustrations) {
     'hooks/*': ['./dist/hooks/*.d.ts'],
     'illustrations/*': ['./dist/illustrations/*.d.ts'],
     'utils/string': ['./dist/utils/string.d.ts'],
+    'testing/snapshot-serializer': ['./dist/testing/snapshot-serializer.d.ts'],
   };
 
   for (const name of components) {

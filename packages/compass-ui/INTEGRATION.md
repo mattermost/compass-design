@@ -117,13 +117,14 @@ import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import { useExitAnimation } from '@mattermost/compass-ui/hooks/use-exit-animation';
 ```
 
-| Import style                                        | When to use                                                                |
-| --------------------------------------------------- | -------------------------------------------------------------------------- |
-| `@mattermost/compass-ui/components/<kebab-name>`    | **Default** — components, types, and style sub-exports from that component |
-| `@mattermost/compass-ui/illustrations/<kebab-name>` | Brand SVG artwork as React components (`search`, `groups`, …)              |
-| `@mattermost/compass-ui/hooks/<kebab-name>`         | Shared hooks                                                               |
-| `@mattermost/compass-ui/utils/string`               | `toKebab` and string helpers                                               |
-| `@mattermost/compass-ui` (root barrel)              | Legacy only — loads the full package; avoid in Jest                        |
+| Import style                                         | When to use                                                                                            |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `@mattermost/compass-ui/components/<kebab-name>`     | **Default** — components, types, and style sub-exports from that component                             |
+| `@mattermost/compass-ui/illustrations/<kebab-name>`  | Brand SVG artwork as React components (`search`, `groups`, …)                                          |
+| `@mattermost/compass-ui/hooks/<kebab-name>`          | Shared hooks                                                                                           |
+| `@mattermost/compass-ui/utils/string`                | `toKebab` and string helpers                                                                           |
+| `@mattermost/compass-ui/testing/snapshot-serializer` | Test config only — [stable class names in snapshots](#stable-class-names-in-snapshots-jest-and-vitest) |
+| `@mattermost/compass-ui` (root barrel)               | Legacy only — loads the full package; avoid in Jest                                                    |
 
 PascalCase component folders map to kebab-case subpaths: `ChannelSidebarItem` → `components/channel-sidebar-item`.
 
@@ -363,6 +364,47 @@ Order matters: list the `hooks/`, `illustrations/`, and `utils/string` patterns 
 2. Add Jest `moduleNameMapper` entries above.
 3. Migrate imports leaf-first — start with `confirm_modal.tsx` and other early adopters.
 4. Avoid mocking the entire package unless you need to stub behavior; subpaths remove the need for global mocks.
+
+### Stable class names in snapshots (Jest and Vitest)
+
+Compass component classes are pre-compiled CSS modules named `_<class>_<hash>_<line>`, e.g. `_icon-button--size-small_13ryy_77`. The hash comes from the stylesheet's contents, so a Compass release that only restyles a component still changes every snapshot that renders it.
+
+The hash stays in production on purpose. Plugins bundle their own compass-ui copy and run on the same page as the webapp's, and the content hash keeps two versions' styles from overriding each other. For tests, add the Compass snapshot serializer. It rewrites `_icon-button--size-small_13ryy_77` to `icon-button--size-small` in snapshot output only, and leaves every other string untouched.
+
+**Jest** (`webapp/channels/jest.config.js`, each plugin's Jest config):
+
+```js
+module.exports = {
+  // …
+  snapshotSerializers: [
+    // …existing serializers…
+    require.resolve('@mattermost/compass-ui/testing/snapshot-serializer'),
+  ],
+};
+```
+
+Use `require.resolve` rather than the bare specifier: it resolves through the package `exports` to `dist/testing/snapshot-serializer.cjs` and is not affected by the generic `^@mattermost/compass-ui/(.*)$` `moduleNameMapper` rule above.
+
+**Vitest:**
+
+```ts
+export default defineConfig({
+  test: {
+    snapshotSerializers: ['@mattermost/compass-ui/testing/snapshot-serializer'],
+  },
+});
+```
+
+It covers React Testing Library DOM snapshots, `react-test-renderer`, `enzyme-to-json` and plain objects (anything printed through pretty-format), in file and inline snapshots. It does not change the DOM, so `container.querySelector('.icon-button')` still won't match. Query by role, label, text or `data-testid` instead of Compass class names.
+
+**Consumer migration (one PR per repo):**
+
+1. Upgrade to the compass-ui version that ships `testing/snapshot-serializer` (see the CHANGELOG).
+2. Add the serializer line above.
+3. Remove any hand-written mocks of Compass CSS modules. In the webapp that is `webapp/channels/src/tests/mocks/compass_switch_styles.js` and its `Switch\.module\.scss\.(js|cjs)` `moduleNameMapper` entry. Compass classes are then unhashed for every component, not just `Switch`.
+4. Regenerate snapshots once (`jest -u` / `vitest -u`). Every Compass class loses its hash suffix; review that the diff is only that. Do this in its own PR, not inside a Compass version bump, so later bumps show only real changes.
+
+After that, a Compass release that only changes stylesheet contents leaves your snapshots alone. Adding, removing or renaming a Compass class still changes them, as it should.
 
 ### Proto playground (`mattermost-proto-playground`)
 
@@ -613,6 +655,7 @@ dist/components/scrollbar/simplebar-vendor.css  # SimpleBar CSS in @layer compas
 dist/hooks/                   # hook modules
 dist/illustrations/            # brand SVG artwork as React components
 dist/utils/string.*           # string helpers
+dist/testing/snapshot-serializer.*  # test-only: strips class hashes from snapshots
 ```
 
 Storybook, `src/`, and `*.stories.tsx` are **not** in the tarball.

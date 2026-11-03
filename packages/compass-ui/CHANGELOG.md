@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`@mattermost/compass-ui/testing/snapshot-serializer`:** a Jest / Vitest snapshot serializer that strips the build hash from Compass CSS-module class names in snapshot output (`_icon-button--size-small_13ryy_77` → `icon-button--size-small`), so a release that only changes stylesheets no longer changes consumer snapshots. Add it to `snapshotSerializers` in your test config; production class names are unchanged. Setup and migration steps are in [INTEGRATION.md](./INTEGRATION.md#stable-class-names-in-snapshots-jest-and-vitest). The build now fails if a generated class name stops matching the serializer's pattern.
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added

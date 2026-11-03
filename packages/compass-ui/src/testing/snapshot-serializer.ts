@@ -1,0 +1,71 @@
+/**
+ * Jest / Vitest snapshot serializer that strips the build hash from
+ * compass-ui CSS-module class names.
+ *
+ * compass-ui ships pre-compiled CSS modules named `_<class>_<hash>_<line>`
+ * (e.g. `_icon-button--size-small_13ryy_77`). The hash comes from the
+ * stylesheet's contents, so any style change in a release changes it and
+ * every consumer snapshot that renders the component. Production keeps the
+ * hash on purpose: plugins bundle their own compass-ui copy on the same page,
+ * and content hashes stop different versions' styles from colliding.
+ *
+ * This serializer rewrites those tokens back to `<class>` in snapshots only,
+ * leaving every other string untouched:
+ *
+ * ```js
+ * // jest.config.js
+ * snapshotSerializers: [require.resolve('@mattermost/compass-ui/testing/snapshot-serializer')],
+ * // vitest.config.ts
+ * test: { snapshotSerializers: ['@mattermost/compass-ui/testing/snapshot-serializer'] },
+ * ```
+ *
+ * `scripts/verify-compass-ui-dist.mjs` fails the build if a generated class
+ * name stops matching this pattern.
+ */
+
+/** One hashed compass-ui class token; captures the authored class name. */
+export const HASHED_CLASS_TOKEN = /(^|\s)_([a-z][\w-]*)_[a-z0-9]+_\d+(?=\s|$)/g;
+
+// Separate non-global copy: `.test()` on a /g regex is stateful (lastIndex).
+const HAS_HASHED_CLASS = new RegExp(HASHED_CLASS_TOKEN.source);
+
+/** Removes the hash and line suffix from every compass-ui class token. */
+export function stripCompassClassHashes(value: string): string {
+  return value.replace(HASHED_CLASS_TOKEN, '$1$2');
+}
+
+/** pretty-format's printer callback (typed locally so consumers need no extra types). */
+type Printer = (
+  val: unknown,
+  config: unknown,
+  indentation: string,
+  depth: number,
+  refs: unknown,
+) => string;
+
+export function test(val: unknown): boolean {
+  return typeof val === 'string' && HAS_HASHED_CLASS.test(val);
+}
+
+export function serialize(
+  val: string,
+  config: unknown,
+  indentation: string,
+  depth: number,
+  refs: unknown,
+  printer: Printer,
+): string {
+  // Re-enter the printer so strings keep their normal quoting and escaping;
+  // the stripped value no longer matches `test`, so this does not recurse.
+  return printer(
+    stripCompassClassHashes(val),
+    config,
+    indentation,
+    depth,
+    refs,
+  );
+}
+
+/** Named exports serve Jest (CJS); `default` serves Vitest, which reads it. */
+const compassSnapshotSerializer = { test, serialize };
+export default compassSnapshotSerializer;
