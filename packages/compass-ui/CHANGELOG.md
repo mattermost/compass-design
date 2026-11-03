@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`EmptyState` `actionSlot`:** optional `ReactNode` for the action area, for controls `action` can't describe, such as a menu trigger, a split button or a permission-gated control. Rendered below the description, after `action` when both are set. The action area wraps and is spaced with a small gap. Without it the markup is unchanged.
+
 ## [0.1.0-alpha.26] - 2026-11-02
 
 ### Added
