@@ -50,6 +50,10 @@ The action button defaults to **Medium** size — leave the `size` prop unset
 unless a Figma spec calls for a different size. Use a single Primary or
 Tertiary button; don't stack multiple actions inside an empty state.
 
+When the action isn't a plain button — a menu trigger, a split button, or a
+permission-gated control — pass it as `actionSlot` instead of `action`. Prefer
+`action` whenever a single button is enough.
+
 <Divider />
 
 ## Placement

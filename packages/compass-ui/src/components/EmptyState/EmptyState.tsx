@@ -31,6 +31,14 @@ export interface EmptyStateProps extends Omit<
   descriptionAs?: EmptyStateDescriptionElement;
   /** Button props (children = label). Rendered below the description. */
   action?: ButtonProps;
+  /**
+   * Custom node for the action area, for controls `action` can't describe: a menu trigger,
+   * a split button, or a permission-gated control. Rendered below the description, after
+   * `action` when both are set. Prefer `action` for a single plain button. The slot sits
+   * inside the scroll container, so a menu or popover rendered here should portal outside
+   * the scroll viewport; otherwise it can be clipped.
+   */
+  actionSlot?: ReactNode;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -47,6 +55,7 @@ export default function EmptyState({
   description,
   descriptionAs: Description = 'p',
   action,
+  actionSlot,
   className = '',
   ...rest
 }: EmptyStateProps) {
@@ -70,9 +79,10 @@ export default function EmptyState({
             </Description>
           )}
         </div>
-        {action != null && (
+        {(action != null || actionSlot != null) && (
           <div className={styles['empty-state__action']}>
-            <Button {...action} />
+            {action != null && <Button {...action} />}
+            {actionSlot}
           </div>
         )}
       </div>

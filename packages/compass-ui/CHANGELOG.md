@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`EmptyState` `titleLevel` / `descriptionAs`:** optional. `titleLevel` (`1`–`6`, default `2`) sets the heading level of the title so it can fit the surrounding heading outline, for example `3` in a modal body. `descriptionAs` (`'p'` or `'div'`, default `'p'`) lets a description that contains block content use a `div`, since a `<p>` can't hold paragraphs or lists. Defaults match the current markup.
+- **`EmptyState` `actionSlot`:** optional `ReactNode` for the action area, for controls `action` can't describe, such as a menu trigger, a split button or a permission-gated control. Rendered below the description, after `action` when both are set. The action area wraps and is spaced with a small gap. Without it the markup is unchanged.
 
 ### Changed
 
