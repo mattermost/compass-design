@@ -6,9 +6,15 @@
   // is out of flow, so without this the component collapses to its padding.
   // Inline-size containment makes the fallback apply only in that case: a parent
   // with a definite width still wins, so narrow parents are not forced to overflow.
-  // Hosts can override the fallback with --empty-state-min-width.
+  // The fallback is capped at the viewport width, and min-width: 0 lets a flex or
+  // grid item shrink below it in a narrow parent. Hosts can override the fallback
+  // with --empty-state-min-width.
+  min-width: 0;
   contain: inline-size;
-  contain-intrinsic-inline-size: var(--empty-state-min-width, 240px);
+  contain-intrinsic-inline-size: var(
+    --empty-state-min-width,
+    min(240px, 100vw)
+  );
   background-color: var(--center-channel-bg);
 
   // Centering lives inside the scroll viewport (SimpleBar's .simplebar-content)

@@ -61,7 +61,9 @@ permission-gated control — pass it as `actionSlot` instead of `action`. Prefer
 The empty state centers its content inside its own box, and its box is
 `height: 100%` of the parent. To center it in the space left over by a header or
 toolbar, make it a direct child of a **flex column with a definite height** — it
-shrinks to the free space and centers there without any extra styling.
+shrinks to the free space and centers there without any extra styling. Keep the
+header from shrinking too (`flex: none`), or it gives up height to the empty
+state.
 
 In a plain block parent with siblings above it, the box is still 100% of the
 parent, so it overflows by the height of those siblings and its content sits
