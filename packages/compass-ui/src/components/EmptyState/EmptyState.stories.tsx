@@ -83,3 +83,17 @@ export const BelowHeaderInFlexColumn: Story = {
     </div>
   ),
 };
+
+export const InModalBody: Story = {
+  args: {
+    title: 'No members yet',
+    titleLevel: 3,
+    description: (
+      <>
+        <p>There are currently no members in this group.</p>
+        <p>Add one to get started.</p>
+      </>
+    ),
+    descriptionAs: 'div',
+  },
+};
