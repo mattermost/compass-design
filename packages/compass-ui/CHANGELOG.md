@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.26] - 2026-11-02
+
 ### Added
 
 - **`Combobox` `submitOnEnter`:** opt-out (default `true`). When `false`, Enter with the menu closed is prevented and stops propagating, so it can't submit a surrounding form. Default behavior is unchanged.
@@ -485,7 +487,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.25...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.26...HEAD
+[0.1.0-alpha.26]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.25...0.1.0-alpha.26
 [0.1.0-alpha.25]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.24...0.1.0-alpha.25
 [0.1.0-alpha.24]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.23...0.1.0-alpha.24
 [0.1.0-alpha.23]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.22...0.1.0-alpha.23
