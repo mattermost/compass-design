@@ -236,7 +236,9 @@ export default function GlobalHeader({
               aria-label="Search"
               onClick={onSearchClick}
               onKeyDown={(event) => {
-                if (event.key === 'Enter') onSearchClick?.(event);
+                if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
+                  onSearchClick?.(event);
+                }
               }}
             />
           </div>
