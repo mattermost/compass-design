@@ -1,12 +1,14 @@
 .empty-state {
   width: 100%;
   height: 100%;
-  // Floor for shrink-to-fit parents (flex/grid centering), where the percentage
-  // width above contributes no intrinsic size and SimpleBar's content is
-  // out of flow, so the component would otherwise collapse to its padding.
-  // The floor tracks the viewport, not the parent, so hosts narrower than
-  // 240px set --empty-state-min-width: 0.
-  min-width: var(--empty-state-min-width, min(240px, 100vw));
+  // Width to use when the parent sizes to its content (flex/grid centering). The
+  // percentage width above contributes no intrinsic size and SimpleBar's content
+  // is out of flow, so without this the component collapses to its padding.
+  // Inline-size containment makes the fallback apply only in that case: a parent
+  // with a definite width still wins, so narrow parents are not forced to overflow.
+  // Hosts can override the fallback with --empty-state-min-width.
+  contain: inline-size;
+  contain-intrinsic-inline-size: var(--empty-state-min-width, 240px);
   background-color: var(--center-channel-bg);
 
   // Centering lives inside the scroll viewport (SimpleBar's .simplebar-content)
