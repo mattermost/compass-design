@@ -59,3 +59,17 @@ export const InGridCenteredParent: Story = {
     </div>
   ),
 };
+
+export const InWideParent: Story = {
+  args: {
+    title: 'Set up your first recap',
+    description:
+      'Recaps help you get caught up quickly on discussions that are most important to you with a summarized report. Create one to get started.',
+    action: { children: 'Create a recap', onClick: fn() },
+  },
+  render: (args) => (
+    <div style={{ width: 1200, height: 320 }}>
+      <EmptyState {...args} />
+    </div>
+  ),
+};

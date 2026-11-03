@@ -10,6 +10,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`Combobox` `submitOnEnter`:** opt-out (default `true`). When `false`, Enter with the menu closed is prevented and stops propagating, so it can't submit a surrounding form. Default behavior is unchanged.
 
+### Changed
+
+- **`EmptyState` text width:** the title and description block is now capped at `max-width: 480px` (centered), so line length stays readable in wide views. Narrower containers are unaffected, and markup is unchanged. Hosts can override the cap with `--empty-state-max-width`; `none` removes it.
+
 ### Fixed
 
 - **`Combobox` Enter with the menu open submitting a surrounding form:** with no row to pick (no matches, empty or loading message), Enter is now handled and stops propagating, so it no longer submits a form or reaches host key listeners. An Enter that commits IME composition is left alone and no longer picks the highlighted row.
