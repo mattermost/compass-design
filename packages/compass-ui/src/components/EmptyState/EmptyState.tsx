@@ -6,6 +6,9 @@ import type { IllustrationProps } from '@/components/Illustration/Illustration';
 import Scrollbar from '@/components/Scrollbar/Scrollbar';
 import styles from './EmptyState.module.scss';
 
+export type EmptyStateTitleLevel = 1 | 2 | 3 | 4 | 5 | 6;
+export type EmptyStateDescriptionElement = 'p' | 'div';
+
 export interface EmptyStateProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'title' | 'children' | 'onScroll'
@@ -14,14 +17,26 @@ export interface EmptyStateProps extends Omit<
   illustration?: IllustrationProps;
   /** Main heading. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   title: ReactNode;
+  /**
+   * Heading level of the title (`1`–`6`). Default `2`. Pick the level that fits the heading
+   * outline of the surface the empty state sits in, e.g. `3` inside a modal body.
+   */
+  titleLevel?: EmptyStateTitleLevel;
   /** Body description. Supports ReactNode for inline formatting. */
   description?: ReactNode;
+  /**
+   * Element that wraps the description. Default `'p'`. Use `'div'` when the description
+   * contains block content (paragraphs, lists), which isn't valid inside a `<p>`.
+   */
+  descriptionAs?: EmptyStateDescriptionElement;
   /** Button props (children = label). Rendered below the description. */
   action?: ButtonProps;
   /**
    * Custom node for the action area, for controls `action` can't describe: a menu trigger,
    * a split button, or a permission-gated control. Rendered below the description, after
-   * `action` when both are set. Prefer `action` for a single plain button.
+   * `action` when both are set. Prefer `action` for a single plain button. The slot sits
+   * inside the scroll container, so a menu or popover rendered here should portal outside
+   * the scroll viewport; otherwise it can be clipped.
    */
   actionSlot?: ReactNode;
   /** Optional CSS class name. */
@@ -36,12 +51,15 @@ export interface EmptyStateProps extends Omit<
 export default function EmptyState({
   illustration,
   title,
+  titleLevel = 2,
   description,
+  descriptionAs: Description = 'p',
   action,
   actionSlot,
   className = '',
   ...rest
 }: EmptyStateProps) {
+  const Title = `h${titleLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   return (
     <Scrollbar
       {...rest}
@@ -54,9 +72,11 @@ export default function EmptyState({
           </div>
         )}
         <div className={styles['empty-state__titles']}>
-          <h2 className={styles['empty-state__title']}>{title}</h2>
+          <Title className={styles['empty-state__title']}>{title}</Title>
           {description != null && (
-            <p className={styles['empty-state__description']}>{description}</p>
+            <Description className={styles['empty-state__description']}>
+              {description}
+            </Description>
           )}
         </div>
         {(action != null || actionSlot != null) && (

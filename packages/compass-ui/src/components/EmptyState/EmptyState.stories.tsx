@@ -1,7 +1,14 @@
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
+import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+import { useOutsideClose } from '@/hooks/useOutsideClose';
 import SearchIllustration from '@/illustrations/search';
 import Button from '@/components/Button/Button';
+import Icon from '@/components/Icon/Icon';
+import MenuItem from '@/components/MenuItem/MenuItem';
+import PopoverMenu from '@/components/PopoverMenu/PopoverMenu';
 import EmptyState from './EmptyState';
 
 const meta = {
@@ -12,6 +19,100 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Sample `actionSlot` content: a button with a trailing chevron that opens a popover menu.
+ * `PopoverMenu` is only the surface, so the host owns open state and positioning. The
+ * empty state sits inside a scroll container that would clip a menu rendered in place, so
+ * the menu is portaled to `document.body` and positioned under the button. It closes on
+ * an outside click, Escape, scroll and resize.
+ */
+function AddConnectionMenu() {
+  const [open, setOpen] = useState(false);
+  const [anchor, setAnchor] = useState<{ top: number; left: number } | null>(
+    null,
+  );
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useOutsideClose(triggerRef, open, () => setOpen(false), menuRef);
+
+  // Escape closes the menu and returns focus to the trigger. The menu is positioned
+  // from the trigger's rect when it opens, so close it if the trigger can move.
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        close();
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, [open]);
+
+  const toggle = () => {
+    if (!open) {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      if (rect) {
+        setAnchor({ top: rect.bottom + 4, left: rect.left + rect.width / 2 });
+      }
+    }
+    setOpen((isOpen) => !isOpen);
+  };
+
+  return (
+    <>
+      <Button
+        ref={triggerRef}
+        emphasis="tertiary"
+        trailingIcon={<Icon glyph={<ChevronDownIcon />} />}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={toggle}
+      >
+        Add a connection
+      </Button>
+      {anchor &&
+        createPortal(
+          <div
+            ref={menuRef}
+            style={{
+              position: 'fixed',
+              top: anchor.top,
+              left: anchor.left,
+              transform: 'translateX(-50%)',
+              zIndex: 1000,
+            }}
+          >
+            <PopoverMenu
+              open={open}
+              onExited={() => setAnchor(null)}
+              aria-label="Add a connection"
+            >
+              <MenuItem
+                label="Create a connection"
+                leadingElement={false}
+                onClick={() => setOpen(false)}
+              />
+              <MenuItem
+                label="Accept an invitation"
+                leadingElement={false}
+                onClick={() => setOpen(false)}
+              />
+            </PopoverMenu>
+          </div>,
+          document.body,
+        )}
+    </>
+  );
+}
 
 export const WithIllustration: Story = {
   args: {
@@ -75,15 +176,35 @@ export const InWideParent: Story = {
   ),
 };
 
+export const BelowHeaderInFlexColumn: Story = {
+  args: TextOnly.args,
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', height: 320 }}>
+      <div style={{ flex: 'none', height: 60 }}>Header</div>
+      <EmptyState {...args} />
+    </div>
+  ),
+};
+
+export const InModalBody: Story = {
+  args: {
+    title: 'No members yet',
+    titleLevel: 3,
+    description: (
+      <>
+        <p>There are currently no members in this group.</p>
+        <p>Add one to get started.</p>
+      </>
+    ),
+    descriptionAs: 'div',
+  },
+};
+
 export const WithActionSlot: Story = {
   args: {
     title: 'Share channels',
     description:
       'Connecting with an external workspace allows you to share channels with them.',
-    actionSlot: (
-      <Button emphasis="tertiary" onClick={fn()}>
-        Add a connection
-      </Button>
-    ),
+    actionSlot: <AddConnectionMenu />,
   },
 };

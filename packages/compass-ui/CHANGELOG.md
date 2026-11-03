@@ -8,7 +8,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **`EmptyState` `titleLevel` / `descriptionAs`:** optional. `titleLevel` (`1`–`6`, default `2`) sets the heading level of the title so it can fit the surrounding heading outline, for example `3` in a modal body. `descriptionAs` (`'p'` or `'div'`, default `'p'`) lets a description that contains block content use a `div`, since a `<p>` can't hold paragraphs or lists. Defaults match the current markup.
 - **`EmptyState` `actionSlot`:** optional `ReactNode` for the action area, for controls `action` can't describe, such as a menu trigger, a split button or a permission-gated control. Rendered below the description, after `action` when both are set. The action area wraps and is spaced with a small gap. Without it the markup is unchanged.
+
+### Changed
+
+- **`EmptyState` width in shrink-to-fit parents:** the root's `min-width` floor is replaced by inline-size containment (`contain: inline-size` with `contain-intrinsic-inline-size`). In a parent that sizes to its content (flex or grid centering) the component still falls back to 240px instead of collapsing to its padding. In a parent with a definite width the size is unchanged, and a parent narrower than 240px is no longer forced to overflow (the fallback is also capped at the viewport width, and a flex or grid item can shrink below it), so hosts no longer need `--empty-state-min-width: 0` for that case. The variable still overrides the fallback width; it now sets the width used when the parent sizes to content, not a minimum. Markup is unchanged.
 
 ## [0.1.0-alpha.26] - 2026-11-02
 
