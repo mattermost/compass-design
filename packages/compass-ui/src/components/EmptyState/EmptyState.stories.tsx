@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import SearchIllustration from '@/illustrations/search';
+import Button from '@/components/Button/Button';
 import EmptyState from './EmptyState';
 
 const meta = {
@@ -72,4 +73,17 @@ export const InWideParent: Story = {
       <EmptyState {...args} />
     </div>
   ),
+};
+
+export const WithActionSlot: Story = {
+  args: {
+    title: 'Share channels',
+    description:
+      'Connecting with an external workspace allows you to share channels with them.',
+    actionSlot: (
+      <Button emphasis="tertiary" onClick={fn()}>
+        Add a connection
+      </Button>
+    ),
+  },
 };
