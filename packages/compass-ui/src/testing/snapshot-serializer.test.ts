@@ -15,6 +15,15 @@ describe('compass snapshot serializer', () => {
     );
   });
 
+  it('strips tokens at class attribute boundaries in raw HTML strings', () => {
+    const html =
+      '<button class="_button_ab12c_3 _button--small_ab12c_40"><span class="_button__label_ab12c_52">Go</span></button>';
+    expect(isHashed(html)).toBe(true);
+    expect(stripCompassClassHashes(html)).toBe(
+      '<button class="button button--small"><span class="button__label">Go</span></button>',
+    );
+  });
+
   it('ignores strings without compass tokens', () => {
     expect(isHashed('host-class other')).toBe(false);
     expect(isHashed('_private_value')).toBe(false);

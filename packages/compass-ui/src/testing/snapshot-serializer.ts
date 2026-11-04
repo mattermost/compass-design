@@ -9,8 +9,12 @@
  * hash on purpose: plugins bundle their own compass-ui copy on the same page,
  * and content hashes stop different versions' styles from colliding.
  *
- * This serializer rewrites those tokens back to `<class>` in snapshots only,
- * leaving every other string untouched:
+ * This serializer rewrites those tokens back to `<class>` in snapshots only.
+ * It matches by shape, not by package: any class in Vite's default
+ * CSS-module format (`_<class>_<hash>_<line>`) is stripped, including a
+ * consumer's own or another library's. That only hides hash changes; adding,
+ * removing or renaming a class still shows in the snapshot. Strings without
+ * that shape are left untouched.
  *
  * ```js
  * // jest.config.js
@@ -23,8 +27,13 @@
  * name stops matching this pattern.
  */
 
-/** One hashed compass-ui class token; captures the authored class name. */
-export const HASHED_CLASS_TOKEN = /(^|\s)_([a-z][\w-]*)_[a-z0-9]+_\d+(?=\s|$)/g;
+/**
+ * One hashed class token; captures the authored class name. Bounded by
+ * whitespace or string ends (a `className` value), or by `class="` and the
+ * closing quote (a raw `innerHTML` string snapshot).
+ */
+export const HASHED_CLASS_TOKEN =
+  /(^|\s|class=")_([a-z][\w-]*)_[a-z0-9]+_\d+(?=\s|"|$)/g;
 
 // Separate non-global copy: `.test()` on a /g regex is stateful (lastIndex).
 const HAS_HASHED_CLASS = new RegExp(HASHED_CLASS_TOKEN.source);

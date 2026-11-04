@@ -369,7 +369,7 @@ Order matters: list the `hooks/`, `illustrations/`, and `utils/string` patterns 
 
 Compass component classes are pre-compiled CSS modules named `_<class>_<hash>_<line>`, e.g. `_icon-button--size-small_13ryy_77`. The hash comes from the stylesheet's contents, so a Compass release that only restyles a component still changes every snapshot that renders it.
 
-The hash stays in production on purpose. Plugins bundle their own compass-ui copy and run on the same page as the webapp's, and the content hash keeps two versions' styles from overriding each other. For tests, add the Compass snapshot serializer. It rewrites `_icon-button--size-small_13ryy_77` to `icon-button--size-small` in snapshot output only, and leaves every other string untouched.
+The hash stays in production on purpose. Plugins bundle their own compass-ui copy and run on the same page as the webapp's, and the content hash keeps two versions' styles from overriding each other. For tests, add the Compass snapshot serializer. It rewrites `_icon-button--size-small_13ryy_77` to `icon-button--size-small` in snapshot output only. It matches by shape, not by package: any class in Vite's default CSS-module format (`_<class>_<hash>_<line>`) is stripped, including your own or another library's, and strings without that shape are left untouched. That only hides hash changes; adding, removing or renaming a class still shows in the snapshot.
 
 **Jest** (`webapp/channels/jest.config.js`, each plugin's Jest config):
 
