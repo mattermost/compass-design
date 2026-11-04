@@ -29,11 +29,12 @@
 
 /**
  * One hashed class token; captures the authored class name. Bounded by
- * whitespace or string ends (a `className` value), or by `class="` and the
- * closing quote (a raw `innerHTML` string snapshot).
+ * whitespace or string ends (a `className` value), or by a ` class="`
+ * attribute and its closing quote (a raw `innerHTML` string snapshot; the
+ * leading space keeps `data-class="…"` and similar attributes untouched).
  */
 export const HASHED_CLASS_TOKEN =
-  /(^|\s|class=")_([a-z][\w-]*)_[a-z0-9]+_\d+(?=\s|"|$)/g;
+  /(^|\s|\sclass=")_([A-Za-z][\w-]*)_[a-z0-9]+_\d+(?=\s|"|$)/g;
 
 // Separate non-global copy: `.test()` on a /g regex is stateful (lastIndex).
 const HAS_HASHED_CLASS = new RegExp(HASHED_CLASS_TOKEN.source);

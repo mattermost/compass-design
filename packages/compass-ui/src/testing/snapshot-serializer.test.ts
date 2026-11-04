@@ -24,6 +24,18 @@ describe('compass snapshot serializer', () => {
     );
   });
 
+  it('leaves other attributes ending in class untouched', () => {
+    expect(
+      stripCompassClassHashes(
+        '<div data-class="_order_abc12_42" class="_card_abc12_3"></div>',
+      ),
+    ).toBe('<div data-class="_order_abc12_42" class="card"></div>');
+  });
+
+  it('strips authored names that start with an uppercase letter', () => {
+    expect(stripCompassClassHashes('_Button_ab12c_3 host')).toBe('Button host');
+  });
+
   it('ignores strings without compass tokens', () => {
     expect(isHashed('host-class other')).toBe(false);
     expect(isHashed('_private_value')).toBe(false);
