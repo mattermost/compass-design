@@ -271,7 +271,16 @@ export default function ChannelSidebarItem({
       </button>
       <div className={rightClass}>
         {trailingVisual != null && trailingVisual !== false && (
-          <span className={styles['channel-sidebar-item__trailing-visual']}>
+          <span
+            className={[
+              styles['channel-sidebar-item__trailing-visual'],
+              isChannelOrDM
+                ? styles['channel-sidebar-item__trailing-visual--with-menu']
+                : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
             <IconSlotContext.Provider value={{ size: '16' }}>
               {trailingVisual}
             </IconSlotContext.Provider>
