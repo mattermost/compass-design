@@ -44,7 +44,7 @@
     height: 100%;
     background: rgba(var(--sidebar-text-rgb), 0.16);
     color: var(--sidebar-text, white);
-    font-family: Metropolis, sans-serif;
+    font-family: var(--font-family-heading, 'Metropolis', sans-serif);
     font-weight: var(--font-weight-semibold);
     line-height: 1;
     user-select: none;

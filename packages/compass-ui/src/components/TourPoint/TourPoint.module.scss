@@ -81,6 +81,7 @@
     border-radius: var(--radius-pill);
     background-color: rgba(var(--color-success-rgb), 0.36);
     transform-origin: center center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- constant-rate pulse: linear easing has no token (duration is built from tokens)
     animation: tour-point-pulse-ring
       calc(4 * var(--duration-moderate) + (40 * var(--duration-quick) / 3))
       linear infinite;

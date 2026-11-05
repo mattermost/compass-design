@@ -38,9 +38,11 @@
   &__item:hover &__tooltip-layer {
     opacity: 1;
     visibility: visible;
+    /* stylelint-disable declaration-property-value-disallowed-list -- visibility is discrete, so its easing keyword is a no-op; no token applies */
     transition:
       opacity var(--duration-quick) var(--ease-entrance),
       visibility 0s linear 0s;
+    /* stylelint-enable declaration-property-value-disallowed-list */
   }
 
   &__trigger {
@@ -63,9 +65,11 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+    /* stylelint-disable declaration-property-value-disallowed-list -- visibility is discrete, so its easing keyword is a no-op; no token applies */
     transition:
       opacity var(--duration-quick) var(--ease-exit),
       visibility 0s linear var(--duration-quick);
+    /* stylelint-enable declaration-property-value-disallowed-list */
   }
 
   &__tooltip {

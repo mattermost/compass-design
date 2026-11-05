@@ -10,11 +10,13 @@
 .spinner {
   display: inline-block;
   border-radius: var(--radius-pill);
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- constant-rate rotation: linear easing and a fixed period have no token
   animation: spinner-spin 750ms linear infinite;
   background: conic-gradient(
     rgba(var(--center-channel-color-rgb), 0),
     rgba(var(--center-channel-color-rgb), 0.64)
   );
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- mask uses alpha only, not a visible colour
   mask-image: radial-gradient(
     farthest-side,
     transparent calc(100% - var(--spinner-stroke-width, 2px)),
