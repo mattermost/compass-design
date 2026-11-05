@@ -11,9 +11,12 @@
   border: 0;
   cursor: pointer;
   text-decoration: none;
-  // No transition at rest: state changes (toggled / selected / active, or focus
-  // leaving) must switch instantly so neighbouring buttons don't crossfade or
-  // flash a fading ring. Fades are opted into on :hover / :active below.
+  // No transitions at all: toggled / active state changes (in either direction,
+  // including while the pointer is still over the button after a click) and
+  // focus leaving must switch instantly so neighbouring buttons don't crossfade
+  // or flash a fading ring (#184). Hover and press therefore snap too; `active`
+  // defaults to false, so a hover fade can't be limited to buttons whose `active`
+  // never changes. Matches the old webapp header buttons.
   background-color: transparent;
   --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
   color: var(--icon-button-fg);
@@ -28,17 +31,6 @@
   &:visited {
     color: var(--icon-button-fg);
     text-decoration: none;
-  }
-
-  // Hover/press fade only on a plain button. A toggle button (`toggled` set =>
-  // `aria-pressed` present, true OR false) has no fade at all: after a click the
-  // control is still hovered, and a hover transition would fade the state
-  // change in either direction (on and off) (#184).
-  &:hover:not([aria-pressed]):not(&--active),
-  &:active:not([aria-pressed]):not(&--active) {
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      color var(--duration-quick) var(--ease-transition);
   }
 
   &:is(:disabled, .icon-button--disabled) {

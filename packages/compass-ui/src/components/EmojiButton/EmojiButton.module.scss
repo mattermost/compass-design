@@ -8,15 +8,10 @@
   border: 0;
   cursor: pointer;
   background-color: transparent;
-  // No transition at rest: toggled / active / focus-leaving are instant (#184).
+  // No transitions on the button: toggled / active changes (either direction,
+  // even while hovered) and focus-leaving are instant, and hover/press snap
+  // too. The emoji scale on hover below is a separate element transition (#184).
   @include focus-ring;
-
-  // Hover/press fade only; not while active/toggled, so state changes are instant (#184).
-  // (`toggled` set => `aria-pressed` present, so toggle buttons never fade.)
-  &:hover:not([aria-pressed]):not(&--active),
-  &:active:not([aria-pressed]):not(&--active) {
-    transition: background-color var(--duration-quick) var(--ease-transition);
-  }
 
   &:disabled {
     cursor: not-allowed;
