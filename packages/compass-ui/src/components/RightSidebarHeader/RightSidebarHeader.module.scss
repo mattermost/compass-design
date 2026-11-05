@@ -130,13 +130,8 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
     cursor: pointer;
 
-    &:hover:not(&--active),
-    &:active:not(&--active) {
-      transition:
-        background-color var(--duration-quick) var(--ease-transition),
-        color var(--duration-quick) var(--ease-transition);
-    }
-
+    // No transitions: active changes (either direction, even while hovered) are
+    // instant, so hover and press snap too (#184).
     &:hover {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
       color: rgba(var(--center-channel-color-rgb), 0.75);

@@ -27,12 +27,12 @@
     border: none;
     cursor: pointer;
     padding: var(--spacing-xxs) var(--spacing-s);
-    // No transitions on state (active tab, label/badge colour, underline) or
-    // focus-leaving: they must switch instantly (#184). Only hover fades.
+    // No transitions at all: active-tab changes (label/badge colour, underline,
+    // fill, in either direction, even while hovered) and focus-leaving must be
+    // instant, so hover snaps too (#184).
     @include focus-ring;
 
     &:hover:not(&--active):not(&--disabled) {
-      transition: background-color var(--duration-quick) var(--ease-transition);
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
