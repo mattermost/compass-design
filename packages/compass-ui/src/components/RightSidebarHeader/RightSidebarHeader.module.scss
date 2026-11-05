@@ -130,8 +130,8 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
     cursor: pointer;
 
-    &:hover,
-    &:active {
+    &:hover:not(&--active),
+    &:active:not(&--active) {
       transition:
         background-color var(--duration-quick) var(--ease-transition),
         color var(--duration-quick) var(--ease-transition);

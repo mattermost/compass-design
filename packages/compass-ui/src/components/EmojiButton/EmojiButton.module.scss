@@ -11,8 +11,9 @@
   // No transition at rest: toggled / active / focus-leaving are instant (#184).
   @include focus-ring;
 
-  &:hover,
-  &:active {
+  // Hover/press fade only; not while active/toggled, so state changes are instant (#184).
+  &:hover:not(&--active):not(&--toggled),
+  &:active:not(&--active):not(&--toggled) {
     transition: background-color var(--duration-quick) var(--ease-transition);
   }
 

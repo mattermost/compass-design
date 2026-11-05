@@ -12,8 +12,8 @@
   color: var(--center-channel-color);
   // No transition at rest: active / focus-visible changes are instant (#184).
 
-  &:hover:not(:disabled),
-  &:active:not(:disabled) {
+  &:hover:not(:disabled):not(&--active),
+  &:active:not(:disabled):not(&--active) {
     transition:
       background-color var(--duration-quick) var(--ease-transition),
       color var(--duration-quick) var(--ease-transition);

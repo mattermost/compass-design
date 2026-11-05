@@ -30,8 +30,10 @@
     text-decoration: none;
   }
 
-  &:hover,
-  &:active {
+  // Hover/press fade only; not on a toggled/active control, so clicking a hovered
+  // button switches state instantly instead of fading (#184).
+  &:hover:not(&--toggled):not(&--active),
+  &:active:not(&--toggled):not(&--active) {
     transition:
       background-color var(--duration-quick) var(--ease-transition),
       color var(--duration-quick) var(--ease-transition);
