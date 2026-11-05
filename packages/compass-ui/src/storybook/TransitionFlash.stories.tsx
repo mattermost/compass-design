@@ -42,7 +42,72 @@ import Icon from '../components/Icon/Icon';
  * the ring fades out on the control that lost focus.
  */
 
-const RESET_ID = 'compass-flash-repro-reset';
+const WEBAPP_CSS_ID = 'compass-flash-repro-webapp-css';
+const WORKAROUND_CSS_ID = 'compass-flash-repro-webapp-workaround';
+
+/**
+ * Global CSS the Mattermost webapp loads after Compass, copied verbatim from
+ * `mattermost/mattermost` master (comments trimmed):
+ * - `webapp/channels/src/sass/base/_structure.scss`: the global focus reset.
+ * - `webapp/channels/src/sass/utils/_modifiers.scss`: `.a11y--focused` (the
+ *   webapp's own keyboard-focus class) and the rules that suppress it on
+ *   Compass controls and re-add outline style and width under `#root`
+ *   (`.sass` `:is()` nesting expanded by hand).
+ */
+const WEBAPP_GLOBAL_CSS = `
+*:focus {
+  outline: none;
+}
+
+.a11y--focused {
+  border-radius: 4px;
+  box-shadow: 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), 0 0 0 1px var(--link-color);
+}
+
+:is(#root, #root-portal) [class*="_text-input__wrapper"] .a11y--focused,
+:is(#root, #root-portal) [class*="_text-area__wrapper"] .a11y--focused,
+:is(#root, #root-portal) [class*="_search-input__wrapper"] .a11y--focused,
+:is(#root, #root-portal) [class*="_select__wrapper"] .a11y--focused,
+:is(#root, #root-portal) [class*="_combobox__wrapper"] .a11y--focused,
+:is(#root, #root-portal) [class*="_date-range-picker__trigger"].a11y--focused,
+:is(#root, #root-portal) button[class*="_button--emphasis-"].a11y--focused,
+:is(#root, #root-portal) button[class*="_icon-button"].a11y--focused,
+:is(#root, #root-portal) button[class*="_action-button"].a11y--focused {
+  box-shadow: none;
+}
+
+#root [class*="_text-input__wrapper"]:focus-visible,
+#root [class*="_text-area__wrapper"]:focus-visible,
+#root [class*="_search-input__wrapper"]:focus-visible,
+#root [class*="_select__wrapper"]:focus-visible,
+#root [class*="_combobox__wrapper"]:focus-visible,
+#root [class*="_date-range-picker__trigger"]:focus-visible,
+#root button[class*="_button--emphasis-"]:focus-visible,
+#root button[class*="_icon-button"]:focus-visible,
+#root button[class*="_action-button"]:focus-visible {
+  outline-style: solid;
+  outline-width: 2px;
+}
+`;
+
+/**
+ * The temporary IconButton workaround currently on webapp master
+ * (`_modifiers.scss`, mattermost/mattermost#39029). It hides the bug on the
+ * webapp, which is why the bug can't be seen there until it is removed.
+ */
+const WEBAPP_WORKAROUND_CSS = `
+button[class*="_icon-button_"],
+a[class*="_icon-button_"] {
+  transition: none;
+}
+
+button[class*="_icon-button_"]:focus-visible,
+a[class*="_icon-button_"]:focus-visible {
+  transition:
+    outline-color var(--duration-quick) var(--ease-transition),
+    outline-offset var(--duration-quick) var(--ease-transition);
+}
+`;
 const WATCHED = [
   'background-color',
   'color',
@@ -77,17 +142,38 @@ function componentName(el: Element): string {
   return el.classList[0] ?? '(none)';
 }
 
-function useResetToggle(enabled: boolean) {
+/** Appends `css` as the last stylesheet in <head>, like a host loaded after Compass. */
+function useInjectedCss(id: string, css: string, enabled: boolean) {
   useEffect(() => {
-    document.getElementById(RESET_ID)?.remove();
+    document.getElementById(id)?.remove();
     if (!enabled) return undefined;
-    // Re-appended on every enable so it is the last stylesheet in <head> and
-    // wins on load order, exactly like a host reset loaded after Compass.
     const style = document.createElement('style');
-    style.id = RESET_ID;
-    style.textContent = '*:focus { outline: none; }';
+    style.id = id;
+    style.textContent = css;
     document.head.appendChild(style);
     return () => style.remove();
+  }, [id, css, enabled]);
+}
+
+/**
+ * Emulates the webapp's a11y controller: it adds `.a11y--focused` to the
+ * element that receives keyboard focus and removes it when focus leaves.
+ */
+function useA11yFocusedClass(enabled: boolean) {
+  useEffect(() => {
+    if (!enabled) return undefined;
+    const onIn = (e: FocusEvent) => {
+      const el = e.target as HTMLElement;
+      if (el.matches?.(':focus-visible')) el.classList.add('a11y--focused');
+    };
+    const onOut = (e: FocusEvent) =>
+      (e.target as HTMLElement).classList?.remove('a11y--focused');
+    document.addEventListener('focusin', onIn);
+    document.addEventListener('focusout', onOut);
+    return () => {
+      document.removeEventListener('focusin', onIn);
+      document.removeEventListener('focusout', onOut);
+    };
   }, [enabled]);
 }
 
@@ -474,14 +560,92 @@ function FocusRow() {
   );
 }
 
-function Repro({ resetOn: initialReset }: { resetOn: boolean }) {
+/**
+ * The global header + right panel from the issue. The webapp moves focus to the
+ * first control in the panel on every Saved / Recent mentions switch, so the
+ * previously focused panel control loses focus on the next click. With a
+ * resting ring + outline transition that control flashes a fading ring even
+ * though `:focus-visible` is false throughout.
+ */
+function WebappPanelScenario() {
+  const [view, setView] = useState<'mentions' | 'saved'>('mentions');
+  const panelRef = useRef<HTMLDivElement>(null);
+  const first = useRef(true);
+
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    panelRef.current?.querySelector<HTMLElement>('button')?.focus();
+  }, [view]);
+
+  return (
+    <div
+      data-flash-row="webapp-scenario"
+      style={{ ...row, alignItems: 'stretch', gap: 0 }}
+    >
+      <div
+        style={{
+          ...row,
+          background: 'var(--sidebar-header-bg)',
+          padding: 'var(--spacing-l)',
+          borderRadius: 'var(--radius-m) 0 0 var(--radius-m)',
+          alignItems: 'flex-start',
+        }}
+      >
+        <IconButton
+          style="inverted"
+          aria-label="Recent mentions"
+          toggled={view === 'mentions'}
+          onClick={() => setView('mentions')}
+          icon={<Icon glyph={<AtIcon />} />}
+        />
+        <IconButton
+          style="inverted"
+          aria-label="Saved messages"
+          toggled={view === 'saved'}
+          onClick={() => setView('saved')}
+          icon={<Icon glyph={<BookmarkIcon />} />}
+        />
+      </div>
+      <div
+        ref={panelRef}
+        style={{
+          flex: 1,
+          border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+          borderRadius: '0 var(--radius-m) var(--radius-m) 0',
+          background: 'var(--center-channel-bg)',
+        }}
+      >
+        <RightSidebarHeader
+          title={view === 'mentions' ? 'Recent mentions' : 'Saved messages'}
+          onExpand={noop}
+          onClose={noop}
+        />
+      </div>
+    </div>
+  );
+}
+
+function Repro({
+  resetOn: initialReset,
+  workaround: initialWorkaround = false,
+}: {
+  resetOn: boolean;
+  workaround?: boolean;
+}) {
   const [resetOn, setResetOn] = useState(initialReset);
+  const [workaroundOn, setWorkaroundOn] = useState(initialWorkaround);
   const [detect, setDetect] = useState(true);
-  useResetToggle(resetOn);
+  useInjectedCss(WEBAPP_CSS_ID, WEBAPP_GLOBAL_CSS, resetOn);
+  useInjectedCss(WORKAROUND_CSS_ID, WEBAPP_WORKAROUND_CSS, workaroundOn);
+  useA11yFocusedClass(resetOn);
   const { log, clear } = useTransitionDetector(detect);
 
   return (
     <div
+      id="root"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -497,7 +661,17 @@ function Repro({ resetOn: initialReset }: { resetOn: boolean }) {
             onChange={(e) => setResetOn(e.target.checked)}
             data-testid="reset-toggle"
           />{' '}
-          Load <code>*:focus {'{ outline: none }'}</code> after Compass
+          Load the webapp&apos;s global CSS (focus reset, <code>#root</code> and{' '}
+          <code>.a11y--focused</code> rules) after Compass
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={workaroundOn}
+            onChange={(e) => setWorkaroundOn(e.target.checked)}
+            data-testid="workaround-toggle"
+          />{' '}
+          Webapp IconButton <code>transition: none</code> workaround
         </label>
         <label>
           <input
@@ -518,6 +692,13 @@ function Repro({ resetOn: initialReset }: { resetOn: boolean }) {
       >
         <InvertedPeerGroup />
         <StatePeers />
+      </Section>
+
+      <Section
+        title="Webapp scenario — header + right panel, focus moves on switch"
+        hint="Click Saved messages, then Recent mentions. Focus moves to the panel's first button each time, so that button loses focus on the next click. No outline-* transition should run on it."
+      >
+        <WebappPanelScenario />
       </Section>
 
       <Section
@@ -566,8 +747,19 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Reset loaded: reproduces the webapp conditions (#184). */
+/**
+ * The webapp's real global CSS loaded after Compass (focus reset, `#root`
+ * rules, `.a11y--focused`): reproduces the webapp conditions (#184).
+ */
 export const WithHostReset: Story = { args: { resetOn: true } };
+
+/**
+ * Same, plus the temporary `transition: none` workaround that is on webapp
+ * master today. The bug is hidden here; the fix must hold with it on or off.
+ */
+export const WithHostResetAndWorkaround: Story = {
+  args: { resetOn: true, workaround: true },
+};
 
 /** No reset: Compass CSS alone. Cause 1 still applies; Cause 2 does not. */
 export const CompassOnly: Story = { args: { resetOn: false } };
