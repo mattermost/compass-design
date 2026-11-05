@@ -360,6 +360,7 @@ function InvertedPeerGroup() {
 }
 
 function StatePeers() {
+  const [toggle, setToggle] = useState(false);
   const [tile, setTile] = useState(0);
   const [emoji, setEmoji] = useState(0);
   const [card, setCard] = useState(0);
@@ -371,6 +372,14 @@ function StatePeers() {
   const [ack, setAck] = useState(false);
   return (
     <>
+      <Labelled name="IconButton toggle">
+        <IconButton
+          aria-label="Toggle"
+          toggled={toggle}
+          onClick={() => setToggle((v) => !v)}
+          icon={<Icon glyph={<GlobeIcon />} />}
+        />
+      </Labelled>
       <Labelled name="TileButton">
         {[0, 1].map((i) => (
           <TileButton

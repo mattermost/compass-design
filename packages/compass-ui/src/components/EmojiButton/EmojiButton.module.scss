@@ -12,8 +12,9 @@
   @include focus-ring;
 
   // Hover/press fade only; not while active/toggled, so state changes are instant (#184).
-  &:hover:not(&--active):not(&--toggled),
-  &:active:not(&--active):not(&--toggled) {
+  // (`toggled` set => `aria-pressed` present, so toggle buttons never fade.)
+  &:hover:not([aria-pressed]):not(&--active),
+  &:active:not([aria-pressed]):not(&--active) {
     transition: background-color var(--duration-quick) var(--ease-transition);
   }
 

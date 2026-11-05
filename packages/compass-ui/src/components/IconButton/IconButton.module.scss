@@ -30,10 +30,12 @@
     text-decoration: none;
   }
 
-  // Hover/press fade only; not on a toggled/active control, so clicking a hovered
-  // button switches state instantly instead of fading (#184).
-  &:hover:not(&--toggled):not(&--active),
-  &:active:not(&--toggled):not(&--active) {
+  // Hover/press fade only on a plain button. A toggle button (`toggled` set =>
+  // `aria-pressed` present, true OR false) has no fade at all: after a click the
+  // control is still hovered, and a hover transition would fade the state
+  // change in either direction (on and off) (#184).
+  &:hover:not([aria-pressed]):not(&--active),
+  &:active:not([aria-pressed]):not(&--active) {
     transition:
       background-color var(--duration-quick) var(--ease-transition),
       color var(--duration-quick) var(--ease-transition);

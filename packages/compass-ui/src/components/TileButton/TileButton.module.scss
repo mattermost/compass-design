@@ -31,8 +31,9 @@
   }
 
   // Hover/press fade only; not while toggled, so state changes are instant (#184).
-  &:hover:not(&--toggled),
-  &:active:not(&--toggled) {
+  // (`toggled` set => `aria-pressed` present, so toggle tiles never fade.)
+  &:hover:not([aria-pressed]),
+  &:active:not([aria-pressed]) {
     transition:
       background-color var(--duration-quick) var(--ease-transition),
       color var(--duration-quick) var(--ease-transition);

@@ -31,7 +31,7 @@
   cursor: pointer;
   @include focus-ring;
 
-  &:hover:not(&--mine) {
+  &:hover:not([aria-pressed]) {
     transition:
       background-color var(--duration-quick) var(--ease-transition),
       box-shadow var(--duration-quick) var(--ease-transition);

@@ -310,7 +310,7 @@
     color: var(--center-channel-color);
     cursor: pointer;
 
-    &:hover:not(&--selected) {
+    &:hover:not([aria-pressed]) {
       transition:
         background-color var(--duration-quick) var(--ease-transition),
         color var(--duration-quick) var(--ease-transition);
