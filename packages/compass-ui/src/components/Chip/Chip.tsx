@@ -47,11 +47,12 @@ export interface ChipProps extends Omit<
    * Root element. `'div'` (default) is the inert or removable token.
    * `'button'` makes the whole chip a native `<button type="button">`: tab stop,
    * Enter/Space activation, pointer cursor and focus ring. Use it for a chip
-   * that is an action (run something, open a menu). A pressable chip is not
-   * removable, so `onRemove` is ignored in this mode.
+   * that is an action (run something, open a menu). With `onRemove` it stays a
+   * single control (`div role="button"`, as for removable chips): click / Enter /
+   * Space run `onClick`, Delete / Backspace or the × remove it.
    */
   as?: 'div' | 'button';
-  /** Native `disabled`. Applies only when `as="button"`. */
+  /** Disables a pressable chip (native `disabled`, or `aria-disabled` when also removable). Applies only when `as="button"`. */
   disabled?: boolean;
   /** Forwarded to the root element (the `<button>` when `as="button"`). */
   ref?: Ref<HTMLElement>;
@@ -152,13 +153,19 @@ const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
       : labelText !== ''
         ? labelText
         : undefined);
-  const removable = onRemove != null && !pressable;
+  const removable = onRemove != null;
+  // A pressable chip with a × can't be a native <button> (nested buttons), so it
+  // is a div role="button" like removable chips: the body is the action, the × is
+  // mouse-only, and Delete / Backspace remove.
+  const nativeButton = pressable && !removable;
+  const inertDisabled = pressable && disabled;
 
   const handleRemove = (e: MouseEvent<HTMLButtonElement>) => {
     const chipEl = e.currentTarget.closest('[data-chip]');
     const nextFocus =
       chipEl instanceof HTMLElement ? focusTargetAfterRemove(chipEl) : null;
     const removeButton = e.currentTarget;
+    if (pressable) e.stopPropagation();
     onRemove?.(e);
     window.setTimeout(() => {
       if (removeButton.isConnected || nextFocus == null) return;
@@ -194,6 +201,7 @@ const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
           data-chip-remove=""
           tabIndex={-1}
           aria-hidden
+          disabled={inertDisabled}
           onMouseDown={(e) => {
             e.preventDefault();
           }}
@@ -219,6 +227,21 @@ const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     rest.onKeyDown?.(e);
+    if (pressable && removable && !e.defaultPrevented) {
+      if (disabled) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.currentTarget.click();
+        return;
+      }
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        e.preventDefault();
+        e.currentTarget
+          .querySelector<HTMLButtonElement>('[data-chip-remove]')
+          ?.click();
+        return;
+      }
+    }
     if (grouped || !removable || e.defaultPrevented) return;
     if (
       e.key === 'Delete' ||
@@ -233,7 +256,7 @@ const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
     }
   };
 
-  if (pressable) {
+  if (nativeButton) {
     return (
       <button
         type="button"
@@ -255,7 +278,9 @@ const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
       className={rootClass}
       {...rest}
       role={removable ? 'button' : rest.role}
-      tabIndex={removable ? (grouped ? -1 : 0) : rest.tabIndex}
+      tabIndex={removable ? (grouped || inertDisabled ? -1 : 0) : rest.tabIndex}
+      aria-disabled={inertDisabled || rest['aria-disabled']}
+      onClick={inertDisabled ? undefined : rest.onClick}
       aria-label={removable ? groupedAriaLabel : rest['aria-label']}
       data-chip=""
       onKeyDown={handleKeyDown}

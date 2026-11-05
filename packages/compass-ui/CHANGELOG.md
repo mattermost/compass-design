@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
-- **`Chip` pressable mode (`as="button"`) with `disabled` and `ref`:** optional. `as="button"` renders the root as a native `<button type="button">` so a chip can be an action: tab stop, Enter/Space activation, pointer cursor, focus ring, and a native `disabled` that blocks clicks and leaves the tab order. `ref` is now accepted in `ChipProps` and forwarded to the root element (the `<button>` in pressable mode). A pressable chip is not removable, so `onRemove` is ignored there. Default `as="div"` keeps the current markup and behavior, including `ChipGroup` roving tabindex.
+- **`Chip` pressable mode (`as="button"`) with `disabled` and `ref`:** optional. `as="button"` renders the root as a native `<button type="button">` so a chip can be an action: tab stop, Enter/Space activation, pointer cursor, focus ring, and a native `disabled` that blocks clicks and leaves the tab order. `ref` is now accepted in `ChipProps` and forwarded to the root element (the `<button>` in pressable mode). With `onRemove` it stays one control (`div role="button"`, like removable chips, since a button can't nest one): click and Enter/Space run `onClick`, Delete/Backspace or the × remove. Default `as="div"` keeps the current markup and behavior, including `ChipGroup` roving tabindex.
 
 ## [0.1.0-alpha.27] - 2026-11-03
 
