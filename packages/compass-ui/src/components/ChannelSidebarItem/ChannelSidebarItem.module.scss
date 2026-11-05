@@ -96,6 +96,22 @@
     }
   }
 
+  // Custom node: fixed 24px column so any 16–24px visual stays centered and
+  // the label aligns with built-in icons and the DM avatar.
+  &__icon-container--custom {
+    justify-content: center;
+    width: var(--icon-size-24);
+    height: var(--icon-size-24);
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  &__trailing-visual {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
   &__group-icon {
     width: var(--icon-size-16);
     height: var(--icon-size-16);

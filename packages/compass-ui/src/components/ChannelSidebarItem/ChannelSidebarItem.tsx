@@ -10,7 +10,7 @@ import DotsVerticalIcon from '@mattermost/compass-icons/components/dots-vertical
 import DialpadIcon from '@mattermost/compass-icons/components/dialpad';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import MentionBadge from '@/components/MentionBadge/MentionBadge';
-import Icon from '@/components/Icon/Icon';
+import Icon, { IconSlotContext } from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import styles from './ChannelSidebarItem.module.scss';
 
@@ -35,8 +35,21 @@ export interface ChannelSidebarItemProps {
    * overflow menu; name aligns with channel sidebar label padding.
    */
   hideLeadingVisual?: boolean;
-  /** Leading visual type. Default: Public. Ignored when `hideLeadingVisual`. */
-  leadingVisual?: ChannelSidebarItemLeadingVisual;
+  /**
+   * Leading visual. A built-in type string (`'public'`, `'private'`, …) keeps its
+   * glyph; any other node (not a string) replaces the icon, like `MenuItem`. Custom
+   * nodes render in the same 24px icon column, so the label stays aligned. For an
+   * icon use `<Icon glyph={<SomeIcon />} />` — the size (16) comes from context.
+   * A 16–24px element such as a 20px avatar is centered in the column.
+   * Default: Public. Ignored when `hideLeadingVisual`.
+   */
+  leadingVisual?: ChannelSidebarItemLeadingVisual | ReactNode;
+  /**
+   * Custom content for the trailing slot, after the name and before the mention
+   * badge / menu button (e.g. a responding indicator or hover actions). `status`
+   * styling is independent of it. When omitted, nothing is rendered.
+   */
+  trailingVisual?: ReactNode;
   /** Read/unread/mention state. Default: Read. */
   status?: ChannelSidebarItemStatus;
   /** Highlighted as the currently active item. */
@@ -73,13 +86,21 @@ export interface ChannelSidebarItemProps {
 const defaultFormatMentions = (count: number) =>
   `${count} mention${count === 1 ? '' : 's'}`;
 
+function isBuiltInLeadingVisual(
+  value: unknown,
+): value is ChannelSidebarItemLeadingVisual | undefined {
+  // Strings (and omitted) keep today's built-in behavior, including the
+  // fallback to the public glyph for unknown strings.
+  return value === undefined || typeof value === 'string';
+}
+
 function LeadingVisualContent({
   leadingVisual,
   memberCount,
   avatarSrc,
   showAvatarStatus,
 }: {
-  leadingVisual: ChannelSidebarItemLeadingVisual;
+  leadingVisual: ChannelSidebarItemLeadingVisual | undefined;
   memberCount: number | undefined;
   avatarSrc: string | undefined;
   showAvatarStatus: boolean | undefined;
@@ -125,7 +146,8 @@ export default function ChannelSidebarItem({
   className,
   name,
   hideLeadingVisual = false,
-  leadingVisual = 'public',
+  leadingVisual,
+  trailingVisual,
   status = 'read',
   active = false,
   muted = false,
@@ -142,15 +164,27 @@ export default function ChannelSidebarItem({
   unreadLabel = 'unread',
   menuLabel = 'Channel options',
 }: ChannelSidebarItemProps) {
-  const isDM = !hideLeadingVisual && leadingVisual === 'direct-message';
-  const isDrafts = !hideLeadingVisual && leadingVisual === 'drafts';
+  const isCustomVisual =
+    !hideLeadingVisual &&
+    leadingVisual !== null &&
+    !isBuiltInLeadingVisual(leadingVisual);
+  const builtInVisual: ChannelSidebarItemLeadingVisual = isBuiltInLeadingVisual(
+    leadingVisual,
+  )
+    ? (leadingVisual ?? 'public')
+    : 'public';
+  const isDM =
+    !hideLeadingVisual && builtInVisual === 'direct-message' && !isCustomVisual;
+  const isDrafts =
+    !hideLeadingVisual && builtInVisual === 'drafts' && !isCustomVisual;
   const effectiveStatus = isDrafts && status === 'unread' ? 'read' : status;
   const hasMentionBadge = effectiveStatus === 'mention';
   const isChannelOrDM =
     !hideLeadingVisual &&
-    ['public', 'private', 'group-message', 'direct-message'].includes(
-      leadingVisual,
-    );
+    (isCustomVisual ||
+      ['public', 'private', 'group-message', 'direct-message'].includes(
+        builtInVisual,
+      ));
 
   const rootClass = [
     styles['channel-sidebar-item'],
@@ -167,6 +201,9 @@ export default function ChannelSidebarItem({
   const iconContainerClass = [
     styles['channel-sidebar-item__icon-container'],
     isDM ? styles['channel-sidebar-item__icon-container--dm'] : '',
+    isCustomVisual
+      ? styles['channel-sidebar-item__icon-container--custom']
+      : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -193,12 +230,18 @@ export default function ChannelSidebarItem({
       >
         {!hideLeadingVisual && (
           <div className={iconContainerClass} aria-hidden>
-            <LeadingVisualContent
-              leadingVisual={leadingVisual}
-              memberCount={memberCount}
-              avatarSrc={avatarSrc}
-              showAvatarStatus={showAvatarStatus}
-            />
+            {isCustomVisual ? (
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {leadingVisual as ReactNode}
+              </IconSlotContext.Provider>
+            ) : (
+              <LeadingVisualContent
+                leadingVisual={builtInVisual}
+                memberCount={memberCount}
+                avatarSrc={avatarSrc}
+                showAvatarStatus={showAvatarStatus}
+              />
+            )}
           </div>
         )}
         <div className={styles['channel-sidebar-item__content']}>
@@ -227,6 +270,13 @@ export default function ChannelSidebarItem({
         </div>
       </button>
       <div className={rightClass}>
+        {trailingVisual != null && trailingVisual !== false && (
+          <span className={styles['channel-sidebar-item__trailing-visual']}>
+            <IconSlotContext.Provider value={{ size: '16' }}>
+              {trailingVisual}
+            </IconSlotContext.Provider>
+          </span>
+        )}
         {callActive && (
           <div className={styles['channel-sidebar-item__call']} aria-hidden>
             <PhoneInTalkIcon size={12} />

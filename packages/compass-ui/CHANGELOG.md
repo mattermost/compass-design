@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`ChannelSidebarItem` custom `leadingVisual` and `trailingVisual`:** `leadingVisual` now also accepts a `ReactNode` that replaces the built-in glyph (strings keep selecting the built-in types). It renders in a fixed 24px icon column so the label stays aligned, and provides the 16px icon size via context so `<Icon glyph={...} />` needs no `size`. New optional `trailingVisual` renders before the mention badge / menu button. `status` styling is independent of both. Custom visuals get the overflow menu like channel rows. Default markup is unchanged.
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added

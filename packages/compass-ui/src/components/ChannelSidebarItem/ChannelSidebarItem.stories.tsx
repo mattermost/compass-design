@@ -1,3 +1,6 @@
+import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
+import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circle-multiple-outline';
+import Icon from '@/components/Icon/Icon';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
@@ -222,5 +225,16 @@ export const AllVariants: Story = {
         </div>
       </section>
     </div>
+  ),
+};
+
+export const CustomVisuals: Story = {
+  args: { name: 'Agent chat', status: 'unread' },
+  render: (args) => (
+    <ChannelSidebarItem
+      {...args}
+      leadingVisual={<Icon glyph={<MessageTextOutlineIcon />} />}
+      trailingVisual={<Icon glyph={<CircleMultipleOutlineIcon />} />}
+    />
   ),
 };
