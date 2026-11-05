@@ -92,7 +92,7 @@
 }
 
 /**
- * Keyboard focus ring for compact controls (buttons, tabs, chips, …): a 2px
+ * Keyboard focus ring for compact controls (buttons, tabs, chips, etc.): a 2px
  * ring with a 3px gap, drawn only under `:focus-visible`.
  *
  * Deliberately has NO resting outline and NO outline transition. A resting
@@ -102,6 +102,8 @@
  * it inside the control's selector; it emits the rest and `:focus-visible`
  * rules. Override only `$color` (contrast) or `$offset`.
  */
+$_focus-ring-keyframes-emitted: false;
+
 @mixin focus-ring($color: var(--focus-ring-color), $offset: 3px) {
   outline: none;
 
@@ -117,11 +119,19 @@
       animation: none;
     }
   }
-}
 
-@keyframes focus-ring-in {
-  from {
-    outline-color: transparent;
-    outline-offset: 0;
+  // Emitted at most once per compiled stylesheet. Must NOT be a top-level
+  // `@keyframes` in this file: mixins.scss is injected into every stylesheet
+  // (including vendor/global ones that must open with the `@layer` order).
+  @if not $_focus-ring-keyframes-emitted {
+    @at-root {
+      @keyframes focus-ring-in {
+        from {
+          outline-color: transparent;
+          outline-offset: 0;
+        }
+      }
+    }
+    $_focus-ring-keyframes-emitted: true !global;
   }
 }
