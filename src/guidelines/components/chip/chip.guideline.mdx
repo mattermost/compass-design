@@ -158,6 +158,33 @@ so the cause is explicit.
 
 <Divider />
 
+## Pressable
+
+Set `as="button"` when the whole chip is an action (run a suggestion, open a
+menu). The root becomes a native `<button type="button">`, so it is a tab
+stop, activates on Enter and Space, shows a pointer cursor and focus ring, and
+supports `disabled` and a forwarded `ref` for anchoring a menu. With `onRemove` the chip
+stays one control: the body runs `onClick` (click, Enter, Space) and Delete,
+Backspace or the × remove it.
+
+<div
+  style={{
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  }}
+>
+  <Chip as="button" onClick={() => {}}>
+    Summarize this channel
+  </Chip>
+  <Chip as="button" disabled>
+    Disabled
+  </Chip>
+</div>
+
+<Divider />
+
 ## Accessibility
 
 A set of chips is one widget. Wrap chips that belong together in a
