@@ -10,7 +10,6 @@
 .spinner {
   display: inline-block;
   border-radius: var(--radius-pill);
-  // stylelint-disable-next-line declaration-property-value-disallowed-list -- fixed rotation period has no duration token
   animation: spinner-spin 750ms linear infinite;
   background: conic-gradient(
     rgba(var(--center-channel-color-rgb), 0),

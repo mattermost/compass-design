@@ -4,10 +4,6 @@
 // Mixins
 // ============================================================
 
-// Line-height of the floated label (10px text) in form fields. It isn't on the
-// --line-height-* scale and isn't worth a public token; one place to change it.
-$floating-label-line-height: 14px;
-
 @mixin respond-to($breakpoint) {
   @if $breakpoint == sm {
     @media (min-width: $breakpoint-sm) {

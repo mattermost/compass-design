@@ -16,17 +16,21 @@ export default {
   ignoreFiles: ['**/dist/**', '**/storybook-static/**', '**/node_modules/**'],
   rules: {
     'declaration-property-value-disallowed-list': {
-      '/^(transition|animation)(-duration|-delay)?$/': [
+      // Duration and easing are checked on transitions only; keyframe animations
+      // (spins, pulses) often run on their own period and curve, so `animation`
+      // duration and easing are exempt.
+      '/^transition(-duration|-delay)?$/': [
         /(?<![\w.-])(?!0m?s\b)\d*\.?\d+m?s\b/,
       ],
       // `linear` is fine: constant-rate motion has no easing token.
-      '/^(transition|animation)(-timing-function)?$/': [
+      '/^transition(-timing-function)?$/': [
         /(?<![\w-])(ease|ease-in|ease-out|ease-in-out)(?![\w-])/,
         /cubic-bezier\(/,
       ],
       // Spacing and radius: use --spacing-* and --radius-*. Any raw unit warns
-      // (px, rem, em, vw, …) except percentages, viewport units (vw, vh), zero and 1px hairlines; one-off widths and in-between values warn (disable inline
-      // with a reason when there's no suitable token).
+      // (px, rem, em, …) except percentages, viewport units (vw, vh), zero and
+      // 1px hairlines. One-off widths and in-between values warn; disable
+      // inline with a reason when there's no suitable token.
       '/^(padding|margin|gap|row-gap|column-gap)(-(top|right|bottom|left|block|inline)(-(start|end))?)?$/':
         [
           /(?<![\w.#-])(?!0+(?:\.0+)?[a-z]*(?![\w.])|1px\b|\d*\.?\d+[dsl]?v[hw]\b)\d*\.?\d+[a-z]+\b/,
@@ -34,9 +38,10 @@ export default {
       '/^border(-(top|bottom|start|end)-?(left|right|start|end)?)?-radius$/': [
         /(?<![\w.#-])(?!0+(?:\.0+)?[a-z]*(?![\w.])|1px\b|\d*\.?\d+[dsl]?v[hw]\b)\d*\.?\d+[a-z]+\b/,
       ],
-      // Line height: use --line-height-*. Unitless 0 and 1 are resets, not sizes.
-      // Off-scale values warn until design settles them.
-      'line-height': [new RegExp(`^(?!0$|1$)${notToken}`)],
+      // Line height: use --line-height-*. Unitless numbers are proportional to the
+      // font size, not a raw size, so they're allowed. Off-scale px values warn
+      // until design settles them.
+      'line-height': [new RegExp(`^(?!\\d*\\.?\\d+$)${notToken}`)],
       // Shadows: use --elevation-1…6.
       'box-shadow': [
         // Exempt: none/keywords, elevation tokens, focus / field rings, black

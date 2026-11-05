@@ -63,7 +63,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
       color: rgba(var(--center-channel-color-rgb), 0.64);
     }
   }
@@ -141,7 +141,7 @@
     &.text-area--label-floated .text-area__label {
       top: 0;
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
     }
   }
 
@@ -161,7 +161,7 @@
     &.text-area--label-floated .text-area__label {
       top: 0;
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
     }
   }
 
@@ -182,7 +182,7 @@
     &.text-area--label-floated .text-area__label {
       top: 0;
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
     }
   }
 

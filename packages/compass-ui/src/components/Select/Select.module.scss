@@ -67,7 +67,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
     }
 
     .select:focus-within & {
@@ -217,7 +217,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
     }
   }
 
@@ -247,7 +247,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
     }
   }
 
@@ -278,7 +278,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: $floating-label-line-height;
+      line-height: 1.4;
     }
   }
 
