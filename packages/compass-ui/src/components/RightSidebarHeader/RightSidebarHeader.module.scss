@@ -87,17 +87,12 @@
     border-radius: var(--radius-s);
     background-color: transparent;
     cursor: pointer;
-    outline: 2px solid
-      color-mix(
-        in srgb,
-        var(--focus-ring-color, var(--button-bg)) 0%,
-        transparent
-      );
-    outline-offset: 0;
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      outline-color var(--duration-quick) var(--ease-transition),
-      outline-offset var(--duration-quick) var(--ease-transition);
+    @include focus-ring(var(--focus-ring-color, var(--button-bg)));
+
+    &:hover:not(:disabled),
+    &:active:not(:disabled) {
+      transition: background-color var(--duration-quick) var(--ease-transition);
+    }
 
     &:hover:not(:disabled) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -105,11 +100,6 @@
 
     &:active:not(:disabled) {
       background-color: rgba(var(--center-channel-color-rgb), 0.12);
-    }
-
-    &:focus-visible {
-      outline-color: var(--focus-ring-color, var(--button-bg));
-      outline-offset: 3px;
     }
 
     &:disabled {
@@ -139,9 +129,13 @@
     line-height: var(--line-height-75);
     color: rgba(var(--center-channel-color-rgb), 0.64);
     cursor: pointer;
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      color var(--duration-quick) var(--ease-transition);
+
+    &:hover,
+    &:active {
+      transition:
+        background-color var(--duration-quick) var(--ease-transition),
+        color var(--duration-quick) var(--ease-transition);
+    }
 
     &:hover {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);

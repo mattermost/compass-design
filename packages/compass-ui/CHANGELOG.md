@@ -6,6 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **Controls no longer flash when moving between neighbours (#184):** `IconButton`, `Button`, `TileButton`, `CardButton`, `Chip`, `Combobox`, `Dropdown`, `EmojiButton`, `FieldClearButton`, `MoreUnreadsBanner`, `PaginationDots`, `PasswordInput`, `ReactionButton`, `ReactionsRow`, `RightSidebarHeader`, `Tabs`, `AttachmentCard`, `MenuItem`, `ChannelInfoMsgHeader` and `DateRangePicker` had two transition-related flashes.
+  - **State fade:** a `background-color` / `color` transition on the base state crossfaded fills when `toggled` / `selected` / `active` changed, so a toggled button and its peer faded in opposite directions. These fades now run only on `:hover` / `:active`; state changes are instant.
+  - **Focus ring fade-out:** a resting 0%-opacity outline with an `outline-color` transition made a ring fade out on the control that lost focus whenever a host reset such as `*:focus { outline: none }` (as in the Mattermost webapp) loaded after Compass. Controls now have no resting outline and no outline transition; the ring is drawn only under `:focus-visible` (new internal `focus-ring` Sass mixin). With such a reset the keyboard ring also stays visible, because the `:focus-visible` rule now outranks it.
+  - **Behavior change:** hover-out now snaps instead of fading, and the keyboard focus ring appears instantly instead of fading in. Hosts can drop a `transition: none` workaround for `[class*="_icon-button_"]`.
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added

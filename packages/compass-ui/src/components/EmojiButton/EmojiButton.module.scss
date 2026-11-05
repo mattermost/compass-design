@@ -7,17 +7,13 @@
   border-radius: var(--radius-s);
   border: 0;
   cursor: pointer;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
   background-color: transparent;
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  // No transition at rest: toggled / active / focus-leaving are instant (#184).
+  @include focus-ring;
 
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
+  &:hover,
+  &:active {
+    transition: background-color var(--duration-quick) var(--ease-transition);
   }
 
   &:disabled {

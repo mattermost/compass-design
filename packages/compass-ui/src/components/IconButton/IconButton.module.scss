@@ -17,9 +17,7 @@
   background-color: transparent;
   --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
   color: var(--icon-button-fg);
-  // No resting outline: a consumer reset (`*:focus { outline: none }`) flipping
-  // outline-style would otherwise fade a ring out when focus leaves.
-  outline: none;
+  @include focus-ring;
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
@@ -30,11 +28,6 @@
   &:visited {
     color: var(--icon-button-fg);
     text-decoration: none;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 3px;
   }
 
   &:hover,

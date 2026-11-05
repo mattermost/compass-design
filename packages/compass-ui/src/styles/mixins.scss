@@ -90,3 +90,23 @@
   margin-bottom: var(--spacing-xl);
   margin-top: var(--spacing-xl);
 }
+
+/**
+ * Keyboard focus ring for compact controls (buttons, tabs, chips, …): a 2px
+ * ring with a 3px gap, drawn only under `:focus-visible`.
+ *
+ * Deliberately has NO resting outline and NO outline transition. A resting
+ * transparent outline plus an `outline-color` transition makes a ring fade out
+ * on the control that just lost focus whenever a host reset such as
+ * `*:focus { outline: none }` loads after Compass (compass-design#184). Include
+ * it inside the control's selector; it emits the rest and `:focus-visible`
+ * rules. Override only `$color` (contrast) or `$offset`.
+ */
+@mixin focus-ring($color: var(--focus-ring-color), $offset: 3px) {
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: $offset;
+  }
+}

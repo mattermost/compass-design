@@ -27,20 +27,12 @@
     border: none;
     cursor: pointer;
     padding: var(--spacing-xxs) var(--spacing-s);
-    outline: 2px solid
-      color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-    outline-offset: 0;
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      outline-color var(--duration-quick) var(--ease-transition),
-      outline-offset var(--duration-quick) var(--ease-transition);
-
-    &:focus-visible {
-      outline-color: var(--focus-ring-color);
-      outline-offset: 3px;
-    }
+    // No transitions on state (active tab, label/badge colour, underline) or
+    // focus-leaving: they must switch instantly (#184). Only hover fades.
+    @include focus-ring;
 
     &:hover:not(&--active):not(&--disabled) {
+      transition: background-color var(--duration-quick) var(--ease-transition);
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
@@ -75,7 +67,6 @@
     line-height: var(--line-height-100);
     color: rgba(var(--center-channel-color-rgb), 0.64);
     white-space: nowrap;
-    transition: color var(--duration-quick) var(--ease-transition);
   }
 
   &__count-badge {
@@ -90,9 +81,6 @@
     line-height: 11px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     flex-shrink: 0;
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      color var(--duration-quick) var(--ease-transition);
 
     &--active {
       background-color: rgba(var(--link-color-rgb), 0.12);
@@ -142,8 +130,6 @@
         bottom: 0;
         height: 2px;
         background-color: transparent;
-        transition: background-color var(--duration-quick)
-          var(--ease-transition);
       }
 
       &:hover:not(.tabs__tab--active):not(.tabs__tab--disabled) {

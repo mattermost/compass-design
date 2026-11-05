@@ -16,14 +16,9 @@
   cursor: pointer;
   text-decoration: none;
   color: var(--button-fg);
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    color var(--duration-quick) var(--ease-transition),
-    box-shadow var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  // No transition at rest (see `focus-ring` mixin and #184): fades are opted
+  // into on :hover / :active below so state changes and focus-leaving are instant.
+  @include focus-ring;
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
@@ -36,9 +31,12 @@
     text-decoration: none;
   }
 
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
+  &:hover,
+  &:active {
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      color var(--duration-quick) var(--ease-transition),
+      box-shadow var(--duration-quick) var(--ease-transition);
   }
 
   &:is(:disabled, .button--disabled) {

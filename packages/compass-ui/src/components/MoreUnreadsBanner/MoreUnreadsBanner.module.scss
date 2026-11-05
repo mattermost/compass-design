@@ -9,13 +9,14 @@
   border-radius: var(--radius-s);
   box-shadow: var(--elevation-1);
   cursor: pointer;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    box-shadow var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  @include focus-ring;
+
+  &:hover,
+  &:active {
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      box-shadow var(--duration-quick) var(--ease-transition);
+  }
 
   &:hover {
     background-color: rgba(var(--mention-bg-rgb), 0.92);
@@ -24,11 +25,6 @@
 
   &:active {
     box-shadow: var(--elevation-1);
-  }
-
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
   }
 
   &__icon {
