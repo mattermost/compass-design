@@ -268,7 +268,7 @@ function StatePeers() {
         {[0, 1].map((i) => (
           <EmojiButton
             key={i}
-            emoji="smile"
+            emoji="😀"
             aria-label={`Emoji ${i + 1}`}
             toggled={emoji === i}
             onClick={() => setEmoji(i)}
@@ -386,18 +386,18 @@ function FocusRow() {
         <Chip onRemove={noop}>Chip two</Chip>
       </Labelled>
       <Labelled name="EmojiButton">
-        <EmojiButton emoji="smile" aria-label="Smile" />
-        <EmojiButton emoji="heart" aria-label="Heart" />
+        <EmojiButton emoji="😀" aria-label="Smile" />
+        <EmojiButton emoji="❤️" aria-label="Heart" />
       </Labelled>
       <Labelled name="ReactionButton">
-        <ReactionButton emoji="thumbsup" count={2} />
-        <ReactionButton emoji="heart" count={5} />
+        <ReactionButton emoji="👍" count={2} />
+        <ReactionButton emoji="❤️" count={5} />
       </Labelled>
       <Labelled name="ReactionsRow">
         <ReactionsRow
           reactions={[
-            { emoji: 'thumbsup', count: 2 },
-            { emoji: 'heart', count: 1, byCurrentUser: true },
+            { emoji: '👍', count: 2 },
+            { emoji: '❤️', count: 1, byCurrentUser: true },
           ]}
           showAddReaction
           acknowledged
