@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **Opacity tokens:** the foundation opacity scale is now emitted as CSS variables, `--opacity-4` … `--opacity-100` (4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 100). Compose them with theme RGB variables, e.g. `rgba(var(--center-channel-color-rgb), var(--opacity-32))`.
+- **Border emphasis tokens:** `--border-emphasis-subtle` (8%), `-default` (12%), `-strong` (16%), plus interactive steps `-hover` (32%) and `-focus` (56%), all derived from `--center-channel-color-rgb`. A bordered field or composer uses `default` at rest, `hover` on hover and `focus` on focus. Additive only; no existing token changed.
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added

@@ -391,5 +391,32 @@
     --z-sidebar: 100;
     --z-modal: 200;
     --z-tooltip: 300;
+
+    // ============================================================
+    // Opacity (foundation scale) — compose with theme RGB vars:
+    //   rgba(var(--center-channel-color-rgb), var(--opacity-32))
+    // ============================================================
+    --opacity-4: 0.04;
+    --opacity-8: 0.08;
+    --opacity-12: 0.12;
+    --opacity-16: 0.16;
+    --opacity-24: 0.24;
+    --opacity-32: 0.32;
+    --opacity-40: 0.4;
+    --opacity-48: 0.48;
+    --opacity-56: 0.56;
+    --opacity-64: 0.64;
+    --opacity-72: 0.72;
+    --opacity-80: 0.8;
+    --opacity-88: 0.88;
+    --opacity-100: 1;
+
+    // Border emphasis (theme-aware, centre-channel text colour).
+    // Bordered fields/composers: rest = default, hover = hover, focus = focus.
+    --border-emphasis-subtle: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    --border-emphasis-default: rgba(var(--center-channel-color-rgb), var(--opacity-12));
+    --border-emphasis-strong: rgba(var(--center-channel-color-rgb), var(--opacity-16));
+    --border-emphasis-hover: rgba(var(--center-channel-color-rgb), var(--opacity-32));
+    --border-emphasis-focus: rgba(var(--center-channel-color-rgb), var(--opacity-56));
   }
 }
