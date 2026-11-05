@@ -1,6 +1,7 @@
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
 import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circle-multiple-outline';
 import Icon from '@/components/Icon/Icon';
+import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
@@ -228,13 +229,70 @@ export const AllVariants: Story = {
   ),
 };
 
+const dot = (color: string, size = 8) => (
+  <span
+    style={{
+      display: 'inline-block',
+      width: size,
+      height: size,
+      borderRadius: '50%',
+      background: color,
+    }}
+  />
+);
+
+/**
+ * `leadingVisual` accepts any node and `trailingVisual` adds a trailing slot.
+ * Custom visuals sit in the same 24px icon column as the built-in icons, so
+ * labels stay aligned, and `status` styling still applies.
+ */
 export const CustomVisuals: Story = {
-  args: { name: 'Agent chat', status: 'unread' },
-  render: (args) => (
-    <ChannelSidebarItem
-      {...args}
-      leadingVisual={<Icon glyph={<MessageTextOutlineIcon />} />}
-      trailingVisual={<Icon glyph={<CircleMultipleOutlineIcon />} />}
-    />
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <section>
+        <div style={labelStyle}>Built-in (string) vs custom icon node</div>
+        <ChannelSidebarItem name="Town Square" leadingVisual="public" />
+        <ChannelSidebarItem
+          name="Agent chat"
+          leadingVisual={<Icon glyph={<MessageTextOutlineIcon />} />}
+          onClick={fn()}
+        />
+      </section>
+      <section>
+        <div style={labelStyle}>Custom avatar (20px) in the leading slot</div>
+        <ChannelSidebarItem
+          name="Danielle Okoro"
+          leadingVisual={
+            <UserAvatar src={avatarDanielle} alt="" size="20" status />
+          }
+          onClick={fn()}
+        />
+      </section>
+      <section>
+        <div style={labelStyle}>Custom indicator + trailing visual</div>
+        <ChannelSidebarItem
+          name="Release planning"
+          status="unread"
+          leadingVisual={dot('var(--sidebar-text-active-border)', 10)}
+          trailingVisual={<Icon glyph={<CircleMultipleOutlineIcon />} />}
+          onClick={fn()}
+        />
+        <ChannelSidebarItem
+          name="Incident review"
+          status="mention"
+          mentionCount={3}
+          active
+          leadingVisual={<Icon glyph={<MessageTextOutlineIcon />} />}
+          trailingVisual={dot('var(--sidebar-text-active-border)')}
+          onClick={fn()}
+        />
+        <ChannelSidebarItem
+          name="Muted agent"
+          muted
+          leadingVisual={<Icon glyph={<MessageTextOutlineIcon />} />}
+          trailingVisual={dot('var(--sidebar-text)')}
+        />
+      </section>
+    </div>
   ),
 };
