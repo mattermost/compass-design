@@ -55,7 +55,6 @@
     border-radius: var(--radius-m);
     font-size: var(--font-size-25);
     font-weight: var(--font-weight-semibold);
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale line-height; no --line-height-* token matches (see #198)
     line-height: 11px;
     color: var(--color-neutral-0);
     white-space: nowrap;

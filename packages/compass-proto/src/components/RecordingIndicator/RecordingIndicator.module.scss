@@ -55,7 +55,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- constant-rate rotation: linear easing and a fixed period have no token
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- fixed rotation period has no duration token
     animation: recording-indicator-spin 1s linear infinite;
     transform-origin: center;
   }

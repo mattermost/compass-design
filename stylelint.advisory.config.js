@@ -5,6 +5,10 @@
 //   // stylelint-disable-next-line declaration-property-value-disallowed-list -- <reason>
 import { sharedOverrides } from './stylelint.config.js';
 
+// Anything that isn't a token reference, a Sass variable or a CSS-wide keyword.
+const notToken =
+  '(?!var\\(|calc\\(.*var\\(|\\$|inherit$|initial$|unset$|revert)';
+
 export default {
   customSyntax: 'postcss-scss',
   defaultSeverity: 'warning',
@@ -15,8 +19,9 @@ export default {
       '/^(transition|animation)(-duration|-delay)?$/': [
         /(?<![\w.-])(?!0m?s\b)\d*\.?\d+m?s\b/,
       ],
+      // `linear` is fine: constant-rate motion has no easing token.
       '/^(transition|animation)(-timing-function)?$/': [
-        /(?<![\w-])(ease|ease-in|ease-out|ease-in-out|linear)(?![\w-])/,
+        /(?<![\w-])(ease|ease-in|ease-out|ease-in-out)(?![\w-])/,
         /cubic-bezier\(/,
       ],
       // Spacing and radius: use --spacing-* and --radius-*. Any raw unit warns
@@ -29,10 +34,15 @@ export default {
       '/^border(-(top|bottom|start|end)-?(left|right|start|end)?)?-radius$/': [
         /(?<![\w.#-])(?!0+(?:\.0+)?[a-z]*(?![\w.])|1px\b|\d*\.?\d+[dsl]?v[hw]\b)\d*\.?\d+[a-z]+\b/,
       ],
-      // Shadows: use --elevation-1…6. Focus / field rings (`--focus-ring-color`
-      // or a zero-blur `0 0 0 Npx` spread) are not elevations and are exempt.
+      // Line height: use --line-height-*. Unitless 0 and 1 are resets, not sizes.
+      // Off-scale values warn until design settles them.
+      'line-height': [new RegExp(`^(?!0$|1$)${notToken}`)],
+      // Shadows: use --elevation-1…6.
       'box-shadow': [
-        /^(?!none$|inherit$|initial$|unset$)(?!.*var\(--(elevation-|focus-ring-color))(?!(inset\s+)?0(px)?\s+0(px)?\s+0(px)?\s)/,
+        // Exempt: none/keywords, elevation tokens, focus / field rings, black
+        // shadows (--color-neutral-1200-rgb stays dark in every theme) and inset
+        // edge lines (borders, not elevations).
+        /^(?!none$|inherit$|initial$|unset$)(?!.*var\(--(elevation-|focus-ring-color|color-neutral-1200-rgb))(?!(inset\s+)?0(px)?\s+0(px)?\s+0(px)?\s)(?!inset\s+\S+\s+\S+\s+0(px)?\s)/,
       ],
     },
   },

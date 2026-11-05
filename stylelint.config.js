@@ -14,7 +14,8 @@ const definitionFiles = [
   '**/layers.scss',
 ];
 
-// Docs-only mocks that reproduce OS / device chrome or fixed demo art.
+// Docs-only mocks and specimens that reproduce OS / device chrome, fixed demo
+// art or display sizes.
 // Raw values are intentional here.
 const mockFiles = [
   'src/components/layout/DeviceFrame/*.scss',
@@ -24,6 +25,8 @@ const mockFiles = [
   'src/pages/home/Home.module.scss',
   'src/pages/topics/FoundationsBento/*.scss',
   'packages/compass-proto/src/components/CallPopout/*.scss',
+  'src/guidelines/_components/Type.module.scss',
+  'src/styles/library-demo/foundations.module.scss',
 ];
 
 // Anything that isn't a token reference, a Sass variable (a named constant) or a
@@ -60,11 +63,9 @@ export default {
       '/.*/': [/(?<!var\(\s*--[\w-]+\s*,\s*)#[0-9a-f]{3,8}\b/i],
       // Bold / numeric weights: use --font-weight-regular|semibold
       'font-weight': [/^(bold|bolder|[1-9]00)$/],
-      // Type: use --font-family-*, --font-size-*, --line-height-*
+      // Type: use --font-family-* and --font-size-* (line-height is advisory)
       'font-family': [new RegExp(`^${notToken}`)],
       'font-size': [new RegExp(`^${notToken}`)],
-      // Unitless 0 and 1 are resets, not sizes, so they are allowed.
-      'line-height': [new RegExp(`^(?!0$|1$)${notToken}`)],
     },
   },
   overrides: [...sharedOverrides],

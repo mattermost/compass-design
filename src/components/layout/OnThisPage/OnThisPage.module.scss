@@ -36,7 +36,6 @@
   display: flex;
   // 1px left border replaced by box-shadow inset so active state can swap to
   // a 2px border without shifting the link's text position.
-  // stylelint-disable-next-line declaration-property-value-disallowed-list -- inset edge line, not an elevation
   box-shadow: inset 1px 0 0 0 rgba(var(--center-channel-color-rgb), 0.12);
   transition: box-shadow var(--duration-quick) var(--ease-transition);
 
@@ -45,7 +44,6 @@
   }
 
   &--active {
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- inset edge line, not an elevation
     box-shadow: inset 2px 0 0 0 var(--button-bg);
   }
 }

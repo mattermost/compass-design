@@ -11,8 +11,7 @@
   border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
   border-bottom: none;
   border-radius: var(--radius-l) var(--radius-l) 0 0;
-  // stylelint-disable-next-line declaration-property-value-disallowed-list -- upward black shadow (elevation-2 cast up) has no matching elevation token; it must stay dark in every theme
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -2px 6px rgba(var(--color-neutral-1200-rgb), 0.08);
   color: var(--center-channel-color);
   font-family: var(--font-family-body);
 
@@ -188,8 +187,7 @@
     object-fit: cover;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: var(--radius-s);
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- black drop shadow has no matching elevation token; it must stay dark in every theme
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 3px rgba(var(--color-neutral-1200-rgb), 0.08);
     box-sizing: border-box;
   }
 

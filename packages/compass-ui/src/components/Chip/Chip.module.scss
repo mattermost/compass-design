@@ -108,7 +108,6 @@
 
     .chip__label {
       font-size: var(--font-size-25);
-      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale line-height; no --line-height-* token matches (see #198)
       line-height: 12px;
       letter-spacing: 0.2px;
     }
