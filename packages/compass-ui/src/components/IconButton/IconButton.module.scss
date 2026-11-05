@@ -11,16 +11,15 @@
   border: 0;
   cursor: pointer;
   text-decoration: none;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    color var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
+  // No transition at rest: state changes (toggled / selected / active, or focus
+  // leaving) must switch instantly so neighbouring buttons don't crossfade or
+  // flash a fading ring. Fades are opted into on :hover / :active below.
   background-color: transparent;
   --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
   color: var(--icon-button-fg);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  // No resting outline: a consumer reset (`*:focus { outline: none }`) flipping
+  // outline-style would otherwise fade a ring out when focus leaves.
+  outline: none;
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
@@ -34,8 +33,15 @@
   }
 
   &:focus-visible {
-    outline-color: var(--focus-ring-color);
+    outline: 2px solid var(--focus-ring-color);
     outline-offset: 3px;
+  }
+
+  &:hover,
+  &:active {
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      color var(--duration-quick) var(--ease-transition);
   }
 
   &:is(:disabled, .icon-button--disabled) {
