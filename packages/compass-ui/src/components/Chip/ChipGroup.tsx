@@ -21,6 +21,14 @@ function chipsIn(toolbar: ParentNode): HTMLElement[] {
   return [...toolbar.querySelectorAll<HTMLElement>('[data-chip]')];
 }
 
+/** True for a disabled chip (native `disabled` or `aria-disabled`). */
+export function isChipDisabled(el: HTMLElement): boolean {
+  return (
+    (el instanceof HTMLButtonElement && el.disabled) ||
+    el.getAttribute('aria-disabled') === 'true'
+  );
+}
+
 /** Roving tabindex + focus for a chip inside a ChipGroup. */
 export function activateChip(el: HTMLElement) {
   const toolbar = el.closest('[role="toolbar"]');
@@ -50,7 +58,11 @@ export default function ChipGroup({
   useLayoutEffect(() => {
     const toolbar = ref.current;
     if (toolbar == null) return;
-    const chips = chipsIn(toolbar);
+    const all = chipsIn(toolbar);
+    all.filter(isChipDisabled).forEach((chip) => {
+      chip.tabIndex = -1;
+    });
+    const chips = all.filter((chip) => !isChipDisabled(chip));
     if (chips.length === 0) return;
     if (disabled) {
       chips.forEach((chip) => {
@@ -80,7 +92,7 @@ export default function ChipGroup({
     if (!(target instanceof HTMLElement)) return;
     const chip = target.closest<HTMLElement>('[data-chip]');
     const toolbar = e.currentTarget;
-    if (chip == null || !toolbar.contains(chip)) return;
+    if (chip == null || !toolbar.contains(chip) || isChipDisabled(chip)) return;
     chipsIn(toolbar).forEach((c) => {
       c.tabIndex = c === chip ? 0 : -1;
     });
@@ -92,7 +104,7 @@ export default function ChipGroup({
 
     const toolbar = ref.current;
     if (toolbar == null) return;
-    const chips = chipsIn(toolbar);
+    const chips = chipsIn(toolbar).filter((c) => !isChipDisabled(c));
     if (chips.length === 0) return;
 
     const active = document.activeElement;

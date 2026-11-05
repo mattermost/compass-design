@@ -13,7 +13,7 @@ import type { IconSize } from '@/components/Icon/Icon';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import type { UserAvatarSize } from '@/components/UserAvatar/UserAvatar';
 import { toKebab } from '@/utils/string';
-import { activateChip, ChipGroupContext } from './ChipGroup';
+import { activateChip, ChipGroupContext, isChipDisabled } from './ChipGroup';
 import styles from './Chip.module.scss';
 
 export type ChipSize = 'small' | 'medium' | 'large';
@@ -87,7 +87,11 @@ function focusTargetAfterRemove(chipEl: HTMLElement): HTMLElement | null {
   ): HTMLElement | null => {
     let el: Element | null = start;
     while (el) {
-      if (el instanceof HTMLElement && el.dataset.chip != null) {
+      if (
+        el instanceof HTMLElement &&
+        el.dataset.chip != null &&
+        !isChipDisabled(el)
+      ) {
         return el;
       }
       if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {

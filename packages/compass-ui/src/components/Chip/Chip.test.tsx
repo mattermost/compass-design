@@ -2,6 +2,7 @@ import { createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render } from '@/test-utils/render';
 import Chip from './Chip';
+import ChipGroup from './ChipGroup';
 
 function fireKey(el: HTMLElement, key: string) {
   el.dispatchEvent(
@@ -98,5 +99,24 @@ describe('Chip pressable mode', () => {
     (root.querySelector('[data-chip-remove]') as HTMLElement).click();
     expect(onClick).not.toHaveBeenCalled();
     expect(onRemove).not.toHaveBeenCalled();
+  });
+
+  it('ChipGroup keeps an enabled chip as the tab stop when the first is disabled', () => {
+    const { container } = render(
+      <ChipGroup aria-label="Suggestions">
+        <Chip as="button" disabled>
+          A
+        </Chip>
+        <Chip as="button">B</Chip>
+        <Chip as="button">C</Chip>
+      </ChipGroup>,
+    );
+    const chips = [...container.querySelectorAll<HTMLElement>('[data-chip]')];
+    expect(chips.map((c) => c.tabIndex)).toEqual([-1, 0, -1]);
+    chips[1].focus();
+    fireKey(chips[1], 'ArrowLeft');
+    expect(document.activeElement).toBe(chips[1]);
+    fireKey(chips[1], 'ArrowRight');
+    expect(document.activeElement).toBe(chips[2]);
   });
 });
