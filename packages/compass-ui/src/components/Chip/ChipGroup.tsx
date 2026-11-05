@@ -58,31 +58,47 @@ export default function ChipGroup({
   useLayoutEffect(() => {
     const toolbar = ref.current;
     if (toolbar == null) return;
-    const all = chipsIn(toolbar);
-    all.filter(isChipDisabled).forEach((chip) => {
-      chip.tabIndex = -1;
+
+    const syncTabStop = () => {
+      const all = chipsIn(toolbar);
+      all.filter(isChipDisabled).forEach((chip) => {
+        chip.tabIndex = -1;
+      });
+      const chips = all.filter((chip) => !isChipDisabled(chip));
+      if (chips.length === 0) return;
+      if (disabled) {
+        chips.forEach((chip) => {
+          chip.tabIndex = -1;
+        });
+        return;
+      }
+      const focused = chips.find((chip) => chip === document.activeElement);
+      if (focused != null) {
+        chips.forEach((chip) => {
+          chip.tabIndex = chip === focused ? 0 : -1;
+        });
+        return;
+      }
+      if (!chips.some((chip) => chip.tabIndex === 0)) {
+        chips[0].tabIndex = 0;
+        chips.slice(1).forEach((chip) => {
+          chip.tabIndex = -1;
+        });
+      }
+    };
+
+    syncTabStop();
+
+    // A chip can toggle `disabled` / `aria-disabled` on its own (a wrapper with
+    // local state) without re-rendering the group, so watch for it.
+    if (typeof MutationObserver === 'undefined') return;
+    const observer = new MutationObserver(syncTabStop);
+    observer.observe(toolbar, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['disabled', 'aria-disabled'],
     });
-    const chips = all.filter((chip) => !isChipDisabled(chip));
-    if (chips.length === 0) return;
-    if (disabled) {
-      chips.forEach((chip) => {
-        chip.tabIndex = -1;
-      });
-      return;
-    }
-    const focused = chips.find((chip) => chip === document.activeElement);
-    if (focused != null) {
-      chips.forEach((chip) => {
-        chip.tabIndex = chip === focused ? 0 : -1;
-      });
-      return;
-    }
-    if (!chips.some((chip) => chip.tabIndex === 0)) {
-      chips[0].tabIndex = 0;
-      chips.slice(1).forEach((chip) => {
-        chip.tabIndex = -1;
-      });
-    }
+    return () => observer.disconnect();
   }, [children, disabled]);
 
   const handleFocus = (e: FocusEvent<HTMLDivElement>) => {

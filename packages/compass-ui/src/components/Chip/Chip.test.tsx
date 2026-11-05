@@ -1,4 +1,4 @@
-import { createRef } from 'react';
+import { act, createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render } from '@/test-utils/render';
 import Chip from './Chip';
@@ -118,5 +118,51 @@ describe('Chip pressable mode', () => {
     expect(document.activeElement).toBe(chips[1]);
     fireKey(chips[1], 'ArrowRight');
     expect(document.activeElement).toBe(chips[2]);
+  });
+
+  it('ChipGroup re-syncs the tab stop when a chip toggles disabled without a group re-render', async () => {
+    const { container } = render(
+      <ChipGroup aria-label="Suggestions">
+        <Chip as="button">A</Chip>
+        <Chip as="button">B</Chip>
+      </ChipGroup>,
+    );
+    const [a, b] = [...container.querySelectorAll<HTMLElement>('[data-chip]')];
+    // MutationObserver callbacks are delivered on a timer in happy-dom, and it
+    // doesn't report React's own attribute writes, so toggle the DOM directly.
+    const toggle = (el: HTMLElement, off: boolean) =>
+      act(async () => {
+        if (off) el.setAttribute('disabled', '');
+        else el.removeAttribute('disabled');
+        await new Promise((r) => setTimeout(r, 0));
+      });
+    const tabs = () => [a.tabIndex, b.tabIndex];
+    expect(tabs()).toEqual([0, -1]);
+
+    // The tab-stop chip becomes disabled: the stop moves to the enabled chip.
+    await toggle(a, true);
+    expect(tabs()).toEqual([-1, 0]);
+
+    // Everything disabled: no stop. Then A enables itself and takes the stop.
+    await toggle(b, true);
+    expect(tabs()).toEqual([-1, -1]);
+    await toggle(a, false);
+    expect(tabs()).toEqual([0, -1]);
+  });
+
+  it('ChipGroup tab stop skips an aria-disabled removable chip', async () => {
+    const { container } = render(
+      <ChipGroup aria-label="Suggestions">
+        <Chip as="button" disabled onRemove={() => {}}>
+          A
+        </Chip>
+        <Chip as="button" onRemove={() => {}}>
+          B
+        </Chip>
+      </ChipGroup>,
+    );
+    const [a, b] = [...container.querySelectorAll<HTMLElement>('[data-chip]')];
+    expect(a.getAttribute('aria-disabled')).toBe('true');
+    expect([a.tabIndex, b.tabIndex]).toEqual([-1, 0]);
   });
 });
