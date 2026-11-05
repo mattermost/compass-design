@@ -108,5 +108,20 @@
   &:focus-visible {
     outline: 2px solid $color;
     outline-offset: $offset;
+    // Fade-in only, as a keyframe animation rather than a transition: it can't
+    // clash with a component's own hover `transition`, and it only exists while
+    // the ring is shown, so nothing animates when focus leaves.
+    animation: focus-ring-in var(--duration-quick) var(--ease-transition);
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@keyframes focus-ring-in {
+  from {
+    outline-color: transparent;
+    outline-offset: 0;
   }
 }

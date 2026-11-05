@@ -112,8 +112,28 @@ function useTransitionDetector(active: boolean) {
       window.__transitionLog?.push(entry);
       setLog((prev) => [entry, ...prev].slice(0, 200));
     };
+    // The intentional keyboard-ring fade-in is a keyframe animation, logged
+    // separately so it is distinguishable from an unwanted fade-out.
+    const onAnim = (e: Event) => {
+      const ae = e as AnimationEvent;
+      if (!ae.animationName.includes('focus-ring-in')) return;
+      const target = ae.target as Element;
+      const entry: LogEntry = {
+        t: Math.round(performance.now() - start.current),
+        component: componentName(target),
+        tag: target.tagName.toLowerCase(),
+        property: 'focus-ring-in (animation, expected on keyboard focus)',
+        duration: getComputedStyle(target).animationDuration.split(',')[0],
+      };
+      window.__transitionLog?.push(entry);
+      setLog((prev) => [entry, ...prev].slice(0, 200));
+    };
     document.addEventListener('transitionrun', onRun, true);
-    return () => document.removeEventListener('transitionrun', onRun, true);
+    document.addEventListener('animationstart', onAnim, true);
+    return () => {
+      document.removeEventListener('transitionrun', onRun, true);
+      document.removeEventListener('animationstart', onAnim, true);
+    };
   }, [active]);
 
   const clear = useCallback(() => {
@@ -502,7 +522,7 @@ function Repro({ resetOn: initialReset }: { resetOn: boolean }) {
 
       <Section
         title="Cause 2 — ring fades out when focus leaves"
-        hint="With the reset on, mouse-click one control then another. Any outline-color / outline-offset transitionrun is the flash. Keyboard focus ring (Tab) should still appear."
+        hint="With the reset on, mouse-click one control then another. Any outline-color / outline-offset transitionrun is the flash. Tabbing in should fade the ring in (one focus-ring-in animation, no outline transitions); focus leaving must not animate."
       >
         <FocusRow />
       </Section>
