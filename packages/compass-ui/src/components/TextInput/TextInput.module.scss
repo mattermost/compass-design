@@ -99,7 +99,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: $floating-label-line-height;
       color: rgba(var(--center-channel-color-rgb), 0.64);
     }
   }
@@ -205,7 +205,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: $floating-label-line-height;
     }
   }
 
@@ -234,7 +234,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: $floating-label-line-height;
     }
   }
 
@@ -264,7 +264,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: $floating-label-line-height;
     }
   }
 

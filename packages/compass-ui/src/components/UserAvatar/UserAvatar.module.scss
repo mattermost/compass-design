@@ -26,6 +26,7 @@
     height: 100%;
     border-radius: var(--radius-pill);
     color: rgba(255, 255, 255, 0.92);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- heading stack with body fallback; not the same as --font-family-heading
     font-family: Metropolis, var(--font-family-body), sans-serif;
     font-weight: var(--font-weight-semibold);
     line-height: 1;
@@ -82,6 +83,7 @@
       height: #{$size}px;
 
       .user-avatar__fallback {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
         font-size: #{$size * 0.467}px;
       }
 

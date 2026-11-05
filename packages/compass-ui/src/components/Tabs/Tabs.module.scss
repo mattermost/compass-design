@@ -87,6 +87,7 @@
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
     font-size: var(--font-size-25);
     font-weight: var(--font-weight-semibold);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale line-height; no --line-height-* token matches (see #198)
     line-height: 11px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     flex-shrink: 0;
@@ -124,6 +125,7 @@
   // ---------------------------------------------------------------------------
   &--appearance-underlined {
     align-items: stretch;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- inset edge line, not an elevation
     box-shadow: inset 0 -1px 0 rgba(var(--center-channel-color-rgb), 0.12);
 
     .tabs__tab-list {

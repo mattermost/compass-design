@@ -26,32 +26,10 @@ const mockFiles = [
   'packages/compass-proto/src/components/CallPopout/*.scss',
 ];
 
-// Known debt found when Stylelint was introduced. Remove entries as they are
-// fixed; do not add new ones.
-const debtFiles = [
-  'packages/compass-proto/src/components/AppBarItem/AppBarItem.module.scss',
-  'packages/compass-proto/src/components/CallParticipantAvatar/CallParticipantAvatar.module.scss',
-  'packages/compass-proto/src/components/MobileTabBar/MobileTabBar.module.scss',
-  'packages/compass-ui/src/components/Chip/Chip.module.scss',
-  'packages/compass-ui/src/components/Combobox/Combobox.module.scss',
-  'packages/compass-ui/src/components/IconButton/IconButton.module.scss',
-  'packages/compass-ui/src/components/ImagePreview/ImagePreview.module.scss',
-  'packages/compass-ui/src/components/MentionBadge/MentionBadge.module.scss',
-  'packages/compass-ui/src/components/PasswordInput/PasswordInput.module.scss',
-  'packages/compass-ui/src/components/SearchInput/SearchInput.module.scss',
-  'packages/compass-ui/src/components/Select/Select.module.scss',
-  'packages/compass-ui/src/components/Tabs/Tabs.module.scss',
-  'packages/compass-ui/src/components/TeamAvatar/TeamAvatar.module.scss',
-  'packages/compass-ui/src/components/TextArea/TextArea.module.scss',
-  'packages/compass-ui/src/components/TextInput/TextInput.module.scss',
-  'packages/compass-ui/src/components/ThreadFooter/ThreadFooter.module.scss',
-  'packages/compass-ui/src/components/UserAvatar/UserAvatar.module.scss',
-  'src/guidelines/_components/Type.module.scss',
-  'src/styles/library-demo/foundations.module.scss',
-];
-
-// Anything that isn't a token reference (or a CSS-wide keyword).
-const notToken = '(?!var\\(|calc\\(.*var\\(|inherit$|initial$|unset$|revert)';
+// Anything that isn't a token reference, a Sass variable (a named constant) or a
+// CSS-wide keyword.
+const notToken =
+  '(?!var\\(|calc\\(.*var\\(|\\$|inherit$|initial$|unset$|revert)';
 
 export const sharedOverrides = [
   {
@@ -89,11 +67,5 @@ export default {
       'line-height': [new RegExp(`^(?!0$|1$)${notToken}`)],
     },
   },
-  overrides: [
-    ...sharedOverrides,
-    {
-      files: debtFiles,
-      rules: { 'declaration-property-value-disallowed-list': null },
-    },
-  ],
+  overrides: [...sharedOverrides],
 };

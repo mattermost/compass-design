@@ -6,6 +6,7 @@
   flex-shrink: 0;
   width: 100%;
   background-color: var(--center-channel-bg);
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- upward black shadow (elevation-2 cast up) has no matching elevation token; it must stay dark in every theme
   box-shadow: 0 -2px 6px 0 #0000001f; // elevation-2, cast upward
   padding-bottom: var(--device-safe-bottom, 34px);
   box-sizing: border-box;
@@ -81,6 +82,7 @@
     font-family: var(--font-family-body);
     font-size: var(--font-size-25);
     font-weight: var(--font-weight-semibold);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale line-height; no --line-height-* token matches (see #198)
     line-height: 12px;
     letter-spacing: 0;
     text-align: center;

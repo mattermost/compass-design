@@ -227,6 +227,7 @@
   }
 
   &__type-family-sample {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- docs specimen display size; not a UI value
     font-size: 52px;
     line-height: 1;
     color: var(--center-channel-color);

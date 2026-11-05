@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- docs specimen display size; not a UI value
     font-size: 180px;
     line-height: 1;
     font-weight: var(--font-weight-semibold);
@@ -67,6 +68,7 @@
     padding-top: var(--spacing-l);
     border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     font-size: var(--font-size-400);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- docs specimen line-height; not a UI value
     line-height: 1.5;
     letter-spacing: 0.01em;
     color: rgba(var(--center-channel-color-rgb), 0.88);

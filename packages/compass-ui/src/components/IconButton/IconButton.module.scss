@@ -95,6 +95,7 @@
 
     .icon-button__count {
       font-size: var(--font-size-75);
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale line-height; no --line-height-* token matches (see #198)
       line-height: 12px;
     }
 
@@ -112,6 +113,7 @@
 
     .icon-button__count {
       font-size: var(--font-size-100);
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale line-height; no --line-height-* token matches (see #198)
       line-height: 14px;
     }
 
@@ -146,6 +148,7 @@
 
     .icon-button__count {
       font-size: var(--font-size-300);
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale line-height; no --line-height-* token matches (see #198)
       line-height: 18px;
     }
 
