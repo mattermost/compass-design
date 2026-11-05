@@ -304,6 +304,7 @@
       "--opacity-72": "0.72",
       "--opacity-80": "0.8",
       "--opacity-88": "0.88",
+      "--opacity-96": "0.96",
       "--opacity-100": "1",
       "--border-emphasis-subtle": "rgba(var(--center-channel-color-rgb), var(--opacity-8))",
       "--border-emphasis-default": "rgba(var(--center-channel-color-rgb), var(--opacity-12))",
