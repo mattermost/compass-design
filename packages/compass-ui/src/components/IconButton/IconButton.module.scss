@@ -129,7 +129,7 @@
 
     .icon-button__count {
       font-size: var(--font-size-200);
-      line-height: 16px;
+      line-height: var(--line-height-75);
     }
 
     &.icon-button--padding-compact {

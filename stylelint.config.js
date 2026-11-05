@@ -46,11 +46,6 @@ const debtFiles = [
   'packages/compass-ui/src/components/TextInput/TextInput.module.scss',
   'packages/compass-ui/src/components/ThreadFooter/ThreadFooter.module.scss',
   'packages/compass-ui/src/components/UserAvatar/UserAvatar.module.scss',
-  'src/components/layout/DocSidebar/DocSidebar.module.scss',
-  'src/components/layout/OnThisPage/OnThisPage.module.scss',
-  'src/components/layout/PageHero/PageHero.module.scss',
-  'src/components/layout/ThemeSwitcherControl/ThemeSwitcherControl.module.scss',
-  'src/components/layout/TopNav/TopNav.module.scss',
   'src/guidelines/_components/Type.module.scss',
   'src/styles/library-demo/foundations.module.scss',
 ];
