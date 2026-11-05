@@ -64,6 +64,13 @@ const WEBAPP_GLOBAL_CSS = `
   box-shadow: 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), 0 0 0 1px var(--link-color);
 }
 
+/* Theme rule: webapp/channels/src/utils/utils.tsx applies this via changeCss()
+   from the user's theme link colour, under body.app__body (higher specificity
+   than the plain class above). */
+.app__body .a11y--focused {
+  box-shadow: 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), 0 0 0 1px var(--link-color);
+}
+
 :is(#root, #root-portal) [class*="_text-input__wrapper"] .a11y--focused,
 :is(#root, #root-portal) [class*="_text-area__wrapper"] .a11y--focused,
 :is(#root, #root-portal) [class*="_search-input__wrapper"] .a11y--focused,
@@ -156,23 +163,48 @@ function useInjectedCss(id: string, css: string, enabled: boolean) {
 }
 
 /**
- * Emulates the webapp's a11y controller: it adds `.a11y--focused` to the
- * element that receives keyboard focus and removes it when focus leaves.
+ * Emulates the webapp's a11y controller (`webapp/channels/src/utils/a11y_controller.ts`),
+ * read from source rather than guessed:
+ * - It listens for keydown/keyup on the document and for `focus` (capture).
+ * - While an a11y key is down (plain Tab included), a `focus` on ANY element
+ *   clears every `.a11y--focused` and adds it to the new target. It does not
+ *   look at what the element is, so Compass controls get it too.
+ * - The class is not tied to `:focus-visible` and is not removed on blur; it is
+ *   cleared on the next a11y focus. (F6 / arrow / manual-focus paths are not
+ *   emulated.)
+ * It also puts `app__body` on <body>, which the theme rule is scoped to.
  */
 function useA11yFocusedClass(enabled: boolean) {
   useEffect(() => {
     if (!enabled) return undefined;
-    const onIn = (e: FocusEvent) => {
-      const el = e.target as HTMLElement;
-      if (el.matches?.(':focus-visible')) el.classList.add('a11y--focused');
+    document.body.classList.add('app__body');
+    let tabDown = false;
+    const clear = () =>
+      document
+        .querySelectorAll('.a11y--focused')
+        .forEach((el) => el.classList.remove('a11y--focused'));
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Tab' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        tabDown = true;
+      }
     };
-    const onOut = (e: FocusEvent) =>
-      (e.target as HTMLElement).classList?.remove('a11y--focused');
-    document.addEventListener('focusin', onIn);
-    document.addEventListener('focusout', onOut);
+    const onKeyUp = () => {
+      tabDown = false;
+    };
+    const onFocus = (e: FocusEvent) => {
+      if (!tabDown) return;
+      clear();
+      (e.target as HTMLElement).classList?.add('a11y--focused');
+    };
+    document.addEventListener('keydown', onKeyDown, true);
+    document.addEventListener('keyup', onKeyUp, true);
+    document.addEventListener('focus', onFocus, true);
     return () => {
-      document.removeEventListener('focusin', onIn);
-      document.removeEventListener('focusout', onOut);
+      document.removeEventListener('keydown', onKeyDown, true);
+      document.removeEventListener('keyup', onKeyUp, true);
+      document.removeEventListener('focus', onFocus, true);
+      document.body.classList.remove('app__body');
+      clear();
     };
   }, [enabled]);
 }
