@@ -1,9 +1,11 @@
 import {
+  forwardRef,
   useContext,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
   type ReactNode,
+  type Ref,
 } from 'react';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import Icon from '@/components/Icon/Icon';
@@ -41,6 +43,18 @@ export interface ChipProps extends Omit<
   /** Adds a colored background overlay. */
   colored?: boolean;
   className?: string;
+  /**
+   * Root element. `'div'` (default) is the inert or removable token.
+   * `'button'` makes the whole chip a native `<button type="button">`: tab stop,
+   * Enter/Space activation, pointer cursor and focus ring. Use it for a chip
+   * that is an action (run something, open a menu). A pressable chip is not
+   * removable, so `onRemove` is ignored in this mode.
+   */
+  as?: 'div' | 'button';
+  /** Native `disabled`. Applies only when `as="button"`. */
+  disabled?: boolean;
+  /** Forwarded to the root element (the `<button>` when `as="button"`). */
+  ref?: Ref<HTMLElement>;
 }
 
 const ICON_SIZE_MAP: Record<ChipSize, IconSize> = {
@@ -109,18 +123,24 @@ function focusTargetAfterRemove(chipEl: HTMLElement): HTMLElement | null {
  * invite, a filter applied to a search, a chosen value in a tokenizing input. Each Chip
  * stands on its own and is removable or selectable, depending on context.
  */
-export default function Chip({
-  children,
-  size = 'medium',
-  compact = false,
-  leadingIcon,
-  leadingAvatar,
-  onRemove,
-  error = false,
-  colored = false,
-  className = '',
-  ...rest
-}: ChipProps) {
+const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
+  {
+    children,
+    size = 'medium',
+    compact = false,
+    leadingIcon,
+    leadingAvatar,
+    onRemove,
+    error = false,
+    colored = false,
+    className = '',
+    as = 'div',
+    disabled = false,
+    ...rest
+  },
+  ref,
+) {
+  const pressable = as === 'button';
   const grouped = useContext(ChipGroupContext);
   const iconSize = ICON_SIZE_MAP[size];
   const avatarSize = AVATAR_SIZE_MAP[size];
@@ -132,7 +152,7 @@ export default function Chip({
       : labelText !== ''
         ? labelText
         : undefined);
-  const removable = onRemove != null;
+  const removable = onRemove != null && !pressable;
 
   const handleRemove = (e: MouseEvent<HTMLButtonElement>) => {
     const chipEl = e.currentTarget.closest('[data-chip]');
@@ -151,12 +171,47 @@ export default function Chip({
     }, 0);
   };
 
+  const content = (
+    <>
+      {leadingAvatar != null ? (
+        <span className={styles['chip__avatar-slot']}>
+          <UserAvatar
+            src={leadingAvatar.src}
+            alt={leadingAvatar.alt}
+            size={avatarSize}
+          />
+        </span>
+      ) : leadingIcon != null ? (
+        <span className={styles['chip__icon-slot']} aria-hidden>
+          <Icon glyph={leadingIcon} size={iconSize} />
+        </span>
+      ) : null}
+      <span className={styles['chip__label']}>{children}</span>
+      {removable ? (
+        <button
+          type="button"
+          className={styles['chip__remove']}
+          data-chip-remove=""
+          tabIndex={-1}
+          aria-hidden
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
+          onClick={handleRemove}
+        >
+          <CloseCircleIcon size={Number(iconSize)} aria-hidden />
+        </button>
+      ) : null}
+    </>
+  );
+
   const rootClass = [
     styles.chip,
     styles[`chip--size-${toKebab(size)}`],
     compact && styles['chip--compact'],
     error && styles['chip--error'],
     colored && styles['chip--colored'],
+    pressable && styles['chip--pressable'],
     className,
   ]
     .filter(Boolean)
@@ -178,8 +233,25 @@ export default function Chip({
     }
   };
 
+  if (pressable) {
+    return (
+      <button
+        type="button"
+        {...(rest as HTMLAttributes<HTMLButtonElement>)}
+        ref={ref as Ref<HTMLButtonElement>}
+        className={rootClass}
+        disabled={disabled}
+        tabIndex={grouped ? (rest.tabIndex ?? -1) : rest.tabIndex}
+        data-chip=""
+      >
+        {content}
+      </button>
+    );
+  }
+
   return (
     <div
+      ref={ref as Ref<HTMLDivElement>}
       className={rootClass}
       {...rest}
       role={removable ? 'button' : rest.role}
@@ -188,35 +260,9 @@ export default function Chip({
       data-chip=""
       onKeyDown={handleKeyDown}
     >
-      {leadingAvatar != null ? (
-        <span className={styles['chip__avatar-slot']}>
-          <UserAvatar
-            src={leadingAvatar.src}
-            alt={leadingAvatar.alt}
-            size={avatarSize}
-          />
-        </span>
-      ) : leadingIcon != null ? (
-        <span className={styles['chip__icon-slot']} aria-hidden>
-          <Icon glyph={leadingIcon} size={iconSize} />
-        </span>
-      ) : null}
-      <span className={styles['chip__label']}>{children}</span>
-      {onRemove != null ? (
-        <button
-          type="button"
-          className={styles['chip__remove']}
-          data-chip-remove=""
-          tabIndex={-1}
-          aria-hidden
-          onMouseDown={(e) => {
-            e.preventDefault();
-          }}
-          onClick={handleRemove}
-        >
-          <CloseCircleIcon size={Number(iconSize)} aria-hidden />
-        </button>
-      ) : null}
+      {content}
     </div>
   );
-}
+});
+
+export default Chip;
