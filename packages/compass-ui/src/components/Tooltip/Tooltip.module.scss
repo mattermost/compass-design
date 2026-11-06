@@ -34,6 +34,7 @@
     gap: var(--spacing-xs);
     min-width: 0;
     width: 100%;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset, no spacing token
     padding: 0.5px 0;
   }
 

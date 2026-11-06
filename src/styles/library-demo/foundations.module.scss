@@ -254,7 +254,7 @@
   }
 
   &__type-family-token {
-    font-size: 10px;
+    font-size: var(--font-size-25);
     font-family: var(--font-family-mono);
     color: var(--center-channel-color);
     opacity: 0.4;
@@ -295,7 +295,7 @@
   }
 
   &__type-dim {
-    font-size: 10px;
+    font-size: var(--font-size-25);
     color: var(--center-channel-color);
     opacity: 0.4;
     font-family: var(--font-family-mono);

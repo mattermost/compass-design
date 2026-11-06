@@ -27,6 +27,7 @@
   &__tabs-strip {
     box-sizing: border-box;
     width: 100%;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
     padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 14px;
     height: 56px;
   }
