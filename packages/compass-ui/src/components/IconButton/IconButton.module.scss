@@ -95,7 +95,8 @@
 
     .icon-button__count {
       font-size: var(--font-size-75);
-      line-height: var(--line-height-50);
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- 12px keeps the count line box inside the button's 12px content box; --line-height-50 is 16px
+      line-height: 12px;
     }
 
     &.icon-button--padding-compact {
