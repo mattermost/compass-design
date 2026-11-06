@@ -13,8 +13,8 @@ Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, 
 
 **Version note.** Some rules assume props that arrive with this skill's compass-ui release: `DateRangePicker` `label` (and `aria-label`, `aria-labelledby`, `aria-describedby`, `required` reaching its trigger), `Select` and `Combobox` `message` and `messageTone`, and `Select` `required` and `aria-describedby`. Check the installed component's props. If they are missing, upgrade compass-ui when you can. If you can't, these are the limits and the best available workarounds, and you must say so in your report:
 
-- **`DateRangePicker` without `label` support:** its trigger has no accessible name and does not expose a required state, and those props are silently dropped. A visible label inside a wrapping `role="group"` with `aria-labelledby` names the group, not the trigger, and still does not expose "required". It is a partial workaround only.
-- **`Select` without `message` support:** it cannot link an error to the control (it does not accept or forward `aria-describedby`). Render the error with `FieldMessage` and `role="alert"` so it is announced when it appears, and note that it is not programmatically associated. If the association is required, use `Combobox`, which accepts `aria-describedby` and `required`.
+- **`DateRangePicker` without `label` support:** its trigger has no accessible name (its name is the date or placeholder text) and does not expose a required state, and those props are silently dropped. Labelling a wrapping `role="group"` does not name the trigger. Use a compass-ui version that has the support; if you can't, report the gap rather than claiming the field is labelled.
+- **`Select` without `message` support:** it cannot associate an error with the control (it does not accept or forward `aria-describedby`). `FieldMessage` with `role="alert"` is announced when it appears but is not associated with the field when it is focused. If the association is required, use `Combobox` (it accepts `aria-describedby` and `required`) or upgrade; otherwise report the gap.
 
 ## House rules (these win over everything else)
 
@@ -41,7 +41,7 @@ Use this when the task is to bring existing UI in line with Compass, not to buil
 1. **Audit first.** List what breaks which rule (file and line) before changing anything. Don't start editing while reading.
 2. **Keep behavior.** Change the UI, not the logic. Keep props, state, handlers, test ids and data flow. Make the smallest diff that fixes each finding; don't rewrite unrelated code.
 3. **Work in passes**, and finish one before the next:
-   1. Tokens: replace raw px, hex, font sizes, radii, shadows, durations and easing with tokens.
+   1. Tokens: replace raw px, hex, font sizes, radii, shadows, durations and easing with tokens. Keep the allowed raw values listed in `references/tokens-and-implementation.md` (1px hairlines, one-off layout widths with no token, breakpoints) so the layout doesn't change.
    2. Components: replace custom markup with the Compass component that covers the need (`references/components.md`). If none fits, keep the custom piece, mark it with a short comment, and say so.
    3. Layout: spacing, grouping, hierarchy, one primary action, forms.
    4. Copy, states and accessibility: labels, errors, focus, ARIA.
@@ -78,4 +78,4 @@ Reasoning and visuals live in the Compass guidelines (`/foundations/*`). These r
 - Animate purely for decoration, snap an expand/collapse, or ignore `prefers-reduced-motion`.
 - Use "pill" to describe a button. Use `--radius-pill`, never `--radius-full`.
 - Add decorative borders, boxed containers or helper text that restate the label.
-- Use Title Case, trailing periods on buttons/labels, colons on input labels, or "Please", "Oops", "Successfully".
+- Use Title Case, trailing periods on buttons/labels, or colons on input labels.

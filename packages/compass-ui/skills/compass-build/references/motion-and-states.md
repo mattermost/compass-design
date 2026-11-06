@@ -23,7 +23,7 @@ Default when unsure: quick + transition. Arrive gently, leave decisively.
 - **Modal:** fade + drop from above with scale 98% to 100%. `ModalOverlay` fades the scrim with the same tokens.
 - **Expand/collapse:** always animate. Grid `0fr` to `1fr`, `--duration-moderate`, keep content mounted, toggle `aria-expanded`.
 - **Hide collapsed content from keyboard and assistive technology:** a clipped (`overflow: hidden`, 0-height) region keeps its controls tabbable and exposed to screen readers. Mark the collapsed content `inert` (or `visibility: hidden` after the collapse finishes), so nothing inside can take focus.
-- **Unmounting surfaces:** use `useExitAnimation` so the exit can finish. Inside compass-ui, JS timers read the duration via `readDurationMs`, never a literal 150/300. Consumers can't import it: they use the components' own transitions (for example `usePopoverTransition`) or wait on the `transitionend` event instead of a timer.
+- **Unmounting surfaces:** use `useExitAnimation` so the exit can finish. Inside compass-ui, JS timers read the duration via `readDurationMs`, never a literal 150/300. Consumers can't import it: they use the components' own transitions (for example `usePopoverTransition`) or wait on `transitionend` and `transitioncancel`, with a fallback (a short timeout, or skip the wait when no transition runs, such as under reduced motion) so a closed surface never stays mounted.
 - **Reduced motion:** honor `prefers-reduced-motion: reduce`. Drop flourishes; meaningful motion (spinner, progress) stays at minimum legible form.
 - No decorative loops, parallax or staggered cascades in product UI. **[proposed]**
 

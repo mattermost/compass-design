@@ -18,7 +18,7 @@ Decide by what the user is giving you, in this order. Source: the Select, Combob
 - 2 or 3 options where each deserves a visual or descriptive treatment (icon, title, short description): `CardButton` as a visual radio choice. Give each card an `icon`, a `title` and an optional `description`, set `selected` on the chosen one, wrap the cards in `CardButtonGroup`, which provides the radio-group role, roving tab stops and arrow-key selection. Give the group an accessible name; each card is `role="radio"` (the component sets `aria-checked` from `selected`).
 - More than 4, still single-select: `Select`.
 - Needs typeahead, is very long, or must be searched or created: `Combobox`.
-- Action menus that don't capture a value are not fields: use `Dropdown` or `PopoverMenu`.
+- Action menus that don't capture a value are not fields: use `Dropdown` or `PopoverMenu`. `Dropdown` is only the trigger and `PopoverMenu` only the surface: the host owns open and close, focus, keyboard navigation and the menu semantics. A `Dropdown` that opens an action menu must override its default `aria-haspopup="listbox"` (use `"menu"`) and the host must make it operable by keyboard.
 
 **3. Several choices**
 

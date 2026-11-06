@@ -5,7 +5,7 @@ Source: `.claude/rules/styling.md`, `packages/compass-ui/AGENTS.md`, `/foundatio
 ## Imports
 
 - Inside the `compass-ui` package itself (its stories and tests), import with the alias, default imports: `import Button from '@/components/Button/Button';`. Everywhere else (plugins, the webapp, the proto-playground, any consumer) use the published path below.
-- Subpath imports only, named: `import { Button } from '@mattermost/compass-ui/components/button';` Never the root barrel. Component name PascalCase → kebab-case path.
+- Subpath imports only, named: `import { Button } from '@mattermost/compass-ui/components/button';` Never the root barrel. Component name PascalCase → kebab-case path. Sub-components are exported from the owning component's subpath (for example `CardButtonGroup` from `components/card-button`, `ModalOverlay` from `components/modal`): check the component folder's `index.ts` for what it exports.
 - Load the token stylesheet once at the app or plugin entry: `import '@mattermost/compass-ui/styles';`
 - Never load `@mattermost/compass-ui/styles/standalone` inside the Mattermost webapp or a plugin. It overrides the user's theme. Standalone apps and prototypes outside the webapp need it.
 - Peer dependency `simplebar-react` is required (Modal, PopoverMenu, Select, Combobox, EmptyState render scrollbars).

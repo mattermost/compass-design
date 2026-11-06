@@ -1,21 +1,21 @@
 # Pre-finish checklist
 
-Walk every item. Fix failures, then report which items you checked. Items tagged `[lint]` can be verified by the project's own checks (see "Checks to run" at the end).
+Walk every item. Fix failures, then report which items you checked. Items tagged `[lint]` can be verified by the project's own checks (see "Checks to run" at the end). Items tagged `[manual]` are not covered by any lint check: inspect the code (and the browser where needed) before marking them done.
 
 ## Structure and hierarchy
 
 - [ ] The screen has one job and one clear focal point.
-- [ ] At most one `emphasis="primary"` Button in the view (none is fine for a read-only view); the rest are lower emphasis.
+- [ ] At most one primary Button in the view (none is fine for a read-only view); the rest are lower emphasis. `Button` defaults to `emphasis="primary"`, so a Button with no `emphasis` prop counts as primary.
 - [ ] Groups use smaller gaps than the gaps between groups; sections use larger still.
 - [ ] No box, border, shadow or fill where spacing alone separates content.
 - [ ] Every element survived the "can I delete this?" pass (`simplicity-and-disclosure.md`).
-- [ ] Advanced or secondary content is behind progressive disclosure; required content is visible.
-- [ ] Form fields follow the field disclosure rules: required always visible, collapsed sections only hold optional or defaulted fields, and have a summary line.
+- [ ] Advanced or secondary content is behind progressive disclosure; required content is visible. **[proposed]**
+- [ ] Form fields follow the field disclosure rules: required always visible, collapsed sections only hold optional or defaulted fields, and have a summary line. **[proposed]**
 - [ ] Forms in an RHS have 24px padding and a pinned footer.
 
 ## Components and tokens
 
-- [ ] Used existing Compass components and patterns instead of custom markup. `[lint]`
+- [ ] Used existing Compass components and patterns instead of custom markup. `[manual]`
 - [ ] No raw px, hex, font-size, radius, shadow, duration or easing. `[lint]`
 - [ ] Subpath, named imports only; variant props are kebab-case strings.
 - [ ] Picked components with `references/components.md` (e.g. single date = `DateRangePicker mode="date"`).
@@ -30,7 +30,7 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 ## Color, type, shape
 
 - [ ] Theme role tokens only; checked on one light and one dark theme.
-- [ ] Text alpha at least 0.72 (placeholder 0.64, disabled 0.4); icon alpha at least 0.56. `[lint]`
+- [ ] Text alpha at least 0.72 (placeholder 0.64, disabled 0.4); icon alpha at least 0.56. `[manual]`
 - [ ] Semantic colors use `--color-*` / `--error-text`; presence uses indicator tokens.
 - [ ] Weights are regular or semibold; headings follow hierarchy, not size preference.
 - [ ] Radius is `--radius-s` by default, larger only on larger surfaces; pill only for counts/status.
@@ -47,7 +47,7 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 
 - [ ] Sentence case; buttons verb-first and 4 words or fewer; no trailing periods on buttons/labels; no colons on input labels.
 - [ ] Errors say what happened and what to do; no user blame.
-- [ ] No filler ("please", "oops", "successfully", exclamation marks).
+- [ ] No filler ("please", "oops", "successfully", exclamation marks). **[proposed]**
 - [ ] Visible and accessible text is translatable (`ReactNode`, label props), not hardcoded in components. `[lint]`
 
 ## Accessibility
@@ -55,7 +55,7 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 - [ ] Keyboard-only pass: reachable, operable, logical order, nothing trapped (except modals).
 - [ ] Every field has a visible label; errors are associated with their fields.
 - [ ] Targets at least 24x24px pointer / 40x40px touch with 8px between.
-- [ ] Overlays move focus in, trap (modal), close on Escape, restore focus.
+- [ ] Dialogs and modals move focus in, trap it, close on Escape and restore focus; tooltips and other non-modal surfaces keep focus on the trigger.
 - [ ] Dynamic updates are announced (`aria-live` / `role`).
 
 ## Before reporting

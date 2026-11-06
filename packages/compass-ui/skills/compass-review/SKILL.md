@@ -7,7 +7,7 @@ description: Audit existing Mattermost UI code against the Compass design rules 
 
 Audit code against the Compass rules and report what breaks them. **Do not edit files** unless the user asks you to fix findings after reading the report.
 
-The rules live in `compass-build`. Read `../compass-build/references/` as needed (`checklist.md` first). This skill and `compass-build` are installed together.
+The rules live in `compass-build`. Read `../compass-build/references/` as needed (`checklist.md` first). This skill and `compass-build` are installed together. Before reporting, read `compass-build`'s version note and check the installed component API (for example whether `DateRangePicker` has `label` and `Select` has `message`). Don't report a missing prop-based pattern as a violation if the installed version can't do it; apply the documented fallbacks and report the gap instead.
 
 Rules tagged **[proposed]** in those files are suggestions, not violations: report them as "Suggestion", never as a blocker.
 
@@ -22,7 +22,7 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - Raw values: hex colors, `px` for spacing, font sizes, radii, shadows, `ms`, `ease` keywords.
    - Inline `style={{ ... }}` with tokenizable values, `!important`, deep selectors into Compass components.
    - Root-barrel imports from `@mattermost/compass-ui`, or the standalone stylesheet loaded in a host.
-   - More than one `emphasis="primary"` Button in a view; `secondary` where `tertiary` is the norm.
+   - More than one primary Button in a view (count a `Button` with no `emphasis` prop as primary, since that is its default); `secondary` where `tertiary` is the norm.
    - `IconButton` without `aria-label`, or with a raw glyph (a Blocker or Should fix). An explicit icon `size` is allowed as a deliberate override: report it as a Suggestion, not a violation.
    - A `Switch` inside a form with a submit button; Radio groups of more than four options.
    - `TextInput` without a fitting `type` (email, tel, url, number).

@@ -130,6 +130,7 @@ The specimen's 6px top padding does not align with a medium input: its text star
 - Don't mix the two layouts inside one panel.
 - Save lives in the persistent admin footer, not per row.
 - **Panel subtitles:** an admin panel header should have a subtitle describing what is inside the section. It is optional but recommended; keep it to one short sentence that adds information the title doesn't.
+- **React 18:** `AdminPanel` marks its collapsed region with a boolean `inert`, which React 18.2 does not render. On React 18, check that controls in a collapsed panel can't be tabbed to; if they can, report it as a gap.
 - **Nested sections** (like "Advanced" inside a panel) use `AdminPanel expandable`, collapsed by default, for now. A nested panel must have a title and a subtitle; use the subtitle for a one-line summary of the current values (for example "No reply-to address · 3 retries"). The gap before a nested panel is `--spacing-xxxl` (32px). A tighter variant of the panel for nesting is a likely Compass addition (flagged).
 - **Page:** description to the first panel is `--spacing-xxl` (24px). 24px padding, panels up to 920px wide, a title (`AdminConsoleHeader`) with a one-line description under it in body 14/20 (text alpha at least 0.72).
 - **Single checkbox in a row:** the left label names the setting ("Message preview"); the checkbox text says what turning it on does ("Include message preview"). Don't repeat the same words twice if one phrase can do both.

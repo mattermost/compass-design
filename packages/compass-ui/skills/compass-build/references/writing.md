@@ -35,7 +35,7 @@ Proper nouns keep their capitals. Examples: "Log in", "Send invitation".
 
 ## Empty states and buttons **[proposed]**
 
-- Empty state: say what goes here in one short line. Add an action only when the user can do something about it, and then only one (`EmptyState` `action`; illustration and description are optional too).
+- Empty state: say what goes here in one short line. Add an action only when the user can do something about it, and then only one (`EmptyState` `action`; illustration and description are optional too). If the action navigates, `action` can't take `asChild`: use `actionSlot` with a link styled as a button (`<Button asChild><a href="…">…</a></Button>`).
   - **Full view** (nothing on the page): use `EmptyState`, with a title and optionally an illustration, description and action.
   - **Subtle, inside a section, list or panel that has other content**: a single line of secondary-style text (text alpha at least 0.72) with no illustration, no heading and no button. Don't use `EmptyState` for this; it is too heavy.
   - Don't invent an action just to fill the slot.
