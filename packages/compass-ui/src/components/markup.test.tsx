@@ -17,6 +17,11 @@ function html(ui: React.ReactElement) {
   return render(ui).container.innerHTML;
 }
 
+/** Replaces each inline `<svg>` so snapshots don't depend on icon glyph data. */
+function withoutSvg(markup: string) {
+  return markup.replace(/<svg[\s\S]*?<\/svg>/g, '<svg />');
+}
+
 /** Snapshots were recorded against the pre-forwardRef components. */
 describe('default markup is unchanged', () => {
   it('Button as used by the webapp ConfirmModal', () => {
@@ -193,21 +198,24 @@ describe('asChild markup', () => {
     );
   });
 
-  /** The reply count is rendered directly in the Button label (no inner span). */
+  /**
+   * The reply count is rendered directly in the Button label (no inner span).
+   * ThreadFooter hard-codes its reply icon, so the SVG is stripped to keep the
+   * snapshot independent of compass-icons glyph data.
+   */
   it('ThreadFooter', () => {
-    expect(html(<ThreadFooter />)).toMatchInlineSnapshot(`
-      "<div class="_thread-footer_4cda13"><div class="_thread-footer__inner_4cda13"><div class="_thread-footer__avatars-group_4cda13"></div><div class="_thread-footer__buttons_4cda13"><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__reply-btn_4cda13" type="button" aria-label="3 replies"><span class="_button__icon-slot_ee73f7"><div class="_icon_596ab4 _icon--size-12_596ab4" aria-hidden="true"><div class="_icon__glyph-area_596ab4"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8.5,8.1L8.5,8.1v2l1.9,0.1c2.7,0.1,4.9,1.2,6.7,3.3c-2.1-0.7-4.3-0.8-6.7-0.8h-2v2v0.7l-3.7-3.7L8.5,8.1 M10.3,4C10.2,4,10,4,9.8,4.1l-7.7,7.2C2,11.4,2,11.5,2,11.7c0,0.1,0,0.2,0.1,0.3l7.7,7.4c0.1,0.1,0.3,0.1,0.4,0.1c0.1-0.1,0.2-0.2,0.2-0.5
-      	v-4.4c4.7,0,8.3,0.5,10.8,5.1c0.1,0.1,0.2,0.2,0.3,0.2h0.1c0.2-0.1,0.3-0.3,0.2-0.5c0.1-0.3-0.3-3-2.1-5.8c-2.2-3.5-5.4-5.4-9.3-5.6
-      	V4.3C10.5,4.1,10.4,4,10.3,4L10.3,4z"></path></svg></div></div></span><span class="_button__label_ee73f7">3 replies</span></button><div class="_thread-footer__divider_4cda13" aria-hidden="true"></div><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__follow-btn_4cda13" type="button" aria-pressed="false" aria-label="Follow thread"><span class="_button__label_ee73f7">Follow</span></button></div></div></div>"
-    `);
+    expect(withoutSvg(html(<ThreadFooter />))).toMatchInlineSnapshot(
+      `"<div class="_thread-footer_4cda13"><div class="_thread-footer__inner_4cda13"><div class="_thread-footer__avatars-group_4cda13"></div><div class="_thread-footer__buttons_4cda13"><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__reply-btn_4cda13" type="button" aria-label="3 replies"><span class="_button__icon-slot_ee73f7"><div class="_icon_596ab4 _icon--size-12_596ab4" aria-hidden="true"><div class="_icon__glyph-area_596ab4"><svg /></div></div></span><span class="_button__label_ee73f7">3 replies</span></button><div class="_thread-footer__divider_4cda13" aria-hidden="true"></div><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__follow-btn_4cda13" type="button" aria-pressed="false" aria-label="Follow thread"><span class="_button__label_ee73f7">Follow</span></button></div></div></div>"`,
+    );
   });
 
   it('ThreadFooter following with last reply time', () => {
-    expect(html(<ThreadFooter following lastReplyTime="Last reply 2h ago" />))
-      .toMatchInlineSnapshot(`
-      "<div class="_thread-footer_4cda13 _thread-footer--following_4cda13"><div class="_thread-footer__inner_4cda13"><div class="_thread-footer__avatars-group_4cda13"></div><div class="_thread-footer__buttons_4cda13"><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__reply-btn_4cda13" type="button" aria-label="3 replies"><span class="_button__icon-slot_ee73f7"><div class="_icon_596ab4 _icon--size-12_596ab4" aria-hidden="true"><div class="_icon__glyph-area_596ab4"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8.5,8.1L8.5,8.1v2l1.9,0.1c2.7,0.1,4.9,1.2,6.7,3.3c-2.1-0.7-4.3-0.8-6.7-0.8h-2v2v0.7l-3.7-3.7L8.5,8.1 M10.3,4C10.2,4,10,4,9.8,4.1l-7.7,7.2C2,11.4,2,11.5,2,11.7c0,0.1,0,0.2,0.1,0.3l7.7,7.4c0.1,0.1,0.3,0.1,0.4,0.1c0.1-0.1,0.2-0.2,0.2-0.5
-      	v-4.4c4.7,0,8.3,0.5,10.8,5.1c0.1,0.1,0.2,0.2,0.3,0.2h0.1c0.2-0.1,0.3-0.3,0.2-0.5c0.1-0.3-0.3-3-2.1-5.8c-2.2-3.5-5.4-5.4-9.3-5.6
-      	V4.3C10.5,4.1,10.4,4,10.3,4L10.3,4z"></path></svg></div></div></span><span class="_button__label_ee73f7">3 replies</span></button><div class="_thread-footer__divider_4cda13" aria-hidden="true"></div><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__follow-btn_4cda13 _thread-footer__follow-btn--following_4cda13" type="button" aria-pressed="true" aria-label="Unfollow thread"><span class="_button__label_ee73f7">Following</span></button><div class="_thread-footer__last-reply-group_4cda13"><div class="_thread-footer__divider_4cda13" aria-hidden="true"></div><span class="_thread-footer__last-reply_4cda13">Last reply 2h ago</span></div></div></div></div>"
-    `);
+    expect(
+      withoutSvg(
+        html(<ThreadFooter following lastReplyTime="Last reply 2h ago" />),
+      ),
+    ).toMatchInlineSnapshot(
+      `"<div class="_thread-footer_4cda13 _thread-footer--following_4cda13"><div class="_thread-footer__inner_4cda13"><div class="_thread-footer__avatars-group_4cda13"></div><div class="_thread-footer__buttons_4cda13"><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__reply-btn_4cda13" type="button" aria-label="3 replies"><span class="_button__icon-slot_ee73f7"><div class="_icon_596ab4 _icon--size-12_596ab4" aria-hidden="true"><div class="_icon__glyph-area_596ab4"><svg /></div></div></span><span class="_button__label_ee73f7">3 replies</span></button><div class="_thread-footer__divider_4cda13" aria-hidden="true"></div><button class="_button_ee73f7 _button--emphasis-quaternary_ee73f7 _button--size-x-small_ee73f7 _thread-footer__follow-btn_4cda13 _thread-footer__follow-btn--following_4cda13" type="button" aria-pressed="true" aria-label="Unfollow thread"><span class="_button__label_ee73f7">Following</span></button><div class="_thread-footer__last-reply-group_4cda13"><div class="_thread-footer__divider_4cda13" aria-hidden="true"></div><span class="_thread-footer__last-reply_4cda13">Last reply 2h ago</span></div></div></div></div>"`,
+    );
   });
 });
