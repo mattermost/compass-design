@@ -109,10 +109,14 @@
     opacity: 0.72;
   }
 
+  // Fixed 24px column (like the leading slot) so every trailing visual is
+  // centered on the same vertical axis across rows.
   &__trailing-visual {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    width: var(--icon-size-24);
     transition: margin-right var(--duration-quick) var(--ease-transition);
   }
 

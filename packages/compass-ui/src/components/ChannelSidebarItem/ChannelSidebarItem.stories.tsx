@@ -249,7 +249,7 @@ const callPill = (
       alignItems: 'center',
       justifyContent: 'center',
       height: 20,
-      padding: '0 8px',
+      padding: '0 4px',
       borderRadius: 10,
       background: 'var(--online-indicator)',
       color: 'var(--button-color)',
