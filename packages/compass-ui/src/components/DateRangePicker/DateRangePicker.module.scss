@@ -309,6 +309,13 @@
       }
     }
 
+    // Each cell is its own stacking context, so a neighbour's 1px bleed would paint over
+    // the selected circle's edge. Raise the endpoints above their neighbours.
+    &--range-start,
+    &--range-end {
+      z-index: 1;
+    }
+
     // One opaque fill (never stacked translucent layers), painted only by `::before`,
     // so the 1px bleed into neighbouring cells and week rows can't darken the overlap.
     &--in-range::before {
