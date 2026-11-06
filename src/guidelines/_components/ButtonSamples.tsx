@@ -199,11 +199,13 @@ export function ButtonPositioning() {
           <div
             className={`${styles['surface__actions']} ${styles['surface__actions--start']}`}
           >
-            <Button emphasis="tertiary">Cancel</Button>
             <Button>Save</Button>
+            <Button emphasis="tertiary">Cancel</Button>
           </div>
         </div>
-        <figcaption>In-page — actions follow content.</figcaption>
+        <figcaption>
+          In-page — actions follow content, primary action left.
+        </figcaption>
       </figure>
     </div>
   );
