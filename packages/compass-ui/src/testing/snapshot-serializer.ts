@@ -32,9 +32,11 @@
  * whitespace or string ends (a `className` value), or by a ` class="`
  * attribute and its closing quote (a raw `innerHTML` string snapshot; the
  * leading space keeps `data-class="…"` and similar attributes untouched).
+ * The authored name may start with `-`, as CSS identifiers can (the
+ * `-host-shadow-a` specificity-boost classes in `styles/mixins.scss`).
  */
 export const HASHED_CLASS_TOKEN =
-  /(^|\s|\sclass=")_([A-Za-z][\w-]*)_[a-z0-9]+_\d+(?=\s|"|$)/g;
+  /(^|\s|\sclass=")_(-?[A-Za-z][\w-]*)_[a-z0-9]+_\d+(?=\s|"|$)/g;
 
 // Separate non-global copy: `.test()` on a /g regex is stateful (lastIndex).
 const HAS_HASHED_CLASS = new RegExp(HASHED_CLASS_TOKEN.source);

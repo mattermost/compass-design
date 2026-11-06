@@ -36,6 +36,12 @@ describe('compass snapshot serializer', () => {
     expect(stripCompassClassHashes('_Button_ab12c_3 host')).toBe('Button host');
   });
 
+  it('strips authored names that start with a hyphen', () => {
+    expect(stripCompassClassHashes('_-host-shadow-a_1d2d4_38')).toBe(
+      '-host-shadow-a',
+    );
+  });
+
   it('ignores strings without compass tokens', () => {
     expect(isHashed('host-class other')).toBe(false);
     expect(isHashed('_private_value')).toBe(false);
