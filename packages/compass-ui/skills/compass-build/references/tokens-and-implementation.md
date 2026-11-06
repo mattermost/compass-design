@@ -60,6 +60,8 @@ color: var(--link-color);
 
 ## Enforcement you can run
 
+These scripts exist only in the compass-design repo itself. In the webapp, a plugin or the playground, use that project's own scripts (see "Checks to run" in the checklist).
+
 - `npm run lint:styles` (stylelint: raw values, tokens, motion, shadow)
 - `npm run lint` (eslint)
 - `npm test` in `packages/compass-ui` (contract, English literals, markup, `:has()` tests)
