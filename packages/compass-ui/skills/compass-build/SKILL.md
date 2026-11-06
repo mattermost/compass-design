@@ -9,11 +9,15 @@ Compass is one product, one brand. Do not invent style. Reuse components and tok
 
 Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, but do not cite them as official.
 
+**Guidelines.** The authoritative guidance is the Compass guidelines site, built from `src/guidelines` in the `mattermost/compass-design` repo; paths like `/foundations/color` in these files are routes on that site. If a reference and a guideline disagree, the guideline wins.
+
+**Version note.** Some rules assume props that arrive with this skill's compass-ui release: `DateRangePicker` `label` (and `aria-label`, `aria-labelledby`, `required` reaching its trigger), `Select` and `Combobox` `message`, `messageTone`, and `Select` `required`. Check the installed component's props. If a prop is missing, fall back: give the date picker a separate label tied to it with `aria-labelledby` on a wrapping group, draw field errors with `FieldMessage` linked by `aria-describedby`, and say so in your report.
+
 ## House rules (these win over everything else)
 
-1. **Reuse before building.** Look in `@mattermost/compass-ui` first. If a component covers the need, use it. Never restyle it from outside; use its props.
+1. **Reuse before building.** Look in `@mattermost/compass-ui` first. If a component covers the need, use it. Don't restyle it from outside; use its props. The one exception is a documented override, such as Radio's full width in a boolean pair.
 2. **Tokens only.** No raw px, hex, ms or easing keywords where a token exists. See `references/tokens-and-implementation.md`.
-3. **One primary action per view.** One `emphasis="primary"` Button per view. Every other action uses a lower emphasis: **`tertiary` is the default** (Cancel, back, alternatives). Use `quaternary`, `dim` or `link` for lighter actions. Avoid `secondary` unless a design calls for it; it may be phased out.
+3. **At most one primary action per view.** One `emphasis="primary"` Button when the view has a main action (a read-only view may have none). Every other action uses a lower emphasis: **`tertiary` is the default** (Cancel, back, alternatives). Use `quaternary`, `dim` or `link` for lighter actions. Avoid `secondary` unless a design calls for it; it may be phased out.
 4. **Theme tokens for product UI.** Use role tokens (`--center-channel-bg`, `--button-bg`), never palette hex. It must work on every theme.
 5. **Less is the default.** If an element, border, label or sentence can go without losing meaning, remove it.
 6. **Keyboard and screen reader first.** Every control is focusable, labelled and shows a focus ring.
@@ -22,10 +26,10 @@ Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, 
 ## Workflow
 
 1. **Pick the context** (core feature, plugin, or prototype). Read `references/context.md`. It changes imports, what you may reuse and how strict to be.
-2. **Plan before markup.** Write, in a few lines: the one job of the screen, its one primary action, its sections, and what is hidden until asked for.
+2. **Plan before markup.** Write, in a few lines: the one job of the screen, its primary action (if it has one), its sections, and what is hidden until asked for.
 3. **Compose from components.** Layer order: Foundations, Components, Patterns, Layouts. Prefer an existing Pattern before assembling Components.
 4. **Apply the rules** from the references that match what you are building (table below).
-5. **Run `references/checklist.md`** and fix every failure before reporting done. Also run the project's `lint:styles` and eslint.
+5. **Run `references/checklist.md`** and fix every failure before reporting done. Also run the project's own lint and tests (see "Checks to run" in the checklist); report any that are not available.
 
 ## Retrofitting existing UI
 
@@ -43,29 +47,29 @@ Use this when the task is to bring existing UI in line with Compass, not to buil
 
 ## Which reference to read
 
-| Building or deciding                           | Read                                       |
-| ---------------------------------------------- | ------------------------------------------ |
-| Gaps, grouping, sections, forms, buttons, hierarchy | `references/spacing-and-hierarchy.md` |
-| Tokens, imports, component usage, variant props | `references/tokens-and-implementation.md` |
-| Which component to use for a need (inputs, date, feedback) | `references/components.md` |
-| Fonts, sizes, weights                          | `references/typography.md`                 |
-| Colors, themes, opacity, semantic color        | `references/color-and-themes.md`           |
-| Radius, shadows, surfaces, z-index             | `references/shape-and-elevation.md`        |
-| Animation, hover, focus, pressed, disabled     | `references/motion-and-states.md`          |
-| Copy, labels, errors, empty states             | `references/writing.md`                    |
-| Contrast, keyboard, focus, ARIA, reduced motion | `references/accessibility.md`             |
-| Removing redundancy, progressive disclosure    | `references/simplicity-and-disclosure.md`  |
-| Plugin vs core vs prototype                    | `references/context.md`                    |
-| Final review                                   | `references/checklist.md`                  |
+| Building or deciding                                       | Read                                      |
+| ---------------------------------------------------------- | ----------------------------------------- |
+| Gaps, grouping, sections, forms, buttons, hierarchy        | `references/spacing-and-hierarchy.md`     |
+| Tokens, imports, component usage, variant props            | `references/tokens-and-implementation.md` |
+| Which component to use for a need (inputs, date, feedback) | `references/components.md`                |
+| Fonts, sizes, weights                                      | `references/typography.md`                |
+| Colors, themes, opacity, semantic color                    | `references/color-and-themes.md`          |
+| Radius, shadows, surfaces, z-index                         | `references/shape-and-elevation.md`       |
+| Animation, hover, focus, pressed, disabled                 | `references/motion-and-states.md`         |
+| Copy, labels, errors, empty states                         | `references/writing.md`                   |
+| Contrast, keyboard, focus, ARIA, reduced motion            | `references/accessibility.md`             |
+| Removing redundancy, progressive disclosure                | `references/simplicity-and-disclosure.md` |
+| Plugin vs core vs prototype                                | `references/context.md`                   |
+| Final review                                               | `references/checklist.md`                 |
 
 Reasoning and visuals live in the Compass guidelines (`/foundations/*`). These references are the short, checkable version. If they disagree, the guidelines win and the reference is a bug.
 
 ## Never
 
 - Hardcode colors, spacing, font sizes, radii, shadows, durations or easing.
-- Use more than one primary Button in a view, or make every action primary "so it stands out".
+- Use more than one primary Button in a view (zero is fine for a view with no main action), or make every action primary "so it stands out".
 - Style a Compass component from outside with deep selectors, `!important` or inline `style`.
-- Pass a raw compass-icons glyph to `IconButton`, or set `size` on an `Icon` inside a Compass slot.
+- Pass a raw compass-icons glyph to `IconButton`, or (preferably) set `size` on an `Icon` inside a Compass slot; the host component sizes it, and an explicit size is allowed only for a deliberate override.
 - Add hover, tooltips or portals to published `IconButton`/`Tooltip` (use `WithTooltip` from `compass-proto` in prototypes only).
 - Rely on color alone, placeholder-only labels, or `outline: none` without a replacement focus ring.
 - Animate purely for decoration, snap an expand/collapse, or ignore `prefers-reduced-motion`.

@@ -32,24 +32,29 @@ Show the common path. Reveal the rest on request.
 Decide per field, not per feel.
 
 **Always visible**
+
 - Required fields.
 - Fields most people change every time.
 - Fields needed to understand what the form is for.
 
 **Collapse into a section** (only if every field inside is optional or already has a valid default)
+
 - Optional fields most people skip.
 - Fields with a sensible preset.
 - Advanced or rarely changed fields.
 
 **Reveal conditionally** (show only when a controlling field makes them relevant, animated in)
+
 - A follow-up field that only matters for one answer of another field.
 - Never leave a field disabled forever; remove it instead.
 
 **Never hide**
+
 - **A required field is never inside a collapsed section.** Neither is a field with an error, or the primary action. A field with a preset value that people usually accept may collapse only if it is optional.
 - If validation fails inside a collapsed section, open it and focus the first error.
 
 **How to build it**
+
 - A section holds at least two fields. A single optional field is just an optional field.
 - Label the section with a noun ("Agreement terms"), not a verb. Use a button with `aria-expanded` and `aria-controls`; collapsed content must not be tabbable.
 - Show a one-line summary of the current values (or the defaults) under a collapsed section so nothing important hides.
@@ -61,11 +66,11 @@ Decide per field, not per feel.
 Compass has no collapsible component yet. Until it does, hand-build it to the Figma spec (MM-68628 Interactive Blocks, "Collapsable"):
 
 - **Container:** always bordered, 1px `rgba(var(--center-channel-color-rgb), 0.08)`, `--radius-s` (4px). Never borderless.
-- **Header:** a full-width button, 44px tall, 12px padding. A 16px chevron (`<Icon size="16" glyph={...} />`; an `Icon` with no `size` defaults to 24 and looks oversized), right when collapsed, down when expanded, 4px gap, then the title: 14/20 semibold, body font (Open Sans). Optional right-aligned detail text (12/16, e.g. "6 steps") at the far edge; use it for the summary of values or a count.
+- **Header:** a full-width button, at least 44px tall (it grows when the title or summary wraps, for long translations or enlarged text), 12px padding. A 16px chevron (`<Icon size="16" glyph={...} />`; an `Icon` with no `size` defaults to 24 and looks oversized), right when collapsed, down when expanded, 4px gap, then the title: 14/20 semibold, body font (Open Sans). Optional right-aligned detail text (12/16, e.g. "6 steps") at the far edge; use it for the summary of values or a count.
 - **Hover:** a subtle fill on the whole header (about 4% of the center channel color). Focus follows the button focus ring.
 - **Expanded body:** 16px padding. Content title and text sit 8px apart.
 - **Stacked collapsibles:** 12px between them.
-- Behavior as above: `aria-expanded`, `aria-controls`, animated per `motion-and-states.md`, collapsed content not tabbable.
+- Behavior as above: `aria-expanded`, `aria-controls`, animated per `motion-and-states.md`, collapsed content `inert` so it is neither tabbable nor exposed to assistive technology.
 - Figma's detail text is 56% opacity; the skill keeps the text floor of 72%.
 
 ## Forgiving, not noisy

@@ -16,15 +16,15 @@ Source: `/foundations/spacing`, `/foundations/layout`, root `AGENTS.md` (button 
 
 Space communicates relationship. Always: **gap inside a group < gap between groups < gap between sections.** If two things have the same gap but are unrelated, or different gaps but are related, the screen reads as wrong. Use the scale steps, never in-between values.
 
-| Relationship | Gap token **[proposed]** |
-| ------------ | ------------------------ |
-| Icon to its label, tag to tag | `--spacing-xxxs`–`--spacing-xs` (4–8px) |
-| Items in one group (list rows, button group, chips) | `--spacing-xs` (8px) |
-| Options in one radio or checkbox group | `--spacing-m` (12px) |
-| Text/select fields in one group | `--spacing-xxl` (24px) |
-| Between sub-groups inside a group | `--spacing-xxl` (24px) |
-| Between field groups (sections) | `--spacing-xxxl` (32px) |
-| Panel/card/modal body padding | `--spacing-l`–`--spacing-xxl` |
+| Relationship                                        | Gap token **[proposed]**                |
+| --------------------------------------------------- | --------------------------------------- |
+| Icon to its label, tag to tag                       | `--spacing-xxxs`–`--spacing-xs` (4–8px) |
+| Items in one group (list rows, button group, chips) | `--spacing-xs` (8px)                    |
+| Options in one radio or checkbox group              | `--spacing-m` (12px)                    |
+| Text/select fields in one group                     | `--spacing-xxl` (24px)                  |
+| Between sub-groups inside a group                   | `--spacing-xxl` (24px)                  |
+| Between field groups (sections)                     | `--spacing-xxxl` (32px)                 |
+| Panel/card/modal body padding                       | `--spacing-l`–`--spacing-xxl`           |
 
 Prefer a **gap** on the parent (`flex`/`grid` + `gap`) over margins on children.
 
@@ -54,21 +54,21 @@ Measured from the Figma "Apps Framework Components" form (node 5:7570, 536px wid
 
 **Vertical rhythm** (top to bottom of the form):
 
-| Between | Gap |
-| ------- | --- |
-| Form title/description, notice, form, action buttons | `--spacing-xxl` (24px) each |
-| Field group title (Heading 200, 16/24 semibold) and its first field | `--spacing-l` (16px) |
-| Text/select fields in one group | `--spacing-xxl` (24px) |
-| Fields with **separate labels above** (not floating): bottom of one field to the top of the next label | `--spacing-l` (16px), which is 8px less than the floating-label gap, because the label already adds height |
-| Separate label and its field | `--spacing-xs` (8px) |
-| Text input and its error message | `--spacing-xs` (8px) |
-| Field group and the next field group | `--spacing-xxxl` (32px) |
-| Sub-group title (Heading 100, 14/20 semibold) and its controls (radios, checkboxes, switch, or text fields grouped under it, like an address) | `--spacing-m` (12px) |
-| Options in one radio/checkbox group | `--spacing-m` (12px) |
-| Sub-groups inside a field group (radio list, checkbox list, switch) | `--spacing-xxl` (24px) |
-| Nested group (bordered container) padding and field gap | `--spacing-xxl` (24px) |
-| Last group and an "Add another" link | `--spacing-xxl` (24px) |
-| Buttons in an action group | `--spacing-xs` (8px) |
+| Between                                                                                                                                       | Gap                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Form title/description, notice, form, action buttons                                                                                          | `--spacing-xxl` (24px) each                                                                                |
+| Field group title (Heading 200, 16/24 semibold) and its first field                                                                           | `--spacing-l` (16px)                                                                                       |
+| Text/select fields in one group                                                                                                               | `--spacing-xxl` (24px)                                                                                     |
+| Fields with **separate labels above** (not floating): bottom of one field to the top of the next label                                        | `--spacing-l` (16px), which is 8px less than the floating-label gap, because the label already adds height |
+| Separate label and its field                                                                                                                  | `--spacing-xs` (8px)                                                                                       |
+| Text input and its error message                                                                                                              | `--spacing-xs` (8px)                                                                                       |
+| Field group and the next field group                                                                                                          | `--spacing-xxxl` (32px)                                                                                    |
+| Sub-group title (Heading 100, 14/20 semibold) and its controls (radios, checkboxes, switch, or text fields grouped under it, like an address) | `--spacing-m` (12px)                                                                                       |
+| Options in one radio/checkbox group                                                                                                           | `--spacing-m` (12px)                                                                                       |
+| Sub-groups inside a field group (radio list, checkbox list, switch)                                                                           | `--spacing-xxl` (24px)                                                                                     |
+| Nested group (bordered container) padding and field gap                                                                                       | `--spacing-xxl` (24px)                                                                                     |
+| Last group and an "Add another" link                                                                                                          | `--spacing-xxl` (24px)                                                                                     |
+| Buttons in an action group                                                                                                                    | `--spacing-xs` (8px)                                                                                       |
 
 Other measurements:
 
@@ -77,7 +77,7 @@ Other measurements:
 - Radios, checkboxes and switches are 20px rows with a short semibold title above the list.
 - A form-level error uses `SectionNotice` at the top, above the first group.
 - Group related fields under one field group title. Don't title a group that has one field.
-- **Required fields:** mark each required field with a trailing asterisk in its label (`Department *`). Individual fields only, never a group title; inside a required group, mark each required field itself. The asterisk is visual: wrap it in an `aria-hidden` span and also set native `required` or `aria-required` where the component allows it, so assistive tech announces "required" instead of "star". Never rely on the asterisk's color alone. If nearly every field is required, mark the optional ones with "(optional)" instead. Compass has no built-in marker yet, so add it in the label text (a component gap).
+- **Required fields:** mark each required field with a trailing asterisk in its label (`Department *`). Individual fields only, never a group title; inside a required group, mark each required field itself. The asterisk is visual: wrap it in an `aria-hidden` span and also set native `required` or `aria-required` where the component allows it, so assistive tech announces "required" instead of "star". Never rely on the asterisk's color alone. If nearly every field is required, mark the optional ones with "(optional)" instead. Compass has no built-in marker yet, so add it in the label text (a component gap). Because that makes `label` a React node, also pass a plain string `aria-label` or `listboxLabel` to `Select` and `Combobox` so the options list keeps the field's name instead of "Options". Use `Select`'s `required` prop for the required state.
 - Helper text only when it adds something the label cannot. Prefer fewer fields over more help text.
 - Validation: errors after blur or submit, not on first keystroke. Message states the fix. Keep it associated with the field.
 - Footer actions sit under the form. In modals (`ModalFooter`) they are right-aligned with the primary right-most; in-page forms are left-aligned with the primary left-most.
@@ -99,28 +99,28 @@ Open questions (answer once, then delete this list): is there a compact density,
 
 Inside admin panels, a setting is a row with the label in a left column and its field in a right column. Single-column forms (above) apply everywhere else. Values come from the admin console layout specimen (`admin-console.specimen.module.scss`) and are **pending team confirmation**.
 
-| Part | Rule |
-| ---- | ---- |
-| Columns | The field column starts 304px from the panel's content edge (today's 33.33%, pinned to pixels). That 304px includes the gap, so the label text column is 280px; the field column fills the rest. See "Field alignment" below |
-| Gap between columns | `--spacing-xxl` (24px), inside the 304px |
-| Rows | No padding on the row. Rows are separated by a gap (`--spacing-xxl`, 24px, **assumed**, same as the single-column field gap) |
-| Dividers | No hairline between rows. A hairline (`rgba(var(--center-channel-color-rgb), 0.08)`) only separates sections |
-| Label | Semibold 14/20, `--center-channel-color`. Top padding depends on the first control (see below) |
-| Field column | Vertical stack, `--spacing-xs` (8px) between the field, its help text and extras |
-| Help text | 12/16 below the field, text alpha at least 0.72 |
-| Text and select inputs | Max width 400px; don't stretch to the full column |
-| Boolean radios (True/False, On/Off, Yes/No, Enable/Disable) | One horizontal row, `--spacing-xxl` (24px) apart, each hugging its content (override Radio's full-width) |
-| Between panels | `--spacing-xl` (20px) |
-| Narrow (under 720px) | One column: label above field, `--spacing-xs` (8px) gap |
+| Part                                                        | Rule                                                                                                                                                                                                                         |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Columns                                                     | The field column starts 304px from the panel's content edge (today's 33.33%, pinned to pixels). That 304px includes the gap, so the label text column is 280px; the field column fills the rest. See "Field alignment" below |
+| Gap between columns                                         | `--spacing-xxl` (24px), inside the 304px                                                                                                                                                                                     |
+| Rows                                                        | No padding on the row. Rows are separated by a gap (`--spacing-xxl`, 24px, **assumed**, same as the single-column field gap)                                                                                                 |
+| Dividers                                                    | No hairline between rows. A hairline (`rgba(var(--center-channel-color-rgb), 0.08)`) only separates sections                                                                                                                 |
+| Label                                                       | Semibold 14/20, `--center-channel-color`. Top padding depends on the first control (see below)                                                                                                                               |
+| Field column                                                | Vertical stack, `--spacing-xs` (8px) between the field, its help text and extras                                                                                                                                             |
+| Help text                                                   | 12/16 below the field, text alpha at least 0.72                                                                                                                                                                              |
+| Text and select inputs                                      | Max width 400px; don't stretch to the full column                                                                                                                                                                            |
+| Boolean radios (True/False, On/Off, Yes/No, Enable/Disable) | One horizontal row, `--spacing-xxl` (24px) apart, each hugging its content (override Radio's full-width)                                                                                                                     |
+| Between panels                                              | `--spacing-xl` (20px)                                                                                                                                                                                                        |
+| Narrow (under 720px)                                        | One column: label above field, `--spacing-xs` (8px) gap                                                                                                                                                                      |
 
 **Label alignment.** The label's first line must line up with the first line of its control, and controls differ:
 
-| First control | Label top padding |
-| ------------- | ----------------- |
-| Medium text input or select (40px tall, 10px inner padding) | `--spacing-s` (10px) |
-| Small text input (32px tall, 8px inner padding) | `--spacing-xs` (8px) |
-| Radio, checkbox | 0 (the control's first line is the row's first line) |
-| Switch | 0 |
+| First control                                               | Label top padding                                    |
+| ----------------------------------------------------------- | ---------------------------------------------------- |
+| Medium text input or select (40px tall, 10px inner padding) | `--spacing-s` (10px)                                 |
+| Small text input (32px tall, 8px inner padding)             | `--spacing-xs` (8px)                                 |
+| Radio, checkbox                                             | 0 (the control's first line is the row's first line) |
+| Switch                                                      | 0                                                    |
 
 The specimen's 6px top padding does not align with a medium input: its text starts 10px down, so the label sits 4px high. Better still, give the label the control's height and center it vertically (`min-height` equal to the control height, `align-items: center`) so it doesn't depend on the size.
 

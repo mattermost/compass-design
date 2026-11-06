@@ -15,14 +15,14 @@ Source: `/foundations/writing-style`. Pillars: **concise, clear, consistent.** U
 
 ## Casing and punctuation
 
-| Element | Casing | Punctuation |
-| ------- | ------ | ----------- |
-| Titles | Sentence case | No period unless 2+ sentences |
-| Buttons | Sentence case, verb first, 4 words max | None |
-| Input labels | Sentence case, short | No period, no colon |
-| Navigation labels | Shortest possible | None |
-| Bullets | Sentence case | No period unless 2+ sentences |
-| Paragraphs | Normal | Full punctuation |
+| Element           | Casing                                 | Punctuation                   |
+| ----------------- | -------------------------------------- | ----------------------------- |
+| Titles            | Sentence case                          | No period unless 2+ sentences |
+| Buttons           | Sentence case, verb first, 4 words max | None                          |
+| Input labels      | Sentence case, short                   | No period, no colon           |
+| Navigation labels | Shortest possible                      | None                          |
+| Bullets           | Sentence case                          | No period unless 2+ sentences |
+| Paragraphs        | Normal                                 | Full punctuation              |
 
 Proper nouns keep their capitals. Examples: "Log in", "Send invitation".
 

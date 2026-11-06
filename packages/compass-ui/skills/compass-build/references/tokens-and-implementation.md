@@ -12,17 +12,17 @@ Source: `.claude/rules/styling.md`, `packages/compass-ui/AGENTS.md`, `/foundatio
 
 ## Tokens
 
-| Concern     | Use                                                                 |
-| ----------- | ------------------------------------------------------------------- |
+| Concern     | Use                                                                                                                           |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Spacing     | `--spacing-xxxxs` 2, `xxxs` 4, `xxs` 6, `xs` 8, `s` 10, `m` 12, `l` 16, `xl` 20, `xxl` 24, `xxxl` 32, `xxxxl` 40, `xxxxxl` 48 |
-| Font size   | `--font-size-25`…`-1000` (10px…40px), body default `-100` (14px)    |
-| Font weight | `--font-weight-regular`, `--font-weight-semibold`. Never 700 unless Figma says so |
-| Line height | `--line-height-*`                                                   |
-| Radius      | `--radius-xs` 2, `s` 4, `m` 8, `l` 12, `xl` 16, `--radius-pill`     |
-| Shadow      | `--elevation-1`…`-6`                                                |
-| Icon size   | `--icon-size-16`, `-20`, `-24` …                                    |
-| Motion      | `--duration-quick` 150ms, `--duration-moderate` 300ms, `--ease-transition`, `--ease-entrance`, `--ease-exit` |
-| Stacking    | `--z-sidebar` 100, `--z-modal` 200, `--z-tooltip` 300               |
+| Font size   | `--font-size-25`…`-1000` (10px…40px), body default `-100` (14px)                                                              |
+| Font weight | `--font-weight-regular`, `--font-weight-semibold`. Never 700 unless Figma says so                                             |
+| Line height | `--line-height-*`                                                                                                             |
+| Radius      | `--radius-xs` 2, `s` 4, `m` 8, `l` 12, `xl` 16, `--radius-pill`                                                               |
+| Shadow      | `--elevation-1`…`-6`                                                                                                          |
+| Icon size   | `--icon-size-16`, `-20`, `-24` …                                                                                              |
+| Motion      | `--duration-quick` 150ms, `--duration-moderate` 300ms, `--ease-transition`, `--ease-entrance`, `--ease-exit`                  |
+| Stacking    | `--z-sidebar` 100, `--z-modal` 200, `--z-tooltip` 300                                                                         |
 
 - Nearest token, or `calc()` of tokens, beats raw px. Allowed raw: 1px hairlines, visually-hidden, one-off layout widths with no token, breakpoints.
 - No tokenizable spacing or font in inline `style={{}}`. Use a CSS module.
@@ -30,9 +30,15 @@ Source: `.claude/rules/styling.md`, `packages/compass-ui/AGENTS.md`, `/foundatio
 
 ```scss
 // Bad
-padding: 12px 16px; gap: 8px; border-radius: 8px; color: #386fe5;
+padding: 12px 16px;
+gap: 8px;
+border-radius: 8px;
+color: #386fe5;
 // Good
-padding: var(--spacing-m) var(--spacing-l); gap: var(--spacing-xs); border-radius: var(--radius-m); color: var(--link-color);
+padding: var(--spacing-m) var(--spacing-l);
+gap: var(--spacing-xs);
+border-radius: var(--radius-m);
+color: var(--link-color);
 ```
 
 ## SCSS

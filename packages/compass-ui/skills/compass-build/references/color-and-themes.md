@@ -17,7 +17,7 @@ Source: `/foundations/color`, `/foundations/themes`, `.claude/rules/styling.md`.
 
 ## Page background for admin pages
 
-Admin console pages (only) sit on a tinted background: `rgba(var(--center-channel-color-rgb), 0.04)` behind everything. Content surfaces (admin panels, inputs) keep their own `--center-channel-bg` surface on top, and the header strip stays white. If something is sticky or pinned over scrolling content on an admin page, use the opaque equivalent, `color-mix(in srgb, var(--center-channel-color) 4%, var(--center-channel-bg))`, so content doesn't show through. Right-sidebar forms and other views stay on `--center-channel-bg`.
+Admin console pages (only) sit on a tinted background: `rgba(var(--center-channel-color-rgb), 0.04)` behind everything. Content surfaces (admin panels, inputs) keep their own `--center-channel-bg` surface on top, and the header strip stays on `--center-channel-bg` (not always white: some themes tint it). If something is sticky or pinned over scrolling content on an admin page, use the opaque equivalent, `color-mix(in srgb, var(--center-channel-color) 4%, var(--center-channel-bg))`, so content doesn't show through. Right-sidebar forms and other views stay on `--center-channel-bg`.
 
 ## Semantic color
 
@@ -28,12 +28,12 @@ Admin console pages (only) sit on a tinted background: `rgba(var(--center-channe
 
 ## Opacity floors
 
-| Element | Minimum alpha |
-| ------- | ------------- |
-| Text | 0.72 (placeholder 0.64, disabled 0.4) |
-| Icons | 0.56 |
-| Disabled controls | 0.4 |
-| Backgrounds, borders, fills, overlays | any |
+| Element                               | Minimum alpha                         |
+| ------------------------------------- | ------------------------------------- |
+| Text                                  | 0.72 (placeholder 0.64, disabled 0.4) |
+| Icons                                 | 0.56                                  |
+| Disabled controls                     | 0.4                                   |
+| Backgrounds, borders, fills, overlays | any                                   |
 
 ## Accent discipline **[proposed]**
 

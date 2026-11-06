@@ -23,13 +23,13 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - Inline `style={{ ... }}` with tokenizable values, `!important`, deep selectors into Compass components.
    - Root-barrel imports from `@mattermost/compass-ui`, or the standalone stylesheet loaded in a host.
    - More than one `emphasis="primary"` Button in a view; `secondary` where `tertiary` is the norm.
-   - `IconButton` without `aria-label`, or with a raw glyph or an explicit icon `size`.
+   - `IconButton` without `aria-label`, or with a raw glyph (a Blocker or Should fix). An explicit icon `size` is allowed as a deliberate override: report it as a Suggestion, not a violation.
    - A `Switch` inside a form with a submit button; Radio groups of more than four options.
    - `TextInput` without a fitting `type` (email, tel, url, number).
    - Text alpha below 0.72, icon alpha below 0.56.
    - Hardcoded English in `aria-label`, `title` or `placeholder` inside components.
 3. **Read the code for judgment issues** against the references: spacing and grouping, heading font and gaps, hierarchy, control choice, labels and required marking, disclosure, states and focus, motion, writing, accessibility.
-4. **Run the project's checks** if available: `npm run lint:styles`, `npm run lint`, and the package tests. Include their failures; do not fix them.
+4. **Run the project's checks, safely.** Read the lint, type-check and test scripts and any lifecycle hooks (`pre*`/`post*`, test setup) first. Skip anything that can write files (for example a script with `--fix`, a formatter in write mode, or a test hook that updates snapshots) or whose behavior is unclear, and say you skipped it. In the compass-design repo: `npm run lint` and `npm run lint:styles` from the repo root, `npm test` in `packages/compass-ui`. In a consumer, use its own scripts. Include failures; do not fix them, and report which checks were unavailable.
 5. **Write the report.**
 
 ## Report format
@@ -50,6 +50,7 @@ Fix: what it should do (token, component or value)
 ```
 
 End with:
+
 - **Summary:** counts by severity and the two or three issues that matter most.
 - **Could not verify:** anything that needs a browser (theme, keyboard, screen reader, contrast, visual spacing) or a tool that did not run.
 

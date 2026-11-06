@@ -2,7 +2,7 @@
 
 Source: `/foundations/accessibility-guidelines`. Benchmark: WCAG 2.1 AA.
 
-- **Contrast:** 4.5:1 normal text, 3:1 large text (18pt, or 14pt bold) and UI components. Use theme tokens; they are built to meet this.
+- **Contrast:** 4.5:1 normal text, 3:1 large text (18pt, or 14pt bold) and UI components. Theme tokens help but do not guarantee it: opacity, host overrides and some theme pairs (for example the Indigo button) can fall short. Check the rendered foreground and background pair in the themes you support.
 - **Color alone never carries meaning.** Add an icon or text.
 - **Keyboard:** everything focusable and operable with Tab, Shift+Tab, Enter, Space, arrows. Logical tab order follows reading order. Don't use positive `tabindex`.
 - **Focus ring:** always visible on `:focus-visible`. Use Compass components (they ship it). Never `outline: none` without an equivalent.
