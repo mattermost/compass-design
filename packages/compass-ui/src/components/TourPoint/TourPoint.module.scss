@@ -243,9 +243,7 @@
       color: var(--button-bg);
       transition:
         background-color var(--duration-quick) var(--ease-transition),
-        color var(--duration-quick) var(--ease-transition),
-        outline-color var(--duration-quick) var(--ease-transition),
-        outline-offset var(--duration-quick) var(--ease-transition);
+        color var(--duration-quick) var(--ease-transition);
 
       &:hover:not(:disabled) {
         background-color: color-mix(in srgb, var(--neutral-0) 92%, transparent);

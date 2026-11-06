@@ -60,17 +60,11 @@
     border-radius: var(--radius-pill);
     cursor: pointer;
     flex-shrink: 0;
-    outline: 2px solid
-      color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-    outline-offset: 0;
-    transition:
-      outline-color var(--duration-quick) var(--ease-transition),
-      outline-offset var(--duration-quick) var(--ease-transition);
-
-    &:focus-visible {
-      outline-color: var(--focus-ring-color);
-      outline-offset: 3px;
-    }
+    @include focus-ring(
+      $offset: 0,
+      $host-shadow: none,
+      $host-radius: var(--radius-pill)
+    );
   }
 
   &__dot {
@@ -79,11 +73,7 @@
     height: 6px;
     border-radius: var(--radius-pill);
     background-color: rgba(var(--center-channel-color-rgb), 0.24);
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      width var(--duration-quick) var(--ease-transition),
-      height var(--duration-quick) var(--ease-transition),
-      box-shadow var(--duration-quick) var(--ease-transition);
+    // No transition: active-page changes are instant (#184).
 
     &--active {
       background-color: var(--button-bg);

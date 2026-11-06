@@ -11,16 +11,16 @@
   border: 0;
   cursor: pointer;
   text-decoration: none;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    color var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
+  // No transitions at all: toggled / active state changes (in either direction,
+  // including while the pointer is still over the button after a click) and
+  // focus leaving must switch instantly so neighbouring buttons don't crossfade
+  // or flash a fading ring (#184). Hover and press therefore snap too; `active`
+  // defaults to false, so a hover fade can't be limited to buttons whose `active`
+  // never changes. Matches the old webapp header buttons.
   background-color: transparent;
   --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
   color: var(--icon-button-fg);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  @include focus-ring($host-radius: var(--radius-s));
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
@@ -33,19 +33,14 @@
     text-decoration: none;
   }
 
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
-  }
-
   &:is(:disabled, .icon-button--disabled) {
     cursor: not-allowed;
     opacity: 0.5;
   }
 
-  &:hover:not(:disabled, .icon-button--disabled):not(:active):not(
-      .icon-button--active
-    ):not(.icon-button--toggled) {
+  &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+      :active
+    ):not(.icon-button--active):not(.icon-button--toggled) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
     --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
     color: rgba(var(--center-channel-color-rgb), 0.75);
@@ -175,7 +170,7 @@
   // ---------------------------------------------------------------------------
   // Rounded modifier (pill shape). Figma: Rounded = On.
   // ---------------------------------------------------------------------------
-  &--rounded {
+  &--rounded#{$host-reset-boost} {
     border-radius: var(--radius-pill);
   }
 
@@ -187,7 +182,9 @@
     --icon-button-fg: var(--link-color);
     color: var(--link-color);
 
-    &:hover:not(:disabled, .icon-button--disabled):not(:active) {
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ) {
       background-color: rgba(var(--button-bg-rgb), 0.12);
       --icon-button-fg: var(--link-color);
       color: var(--link-color);
@@ -208,7 +205,9 @@
     --icon-button-fg: var(--button-color);
     color: var(--button-color);
 
-    &:hover:not(:disabled, .icon-button--disabled):not(:active) {
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ) {
       background-color: color-mix(in srgb, black 8%, var(--button-bg));
       --icon-button-fg: var(--button-color);
       color: var(--button-color);
@@ -237,9 +236,9 @@
       box-shadow: 0 0 0 2px var(--sidebar-header-bg);
     }
 
-    &:hover:not(:disabled, .icon-button--disabled):not(:active):not(
-        .icon-button--toggled
-      ):not(.icon-button--active) {
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ):not(.icon-button--toggled):not(.icon-button--active) {
       background-color: rgba(var(--sidebar-text-rgb), 0.08);
       --icon-button-fg: var(--sidebar-text);
       color: var(--sidebar-text);
@@ -255,7 +254,9 @@
       --icon-button-fg: var(--sidebar-text);
       color: var(--sidebar-text);
 
-      &:hover:not(:disabled, .icon-button--disabled):not(:active) {
+      &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+          :active
+        ) {
         background-color: rgba(var(--sidebar-text-rgb), 0.2);
         --icon-button-fg: var(--sidebar-text);
         color: var(--sidebar-text);
@@ -272,7 +273,9 @@
       --icon-button-fg: var(--sidebar-bg);
       color: var(--sidebar-bg);
 
-      &:hover:not(:disabled, .icon-button--disabled):not(:active) {
+      &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+          :active
+        ) {
         background-color: rgba(var(--sidebar-text-rgb), 0.92);
         --icon-button-fg: var(--sidebar-bg);
         color: var(--sidebar-bg);
@@ -297,7 +300,9 @@
       --icon-button-fg: var(--error-text, var(--color-danger));
       color: var(--error-text, var(--color-danger));
 
-      &:hover:not(:disabled, .icon-button--disabled):not(:active) {
+      &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+          :active
+        ) {
         background-color: rgba(
           var(--error-text-color-rgb, var(--color-danger-rgb)),
           0.08
@@ -329,7 +334,9 @@
     --icon-button-fg: var(--error-text, var(--color-danger));
     color: var(--error-text, var(--color-danger));
 
-    &:hover:not(:disabled, .icon-button--disabled):not(:active) {
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ) {
       background-color: rgba(
         var(--error-text-color-rgb, var(--color-danger-rgb)),
         0.08

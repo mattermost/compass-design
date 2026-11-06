@@ -27,20 +27,12 @@
     border: none;
     cursor: pointer;
     padding: var(--spacing-xxs) var(--spacing-s);
-    outline: 2px solid
-      color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-    outline-offset: 0;
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      outline-color var(--duration-quick) var(--ease-transition),
-      outline-offset var(--duration-quick) var(--ease-transition);
+    // No transitions at all: active-tab changes (label/badge colour, underline,
+    // fill, in either direction, even while hovered) and focus-leaving must be
+    // instant, so hover snaps too (#184).
+    @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
 
-    &:focus-visible {
-      outline-color: var(--focus-ring-color);
-      outline-offset: 3px;
-    }
-
-    &:hover:not(&--active):not(&--disabled) {
+    &:is(:hover, :focus-visible):not(&--active):not(&--disabled) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
@@ -75,7 +67,6 @@
     line-height: var(--line-height-100);
     color: rgba(var(--center-channel-color-rgb), 0.64);
     white-space: nowrap;
-    transition: color var(--duration-quick) var(--ease-transition);
   }
 
   &__count-badge {
@@ -92,9 +83,6 @@
     line-height: 11px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     flex-shrink: 0;
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      color var(--duration-quick) var(--ease-transition);
 
     &--active {
       background-color: rgba(var(--link-color-rgb), 0.12);
@@ -132,7 +120,8 @@
       gap: var(--spacing-xs);
     }
 
-    .tabs__tab {
+    // `:not()` pairs outrank the focus-ring mixin's host-radius (0,3,0).
+    .tabs__tab#{$host-reset-boost} {
       border-radius: 0;
       padding: var(--spacing-s) var(--spacing-xs);
 
@@ -144,11 +133,11 @@
         bottom: 0;
         height: 2px;
         background-color: transparent;
-        transition: background-color var(--duration-quick)
-          var(--ease-transition);
       }
 
-      &:hover:not(.tabs__tab--active):not(.tabs__tab--disabled) {
+      &:is(:hover, :focus-visible):not(.tabs__tab--active):not(
+          .tabs__tab--disabled
+        ) {
         background-color: transparent;
 
         .tabs__tab-label {
