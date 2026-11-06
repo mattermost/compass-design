@@ -22,6 +22,12 @@ export interface DateRangePickerProps extends Omit<
 > {
   /** Optional CSS class name applied to the root element. */
   className?: string;
+  /**
+   * Floating label, like `TextInput`, `Select` and `Combobox`. It sits inside the field and
+   * moves to the top edge when the field is open or has a value. It also names the trigger
+   * for assistive technology (via `aria-labelledby`). Accepts translated nodes.
+   */
+  label?: ReactNode;
   /** Selection mode: single date or range. Default: 'date'. */
   mode?: DateRangePickerMode;
   /** Controlled selected date (single mode). ISO string yyyy-mm-dd. */
@@ -124,7 +130,12 @@ export default function DateRangePicker({
   onChange,
   onRangeChange,
   disabled,
+  required,
+  label,
   id: idProp,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
   portalContainer = null,
   zIndex,
   placeholder = 'mm/dd/yyyy',
@@ -139,6 +150,7 @@ export default function DateRangePicker({
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const popoverId = `${id}-popover`;
+  const labelId = `${id}-label`;
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -504,6 +516,10 @@ export default function DateRangePicker({
     styles['date-range-picker'],
     isOpen ? styles['date-range-picker--open'] : '',
     disabled ? styles['date-range-picker--disabled'] : '',
+    label != null ? styles['date-range-picker--has-label'] : '',
+    label != null && (isOpen || hasValue)
+      ? styles['date-range-picker--label-floated']
+      : '',
     className,
   ]
     .filter(Boolean)
@@ -511,6 +527,12 @@ export default function DateRangePicker({
 
   return (
     <div ref={rootRef} className={rootClass}>
+      {label != null && (
+        <span id={labelId} className={styles['date-range-picker__label']}>
+          {label}
+        </span>
+      )}
+
       {/* Trigger input */}
       <div
         ref={triggerRef}
@@ -520,6 +542,13 @@ export default function DateRangePicker({
         aria-expanded={isOpen}
         aria-controls={popoverMounted ? popoverId : undefined}
         aria-disabled={disabled || undefined}
+        aria-required={required || undefined}
+        aria-label={ariaLabel}
+        aria-labelledby={
+          ariaLabelledby ??
+          (label != null && ariaLabel == null ? labelId : undefined)
+        }
+        aria-describedby={ariaDescribedby}
         tabIndex={disabled ? -1 : 0}
         id={id}
         data-has-value={hasValue ? '' : undefined}
@@ -536,7 +565,7 @@ export default function DateRangePicker({
           {displayValue || placeholder}
         </span>
         <span className={styles['date-range-picker__chevron']} aria-hidden>
-          <Icon size="16" glyph={<ChevronDownIcon />} />
+          <Icon size="12" glyph={<ChevronDownIcon />} />
         </span>
       </div>
 

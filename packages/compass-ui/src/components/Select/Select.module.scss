@@ -76,6 +76,13 @@
   }
 
   // ---------------------------------------------------------------------------
+  // Field message under the wrapper (same gap as TextInput's field and message)
+  // ---------------------------------------------------------------------------
+  &__message {
+    margin-top: var(--spacing-xs);
+  }
+
+  // ---------------------------------------------------------------------------
   // Trigger button (full field: icons + value + chevron)
   // ---------------------------------------------------------------------------
   &__control {
@@ -202,6 +209,9 @@
     }
 
     .select__control {
+      // Fill the wrapper even when the value is empty (floating label, no
+      // placeholder), or the trigger collapses and the chevron sits high.
+      min-height: 32px;
       padding: var(--spacing-xs) var(--spacing-m);
       gap: var(--spacing-xs);
       font-size: var(--font-size-75);
@@ -227,6 +237,9 @@
     }
 
     .select__control {
+      // Fill the wrapper even when the value is empty (floating label, no
+      // placeholder), or the trigger collapses and the chevron sits high.
+      min-height: 40px;
       padding: var(--spacing-s) var(--spacing-l);
       gap: var(--spacing-s);
       font-size: var(--font-size-100);
@@ -236,6 +249,7 @@
     .select__label {
       font-size: var(--font-size-100);
       left: var(--spacing-m);
+      line-height: var(--line-height-100);
     }
 
     .select__trailing-icon svg {
@@ -257,6 +271,9 @@
     }
 
     .select__control {
+      // Fill the wrapper even when the value is empty (floating label, no
+      // placeholder), or the trigger collapses and the chevron sits high.
+      min-height: 48px;
       padding: var(--spacing-m) var(--spacing-l);
       gap: var(--spacing-s);
       font-size: var(--font-size-200);

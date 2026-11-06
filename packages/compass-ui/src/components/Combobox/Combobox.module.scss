@@ -66,6 +66,11 @@
     }
   }
 
+  // Field message under the wrapper (same gap as TextInput's field and message).
+  &__message {
+    margin-top: var(--spacing-xs);
+  }
+
   &__inner {
     display: flex;
     align-items: center;
@@ -229,6 +234,8 @@
     }
 
     .combobox__inner {
+      // Fill the wrapper so the chevron and clear button centre on the field.
+      min-height: 32px;
       padding: var(--spacing-xs) var(--spacing-m);
       gap: var(--spacing-xs);
     }
@@ -268,6 +275,8 @@
     }
 
     .combobox__inner {
+      // Fill the wrapper so the chevron and clear button centre on the field.
+      min-height: 40px;
       padding: var(--spacing-s) var(--spacing-l);
       gap: var(--spacing-s);
     }
@@ -291,6 +300,7 @@
     .combobox__label {
       font-size: var(--font-size-100);
       left: var(--spacing-m);
+      line-height: var(--line-height-100);
     }
 
     .combobox__trailing-icon svg {
@@ -312,6 +322,8 @@
     }
 
     .combobox__inner {
+      // Fill the wrapper so the chevron and clear button centre on the field.
+      min-height: 48px;
       padding: var(--spacing-m) var(--spacing-l);
       gap: var(--spacing-s);
     }

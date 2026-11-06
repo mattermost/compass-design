@@ -11,6 +11,13 @@ import {
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
+import {
+  hasFieldMessage,
+  isFieldInvalid,
+  mergeFieldDescribedBy,
+} from '@/components/field/fieldDescribedBy';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
+import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
 import MenuItem from '@/components/MenuItem/MenuItem';
 import type {
   MenuItemOwnedProps,
@@ -69,12 +76,25 @@ export interface SelectProps {
   /** Leading icon — pass `<Icon glyph={<SomeIcon />} />`; Select provides the correct size via context. */
   leadingIcon?: ReactNode;
   size?: SelectSize;
+  /** When true, shows invalid/error styling. */
   invalid?: boolean;
+  /**
+   * Field message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Defaults to error tone (invalid chrome) when set without `messageTone`. It is linked to
+   * the trigger with `aria-describedby`.
+   */
+  message?: ReactNode;
+  /** Visual tone for `message`. Default: `error` when `message` is set. */
+  messageTone?: FieldMessageTone;
+  /** Marks the field required for assistive tech (`aria-required="true"`). */
+  required?: boolean;
   disabled?: boolean;
   id?: string;
   name?: string;
   className?: string;
   'aria-label'?: string;
+  /** Extra description ids for the trigger; the field message id is appended. */
+  'aria-describedby'?: string;
   /**
    * Accessible name for the options list when `label` isn't a string and no
    * `aria-label` is set. Default: "Options".
@@ -154,11 +174,15 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
     leadingIcon,
     size = 'medium',
     invalid = false,
+    message,
+    messageTone,
+    required = false,
     disabled = false,
     id: idProp,
     name,
     className = '',
     'aria-label': ariaLabel,
+    'aria-describedby': describedBy,
     listboxLabel = 'Options',
     portalContainer = null,
     zIndex,
@@ -371,11 +395,15 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
       ? `${listboxId}-option-${activeOption.value}`
       : undefined;
 
+  const showInvalid = isFieldInvalid(invalid, message, messageTone);
+  const showMessage = hasFieldMessage(message);
+  const messageId = showMessage ? `${id}-message` : undefined;
+
   const sizeClass = styles[`select--size-${toKebab(size)}`];
   const rootClass = [
     styles.select,
     sizeClass,
-    invalid ? styles['select--invalid'] : '',
+    showInvalid ? styles['select--invalid'] : '',
     label != null && labelFloated ? styles['select--label-floated'] : '',
     leadingIcon != null ? styles['select--has-leading-icon'] : '',
     isOpen ? styles['select--open'] : '',
@@ -411,7 +439,13 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
           aria-expanded={isOpen}
           aria-controls={listboxId}
           aria-activedescendant={activeDescendant}
-          aria-invalid={invalid ? true : undefined}
+          aria-invalid={showInvalid ? true : undefined}
+          aria-required={required ? true : undefined}
+          aria-describedby={mergeFieldDescribedBy(
+            describedBy,
+            messageId,
+            undefined,
+          )}
           aria-label={ariaLabel}
           onClick={() => (isOpen ? close() : open())}
           onFocus={() => setIsFocused(true)}
@@ -431,6 +465,15 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
           </span>
         </button>
       </div>
+
+      {showMessage && (
+        <FieldMessage
+          id={messageId}
+          className={styles['select__message']}
+          message={message}
+          tone={messageTone ?? 'error'}
+        />
+      )}
 
       {name != null && !disabled && (
         <input type="hidden" name={name} value={value} />

@@ -176,3 +176,48 @@ describe('Select hover and scrolling', () => {
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('Select field message', () => {
+  it('links the message to the trigger and marks it invalid', () => {
+    render(
+      <Select
+        label="Department"
+        options={OPTIONS}
+        message="Choose a department"
+        required
+        aria-describedby="help"
+      />,
+    );
+    const trigger = getByRole('combobox');
+    const message = document.getElementById(
+      trigger.getAttribute('aria-describedby')?.split(' ')[1] ?? '',
+    );
+    expect(message?.textContent).toContain('Choose a department');
+    expect(trigger.getAttribute('aria-describedby')?.split(' ')[0]).toBe(
+      'help',
+    );
+    expect(trigger.getAttribute('aria-invalid')).toBe('true');
+    expect(trigger.getAttribute('aria-required')).toBe('true');
+  });
+
+  it('does not mark a non-error message invalid', () => {
+    render(
+      <Select
+        aria-label="Letter"
+        options={OPTIONS}
+        message="Pick one"
+        messageTone="info"
+      />,
+    );
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-invalid')).toBeNull();
+    expect(trigger.getAttribute('aria-describedby')).toBeTruthy();
+  });
+
+  it('adds nothing without a message', () => {
+    render(<Select aria-label="Letter" options={OPTIONS} />);
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
+    expect(trigger.getAttribute('aria-required')).toBeNull();
+  });
+});

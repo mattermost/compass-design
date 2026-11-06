@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Select` and `Combobox` field messages:** both take `message` and `messageTone` like `TextInput`. The message renders under the field, is linked to the trigger or input with `aria-describedby` (merged with any `aria-describedby` you pass), and, with the default error tone, marks the field invalid (`aria-invalid`). `Select` also takes `required` (`aria-required`) and `aria-describedby`, as `Combobox` already did. Nothing changes without these props.
+- **`DateRangePicker` `label` prop:** a floating label inside the field, like `TextInput`, `Select` and `Combobox`. It floats to the top edge when the picker is open or has a value, and it names the trigger for assistive technology through `aria-labelledby`. Accepts translated nodes. Without `label` nothing changes.
+
 ### Fixed
 
 - **Controls no longer flash when moving between neighbours (#184):** `IconButton`, `Button`, `TileButton`, `CardButton`, `Chip`, `Combobox`, `Dropdown`, `EmojiButton`, `FieldClearButton`, `MoreUnreadsBanner`, `PaginationDots`, `PasswordInput`, `ReactionButton`, `ReactionsRow`, `RightSidebarHeader`, `Tabs`, `AttachmentCard`, `MenuItem`, `ChannelInfoMsgHeader` and `DateRangePicker` had two transition-related flashes.
@@ -18,7 +23,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
   - **Pagination dots ring:** the focus ring offset is `0`.
   - **Behavior change:** hover-out now snaps instead of fading. Hosts can drop a `transition: none` workaround for `[class*="_icon-button_"]`.
 
+- **`Select` trigger keeps its height when it has no text:** with a floating `label` and no `placeholder` or value, the trigger's text span was empty, so the trigger collapsed to 32px inside the 40px field and the chevron sat about 4px above centre (and the clickable area was 8px short). The trigger now has the same minimum height as the field in every `size`. Markup is unchanged.
 - **`Tabs` underlined appearance shows the active underline again:** the base tab rule's `:not()` pair (added to keep the host border-radius off the tab) raised its specificity above the active tab's underline colour, so the 2px underline under the active tab stayed transparent. The active rule now carries the same `:not()` pair and wins by source order. Markup is unchanged.
+- **Floating labels no longer clip descenders at rest:** in the `medium` size, the resting label of `TextInput`, `TextArea`, `PasswordInput`, `Select` and `Combobox` was 14px text in a 16px line box with `overflow: hidden`, so the bottoms of letters like g, y, p and q were cut off until the label floated. The resting label now uses the 20px line height that matches its 14px size (`--line-height-100`). The label is vertically centred, so it does not move. `small` and `large` already matched.
+- **`DateRangePicker` trigger has an accessible name:** the props type already extends the input attributes, but `aria-label`, `aria-labelledby`, `aria-describedby` and `required` were silently dropped, so the `role="button"` trigger had no name beyond its date text. They now reach the trigger (`required` sets `aria-required`). Use `label`, `aria-label` or `aria-labelledby` to name the field.
+- **Chevrons line up across `Select`, `Combobox` and `DateRangePicker`:** the date picker's chevron used a 16px slot with no right margin (16px from the field edge), while `Select` and `Combobox` used a 12px slot with a 4px margin (20px). All three now use the 12px slot and the same 20px inset. The `Combobox` row also fills its field height, so its chevron and clear button no longer sit 1px high. Markup is unchanged.
 
 ### Changed
 

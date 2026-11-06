@@ -96,6 +96,8 @@
     justify-content: center;
     flex-shrink: 0;
     color: rgba(var(--center-channel-color-rgb), 0.64);
+    // Same chevron slot and right inset as Select and Combobox.
+    margin-right: var(--spacing-xxxs);
     transition: transform var(--duration-quick) var(--ease-transition);
 
     svg {
@@ -107,6 +109,55 @@
     .date-range-picker--open & {
       transform: rotate(180deg);
     }
+  }
+
+  // Floating label (same look as Select and Combobox). At rest it sits where the
+  // value text starts, after the calendar icon; floated it moves to the top edge.
+  &__label {
+    position: absolute;
+    left: calc(
+      var(--spacing-l) + var(--icon-size-16) +
+        var(--spacing-s) - var(--spacing-xxxs)
+    );
+    top: 50%;
+    z-index: 1;
+    max-width: calc(100% - 64px);
+    margin: 0;
+    padding: 0 var(--spacing-xxxs);
+    overflow: hidden;
+    transform: translateY(-50%);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-100);
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    background-color: var(--center-channel-bg);
+    transition:
+      transform var(--duration-quick) var(--ease-transition),
+      font-size var(--duration-quick) var(--ease-transition),
+      top var(--duration-quick) var(--ease-transition),
+      left var(--duration-quick) var(--ease-transition),
+      color var(--duration-quick) var(--ease-transition);
+
+    .date-range-picker--label-floated & {
+      top: 0;
+      left: var(--spacing-m);
+      font-size: var(--font-size-25);
+      line-height: 1.4;
+    }
+
+    .date-range-picker:focus-within &,
+    .date-range-picker--open & {
+      color: var(--button-bg);
+    }
+  }
+
+  // The label takes the place of the placeholder text until it floats.
+  &--has-label:not(&--label-floated) .date-range-picker__value {
+    color: transparent;
   }
 
   // ---------------------------------------------------------------------------
