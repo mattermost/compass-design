@@ -60,7 +60,11 @@
     border-radius: var(--radius-pill);
     cursor: pointer;
     flex-shrink: 0;
-    @include focus-ring($host-shadow: none, $host-radius: var(--radius-pill));
+    @include focus-ring(
+      $offset: 0,
+      $host-shadow: none,
+      $host-radius: var(--radius-pill)
+    );
   }
 
   &__dot {
