@@ -105,6 +105,18 @@ export const Default: Story = {
   },
 };
 
+/** Error text under the field, linked to the input for assistive technology. */
+export const WithMessage: Story = {
+  args: {
+    label: 'Channel',
+    placeholder: 'Search channels…',
+    options: CHANNEL_OPTIONS,
+    size: 'medium',
+    required: true,
+    message: 'Choose a channel',
+  },
+};
+
 export const WithValue: Story = {
   args: {
     label: 'Channel',

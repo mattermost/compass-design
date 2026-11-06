@@ -26,6 +26,13 @@ import type { ChipSize } from '@/components/Chip/Chip';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import type { IconSize } from '@/components/Icon/Icon';
+import {
+  hasFieldMessage,
+  isFieldInvalid,
+  mergeFieldDescribedBy,
+} from '@/components/field/fieldDescribedBy';
+import FieldMessage from '@/components/FieldMessage/FieldMessage';
+import type { FieldMessageTone } from '@/components/FieldMessage/FieldMessage';
 import MenuItem from '@/components/MenuItem/MenuItem';
 import type {
   MenuItemOwnedProps,
@@ -165,7 +172,16 @@ export interface ComboboxProps
   placeholder?: string;
   leadingIcon?: ReactNode;
   size?: ComboboxSize;
+  /** When true, shows invalid/error styling. */
   invalid?: boolean;
+  /**
+   * Field message under the field. Accepts translated nodes (e.g. `<FormattedMessage/>`).
+   * Defaults to error tone (invalid chrome) when set without `messageTone`. It is linked to
+   * the input with `aria-describedby`.
+   */
+  message?: ReactNode;
+  /** Visual tone for `message`. Default: `error` when `message` is set. */
+  messageTone?: FieldMessageTone;
   disabled?: boolean;
   /**
    * Marks the field required for assistive tech (`aria-required="true"`).
@@ -375,6 +391,8 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     leadingIcon,
     size = 'medium',
     invalid = false,
+    message,
+    messageTone,
     disabled = false,
     filter = true,
     emptyMessage = 'No results',
@@ -931,10 +949,13 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
 
   const sizeClass = styles[`combobox--size-${toKebab(size)}`];
   const hasChips = multiple && chipOptions.length > 0;
+  const showInvalid = isFieldInvalid(invalid, message, messageTone);
+  const showMessage = hasFieldMessage(message);
+  const messageId = showMessage ? `${id}-message` : undefined;
   const rootClass = [
     styles.combobox,
     sizeClass,
-    invalid ? styles['combobox--invalid'] : '',
+    showInvalid ? styles['combobox--invalid'] : '',
     label != null && labelFloated ? styles['combobox--label-floated'] : '',
     leadingIcon != null ? styles['combobox--has-leading-icon'] : '',
     hasChips ? styles['combobox--has-chips'] : '',
@@ -1010,9 +1031,13 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
               }
               value={displayInput}
               aria-label={ariaLabel}
-              aria-describedby={describedBy || undefined}
+              aria-describedby={mergeFieldDescribedBy(
+                describedBy,
+                messageId,
+                undefined,
+              )}
               aria-required={required ? true : undefined}
-              aria-invalid={invalid ? true : undefined}
+              aria-invalid={showInvalid ? true : undefined}
               aria-expanded={isOpen}
               aria-controls={listboxId}
               aria-autocomplete="list"
@@ -1057,6 +1082,15 @@ const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
           </span>
         </div>
       </div>
+
+      {showMessage && (
+        <FieldMessage
+          id={messageId}
+          className={styles['combobox__message']}
+          message={message}
+          tone={messageTone ?? 'error'}
+        />
+      )}
 
       {popupMounted &&
         renderPortal(

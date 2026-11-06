@@ -228,6 +228,7 @@
     .text-input__label {
       font-size: var(--font-size-100);
       left: var(--spacing-m);
+      line-height: var(--line-height-100);
     }
 
     &.text-input--label-floated .text-input__label {

@@ -19,6 +19,15 @@ export const SingleDate: Story = {
   },
 };
 
+/** Floating label inside the field; it also names the trigger for assistive technology. */
+export const WithFloatingLabel: Story = {
+  args: {
+    mode: 'date',
+    label: 'Effective date',
+    required: true,
+  },
+};
+
 export const DateRange: Story = {
   args: {
     mode: 'range',

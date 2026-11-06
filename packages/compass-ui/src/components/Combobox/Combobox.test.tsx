@@ -1668,3 +1668,27 @@ describe('Combobox input pass-through', () => {
     });
   });
 });
+
+describe('Combobox field message', () => {
+  it('links the message to the input and marks it invalid', () => {
+    render(
+      <Combobox
+        label="Country"
+        options={MODELS}
+        message="Choose a country"
+        aria-describedby="help"
+      />,
+    );
+    const ids = input().getAttribute('aria-describedby')?.split(' ') ?? [];
+    expect(ids[0]).toBe('help');
+    expect(document.getElementById(ids[1] ?? '')?.textContent).toContain(
+      'Choose a country',
+    );
+    expect(input().getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('adds nothing without a message', () => {
+    render(<Combobox label="Country" options={MODELS} />);
+    expect(input().getAttribute('aria-describedby')).toBeNull();
+  });
+});
