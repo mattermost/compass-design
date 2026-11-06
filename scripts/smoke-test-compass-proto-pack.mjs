@@ -21,7 +21,14 @@ const requiredProtoDist = [
   'dist/index.css',
 ];
 
-const requiredUiDist = ['dist/index.js', 'dist/compass-ui.css'];
+const requiredUiDist = [
+  'dist/index.js',
+  'dist/compass-ui.css',
+  // Test-only snapshot serializer export (#189).
+  'dist/testing/snapshot-serializer.js',
+  'dist/testing/snapshot-serializer.cjs',
+  'dist/testing/snapshot-serializer.d.ts',
+];
 
 function run(cmd, cwd = root) {
   execSync(cmd, { cwd, stdio: 'inherit' });

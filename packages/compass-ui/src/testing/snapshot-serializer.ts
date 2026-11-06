@@ -53,10 +53,15 @@ type Printer = (
   refs: unknown,
 ) => string;
 
+/** pretty-format `test` hook: true for strings holding a hashed class token. */
 export function test(val: unknown): boolean {
   return typeof val === 'string' && HAS_HASHED_CLASS.test(val);
 }
 
+/**
+ * pretty-format `serialize` hook: prints the string with every hashed class
+ * token reduced to its authored name.
+ */
 export function serialize(
   val: string,
   config: unknown,
