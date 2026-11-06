@@ -5,6 +5,7 @@
   width: 100%;
   box-sizing: border-box;
   // Matches iPhone status / DeviceFrame status bar so system chrome overlays this spacer
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- device inset fallback, not a spacing token
   padding-top: var(--device-status-bar-height, 54px);
   background-color: var(--sidebar-bg);
   color: rgba(var(--sidebar-text-rgb), 0.75);

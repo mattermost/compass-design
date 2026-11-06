@@ -75,6 +75,7 @@
     display: block;
     width: 48px;
     height: 6px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- circle/pill radius sized to the element, no radius token
     border-radius: 100px;
     background-color: rgba(255, 255, 255, 0.4);
   }
@@ -94,6 +95,7 @@
     box-shadow: var(--elevation-4);
     box-sizing: border-box;
     // Home-indicator safe area; DeviceFrame sets --device-safe-bottom
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- device inset fallback, not a spacing token
     padding-bottom: var(--device-safe-bottom, 34px);
   }
 

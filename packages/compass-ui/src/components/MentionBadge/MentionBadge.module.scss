@@ -28,6 +28,7 @@
     font-size: var(--font-size-50); // 11px
     line-height: var(--line-height-50); // 16px
     letter-spacing: 0.22px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset, no spacing token
     padding: 0 var(--_mb-px-m, 5.5px); // no vertical padding; fallback = digits-2
   }
 
@@ -36,6 +37,7 @@
     line-height: 15px;
     // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 1.5px var(--_mb-px-l, 5.5px); // fallback = digits-2
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale radius between radius tokens
     border-radius: 10px;
   }
 

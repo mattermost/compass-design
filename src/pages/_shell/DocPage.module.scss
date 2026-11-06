@@ -159,6 +159,7 @@
     list-style-type: none;
     margin-left: 0;
     margin-bottom: var(--spacing-m);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
     padding-left: 30px;
     position: relative;
 
@@ -217,6 +218,7 @@
     }
     &::-webkit-scrollbar-thumb {
       background-color: rgba(var(--center-channel-color-rgb), 0.24);
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale radius between radius tokens
       border-radius: 3px;
       border: 2px solid transparent;
       background-clip: content-box;

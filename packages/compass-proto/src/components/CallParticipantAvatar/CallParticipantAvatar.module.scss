@@ -101,6 +101,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- circle/pill radius sized to the element, no radius token
     border-radius: 20px;
 
     svg {

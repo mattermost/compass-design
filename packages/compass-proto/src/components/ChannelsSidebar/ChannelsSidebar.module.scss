@@ -32,7 +32,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: calc(var(--spacing-m) + var(--spacing-xxxxs)) var(--spacing-l);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
+    padding: 14px var(--spacing-l);
     flex-shrink: 0;
   }
 
@@ -162,7 +163,8 @@
     }
 
     &--no-chevron {
-      padding-left: calc(var(--spacing-xxl) - var(--spacing-xxxxs));
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
+      padding-left: 22px;
     }
 
     &--has-action {
