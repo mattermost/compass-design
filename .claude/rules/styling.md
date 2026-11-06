@@ -130,6 +130,7 @@ transition: outline-color var(--duration-quick) var(--ease-transition);
 
 - Default ring colour: `--focus-ring-color` (theme alias for `--button-bg`). Use it directly in outline/focus styles; override locally only for contrast (destructive, sidebar, on-primary surfaces) or on a composite root for child controls.
 - **Never transition** `outline-*` (the mixin's ring fade-in is a keyframe animation, which can't fade out), and never put a `background-color` / `color` transition on a control's base state: state changes (`toggled`, `selected`, `active`) and focus leaving must be instant so neighbours don't crossfade or flash. Declare hover / press fades under `&:hover, &:active` only. Repro: Storybook "Testing/Transition Flash Repro".
+- `focus-ring($host-shadow: ...)`: opt-in for controls a host may also ring with a `box-shadow` (the webapp's `.a11y--focused`). Pass the control's own focused `box-shadow` (`none` if it has none); the mixin emits `&:focus-visible:focus-visible` (specificity 0,3,0) so it wins without `!important`. State-specific shadows (e.g. `ReactionButton--mine`) need their own `:focus-visible:focus-visible` rule.
 - Destructive: `outline-color` is `--error-text` / `--color-danger`. Secondary Button may still use `--link-color` for its ring.
 - Inverted / dark surfaces: keep the same ring colour; the offset gap shows the real background (no fake inner fill).
 - Form fields, checkboxes, radios, and switches keep their own field/box rings — don’t replace those with this button ring.

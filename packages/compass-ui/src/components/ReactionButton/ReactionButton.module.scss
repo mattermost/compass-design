@@ -29,7 +29,7 @@
   border-radius: var(--radius-s);
   background-color: rgba(var(--center-channel-color-rgb), 0.08);
   cursor: pointer;
-  @include focus-ring;
+  @include focus-ring($host-shadow: none);
 
   &:hover:not([aria-pressed]) {
     transition:
@@ -47,6 +47,12 @@
 
     &:hover {
       background-color: rgba(var(--link-color-rgb), 0.12);
+    }
+
+    // Keep the own-reaction ring while focused (the focus-ring mixin's
+    // `$host-shadow` reset would otherwise clear it).
+    &:focus-visible:focus-visible {
+      box-shadow: inset 0 0 0 1px var(--link-color);
     }
 
     .reaction-button__count {

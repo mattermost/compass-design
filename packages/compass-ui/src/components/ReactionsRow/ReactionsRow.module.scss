@@ -37,7 +37,7 @@
     background-color: rgba(var(--color-success-rgb), 0.12);
     color: var(--color-success);
     cursor: pointer;
-    @include focus-ring(var(--color-success));
+    @include focus-ring(var(--color-success), $host-shadow: none);
 
     &:hover:not([aria-pressed]) {
       transition: background-color var(--duration-quick) var(--ease-transition);

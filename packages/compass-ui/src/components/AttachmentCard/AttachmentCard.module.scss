@@ -66,7 +66,7 @@
     text-align: left;
     align-self: stretch;
     border-radius: var(--radius-s);
-    @include focus-ring;
+    @include focus-ring($host-shadow: none);
   }
 
   &__icon {

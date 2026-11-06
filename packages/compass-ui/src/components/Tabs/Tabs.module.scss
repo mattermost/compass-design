@@ -30,7 +30,7 @@
     // No transitions at all: active-tab changes (label/badge colour, underline,
     // fill, in either direction, even while hovered) and focus-leaving must be
     // instant, so hover snaps too (#184).
-    @include focus-ring;
+    @include focus-ring($host-shadow: none);
 
     &:hover:not(&--active):not(&--disabled) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);

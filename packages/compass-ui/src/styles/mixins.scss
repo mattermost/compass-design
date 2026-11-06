@@ -104,7 +104,7 @@
  */
 $_focus-ring-keyframes-emitted: false;
 
-@mixin focus-ring($color: var(--focus-ring-color), $offset: 3px) {
+@mixin focus-ring($color: var(--focus-ring-color), $offset: 3px, $host-shadow: null) {
   outline: none;
 
   &:focus-visible {
@@ -123,6 +123,17 @@ $_focus-ring-keyframes-emitted: false;
   // Emitted at most once per compiled stylesheet. Must NOT be a top-level
   // `@keyframes` in this file: mixins.scss is injected into every stylesheet
   // (including vendor/global ones that must open with the `@layer` order).
+  // Optional: keep the ring the only focus indicator even when a host draws its
+  // own box-shadow ring on focused controls (e.g. a `.a11y--focused` rule).
+  // `$host-shadow` is the control's own box-shadow to show while focused (`none`
+  // if it has none). The repeated pseudo-class raises specificity to (0,3,0)
+  // without `!important`, so it outranks a host's `.a b` shadow rule.
+  @if $host-shadow {
+    &:focus-visible:focus-visible {
+      box-shadow: $host-shadow;
+    }
+  }
+
   @if not $_focus-ring-keyframes-emitted {
     @at-root {
       @keyframes focus-ring-in {
