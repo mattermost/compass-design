@@ -129,6 +129,11 @@
     line-height: var(--line-height-75);
     color: rgba(var(--center-channel-color-rgb), 0.64);
     cursor: pointer;
+    @include focus-ring(
+      var(--focus-ring-color, var(--button-bg)),
+      $host-shadow: none,
+      $host-radius: var(--radius-s)
+    );
 
     // No transitions: active changes (either direction, even while hovered) are
     // instant, so hover and press snap too (#184).
@@ -139,11 +144,6 @@
 
     &:active {
       background-color: rgba(var(--center-channel-color-rgb), 0.12);
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 2px var(--button-bg);
     }
 
     &--active {
