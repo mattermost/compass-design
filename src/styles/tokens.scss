@@ -403,10 +403,9 @@
   --opacity-96: 0.96;
   --opacity-100: 1;
 
-  // Interactive borders. Same shorthand shape as the webapp's --border-light
+  // Interactive border. Same shorthand shape as the webapp's --border-light
   // (8%), --border-default (12%) and --border-dark (16%), which the host defines.
   // A bordered field/composer: rest = --border-default (or --border-dark),
-  // hover = --border-hover, focus = --border-focus.
+  // hover = --border-hover.
   --border-hover: solid 1px rgba(var(--center-channel-color-rgb), var(--opacity-32));
-  --border-focus: solid 1px rgba(var(--center-channel-color-rgb), var(--opacity-56));
 }

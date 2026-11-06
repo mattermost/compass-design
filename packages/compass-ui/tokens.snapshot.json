@@ -306,8 +306,7 @@
       "--opacity-88": "0.88",
       "--opacity-96": "0.96",
       "--opacity-100": "1",
-      "--border-hover": "solid 1px rgba(var(--center-channel-color-rgb), var(--opacity-32))",
-      "--border-focus": "solid 1px rgba(var(--center-channel-color-rgb), var(--opacity-56))"
+      "--border-hover": "solid 1px rgba(var(--center-channel-color-rgb), var(--opacity-32))"
     },
     "@layer compass-ui.webapp-compat :root": {
       "--neutral-0": "var(--color-neutral-0, #ffffff)",

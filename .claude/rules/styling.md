@@ -161,7 +161,7 @@ Toasts / global banners: use `rgb(var(--semantic-color-*))` directly for type fi
 
 Figma `token/8` → `rgba(var(--token-rgb), 0.08)` (no suffixed CSS variable). Text color alpha clamp ≥ **0.72**; icon color clamp ≥ **0.56**. **Exceptions:** field placeholder text may use **0.64**; disabled components may go as low as **0.4**. Backgrounds/borders/fills may use the mapped alpha as written.
 
-Tokens exist for alpha steps: `--opacity-{4..100}` (compose: `rgba(var(--center-channel-color-rgb), var(--opacity-32))`) and interactive border shorthands `--border-hover` / `--border-focus` (beside the webapp's `--border-light|default|dark`). Bordered fields use `--border-default` → `--border-hover` → `--border-focus`; don't hardcode 0.32/0.56.
+Tokens exist for alpha steps: `--opacity-{4..100}` (compose: `rgba(var(--center-channel-color-rgb), var(--opacity-32))`) and interactive border shorthand `--border-hover` (beside the webapp's `--border-light|default|dark`). Bordered fields use `--border-default` → `--border-hover` for rest/hover; don't hardcode 0.32/0.56.
 
 ## Opacity floors
 
