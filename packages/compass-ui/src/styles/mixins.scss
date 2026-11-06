@@ -72,7 +72,7 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgba(var(--center-channel-color-rgb), 0.24);
-    border-radius: 3px;
+    border-radius: var(--radius-pill);
     border: 2px solid transparent;
     background-clip: content-box;
     transition: background-color var(--duration-quick) var(--ease-transition);

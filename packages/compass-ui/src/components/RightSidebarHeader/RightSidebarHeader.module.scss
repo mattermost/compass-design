@@ -24,7 +24,7 @@
   }
 
   &__back {
-    margin-left: -12px;
+    margin-left: calc(-1 * var(--spacing-m));
   }
 
   &__leading-icon {

@@ -26,7 +26,7 @@
     align-items: center;
     flex-shrink: 0;
     width: 100px;
-    padding: 2px var(--spacing-xs);
+    padding: var(--spacing-xxxxs) var(--spacing-xs);
     box-sizing: border-box;
   }
 
@@ -47,7 +47,7 @@
     justify-content: center;
     min-width: 0;
     align-self: stretch;
-    padding-top: 2px;
+    padding-top: var(--spacing-xxxxs);
     box-sizing: border-box;
     text-align: center;
   }

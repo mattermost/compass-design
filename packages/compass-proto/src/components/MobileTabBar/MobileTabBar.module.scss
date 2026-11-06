@@ -7,6 +7,7 @@
   width: 100%;
   background-color: var(--center-channel-bg);
   box-shadow: 0 -2px 6px 0 rgba(var(--color-neutral-1200-rgb), 0.12); // elevation-2, cast upward
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- device inset fallback, not a spacing token
   padding-bottom: var(--device-safe-bottom, 34px);
   box-sizing: border-box;
 
@@ -38,7 +39,7 @@
   &__indicator-bar {
     width: 32px;
     height: 2px;
-    border-radius: 0 0 2px 2px;
+    border-radius: 0 0 var(--radius-xs) var(--radius-xs);
     background-color: var(--button-bg);
   }
 
@@ -81,6 +82,7 @@
     font-family: var(--font-family-body);
     font-size: var(--font-size-25);
     font-weight: var(--font-weight-semibold);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- 12px line-height is off the --line-height-* scale; no token matches
     line-height: 12px;
     letter-spacing: 0;
     text-align: center;
