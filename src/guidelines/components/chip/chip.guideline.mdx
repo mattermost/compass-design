@@ -168,6 +168,10 @@ the × is mouse-only.
   parent input, if there is one).
 - **Left / Right.** Move from chip to chip. The × is not a keyboard stop.
 - **Delete / Backspace / Enter / Space.** Remove the focused chip.
+- **Inside a dialog.** Keys a chip acts on, to remove it or move between
+  chips, don't bubble up to the dialog or form. Capture-phase listeners and
+  native listeners on ancestor elements still run first, so a dialog that
+  uses them needs its own check.
 - **Label.** Each chip is named `{label}. Press Delete to remove.`
 - **Focus.** The ring sits on the chip edge (no offset), so it does not
   collide with a surrounding input. The × never takes a ring.
