@@ -26,6 +26,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`ThreadFooter` last-reply time:** padding `4.5px 10px` → `4px 8px` (`--spacing-xxxs` / `--spacing-xs`) and line-height 15px → `--line-height-75` (16px). The height stays 24px and the element is 4px narrower.
 - **`ThreadFooter` reply button markup:** the reply count is now rendered directly in the `Button` label instead of inside an extra inner `<span>`. `Button` already applies the same font, size and line-height, and the rendered size is unchanged.
 
+### Fixed
+
+- **`Chip` / `ChipGroup` keys leaking to host dialogs and forms:** Delete, Backspace, Enter and Space that remove a chip, and the arrow, Home and End keys that move between chips in a `ChipGroup`, now also stop propagating, so a surrounding modal no longer confirms and a host key listener no longer submits on the same press. This includes the chips in a multi-select `Combobox`. Keys a chip doesn't act on still bubble: Tab, Escape, removal keys on a chip without `onRemove`, any key in a disabled `ChipGroup`, and a key the `onKeyDown` prop already prevented. Capture-phase listeners and native listeners on ancestor elements still run first, so those hosts keep their own guard. `onKeyDown` still runs before the chip's own handling. Markup is unchanged.
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added
