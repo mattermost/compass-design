@@ -161,6 +161,8 @@ Toasts / global banners: use `rgb(var(--semantic-color-*))` directly for type fi
 
 Figma `token/8` → `rgba(var(--token-rgb), 0.08)` (no suffixed CSS variable). Text color alpha clamp ≥ **0.72**; icon color clamp ≥ **0.56**. **Exceptions:** field placeholder text may use **0.64**; disabled components may go as low as **0.4**. Backgrounds/borders/fills may use the mapped alpha as written.
 
+Tokens exist for alpha steps: `--opacity-{4..100}` (compose: `rgba(var(--center-channel-color-rgb), var(--opacity-32))`). Don't hardcode alpha values such as 0.32 or 0.56.
+
 ## Opacity floors
 
 Never style **text** below **72%** opacity or **icons** below **56%** (including `rgba`/`hsla` as `color`/`fill`, and `opacity` on text/icon elements). Lower alpha is fine for backgrounds, borders, fills, overlays. Entrance/exit may fade temporarily; resting UI must meet the floors.

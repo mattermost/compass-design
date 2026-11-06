@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **Opacity tokens:** the foundation opacity scale is now emitted as CSS variables, `--opacity-4` … `--opacity-100` (4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 100). Compose them with theme RGB variables, e.g. `rgba(var(--center-channel-color-rgb), var(--opacity-32))`.
+
 ### Fixed
 
 - **Controls no longer flash when moving between neighbours (#184):** `IconButton`, `Button`, `TileButton`, `CardButton`, `Chip`, `Combobox`, `Dropdown`, `EmojiButton`, `FieldClearButton`, `MoreUnreadsBanner`, `PaginationDots`, `PasswordInput`, `ReactionButton`, `ReactionsRow`, `RightSidebarHeader`, `Tabs`, `AttachmentCard`, `MenuItem`, `ChannelInfoMsgHeader` and `DateRangePicker` had two transition-related flashes.
