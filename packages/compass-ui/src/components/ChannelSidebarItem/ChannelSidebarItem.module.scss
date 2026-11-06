@@ -123,16 +123,15 @@
     justify-content: center;
     flex-shrink: 0;
     width: var(--icon-size-24);
-    transition: margin-right var(--duration-quick) var(--ease-transition);
+    transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
-  // The overflow menu is absolutely positioned over the right edge on
-  // hover / focus. Rows with a menu shift trailing content left by the menu
-  // width (24px) plus a small gap so the trailing visual stays clickable and
-  // doesn't touch the button.
+  // Like the mention badge, a trailing visual on a row with the overflow menu
+  // fades out on hover / focus so the menu button takes its place.
   &:hover &__trailing-visual--with-menu,
   &:focus-within &__trailing-visual--with-menu {
-    margin-right: calc(var(--icon-size-24) + var(--spacing-xxxs));
+    opacity: 0;
+    pointer-events: none;
   }
 
   &__group-icon {

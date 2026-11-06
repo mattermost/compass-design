@@ -46,8 +46,10 @@ export interface ChannelSidebarItemProps {
   leadingVisual?: ChannelSidebarItemLeadingVisual | ReactNode;
   /**
    * Custom content for the trailing slot, after the name and before the mention
-   * badge / menu button (e.g. a responding indicator or hover actions). `status`
-   * styling is independent of it. When omitted, nothing is rendered.
+   * badge / menu button (e.g. a responding indicator). Status-only: on rows with
+   * the overflow menu it fades out on hover / focus, like the mention badge, so
+   * don't put interactive content in it. `status` styling is independent of it.
+   * When omitted, nothing is rendered.
    */
   trailingVisual?: ReactNode;
   /** Read/unread/mention state. Default: Read. */
@@ -274,9 +276,7 @@ export default function ChannelSidebarItem({
           <span
             className={[
               styles['channel-sidebar-item__trailing-visual'],
-              // The hidden mention badge keeps its slot, which the menu button
-              // covers on hover, so only shift when there is no badge.
-              isChannelOrDM && !hasMentionBadge
+              isChannelOrDM
                 ? styles['channel-sidebar-item__trailing-visual--with-menu']
                 : '',
             ]
