@@ -159,8 +159,7 @@
     list-style-type: none;
     margin-left: 0;
     margin-bottom: var(--spacing-m);
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
-    padding-left: 30px;
+    padding-left: var(--spacing-xxxl);
     position: relative;
 
     &:last-child {
