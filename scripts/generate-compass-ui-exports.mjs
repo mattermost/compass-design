@@ -85,6 +85,7 @@ function rewriteIllustrationDeclarations(illustrations) {
   return rewritten;
 }
 
+/** The package.json `exports` map: wildcard component/hook/illustration subpaths plus fixed entries. */
 function buildExports() {
   return {
     '.': {
@@ -129,6 +130,10 @@ function buildExports() {
   };
 }
 
+/**
+ * `typesVersions` fallback for TypeScript resolvers that ignore `exports`
+ * (`moduleResolution: node`): one explicit path per built subpath.
+ */
 function buildTypesVersions(components, hooks, illustrations) {
   const paths = {
     'components/*': ['./dist/components/*/index.d.ts'],

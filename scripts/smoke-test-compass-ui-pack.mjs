@@ -81,8 +81,12 @@ function componentSubpaths() {
     .sort();
 }
 
-// Node can't load the CSS that component modules side-effect import; stub it
-// the way Jest's moduleNameMapper / identity-obj-proxy setups do.
+/**
+ * Writes the consumer's ESM and CJS load checks for every component subpath
+ * and the testing/snapshot-serializer export. Node can't load the CSS that
+ * component modules side-effect import, so the checks stub it the way Jest's
+ * moduleNameMapper / identity-obj-proxy setups do.
+ */
 function writeSubpathChecks(tempDir, subpaths) {
   const list = JSON.stringify(subpaths, null, 2);
   const assertExports = `

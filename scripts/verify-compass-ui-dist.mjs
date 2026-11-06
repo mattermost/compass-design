@@ -121,6 +121,7 @@ function assertIllustrationDts() {
   );
 }
 
+/** Fails if a dist file a published subpath resolves to is missing. */
 function assertSubpathLayout() {
   const required = [
     'dist/index.js',
@@ -441,6 +442,7 @@ async function assertSnapshotSerializerCoversClassNames() {
   );
 }
 
+/** Runs every dist assertion; any failure throws and fails the build. */
 async function main() {
   assertLayering();
   assertTokenSnapshot({
