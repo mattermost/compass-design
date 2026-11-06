@@ -161,6 +161,7 @@ export default function DateRangePicker({
   const id = idProp ?? generatedId;
   const popoverId = `${id}-popover`;
   const labelId = `${id}-label`;
+  const valueId = `${id}-value`;
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -176,6 +177,7 @@ export default function DateRangePicker({
   const [displayYear, setDisplayYear] = useState(today.getFullYear());
   const [displayMonth, setDisplayMonth] = useState(today.getMonth());
   const [isOpen, setIsOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   /** Roving tabindex day-of-month within the visible grid. */
   const [focusedDay, setFocusedDay] = useState(1);
 
@@ -527,7 +529,7 @@ export default function DateRangePicker({
     isOpen ? styles['date-range-picker--open'] : '',
     disabled ? styles['date-range-picker--disabled'] : '',
     label != null ? styles['date-range-picker--has-label'] : '',
-    label != null && (isOpen || hasValue)
+    label != null && (isOpen || isFocused || hasValue)
       ? styles['date-range-picker--label-floated']
       : '',
     className,
@@ -556,7 +558,7 @@ export default function DateRangePicker({
         aria-label={ariaLabel}
         aria-labelledby={
           ariaLabelledby ??
-          (label != null && ariaLabel == null ? labelId : undefined)
+          (ariaLabel == null ? (label != null ? labelId : valueId) : undefined)
         }
         aria-describedby={ariaDescribedby}
         tabIndex={disabled ? -1 : 0}
@@ -564,6 +566,8 @@ export default function DateRangePicker({
         data-has-value={hasValue ? '' : undefined}
         onClick={handleToggle}
         onKeyDown={handleTriggerKeyDown}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       >
         <span
           className={styles['date-range-picker__calendar-icon']}
@@ -571,7 +575,7 @@ export default function DateRangePicker({
         >
           <Icon size="16" glyph={<CalendarOutlineIcon />} />
         </span>
-        <span className={styles['date-range-picker__value']}>
+        <span id={valueId} className={styles['date-range-picker__value']}>
           {displayValue || placeholder}
         </span>
         <span className={styles['date-range-picker__chevron']} aria-hidden>

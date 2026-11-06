@@ -413,6 +413,50 @@ describe('other overridable messages', () => {
     expect(getByRole('combobox', '01/05/2026')).toBeTruthy();
   });
 
+  it('DateRangePicker trigger exposes label, required and description', () => {
+    const { container } = render(
+      <DateRangePicker
+        label="Dates"
+        required
+        aria-describedby="help"
+        value="2026-01-05"
+      />,
+    );
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-required')).toBe('true');
+    expect(trigger.getAttribute('aria-describedby')).toBe('help');
+    const labelledBy = trigger.getAttribute('aria-labelledby');
+    expect(labelledBy).toBeTruthy();
+    expect(container.querySelector(`[id="${labelledBy}"]`)?.textContent).toBe(
+      'Dates',
+    );
+  });
+
+  it('DateRangePicker without a label is named by its value text', () => {
+    const { container } = render(<DateRangePicker placeholder="Pick a date" />);
+    const trigger = getByRole('combobox');
+    const labelledBy = trigger.getAttribute('aria-labelledby');
+    expect(container.querySelector(`[id="${labelledBy}"]`)?.textContent).toBe(
+      'Pick a date',
+    );
+    expect(trigger.getAttribute('aria-required')).toBeNull();
+  });
+
+  it('DateRangePicker aria-label overrides the derived name', () => {
+    render(<DateRangePicker label="Dates" aria-label="Report range" />);
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-label')).toBe('Report range');
+    expect(trigger.getAttribute('aria-labelledby')).toBeNull();
+  });
+
+  it('DateRangePicker floats its label while the trigger is focused', () => {
+    const { container } = render(<DateRangePicker label="Dates" />);
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).not.toMatch(/label-floated/);
+    focus(getByRole('combobox'));
+    expect(root.className).toMatch(/label-floated/);
+  });
+
   it('DateRangePicker labels', () => {
     render(
       <DateRangePicker
