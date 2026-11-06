@@ -213,7 +213,7 @@ export const AllVariants: Story = {
           <ChannelSidebarItem
             leadingVisual="private"
             name="Call active"
-            callActive
+            trailingVisual={<Icon glyph={<PhoneInTalkIcon />} />}
             onClick={fn()}
           />
           <ChannelSidebarItem
