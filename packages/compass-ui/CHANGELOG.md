@@ -9,6 +9,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Changed
 
 - **`EmptyState` no longer paints a background:** the root dropped its default `background-color: var(--center-channel-bg)`, so it takes on whatever surface it is placed on (card, panel, modal body, tinted page) and consumers no longer need a `background: transparent` override. Layout rules are unchanged. Hosts that relied on the center-channel fill should set it on the wrapper. (#191)
+- **`IconButton` count badge line-height:** `small` (14px → `--line-height-75`, 16px) and `large` (18px → `--line-height-100`, 20px) now use the line-height tokens instead of fixed pixel values, so the count's line box is 2px taller. `x-small` and `medium` are unchanged. Markup is unchanged.
+- **`ImagePreview` show-icon line-height:** 15px → `--line-height-75` (16px), so the "Show image preview" row, and any card that contains it such as `LinkPreview`, is 1px taller. Markup is unchanged.
+- **`ThreadFooter` last-reply time:** padding `4.5px 10px` → `4px 8px` (`--spacing-xxxs` / `--spacing-xs`) and line-height 15px → `--line-height-75` (16px). The height stays 24px and the element is 4px narrower.
+- **`ThreadFooter` reply button markup:** the reply count is now rendered directly in the `Button` label instead of inside an extra inner `<span>`. `Button` already applies the same font, size and line-height, and the rendered size is unchanged.
 
 ## [0.1.0-alpha.27] - 2026-11-03
 

@@ -46,12 +46,14 @@
     flex: 1 1 auto;
     min-height: 0;
     width: 100%;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- one-off width, no spacing token
     padding: var(--spacing-m) 56px;
     box-sizing: border-box;
     transition: padding var(--duration-quick) var(--ease-transition);
   }
 
   &--focused &__top {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- one-off width, no spacing token
     padding: var(--spacing-s) 44px var(--spacing-xxxxs) var(--spacing-s);
   }
 
@@ -201,6 +203,7 @@
     margin: 0;
     padding: 0;
     border: 2px solid var(--center-channel-bg);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale radius between radius tokens
     border-radius: 10px;
     background-color: var(--center-channel-bg);
     color: rgba(var(--center-channel-color-rgb), 0.56);

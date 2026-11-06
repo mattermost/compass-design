@@ -54,6 +54,7 @@
     min-width: 0;
     flex-direction: column;
     justify-content: center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- right padding reserves room for the action buttons, one-off width
     padding: 14px 188px 14px var(--spacing-l);
     transition: padding-right var(--duration-quick) var(--ease-transition);
 
@@ -116,7 +117,7 @@
     display: flex;
     align-items: center;
     background-color: var(--center-channel-bg);
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 var(--radius-s) var(--radius-s);
     padding: 0 var(--spacing-xs);
     opacity: 0;
     z-index: 0;
@@ -201,7 +202,7 @@
     gap: var(--spacing-xxxs);
     padding: var(--spacing-xs);
     background-color: var(--center-channel-bg);
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 var(--radius-s) 0;
   }
 
   &__actions--narrow-chrome {
@@ -288,6 +289,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
     padding: var(--spacing-xs) 7px var(--spacing-xs) 9px;
     border: none;
     border-right: 1px solid rgba(var(--color-neutral-0-rgb), 0.12);
@@ -317,6 +319,7 @@
     }
 
     .message-input__body {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
       padding: 14px var(--spacing-l);
 
       &.message-input__body--formatting-open {
