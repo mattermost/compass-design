@@ -17,7 +17,7 @@
   cursor: pointer;
   text-decoration: none;
   // No transition at rest: toggled / focus-leaving must be instant (#184).
-  @include focus-ring($host-shadow: none);
+  @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).

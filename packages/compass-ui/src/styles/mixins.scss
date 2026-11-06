@@ -107,7 +107,8 @@ $_focus-ring-keyframes-emitted: false;
 @mixin focus-ring(
   $color: var(--focus-ring-color),
   $offset: 3px,
-  $host-shadow: null
+  $host-shadow: null,
+  $host-radius: null
 ) {
   outline: none;
 
@@ -131,10 +132,17 @@ $_focus-ring-keyframes-emitted: false;
   // `:not()` raises specificity to (0,3,0) without `!important`, so it outranks
   // a host's `.a b` shadow rule; a state with its own shadow (hover, selected)
   // must declare it at (0,3,0) or higher.
-  @if $host-shadow {
+  // `$host-radius` does the same for `border-radius` (the webapp's
+  // `.a11y--focused` also sets `border-radius: 4px`); pass the control's radius.
+  @if $host-shadow or $host-radius {
     &:not(.-host-shadow-a):not(.-host-shadow-b) {
-      // stylelint-disable-next-line declaration-property-value-disallowed-list -- caller-supplied shadow (a token or none), passed through
-      box-shadow: $host-shadow;
+      @if $host-shadow {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list -- caller-supplied shadow (a token or none), passed through
+        box-shadow: $host-shadow;
+      }
+      @if $host-radius {
+        border-radius: $host-radius;
+      }
     }
   }
 

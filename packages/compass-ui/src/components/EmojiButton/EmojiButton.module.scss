@@ -11,7 +11,7 @@
   // No transitions on the button: toggled / active changes (either direction,
   // even while hovered) and focus-leaving are instant, and hover/press snap
   // too. The emoji scale on hover below is a separate element transition (#184).
-  @include focus-ring($host-shadow: none);
+  @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
 
   &:disabled {
     cursor: not-allowed;

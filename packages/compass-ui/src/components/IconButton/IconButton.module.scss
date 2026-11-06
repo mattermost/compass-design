@@ -20,7 +20,7 @@
   background-color: transparent;
   --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
   color: var(--icon-button-fg);
-  @include focus-ring;
+  @include focus-ring($host-radius: var(--radius-s));
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
@@ -170,7 +170,7 @@
   // ---------------------------------------------------------------------------
   // Rounded modifier (pill shape). Figma: Rounded = On.
   // ---------------------------------------------------------------------------
-  &--rounded {
+  &--rounded:not(.-host-shadow-a):not(.-host-shadow-b) {
     border-radius: var(--radius-pill);
   }
 

@@ -15,7 +15,10 @@
   text-align: left;
   color: var(--center-channel-color);
   // No transition at rest: selected / focus-leaving must be instant (#184).
-  @include focus-ring($host-shadow: var(--elevation-1));
+  @include focus-ring(
+    $host-shadow: var(--elevation-1),
+    $host-radius: var(--radius-s)
+  );
 
   &:hover:not(:disabled):not(.card-button--selected) {
     transition:
