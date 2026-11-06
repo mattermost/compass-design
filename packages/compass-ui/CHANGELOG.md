@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`EmptyState` no longer paints a background:** the root dropped its default `background-color: var(--center-channel-bg)`, so it takes on whatever surface it is placed on (card, panel, modal body, tinted page) and consumers no longer need a `background: transparent` override. Layout rules are unchanged. Hosts that relied on the center-channel fill should set it on the wrapper. (#191)
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added
