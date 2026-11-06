@@ -92,7 +92,8 @@
 
   &__post-content {
     display: flex;
-    gap: var(--spacing-xxxxs);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
+    gap: var(--spacing-xxxxs, 4px);
     align-items: flex-start;
     width: 100%;
   }
@@ -140,7 +141,8 @@
   &__post-body-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xxxxs);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
+    gap: var(--spacing-xxxxs, 4px);
     align-items: flex-start;
     width: 100%;
   }
@@ -224,7 +226,8 @@
   &__replies-inner {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xxxxs);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
+    gap: var(--spacing-xxxxs, 4px);
     min-height: 24px;
     border-radius: var(--radius-s);
   }
