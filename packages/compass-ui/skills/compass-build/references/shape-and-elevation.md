@@ -32,5 +32,4 @@ Six levels above flat (0). Pick the level by role, not by eye.
 
 - Default is flat. Most surfaces in a layout have no shadow; separate them with space, a divider or a subtle fill first. **[proposed]**
 - A child surface (submenu spawned from a menu) sits one level above its parent.
-- Dark themes scale shadow opacity 4x automatically. Do not hand-tune shadows per theme.
 - Stacking: `--z-sidebar` 100, `--z-modal` 200, `--z-tooltip` 300. Don't invent z-index numbers.

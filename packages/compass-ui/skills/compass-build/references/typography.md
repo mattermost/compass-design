@@ -11,7 +11,7 @@ Source: `/foundations/typography`, `.claude/rules/styling.md`.
 | Field group title                                                              | `--font-size-200` / `--line-height-200` (16/24) | heading                                                                                          |
 | Sub-group title (radio, checkbox, switch list), and any Heading 100 or smaller | `--font-size-100` / `--line-height-100` (14/20) | body font (Open Sans), semibold. Both Figma files define Heading 100 as Open Sans **[proposed]** |
 
-- **Space above and below every heading, never none.** A heading's space comes from the layout gap, not text margins: the gap above it is the gap between its group and the previous one (32px in forms), and the gap below it is the gap to its first field (16px for a field group title in forms, 12px for a sub-group title). A heading directly touching its first label or field is a bug.
+- **Give headings space above and below; having none is rare.** A heading's space comes from the layout gap, not text margins: the gap above it is the gap between its group and the previous one (32px in forms), and the gap below it is the gap to its first field (16px for a field group title in forms, 12px for a sub-group title). A heading directly touching its first label or field is almost always a bug; the first heading in a container has no gap above it because nothing precedes it.
 - **Which spacing applies:**
   - **Forms:** use the role table above and the form gaps in `spacing-and-hierarchy.md`.
   - **Prose-like content** (a page, panel, detail view or list that is mostly headings and text): use the level-based defaults below. Set them as layout gaps, not as text margins.

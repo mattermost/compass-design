@@ -65,5 +65,5 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 
 ## Checks to run
 
-- **In the compass-design repo:** from the repo root run `npm run lint` and `npm run lint:styles`; in `packages/compass-ui` run `npm test`.
-- **In a consumer (plugin, webapp, playground):** use that project's own lint, type-check and test scripts. A consumer may not have `lint:styles`; report which checks were unavailable rather than skipping silently.
+- **If you are working in the webapp, a plugin or the playground:** use that project's own lint, type-check and test scripts. A consumer may not have `lint:styles`; report which checks were unavailable rather than skipping silently.
+- **If you are working in the compass-design repo itself (compass-ui, docs, proto):** from the repo root run `npm run lint` and `npm run lint:styles`; in `packages/compass-ui` run `npm test`.

@@ -45,8 +45,8 @@ Use this when the task is to bring existing UI in line with Compass, not to buil
    2. Components: replace custom markup with the Compass component that covers the need (`references/components.md`). If none fits, keep the custom piece, mark it with a short comment, and say so.
    3. Layout: spacing, grouping, hierarchy, one primary action, forms.
    4. Copy, states and accessibility: labels, errors, focus, ARIA.
-4. **Don't force a swap.** If a Compass component can't do what the screen needs (a missing option, a different structure), leave that part and report the gap instead of working around it.
-5. **Re-check.** Run `references/checklist.md` on the result, plus the project's lint and tests. Report what you changed by pass, and what you left and why.
+4. **Don't force a swap.** If a Compass component can't do what the screen needs (a missing option, a different structure), leave that part and list the gap in your final report instead of working around it.
+5. **Re-check.** Run `references/checklist.md` on the result, plus the project's lint and tests. Report in your final response (the message that ends the task, not a file or a code comment), as a short list per pass of what you changed, then a "Left as is" list with the file and the reason for each item, including any component gaps from step 4.
 
 ## Which reference to read
 
