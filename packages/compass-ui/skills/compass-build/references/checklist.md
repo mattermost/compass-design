@@ -55,7 +55,7 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 - [ ] Keyboard-only pass: reachable, operable, logical order, nothing trapped (except modals).
 - [ ] Every field has a visible label; errors are associated with their fields.
 - [ ] Targets at least 24x24px pointer / 40x40px touch with 8px between.
-- [ ] Dialogs and modals move focus in, trap it, close on Escape and restore focus; tooltips and other non-modal surfaces keep focus on the trigger.
+- [ ] Each overlay follows its own focus pattern: modal dialogs move focus in, trap it, close on Escape and restore focus; non-modal dialogs and popovers don't trap focus; a menu button moves focus into its menu; a tooltip never takes focus.
 - [ ] Dynamic updates are announced (`aria-live` / `role`).
 
 ## Before reporting

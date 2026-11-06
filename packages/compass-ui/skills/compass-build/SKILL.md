@@ -9,7 +9,7 @@ Compass is one product, one brand. Do not invent style. Reuse components and tok
 
 Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, but do not cite them as official.
 
-**Guidelines.** The authoritative guidance is the Compass guidelines site, built from `src/guidelines` in the `mattermost/compass-design` repo; paths like `/foundations/color` in these files are routes on that site. If a reference and a guideline disagree, the guideline wins.
+**Guidelines.** The authoritative guidance is the Compass guidelines site, published at https://compass.mattermost.com and built from `src/guidelines` in the `mattermost/compass-design` repo. Paths like `/foundations/color` in these files are routes on that site (it is a single-page app, so open the site root and navigate if a deep link doesn't resolve). If a reference and a guideline disagree, the guideline wins.
 
 **Version note.** Some rules assume props that arrive with this skill's compass-ui release: `DateRangePicker` `label` (and `aria-label`, `aria-labelledby`, `aria-describedby`, `required` reaching its trigger), `Select` and `Combobox` `message` and `messageTone`, and `Select` `required` and `aria-describedby`. Check the installed component's props. If they are missing, upgrade compass-ui when you can. If you can't, these are the limits and the best available workarounds, and you must say so in your report:
 
