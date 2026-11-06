@@ -172,6 +172,7 @@ export default function Chip({
       e.key === ' '
     ) {
       e.preventDefault();
+      e.stopPropagation();
       e.currentTarget
         .querySelector<HTMLButtonElement>('[data-chip-remove]')
         ?.click();

@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`Select` and `Combobox` field messages:** both take `message` and `messageTone` like `TextInput`. The message renders under the field, is linked to the trigger or input with `aria-describedby` (merged with any `aria-describedby` you pass), and, with the default error tone, marks the field invalid (`aria-invalid`). `Select` also takes `required` (`aria-required`) and `aria-describedby`, as `Combobox` already did. Nothing changes without these props.
 - **`DateRangePicker` `label` prop:** a floating label inside the field, like `TextInput`, `Select` and `Combobox`. It floats to the top edge when the picker is open or has a value, and it names the trigger for assistive technology through `aria-labelledby`. Accepts translated nodes. Without `label` nothing changes.
+- **Opacity tokens:** the foundation opacity scale is now emitted as CSS variables, `--opacity-4` … `--opacity-100` (4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 100). Compose them with theme RGB variables, e.g. `rgba(var(--center-channel-color-rgb), var(--opacity-32))`.
 
 ### Changed
 
@@ -44,6 +45,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`ImagePreview` show-icon line-height:** 15px → `--line-height-75` (16px), so the "Show image preview" row, and any card that contains it such as `LinkPreview`, is 1px taller. Markup is unchanged.
 - **`ThreadFooter` last-reply time:** padding `4.5px 10px` → `4px 8px` (`--spacing-xxxs` / `--spacing-xs`) and line-height 15px → `--line-height-75` (16px). The height stays 24px and the element is 4px narrower.
 - **`ThreadFooter` reply button markup:** the reply count is now rendered directly in the `Button` label instead of inside an extra inner `<span>`. `Button` already applies the same font, size and line-height, and the rendered size is unchanged.
+
+### Fixed
+
+- **`Chip` / `ChipGroup` keys leaking to host dialogs and forms:** Delete, Backspace, Enter and Space that remove a chip, and the arrow, Home and End keys that move between chips in a `ChipGroup`, now also stop propagating, so a surrounding modal no longer confirms and a host key listener no longer submits on the same press. This includes the chips in a multi-select `Combobox`. Keys a chip doesn't act on still bubble: Tab, Escape, removal keys on a chip without `onRemove`, any key in a disabled `ChipGroup`, and a key the `onKeyDown` prop already prevented. Capture-phase listeners and native listeners on ancestor elements still run first, so those hosts keep their own guard. `onKeyDown` still runs before the chip's own handling. Markup is unchanged.
 
 ## [0.1.0-alpha.27] - 2026-11-03
 
