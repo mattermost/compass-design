@@ -39,7 +39,7 @@
   padding: var(--spacing-xxxs) var(--spacing-s);
   border-radius: var(--radius-s);
   font-size: var(--font-size-200);
-  line-height: 24px;
+  line-height: var(--line-height-200);
   font-weight: var(--font-weight-regular);
   color: rgba(var(--center-channel-color-rgb), 0.75);
   text-decoration: none;
