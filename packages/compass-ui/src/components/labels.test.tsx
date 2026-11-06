@@ -457,7 +457,7 @@ describe('other overridable messages', () => {
     expect(root.className).toMatch(/label-floated/);
   });
 
-  it('DateRangePicker calls onFocus and onBlur and has no name when empty', () => {
+  it('DateRangePicker calls onFocus and onBlur and falls back to dialogLabel when nothing names it', () => {
     const events: string[] = [];
     render(
       <DateRangePicker
@@ -468,6 +468,7 @@ describe('other overridable messages', () => {
     );
     const trigger = getByRole('combobox');
     expect(trigger.getAttribute('aria-labelledby')).toBeNull();
+    expect(trigger.getAttribute('aria-label')).toBe('Date picker');
     focus(trigger);
     expect(events).toEqual(['focus']);
   });

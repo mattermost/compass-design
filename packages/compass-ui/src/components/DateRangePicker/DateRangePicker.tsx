@@ -562,7 +562,15 @@ export default function DateRangePicker({
         aria-controls={popoverMounted ? popoverId : undefined}
         aria-disabled={disabled || undefined}
         aria-required={required || undefined}
-        aria-label={ariaLabel}
+        aria-label={
+          ariaLabel ??
+          (ariaLabelledby == null &&
+          label == null &&
+          !displayValue &&
+          !placeholder
+            ? dialogLabel
+            : undefined)
+        }
         aria-labelledby={
           ariaLabelledby ??
           (ariaLabel == null
