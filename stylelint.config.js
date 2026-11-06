@@ -61,8 +61,9 @@ export default {
     'declaration-property-value-disallowed-list': {
       // Raw hex, except as a var() fallback (standalone default for a theme var)
       '/.*/': [/(?<!var\(\s*--[\w-]+\s*,\s*)#[0-9a-f]{3,8}\b/i],
-      // Bold / numeric weights: use --font-weight-regular|semibold
-      'font-weight': [/^(bold|bolder|[1-9]00)$/],
+      // Keyword and numeric weights (any number, e.g. 750): use
+      // --font-weight-regular|semibold
+      'font-weight': [/^(bold|bolder|lighter|\d*\.?\d+)$/],
       // Type: use --font-family-* and --font-size-* (line-height is advisory)
       'font-family': [new RegExp(`^${notToken}`)],
       'font-size': [new RegExp(`^${notToken}`)],

@@ -20,7 +20,7 @@ export default {
       // (spins, pulses) often run on their own period and curve, so `animation`
       // duration and easing are exempt.
       '/^transition(-duration|-delay)?$/': [
-        /(?<![\w.-])(?!0m?s\b)\d*\.?\d+m?s\b/,
+        /(?<![\w.])(?<!\w-)(?!0m?s\b)\d*\.?\d+m?s\b/,
       ],
       // `linear` is fine: constant-rate motion has no easing token.
       '/^transition(-timing-function)?$/': [
@@ -33,10 +33,10 @@ export default {
       // inline with a reason when there's no suitable token.
       '/^(padding|margin|gap|row-gap|column-gap)(-(top|right|bottom|left|block|inline)(-(start|end))?)?$/':
         [
-          /(?<![\w.#-])(?!0+(?:\.0+)?[a-z]*(?![\w.])|1px\b|\d*\.?\d+[dsl]?v[hw]\b)\d*\.?\d+[a-z]+\b/,
+          /(?<![\w.#])(?<!\w-)(?!0+(?:\.0+)?[a-z]*(?![\w.])|1px\b|\d*\.?\d+[dsl]?v[hw]\b)\d*\.?\d+[a-z]+\b/,
         ],
       '/^border(-(top|bottom|start|end)-?(left|right|start|end)?)?-radius$/': [
-        /(?<![\w.#-])(?!0+(?:\.0+)?[a-z]*(?![\w.])|1px\b|\d*\.?\d+[dsl]?v[hw]\b)\d*\.?\d+[a-z]+\b/,
+        /(?<![\w.#])(?<!\w-)(?!0+(?:\.0+)?[a-z]*(?![\w.])|1px\b|\d*\.?\d+[dsl]?v[hw]\b)\d*\.?\d+[a-z]+\b/,
       ],
       // Line height: use --line-height-*. Unitless numbers are proportional to the
       // font size, not a raw size, so they're allowed. Off-scale px values warn
