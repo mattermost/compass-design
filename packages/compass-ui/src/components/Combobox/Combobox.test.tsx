@@ -540,6 +540,22 @@ describe('Combobox inside a host with key listeners', () => {
     expect(hostKeys).toEqual([]);
     expect(documentKeys).toEqual([]);
   });
+
+  it('keeps Enter that removes a chip from reaching the host', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const hostKeys = renderInHost({
+      multiple: true,
+      value: ['gpt-4o', 'gpt-4o-mini'],
+      onChange,
+    });
+    focus(getByRole('button', 'gpt-4o. Press Delete to remove.'));
+    await user.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(['gpt-4o-mini']);
+    expect(hostKeys).toEqual([]);
+    expect(documentKeys).toEqual([]);
+  });
 });
 
 describe('Combobox inside a form', () => {
