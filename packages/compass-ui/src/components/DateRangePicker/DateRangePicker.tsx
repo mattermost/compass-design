@@ -1,4 +1,9 @@
-import type { InputHTMLAttributes, KeyboardEvent, ReactNode } from 'react';
+import type {
+  FocusEvent as ReactFocusEvent,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+} from 'react';
 import { useState, useCallback, useEffect, useId, useRef } from 'react';
 import Button from '@/components/Button/Button';
 import IconButton, {
@@ -138,6 +143,8 @@ export default function DateRangePicker({
   onRangeChange,
   disabled,
   required,
+  onFocus,
+  onBlur,
   label,
   id: idProp,
   'aria-label': ariaLabel,
@@ -558,7 +565,13 @@ export default function DateRangePicker({
         aria-label={ariaLabel}
         aria-labelledby={
           ariaLabelledby ??
-          (ariaLabel == null ? (label != null ? labelId : valueId) : undefined)
+          (ariaLabel == null
+            ? label != null
+              ? labelId
+              : displayValue || placeholder
+                ? valueId
+                : undefined
+            : undefined)
         }
         aria-describedby={ariaDescribedby}
         tabIndex={disabled ? -1 : 0}
@@ -566,8 +579,15 @@ export default function DateRangePicker({
         data-has-value={hasValue ? '' : undefined}
         onClick={handleToggle}
         onKeyDown={handleTriggerKeyDown}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={(event) => {
+          setIsFocused(true);
+          // The trigger is a div; consumers typed the callbacks for the input props.
+          onFocus?.(event as unknown as ReactFocusEvent<HTMLInputElement>);
+        }}
+        onBlur={(event) => {
+          setIsFocused(false);
+          onBlur?.(event as unknown as ReactFocusEvent<HTMLInputElement>);
+        }}
       >
         <span
           className={styles['date-range-picker__calendar-icon']}

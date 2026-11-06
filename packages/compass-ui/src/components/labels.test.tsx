@@ -457,6 +457,21 @@ describe('other overridable messages', () => {
     expect(root.className).toMatch(/label-floated/);
   });
 
+  it('DateRangePicker calls onFocus and onBlur and has no name when empty', () => {
+    const events: string[] = [];
+    render(
+      <DateRangePicker
+        placeholder=""
+        onFocus={() => events.push('focus')}
+        onBlur={() => events.push('blur')}
+      />,
+    );
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-labelledby')).toBeNull();
+    focus(trigger);
+    expect(events).toEqual(['focus']);
+  });
+
   it('DateRangePicker labels', () => {
     render(
       <DateRangePicker
