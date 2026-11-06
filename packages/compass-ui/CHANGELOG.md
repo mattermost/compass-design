@@ -11,6 +11,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`Select` and `Combobox` field messages:** both take `message` and `messageTone` like `TextInput`. The message renders under the field, is linked to the trigger or input with `aria-describedby` (merged with any `aria-describedby` you pass), and, with the default error tone, marks the field invalid (`aria-invalid`). `Select` also takes `required` (`aria-required`) and `aria-describedby`, as `Combobox` already did. Nothing changes without these props.
 - **`DateRangePicker` `label` prop:** a floating label inside the field, like `TextInput`, `Select` and `Combobox`. It floats to the top edge when the picker is open or has a value, and it names the trigger for assistive technology through `aria-labelledby`. Accepts translated nodes. Without `label` nothing changes.
 
+### Changed
+
+- **`DateRangePicker` trigger role is now `combobox`:** the trigger was `role="button"`, which cannot carry `aria-required`, so `required` was not exposed. It is now `role="combobox"` (still `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`), which supports `aria-required`. Hosts and tests that query the trigger with `getByRole('button', …)` must switch to `combobox`. Props are unchanged.
+
 ### Fixed
 
 - **Controls no longer flash when moving between neighbours (#184):** `IconButton`, `Button`, `TileButton`, `CardButton`, `Chip`, `Combobox`, `Dropdown`, `EmojiButton`, `FieldClearButton`, `MoreUnreadsBanner`, `PaginationDots`, `PasswordInput`, `ReactionButton`, `ReactionsRow`, `RightSidebarHeader`, `Tabs`, `AttachmentCard`, `MenuItem`, `ChannelInfoMsgHeader` and `DateRangePicker` had two transition-related flashes.

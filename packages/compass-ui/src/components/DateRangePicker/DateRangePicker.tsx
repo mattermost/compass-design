@@ -537,7 +537,7 @@ export default function DateRangePicker({
       <div
         ref={triggerRef}
         className={styles['date-range-picker__trigger']}
-        role="button"
+        role="combobox"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls={popoverMounted ? popoverId : undefined}

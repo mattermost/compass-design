@@ -406,11 +406,11 @@ describe('other overridable messages', () => {
 
   it('DateRangePicker shows placeholder only while empty', () => {
     const { rerender } = render(<DateRangePicker />);
-    expect(getByRole('button', 'mm/dd/yyyy')).toBeTruthy();
+    expect(getByRole('combobox', 'mm/dd/yyyy')).toBeTruthy();
     rerender(<DateRangePicker placeholder="Pick a date" />);
-    expect(getByRole('button', 'Pick a date')).toBeTruthy();
+    expect(getByRole('combobox', 'Pick a date')).toBeTruthy();
     rerender(<DateRangePicker placeholder="Pick a date" value="2026-01-05" />);
-    expect(getByRole('button', '01/05/2026')).toBeTruthy();
+    expect(getByRole('combobox', '01/05/2026')).toBeTruthy();
   });
 
   it('DateRangePicker labels', () => {
@@ -421,7 +421,7 @@ describe('other overridable messages', () => {
         todayLabel="Heute"
       />,
     );
-    const trigger = getByRole('button', 'tt.mm.jjjj');
+    const trigger = getByRole('combobox', 'tt.mm.jjjj');
     click(trigger);
     expect(getByRole('button', 'Vorheriger Monat')).toBeTruthy();
     expect(getByRole('button', 'Heute')).toBeTruthy();
