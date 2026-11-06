@@ -39,8 +39,7 @@
     line-height: 15px;
     // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 1.5px var(--_mb-px-l, 5.5px); // fallback = digits-2
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale radius between radius tokens
-    border-radius: 10px;
+    border-radius: var(--radius-pill);
   }
 
   // Per-digit-count horizontal padding — Small is same for all digit counts

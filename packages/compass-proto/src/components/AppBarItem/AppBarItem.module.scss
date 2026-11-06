@@ -31,8 +31,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- circle/pill radius sized to the element, no radius token
-    border-radius: 24px;
+    border-radius: var(--radius-pill);
     flex-shrink: 0;
 
     img,
