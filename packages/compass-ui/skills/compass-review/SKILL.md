@@ -29,7 +29,7 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - Text alpha below 0.72, icon alpha below 0.56.
    - Hardcoded English in `aria-label`, `title` or `placeholder` inside components.
 3. **Read the code for judgment issues** against the references: spacing and grouping, heading font and gaps, hierarchy, control choice, labels and required marking, disclosure, states and focus, motion, writing, accessibility.
-4. **Run the project's checks, safely.** Read the lint, type-check and test scripts and any lifecycle hooks (`pre*`/`post*`, test setup) first. Skip anything that can write files (for example a script with `--fix`, a formatter in write mode, or a test hook that updates snapshots) or whose behavior is unclear, and say you skipped it. In the compass-design repo: `npm run lint` and `npm run lint:styles` from the repo root, `npm test` in `packages/compass-ui`. In a consumer, use its own scripts. Include failures; do not fix them, and report which checks were unavailable.
+4. **Run the project's checks, safely.** Read the lint, type-check and test scripts and any lifecycle hooks (`pre*`/`post*`, test setup) first. Skip anything that can write files (for example a script with `--fix`, a formatter in write mode, or a test hook that updates snapshots) or whose behavior is unclear, and say you skipped it. If working in the webapp, a plugin or the playground, use that project's own scripts. If working in the compass-design repo itself: `npm run lint` and `npm run lint:styles` from the repo root, `npm test` in `packages/compass-ui`. Include failures; do not fix them, and report which checks were unavailable.
 5. **Write the report.**
 
 ## Report format

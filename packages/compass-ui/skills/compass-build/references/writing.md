@@ -1,6 +1,6 @@
 # Writing
 
-Source: `/foundations/writing-style`. Pillars: **concise, clear, consistent.** Users read English as a second language.
+Source: `/foundations/writing-style`. Pillars: **concise, clear, consistent.**
 
 ## Rules
 

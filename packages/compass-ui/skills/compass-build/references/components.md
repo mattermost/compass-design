@@ -1,6 +1,6 @@
 # Component picker
 
-Pick the Compass component by need before writing custom markup. Check `packages/compass-ui/src/components/` (or the package exports) if a name here is missing.
+Pick the Compass component by need before writing custom markup. Import from the published subpaths, for example `import { Button } from '@mattermost/compass-ui/components/button';` (see `tokens-and-implementation.md` for the import rules). If a name here is missing, look in the compass-design repo's `packages/compass-ui/src/components/`, or in a consumer, in the installed package's `exports` (`node_modules/@mattermost/compass-ui/package.json`).
 
 ## Choosing the control for a field
 
