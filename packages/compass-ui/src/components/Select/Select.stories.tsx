@@ -98,6 +98,17 @@ export const WithLabel: Story = {
   },
 };
 
+/** Error text under the field, linked to the trigger for assistive technology. */
+export const WithMessage: Story = {
+  args: {
+    label: 'Department',
+    options: DEFAULT_OPTIONS,
+    defaultValue: '',
+    message: 'Choose a department',
+    required: true,
+  },
+};
+
 export const WithValue: Story = {
   args: {
     label: 'Selected option',
