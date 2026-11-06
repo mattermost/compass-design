@@ -412,12 +412,11 @@
     --opacity-96: 0.96;
     --opacity-100: 1;
 
-    // Border emphasis (theme-aware, centre-channel text colour).
-    // Bordered fields/composers: rest = default, hover = hover, focus = focus.
-    --border-emphasis-subtle: rgba(var(--center-channel-color-rgb), var(--opacity-8));
-    --border-emphasis-default: rgba(var(--center-channel-color-rgb), var(--opacity-12));
-    --border-emphasis-strong: rgba(var(--center-channel-color-rgb), var(--opacity-16));
-    --border-emphasis-hover: rgba(var(--center-channel-color-rgb), var(--opacity-32));
-    --border-emphasis-focus: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+    // Interactive borders. Same shorthand shape as the webapp's --border-light
+    // (8%), --border-default (12%) and --border-dark (16%), which the host defines.
+    // A bordered field/composer: rest = --border-default (or --border-dark),
+    // hover = --border-hover, focus = --border-focus.
+    --border-hover: solid 1px rgba(var(--center-channel-color-rgb), var(--opacity-32));
+    --border-focus: solid 1px rgba(var(--center-channel-color-rgb), var(--opacity-56));
   }
 }
