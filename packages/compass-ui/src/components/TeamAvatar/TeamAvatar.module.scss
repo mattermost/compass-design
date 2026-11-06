@@ -44,7 +44,7 @@
     height: 100%;
     background: rgba(var(--sidebar-text-rgb), 0.16);
     color: var(--sidebar-text, white);
-    font-family: Metropolis, sans-serif;
+    font-family: var(--font-family-heading);
     font-weight: var(--font-weight-semibold);
     line-height: 1;
     user-select: none;
@@ -69,6 +69,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 11.2px;
     }
 
@@ -97,6 +98,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 13.07px;
     }
 
@@ -125,6 +127,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 14.93px;
     }
 
@@ -153,6 +156,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 18.67px;
     }
 
@@ -181,6 +185,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 22.4px;
     }
 
@@ -209,6 +214,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 26.13px;
     }
 
@@ -237,6 +243,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 29.87px;
     }
 
@@ -265,6 +272,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 33.6px;
     }
 
@@ -293,6 +301,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 44.8px;
     }
 
@@ -321,6 +330,7 @@
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 56px;
     }
 
