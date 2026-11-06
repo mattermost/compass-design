@@ -70,7 +70,8 @@
     .status-badge__glyph {
       width: 36px;
       height: 36px;
-      margin: -2px; /* center 36px icon in 32px container */
+      /* center 36px icon in 32px container */
+      margin: calc(-1 * var(--spacing-xxxxs));
     }
   }
 

@@ -112,3 +112,7 @@ export const TITLE_STYLE_SHAPE = 'Foundations/Style/Shape';
 export const TITLE_STYLE_ELEVATION = 'Foundations/Style/Elevation';
 export const TITLE_STYLE_SPACING = 'Foundations/Style/Spacing';
 export const TITLE_STYLE_ANIMATION = 'Foundations/Style/Animation';
+
+// Browser-only repro stories (not in the guidelines sidebar; see AGENTS.md).
+export const TITLE_TESTING_TRANSITION_FLASH_REPRO =
+  'Testing/Transition Flash Repro';

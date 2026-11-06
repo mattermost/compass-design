@@ -309,9 +309,12 @@
     font-weight: var(--font-weight-semibold);
     color: var(--center-channel-color);
     cursor: pointer;
-    transition:
-      background-color var(--duration-quick) var(--ease-transition),
-      color var(--duration-quick) var(--ease-transition);
+
+    &:hover:not([aria-pressed]) {
+      transition:
+        background-color var(--duration-quick) var(--ease-transition),
+        color var(--duration-quick) var(--ease-transition);
+    }
 
     &:hover:not(&--selected) {
       background-color: rgba(var(--center-channel-color-rgb), 0.08);

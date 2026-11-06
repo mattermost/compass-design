@@ -72,7 +72,7 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgba(var(--center-channel-color-rgb), 0.24);
-    border-radius: 3px;
+    border-radius: var(--radius-pill);
     border: 2px solid transparent;
     background-clip: content-box;
     transition: background-color var(--duration-quick) var(--ease-transition);
@@ -89,4 +89,83 @@
   gap: var(--spacing-l);
   margin-bottom: var(--spacing-xl);
   margin-top: var(--spacing-xl);
+}
+
+/**
+ * Keyboard focus ring for compact controls (buttons, tabs, chips, etc.): a 2px
+ * ring with a 3px gap, drawn only under `:focus-visible`.
+ *
+ * Deliberately has NO resting outline and NO outline transition. A resting
+ * transparent outline plus an `outline-color` transition makes a ring fade out
+ * on the control that just lost focus whenever a host reset such as
+ * `*:focus { outline: none }` loads after Compass (compass-design#184). Include
+ * it inside the control's selector; it emits the rest and `:focus-visible`
+ * rules. Override only `$color` (contrast) or `$offset`.
+ */
+// Specificity booster (+0,2,0) appended to a selector so it outranks the
+// `focus-ring` mixin's `$host-shadow` / `$host-radius` reset (0,3,0) without
+// `!important`. The two class names never exist; they only add specificity.
+// Use it on any state/modifier that sets `box-shadow` or `border-radius` on a
+// control that passes `$host-shadow` / `$host-radius`, e.g. `&--rounded` followed
+// by the boost variable interpolated into the selector.
+$host-reset-boost: ':not(.-host-shadow-a):not(.-host-shadow-b)';
+
+$_focus-ring-keyframes-emitted: false;
+
+@mixin focus-ring(
+  $color: var(--focus-ring-color),
+  $offset: 3px,
+  $host-shadow: null,
+  $host-radius: null
+) {
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: $offset;
+    // Fade-in only, as a keyframe animation rather than a transition: it can't
+    // clash with a component's own hover `transition`, and it only exists while
+    // the ring is shown, so nothing animates when focus leaves.
+    animation: focus-ring-in var(--duration-quick) var(--ease-transition);
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  // Optional: keep the ring the only focus indicator even when a host draws its
+  // own box-shadow ring on controls (e.g. the webapp's `.a11y--focused`, which
+  // stays on an element after it loses focus). `$host-shadow` is the control's
+  // own box-shadow (`none` if it has none), applied in every state. The doubled
+  // `:not()` raises specificity to (0,3,0) without `!important`, so it outranks
+  // a host's `.a b` shadow rule; a state with its own shadow (hover, selected)
+  // must declare it at (0,3,0) or higher.
+  // `$host-radius` does the same for `border-radius` (the webapp's
+  // `.a11y--focused` also sets `border-radius: 4px`); pass the control's radius.
+  @if $host-shadow or $host-radius {
+    &#{$host-reset-boost} {
+      @if $host-shadow {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list -- caller-supplied shadow (a token or none), passed through
+        box-shadow: $host-shadow;
+      }
+      @if $host-radius {
+        border-radius: $host-radius;
+      }
+    }
+  }
+
+  // Emitted at most once per compiled stylesheet. Must NOT be a top-level
+  // `@keyframes` in this file: mixins.scss is injected into every stylesheet
+  // (including vendor/global ones that must open with the `@layer` order).
+  @if not $_focus-ring-keyframes-emitted {
+    @at-root {
+      @keyframes focus-ring-in {
+        from {
+          outline-color: transparent;
+          outline-offset: 0;
+        }
+      }
+    }
+    $_focus-ring-keyframes-emitted: true !global;
+  }
 }
