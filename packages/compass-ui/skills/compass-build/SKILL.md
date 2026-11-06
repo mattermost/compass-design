@@ -1,9 +1,9 @@
 ---
-name: compass-design
-description: Build Mattermost UI with @mattermost/compass-ui. Use whenever you build, design, restyle or review a screen, form, modal, panel, settings page, plugin UI or prototype that uses Compass, or when the user says a Mattermost UI looks off, crowded, inconsistent or "not Compass". Covers spacing, hierarchy, buttons, color/themes, type, radius, elevation, motion, states, accessibility, writing, tokens and what to avoid.
+name: compass-build
+description: Build or restyle Mattermost UI with @mattermost/compass-ui. Use whenever you build, design or restyle a screen, form, modal, panel, settings page, plugin UI or prototype with Compass, or when the user asks to bring existing UI in line with Compass or says it looks off, crowded, inconsistent or "not Compass". Covers spacing, hierarchy, buttons, color/themes, type, radius, elevation, motion, states, accessibility, writing, tokens and what to avoid. To only audit existing code without changing it, use compass-review.
 ---
 
-# Compass design
+# Compass build
 
 Compass is one product, one brand. Do not invent style. Reuse components and tokens, then apply the rules below.
 
@@ -26,6 +26,20 @@ Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, 
 3. **Compose from components.** Layer order: Foundations, Components, Patterns, Layouts. Prefer an existing Pattern before assembling Components.
 4. **Apply the rules** from the references that match what you are building (table below).
 5. **Run `references/checklist.md`** and fix every failure before reporting done. Also run the project's `lint:styles` and eslint.
+
+## Retrofitting existing UI
+
+Use this when the task is to bring existing UI in line with Compass, not to build something new. For a report only, with no edits, use `compass-review` instead.
+
+1. **Audit first.** List what breaks which rule (file and line) before changing anything. Don't start editing while reading.
+2. **Keep behavior.** Change the UI, not the logic. Keep props, state, handlers, test ids and data flow. Make the smallest diff that fixes each finding; don't rewrite unrelated code.
+3. **Work in passes**, and finish one before the next:
+   1. Tokens: replace raw px, hex, font sizes, radii, shadows, durations and easing with tokens.
+   2. Components: replace custom markup with the Compass component that covers the need (`references/components.md`). If none fits, keep the custom piece, mark it with a short comment, and say so.
+   3. Layout: spacing, grouping, hierarchy, one primary action, forms.
+   4. Copy, states and accessibility: labels, errors, focus, ARIA.
+4. **Don't force a swap.** If a Compass component can't do what the screen needs (a missing option, a different structure), leave that part and report the gap instead of working around it.
+5. **Re-check.** Run `references/checklist.md` on the result, plus the project's lint and tests. Report what you changed by pass, and what you left and why.
 
 ## Which reference to read
 
