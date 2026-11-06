@@ -475,6 +475,18 @@ describe('other overridable messages', () => {
     expect(events).toEqual(['focus', 'blur']);
   });
 
+  it('DateRangePicker treats label={false} as no label', () => {
+    const { container } = render(<DateRangePicker label={false} />);
+    const trigger = getByRole('combobox');
+    const labelledBy = trigger.getAttribute('aria-labelledby');
+    expect(container.querySelector(`[id="${labelledBy}"]`)?.textContent).toBe(
+      'mm/dd/yyyy',
+    );
+    expect((container.firstElementChild as HTMLElement).className).not.toMatch(
+      /has-label/,
+    );
+  });
+
   it('DateRangePicker labels', () => {
     render(
       <DateRangePicker

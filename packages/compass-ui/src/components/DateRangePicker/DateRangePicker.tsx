@@ -169,6 +169,8 @@ export default function DateRangePicker({
   const popoverId = `${id}-popover`;
   const labelId = `${id}-label`;
   const valueId = `${id}-value`;
+  // `label` is a ReactNode, so `false` / `true` / '' (from `cond && 'Label'`) render nothing.
+  const hasLabel = label != null && typeof label !== 'boolean' && label !== '';
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -535,8 +537,8 @@ export default function DateRangePicker({
     styles['date-range-picker'],
     isOpen ? styles['date-range-picker--open'] : '',
     disabled ? styles['date-range-picker--disabled'] : '',
-    label != null ? styles['date-range-picker--has-label'] : '',
-    label != null && (isOpen || isFocused || hasValue)
+    hasLabel ? styles['date-range-picker--has-label'] : '',
+    hasLabel && (isOpen || isFocused || hasValue)
       ? styles['date-range-picker--label-floated']
       : '',
     className,
@@ -546,7 +548,7 @@ export default function DateRangePicker({
 
   return (
     <div ref={rootRef} className={rootClass}>
-      {label != null && (
+      {hasLabel && (
         <span id={labelId} className={styles['date-range-picker__label']}>
           {label}
         </span>
@@ -564,17 +566,14 @@ export default function DateRangePicker({
         aria-required={required || undefined}
         aria-label={
           ariaLabel ??
-          (ariaLabelledby == null &&
-          label == null &&
-          !displayValue &&
-          !placeholder
+          (ariaLabelledby == null && !hasLabel && !displayValue && !placeholder
             ? dialogLabel
             : undefined)
         }
         aria-labelledby={
           ariaLabelledby ??
           (ariaLabel == null
-            ? label != null
+            ? hasLabel
               ? labelId
               : displayValue || placeholder
                 ? valueId
