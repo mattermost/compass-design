@@ -92,6 +92,7 @@
 
   &__post-content {
     display: flex;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
     gap: var(--spacing-xxxxs, 4px);
     align-items: flex-start;
     width: 100%;
@@ -140,6 +141,7 @@
   &__post-body-content {
     display: flex;
     flex-direction: column;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
     gap: var(--spacing-xxxxs, 4px);
     align-items: flex-start;
     width: 100%;
@@ -224,6 +226,7 @@
   &__replies-inner {
     display: flex;
     align-items: center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
     gap: var(--spacing-xxxxs, 4px);
     min-height: 24px;
     border-radius: var(--radius-s);
@@ -238,6 +241,7 @@
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-25);
     color: rgba(var(--center-channel-color-rgb), 0.64);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 4.5px var(--spacing-s);
   }
 }

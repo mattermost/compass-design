@@ -5,9 +5,16 @@ set — a workspace plan, a notification cadence, a default theme. Use a Radio
 when the choices are few enough to show at once and the user benefits from
 seeing every option side-by-side.
 
-If you find yourself reaching for more than five or six options, switch to a
+If you find yourself reaching for more than four options, switch to a
 [Select](/components/select). If the choices aren't mutually
-exclusive, use a [Checkbox](/components/checkbox) group instead.
+exclusive, use a [Checkbox](/components/checkbox) group instead. For a choice
+between two or three options that each deserve an icon and a short
+description, use a [Card Button](/components/card-button) as a visual radio.
+Card Button is a button, not a native radio input, so its selection is not
+included in native form submission and gets no native required-field
+validation. Follow the new channel dialog in Mattermost, where Public and
+Private are Card Buttons: always start with one option selected, keep the
+selected value in state, and send it with your own submit handler.
 
 <Divider />
 

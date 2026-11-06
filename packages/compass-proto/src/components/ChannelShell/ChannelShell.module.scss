@@ -26,7 +26,7 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    padding: 0 4px 4px;
+    padding: 0 var(--spacing-xxxs) var(--spacing-xxxs);
     background: var(--sidebar-header-bg);
   }
 

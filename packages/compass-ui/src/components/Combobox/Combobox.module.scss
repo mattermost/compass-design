@@ -58,12 +58,17 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
     }
 
     .combobox:focus-within & {
       color: var(--button-bg);
     }
+  }
+
+  // Field message under the wrapper (same gap as TextInput's field and message).
+  &__message {
+    margin-top: var(--spacing-xs);
   }
 
   &__inner {
@@ -151,21 +156,11 @@
     background: transparent;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     cursor: pointer;
-    outline: 2px solid
-      color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-    outline-offset: 0;
-    transition:
-      color var(--duration-quick) var(--ease-transition),
-      outline-color var(--duration-quick) var(--ease-transition),
-      outline-offset var(--duration-quick) var(--ease-transition);
+    @include focus-ring;
 
     &:hover {
+      transition: color var(--duration-quick) var(--ease-transition);
       color: var(--center-channel-color);
-    }
-
-    &:focus-visible {
-      outline-color: var(--focus-ring-color);
-      outline-offset: 3px;
     }
   }
 
@@ -239,6 +234,8 @@
     }
 
     .combobox__inner {
+      // Fill the wrapper so the chevron and clear button centre on the field.
+      min-height: 32px;
       padding: var(--spacing-xs) var(--spacing-m);
       gap: var(--spacing-xs);
     }
@@ -268,7 +265,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
     }
   }
 
@@ -278,6 +275,8 @@
     }
 
     .combobox__inner {
+      // Fill the wrapper so the chevron and clear button centre on the field.
+      min-height: 40px;
       padding: var(--spacing-s) var(--spacing-l);
       gap: var(--spacing-s);
     }
@@ -301,6 +300,7 @@
     .combobox__label {
       font-size: var(--font-size-100);
       left: var(--spacing-m);
+      line-height: var(--line-height-100);
     }
 
     .combobox__trailing-icon svg {
@@ -312,7 +312,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
     }
   }
 
@@ -322,6 +322,8 @@
     }
 
     .combobox__inner {
+      // Fill the wrapper so the chevron and clear button centre on the field.
+      min-height: 48px;
       padding: var(--spacing-m) var(--spacing-l);
       gap: var(--spacing-s);
     }
@@ -357,7 +359,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
     }
   }
 

@@ -77,7 +77,7 @@
     padding: 0 var(--spacing-xxxs);
     transform: translateY(-50%);
     margin: 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--font-family-body);
     font-size: var(--font-size-75);
     line-height: var(--line-height-25);
     font-weight: var(--font-weight-regular);
@@ -99,7 +99,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
       color: rgba(var(--center-channel-color-rgb), 0.64);
     }
   }
@@ -127,7 +127,7 @@
     padding: 0;
     border: 0;
     background: transparent;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--font-family-body);
     font-size: var(--font-size-75);
     line-height: var(--line-height-25);
     font-weight: var(--font-weight-regular);
@@ -175,7 +175,7 @@
   &__counter {
     flex-shrink: 0;
     margin-inline-start: auto;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--font-family-body);
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-75);
@@ -205,7 +205,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
     }
   }
 
@@ -228,13 +228,14 @@
     .text-input__label {
       font-size: var(--font-size-100);
       left: var(--spacing-m);
+      line-height: var(--line-height-100);
     }
 
     &.text-input--label-floated .text-input__label {
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
     }
   }
 
@@ -264,7 +265,7 @@
       top: 0;
       transform: translateY(-50%);
       font-size: var(--font-size-25);
-      line-height: 14px;
+      line-height: 1.4;
     }
   }
 

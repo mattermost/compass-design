@@ -14,23 +14,18 @@
   cursor: pointer;
   text-align: left;
   color: var(--center-channel-color);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
-  transition:
-    border-color var(--duration-quick) var(--ease-transition),
-    box-shadow var(--duration-quick) var(--ease-transition),
-    background-color var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
+  // No transition at rest: selected / focus-leaving must be instant (#184).
+  @include focus-ring(
+    $host-shadow: var(--elevation-1),
+    $host-radius: var(--radius-s)
+  );
 
   &:hover:not(:disabled):not(.card-button--selected) {
+    transition:
+      border-color var(--duration-quick) var(--ease-transition),
+      box-shadow var(--duration-quick) var(--ease-transition);
     border-color: rgba(var(--center-channel-color-rgb), 0.24);
     box-shadow: var(--elevation-2);
-  }
-
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
   }
 
   &:disabled {

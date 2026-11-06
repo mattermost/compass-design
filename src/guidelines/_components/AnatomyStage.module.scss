@@ -7,7 +7,7 @@
   min-width: 0;
   margin: var(--spacing-xl) 0;
   padding: var(--spacing-l);
-  border-radius: 12px;
+  border-radius: var(--radius-l);
   background-color: rgba(var(--center-channel-color-rgb), 0.08);
 
   &--sidebar-header {

@@ -10,6 +10,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: var(--spacing-xl);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
     padding: 14px var(--spacing-xl);
     width: 100%;
     box-sizing: border-box;
