@@ -114,41 +114,11 @@
     flex-shrink: 0;
   }
 
-  &__action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 24px;
-    padding: var(--spacing-xxxxs) var(--spacing-s);
-    border: none;
-    border-radius: var(--radius-s);
-    background-color: transparent;
-    font-family: var(--font-family-body);
-    font-size: var(--font-size-75);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-75);
-    color: rgba(var(--center-channel-color-rgb), 0.64);
-    cursor: pointer;
-    @include focus-ring(
-      var(--focus-ring-color, var(--button-bg)),
-      $host-shadow: none,
-      $host-radius: var(--radius-s)
-    );
+  // The action is a dim `Button`; this only marks its active (on) state, which
+  // Button has no prop for. Doubled class outranks `.button--emphasis-dim`.
+  &__action--active#{&}__action--active {
+    --button-fg: var(--center-channel-color);
 
-    // No transitions: active changes (either direction, even while hovered) are
-    // instant, so hover and press snap too (#184).
-    &:hover {
-      background-color: rgba(var(--center-channel-color-rgb), 0.08);
-      color: rgba(var(--center-channel-color-rgb), 0.75);
-    }
-
-    &:active {
-      background-color: rgba(var(--center-channel-color-rgb), 0.12);
-    }
-
-    &--active {
-      background-color: rgba(var(--center-channel-color-rgb), 0.08);
-      color: var(--center-channel-color);
-    }
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
   }
 }
