@@ -121,7 +121,7 @@
     }
 
     // `:not()` pairs outrank the focus-ring mixin's host-radius (0,3,0).
-    .tabs__tab:not(.-host-shadow-a):not(.-host-shadow-b) {
+    .tabs__tab#{$host-reset-boost} {
       border-radius: 0;
       padding: var(--spacing-s) var(--spacing-xs);
 

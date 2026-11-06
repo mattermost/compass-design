@@ -115,13 +115,10 @@
   }
 
   // The action is a dim `Button`; this only marks its active (on) state, which
-  // Button has no prop for. Doubled class outranks `.button--emphasis-dim`.
-  // Also listed under :is(:hover, :focus-visible) so the dim emphasis's hover
-  // rule (higher specificity) can't drop the active colour.
-  &__action--active#{&}__action--active,
-  &__action--active#{&}__action--active:is(:hover, :focus-visible):not(
-      :disabled
-    ) {
+  // Button has no prop for. The class is repeated to reach (0,4,0), above the dim
+  // emphasis's hover / focus-visible / active rules (0,3,0), so one rule covers
+  // every state regardless of stylesheet order.
+  &__action--active#{&}__action--active#{&}__action--active#{&}__action--active {
     --button-fg: var(--center-channel-color);
 
     background-color: rgba(var(--center-channel-color-rgb), 0.08);

@@ -23,12 +23,12 @@
 
   // `:not()` pairs keep these at (0,3,0) so they outrank the focus-ring
   // mixin's host-shadow reset.
-  &:hover:not(.-host-shadow-a):not(.-host-shadow-b) {
+  &:hover#{$host-reset-boost} {
     background-color: rgba(var(--mention-bg-rgb), 0.92);
     box-shadow: var(--elevation-2);
   }
 
-  &:active:not(.-host-shadow-a):not(.-host-shadow-b) {
+  &:active#{$host-reset-boost} {
     box-shadow: var(--elevation-1);
   }
 

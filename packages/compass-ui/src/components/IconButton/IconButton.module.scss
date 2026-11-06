@@ -170,7 +170,7 @@
   // ---------------------------------------------------------------------------
   // Rounded modifier (pill shape). Figma: Rounded = On.
   // ---------------------------------------------------------------------------
-  &--rounded:not(.-host-shadow-a):not(.-host-shadow-b) {
+  &--rounded#{$host-reset-boost} {
     border-radius: var(--radius-pill);
   }
 

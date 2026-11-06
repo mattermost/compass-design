@@ -74,7 +74,7 @@
 
   // Keep the pill radius against a host's `.a11y--focused { border-radius }`
   // (specificity (0,3,0), no `!important`).
-  &__remove:not(.-host-shadow-a):not(.-host-shadow-b) {
+  &__remove#{$host-reset-boost} {
     border-radius: var(--radius-pill);
   }
 

@@ -102,6 +102,14 @@
  * it inside the control's selector; it emits the rest and `:focus-visible`
  * rules. Override only `$color` (contrast) or `$offset`.
  */
+// Specificity booster (+0,2,0) appended to a selector so it outranks the
+// `focus-ring` mixin's `$host-shadow` / `$host-radius` reset (0,3,0) without
+// `!important`. The two class names never exist; they only add specificity.
+// Use it on any state/modifier that sets `box-shadow` or `border-radius` on a
+// control that passes `$host-shadow` / `$host-radius`, e.g. `&--rounded` followed
+// by the boost variable interpolated into the selector.
+$host-reset-boost: ':not(.-host-shadow-a):not(.-host-shadow-b)';
+
 $_focus-ring-keyframes-emitted: false;
 
 @mixin focus-ring(
@@ -135,7 +143,7 @@ $_focus-ring-keyframes-emitted: false;
   // `$host-radius` does the same for `border-radius` (the webapp's
   // `.a11y--focused` also sets `border-radius: 4px`); pass the control's radius.
   @if $host-shadow or $host-radius {
-    &:not(.-host-shadow-a):not(.-host-shadow-b) {
+    &#{$host-reset-boost} {
       @if $host-shadow {
         // stylelint-disable-next-line declaration-property-value-disallowed-list -- caller-supplied shadow (a token or none), passed through
         box-shadow: $host-shadow;
