@@ -19,7 +19,13 @@
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
+  // Same 24px column (and right inset) as the overflow menu button and
+  // trailing visuals, so their centers line up across rows.
   &__mention-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--icon-size-24);
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
@@ -250,6 +256,11 @@
     .channel-sidebar-item__name {
       font-weight: var(--font-weight-regular);
       opacity: 0.72;
+    }
+
+    // Plain count, flush right: opt out of the centered column.
+    .channel-sidebar-item__mention-badge {
+      min-width: 0;
     }
 
     .channel-sidebar-item__mention-badge > :global(*) {
