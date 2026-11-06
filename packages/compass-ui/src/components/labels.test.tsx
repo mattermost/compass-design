@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { ReactElement } from 'react';
 import {
+  blur,
   click,
   focus,
   getByRole,
@@ -470,7 +471,8 @@ describe('other overridable messages', () => {
     expect(trigger.getAttribute('aria-labelledby')).toBeNull();
     expect(trigger.getAttribute('aria-label')).toBe('Date picker');
     focus(trigger);
-    expect(events).toEqual(['focus']);
+    blur(trigger);
+    expect(events).toEqual(['focus', 'blur']);
   });
 
   it('DateRangePicker labels', () => {
