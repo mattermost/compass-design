@@ -22,7 +22,7 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - Raw values: hex colors, `px` for spacing, font sizes, radii, shadows, `ms`, `ease` keywords.
    - Inline `style={{ ... }}` with tokenizable values, `!important`, deep selectors into Compass components.
    - Root-barrel imports from `@mattermost/compass-ui`, or the standalone stylesheet loaded in a host.
-   - More than one primary Button in a view (count a `Button` with no `emphasis` prop as primary, since that is its default); `secondary` where `tertiary` is the norm.
+   - More than one primary Button in a view (count a `Button` with no `emphasis` prop, or `emphasis={undefined}`, as primary, since that is its default); `secondary` where `tertiary` is the norm.
    - `IconButton` without `aria-label`, or with a raw glyph (a Blocker or Should fix). An explicit icon `size` is allowed as a deliberate override: report it as a Suggestion, not a violation.
    - A `Switch` inside a form with a submit button; Radio groups of more than four options.
    - `TextInput` without a fitting `type` (email, tel, url, number).

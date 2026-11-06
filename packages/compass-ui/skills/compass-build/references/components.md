@@ -45,7 +45,7 @@ Identifiers that only look numeric (postal codes, account or ID numbers) stay `t
 **5. Date**
 
 - One date: `DateRangePicker mode="date"`. A range: `mode="range"`. Relative ranges ("last 7 days"): a `Select` of presets plus the picker.
-- Don't use a native `type="date"` input.
+- Don't use a native `type="date"` input, unless the installed `DateRangePicker` lacks label and accessibility support (see the version note in `SKILL.md`): then a native date input with a visible `<label>` and `required` is the accessible fallback, and you report it.
 
 **6. Prefer choosing over typing.** If the answer comes from a known set, use a choice control, not free text. Fewer keystrokes, fewer errors. **[proposed]**
 

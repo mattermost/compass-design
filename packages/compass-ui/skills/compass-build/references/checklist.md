@@ -5,7 +5,7 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 ## Structure and hierarchy
 
 - [ ] The screen has one job and one clear focal point.
-- [ ] At most one primary Button in the view (none is fine for a read-only view); the rest are lower emphasis. `Button` defaults to `emphasis="primary"`, so a Button with no `emphasis` prop counts as primary.
+- [ ] At most one primary Button in the view (none is fine for a read-only view); the rest are lower emphasis. `Button` defaults to `emphasis="primary"`, so a Button with no `emphasis` prop, or with `emphasis={undefined}`, counts as primary.
 - [ ] Groups use smaller gaps than the gaps between groups; sections use larger still.
 - [ ] No box, border, shadow or fill where spacing alone separates content.
 - [ ] Every element survived the "can I delete this?" pass (`simplicity-and-disclosure.md`).
