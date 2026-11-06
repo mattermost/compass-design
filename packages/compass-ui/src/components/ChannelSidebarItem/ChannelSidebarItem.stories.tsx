@@ -248,12 +248,10 @@ const callPill = (
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      // Same shape as the sidebar `MentionBadge` (medium): 16px tall, radius-m.
-      height: 'var(--line-height-50)',
-      padding: '0 5.5px',
-      borderRadius: 'var(--radius-m)',
-      background: 'var(--online-indicator)',
-      color: 'var(--button-color)',
+      padding: '3px 5.5px',
+      borderRadius: 'var(--radius-pill)',
+      background: 'var(--color-green-600)',
+      color: 'var(--color-neutral-0)',
     }}
   >
     <Icon glyph={<PhoneInTalkIcon />} size="12" />
