@@ -10,6 +10,10 @@ If you find yourself reaching for more than four options, switch to a
 exclusive, use a [Checkbox](/components/checkbox) group instead. For a choice
 between two or three options that each deserve an icon and a short
 description, use a [Card Button](/components/card-button) as a visual radio.
+Card Button is a button, not a native radio input, so its selection is not
+included in native form submission and gets no native required-field
+validation. Keep the selected value in state, send it with the form yourself,
+and show your own error when nothing is chosen.
 
 <Divider />
 
