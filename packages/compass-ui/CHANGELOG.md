@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **Opacity tokens:** the foundation opacity scale is now emitted as CSS variables, `--opacity-4` … `--opacity-100` (4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 100). Compose them with theme RGB variables, e.g. `rgba(var(--center-channel-color-rgb), var(--opacity-32))`.
 - **`@mattermost/compass-ui/testing/snapshot-serializer`:** a Jest / Vitest snapshot serializer that strips the build hash from Compass CSS-module class names in snapshot output (`_icon-button--size-small_13ryy_77` → `icon-button--size-small`), so a release that only changes stylesheets no longer changes consumer snapshots. Add it to `snapshotSerializers` in your test config; production class names are unchanged. Setup and migration steps are in [INTEGRATION.md](./INTEGRATION.md#stable-class-names-in-snapshots-jest-and-vitest). The build now fails if a generated class name stops matching the serializer's pattern.
 
 ### Changed
