@@ -18,6 +18,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
   - **Pagination dots ring:** the focus ring offset is `0`.
   - **Behavior change:** hover-out now snaps instead of fading. Hosts can drop a `transition: none` workaround for `[class*="_icon-button_"]`.
 
+- **`Tabs` underlined appearance shows the active underline again:** the base tab rule's `:not()` pair (added to keep the host border-radius off the tab) raised its specificity above the active tab's underline colour, so the 2px underline under the active tab stayed transparent. The active rule now carries the same `:not()` pair and wins by source order. Markup is unchanged.
+
 ### Changed
 
 - **`EmptyState` no longer paints a background:** the root dropped its default `background-color: var(--center-channel-bg)`, so it takes on whatever surface it is placed on (card, panel, modal body, tinted page) and consumers no longer need a `background: transparent` override. Layout rules are unchanged. Hosts that relied on the center-channel fill should set it on the wrapper. (#191)
