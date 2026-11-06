@@ -40,6 +40,9 @@ function assertTarballContents(tarballPath) {
     'package/dist/illustrations/search.cjs',
     'package/dist/illustrations/search.d.ts',
     'package/dist/index.d.ts',
+    'package/dist/testing/snapshot-serializer.js',
+    'package/dist/testing/snapshot-serializer.cjs',
+    'package/dist/testing/snapshot-serializer.d.ts',
   ];
   for (const entry of required) {
     if (!listing.includes(`${entry}\n`) && !listing.endsWith(entry)) {
@@ -78,8 +81,12 @@ function componentSubpaths() {
     .sort();
 }
 
-// Node can't load the CSS that component modules side-effect import; stub it
-// the way Jest's moduleNameMapper / identity-obj-proxy setups do.
+/**
+ * Writes the consumer's ESM and CJS load checks for every component subpath
+ * and the testing/snapshot-serializer export. Node can't load the CSS that
+ * component modules side-effect import, so the checks stub it the way Jest's
+ * moduleNameMapper / identity-obj-proxy setups do.
+ */
 function writeSubpathChecks(tempDir, subpaths) {
   const list = JSON.stringify(subpaths, null, 2);
   const assertExports = `
@@ -88,6 +95,19 @@ if (empty.length > 0) {
   throw new Error('Subpaths with no exports: ' + empty.map(([s]) => s).join(', '));
 }
 console.log('[smoke] Loaded ' + loaded.length + ' component subpaths');`;
+  // Test-only serializer (#189): Jest loads it via require, Vitest via import
+  // and reads \`default\`. Both shapes must resolve through package exports.
+  const assertSerializer = (mod) => `
+const serializer = ${mod};
+for (const s of [serializer, serializer.default]) {
+  if (typeof s?.test !== 'function' || typeof s?.serialize !== 'function') {
+    throw new Error('testing/snapshot-serializer must expose test/serialize (named and default)');
+  }
+}
+if (serializer.stripCompassClassHashes('_button_ab12c_3 host') !== 'button host') {
+  throw new Error('testing/snapshot-serializer did not strip a hashed class');
+}
+console.log('[smoke] Loaded testing/snapshot-serializer');`;
 
   fs.writeFileSync(
     path.join(tempDir, 'src', 'all-components.ts'),
@@ -121,6 +141,7 @@ for (const subpath of subpaths) {
   loaded.push([subpath, await import(subpath)]);
 }
 ${assertExports}
+${assertSerializer("await import('@mattermost/compass-ui/testing/snapshot-serializer')")}
 `,
   );
   fs.writeFileSync(
@@ -131,6 +152,7 @@ ${assertExports}
 const subpaths = ${list};
 const loaded = subpaths.map((subpath) => [subpath, require(subpath)]);
 ${assertExports}
+${assertSerializer("require('@mattermost/compass-ui/testing/snapshot-serializer')")}
 `,
   );
 }

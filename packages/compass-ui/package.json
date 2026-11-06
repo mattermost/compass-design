@@ -40,6 +40,11 @@
       "import": "./dist/utils/string.js",
       "require": "./dist/utils/string.cjs"
     },
+    "./testing/snapshot-serializer": {
+      "types": "./dist/testing/snapshot-serializer.d.ts",
+      "import": "./dist/testing/snapshot-serializer.js",
+      "require": "./dist/testing/snapshot-serializer.cjs"
+    },
     "./styles": {
       "import": "./dist/compass-ui.css",
       "default": "./dist/compass-ui.css"
@@ -107,6 +112,9 @@
       ],
       "utils/string": [
         "./dist/utils/string.d.ts"
+      ],
+      "testing/snapshot-serializer": [
+        "./dist/testing/snapshot-serializer.d.ts"
       ],
       "components/admin-console-footer": [
         "./dist/components/admin-console-footer/index.d.ts"

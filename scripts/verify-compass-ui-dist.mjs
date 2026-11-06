@@ -23,7 +23,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import postcss from 'postcss';
 
 const repoRoot = path.resolve(
@@ -121,6 +121,7 @@ function assertIllustrationDts() {
   );
 }
 
+/** Fails if a dist file a published subpath resolves to is missing. */
 function assertSubpathLayout() {
   const required = [
     'dist/index.js',
@@ -130,6 +131,9 @@ function assertSubpathLayout() {
     'dist/components/channel-sidebar-item/ChannelSidebarItem.cjs',
     'dist/illustrations/names.js',
     'dist/illustrations/names.d.ts',
+    'dist/testing/snapshot-serializer.js',
+    'dist/testing/snapshot-serializer.cjs',
+    'dist/testing/snapshot-serializer.d.ts',
   ];
   for (const rel of required) {
     const full = path.join(packageRoot, rel);
@@ -392,7 +396,54 @@ function assertTokenSnapshot({ update }) {
   );
 }
 
-function main() {
+/**
+ * Consumers strip CSS-module hashes from snapshots with
+ * `@mattermost/compass-ui/testing/snapshot-serializer` (#189). Every generated
+ * class name must match its pattern and strip back to the authored class, or a
+ * naming change (e.g. `css.modules.generateScopedName`) would silently put
+ * hashes back into every consumer snapshot.
+ */
+async function assertSnapshotSerializerCoversClassNames() {
+  const { stripCompassClassHashes, test } = await import(
+    pathToFileURL(path.join(distRoot, 'testing/snapshot-serializer.js')).href
+  );
+  const modules = walkFiles(distRoot).filter((f) =>
+    f.endsWith('.module.scss.cjs'),
+  );
+  const mismatched = [];
+  let count = 0;
+  for (const file of modules) {
+    // Evaluate the class map (minified output hoists values into consts and
+    // drops key quotes, so text matching misses entries). `require` only
+    // loads the sibling .css here; stub it.
+    const mod = { exports: {} };
+    new Function('exports', 'require', 'module', fs.readFileSync(file, 'utf8'))(
+      mod.exports,
+      () => ({}),
+      mod,
+    );
+    for (const [key, value] of Object.entries(mod.exports.default ?? {})) {
+      count += 1;
+      if (!test(value) || stripCompassClassHashes(value) !== key) {
+        mismatched.push(`${path.relative(distRoot, file)}: ${key} -> ${value}`);
+      }
+    }
+  }
+  if (count === 0) {
+    throw new Error('No CSS-module class names found in dist');
+  }
+  if (mismatched.length > 0) {
+    throw new Error(
+      `CSS-module class names the snapshot serializer can't strip (update src/testing/snapshot-serializer.ts with the naming change):\n${mismatched.slice(0, 10).join('\n')}`,
+    );
+  }
+  console.log(
+    `[verify-compass-ui-dist] Snapshot serializer covers ${count} class names (${modules.length} modules)`,
+  );
+}
+
+/** Runs every dist assertion; any failure throws and fails the build. */
+async function main() {
   assertLayering();
   assertTokenSnapshot({
     update: process.argv.includes('--update-token-snapshot'),
@@ -403,7 +454,8 @@ function main() {
   assertSourcemapUrls();
   assertCjsIconUnwrap();
   assertSubpathIsolation();
+  await assertSnapshotSerializerCoversClassNames();
   console.log('[verify-compass-ui-dist] All checks passed');
 }
 
-main();
+await main();

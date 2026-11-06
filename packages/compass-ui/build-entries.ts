@@ -20,6 +20,10 @@ export function collectLibEntries(): CompassUiEntryMap {
   const entries: CompassUiEntryMap = {
     index: path.join(srcRoot, 'index.ts'),
     'utils/string': path.join(srcRoot, 'utils/string.ts'),
+    'testing/snapshot-serializer': path.join(
+      srcRoot,
+      'testing/snapshot-serializer.ts',
+    ),
   };
 
   const componentsDir = path.join(srcRoot, 'components');
