@@ -271,6 +271,7 @@
     .call-participant-avatar__badge--reaction,
     .call-participant-avatar__badge--raised-hand {
       font-size: var(--font-size-75);
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- 12px line-height is off the --line-height-* scale; no token matches
       line-height: 12px;
     }
 
