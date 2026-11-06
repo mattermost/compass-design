@@ -6,6 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`IconButton` count badge line-height:** now uses the line-height tokens instead of fixed pixel values, so the count's line box is 4px taller on `x-small` (12px → `--line-height-50`, 16px) and 2px taller on `small` (14px → `--line-height-75`, 16px) and `large` (18px → `--line-height-100`, 20px). `medium` is unchanged. Markup is unchanged.
+- **`ImagePreview` show-icon line-height:** 15px → `--line-height-75` (16px), so the "Show image preview" row, and any card that contains it such as `LinkPreview`, is 1px taller. Markup is unchanged.
+- **`ThreadFooter` last-reply time:** padding `4.5px 10px` → `4px 8px` (`--spacing-xxxs` / `--spacing-xs`) and line-height 15px → `--line-height-75` (16px). The height stays 24px and the element is 4px narrower.
+- **`ThreadFooter` reply button markup:** the reply count is now rendered directly in the `Button` label instead of inside an extra inner `<span>`. `Button` already applies the same font, size and line-height, and the rendered size is unchanged.
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added
