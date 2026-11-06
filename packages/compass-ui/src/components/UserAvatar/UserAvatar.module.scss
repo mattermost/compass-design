@@ -26,8 +26,7 @@
     height: 100%;
     border-radius: var(--radius-pill);
     color: rgba(255, 255, 255, 0.92);
-    // stylelint-disable-next-line declaration-property-value-disallowed-list -- heading stack with body fallback; not the same as --font-family-heading
-    font-family: Metropolis, var(--font-family-body), sans-serif;
+    font-family: var(--font-family-heading);
     font-weight: var(--font-weight-semibold);
     line-height: 1;
     user-select: none;
