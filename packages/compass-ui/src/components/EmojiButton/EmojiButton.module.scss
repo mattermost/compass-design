@@ -18,9 +18,9 @@
     opacity: 0.5;
   }
 
-  &:hover:not(:disabled):not(:active):not(.emoji-button--active):not(
-      .emoji-button--toggled
-    ) {
+  &:is(:hover, :focus-visible):not(:disabled):not(:active):not(
+      .emoji-button--active
+    ):not(.emoji-button--toggled) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
   }
 
@@ -29,7 +29,7 @@
     transition: transform var(--duration-quick) var(--ease-transition);
   }
 
-  &:hover:not(:disabled) &__emoji {
+  &:is(:hover, :focus-visible):not(:disabled) &__emoji {
     transform: scale(1.2);
   }
 
@@ -90,7 +90,7 @@
   &--active:not(:disabled) {
     background-color: rgba(var(--button-bg-rgb), 0.08);
 
-    &:hover:not(:disabled):not(:active) {
+    &:is(:hover, :focus-visible):not(:disabled):not(:active) {
       background-color: rgba(var(--button-bg-rgb), 0.12);
     }
 
@@ -103,7 +103,7 @@
   &--toggled {
     background-color: var(--button-bg);
 
-    &:hover:not(:disabled):not(:active) {
+    &:is(:hover, :focus-visible):not(:disabled):not(:active) {
       background-color: color-mix(in srgb, black 8%, var(--button-bg));
     }
 
