@@ -274,7 +274,9 @@ export default function ChannelSidebarItem({
           <span
             className={[
               styles['channel-sidebar-item__trailing-visual'],
-              isChannelOrDM
+              // The hidden mention badge keeps its slot, which the menu button
+              // covers on hover, so only shift when there is no badge.
+              isChannelOrDM && !hasMentionBadge
                 ? styles['channel-sidebar-item__trailing-visual--with-menu']
                 : '',
             ]
