@@ -168,9 +168,15 @@
     --date-range-picker-day-size: calc(
       var(--icon-size-32) + var(--spacing-xxxs)
     );
+    --date-range-picker-fill: color-mix(
+      in srgb,
+      var(--button-bg) 12%,
+      var(--center-channel-bg)
+    );
 
-    width: 340px;
-    padding: var(--spacing-l);
+    // Seven day columns plus the panel padding on both sides.
+    width: calc(7 * var(--date-range-picker-day-size) + 2 * var(--spacing-s));
+    padding: var(--spacing-s);
     background-color: var(--center-channel-bg);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: var(--radius-m);
@@ -211,9 +217,10 @@
   }
 
   &__month-label {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-200);
-    line-height: var(--line-height-200);
+    // Heading 100 in the body font, so the month fits beside Today and the nav buttons.
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
     font-weight: var(--font-weight-semibold);
     color: var(--center-channel-color);
     white-space: nowrap;
@@ -302,45 +309,27 @@
       }
     }
 
-    &--in-range {
-      background-color: rgba(var(--button-bg-rgb), 0.12);
-
-      &::before {
-        background-color: rgba(var(--button-bg-rgb), 0.12);
-      }
+    // One opaque fill (never stacked translucent layers), painted only by `::before`,
+    // so the 1px bleed into neighbouring cells and week rows can't darken the overlap.
+    &--in-range::before {
+      background-color: var(--date-range-picker-fill);
     }
 
-    // Soft fill only on the inner half so it meets the in-range bar.
-    &--range-start {
+    // Fill only the inner half so it meets the in-range bar.
+    &--range-start::before {
       background: linear-gradient(
         to right,
         transparent 50%,
-        rgba(var(--button-bg-rgb), 0.12) 50%
+        var(--date-range-picker-fill) 50%
       );
-
-      &::before {
-        background: linear-gradient(
-          to right,
-          transparent 50%,
-          rgba(var(--button-bg-rgb), 0.12) 50%
-        );
-      }
     }
 
-    &--range-end {
+    &--range-end::before {
       background: linear-gradient(
         to left,
         transparent 50%,
-        rgba(var(--button-bg-rgb), 0.12) 50%
+        var(--date-range-picker-fill) 50%
       );
-
-      &::before {
-        background: linear-gradient(
-          to left,
-          transparent 50%,
-          rgba(var(--button-bg-rgb), 0.12) 50%
-        );
-      }
     }
   }
 

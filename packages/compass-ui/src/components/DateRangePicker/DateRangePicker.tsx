@@ -50,6 +50,13 @@ export interface DateRangePickerProps extends Omit<
   formatDate?: (iso: string) => string;
   /** Twelve month names, January first. Default: English. */
   monthNames?: string[];
+  /**
+   * Twelve short month names for the calendar header, January first. Default: the
+   * first three letters of the English names, or `monthNames` unchanged when you pass
+   * your own (so a translation is never cut mid-word). The full `monthNames` still
+   * label the day grid for assistive technology.
+   */
+  shortMonthNames?: string[];
   /** Seven short weekday names, Sunday first. Default: "Su" … "Sa". */
   weekdayNames?: string[];
   /** Accessible name for the calendar dialog. Default: "Date picker". */
@@ -141,6 +148,9 @@ export default function DateRangePicker({
   placeholder = 'mm/dd/yyyy',
   formatDate = formatDateDisplay,
   monthNames = MONTHS,
+  shortMonthNames = monthNames === MONTHS
+    ? MONTHS.map((month) => month.slice(0, 3))
+    : monthNames,
   weekdayNames = WEEKDAYS,
   dialogLabel = 'Date picker',
   todayLabel = 'Today',
@@ -597,12 +607,13 @@ export default function DateRangePicker({
                 className={styles['date-range-picker__month-label']}
                 aria-live="polite"
               >
-                {monthNames[displayMonth]} {displayYear}
+                {shortMonthNames[displayMonth]} {displayYear}
               </span>
               <div className={styles['date-range-picker__header-actions']}>
                 <Button
                   emphasis="quaternary"
                   size="small"
+                  compact
                   leadingIcon={
                     <Icon size="16" glyph={<CalendarOutlineIcon />} />
                   }
