@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`compass-design` agent skill ships in the package:** `skills/compass-design/` (a `SKILL.md` plus references) gives coding agents the Compass rules for building a Mattermost feature, plugin or prototype: spacing and grouping, one primary action, forms, typography, colour and themes, motion, accessibility, writing, tokens, control choice and a pre-finish checklist. The package `files` now include `skills`. Consumers link or copy `node_modules/@mattermost/compass-ui/skills/compass-design` into their agent skills folder. Some rules assume the `DateRangePicker` `label` prop and the `Select` / `Combobox` `message` props.
+
 ### Fixed
 
 - **Controls no longer flash when moving between neighbours (#184):** `IconButton`, `Button`, `TileButton`, `CardButton`, `Chip`, `Combobox`, `Dropdown`, `EmojiButton`, `FieldClearButton`, `MoreUnreadsBanner`, `PaginationDots`, `PasswordInput`, `ReactionButton`, `ReactionsRow`, `RightSidebarHeader`, `Tabs`, `AttachmentCard`, `MenuItem`, `ChannelInfoMsgHeader` and `DateRangePicker` had two transition-related flashes.
