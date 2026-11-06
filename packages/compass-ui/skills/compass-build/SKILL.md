@@ -11,7 +11,10 @@ Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, 
 
 **Guidelines.** The authoritative guidance is the Compass guidelines site, built from `src/guidelines` in the `mattermost/compass-design` repo; paths like `/foundations/color` in these files are routes on that site. If a reference and a guideline disagree, the guideline wins.
 
-**Version note.** Some rules assume props that arrive with this skill's compass-ui release: `DateRangePicker` `label` (and `aria-label`, `aria-labelledby`, `required` reaching its trigger), `Select` and `Combobox` `message`, `messageTone`, and `Select` `required`. Check the installed component's props. If a prop is missing, fall back: give the date picker a separate label tied to it with `aria-labelledby` on a wrapping group, draw field errors with `FieldMessage` linked by `aria-describedby`, and say so in your report.
+**Version note.** Some rules assume props that arrive with this skill's compass-ui release: `DateRangePicker` `label` (and `aria-label`, `aria-labelledby`, `aria-describedby`, `required` reaching its trigger), `Select` and `Combobox` `message` and `messageTone`, and `Select` `required` and `aria-describedby`. Check the installed component's props. If they are missing, upgrade compass-ui when you can. If you can't, these are the limits and the best available workarounds, and you must say so in your report:
+
+- **`DateRangePicker` without `label` support:** its trigger has no accessible name and does not expose a required state, and those props are silently dropped. A visible label inside a wrapping `role="group"` with `aria-labelledby` names the group, not the trigger, and still does not expose "required". It is a partial workaround only.
+- **`Select` without `message` support:** it cannot link an error to the control (it does not accept or forward `aria-describedby`). Render the error with `FieldMessage` and `role="alert"` so it is announced when it appears, and note that it is not programmatically associated. If the association is required, use `Combobox`, which accepts `aria-describedby` and `required`.
 
 ## House rules (these win over everything else)
 
