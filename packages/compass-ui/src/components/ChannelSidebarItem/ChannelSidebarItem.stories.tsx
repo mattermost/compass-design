@@ -248,9 +248,10 @@ const callPill = (
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: 20,
-      padding: '0 4px',
-      borderRadius: 10,
+      // Same shape as the sidebar `MentionBadge` (medium): 16px tall, radius-m.
+      height: 'var(--line-height-50)',
+      padding: '0 5.5px',
+      borderRadius: 'var(--radius-m)',
       background: 'var(--online-indicator)',
       color: 'var(--button-color)',
     }}
