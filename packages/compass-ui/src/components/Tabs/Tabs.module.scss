@@ -82,6 +82,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 2.5px var(--spacing-xxs);
     border-radius: var(--radius-m);
     background-color: rgba(var(--center-channel-color-rgb), 0.08);

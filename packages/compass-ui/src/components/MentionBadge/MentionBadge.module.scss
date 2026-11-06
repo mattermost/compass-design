@@ -20,6 +20,7 @@
   &--size-small {
     font-size: var(--font-size-25); // 10px
     line-height: 11px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 0.5px 4.5px; // same for all digit counts
   }
 
@@ -33,6 +34,7 @@
   &--size-large {
     font-size: var(--font-size-75); // 12px
     line-height: 15px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 1.5px var(--_mb-px-l, 5.5px); // fallback = digits-2
     border-radius: 10px;
   }

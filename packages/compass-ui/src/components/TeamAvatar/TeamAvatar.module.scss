@@ -61,10 +61,12 @@
   &--size-24 {
     width: 24px;
     height: 24px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 4px;
     outline-width: 2px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 4px;
     }
 
@@ -90,10 +92,12 @@
   &--size-28 {
     width: 28px;
     height: 28px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 4px;
     outline-width: 2px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 4px;
     }
 
@@ -119,10 +123,12 @@
   &--size-32 {
     width: 32px;
     height: 32px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 6px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 6px;
     }
 
@@ -148,10 +154,12 @@
   &--size-40 {
     width: 40px;
     height: 40px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 8px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 8px;
     }
 
@@ -177,10 +185,12 @@
   &--size-48 {
     width: 48px;
     height: 48px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 9px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 9px;
     }
 
@@ -206,10 +216,12 @@
   &--size-56 {
     width: 56px;
     height: 56px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 10px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 10px;
     }
 
@@ -235,10 +247,12 @@
   &--size-64 {
     width: 64px;
     height: 64px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 11px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 11px;
     }
 
@@ -264,10 +278,12 @@
   &--size-72 {
     width: 72px;
     height: 72px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 12px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 12px;
     }
 
@@ -293,10 +309,12 @@
   &--size-96 {
     width: 96px;
     height: 96px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 18px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 20px;
     }
 
@@ -322,10 +340,12 @@
   &--size-120 {
     width: 120px;
     height: 120px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 24px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 24px;
     }
 

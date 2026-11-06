@@ -38,7 +38,7 @@
   &__indicator-bar {
     width: 32px;
     height: 2px;
-    border-radius: 0 0 2px 2px;
+    border-radius: 0 0 var(--radius-xs) var(--radius-xs);
     background-color: var(--button-bg);
   }
 

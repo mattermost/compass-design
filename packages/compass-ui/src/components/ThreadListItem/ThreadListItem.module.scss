@@ -92,7 +92,7 @@
 
   &__post-content {
     display: flex;
-    gap: var(--spacing-xxxxs, 4px);
+    gap: var(--spacing-xxxxs);
     align-items: flex-start;
     width: 100%;
   }
@@ -140,7 +140,7 @@
   &__post-body-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xxxxs, 4px);
+    gap: var(--spacing-xxxxs);
     align-items: flex-start;
     width: 100%;
   }
@@ -224,7 +224,7 @@
   &__replies-inner {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xxxxs, 4px);
+    gap: var(--spacing-xxxxs);
     min-height: 24px;
     border-radius: var(--radius-s);
   }
@@ -238,6 +238,7 @@
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-25);
     color: rgba(var(--center-channel-color-rgb), 0.64);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 4.5px var(--spacing-s);
   }
 }

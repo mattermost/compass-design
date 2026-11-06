@@ -25,7 +25,7 @@
     align-items: center;
     flex-shrink: 0;
     width: 100px;
-    padding: 2px var(--spacing-xs);
+    padding: var(--spacing-xxxxs) var(--spacing-xs);
     box-sizing: border-box;
   }
 
@@ -86,7 +86,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 2px;
+    gap: var(--spacing-xxxxs);
     max-width: 100%;
     min-width: 0;
   }

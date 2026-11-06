@@ -27,7 +27,7 @@
   &__content {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: var(--spacing-s);
     width: 100%;
     padding: var(--spacing-xxl) var(--spacing-xxxl);
   }
@@ -114,15 +114,15 @@
   // 28px title row (same treatment as __close); the left margin mirrors
   // __close's right margin so the icon sits flush with the content edge.
   &__back {
-    margin-left: -12px;
-    margin-top: -6px;
-    margin-bottom: -6px;
+    margin-left: calc(-1 * var(--spacing-m));
+    margin-top: calc(-1 * var(--spacing-xxs));
+    margin-bottom: calc(-1 * var(--spacing-xxs));
   }
 
   &__close {
-    margin-right: -12px;
-    margin-top: -6px;
-    margin-bottom: -6px;
+    margin-right: calc(-1 * var(--spacing-m));
+    margin-top: calc(-1 * var(--spacing-xxs));
+    margin-bottom: calc(-1 * var(--spacing-xxs));
   }
 
   &__slot {

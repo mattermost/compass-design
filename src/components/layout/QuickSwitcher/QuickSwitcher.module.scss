@@ -107,12 +107,12 @@
 
     // Large SearchInput uses spacing-m / spacing-l; add 8px more inset.
     > * > * {
-      padding: calc(var(--spacing-m) + 8px) calc(var(--spacing-l) + 8px) !important;
+      padding: calc(var(--spacing-m) + var(--spacing-xs)) calc(var(--spacing-l) + var(--spacing-xs)) !important;
     }
 
     // Keep typed text clear of the in-field shortcut.
     input {
-      padding-right: 48px;
+      padding-right: var(--spacing-xxxxxl);
       font-family: var(--font-family-heading);
       font-size: var(--font-size-400) !important;
     }

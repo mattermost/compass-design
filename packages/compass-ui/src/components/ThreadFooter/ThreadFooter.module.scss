@@ -142,6 +142,7 @@
   }
 
   &__last-reply {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 4.5px var(--spacing-s);
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-family: var(--font-family-body);

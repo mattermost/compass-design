@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px var(--spacing-l);
+    padding: calc(var(--spacing-m) + var(--spacing-xxxxs)) var(--spacing-l);
     flex-shrink: 0;
   }
 
@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     gap: 0;
-    padding: 2px var(--spacing-xxxxs) 2px var(--spacing-xs);
+    padding: var(--spacing-xxxxs) var(--spacing-xxxxs) var(--spacing-xxxxs) var(--spacing-xs);
     border-radius: var(--radius-s);
     cursor: pointer;
     max-width: 174px;
@@ -162,7 +162,7 @@
     }
 
     &--no-chevron {
-      padding-left: 22px;
+      padding-left: calc(var(--spacing-xxl) - var(--spacing-xxxxs));
     }
 
     &--has-action {
