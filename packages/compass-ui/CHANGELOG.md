@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`compass-design` agent skill ships in the package:** `skills/compass-design/` (a `SKILL.md` plus references) gives coding agents the Compass rules for building a Mattermost feature, plugin or prototype: spacing and grouping, one primary action, forms, typography, colour and themes, motion, accessibility, writing, tokens, control choice and a pre-finish checklist. The package `files` now include `skills`. Consumers link or copy `node_modules/@mattermost/compass-ui/skills/compass-design` into their agent skills folder. Some rules assume the `DateRangePicker` `label` prop and the `Select` / `Combobox` `message` props.
+
 ### Changed
 
 - **`EmptyState` no longer paints a background:** the root dropped its default `background-color: var(--center-channel-bg)`, so it takes on whatever surface it is placed on (card, panel, modal body, tinted page) and consumers no longer need a `background: transparent` override. Layout rules are unchanged. Hosts that relied on the center-channel fill should set it on the wrapper. (#191)
