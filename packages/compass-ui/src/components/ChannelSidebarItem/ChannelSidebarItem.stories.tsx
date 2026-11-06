@@ -1,5 +1,6 @@
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
 import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circle-multiple-outline';
+import PhoneInTalkIcon from '@mattermost/compass-icons/components/phone-in-talk';
 import Icon from '@/components/Icon/Icon';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -241,6 +242,23 @@ const dot = (color: string, size = 8) => (
   />
 );
 
+const callPill = (
+  <span
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 20,
+      padding: '0 8px',
+      borderRadius: 10,
+      background: 'var(--online-indicator)',
+      color: 'var(--button-color)',
+    }}
+  >
+    <Icon glyph={<PhoneInTalkIcon />} size="12" />
+  </span>
+);
+
 /**
  * `leadingVisual` accepts any node and `trailingVisual` adds a trailing slot.
  * Custom visuals sit in the same 24px icon column as the built-in icons, so
@@ -265,6 +283,21 @@ export const CustomVisuals: Story = {
           leadingVisual={
             <UserAvatar src={avatarDanielle} alt="" size="20" status />
           }
+          onClick={fn()}
+        />
+      </section>
+      <section>
+        <div style={labelStyle}>Call icon and call icon in a green pill</div>
+        <ChannelSidebarItem
+          name="Design sync"
+          leadingVisual="public"
+          trailingVisual={<Icon glyph={<PhoneInTalkIcon />} />}
+          onClick={fn()}
+        />
+        <ChannelSidebarItem
+          name="Design sync"
+          leadingVisual="public"
+          trailingVisual={callPill}
           onClick={fn()}
         />
       </section>
