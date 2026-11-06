@@ -15,6 +15,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
   - **Host note, double focus rings:** under a host reset such as `*:focus { outline: none }`, the Compass ring on these controls was previously suppressed while focused (the reset won), so a host's own focus indicator (the webapp's `.a11y--focused` box-shadow) was the only ring. The `:focus-visible` rule now outranks that reset, so Compass's ring shows too, and a host that still draws its own ring will show two. Suppress the host ring on Compass controls (the webapp already does this for `IconButton`, `Button` and the field wrappers; add `TileButton`, `CardButton`, `EmojiButton`, `ReactionButton`, `ReactionsRow`, `Tabs`, `PaginationDots`, `MoreUnreadsBanner` and `AttachmentCard`).
   - **Behavior change:** hover-out now snaps instead of fading. Hosts can drop a `transition: none` workaround for `[class*="_icon-button_"]`.
 
+### Changed
+
+- **`EmptyState` no longer paints a background:** the root dropped its default `background-color: var(--center-channel-bg)`, so it takes on whatever surface it is placed on (card, panel, modal body, tinted page) and consumers no longer need a `background: transparent` override. Layout rules are unchanged. Hosts that relied on the center-channel fill should set it on the wrapper. (#191)
+
 ## [0.1.0-alpha.27] - 2026-11-03
 
 ### Added

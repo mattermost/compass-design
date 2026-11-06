@@ -15,7 +15,6 @@
     --empty-state-min-width,
     min(240px, 100vw)
   );
-  background-color: var(--center-channel-bg);
 
   // Centering lives inside the scroll viewport (SimpleBar's .simplebar-content)
   // so short content sits visually centered while tall content scrolls.
