@@ -35,7 +35,7 @@ export function activateChip(el: HTMLElement) {
 /**
  * Toolbar for a set of Chips. Tab lands on the active chip; Left/Right move
  * between chips; Delete, Backspace, Enter, and Space remove the focused chip.
- * The × is mouse-only.
+ * The × is mouse-only. Keys the group acts on don't propagate past it.
  */
 export default function ChipGroup({
   children,
@@ -105,6 +105,7 @@ export default function ChipGroup({
       const next = chips[Math.max(0, Math.min(chips.length - 1, nextIndex))];
       if (next == null) return;
       e.preventDefault();
+      e.stopPropagation();
       activateChip(next);
     };
 
@@ -131,6 +132,7 @@ export default function ChipGroup({
           chip?.querySelector<HTMLButtonElement>('[data-chip-remove]');
         if (btn != null && !btn.disabled) {
           e.preventDefault();
+          e.stopPropagation();
           btn.click();
         }
         break;
