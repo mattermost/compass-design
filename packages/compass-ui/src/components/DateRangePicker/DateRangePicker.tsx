@@ -1,4 +1,9 @@
-import type { InputHTMLAttributes, KeyboardEvent, ReactNode } from 'react';
+import type {
+  FocusEvent as ReactFocusEvent,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+} from 'react';
 import { useState, useCallback, useEffect, useId, useRef } from 'react';
 import Button from '@/components/Button/Button';
 import IconButton, {
@@ -22,6 +27,12 @@ export interface DateRangePickerProps extends Omit<
 > {
   /** Optional CSS class name applied to the root element. */
   className?: string;
+  /**
+   * Floating label, like `TextInput`, `Select` and `Combobox`. It sits inside the field and
+   * moves to the top edge when the field is open or has a value. It also names the trigger
+   * for assistive technology (via `aria-labelledby`). Accepts translated nodes.
+   */
+  label?: ReactNode;
   /** Selection mode: single date or range. Default: 'date'. */
   mode?: DateRangePickerMode;
   /** Controlled selected date (single mode). ISO string yyyy-mm-dd. */
@@ -44,6 +55,13 @@ export interface DateRangePickerProps extends Omit<
   formatDate?: (iso: string) => string;
   /** Twelve month names, January first. Default: English. */
   monthNames?: string[];
+  /**
+   * Twelve short month names for the calendar header, January first. Default: the
+   * first three letters of the English names, or `monthNames` unchanged when you pass
+   * your own (so a translation is never cut mid-word). The full `monthNames` still
+   * label the day grid for assistive technology.
+   */
+  shortMonthNames?: string[];
   /** Seven short weekday names, Sunday first. Default: "Su" … "Sa". */
   weekdayNames?: string[];
   /** Accessible name for the calendar dialog. Default: "Date picker". */
@@ -124,12 +142,22 @@ export default function DateRangePicker({
   onChange,
   onRangeChange,
   disabled,
+  required,
+  onFocus,
+  onBlur,
+  label,
   id: idProp,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
   portalContainer = null,
   zIndex,
   placeholder = 'mm/dd/yyyy',
   formatDate = formatDateDisplay,
   monthNames = MONTHS,
+  shortMonthNames = monthNames === MONTHS
+    ? MONTHS.map((month) => month.slice(0, 3))
+    : monthNames,
   weekdayNames = WEEKDAYS,
   dialogLabel = 'Date picker',
   todayLabel = 'Today',
@@ -139,6 +167,10 @@ export default function DateRangePicker({
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const popoverId = `${id}-popover`;
+  const labelId = `${id}-label`;
+  const valueId = `${id}-value`;
+  // `label` is a ReactNode, so `false` / `true` / '' (from `cond && 'Label'`) render nothing.
+  const hasLabel = label != null && typeof label !== 'boolean' && label !== '';
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -154,6 +186,7 @@ export default function DateRangePicker({
   const [displayYear, setDisplayYear] = useState(today.getFullYear());
   const [displayMonth, setDisplayMonth] = useState(today.getMonth());
   const [isOpen, setIsOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   /** Roving tabindex day-of-month within the visible grid. */
   const [focusedDay, setFocusedDay] = useState(1);
 
@@ -504,6 +537,10 @@ export default function DateRangePicker({
     styles['date-range-picker'],
     isOpen ? styles['date-range-picker--open'] : '',
     disabled ? styles['date-range-picker--disabled'] : '',
+    hasLabel ? styles['date-range-picker--has-label'] : '',
+    hasLabel && (isOpen || isFocused || hasValue)
+      ? styles['date-range-picker--label-floated']
+      : '',
     className,
   ]
     .filter(Boolean)
@@ -511,20 +548,53 @@ export default function DateRangePicker({
 
   return (
     <div ref={rootRef} className={rootClass}>
+      {hasLabel && (
+        <span id={labelId} className={styles['date-range-picker__label']}>
+          {label}
+        </span>
+      )}
+
       {/* Trigger input */}
       <div
         ref={triggerRef}
         className={styles['date-range-picker__trigger']}
-        role="button"
+        role="combobox"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls={popoverMounted ? popoverId : undefined}
         aria-disabled={disabled || undefined}
+        aria-required={required || undefined}
+        aria-label={
+          ariaLabel ??
+          (ariaLabelledby == null && !hasLabel && !displayValue && !placeholder
+            ? dialogLabel
+            : undefined)
+        }
+        aria-labelledby={
+          ariaLabelledby ??
+          (ariaLabel == null
+            ? hasLabel
+              ? labelId
+              : displayValue || placeholder
+                ? valueId
+                : undefined
+            : undefined)
+        }
+        aria-describedby={ariaDescribedby}
         tabIndex={disabled ? -1 : 0}
         id={id}
         data-has-value={hasValue ? '' : undefined}
         onClick={handleToggle}
         onKeyDown={handleTriggerKeyDown}
+        onFocus={(event) => {
+          setIsFocused(true);
+          // The trigger is a div; consumers typed the callbacks for the input props.
+          onFocus?.(event as unknown as ReactFocusEvent<HTMLInputElement>);
+        }}
+        onBlur={(event) => {
+          setIsFocused(false);
+          onBlur?.(event as unknown as ReactFocusEvent<HTMLInputElement>);
+        }}
       >
         <span
           className={styles['date-range-picker__calendar-icon']}
@@ -532,11 +602,11 @@ export default function DateRangePicker({
         >
           <Icon size="16" glyph={<CalendarOutlineIcon />} />
         </span>
-        <span className={styles['date-range-picker__value']}>
+        <span id={valueId} className={styles['date-range-picker__value']}>
           {displayValue || placeholder}
         </span>
         <span className={styles['date-range-picker__chevron']} aria-hidden>
-          <Icon size="16" glyph={<ChevronDownIcon />} />
+          <Icon size="12" glyph={<ChevronDownIcon />} />
         </span>
       </div>
 
@@ -568,12 +638,13 @@ export default function DateRangePicker({
                 className={styles['date-range-picker__month-label']}
                 aria-live="polite"
               >
-                {monthNames[displayMonth]} {displayYear}
+                {shortMonthNames[displayMonth]} {displayYear}
               </span>
               <div className={styles['date-range-picker__header-actions']}>
                 <Button
                   emphasis="quaternary"
                   size="small"
+                  compact
                   leadingIcon={
                     <Icon size="16" glyph={<CalendarOutlineIcon />} />
                   }

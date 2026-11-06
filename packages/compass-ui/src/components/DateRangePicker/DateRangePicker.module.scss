@@ -96,6 +96,8 @@
     justify-content: center;
     flex-shrink: 0;
     color: rgba(var(--center-channel-color-rgb), 0.64);
+    // Same chevron slot and right inset as Select and Combobox.
+    margin-right: var(--spacing-xxxs);
     transition: transform var(--duration-quick) var(--ease-transition);
 
     svg {
@@ -109,6 +111,55 @@
     }
   }
 
+  // Floating label (same look as Select and Combobox). At rest it sits where the
+  // value text starts, after the calendar icon; floated it moves to the top edge.
+  &__label {
+    position: absolute;
+    inset-inline-start: calc(
+      var(--spacing-l) + var(--icon-size-16) +
+        var(--spacing-s) - var(--spacing-xxxs)
+    );
+    top: 50%;
+    z-index: 1;
+    max-width: calc(100% - 64px);
+    margin: 0;
+    padding: 0 var(--spacing-xxxs);
+    overflow: hidden;
+    transform: translateY(-50%);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-100);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    background-color: var(--center-channel-bg);
+    transition:
+      transform var(--duration-quick) var(--ease-transition),
+      font-size var(--duration-quick) var(--ease-transition),
+      top var(--duration-quick) var(--ease-transition),
+      inset-inline-start var(--duration-quick) var(--ease-transition),
+      color var(--duration-quick) var(--ease-transition);
+
+    .date-range-picker--label-floated & {
+      top: 0;
+      inset-inline-start: var(--spacing-m);
+      font-size: var(--font-size-25);
+      line-height: 1.4;
+    }
+
+    .date-range-picker:focus-within &,
+    .date-range-picker--open & {
+      color: var(--button-bg);
+    }
+  }
+
+  // The label takes the place of the placeholder text until it floats.
+  &--has-label:not(&--label-floated) .date-range-picker__value {
+    color: transparent;
+  }
+
   // ---------------------------------------------------------------------------
   // Popover panel — coords from portal hook inline style
   // ---------------------------------------------------------------------------
@@ -117,9 +168,15 @@
     --date-range-picker-day-size: calc(
       var(--icon-size-32) + var(--spacing-xxxs)
     );
+    --date-range-picker-fill: color-mix(
+      in srgb,
+      var(--button-bg) 12%,
+      var(--center-channel-bg)
+    );
 
-    width: 340px;
-    padding: var(--spacing-l);
+    // Seven day columns plus the panel padding on both sides.
+    width: calc(7 * var(--date-range-picker-day-size) + 2 * var(--spacing-s));
+    padding: var(--spacing-s);
     background-color: var(--center-channel-bg);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: var(--radius-m);
@@ -160,9 +217,10 @@
   }
 
   &__month-label {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-200);
-    line-height: var(--line-height-200);
+    // Heading 100 in the body font, so the month fits beside Today and the nav buttons.
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
     font-weight: var(--font-weight-semibold);
     color: var(--center-channel-color);
     white-space: nowrap;
@@ -251,45 +309,34 @@
       }
     }
 
-    &--in-range {
-      background-color: rgba(var(--button-bg-rgb), 0.12);
-
-      &::before {
-        background-color: rgba(var(--button-bg-rgb), 0.12);
-      }
+    // Each cell is its own stacking context, so a neighbour's 1px bleed would paint over
+    // the selected circle's edge. Raise the endpoints above their neighbours.
+    &--range-start,
+    &--range-end {
+      z-index: 1;
     }
 
-    // Soft fill only on the inner half so it meets the in-range bar.
-    &--range-start {
+    // One opaque fill (never stacked translucent layers), painted only by `::before`,
+    // so the 1px bleed into neighbouring cells and week rows can't darken the overlap.
+    &--in-range::before {
+      background-color: var(--date-range-picker-fill);
+    }
+
+    // Fill only the inner half so it meets the in-range bar.
+    &--range-start::before {
       background: linear-gradient(
         to right,
         transparent 50%,
-        rgba(var(--button-bg-rgb), 0.12) 50%
+        var(--date-range-picker-fill) 50%
       );
-
-      &::before {
-        background: linear-gradient(
-          to right,
-          transparent 50%,
-          rgba(var(--button-bg-rgb), 0.12) 50%
-        );
-      }
     }
 
-    &--range-end {
+    &--range-end::before {
       background: linear-gradient(
         to left,
         transparent 50%,
-        rgba(var(--button-bg-rgb), 0.12) 50%
+        var(--date-range-picker-fill) 50%
       );
-
-      &::before {
-        background: linear-gradient(
-          to left,
-          transparent 50%,
-          rgba(var(--button-bg-rgb), 0.12) 50%
-        );
-      }
     }
   }
 
