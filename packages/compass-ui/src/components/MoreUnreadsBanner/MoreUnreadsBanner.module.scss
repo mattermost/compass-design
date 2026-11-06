@@ -18,12 +18,14 @@
       box-shadow var(--duration-quick) var(--ease-transition);
   }
 
-  &:hover {
+  // `:not()` pairs keep these at (0,3,0) so they outrank the focus-ring
+  // mixin's host-shadow reset.
+  &:hover:not(.-host-shadow-a):not(.-host-shadow-b) {
     background-color: rgba(var(--mention-bg-rgb), 0.92);
     box-shadow: var(--elevation-2);
   }
 
-  &:active {
+  &:active:not(.-host-shadow-a):not(.-host-shadow-b) {
     box-shadow: var(--elevation-1);
   }
 
