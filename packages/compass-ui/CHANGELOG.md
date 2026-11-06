@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
-- **`compass-design` agent skill ships in the package:** `skills/compass-design/` (a `SKILL.md` plus references) gives coding agents the Compass rules for building a Mattermost feature, plugin or prototype: spacing and grouping, one primary action, forms, typography, colour and themes, motion, accessibility, writing, tokens, control choice and a pre-finish checklist. The package `files` now include `skills`. Consumers link or copy `node_modules/@mattermost/compass-ui/skills/compass-design` into their agent skills folder. Some rules assume the `DateRangePicker` `label` prop and the `Select` / `Combobox` `message` props.
+- **`compass-build` and `compass-review` agent skills ship in the package:** `skills/compass-build/` (a `SKILL.md` plus references) gives coding agents the Compass rules for building, restyling or retrofitting Mattermost UI: spacing and grouping, one primary action, forms, typography, colour and themes, motion, accessibility, writing, tokens, control choice and a pre-finish checklist. `skills/compass-review/` audits existing code against the same rules and reports findings with file and line, without editing. They are installed together (the review skill reads the build skill's references). The package `files` now include `skills`; consumers link or copy `node_modules/@mattermost/compass-ui/skills/*` into their agent skills folder. Some rules assume the `DateRangePicker` `label` prop and the `Select` / `Combobox` `message` props.
 
 ### Fixed
 
