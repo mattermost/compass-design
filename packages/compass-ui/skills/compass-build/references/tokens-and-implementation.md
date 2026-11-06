@@ -50,8 +50,8 @@ color: var(--link-color);
 ## Component usage
 
 - **Variant props** are lowercase kebab-case strings: `size="x-small"`, `emphasis="tertiary"`.
-- **IconButton:** `icon={<Icon glyph={<SomeIcon />} />}`, no `size`, always an `aria-label`.
-- **Icons in slots** (`leadingIcon`, `icon`): pass `<Icon glyph={...} />` without `size`. The host component sizes it.
+- **IconButton:** `icon={<Icon glyph={<SomeIcon />} />}`, normally no `size` (the button sizes it; an explicit `size` is allowed only as a deliberate override), always an `aria-label`.
+- **Icons in slots** (`leadingIcon`, `icon`): pass `<Icon glyph={...} />` without `size`. The host component sizes it; an explicit `size` still takes precedence and is allowed as a deliberate override.
 - **Links that look like buttons:** `Button asChild` wrapping `<a>` or a router `Link`. Never `<Link><Button/></Link>`.
 - **Avatars:** real image from `src/assets/avatars/` when available; initials only as fallback.
 - **Scrolling regions:** `Scrollbar`/`Scrollbars` component, not raw `overflow`.
