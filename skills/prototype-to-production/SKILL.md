@@ -14,7 +14,7 @@ description: >-
 
 ## Purpose
 
-Turn a **mattermost-proto-playground** prototype into product code in a consumer repo, using that consumer’s installed `@mattermost/compass-ui` and host patterns for routing/behavior. Portable: copy this skill folder into Cursor or Claude Code skill dirs (see [Install](#install)).
+Turn a **mattermost-proto-playground** prototype into product code in a consumer repo, using that consumer’s installed `@mattermost/compass-ui` and host patterns for routing/behavior. Install it with the other Compass toolkit skills (see [Install](#install)).
 
 ## When to use
 
@@ -39,11 +39,9 @@ Turn a **mattermost-proto-playground** prototype into product code in a consumer
 
 ## Install
 
-Copy this entire folder from **`.cursor/skills/prototype-to-production/`** (the real directory, including `references/`) into your agent’s skills directory — Cursor: `.cursor/skills/`; Claude Code: `.claude/skills/` (or the personal equivalent). Omitting `references/` breaks relative links in this playbook.
+This skill lives in the **compass-design** repo at `skills/prototype-to-production/`. Install it with the other toolkit skills by following [skills/README.md](../README.md). Install it **together with `compass-build`**: the final check and the "Where the Compass rules live" table read `../compass-build/references/`, so the skill folders must sit side by side. Copy the `references/` folder along with `SKILL.md`; omitting it breaks the links in this playbook.
 
-In this playground, `.claude/skills/prototype-to-production` is a **symlink** for Claude discovery — do not `cp -R` that path into a consumer (you may get a broken link). Copy the `.cursor/skills/...` folder, or use `cp -RL` if you need to dereference.
-
-Once installed, the playground need not be open: fetch prototype source from GitHub; use the consumer’s `node_modules/@mattermost/compass-ui`.
+Once installed, neither compass-design nor the playground needs to be open: fetch prototype source from GitHub; use the consumer’s `node_modules/@mattermost/compass-ui`.
 
 ## References (read as needed)
 
