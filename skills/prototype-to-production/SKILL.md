@@ -31,10 +31,10 @@ Turn a **mattermost-proto-playground** prototype into product code in a consumer
 
 ### Leaves vs not-yet-adopted overlays
 
-| Kind | Examples | Rule |
-| --- | --- | --- |
-| **Leaves (must-use when present)** | `Button`, `TextInput`, `SearchInput`, `IconButton`, badges, `EmptyState`, `Chip`, `Tag`, `Tabs`, … | Use consumer’s installed compass-ui. Do not invent a parallel control. |
-| **Overlays / menus (not adopted yet)** | `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover` | Use the **host’s** existing patterns. “Don’t invent” means don’t add a third stack — reuse host; do **not** introduce these Compass overlays unless the task explicitly adopts them. Re-check consumer usage; this list can change. |
+| Kind                                   | Examples                                                                                           | Rule                                                                                                                                                                                                                                |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Leaves (must-use when present)**     | `Button`, `TextInput`, `SearchInput`, `IconButton`, badges, `EmptyState`, `Chip`, `Tag`, `Tabs`, … | Use consumer’s installed compass-ui. Do not invent a parallel control.                                                                                                                                                              |
+| **Overlays / menus (not adopted yet)** | `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover`                                   | Use the **host’s** existing patterns. “Don’t invent” means don’t add a third stack — reuse host; do **not** introduce these Compass overlays unless the task explicitly adopts them. Re-check consumer usage; this list can change. |
 
 ## Install
 
@@ -46,10 +46,10 @@ Once installed, the playground need not be open: fetch prototype source from Git
 
 ## References (read as needed)
 
-| File | Contents |
-| --- | --- |
-| [references/resolve-source.md](references/resolve-source.md) | URL/slug → GitHub or local source |
-| [references/boundaries.md](references/boundaries.md) | ui vs proto vs playground drop, skew policy, lookup commands |
+| File                                                         | Contents                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [references/resolve-source.md](references/resolve-source.md) | URL/slug → GitHub or local source                            |
+| [references/boundaries.md](references/boundaries.md)         | ui vs proto vs playground drop, skew policy, lookup commands |
 
 ## Process
 
@@ -98,13 +98,13 @@ Follow [references/resolve-source.md](references/resolve-source.md).
 
 From orchestrator, `scenes/`, and `components/`, bucket every import:
 
-| Bucket | Action |
-| --- | --- |
-| `compass-ui` | Keep if present in consumer ui; if **missing**, see moved-composite skew below |
-| `compass-proto` | Decompose — never depend in product |
-| Playground chrome | Drop |
-| Prototype-local | Rebuild with ui / host patterns |
-| Tokens / CSS vars | Keep (see styles below) |
+| Bucket            | Action                                                                         |
+| ----------------- | ------------------------------------------------------------------------------ |
+| `compass-ui`      | Keep if present in consumer ui; if **missing**, see moved-composite skew below |
+| `compass-proto`   | Decompose — never depend in product                                            |
+| Playground chrome | Drop                                                                           |
+| Prototype-local   | Rebuild with ui / host patterns                                                |
+| Tokens / CSS vars | Keep (see styles below)                                                        |
 
 Note prototype vs consumer compass-ui versions when visible. Details: [references/boundaries.md](references/boundaries.md).
 
@@ -140,14 +140,14 @@ Plugins: same order; grep the **plugin** repo, not webapp System Console paths. 
 
 Do **not** port prototype logic verbatim. Do **capture the intent** of what the prototype demonstrates, then implement that intent with the **target product’s** existing patterns.
 
-| From the prototype (intent) | In the product (implementation) |
-| --- | --- |
-| User flows between scenes / panels | Host routing, deep links, RHS/modal entry points — not `SceneSwitcher` or walkthrough `sceneState` |
-| Clicks, toggles, “happy path” stubs | Host actions, thunks/selectors, plugin APIs — not copied `useState` demos |
-| Fixture users, channels, threads (`*Data.ts`, proto builders) | Real data loading, store shape, and empty/error states the host already uses |
-| Apparent permissions / who can see what | Host license, roles, and feature flags — never invent policy from fixtures |
-| Loading / success / error that the UX shows | Host async/optimistic patterns for that surface |
-| Hardcoded English labels / titles / helper text | **Wording intent** only — wire through the consumer’s **i18n** pattern (`defineMessages` / `FormattedMessage`, plugin i18n helpers, …). Do not land new user-visible English literals where that host expects translated messages (unless that area already uses raw strings). |
+| From the prototype (intent)                                   | In the product (implementation)                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| User flows between scenes / panels                            | Host routing, deep links, RHS/modal entry points — not `SceneSwitcher` or walkthrough `sceneState`                                                                                                                                                                             |
+| Clicks, toggles, “happy path” stubs                           | Host actions, thunks/selectors, plugin APIs — not copied `useState` demos                                                                                                                                                                                                      |
+| Fixture users, channels, threads (`*Data.ts`, proto builders) | Real data loading, store shape, and empty/error states the host already uses                                                                                                                                                                                                   |
+| Apparent permissions / who can see what                       | Host license, roles, and feature flags — never invent policy from fixtures                                                                                                                                                                                                     |
+| Loading / success / error that the UX shows                   | Host async/optimistic patterns for that surface                                                                                                                                                                                                                                |
+| Hardcoded English labels / titles / helper text               | **Wording intent** only — wire through the consumer’s **i18n** pattern (`defineMessages` / `FormattedMessage`, plugin i18n helpers, …). Do not land new user-visible English literals where that host expects translated messages (unless that area already uses raw strings). |
 
 **How to extract intent:** read orchestrator + scenes for what happens on interaction and what states are shown (empty, selected, error, multi-step). Treat fixtures and stubs as **examples of outcomes**, not as production code to copy.
 
@@ -163,34 +163,34 @@ Do **not** port prototype logic verbatim. Do **capture the intent** of what the 
 
 ### 7. Validation checklist
 
+Translation-specific checks. The Compass design rules (tokens, one primary action, kebab-case variants, accessibility, writing) are owned by `compass-build`; don't restate them here.
+
 - [ ] Consumer kind and **scoped surface** recorded for the session (no unsolicited full-shell rewrite)
+- [ ] Playground ref recorded for the session
 - [ ] `@mattermost/compass-ui` present; no `@mattermost/compass-proto` in product deps or imports
 - [ ] No playground chrome (`PrototypeTopNav`, `SceneSwitcher`, `DeviceFrame`, `MobileModalStage`, walkthrough runtime)
-- [ ] Every Compass import resolves in the consumer’s installed ui
-- [ ] Subpath imports only; kebab-case variants
+- [ ] Every Compass import resolves in the consumer's installed ui
 - [ ] Style entry correct for consumer kind (webapp: no `styles/standalone`)
-- [ ] Tokens / CSS variables used instead of magic spacing pixels; no wholesale copy of playground SCSS modules
-- [ ] Primary `emphasis="primary"` at most once per view when using Compass `Button`
+- [ ] No wholesale copy of playground SCSS modules
 - [ ] Prototype **behavior intent** preserved; implementation uses **host** patterns (no ported playground state/fixtures as production logic)
-- [ ] User-visible strings use the consumer’s **i18n** pattern (prototype copy is wording intent, not pasted literals)
+- [ ] User-visible strings use the consumer's **i18n** pattern (prototype copy is wording intent, not pasted literals)
 - [ ] Gaps from version skew noted briefly for the developer
+- [ ] Ran the `compass-build` `references/checklist.md` on the result, using the **plugin** or **core feature** column of `references/context.md` for the consumer kind (not the prototype column)
 
-## Thin illustrative cheat sheet
+## Where the Compass rules live
 
-Hints only — always verify against the consumer’s installed package.
+This skill owns the translation process. For how to use Compass once you know what to build, read the `compass-build` references (installed next to this skill; see [skills/README.md](../README.md)):
 
-| Role | Likely export | Import subpath |
-| --- | --- | --- |
-| Button | `Button` | `@mattermost/compass-ui/components/button` |
-| Text | `TextInput` | `…/text-input` |
-| Search | `SearchInput` | `…/search-input` |
-| Menu row | `MenuItem` | `…/menu-item` |
-| Empty view | `EmptyState` | `…/empty-state` |
-| Tabs | `Tabs` | `…/tabs` |
+| Need                                                           | Read                                                    |
+| -------------------------------------------------------------- | ------------------------------------------------------- |
+| Which component fits a role, and how to choose a field control | `compass-build/references/components.md`                |
+| Imports, tokens, variant props                                 | `compass-build/references/tokens-and-implementation.md` |
+| Core vs plugin rules and style import                          | `compass-build/references/context.md`                   |
+| Final pre-finish check                                         | `compass-build/references/checklist.md`                 |
 
-Desktop overlays: Compass ships `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover`, but **consumers do not use them yet** — keep host overlays/menus unless explicitly adopting.
+The consumer's installed `.d.ts` always wins over any table, including those.
 
-Large chrome often lives in **proto** (never a product dependency) — e.g. `ChannelsSidebar`, `TeamSidebar`, `GlobalHeader`, `AdminConsoleSidebar`, hardcoded `*Menu` recipes, `ChannelShell`, `Mobile*`, Call*. Decompose shells to ui leaves (`ChannelSidebarItem`, …) + host layout; map menu recipes to **host** menus (not Compass `PopoverMenu` by default). Always `ls` the consumer’s installed ui; alphas differ.
+Large chrome often lives in **proto** (never a product dependency): shells, sidebars, headers, hardcoded menu recipes, `Mobile*`, `Call*` (full list in [references/boundaries.md](references/boundaries.md)). Decompose them to ui leaves plus host layout, and map menu recipes to **host** menus. Always `ls` the consumer's installed ui; alphas differ.
 
 ## Example prompt shapes
 

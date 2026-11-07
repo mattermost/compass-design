@@ -2,10 +2,10 @@
 
 Agent skills for working with Compass. They live in the repo, not in `@mattermost/compass-ui`, so they are versioned and reviewed on their own and are not published to npm.
 
-| Skill | Purpose |
-| --- | --- |
-| [`compass-build`](compass-build/SKILL.md) | Build, restyle or retrofit Mattermost UI to the Compass rules. Holds the shared `references/`. |
-| [`compass-review`](compass-review/SKILL.md) | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`. |
+| Skill                                                         | Purpose                                                                                                                              |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| [`compass-build`](compass-build/SKILL.md)                     | Build, restyle or retrofit Mattermost UI to the Compass rules. Holds the shared `references/`.                                       |
+| [`compass-review`](compass-review/SKILL.md)                   | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                                    |
 | [`prototype-to-production`](prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Draft, moved from mattermost-proto-playground#76. |
 
 `compass-review` depends on `compass-build`'s references, so install them together.

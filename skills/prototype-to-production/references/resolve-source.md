@@ -23,11 +23,11 @@ Use the live URL for visual context only after source is resolved on the correct
 
 Examples:
 
-| Input | Slug |
-| --- | --- |
-| `https://example.com/prototypes/outbound-calls` | `outbound-calls` |
-| `https://example.com/prototypes/outbound-calls/?scene=home` | `outbound-calls` |
-| `/prototypes/mobile-home-channel` | `mobile-home-channel` |
+| Input                                                       | Slug                  |
+| ----------------------------------------------------------- | --------------------- |
+| `https://example.com/prototypes/outbound-calls`             | `outbound-calls`      |
+| `https://example.com/prototypes/outbound-calls/?scene=home` | `outbound-calls`      |
+| `/prototypes/mobile-home-channel`                           | `mobile-home-channel` |
 
 ## Locate source files
 
