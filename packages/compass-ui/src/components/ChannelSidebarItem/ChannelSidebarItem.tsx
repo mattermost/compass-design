@@ -251,6 +251,9 @@ export default function ChannelSidebarItem({
     styles[`channel-sidebar-item--status-${effectiveStatus.toLowerCase()}`],
     isDrafts ? styles['channel-sidebar-item--drafts'] : '',
     actionsAlways ? styles['channel-sidebar-item--actions-always'] : '',
+    hasActions && actionsOpen && !actionsAlways
+      ? styles['channel-sidebar-item--actions-open']
+      : '',
     className,
   ]
     .filter(Boolean)

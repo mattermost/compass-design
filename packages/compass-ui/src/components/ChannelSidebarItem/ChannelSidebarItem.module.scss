@@ -272,6 +272,17 @@
 
   // ── Modifiers ──────────────────────────────────────────────
 
+  // Open actions (e.g. their menu is open) keep the menu's column even when the
+  // row is no longer hovered or focused, so the badge and trailing visual stay
+  // hidden instead of drawing underneath them.
+  &--actions-open {
+    .channel-sidebar-item__mention-badge,
+    .channel-sidebar-item__trailing-visual--with-menu {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
   // Always-visible actions take the menu's column; the badge and trailing
   // visual stay visible beside them instead of giving way on hover.
   &--actions-always {
