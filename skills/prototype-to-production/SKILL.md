@@ -152,6 +152,12 @@ Do **not** port prototype logic verbatim. Do **capture the intent** of what the 
 
 **How to implement:** grep the consumer for the same surface (threads, System Console page, plugin RHS, …) and follow that repo’s folder, state, API, and i18n conventions. Compass supplies look (props/slots); the product owns behavior.
 
+#### Prototype-only helpers that don't carry over
+
+Some helpers exist only so a prototype works on its own. Replace each with what the consumer uses.
+
+- **`WithTooltip`** (from `compass-proto`, wraps icon buttons in prototypes) → drop the proto wrapper and use the host's tooltip. In the **webapp** and in **plugins** that is `WithTooltip` from `@mattermost/shared/components/tooltip`. Compass plans full tooltip support, so check whether the consumer's installed `@mattermost/compass-ui` offers a tooltip that covers the case and prefer it if so. Keep the `IconButton`'s `aria-label` either way. **Inside a plugin modal**, the host tooltip layer sits below the modal, so check how the plugin lifts tooltips above modals (for example a wrapper like `TooltipAboveModals` in `mattermost-plugin-agents`) instead of nesting a plain `WithTooltip`.
+
 ### 6. Implement in the consumer
 
 - Stay within the **scoped surface** from step 1 — don’t rebuild unrelated proto chrome.
