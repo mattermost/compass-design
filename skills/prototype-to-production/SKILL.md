@@ -118,7 +118,7 @@ Matching is a **lookup procedure**, not screenshot matching. “Structure matche
 
 Per piece:
 
-1. **compass-ui import** → confirm in consumer `node_modules/@mattermost/compass-ui/dist/components/<kebab>/`; use subpath + props from `.d.ts`. If the **export is missing**: check whether it moved to proto / is a shell composite → decompose like proto (host layout + components). If it’s a missing **component** / variant → closest leaf or compose from primitives; note the gap. Do not reimplement full sidebars/headers from scratch.
+1. **compass-ui import** → confirm in consumer `node_modules/@mattermost/compass-ui/dist/components/<kebab>/`; use subpath + props from `.d.ts`. If the **export is missing**: check whether it moved to proto / is a shell composite → decompose like proto (host layout + components). If it’s a missing **component** / variant → closest component or compose from primitives; note the gap. Do not reimplement full sidebars/headers from scratch.
 2. **compass-proto import** → read usage intent; search consumer ui for component equivalents; compose components + **host** layout. Never add proto.
 3. **Playground chrome** → drop; wire into consumer nav/shell.
 4. **Prototype-local** → name the role → search consumer ui → then host surface patterns (layout/routing/data only) → else ui primitives + tokens.
