@@ -213,7 +213,7 @@ export const AllVariants: Story = {
           <ChannelSidebarItem
             leadingVisual="private"
             name="Call active"
-            trailingVisual={<Icon glyph={<PhoneInTalkIcon />} size="12" />}
+            trailingVisual={<Icon glyph={<PhoneInTalkIcon />} />}
             onClick={fn()}
           />
           <ChannelSidebarItem
@@ -254,7 +254,7 @@ const callPill = (
       color: 'var(--color-neutral-0)',
     }}
   >
-    <Icon glyph={<PhoneInTalkIcon />} size="12" />
+    <Icon glyph={<PhoneInTalkIcon />} />
   </span>
 );
 
@@ -290,7 +290,7 @@ export const CustomVisuals: Story = {
         <ChannelSidebarItem
           name="Design sync"
           leadingVisual="public"
-          trailingVisual={<Icon glyph={<PhoneInTalkIcon />} size="12" />}
+          trailingVisual={<Icon glyph={<PhoneInTalkIcon />} />}
           onClick={fn()}
         />
         <ChannelSidebarItem
