@@ -111,7 +111,25 @@ Note prototype vs consumer compass-ui versions when visible. Details: [reference
 
 **Moved composite (common):** prototype still imports something from `compass-ui` (e.g. older `ChannelsSidebar`) but consumer ui no longer exports it → treat as **proto decompose** (host shell + ui components), not as “build the whole thing from primitives.”
 
-### 4. Match each UI piece
+### 4. Map variants and conditions
+
+Prototypes often use scenes to show different perspectives and states. The product has to handle each one, so find them before matching components, and don't assume the scenes cover every case.
+
+Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for anything that renders conditionally, or that differs between scenes. For each, note:
+
+| Element or section | Condition in the prototype | Kind | Product source of truth |
+| ------------------ | -------------------------- | ---- | ----------------------- |
+
+- **Kind** is one of: **viewer or role** (admin, member, guest, author vs reader), **feature flag or license**, or **app state** (empty, unread, loading, error, connected, offline, a call in progress, multi-step progress).
+- **Condition in the prototype** is how the source expresses it: a prop, a scene id, a fixture field, a hardcoded current user, or a walkthrough note. A scene can be a different **perspective** (viewer or role) or a different **state of the same surface**, not only a step in a flow.
+- **Product source of truth** is the consumer's real check: a role or permission selector, a license or flag check, or store or async state. Never copy the fixture field or prop.
+- Look for a **hardcoded viewer** in the fixtures (a fixed current user). Variants that depend on that user can be invisible in the source: ask which other viewers the surface should handle.
+- **Walkthrough files** are worth reading here even though the translation skips them elsewhere, because they sometimes spell out who sees what and when.
+- If a condition is only implied by a fixture and you can't find its product equivalent, **ask the developer once** instead of guessing. List unresolved ones.
+
+Keep this table in your working notes and implement every row. In the final report, list the variants you handled and any you couldn't resolve.
+
+### 5. Match each UI piece
 
 Matching is a **lookup procedure**, not screenshot matching. “Structure matches” = same **role** confirmed by export name / JSDoc / props on the **consumer’s** installed package.
 
@@ -135,7 +153,7 @@ When host and Compass both have a control: for **standard components**, prefer C
 
 Plugins: same order; grep the **plugin** repo, not webapp System Console paths. Use the plugin’s own installed compass-ui version.
 
-### 5. Capture behavior intent; implement with product patterns
+### 6. Capture behavior intent; implement with product patterns
 
 Do **not** port prototype logic verbatim. Do **capture the intent** of what the prototype demonstrates, then implement that intent with the **target product’s** existing patterns.
 
@@ -158,9 +176,9 @@ Some helpers exist only so a prototype works on its own. Replace each with what 
 
 - **`WithTooltip`** (from `compass-proto`, wraps icon buttons in prototypes) → drop the proto wrapper and use the host's tooltip. In the **webapp** and in **plugins** that is `WithTooltip` from `@mattermost/shared/components/tooltip`. Compass plans full tooltip support, so check whether the consumer's installed `@mattermost/compass-ui` offers a tooltip that covers the case and prefer it if so. Keep the `IconButton`'s `aria-label` either way. **Inside a plugin modal**, the host tooltip layer sits below the modal, so check how the plugin lifts tooltips above modals (for example a wrapper like `TooltipAboveModals` in `mattermost-plugin-agents`) instead of nesting a plain `WithTooltip`.
 
-**Prototype strictness is relaxed; production's is not.** `compass-build`'s prototype context allows plain strings, fake data and simple state, but still expects tokens, hierarchy and accessibility. Production needs all of it: i18n, real data and states, tests, and the consumer kind's rules in `compass-build/references/context.md`. Don't treat the prototype's code as proof that tokens or accessibility were followed. Step 7 audits what you write, not what you copied from.
+**Prototype strictness is relaxed; production's is not.** `compass-build`'s prototype context allows plain strings, fake data and simple state, but still expects tokens, hierarchy and accessibility. Production needs all of it: i18n, real data and states, tests, and the consumer kind's rules in `compass-build/references/context.md`. Don't treat the prototype's code as proof that tokens or accessibility were followed. Step 8 audits what you write, not what you copied from.
 
-### 6. Implement in the consumer
+### 7. Implement in the consumer
 
 - Stay within the **scoped surface** from step 1 — don’t rebuild unrelated proto chrome.
 - Follow that repo’s folder, routing, and data patterns.
@@ -168,7 +186,7 @@ Some helpers exist only so a prototype works on its own. Replace each with what 
 - Subpath imports only for compass-ui; kebab-case variant strings.
 - Overlay/menu host ownership stays in product code. Whether to use Compass `Modal` / `Tooltip` / `PopoverMenu` / `TourPoint` / `ProfilePopover` depends on the consumer (plugins use `Modal`; the webapp doesn’t yet) — follow [references/boundaries.md](references/boundaries.md) rule 5.
 
-### 7. Audit with `compass-review`
+### 8. Audit with `compass-review`
 
 Before the checklist, run `compass-review` on the code you wrote or changed (the diff, not the whole consumer repo). It is read-only and reports findings with file, line and the rule broken.
 
@@ -177,12 +195,13 @@ Before the checklist, run `compass-review` on the code you wrote or changed (the
 - Findings that come from a Compass gap or version skew (a prop the consumer's installed ui lacks) go in the "gaps" note, not in code workarounds.
 - Report **Suggestion** items as suggestions, never as required changes.
 
-### 8. Validation checklist
+### 9. Validation checklist
 
 Translation-specific checks. The Compass design rules (tokens, one primary action, kebab-case variants, accessibility, writing) are owned by `compass-build`; don't restate them here.
 
 - [ ] Consumer kind and **scoped surface** recorded for the session (no unsolicited full-shell rewrite)
 - [ ] Playground ref recorded for the session
+- [ ] Every variant from step 4 is implemented with the product's real condition, or listed as unresolved in the report
 - [ ] `@mattermost/compass-ui` present; no `@mattermost/compass-proto` in product deps or imports
 - [ ] No playground chrome (`PrototypeTopNav`, `SceneSwitcher`, `DeviceFrame`, `MobileModalStage`, walkthrough runtime)
 - [ ] Every Compass import resolves in the consumer's installed ui
