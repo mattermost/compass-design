@@ -20,21 +20,21 @@ Turn a **mattermost-proto-playground** prototype into product code in a consumer
 
 - Implement / ship a prototype into webapp, desktop, or a plugin
 - User provides a prototype URL, slug, or local playground path plus a target surface
-- Agent must prefer Compass ui **leaves** (Button, inputs, badges, EmptyState, …) over hand-rolled controls when the consumer’s installed package has them
+- Agent must prefer Compass **components** (Button, inputs, badges, EmptyState, …) over hand-rolled controls when the consumer’s installed package has them
 
 ## When not to use
 
 - Scaffolding or editing prototypes inside the playground → `scaffold-prototype` / `guided-walkthrough`
 - Adding design-system components → work in **compass-design**
 - **Mobile app** (native iOS / Android) — not supported yet; this skill targets web consumers (webapp, desktop, plugins) that can depend on `@mattermost/compass-ui`
-- Consumer has no `@mattermost/compass-ui` and the user has not asked to add/adopt it → stop; point at INTEGRATION.md; do not hand-roll CSS replacements for Compass leaves
+- Consumer has no `@mattermost/compass-ui` and the user has not asked to add/adopt it → stop; point at INTEGRATION.md; do not hand-roll CSS replacements for Compass components
 
-### Leaves vs overlays
+### Standard components vs overlays
 
-| Kind                                | Examples                                                                                           | Rule                                                                                                                                                                                                                                                                                                                                       |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Leaves (must-use when present)**  | `Button`, `TextInput`, `SearchInput`, `IconButton`, badges, `EmptyState`, `Chip`, `Tag`, `Tabs`, … | Use consumer’s installed compass-ui. Do not invent a parallel control.                                                                                                                                                                                                                                                                     |
-| **Overlays / menus (per consumer)** | `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover`                                   | Depends on the consumer; see [references/boundaries.md](references/boundaries.md) rule 5. `Modal`: use Compass in **plugins**; in the **webapp** keep the host modal unless the task adopts it (adoption is the goal). Others: use what the consumer already uses; don’t add a third stack. Re-check consumer usage; this list can change. |
+| Kind                                            | Examples                                                                                           | Rule                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Standard components (must-use when present)** | `Button`, `TextInput`, `SearchInput`, `IconButton`, badges, `EmptyState`, `Chip`, `Tag`, `Tabs`, … | Use consumer’s installed compass-ui. Do not invent a parallel control.                                                                                                                                                                                                                                                                     |
+| **Overlays / menus (per consumer)**             | `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover`                                   | Depends on the consumer; see [references/boundaries.md](references/boundaries.md) rule 5. `Modal`: use Compass in **plugins**; in the **webapp** keep the host modal unless the task adopts it (adoption is the goal). Others: use what the consumer already uses; don’t add a third stack. Re-check consumer usage; this list can change. |
 
 ## Install
 
@@ -73,7 +73,7 @@ Do not re-ask every turn; keep the answer for the session.
 
 **Scope to the stated focus.** Multi-scene prototypes often wrap the real change in full channel chrome (`ChannelShell`, sidebars, headers). Limit implementation to the **target surface / intent** from this gate (e.g. threads viewing, one System Console page, plugin RHS). Treat surrounding proto chrome as context — wire into existing host shells; do **not** replace ChannelShell / global nav / whole sidebars unless the user asked for that. If focus is unclear, ask once which surface(s) are in scope.
 
-**Desktop:** keep as a valid kind (e.g. replacing desktop Button / IconButton / form controls with Compass leaves once that app depends on compass-ui). Unless the user names a **desktop-only** surface/repo, prefer implementing shared product UI with **webapp** host patterns (desktop often embeds or shares that UI) — don’t invent a parallel Electron component layer. Still confirm which repo owns the change and follow that repo’s INTEGRATION.md.
+**Desktop:** keep as a valid kind (e.g. replacing desktop Button / IconButton / form controls with Compass components once that app depends on compass-ui). Unless the user names a **desktop-only** surface/repo, prefer implementing shared product UI with **webapp** host patterns (desktop often embeds or shares that UI) — don’t invent a parallel Electron component layer. Still confirm which repo owns the change and follow that repo’s INTEGRATION.md.
 
 **Branch from the answer:**
 
@@ -82,7 +82,7 @@ Do not re-ask every turn; keep the answer for the session.
    - **Missing and user asked to add/adopt it** → follow INTEGRATION.md **end-to-end** for that consumer (package + peers, style entry, bundler/Jest/React alias pitfalls) — not `npm install` alone. **Webapp: never** `styles/standalone`.
 2. If already present, confirm style entry matches INTEGRATION.md for that kind.
 3. Scope host-pattern search to that repo’s shells and routes.
-4. Shared rules always apply: no proto, drop playground chrome, must-use ui leaves.
+4. Shared rules always apply: no proto, drop playground chrome, must-use ui components.
 
 ### 2. Resolve prototype source
 
@@ -108,9 +108,9 @@ From orchestrator, `scenes/`, and `components/`, bucket every import:
 
 Note prototype vs consumer compass-ui versions when visible. Details: [references/boundaries.md](references/boundaries.md).
 
-**Styles / SCSS:** keep Compass **tokens** (`--spacing-*`, `--center-channel-color`, …). Do **not** copy playground `.module.scss` wholesale (including SceneSwitcher / DeviceFrame / walkthrough focus CSS). Re-express layout/spacing intent with host style conventions + tokens; use Compass `className` overrides only when that consumer already does so for leaves. Prototype-local visuals with no host equivalent → small product-local styles, tokens-first (follow host BEM/CSS conventions).
+**Styles / SCSS:** keep Compass **tokens** (`--spacing-*`, `--center-channel-color`, …). Do **not** copy playground `.module.scss` wholesale (including SceneSwitcher / DeviceFrame / walkthrough focus CSS). Re-express layout/spacing intent with host style conventions + tokens; use Compass `className` overrides only when that consumer already does so for standard components. Prototype-local visuals with no host equivalent → small product-local styles, tokens-first (follow host BEM/CSS conventions).
 
-**Moved composite (common):** prototype still imports something from `compass-ui` (e.g. older `ChannelsSidebar`) but consumer ui no longer exports it → treat as **proto decompose** (host shell + ui leaves), not as “build the whole thing from primitives.”
+**Moved composite (common):** prototype still imports something from `compass-ui` (e.g. older `ChannelsSidebar`) but consumer ui no longer exports it → treat as **proto decompose** (host shell + ui components), not as “build the whole thing from primitives.”
 
 ### 4. Match each UI piece
 
@@ -118,8 +118,8 @@ Matching is a **lookup procedure**, not screenshot matching. “Structure matche
 
 Per piece:
 
-1. **compass-ui import** → confirm in consumer `node_modules/@mattermost/compass-ui/dist/components/<kebab>/`; use subpath + props from `.d.ts`. If the **export is missing**: check whether it moved to proto / is a shell composite → decompose like proto (host layout + leaves). If it’s a missing **leaf** / variant → closest leaf or compose from primitives; note the gap. Do not reimplement full sidebars/headers from scratch.
-2. **compass-proto import** → read usage intent; search consumer ui for leaf equivalents; compose leaves + **host** layout. Never add proto.
+1. **compass-ui import** → confirm in consumer `node_modules/@mattermost/compass-ui/dist/components/<kebab>/`; use subpath + props from `.d.ts`. If the **export is missing**: check whether it moved to proto / is a shell composite → decompose like proto (host layout + components). If it’s a missing **component** / variant → closest leaf or compose from primitives; note the gap. Do not reimplement full sidebars/headers from scratch.
+2. **compass-proto import** → read usage intent; search consumer ui for component equivalents; compose components + **host** layout. Never add proto.
 3. **Playground chrome** → drop; wire into consumer nav/shell.
 4. **Prototype-local** → name the role → search consumer ui → then host surface patterns (layout/routing/data only) → else ui primitives + tokens.
 
@@ -132,7 +132,7 @@ grep -i "<RoleOrName>" node_modules/@mattermost/compass-ui/dist/index.d.ts
 
 Read `dist/components/<kebab>/<Name>.d.ts` for props. Skill tables are hints; **installed `.d.ts` wins**.
 
-When host and Compass both have a control: for **leaves**, prefer Compass ui. For **overlays/menus the consumer hasn’t adopted** (see table above), prefer host. Host always wins for shells, permissions, store, routing.
+When host and Compass both have a control: for **standard components**, prefer Compass ui. For **overlays/menus the consumer hasn’t adopted** (see table above), prefer host. Host always wins for shells, permissions, store, routing.
 
 Plugins: same order; grep the **plugin** repo, not webapp System Console paths. Use the plugin’s own installed compass-ui version.
 
@@ -190,7 +190,7 @@ This skill owns the translation process. For how to use Compass once you know wh
 
 The consumer's installed `.d.ts` always wins over any table, including those.
 
-Large chrome often lives in **proto** (never a product dependency): shells, sidebars, headers, hardcoded menu recipes, `Mobile*`, `Call*` (full list in [references/boundaries.md](references/boundaries.md)). Decompose them to ui leaves plus host layout, and map menu recipes to **host** menus. Always `ls` the consumer's installed ui; alphas differ.
+Large chrome often lives in **proto** (never a product dependency): shells, sidebars, headers, hardcoded menu recipes, `Mobile*`, `Call*` (full list in [references/boundaries.md](references/boundaries.md)). Decompose them to ui components plus host layout, and map menu recipes to **host** menus. Always `ls` the consumer's installed ui; alphas differ.
 
 ## Example prompt shapes
 
