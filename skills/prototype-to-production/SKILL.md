@@ -1,13 +1,11 @@
 ---
 name: prototype-to-production
 description: >-
-  Translate a mattermost-proto-playground prototype into production UI in the Mattermost
-  webapp, desktop app, or a plugin (Playbooks, Boards, Agents, …). Use when the
-  user asks to implement a prototype, translate prototype to production, build
-  from a prototype URL/slug into product code, or apply Compass UI from a
-  published prototype. Process-first: resolve source, map compass-ui vs
-  compass-proto vs playground chrome, must-use installed compass-ui — not a
-  versioned component catalog.
+  Translate a mattermost-proto-playground prototype into production UI in the
+  Mattermost webapp, desktop app, or a plugin. Use when asked to implement a
+  prototype, translate a prototype to production, or build product code from a
+  prototype URL, slug, branch or PR. Not for retrofitting UI that is already in
+  production (use compass-build or compass-review).
 ---
 
 # Prototype to production
@@ -136,12 +134,15 @@ Keep this table in your working notes and implement every row. In the final repo
 
 Matching is a **lookup procedure**, not screenshot matching. “Structure matches” = same **role** confirmed by export name / JSDoc / props on the **consumer’s** installed package.
 
-Per piece:
+Per bucket from step 3:
 
-1. **compass-ui import** → confirm in consumer `node_modules/@mattermost/compass-ui/dist/components/<kebab>/`; use subpath + props from `.d.ts`. If the **export is missing**: check whether it moved to proto / is a shell composite → decompose like proto (host layout + components). If it’s a missing **component** / variant → closest component or compose from primitives; note the gap. Do not reimplement full sidebars/headers from scratch.
-2. **compass-proto import** → read usage intent; search consumer ui for component equivalents; compose components + **host** layout. Never add proto.
-3. **Playground chrome** → drop; wire into consumer nav/shell.
-4. **Prototype-local** → name the role → search consumer ui → then host surface patterns (layout/routing/data only) → else ui primitives + tokens.
+| Bucket                                | Do                                                                                                                                                                                                                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **compass-ui import**                 | Confirm it in the consumer's `node_modules/@mattermost/compass-ui/dist/components/<kebab>/`; use the subpath and the props from the `.d.ts`.                                                                                                                             |
+| **compass-ui import, export missing** | If it moved to proto or is a shell composite, decompose like proto (host layout + components). If it is a missing component or variant, use the closest component or compose from primitives, and note the gap. Don't reimplement full sidebars or headers from scratch. |
+| **compass-proto import**              | Read the usage intent, search the consumer's ui for component equivalents, and compose components + **host** layout. Never add proto.                                                                                                                                    |
+| **Playground chrome**                 | Drop it; wire into the consumer's nav and shell.                                                                                                                                                                                                                         |
+| **Prototype-local**                   | Name the role, search the consumer's ui, then use host surface patterns (layout, routing, data only), else ui primitives + tokens.                                                                                                                                       |
 
 **Before inventing any control:**
 
@@ -152,7 +153,7 @@ grep -i "<RoleOrName>" node_modules/@mattermost/compass-ui/dist/index.d.ts
 
 Read `dist/components/<kebab>/<Name>.d.ts` for props. Skill tables are hints; **installed `.d.ts` wins**.
 
-When host and Compass both have a control: for **standard components**, prefer Compass ui. For **overlays/menus the consumer hasn’t adopted** (see table above), prefer host. Host always wins for shells, permissions, store, routing.
+When host and Compass both have a control: for **standard components**, prefer Compass ui. For overlays and menus, follow the table above and `boundaries.md` rules 5–6. Host always wins for shells, permissions, store, routing.
 
 Plugins: same order; grep the **plugin** repo, not webapp System Console paths. Use the plugin’s own installed compass-ui version.
 
@@ -187,7 +188,7 @@ Some helpers exist only so a prototype works on its own. Replace each with what 
 - Follow that repo’s folder, routing, and data patterns.
 - Do not copy playground scene/orchestrator structure wholesale.
 - Subpath imports only for compass-ui; kebab-case variant strings.
-- Overlay/menu host ownership stays in product code. Whether to use Compass `Modal` / `Tooltip` / `PopoverMenu` / `TourPoint` / `ProfilePopover` depends on the consumer (plugins use `Modal`; the webapp doesn’t yet) — follow [references/boundaries.md](references/boundaries.md) rule 5.
+- Overlay and menu ownership stays in product code. Follow [references/boundaries.md](references/boundaries.md) rules 5–6.
 
 ### 8. Audit with `compass-review`
 
