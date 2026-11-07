@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode, SyntheticEvent } from 'react';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
+import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
@@ -15,6 +16,7 @@ import {
 import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
+import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './UserAccountMenu.module.scss';
 
 export type UserAccountMenuStatus =
@@ -28,6 +30,12 @@ export type UserAccountMenuPickableStatus = Exclude<
   UserAccountMenuStatus,
   'do-not-disturb'
 >;
+
+/** A custom status. The emoji is a node so hosts can render it their own way. */
+export interface UserAccountMenuCustomStatus {
+  emoji: ReactNode;
+  text?: string;
+}
 
 export interface UserAccountMenuProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -45,7 +53,13 @@ export interface UserAccountMenuProps extends Omit<
   status?: UserAccountMenuStatus;
   /** Secondary label on Do Not Disturb, e.g. "until Monday 9:00 AM". */
   dndUntil?: string;
-  /** Shows "On" / "Off" next to Notification Schedule in the DND submenu. */
+  /** Current custom status. When set, replaces the "Set a custom status" row. */
+  customStatus?: UserAccountMenuCustomStatus;
+  /** Expiry label shown after the status text, e.g. "Until 5:00 PM". */
+  customStatusExpiry?: string;
+  /** Label of the schedule row in the Do Not Disturb submenu. Default: "Notification Schedule". */
+  scheduleLabel?: string;
+  /** Shows "On" / "Off" next to the schedule row in the DND submenu. */
   scheduleOn?: boolean;
   /** Open the Do Not Disturb submenu on first render. */
   submenuInitiallyOpen?: boolean;
@@ -55,7 +69,10 @@ export interface UserAccountMenuProps extends Omit<
   onOpenSchedule?: () => void;
   onProfile?: () => void;
   onLogOut?: () => void;
+  /** Opens the custom status editor (row click). */
   onCustomStatus?: () => void;
+  /** Clears the custom status (end button on the status row). */
+  onClearCustomStatus?: () => void;
   /** Called after any item that should dismiss the menu is chosen. */
   onClose?: () => void;
 }
@@ -88,6 +105,9 @@ export default function UserAccountMenu({
   avatarSrc,
   status = 'online',
   dndUntil,
+  customStatus,
+  customStatusExpiry,
+  scheduleLabel = 'Notification Schedule',
   scheduleOn = false,
   submenuInitiallyOpen = false,
   onPickStatus,
@@ -96,6 +116,7 @@ export default function UserAccountMenu({
   onProfile,
   onLogOut,
   onCustomStatus,
+  onClearCustomStatus,
   onClose,
   className = '',
   ...rest
@@ -114,6 +135,14 @@ export default function UserAccountMenu({
     onClose?.();
   };
 
+  const clear = (event: SyntheticEvent) => {
+    // The icon sits inside the row; don't also open the editor.
+    event.stopPropagation();
+    event.preventDefault();
+    onClearCustomStatus?.();
+    onClose?.();
+  };
+
   const statusRow = (s: UserAccountMenuPickableStatus) => (
     <MenuItem
       label={STATUS_LABELS[s]}
@@ -126,7 +155,8 @@ export default function UserAccountMenu({
   return (
     <div className={rootClass} {...rest}>
       <PopoverMenu open={open} aria-label="Account menu">
-        <PopoverMenuTitle className={styles['user-account-menu__title']}>
+        {/* A div, not PopoverMenuTitle (a <p>): the avatar is a div. */}
+        <div className={styles['user-account-menu__title']}>
           <UserAvatar
             src={avatarSrc}
             alt={userName}
@@ -141,17 +171,60 @@ export default function UserAccountMenu({
               @{username}
             </span>
           </span>
-        </PopoverMenuTitle>
+        </div>
         <PopoverMenuDivider />
         <PopoverMenuGroup>
-          <MenuItem
-            label="Set a custom status"
-            leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
-            onClick={() => {
-              onCustomStatus?.();
-              onClose?.();
-            }}
-          />
+          {customStatus ? (
+            <MenuItem
+              label={
+                [
+                  customStatus.text,
+                  customStatusExpiry && `(${customStatusExpiry})`,
+                ]
+                  .filter(Boolean)
+                  .join(' ') || 'Custom status'
+              }
+              leadingVisual={
+                <span className={styles['user-account-menu__emoji']}>
+                  {customStatus.emoji}
+                </span>
+              }
+              trailingElement
+              trailingVisual={
+                <WithTooltip label="Clear custom status" placement="top">
+                  {/* Not a <button>: it sits inside the row's button. Matches
+                      the webapp's clear icon, with keyboard support added. */}
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Clear custom status"
+                    className={styles['user-account-menu__clear']}
+                    onClick={clear}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        clear(event);
+                      }
+                    }}
+                  >
+                    <Icon glyph={<CloseCircleIcon />} />
+                  </span>
+                </WithTooltip>
+              }
+              onClick={() => {
+                onCustomStatus?.();
+                onClose?.();
+              }}
+            />
+          ) : (
+            <MenuItem
+              label="Set a custom status"
+              leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
+              onClick={() => {
+                onCustomStatus?.();
+                onClose?.();
+              }}
+            />
+          )}
         </PopoverMenuGroup>
         <PopoverMenuDivider />
         <PopoverMenuGroup>
@@ -206,7 +279,7 @@ export default function UserAccountMenu({
                   <PopoverMenuDivider />
                   <PopoverMenuGroup>
                     <MenuItem
-                      label="Notification Schedule"
+                      label={scheduleLabel}
                       leadingElement={false}
                       secondaryLabel={scheduleOn ? 'On' : 'Off'}
                       secondaryLabelPosition="inline"
