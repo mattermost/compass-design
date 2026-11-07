@@ -6,7 +6,10 @@
   overflow: hidden;
   user-select: none;
 
-  &__menu-button {
+  // Overflow menu button and custom `actions` share one hidden-at-rest,
+  // right-edge position.
+  &__menu-button,
+  &__actions {
     // Absolute so the resting mention badge stays flush-right; opacity keeps
     // the control focusable for keyboard / :focus-within without reserving width.
     position: absolute;
@@ -32,18 +35,10 @@
   // Custom controls in the overflow menu's place. Hidden at rest unless
   // `--always`; `--open` keeps them revealed (e.g. while their menu is open).
   &__actions {
-    position: absolute;
-    top: 50%;
-    right: var(--spacing-l);
-    display: flex;
     align-items: center;
-    transform: translateY(-50%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--duration-quick) var(--ease-transition);
 
     &--always {
-      opacity: 0.72;
+      opacity: var(--opacity-72);
       pointer-events: auto;
     }
 
@@ -100,7 +95,7 @@
     }
 
     .channel-sidebar-item__toggle {
-      opacity: 0.72;
+      opacity: var(--opacity-72);
     }
   }
 
