@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, SyntheticEvent } from 'react';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
 import { Icon } from '@mattermost/compass-ui/components/icon';
-import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import {
   PopoverMenu,
@@ -17,6 +16,7 @@ import {
 import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
+import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './UserAccountMenu.module.scss';
 
 export type UserAccountMenuStatus =
@@ -135,6 +135,14 @@ export default function UserAccountMenu({
     onClose?.();
   };
 
+  const clear = (event: SyntheticEvent) => {
+    // The icon sits inside the row; don't also open the editor.
+    event.stopPropagation();
+    event.preventDefault();
+    onClearCustomStatus?.();
+    onClose?.();
+  };
+
   const statusRow = (s: UserAccountMenuPickableStatus) => (
     <MenuItem
       label={STATUS_LABELS[s]}
@@ -167,36 +175,46 @@ export default function UserAccountMenu({
         <PopoverMenuDivider />
         <PopoverMenuGroup>
           {customStatus ? (
-            <div className={styles['user-account-menu__custom-status']}>
-              <MenuItem
-                label={
-                  [customStatus.text, customStatusExpiry]
-                    .filter(Boolean)
-                    .join(' · ') || 'Custom status'
-                }
-                leadingVisual={
-                  <span className={styles['user-account-menu__emoji']}>
-                    {customStatus.emoji}
+            <MenuItem
+              label={
+                [
+                  customStatus.text,
+                  customStatusExpiry && `(${customStatusExpiry})`,
+                ]
+                  .filter(Boolean)
+                  .join(' ') || 'Custom status'
+              }
+              leadingVisual={
+                <span className={styles['user-account-menu__emoji']}>
+                  {customStatus.emoji}
+                </span>
+              }
+              trailingElement
+              trailingVisual={
+                <WithTooltip label="Clear custom status" placement="top">
+                  {/* Not a <button>: it sits inside the row's button. Matches
+                      the webapp's clear icon, with keyboard support added. */}
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Clear custom status"
+                    className={styles['user-account-menu__clear']}
+                    onClick={clear}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        clear(event);
+                      }
+                    }}
+                  >
+                    <Icon glyph={<CloseCircleIcon />} />
                   </span>
-                }
-                onClick={() => {
-                  onCustomStatus?.();
-                  onClose?.();
-                }}
-              />
-              <span className={styles['user-account-menu__clear']}>
-                <IconButton
-                  aria-label="Clear custom status"
-                  size="small"
-                  padding="compact"
-                  icon={<Icon glyph={<CloseCircleIcon />} />}
-                  onClick={() => {
-                    onClearCustomStatus?.();
-                    onClose?.();
-                  }}
-                />
-              </span>
-            </div>
+                </WithTooltip>
+              }
+              onClick={() => {
+                onCustomStatus?.();
+                onClose?.();
+              }}
+            />
           ) : (
             <MenuItem
               label="Set a custom status"

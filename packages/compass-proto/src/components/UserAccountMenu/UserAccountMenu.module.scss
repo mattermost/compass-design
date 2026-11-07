@@ -10,26 +10,21 @@
     padding: var(--spacing-xs) var(--spacing-l);
   }
 
-  &__custom-status {
-    position: relative;
-  }
-
   &__emoji {
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
 
-  // Clear button sits at the end of the status row; leave room for it.
+  // Clear icon in the row's trailing slot.
   &__clear {
-    position: absolute;
-    top: 50%;
-    right: var(--spacing-l);
-    transform: translateY(-50%);
-  }
+    display: inline-flex;
+    cursor: pointer;
+    border-radius: 50%;
 
-  &__custom-status > button {
-    padding-right: calc(var(--spacing-l) + var(--spacing-xxxl));
+    &:hover {
+      color: var(--center-channel-color);
+    }
   }
 
   &__identity {
