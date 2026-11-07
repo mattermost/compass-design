@@ -67,6 +67,7 @@ Do **not** resolve the prototype or write product code until the consumer is kno
 - Kind: `webapp` | `desktop` | `plugin` (which plugin) | `other`
 - Target surface: route / console category / RHS / modal / etc.
 - Access or licensing constraints if relevant
+- **UX spec (optional):** a Confluence page, a Figma file or page, or a markdown file. Don't block on it; ask once, and carry on from the prototype alone if there isn't one
 
 Do not re-ask every turn; keep the answer for the session.
 
@@ -115,6 +116,8 @@ Note prototype vs consumer compass-ui versions when visible. Details: [reference
 
 Prototypes often use scenes to show different perspectives and states. The product has to handle each one, so find them before matching components, and don't assume the scenes cover every case.
 
+**If there is a UX spec, read it first** and use it to fill the condition and source-of-truth columns. **The spec wins on behavior** (who sees what, which states exist, edge cases); **the prototype wins on look** (it is built from Compass components). Where they disagree on behavior, follow the spec and flag the mismatch; don't choose silently. If the spec can't be read (no access, private page), say so and continue from the prototype; don't invent its contents.
+
 Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for anything that renders conditionally, or that differs between scenes. For each, note:
 
 | Element or section | Condition in the prototype | Kind | Product source of truth |
@@ -127,7 +130,7 @@ Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for a
 - **Walkthrough files** are worth reading here even though the translation skips them elsewhere, because they sometimes spell out who sees what and when.
 - If a condition is only implied by a fixture and you can't find its product equivalent, **ask the developer once** instead of guessing. List unresolved ones.
 
-Keep this table in your working notes and implement every row. In the final report, list the variants you handled and any you couldn't resolve.
+Keep this table in your working notes and implement every row. In the final report, list the variants you handled, any you couldn't resolve, and any prototype-vs-spec mismatches.
 
 ### 5. Match each UI piece
 
