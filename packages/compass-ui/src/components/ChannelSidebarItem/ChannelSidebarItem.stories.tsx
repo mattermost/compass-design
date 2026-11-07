@@ -485,7 +485,7 @@ function AgentsSidebarExample() {
   const [menuFor, setMenuFor] = useState<string | null>(null);
 
   return (
-    <div style={sidebarSurface}>
+    <>
       {AGENTS.map((agent) => {
         const isCollapsed = Boolean(collapsed[agent.id]);
         const listId = `agent-chats-${agent.id}`;
@@ -559,7 +559,7 @@ function AgentsSidebarExample() {
           </div>
         );
       })}
-    </div>
+    </>
   );
 }
 
