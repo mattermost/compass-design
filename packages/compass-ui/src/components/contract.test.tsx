@@ -19,6 +19,7 @@ import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
 import SearchInput from './SearchInput/SearchInput';
 import SectionNotice from './SectionNotice/SectionNotice';
 import Tabs from './Tabs/Tabs';
+import ChannelSidebarItem from './ChannelSidebarItem/ChannelSidebarItem';
 import Tag from './Tag/Tag';
 import TextInput from './TextInput/TextInput';
 import TileButton from './TileButton/TileButton';
@@ -274,6 +275,17 @@ const BUTTON_CASES: Record<
         value="a"
         onChange={on}
         clearButtonProps={p}
+      />
+    ),
+  },
+  'ChannelSidebarItem toggleButtonProps': {
+    label: 'Collapse',
+    render: (p, on) => (
+      <ChannelSidebarItem
+        name="Agent"
+        expanded
+        onExpandedChange={on}
+        toggleButtonProps={p}
       />
     ),
   },

@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
 import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circle-multiple-outline';
 import PhoneInTalkIcon from '@mattermost/compass-icons/components/phone-in-talk';
+import MessageOutlineIcon from '@mattermost/compass-icons/components/message-outline';
+import PlusIcon from '@mattermost/compass-icons/components/plus';
+import DotsVerticalIcon from '@mattermost/compass-icons/components/dots-vertical';
 import Emoji from '@/components/Emoji/Emoji';
 import Icon from '@/components/Icon/Icon';
+import IconButton from '@/components/IconButton/IconButton';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
@@ -400,4 +405,175 @@ export const CustomVisuals: Story = {
       </section>
     </div>
   ),
+};
+
+type AgentChatState = 'idle' | 'generating' | 'unread';
+
+interface AgentChat {
+  id: string;
+  title: string;
+  state: AgentChatState;
+}
+
+interface Agent {
+  id: string;
+  name: string;
+  avatar: string;
+  chats: AgentChat[];
+}
+
+const AGENTS: Agent[] = [
+  {
+    id: 'research',
+    name: 'Research agent',
+    avatar: avatarLeonard,
+    chats: [
+      { id: 'r1', title: 'Compare vector databases', state: 'generating' },
+      { id: 'r2', title: 'Summarize the Q3 survey', state: 'unread' },
+      { id: 'r3', title: 'Competitor pricing notes', state: 'idle' },
+    ],
+  },
+  {
+    id: 'docs',
+    name: 'Docs agent',
+    avatar: avatarMarco,
+    chats: [
+      { id: 'd1', title: 'Rewrite the onboarding guide', state: 'idle' },
+      { id: 'd2', title: 'API reference gaps', state: 'idle' },
+    ],
+  },
+];
+
+const waveDotStyle = {
+  width: 3,
+  height: 3,
+  borderRadius: '50%',
+  background: 'currentColor',
+  animation: 'agents-wave 1s ease-in-out infinite',
+} as const;
+
+/** The chat's leading visual: a chat icon, a responding wave, or an unread dot. */
+function chatVisual(state: AgentChatState) {
+  if (state === 'generating') {
+    return (
+      <span
+        style={{ display: 'inline-flex', gap: 2, alignItems: 'center' }}
+        aria-hidden
+      >
+        <style>{`
+          @keyframes agents-wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+          @media (prefers-reduced-motion: reduce) { [data-agents-wave] { animation: none !important; } }
+        `}</style>
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            data-agents-wave
+            style={{ ...waveDotStyle, animationDelay: `${i * 0.15}s` }}
+          />
+        ))}
+      </span>
+    );
+  }
+  if (state === 'unread') return dot('var(--mention-bg)', 8);
+  return <Icon glyph={<MessageOutlineIcon />} size="12" />;
+}
+
+function AgentsSidebarExample() {
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [activeChat, setActiveChat] = useState<string | null>('r3');
+  const [activeAgent, setActiveAgent] = useState<string | null>('research');
+  const [menuFor, setMenuFor] = useState<string | null>(null);
+
+  return (
+    <div style={sidebarSurface}>
+      {AGENTS.map((agent) => {
+        const isCollapsed = Boolean(collapsed[agent.id]);
+        const listId = `agent-chats-${agent.id}`;
+        return (
+          <div key={agent.id}>
+            <ChannelSidebarItem
+              name={agent.name}
+              leadingVisual="direct-message"
+              avatarSrc={agent.avatar}
+              avatarAlt=""
+              active={activeAgent === agent.id && (!activeChat || isCollapsed)}
+              onClick={() => {
+                setActiveAgent(agent.id);
+                setActiveChat(null);
+                setCollapsed((prev) => ({ ...prev, [agent.id]: false }));
+              }}
+              expanded={!isCollapsed}
+              onExpandedChange={(next) =>
+                setCollapsed((prev) => ({ ...prev, [agent.id]: !next }))
+              }
+              controlsId={listId}
+              expandLabel={`Expand ${agent.name} chats`}
+              collapseLabel={`Collapse ${agent.name} chats`}
+              actionsReveal="always"
+              actions={
+                <IconButton
+                  size="x-small"
+                  style="inverted"
+                  icon={<Icon glyph={<PlusIcon />} />}
+                  aria-label={`New chat with ${agent.name}`}
+                  onClick={fn()}
+                />
+              }
+            />
+            <ul
+              id={listId}
+              aria-label={`${agent.name} chats`}
+              hidden={isCollapsed}
+              style={{ margin: 0, padding: 0, listStyle: 'none' }}
+            >
+              {agent.chats.map((chat) => (
+                <li key={chat.id}>
+                  <ChannelSidebarItem
+                    name={chat.title}
+                    leadingVisual={chatVisual(chat.state)}
+                    status={chat.state === 'unread' ? 'unread' : 'read'}
+                    active={activeChat === chat.id}
+                    onClick={() => {
+                      setActiveAgent(agent.id);
+                      setActiveChat(chat.id);
+                    }}
+                    actionsOpen={menuFor === chat.id}
+                    actions={
+                      <IconButton
+                        size="x-small"
+                        style="inverted"
+                        icon={<Icon glyph={<DotsVerticalIcon />} />}
+                        aria-label={`Actions for ${chat.title}`}
+                        aria-expanded={menuFor === chat.id}
+                        onClick={() =>
+                          setMenuFor((cur) =>
+                            cur === chat.id ? null : chat.id,
+                          )
+                        }
+                      />
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/**
+ * The Agents plugin sidebar, built without overlays: a collapsible parent row
+ * (`expanded` chevron in the left gutter, a "new chat" button via `actions`
+ * with `actionsReveal="always"`) and child chat rows (a custom
+ * `leadingVisual` for the chat icon, responding wave or unread dot, and an
+ * actions menu button via `actions`, kept revealed with `actionsOpen` while
+ * its menu is open). Hover or focus a row to see the chevron and menu button;
+ * the chevron and the + stay clickable. The list and its collapse are the
+ * host's.
+ */
+export const AgentsSidebar: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => <AgentsSidebarExample />,
 };

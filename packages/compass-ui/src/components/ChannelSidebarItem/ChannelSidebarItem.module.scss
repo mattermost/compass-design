@@ -29,6 +29,53 @@
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
+  // Custom controls in the overflow menu's place. Hidden at rest unless
+  // `--always`; `--open` keeps them revealed (e.g. while their menu is open).
+  &__actions {
+    position: absolute;
+    top: 50%;
+    right: var(--spacing-l);
+    display: flex;
+    align-items: center;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+
+    &--always {
+      opacity: 0.72;
+      pointer-events: auto;
+    }
+
+    &--open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  // Chevron toggle for a collapsible parent row, in the left gutter.
+  &__toggle {
+    @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-24);
+    height: var(--icon-size-24);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sidebar-text);
+    cursor: pointer;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
   & &__menu-icon {
     --focus-ring-color: var(--sidebar-text-active-border);
   }
@@ -45,6 +92,15 @@
     .channel-sidebar-item__mention-badge {
       opacity: 0;
       pointer-events: none;
+    }
+
+    .channel-sidebar-item__actions {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .channel-sidebar-item__toggle {
+      opacity: 0.72;
     }
   }
 
@@ -215,6 +271,22 @@
   }
 
   // ── Modifiers ──────────────────────────────────────────────
+
+  // Always-visible actions take the menu's column; the badge and trailing
+  // visual stay visible beside them instead of giving way on hover.
+  &--actions-always {
+    .channel-sidebar-item__right {
+      padding-right: calc(var(--spacing-l) + var(--icon-size-24));
+    }
+
+    &:hover,
+    &:focus-within {
+      .channel-sidebar-item__mention-badge {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+  }
 
   /** Settings / console nav: label only, same row height and alignment rhythm. */
   &--text-only {

@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { act } from 'react';
 import { render } from '@/test-utils/render';
 import ChannelSidebarItem from './ChannelSidebarItem';
 
@@ -67,5 +68,98 @@ describe('ChannelSidebarItem visual slots', () => {
     expect(
       query(container, 'icon-container')?.querySelector('svg'),
     ).toBeTruthy();
+  });
+});
+
+const click = (el: Element | null) => {
+  expect(el).toBeTruthy();
+  act(() => (el as HTMLElement).click());
+};
+
+describe('ChannelSidebarItem actions and disclosure', () => {
+  const byLabel = (c: HTMLElement, label: string) =>
+    c.querySelector(`button[aria-label="${label}"]`);
+
+  it('replaces the built-in menu with actions, which stay clickable', () => {
+    const onAction = vi.fn();
+    const { container } = render(
+      <ChannelSidebarItem
+        name="Agent"
+        leadingVisual="direct-message"
+        actions={
+          <button aria-label="New chat" onClick={onAction}>
+            +
+          </button>
+        }
+      />,
+    );
+    expect(byLabel(container, 'Channel options')).toBeNull();
+    click(byLabel(container, 'New chat'));
+    expect(onAction).toHaveBeenCalledTimes(1);
+    const slot = query(container, 'channel-sidebar-item__actions');
+    expect(slot).toBeTruthy();
+    expect(slot?.className).not.toContain('actions--always');
+  });
+
+  it('marks always-visible and open actions', () => {
+    const { container } = render(
+      <ChannelSidebarItem
+        name="Agent"
+        actions={<button>Go</button>}
+        actionsReveal="always"
+        actionsOpen
+      />,
+    );
+    const slot = query(container, 'channel-sidebar-item__actions');
+    expect(slot?.className).toContain('actions--always');
+    expect(slot?.className).toContain('actions--open');
+    expect(container.firstElementChild?.className).toContain(
+      'channel-sidebar-item--actions-always',
+    );
+  });
+
+  it('hides the built-in menu with hideMenu', () => {
+    const { container } = render(<ChannelSidebarItem name="Agent" hideMenu />);
+    expect(byLabel(container, 'Channel options')).toBeNull();
+  });
+
+  it('renders no toggle unless expanded is set', () => {
+    const { container } = render(<ChannelSidebarItem name="Agent" />);
+    expect(byLabel(container, 'Expand')).toBeNull();
+    expect(byLabel(container, 'Collapse')).toBeNull();
+  });
+
+  it('exposes the toggle state and reports the next state', () => {
+    const onExpandedChange = vi.fn();
+    const props = {
+      name: 'Agent',
+      onExpandedChange,
+      controlsId: 'chats',
+      expandLabel: 'Expand chats',
+      collapseLabel: 'Collapse chats',
+    };
+    const { container, rerender } = render(
+      <ChannelSidebarItem {...props} expanded={false} />,
+    );
+    const collapsed = byLabel(container, 'Expand chats');
+    expect(collapsed?.getAttribute('aria-expanded')).toBe('false');
+    expect(collapsed?.getAttribute('aria-controls')).toBe('chats');
+    click(collapsed);
+    expect(onExpandedChange).toHaveBeenCalledWith(true);
+
+    rerender(<ChannelSidebarItem {...props} expanded />);
+    const open = byLabel(container, 'Collapse chats');
+    expect(open?.getAttribute('aria-expanded')).toBe('true');
+    click(open);
+    expect(onExpandedChange).toHaveBeenLastCalledWith(false);
+  });
+
+  it('does not activate the row when the toggle is clicked', () => {
+    const onClick = vi.fn();
+    const { container } = render(
+      <ChannelSidebarItem name="Agent" expanded onClick={onClick} />,
+    );
+    click(byLabel(container, 'Collapse'));
+    expect(onClick).not.toHaveBeenCalled();
   });
 });

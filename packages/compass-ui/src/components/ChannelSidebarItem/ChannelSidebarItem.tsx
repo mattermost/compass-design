@@ -8,10 +8,13 @@ import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circ
 import PhoneInTalkIcon from '@mattermost/compass-icons/components/phone-in-talk';
 import DotsVerticalIcon from '@mattermost/compass-icons/components/dots-vertical';
 import DialpadIcon from '@mattermost/compass-icons/components/dialpad';
+import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import MentionBadge from '@/components/MentionBadge/MentionBadge';
 import Icon, { IconSlotContext } from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
+import { mergeClassNames, type BuiltInButtonProps } from '@/utils/props';
 import styles from './ChannelSidebarItem.module.scss';
 
 export type ChannelSidebarItemLeadingVisual =
@@ -83,6 +86,41 @@ export interface ChannelSidebarItemProps {
   unreadLabel?: ReactNode;
   /** Accessible name for the overflow menu button. Default: "Channel options". */
   menuLabel?: string;
+  /**
+   * Interactive controls (e.g. an `IconButton`) shown at the right edge, in the
+   * overflow menu's place: it replaces the built-in menu. Unlike
+   * `trailingVisual`, actions stay clickable. See `actionsReveal`.
+   */
+  actions?: ReactNode;
+  /**
+   * When `actions` show. `hover` (default): hidden until the row is hovered or
+   * has focus, like the built-in menu (the mention badge and `trailingVisual`
+   * give way). `always`: visible, slightly dimmed, at rest and at full
+   * strength on hover / focus; the badge and `trailingVisual` stay visible
+   * beside it.
+   */
+  actionsReveal?: 'hover' | 'always';
+  /** Keeps `actions` revealed, e.g. while a menu opened from them is open. */
+  actionsOpen?: boolean;
+  /** Hides the built-in overflow menu without adding `actions`. */
+  hideMenu?: boolean;
+  /**
+   * Turns the row into the parent of a collapsible group: shows a chevron
+   * toggle in the left gutter (revealed on hover / focus) and sets
+   * `aria-expanded` on it. The row itself stays a navigation control; the
+   * group's list and animation are up to the host. Omit for a normal row.
+   */
+  expanded?: boolean;
+  /** Called with the next state when the chevron toggle is activated. */
+  onExpandedChange?: (expanded: boolean) => void;
+  /** `id` of the list the toggle controls (`aria-controls`). */
+  controlsId?: string;
+  /** Accessible name of the toggle while collapsed. Default: "Expand". */
+  expandLabel?: string;
+  /** Accessible name of the toggle while expanded. Default: "Collapse". */
+  collapseLabel?: string;
+  /** Extra attributes for the chevron toggle button. */
+  toggleButtonProps?: BuiltInButtonProps;
 }
 
 const defaultFormatMentions = (count: number) =>
@@ -165,6 +203,16 @@ export default function ChannelSidebarItem({
   formatMentionLabel = defaultFormatMentions,
   unreadLabel = 'unread',
   menuLabel = 'Channel options',
+  actions,
+  actionsReveal = 'hover',
+  actionsOpen = false,
+  hideMenu = false,
+  expanded,
+  onExpandedChange,
+  controlsId,
+  expandLabel = 'Expand',
+  collapseLabel = 'Collapse',
+  toggleButtonProps,
 }: ChannelSidebarItemProps) {
   const isCustomVisual =
     !hideLeadingVisual &&
@@ -188,6 +236,13 @@ export default function ChannelSidebarItem({
         builtInVisual,
       ));
 
+  const hasActions = actions != null && actions !== false;
+  const actionsAlways = hasActions && actionsReveal === 'always';
+  const showMenu = isChannelOrDM && !hideMenu && !hasActions;
+  // Trailing content gives way on hover only when something takes its place.
+  const revealsOnHover = showMenu || (hasActions && !actionsAlways);
+  const hasToggle = expanded !== undefined;
+
   const rootClass = [
     styles['channel-sidebar-item'],
     hideLeadingVisual ? styles['channel-sidebar-item--text-only'] : '',
@@ -195,6 +250,7 @@ export default function ChannelSidebarItem({
     muted ? styles['channel-sidebar-item--muted'] : '',
     styles[`channel-sidebar-item--status-${effectiveStatus.toLowerCase()}`],
     isDrafts ? styles['channel-sidebar-item--drafts'] : '',
+    actionsAlways ? styles['channel-sidebar-item--actions-always'] : '',
     className,
   ]
     .filter(Boolean)
@@ -271,12 +327,34 @@ export default function ChannelSidebarItem({
           )}
         </div>
       </button>
+      {hasToggle && (
+        <button
+          type="button"
+          {...toggleButtonProps}
+          {...(controlsId ? { 'aria-controls': controlsId } : {})}
+          className={mergeClassNames(
+            styles['channel-sidebar-item__toggle'],
+            toggleButtonProps?.className,
+          )}
+          aria-expanded={expanded}
+          aria-label={expanded ? collapseLabel : expandLabel}
+          onClick={(e) => {
+            toggleButtonProps?.onClick?.(e);
+            onExpandedChange?.(!expanded);
+          }}
+        >
+          <Icon
+            glyph={expanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            size="12"
+          />
+        </button>
+      )}
       <div className={rightClass}>
         {trailingVisual != null && trailingVisual !== false && (
           <span
             className={[
               styles['channel-sidebar-item__trailing-visual'],
-              isChannelOrDM
+              revealsOnHover
                 ? styles['channel-sidebar-item__trailing-visual--with-menu']
                 : '',
             ]
@@ -305,7 +383,18 @@ export default function ChannelSidebarItem({
             />
           </span>
         )}
-        {isChannelOrDM && (
+        {hasActions && (
+          <span
+            className={mergeClassNames(
+              styles['channel-sidebar-item__actions'],
+              actionsAlways && styles['channel-sidebar-item__actions--always'],
+              actionsOpen && styles['channel-sidebar-item__actions--open'],
+            )}
+          >
+            {actions}
+          </span>
+        )}
+        {showMenu && (
           <span className={styles['channel-sidebar-item__menu-button']}>
             <IconButton
               className={styles['channel-sidebar-item__menu-icon']}
