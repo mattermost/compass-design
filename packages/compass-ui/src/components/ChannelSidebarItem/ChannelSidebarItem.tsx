@@ -258,7 +258,7 @@ export default function ChannelSidebarItem({
               className={styles['channel-sidebar-item__shared-icon']}
               aria-hidden
             >
-              <CircleMultipleOutlineIcon size={12} />
+              <Icon glyph={<CircleMultipleOutlineIcon />} size="12" />
             </span>
           )}
           {isDM && customStatusEmoji && (
