@@ -1,0 +1,53 @@
+.profile-menu {
+  position: relative;
+  width: 264px;
+
+  // Avatar + name / username, per Figma Menu Title (40px avatar, 12px gap).
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    padding-top: var(--spacing-xs);
+  }
+
+  &__identity {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    overflow: hidden;
+    font-size: var(--font-size-200);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-200);
+    color: var(--center-channel-color);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__username {
+    overflow: hidden;
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-100);
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__dnd {
+    position: relative;
+  }
+
+  // Child menu opens to the left: the Account button sits on the right edge of
+  // the Global header. Overlaps the parent by --spacing-xxs; the padding keeps
+  // the hover path from the parent row into the child unbroken.
+  &__submenu {
+    position: absolute;
+    top: calc(-1 * var(--spacing-s));
+    right: calc(100% - var(--spacing-xxs));
+    padding-right: var(--spacing-xxs);
+    width: 240px;
+  }
+}
