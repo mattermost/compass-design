@@ -346,12 +346,7 @@ export default function GlobalHeader({
           )}
           <button
             type="button"
-            className={[
-              styles['global-header__account'],
-              accountActive ? styles['global-header__account--active'] : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
+            className={styles['global-header__account']}
             aria-label="Account menu"
             aria-expanded={
               onAccountClick ? accountActive : accountActive || undefined
