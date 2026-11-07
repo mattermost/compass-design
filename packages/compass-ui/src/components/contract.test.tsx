@@ -279,7 +279,7 @@ const BUTTON_CASES: Record<
     ),
   },
   'ChannelSidebarItem toggleButtonProps': {
-    label: 'Collapse',
+    label: 'Toggle',
     render: (p, on) => (
       <ChannelSidebarItem
         name="Agent"

@@ -142,8 +142,7 @@ describe('ChannelSidebarItem actions and disclosure', () => {
 
   it('renders no toggle unless expanded is set', () => {
     const { container } = render(<ChannelSidebarItem name="Agent" />);
-    expect(byLabel(container, 'Expand')).toBeNull();
-    expect(byLabel(container, 'Collapse')).toBeNull();
+    expect(byLabel(container, 'Toggle')).toBeNull();
   });
 
   it('exposes the toggle state and reports the next state', () => {
@@ -152,20 +151,21 @@ describe('ChannelSidebarItem actions and disclosure', () => {
       name: 'Agent',
       onExpandedChange,
       controlsId: 'chats',
-      expandLabel: 'Expand chats',
-      collapseLabel: 'Collapse chats',
+      toggleLabel: 'Research chats',
     };
     const { container, rerender } = render(
       <ChannelSidebarItem {...props} expanded={false} />,
     );
-    const collapsed = byLabel(container, 'Expand chats');
+    const collapsed = byLabel(container, 'Research chats');
     expect(collapsed?.getAttribute('aria-expanded')).toBe('false');
     expect(collapsed?.getAttribute('aria-controls')).toBe('chats');
     click(collapsed);
     expect(onExpandedChange).toHaveBeenCalledWith(true);
 
     rerender(<ChannelSidebarItem {...props} expanded />);
-    const open = byLabel(container, 'Collapse chats');
+    const open = byLabel(container, 'Research chats');
+    // Same name in both states; only aria-expanded changes.
+    expect(open).toBe(collapsed);
     expect(open?.getAttribute('aria-expanded')).toBe('true');
     click(open);
     expect(onExpandedChange).toHaveBeenLastCalledWith(false);
@@ -176,7 +176,7 @@ describe('ChannelSidebarItem actions and disclosure', () => {
     const { container } = render(
       <ChannelSidebarItem name="Agent" expanded onClick={onClick} />,
     );
-    click(byLabel(container, 'Collapse'));
+    click(byLabel(container, 'Toggle'));
     expect(onClick).not.toHaveBeenCalled();
   });
 });

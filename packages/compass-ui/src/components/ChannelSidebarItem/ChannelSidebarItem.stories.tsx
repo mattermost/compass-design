@@ -508,8 +508,7 @@ function AgentsSidebarExample() {
                 setCollapsed((prev) => ({ ...prev, [agent.id]: !next }))
               }
               controlsId={listId}
-              expandLabel={`Expand ${agent.name} chats`}
-              collapseLabel={`Collapse ${agent.name} chats`}
+              toggleLabel={`${agent.name} chats`}
               actionsReveal="always"
               actions={
                 <IconButton

@@ -115,10 +115,11 @@ export interface ChannelSidebarItemProps {
   onExpandedChange?: (expanded: boolean) => void;
   /** `id` of the list the toggle controls (`aria-controls`). */
   controlsId?: string;
-  /** Accessible name of the toggle while collapsed. Default: "Expand". */
-  expandLabel?: string;
-  /** Accessible name of the toggle while expanded. Default: "Collapse". */
-  collapseLabel?: string;
+  /**
+   * Accessible name of the toggle. It stays the same in both states;
+   * `aria-expanded` carries the state. Default: "Toggle".
+   */
+  toggleLabel?: string;
   /** Extra attributes for the chevron toggle button. */
   toggleButtonProps?: BuiltInButtonProps;
 }
@@ -210,8 +211,7 @@ export default function ChannelSidebarItem({
   expanded,
   onExpandedChange,
   controlsId,
-  expandLabel = 'Expand',
-  collapseLabel = 'Collapse',
+  toggleLabel = 'Toggle',
   toggleButtonProps,
 }: ChannelSidebarItemProps) {
   const isCustomVisual =
@@ -341,7 +341,7 @@ export default function ChannelSidebarItem({
             toggleButtonProps?.className,
           )}
           aria-expanded={expanded}
-          aria-label={expanded ? collapseLabel : expandLabel}
+          aria-label={toggleLabel}
           onClick={(e) => {
             toggleButtonProps?.onClick?.(e);
             onExpandedChange?.(!expanded);
