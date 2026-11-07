@@ -49,6 +49,8 @@ export interface ProfileMenuProps extends Omit<
   /** Open the Do Not Disturb submenu on first render. */
   submenuInitiallyOpen?: boolean;
   onPickStatus?: (status: ProfileMenuPickableStatus) => void;
+  /** Called with the chosen Do Not Disturb duration label, e.g. "1 hour". */
+  onPickDnd?: (duration: string) => void;
   onOpenSchedule?: () => void;
   onProfile?: () => void;
   onLogOut?: () => void;
@@ -56,6 +58,12 @@ export interface ProfileMenuProps extends Omit<
   /** Called after any item that should dismiss the menu is chosen. */
   onClose?: () => void;
 }
+
+const STATUS_LABELS: Record<ProfileMenuPickableStatus, string> = {
+  online: 'Online',
+  away: 'Away',
+  offline: 'Offline',
+};
 
 const DND_DURATIONS = [
   "Don't clear",
@@ -82,6 +90,7 @@ export default function ProfileMenu({
   scheduleOn = false,
   submenuInitiallyOpen = false,
   onPickStatus,
+  onPickDnd,
   onOpenSchedule,
   onProfile,
   onLogOut,
@@ -96,12 +105,20 @@ export default function ProfileMenu({
   const rootClass = [styles['profile-menu'], className]
     .filter(Boolean)
     .join(' ');
-  const dnd = status === 'do-not-disturb';
 
   const pick = (s: ProfileMenuPickableStatus) => () => {
     onPickStatus?.(s);
     onClose?.();
   };
+
+  const statusRow = (s: ProfileMenuPickableStatus) => (
+    <MenuItem
+      label={STATUS_LABELS[s]}
+      leadingVisual={<StatusBadge status={s} size="small" />}
+      trailingElement={status === s}
+      onClick={pick(s)}
+    />
+  );
 
   return (
     <div className={rootClass} {...rest}>
@@ -121,6 +138,76 @@ export default function ProfileMenu({
           </span>
         </PopoverMenuTitle>
         <PopoverMenuDivider />
+        <PopoverMenuGroup>
+          <MenuItem
+            label="Set a custom status"
+            leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
+            onClick={() => {
+              onCustomStatus?.();
+              onClose?.();
+            }}
+          />
+        </PopoverMenuGroup>
+        <PopoverMenuDivider />
+        <PopoverMenuGroup>
+          {statusRow('online')}
+          {statusRow('away')}
+          <div
+            className={styles['profile-menu__dnd']}
+            onMouseEnter={() => setSubmenu(true)}
+            onMouseLeave={() => setSubmenu(false)}
+          >
+            <MenuItem
+              label="Do Not Disturb"
+              secondaryLabel={dndUntil}
+              leadingVisual={
+                <StatusBadge status="do-not-disturb" size="small" />
+              }
+              trailingElement
+              trailingVisual={<Icon glyph={<ChevronRightIcon />} />}
+              active={submenu}
+              aria-haspopup="menu"
+              aria-expanded={submenu}
+              onClick={() => setSubmenu((v) => !v)}
+            />
+            {submenu && (
+              <div className={styles['profile-menu__submenu']}>
+                <PopoverMenu aria-label="Do Not Disturb">
+                  <PopoverMenuTitle>
+                    Disable notifications until:
+                  </PopoverMenuTitle>
+                  <PopoverMenuGroup>
+                    {DND_DURATIONS.map((d) => (
+                      <MenuItem
+                        key={d}
+                        label={d}
+                        leadingElement={false}
+                        onClick={() => {
+                          onPickDnd?.(d);
+                          onClose?.();
+                        }}
+                      />
+                    ))}
+                  </PopoverMenuGroup>
+                  <PopoverMenuDivider />
+                  <PopoverMenuGroup>
+                    <MenuItem
+                      label="Notification Schedule"
+                      leadingElement={false}
+                      secondaryLabel={scheduleOn ? 'On' : 'Off'}
+                      secondaryLabelPosition="inline"
+                      onClick={() => {
+                        onOpenSchedule?.();
+                        onClose?.();
+                      }}
+                    />
+                  </PopoverMenuGroup>
+                </PopoverMenu>
+              </div>
+            )}
+          </div>
+          {statusRow('offline')}
+        </PopoverMenuGroup>
         <PopoverMenuDivider />
         <PopoverMenuGroup>
           <MenuItem

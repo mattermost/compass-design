@@ -48,6 +48,6 @@
     top: calc(-1 * var(--spacing-s));
     right: calc(100% - var(--spacing-xxs));
     padding-right: var(--spacing-xxs);
-    width: 240px;
+    width: max-content;
   }
 }
