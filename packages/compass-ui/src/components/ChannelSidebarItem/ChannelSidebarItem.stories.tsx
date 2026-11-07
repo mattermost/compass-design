@@ -1,6 +1,7 @@
 import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
 import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circle-multiple-outline';
 import PhoneInTalkIcon from '@mattermost/compass-icons/components/phone-in-talk';
+import Emoji from '@/components/Emoji/Emoji';
 import Icon from '@/components/Icon/Icon';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -282,6 +283,39 @@ export const CustomVisuals: Story = {
           leadingVisual={
             <UserAvatar src={avatarDanielle} alt="" size="20" status />
           }
+          onClick={fn()}
+        />
+      </section>
+      <section>
+        <div style={labelStyle}>Emoji in the leading slot</div>
+        <ChannelSidebarItem
+          name="Launch week"
+          leadingVisual={<Emoji emoji="🚀" size="16" />}
+          onClick={fn()}
+        />
+        <ChannelSidebarItem
+          name="Celebrations"
+          status="unread"
+          leadingVisual={<Emoji emoji="🎉" size="16" />}
+          onClick={fn()}
+        />
+        <ChannelSidebarItem
+          name="Surf club"
+          status="mention"
+          mentionCount={2}
+          leadingVisual={<Emoji emoji="🏄" size="16" />}
+          onClick={fn()}
+        />
+        <ChannelSidebarItem
+          name="Coffee chat"
+          active
+          leadingVisual={<Emoji emoji="☕" size="16" />}
+          onClick={fn()}
+        />
+        <ChannelSidebarItem
+          name="Book club"
+          muted
+          leadingVisual={<Emoji emoji="📚" size="16" />}
           onClick={fn()}
         />
       </section>
