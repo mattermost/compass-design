@@ -326,7 +326,9 @@ export default function GlobalHeader({
         <div
           className={[
             styles['global-header__account-group'],
-            customStatus ? styles['global-header__account-group--custom-status'] : '',
+            customStatus
+              ? styles['global-header__account-group--custom-status']
+              : '',
             accountActive ? styles['global-header__account-group--active'] : '',
           ]
             .filter(Boolean)
