@@ -14,6 +14,7 @@ import { fn } from '@storybook/test';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
+import avatarMatty from '@/assets/avatars/Matty.png';
 import sampleImage from '@/assets/images/sample-image.jpg';
 import ChannelSidebarItem from './ChannelSidebarItem';
 import type {
@@ -426,7 +427,7 @@ const AGENTS: Agent[] = [
   {
     id: 'research',
     name: 'Research agent',
-    avatar: avatarLeonard,
+    avatar: avatarMatty,
     chats: [
       { id: 'r1', title: 'Compare vector databases', state: 'generating' },
       { id: 'r2', title: 'Summarize the Q3 survey', state: 'unread' },
@@ -436,7 +437,7 @@ const AGENTS: Agent[] = [
   {
     id: 'docs',
     name: 'Docs agent',
-    avatar: avatarMarco,
+    avatar: avatarMatty,
     chats: [
       { id: 'd1', title: 'Rewrite the onboarding guide', state: 'idle' },
       { id: 'd2', title: 'API reference gaps', state: 'idle' },
