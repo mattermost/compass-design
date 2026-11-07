@@ -18,7 +18,7 @@ Stable rules for translating a Compass prototype into product code. Not a full c
 2. **Never** ship `@mattermost/compass-proto` into webapp, desktop, or plugins.
 3. Compass owns **look** (props/slots). Capture **behavior intent** from the prototype (flows, outcomes, states shown, copy wording); implement with the **consumer’s** patterns (permissions, data, routing, optimistic UI, **i18n**) — do not copy playground state, fixtures, stubs, or hardcoded English strings as production logic.
 4. Variant prop strings are **lowercase kebab-case** (`'primary'`, `'x-small'`).
-5. Overlays from Compass are visual chrome only — host owns open/close, portal, position, focus (exceptions: form widgets that own their menus). **Adoption note (current):** no Mattermost consumer (webapp / desktop / plugins) uses Compass `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, or `ProfilePopover` yet. If the prototype uses them, map to the **host’s existing overlay / tour / profile-popover / menu patterns** for that surface; do not introduce these Compass overlays into product unless the task explicitly adopts them. Re-check consumer code / installed usage before assuming this still holds.
+5. Overlays from Compass are visual chrome only — host owns open/close, portal, position, focus (exceptions: form widgets that own their menus). **Adoption note (current):** `Modal` is adopted by the **plugins**, so in a plugin use Compass `Modal`. The **webapp** does not use it yet, but adopting it there is the goal: in the webapp keep the host modal unless the task explicitly adopts Compass `Modal`, and don’t build anything that would make adopting it harder. For `Tooltip`, `PopoverMenu`, `TourPoint` and `ProfilePopover`, adoption has not been confirmed: check what the consumer actually uses, and if it uses the host’s own, map the prototype to the **host’s existing overlay / tour / profile-popover / menu patterns** for that surface rather than introducing a second stack. Re-check consumer code / installed usage before assuming any of this still holds.
 6. **Menu recipes → host menus (current).** Proto hardcoded menus (`PlusMenu`, `HelpMenu`, `ChannelMenu`, …) are intent only (“open this menu with these items”). Implement with the **host’s** menu pattern for that surface. Do **not** introduce Compass `PopoverMenu` unless the task explicitly adopts it. Standalone `MenuItem` is fine only where the consumer already uses it that way.
 
 ## Version skew
@@ -54,7 +54,7 @@ Consumer setup: https://github.com/mattermost/compass-design/blob/main/packages/
 
 When the consumer already depends on compass-ui and the role is an **adopted leaf** (button, text/search input, badge, empty state, …), **use Compass** even if an older host widget exists. Falling back to legacy leaves recreates drift.
 
-This does **not** apply to not-yet-adopted overlays/menus (`Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover`) — use host patterns there (hard rules 5–6). Host code also wins for shells, routing, and product behavior.
+This does **not** apply to overlays/menus the consumer hasn’t adopted (for example `Modal` in the webapp; check `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover` per consumer) — use host patterns there (hard rules 5–6). Host code also wins for shells, routing, and product behavior.
 
 ## Proto decompose categories (illustrative)
 

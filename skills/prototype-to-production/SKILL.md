@@ -29,12 +29,12 @@ Turn a **mattermost-proto-playground** prototype into product code in a consumer
 - **Mobile app** (native iOS / Android) — not supported yet; this skill targets web consumers (webapp, desktop, plugins) that can depend on `@mattermost/compass-ui`
 - Consumer has no `@mattermost/compass-ui` and the user has not asked to add/adopt it → stop; point at INTEGRATION.md; do not hand-roll CSS replacements for Compass leaves
 
-### Leaves vs not-yet-adopted overlays
+### Leaves vs overlays
 
-| Kind                                   | Examples                                                                                           | Rule                                                                                                                                                                                                                                |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Leaves (must-use when present)**     | `Button`, `TextInput`, `SearchInput`, `IconButton`, badges, `EmptyState`, `Chip`, `Tag`, `Tabs`, … | Use consumer’s installed compass-ui. Do not invent a parallel control.                                                                                                                                                              |
-| **Overlays / menus (not adopted yet)** | `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover`                                   | Use the **host’s** existing patterns. “Don’t invent” means don’t add a third stack — reuse host; do **not** introduce these Compass overlays unless the task explicitly adopts them. Re-check consumer usage; this list can change. |
+| Kind                                | Examples                                                                                           | Rule                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Leaves (must-use when present)**  | `Button`, `TextInput`, `SearchInput`, `IconButton`, badges, `EmptyState`, `Chip`, `Tag`, `Tabs`, … | Use consumer’s installed compass-ui. Do not invent a parallel control.                                                                                                                                                                                                                                                                     |
+| **Overlays / menus (per consumer)** | `Modal`, `Tooltip`, `PopoverMenu`, `TourPoint`, `ProfilePopover`                                   | Depends on the consumer; see [references/boundaries.md](references/boundaries.md) rule 5. `Modal`: use Compass in **plugins**; in the **webapp** keep the host modal unless the task adopts it (adoption is the goal). Others: use what the consumer already uses; don’t add a third stack. Re-check consumer usage; this list can change. |
 
 ## Install
 
@@ -132,7 +132,7 @@ grep -i "<RoleOrName>" node_modules/@mattermost/compass-ui/dist/index.d.ts
 
 Read `dist/components/<kebab>/<Name>.d.ts` for props. Skill tables are hints; **installed `.d.ts` wins**.
 
-When host and Compass both have a control: for **leaves**, prefer Compass ui. For **not-yet-adopted overlays/menus** (see table above), prefer host. Host always wins for shells, permissions, store, routing.
+When host and Compass both have a control: for **leaves**, prefer Compass ui. For **overlays/menus the consumer hasn’t adopted** (see table above), prefer host. Host always wins for shells, permissions, store, routing.
 
 Plugins: same order; grep the **plugin** repo, not webapp System Console paths. Use the plugin’s own installed compass-ui version.
 
@@ -159,7 +159,7 @@ Do **not** port prototype logic verbatim. Do **capture the intent** of what the 
 - Follow that repo’s folder, routing, and data patterns.
 - Do not copy playground scene/orchestrator structure wholesale.
 - Subpath imports only for compass-ui; kebab-case variant strings.
-- Overlay/menu host ownership stays in product code. Compass `Modal` / `Tooltip` / `PopoverMenu` / `TourPoint` / `ProfilePopover` are **not adopted in consumers yet** — prefer host overlay/menu patterns unless the task explicitly adopts them (see [references/boundaries.md](references/boundaries.md)).
+- Overlay/menu host ownership stays in product code. Whether to use Compass `Modal` / `Tooltip` / `PopoverMenu` / `TourPoint` / `ProfilePopover` depends on the consumer (plugins use `Modal`; the webapp doesn’t yet) — follow [references/boundaries.md](references/boundaries.md) rule 5.
 
 ### 7. Validation checklist
 
