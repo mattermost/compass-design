@@ -156,4 +156,27 @@
       background: rgba(var(--sidebar-text-rgb), 0.08);
     }
   }
+
+  &__custom-status {
+    display: inline-flex;
+    align-items: center;
+    margin-inline-end: var(--spacing-xxs);
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  &__avatar {
+    position: relative;
+    display: inline-flex;
+  }
+
+  // Badge for non-online statuses; matches UserAvatar's own badge slot.
+  &__status {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    display: flex;
+  }
 }

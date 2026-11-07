@@ -13,8 +13,14 @@ import CheckboxMultipleMarkedOutlineIcon from '@mattermost/compass-icons/compone
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import type { ComponentType, MouseEvent, SyntheticEvent } from 'react';
+import type {
+  ComponentType,
+  MouseEvent,
+  ReactNode,
+  SyntheticEvent,
+} from 'react';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
@@ -35,6 +41,19 @@ export type GlobalHeaderSearchHandler = (
   event: SyntheticEvent<HTMLElement>,
 ) => void;
 
+export type GlobalHeaderUserStatus =
+  | 'online'
+  | 'away'
+  | 'do-not-disturb'
+  | 'offline';
+
+/** A custom status. The emoji is a node so hosts can render it their own way. */
+export interface GlobalHeaderCustomStatus {
+  emoji: ReactNode;
+  /** Shown in the tooltip. */
+  text?: string;
+}
+
 export interface GlobalHeaderProps {
   /** Optional CSS class name. */
   className?: string;
@@ -48,6 +67,12 @@ export interface GlobalHeaderProps {
   userAvatarSrc?: string;
   /** Alt text for the signed-in user avatar. */
   userAvatarAlt?: string;
+  /** Status badge on the avatar. Default: online. */
+  status?: GlobalHeaderUserStatus;
+  /** Custom status; its emoji renders just before the avatar, with a tooltip for the text. */
+  customStatus?: GlobalHeaderCustomStatus;
+  /** When set, the custom status emoji calls this on click (e.g. to open the editor). */
+  onCustomStatusClick?: GlobalHeaderClickHandler;
   /** When set, Recent mentions (@) calls this on click. Channels product only. */
   onRecentMentionsClick?: GlobalHeaderClickHandler;
   /** When true, Recent mentions shows as toggled/selected. */
@@ -180,6 +205,9 @@ export default function GlobalHeader({
   showUpgradeButton = false,
   userAvatarSrc,
   userAvatarAlt = 'User',
+  status = 'online',
+  customStatus,
+  onCustomStatusClick,
   onRecentMentionsClick,
   recentMentionsActive = false,
   onProductSwitcherClick,
@@ -295,6 +323,18 @@ export default function GlobalHeader({
           onClick={onSettingsClick}
           toggled={settingsActive}
         />
+        {customStatus && (
+          <WithTooltip label={customStatus.text ?? 'Custom status'}>
+            <button
+              type="button"
+              className={styles['global-header__custom-status']}
+              aria-label={customStatus.text ?? 'Custom status'}
+              onClick={onCustomStatusClick}
+            >
+              {customStatus.emoji}
+            </button>
+          </WithTooltip>
+        )}
         <button
           type="button"
           className={[
@@ -309,12 +349,19 @@ export default function GlobalHeader({
           }
           onClick={onAccountClick}
         >
-          <UserAvatar
-            src={userAvatarSrc}
-            alt={userAvatarAlt}
-            size="24"
-            status
-          />
+          <span className={styles['global-header__avatar']}>
+            <UserAvatar
+              src={userAvatarSrc}
+              alt={userAvatarAlt}
+              size="24"
+              status={status === 'online'}
+            />
+            {status !== 'online' && (
+              <span className={styles['global-header__status']}>
+                <StatusBadge status={status} size="small" />
+              </span>
+            )}
+          </span>
         </button>
       </div>
     </header>
