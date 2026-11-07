@@ -8,10 +8,13 @@ import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circ
 import PhoneInTalkIcon from '@mattermost/compass-icons/components/phone-in-talk';
 import DotsVerticalIcon from '@mattermost/compass-icons/components/dots-vertical';
 import DialpadIcon from '@mattermost/compass-icons/components/dialpad';
+import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import MentionBadge from '@/components/MentionBadge/MentionBadge';
-import Icon from '@/components/Icon/Icon';
+import Icon, { IconSlotContext } from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
+import { mergeClassNames, type BuiltInButtonProps } from '@/utils/props';
 import styles from './ChannelSidebarItem.module.scss';
 
 export type ChannelSidebarItemLeadingVisual =
@@ -35,8 +38,23 @@ export interface ChannelSidebarItemProps {
    * overflow menu; name aligns with channel sidebar label padding.
    */
   hideLeadingVisual?: boolean;
-  /** Leading visual type. Default: Public. Ignored when `hideLeadingVisual`. */
-  leadingVisual?: ChannelSidebarItemLeadingVisual;
+  /**
+   * Leading visual. A built-in type string (`'public'`, `'private'`, …) keeps its
+   * glyph; any other node (not a string) replaces the icon, like `MenuItem`. Custom
+   * nodes render in the same 24px icon column, so the label stays aligned. For an
+   * icon use `<Icon glyph={<SomeIcon />} />` — the size (16) comes from context.
+   * A 16–24px element such as a 20px avatar is centered in the column.
+   * Default: Public. Ignored when `hideLeadingVisual`.
+   */
+  leadingVisual?: ChannelSidebarItemLeadingVisual | ReactNode;
+  /**
+   * Custom content for the trailing slot, after the name and before the mention
+   * badge / menu button (e.g. a responding indicator). Status-only: on rows with
+   * the overflow menu it fades out on hover / focus, like the mention badge, so
+   * don't put interactive content in it. `status` styling is independent of it.
+   * When omitted, nothing is rendered.
+   */
+  trailingVisual?: ReactNode;
   /** Read/unread/mention state. Default: Read. */
   status?: ChannelSidebarItemStatus;
   /** Highlighted as the currently active item. */
@@ -51,13 +69,13 @@ export interface ChannelSidebarItemProps {
   mentionCount?: number;
   /** Member count shown in the group icon when leadingVisual='group-message'. */
   memberCount?: number;
-  /** Avatar image URL for leadingVisual='direct-message'. */
+  /** Avatar image URL for leadingVisual='direct-message' (not used with a custom node). */
   avatarSrc?: string;
   /** Avatar alt text for leadingVisual='direct-message'. */
   avatarAlt?: string;
-  /** Shows status badge on the avatar when leadingVisual='direct-message'. */
+  /** Shows status badge on the avatar when leadingVisual='direct-message' (not used with a custom node). */
   showAvatarStatus?: boolean;
-  /** Custom status emoji shown after the name for leadingVisual='direct-message'. */
+  /** Custom status emoji shown after the name for leadingVisual='direct-message' or a custom leadingVisual node (e.g. your own avatar). */
   customStatusEmoji?: string;
   onClick?: () => void;
   /** Overflow menu (kebab). Sibling of the channel control so it is keyboard-reachable. */
@@ -68,10 +86,54 @@ export interface ChannelSidebarItemProps {
   unreadLabel?: ReactNode;
   /** Accessible name for the overflow menu button. Default: "Channel options". */
   menuLabel?: string;
+  /**
+   * Interactive controls (e.g. an `IconButton`) shown at the right edge, in the
+   * overflow menu's place: it replaces the built-in menu. Unlike
+   * `trailingVisual`, actions stay clickable. See `actionsReveal`.
+   */
+  actions?: ReactNode;
+  /**
+   * When `actions` show. `hover` (default): hidden until the row is hovered or
+   * has focus, like the built-in menu (the mention badge and `trailingVisual`
+   * give way). `always`: visible, slightly dimmed, at rest and at full
+   * strength on hover / focus; the badge and `trailingVisual` stay visible
+   * beside it.
+   */
+  actionsReveal?: 'hover' | 'always';
+  /** Keeps `actions` revealed, e.g. while a menu opened from them is open. */
+  actionsOpen?: boolean;
+  /** Hides the built-in overflow menu without adding `actions`. */
+  hideMenu?: boolean;
+  /**
+   * Turns the row into the parent of a collapsible group: shows a chevron
+   * toggle in the left gutter (revealed on hover / focus) and sets
+   * `aria-expanded` on it. The row itself stays a navigation control; the
+   * group's list and animation are up to the host. Omit for a normal row.
+   */
+  expanded?: boolean;
+  /** Called with the next state when the chevron toggle is activated. */
+  onExpandedChange?: (expanded: boolean) => void;
+  /** `id` of the list the toggle controls (`aria-controls`). */
+  controlsId?: string;
+  /**
+   * Accessible name of the toggle. It stays the same in both states;
+   * `aria-expanded` carries the state. Default: "Toggle".
+   */
+  toggleLabel?: string;
+  /** Extra attributes for the chevron toggle button. */
+  toggleButtonProps?: BuiltInButtonProps;
 }
 
 const defaultFormatMentions = (count: number) =>
   `${count} mention${count === 1 ? '' : 's'}`;
+
+function isBuiltInLeadingVisual(
+  value: unknown,
+): value is ChannelSidebarItemLeadingVisual | undefined {
+  // Strings (and omitted) keep today's built-in behavior, including the
+  // fallback to the public glyph for unknown strings.
+  return value === undefined || typeof value === 'string';
+}
 
 function LeadingVisualContent({
   leadingVisual,
@@ -79,7 +141,7 @@ function LeadingVisualContent({
   avatarSrc,
   showAvatarStatus,
 }: {
-  leadingVisual: ChannelSidebarItemLeadingVisual;
+  leadingVisual: ChannelSidebarItemLeadingVisual | undefined;
   memberCount: number | undefined;
   avatarSrc: string | undefined;
   showAvatarStatus: boolean | undefined;
@@ -125,7 +187,8 @@ export default function ChannelSidebarItem({
   className,
   name,
   hideLeadingVisual = false,
-  leadingVisual = 'public',
+  leadingVisual,
+  trailingVisual,
   status = 'read',
   active = false,
   muted = false,
@@ -141,16 +204,44 @@ export default function ChannelSidebarItem({
   formatMentionLabel = defaultFormatMentions,
   unreadLabel = 'unread',
   menuLabel = 'Channel options',
+  actions,
+  actionsReveal = 'hover',
+  actionsOpen = false,
+  hideMenu = false,
+  expanded,
+  onExpandedChange,
+  controlsId,
+  toggleLabel = 'Toggle',
+  toggleButtonProps,
 }: ChannelSidebarItemProps) {
-  const isDM = !hideLeadingVisual && leadingVisual === 'direct-message';
-  const isDrafts = !hideLeadingVisual && leadingVisual === 'drafts';
+  const isCustomVisual =
+    !hideLeadingVisual &&
+    leadingVisual !== null &&
+    !isBuiltInLeadingVisual(leadingVisual);
+  const builtInVisual: ChannelSidebarItemLeadingVisual = isBuiltInLeadingVisual(
+    leadingVisual,
+  )
+    ? (leadingVisual ?? 'public')
+    : 'public';
+  const isDM =
+    !hideLeadingVisual && builtInVisual === 'direct-message' && !isCustomVisual;
+  const isDrafts =
+    !hideLeadingVisual && builtInVisual === 'drafts' && !isCustomVisual;
   const effectiveStatus = isDrafts && status === 'unread' ? 'read' : status;
   const hasMentionBadge = effectiveStatus === 'mention';
   const isChannelOrDM =
     !hideLeadingVisual &&
-    ['public', 'private', 'group-message', 'direct-message'].includes(
-      leadingVisual,
-    );
+    (isCustomVisual ||
+      ['public', 'private', 'group-message', 'direct-message'].includes(
+        builtInVisual,
+      ));
+
+  const hasActions = actions != null && actions !== false;
+  const actionsAlways = hasActions && actionsReveal === 'always';
+  const showMenu = isChannelOrDM && !hideMenu && !hasActions;
+  // Trailing content gives way on hover only when something takes its place.
+  const revealsOnHover = showMenu || (hasActions && !actionsAlways);
+  const hasToggle = expanded !== undefined;
 
   const rootClass = [
     styles['channel-sidebar-item'],
@@ -159,6 +250,11 @@ export default function ChannelSidebarItem({
     muted ? styles['channel-sidebar-item--muted'] : '',
     styles[`channel-sidebar-item--status-${effectiveStatus.toLowerCase()}`],
     isDrafts ? styles['channel-sidebar-item--drafts'] : '',
+    actionsAlways ? styles['channel-sidebar-item--actions-always'] : '',
+    !revealsOnHover ? styles['channel-sidebar-item--no-hover-menu'] : '',
+    hasActions && actionsOpen && !actionsAlways
+      ? styles['channel-sidebar-item--actions-open']
+      : '',
     className,
   ]
     .filter(Boolean)
@@ -167,6 +263,9 @@ export default function ChannelSidebarItem({
   const iconContainerClass = [
     styles['channel-sidebar-item__icon-container'],
     isDM ? styles['channel-sidebar-item__icon-container--dm'] : '',
+    isCustomVisual
+      ? styles['channel-sidebar-item__icon-container--custom']
+      : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -193,12 +292,18 @@ export default function ChannelSidebarItem({
       >
         {!hideLeadingVisual && (
           <div className={iconContainerClass} aria-hidden>
-            <LeadingVisualContent
-              leadingVisual={leadingVisual}
-              memberCount={memberCount}
-              avatarSrc={avatarSrc}
-              showAvatarStatus={showAvatarStatus}
-            />
+            {isCustomVisual ? (
+              <IconSlotContext.Provider value={{ size: '16' }}>
+                {leadingVisual as ReactNode}
+              </IconSlotContext.Provider>
+            ) : (
+              <LeadingVisualContent
+                leadingVisual={builtInVisual}
+                memberCount={memberCount}
+                avatarSrc={avatarSrc}
+                showAvatarStatus={showAvatarStatus}
+              />
+            )}
           </div>
         )}
         <div className={styles['channel-sidebar-item__content']}>
@@ -213,10 +318,10 @@ export default function ChannelSidebarItem({
               className={styles['channel-sidebar-item__shared-icon']}
               aria-hidden
             >
-              <CircleMultipleOutlineIcon size={12} />
+              <Icon glyph={<CircleMultipleOutlineIcon />} size="12" />
             </span>
           )}
-          {isDM && customStatusEmoji && (
+          {(isDM || isCustomVisual) && customStatusEmoji && (
             <span
               className={styles['channel-sidebar-item__custom-status']}
               aria-hidden
@@ -226,7 +331,45 @@ export default function ChannelSidebarItem({
           )}
         </div>
       </button>
+      {hasToggle && (
+        <button
+          type="button"
+          {...toggleButtonProps}
+          {...(controlsId ? { 'aria-controls': controlsId } : {})}
+          className={mergeClassNames(
+            styles['channel-sidebar-item__toggle'],
+            toggleButtonProps?.className,
+          )}
+          aria-expanded={expanded}
+          aria-label={toggleLabel}
+          onClick={(e) => {
+            toggleButtonProps?.onClick?.(e);
+            onExpandedChange?.(!expanded);
+          }}
+        >
+          <Icon
+            glyph={expanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            size="12"
+          />
+        </button>
+      )}
       <div className={rightClass}>
+        {trailingVisual != null && trailingVisual !== false && (
+          <span
+            className={[
+              styles['channel-sidebar-item__trailing-visual'],
+              revealsOnHover
+                ? styles['channel-sidebar-item__trailing-visual--with-menu']
+                : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <IconSlotContext.Provider value={{ size: '16' }}>
+              {trailingVisual}
+            </IconSlotContext.Provider>
+          </span>
+        )}
         {callActive && (
           <div className={styles['channel-sidebar-item__call']} aria-hidden>
             <PhoneInTalkIcon size={12} />
@@ -244,7 +387,18 @@ export default function ChannelSidebarItem({
             />
           </span>
         )}
-        {isChannelOrDM && (
+        {hasActions && (
+          <span
+            className={mergeClassNames(
+              styles['channel-sidebar-item__actions'],
+              actionsAlways && styles['channel-sidebar-item__actions--always'],
+              actionsOpen && styles['channel-sidebar-item__actions--open'],
+            )}
+          >
+            {actions}
+          </span>
+        )}
+        {showMenu && (
           <span className={styles['channel-sidebar-item__menu-button']}>
             <IconButton
               className={styles['channel-sidebar-item__menu-icon']}

@@ -6,7 +6,10 @@
   overflow: hidden;
   user-select: none;
 
-  &__menu-button {
+  // Overflow menu button and custom `actions` share one hidden-at-rest,
+  // right-edge position.
+  &__menu-button,
+  &__actions {
     // Absolute so the resting mention badge stays flush-right; opacity keeps
     // the control focusable for keyboard / :focus-within without reserving width.
     position: absolute;
@@ -19,7 +22,54 @@
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
+  // Same 24px column (and right inset) as the overflow menu button and
+  // trailing visuals, so their centers line up across rows.
   &__mention-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--icon-size-24);
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  // Custom controls in the overflow menu's place. Hidden at rest unless
+  // `--always`; `--open` keeps them revealed (e.g. while their menu is open).
+  &__actions {
+    align-items: center;
+
+    &--always {
+      opacity: var(--opacity-72);
+      pointer-events: auto;
+    }
+
+    &--open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  // Chevron toggle for a collapsible parent row, in the left gutter.
+  &__toggle {
+    @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-24);
+    height: var(--icon-size-24);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sidebar-text);
+    cursor: pointer;
+    transform: translateY(-50%);
+    opacity: 0;
+    // Inert until revealed, so a tap or click in the gutter reaches the row.
+    pointer-events: none;
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
@@ -39,6 +89,16 @@
     .channel-sidebar-item__mention-badge {
       opacity: 0;
       pointer-events: none;
+    }
+
+    .channel-sidebar-item__actions {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .channel-sidebar-item__toggle {
+      opacity: var(--opacity-72);
+      pointer-events: auto;
     }
   }
 
@@ -95,6 +155,37 @@
       opacity: 1;
       --status-badge-bg: var(--sidebar-bg);
     }
+  }
+
+  // Custom node: fixed 24px column so any 16–24px visual stays centered and
+  // the label aligns with built-in icons and the DM avatar.
+  &__icon-container--custom {
+    justify-content: center;
+    width: var(--icon-size-24);
+    height: var(--icon-size-24);
+    padding: 0;
+    box-sizing: border-box;
+    // Custom nodes may contain text: keep at the 72% resting floor.
+    opacity: 0.72;
+  }
+
+  // Fixed 24px column (like the leading slot) so every trailing visual is
+  // centered on the same vertical axis across rows.
+  &__trailing-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--icon-size-24);
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  // Like the mention badge, a trailing visual on a row with the overflow menu
+  // fades out on hover / focus so the menu button takes its place.
+  &:hover &__trailing-visual--with-menu,
+  &:focus-within &__trailing-visual--with-menu {
+    opacity: 0;
+    pointer-events: none;
   }
 
   &__group-icon {
@@ -179,6 +270,38 @@
 
   // ── Modifiers ──────────────────────────────────────────────
 
+  // Open actions (e.g. their menu is open) keep the menu's column even when the
+  // row is no longer hovered or focused, so the badge and trailing visual stay
+  // hidden instead of drawing underneath them.
+  &--actions-open {
+    .channel-sidebar-item__mention-badge,
+    .channel-sidebar-item__trailing-visual--with-menu {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  // Always-visible actions take the menu's column; the badge and trailing
+  // visual stay visible beside them instead of giving way on hover.
+  &--actions-always {
+    .channel-sidebar-item__right {
+      padding-right: calc(var(--spacing-l) + var(--icon-size-24));
+    }
+  }
+
+  // No menu or hover-revealed actions will take the badge's place, so it stays
+  // visible on hover / focus instead of fading out (rows without a menu,
+  // `hideMenu`, and always-visible actions).
+  &--no-hover-menu {
+    &:hover,
+    &:focus-within {
+      .channel-sidebar-item__mention-badge {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+  }
+
   /** Settings / console nav: label only, same row height and alignment rhythm. */
   &--text-only {
     .channel-sidebar-item__left {
@@ -218,6 +341,11 @@
     .channel-sidebar-item__name {
       font-weight: var(--font-weight-regular);
       opacity: 0.72;
+    }
+
+    // Plain count, flush right: opt out of the centered column.
+    .channel-sidebar-item__mention-badge {
+      min-width: 0;
     }
 
     .channel-sidebar-item__mention-badge > :global(*) {
