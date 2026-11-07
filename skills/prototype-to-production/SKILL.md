@@ -116,7 +116,7 @@ Note prototype vs consumer compass-ui versions when visible. Details: [reference
 
 Prototypes often use scenes to show different perspectives and states. The product has to handle each one, so find them before matching components, and don't assume the scenes cover every case.
 
-**If there is a UX spec, read it first** and use it to fill the condition and source-of-truth columns. **The spec wins on behavior** (who sees what, which states exist, edge cases); **the prototype wins on look** (it is built from Compass components). Where they disagree on behavior, follow the spec and flag the mismatch; don't choose silently. If the spec can't be read (no access, private page), say so and continue from the prototype; don't invent its contents.
+**If there is a UX spec, read it first** and use it to fill the condition and source-of-truth columns. **The spec wins on behavior** (who sees what, which states exist, edge cases); **the prototype wins on look** (it is built from Compass components). Where they disagree on behavior, follow the spec and flag the mismatch; don't choose silently. Read a Confluence spec with the Atlassian MCP (most developers have it), a Figma spec with the Figma MCP, and a markdown spec from disk. If the spec can't be read (no connector, no access, private page), say so and continue from the prototype; don't invent its contents.
 
 Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for anything that renders conditionally, or that differs between scenes. For each, note:
 
