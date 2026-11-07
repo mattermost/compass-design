@@ -68,6 +68,8 @@
     cursor: pointer;
     transform: translateY(-50%);
     opacity: 0;
+    // Inert until revealed, so a tap or click in the gutter reaches the row.
+    pointer-events: none;
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
@@ -96,6 +98,7 @@
 
     .channel-sidebar-item__toggle {
       opacity: var(--opacity-72);
+      pointer-events: auto;
     }
   }
 
