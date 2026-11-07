@@ -160,7 +160,16 @@ Do **not** port prototype logic verbatim. Do **capture the intent** of what the 
 - Subpath imports only for compass-ui; kebab-case variant strings.
 - Overlay/menu host ownership stays in product code. Whether to use Compass `Modal` / `Tooltip` / `PopoverMenu` / `TourPoint` / `ProfilePopover` depends on the consumer (plugins use `Modal`; the webapp doesn’t yet) — follow [references/boundaries.md](references/boundaries.md) rule 5.
 
-### 7. Validation checklist
+### 7. Audit with `compass-review`
+
+Before the checklist, run `compass-review` on the code you wrote or changed (the diff, not the whole consumer repo). It is read-only and reports findings with file, line and the rule broken.
+
+- Tell it the context is the consumer kind from step 1 (**core feature** for webapp and desktop, **plugin** for a plugin), not prototype, so `compass-proto` imports and playground stand-ins count as violations.
+- Fix every **Blocker** and **Should fix** that your change introduced. Don't touch findings in code you didn't change; list them for the developer instead.
+- Findings that come from a Compass gap or version skew (a prop the consumer's installed ui lacks) go in the "gaps" note, not in code workarounds.
+- Report **Suggestion** items as suggestions, never as required changes.
+
+### 8. Validation checklist
 
 Translation-specific checks. The Compass design rules (tokens, one primary action, kebab-case variants, accessibility, writing) are owned by `compass-build`; don't restate them here.
 
