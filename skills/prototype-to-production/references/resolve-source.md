@@ -65,7 +65,7 @@ Do **not** fall back to `main` when the ref was omitted — ask for it.
 
 1. Orchestrator and every `scenes/*` file — collect imports.
 2. `components/*` — local compositions to rebuild.
-3. Optional: playground `package.json` for the prototype’s compass-ui version (awareness only).
+3. Playground `package.json` (and lockfile) at the same ref for the prototype’s `@mattermost/compass-ui` version. SKILL.md step 2 compares it with the consumer’s installed version before inventorying.
 4. Skip walkthrough-only files unless they clarify intended product flow.
 
 ## Manifest cross-check (optional)

@@ -92,6 +92,21 @@ Follow [references/resolve-source.md](references/resolve-source.md).
 - If the ref **cannot be read** (auth/404/no `gh`) → stop and ask for a local path, access, or files. Do not invent UI from the demo URL alone.
 - Published URL is visual context only; hashed CSS classes are not component IDs.
 
+**Compare compass-ui versions now, before inventorying.** A version gap changes what you can use, so find it up front:
+
+1. **Prototype's version:** `@mattermost/compass-ui` in the playground's `package.json` (and lockfile) at the recorded ref.
+2. **Consumer's version:** `node_modules/@mattermost/compass-ui/package.json` in the consumer.
+3. **Compare** and act:
+
+| Situation                                                                  | Action                                                                                                                                                                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Same version                                                               | Proceed.                                                                                                                                                                                                                                                                                                                                                                                        |
+| Consumer **older** than the prototype                                      | Expect missing exports, props or variants. Use the skew table in [references/boundaries.md](references/boundaries.md) for each one found in step 3. If a gap affects the scoped surface in a way that matters (a component the surface depends on is missing), **tell the developer before building** and let them decide whether to upgrade first. Don't bump the consumer's version yourself. |
+| Consumer **newer** than the prototype                                      | Prefer the consumer's APIs where they cover the same role.                                                                                                                                                                                                                                                                                                                                      |
+| Version can't be read (no `package.json` at the ref, no installed package) | Say so, record it as unknown, and rely on the installed `.d.ts`.                                                                                                                                                                                                                                                                                                                                |
+
+Version numbers are a signal, not a gate: the installed `.d.ts` always wins. Record both versions for the final report.
+
 ### 3. Inventory imports
 
 From orchestrator, `scenes/`, and `components/`, bucket every import:
@@ -104,7 +119,7 @@ From orchestrator, `scenes/`, and `components/`, bucket every import:
 | Prototype-local   | Rebuild with ui / host patterns                                                |
 | Tokens / CSS vars | Keep (see styles below)                                                        |
 
-Note prototype vs consumer compass-ui versions when visible. Details: [references/boundaries.md](references/boundaries.md).
+Use the version comparison from step 2 to anticipate missing exports. Details: [references/boundaries.md](references/boundaries.md).
 
 **Styles / SCSS:** keep Compass **tokens** (`--spacing-*`, `--center-channel-color`, …). Do **not** copy playground `.module.scss` wholesale (including SceneSwitcher / DeviceFrame / walkthrough focus CSS). Re-express layout/spacing intent with host style conventions + tokens; use Compass `className` overrides only when that consumer already does so for standard components. Prototype-local visuals with no host equivalent → small product-local styles, tokens-first (follow host BEM/CSS conventions).
 
@@ -213,7 +228,7 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] No wholesale copy of playground SCSS modules
 - [ ] Prototype **behavior intent** preserved; implementation uses **host** patterns (no ported playground state/fixtures as production logic)
 - [ ] User-visible strings use the consumer's **i18n** pattern (prototype copy is wording intent, not pasted literals)
-- [ ] Gaps from version skew noted briefly for the developer
+- [ ] Prototype and consumer compass-ui versions recorded, and gaps from version skew noted briefly for the developer
 - [ ] Ran the `compass-build` `references/checklist.md` on the result, using the **plugin** or **core feature** column of `references/context.md` for the consumer kind (not the prototype column)
 
 ## Where the Compass rules live
