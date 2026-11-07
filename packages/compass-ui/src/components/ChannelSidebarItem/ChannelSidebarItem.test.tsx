@@ -61,6 +61,19 @@ describe('ChannelSidebarItem visual slots', () => {
     ).toBeTruthy();
   });
 
+  it('keeps the custom status emoji with a custom leadingVisual', () => {
+    const { container } = render(
+      <ChannelSidebarItem
+        name="Agent"
+        leadingVisual={<span />}
+        customStatusEmoji="🏄"
+      />,
+    );
+    expect(query(container, 'custom-status')?.textContent).toBe('🏄');
+    const plain = render(<ChannelSidebarItem name="Town Square" />);
+    expect(query(plain.container, 'custom-status')).toBeNull();
+  });
+
   it('falls back to the default glyph for an omitted or null leadingVisual', () => {
     const { container } = render(
       <ChannelSidebarItem name="X" leadingVisual={null} />,

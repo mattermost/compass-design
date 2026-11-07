@@ -69,13 +69,13 @@ export interface ChannelSidebarItemProps {
   mentionCount?: number;
   /** Member count shown in the group icon when leadingVisual='group-message'. */
   memberCount?: number;
-  /** Avatar image URL for leadingVisual='direct-message'. */
+  /** Avatar image URL for leadingVisual='direct-message' (not used with a custom node). */
   avatarSrc?: string;
   /** Avatar alt text for leadingVisual='direct-message'. */
   avatarAlt?: string;
-  /** Shows status badge on the avatar when leadingVisual='direct-message'. */
+  /** Shows status badge on the avatar when leadingVisual='direct-message' (not used with a custom node). */
   showAvatarStatus?: boolean;
-  /** Custom status emoji shown after the name for leadingVisual='direct-message'. */
+  /** Custom status emoji shown after the name for leadingVisual='direct-message' or a custom leadingVisual node (e.g. your own avatar). */
   customStatusEmoji?: string;
   onClick?: () => void;
   /** Overflow menu (kebab). Sibling of the channel control so it is keyboard-reachable. */
@@ -321,7 +321,7 @@ export default function ChannelSidebarItem({
               <Icon glyph={<CircleMultipleOutlineIcon />} size="12" />
             </span>
           )}
-          {isDM && customStatusEmoji && (
+          {(isDM || isCustomVisual) && customStatusEmoji && (
             <span
               className={styles['channel-sidebar-item__custom-status']}
               aria-hidden
