@@ -284,7 +284,12 @@
     .channel-sidebar-item__right {
       padding-right: calc(var(--spacing-l) + var(--icon-size-24));
     }
+  }
 
+  // No menu or hover-revealed actions will take the badge's place, so it stays
+  // visible on hover / focus instead of fading out (rows without a menu,
+  // `hideMenu`, and always-visible actions).
+  &--no-hover-menu {
     &:hover,
     &:focus-within {
       .channel-sidebar-item__mention-badge {

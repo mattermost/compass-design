@@ -251,6 +251,7 @@ export default function ChannelSidebarItem({
     styles[`channel-sidebar-item--status-${effectiveStatus.toLowerCase()}`],
     isDrafts ? styles['channel-sidebar-item--drafts'] : '',
     actionsAlways ? styles['channel-sidebar-item--actions-always'] : '',
+    !revealsOnHover ? styles['channel-sidebar-item--no-hover-menu'] : '',
     hasActions && actionsOpen && !actionsAlways
       ? styles['channel-sidebar-item--actions-open']
       : '',

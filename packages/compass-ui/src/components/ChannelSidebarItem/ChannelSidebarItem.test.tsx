@@ -123,6 +123,23 @@ describe('ChannelSidebarItem actions and disclosure', () => {
     expect(byLabel(container, 'Channel options')).toBeNull();
   });
 
+  it('keeps the badge on hover only where nothing replaces it', () => {
+    const hasClass = (c: HTMLElement) =>
+      c.firstElementChild?.className.includes('no-hover-menu');
+    const channel = render(<ChannelSidebarItem name="A" />);
+    expect(hasClass(channel.container)).toBe(false);
+    const noMenu = render(<ChannelSidebarItem name="B" hideMenu />);
+    expect(hasClass(noMenu.container)).toBe(true);
+    const always = render(
+      <ChannelSidebarItem
+        name="C"
+        actions={<button>Go</button>}
+        actionsReveal="always"
+      />,
+    );
+    expect(hasClass(always.container)).toBe(true);
+  });
+
   it('renders no toggle unless expanded is set', () => {
     const { container } = render(<ChannelSidebarItem name="Agent" />);
     expect(byLabel(container, 'Expand')).toBeNull();
