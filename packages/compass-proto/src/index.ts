@@ -38,7 +38,7 @@ export * from './components/MobileTeamSidebar/index';
 export * from './components/ParticipantsPanel/index';
 export * from './components/PlusMenu/index';
 export * from './components/ProductSwitcherMenu/index';
-export * from './components/ProfileMenu/index';
+export * from './components/UserAccountMenu/index';
 export * from './components/CallNotice/index';
 export * from './components/RecordingIndicator/index';
 export * from './components/RightSidebar/index';

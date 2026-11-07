@@ -22,7 +22,7 @@ import { ChannelMenu } from '@mattermost/compass-proto';
 import { HelpMenu } from '@mattermost/compass-proto';
 import { MessageMoreOptionsMenu } from '@mattermost/compass-proto';
 import { PlusMenu } from '@mattermost/compass-proto';
-import { ProfileMenu } from '@mattermost/compass-proto';
+import { UserAccountMenu } from '@mattermost/compass-proto';
 import { ProductSwitcherMenu } from '@mattermost/compass-proto';
 import { TeamMenu } from '@mattermost/compass-proto';
 import { ThreadActionsMenu } from '@mattermost/compass-proto';
@@ -142,7 +142,7 @@ export default function PopoverMenuLibrary() {
       </section>
 
       <section className={styles['patterns__section']}>
-        <h2 className={styles['patterns__section-title']}>Profile menu</h2>
+        <h2 className={styles['patterns__section-title']}>User account menu</h2>
         <p className={styles['patterns__variant-label']}>
           Account menu: avatar title, custom status, status rows, Do Not Disturb
           child menu opening to the left (durations, Notification Schedule),
@@ -151,7 +151,7 @@ export default function PopoverMenuLibrary() {
         <div
           className={`${styles['patterns__popover-menu-demo']} ${styles['patterns__popover-menu-demo--submenu-left']}`}
         >
-          <ProfileMenu
+          <UserAccountMenu
             status="do-not-disturb"
             dndUntil="until Monday 9:00 AM"
             submenuInitiallyOpen

@@ -268,7 +268,7 @@
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     border-radius: var(--radius-m);
 
-    // Room for a child menu that opens to the left of the parent (Profile menu).
+    // Room for a child menu that opens to the left of the parent (User account menu).
     &--submenu-left {
       padding-left: calc(var(--spacing-xxxxxl) * 5);
       padding-bottom: calc(var(--spacing-xxxxxl) * 3);

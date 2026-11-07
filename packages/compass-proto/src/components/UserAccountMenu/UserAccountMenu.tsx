@@ -14,21 +14,21 @@ import {
 } from '@mattermost/compass-ui/components/popover-menu';
 import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import styles from './ProfileMenu.module.scss';
+import styles from './UserAccountMenu.module.scss';
 
-export type ProfileMenuStatus =
+export type UserAccountMenuStatus =
   | 'online'
   | 'away'
   | 'do-not-disturb'
   | 'offline';
 
 /** Statuses a person can pick directly (Do Not Disturb has its own submenu). */
-export type ProfileMenuPickableStatus = Exclude<
-  ProfileMenuStatus,
+export type UserAccountMenuPickableStatus = Exclude<
+  UserAccountMenuStatus,
   'do-not-disturb'
 >;
 
-export interface ProfileMenuProps extends Omit<
+export interface UserAccountMenuProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'children'
 > {
@@ -41,14 +41,14 @@ export interface ProfileMenuProps extends Omit<
   /** Avatar image for the menu title. */
   avatarSrc?: string;
   /** Current effective status. Default: online. */
-  status?: ProfileMenuStatus;
+  status?: UserAccountMenuStatus;
   /** Secondary label on Do Not Disturb, e.g. "until Monday 9:00 AM". */
   dndUntil?: string;
   /** Shows "On" / "Off" next to Notification Schedule in the DND submenu. */
   scheduleOn?: boolean;
   /** Open the Do Not Disturb submenu on first render. */
   submenuInitiallyOpen?: boolean;
-  onPickStatus?: (status: ProfileMenuPickableStatus) => void;
+  onPickStatus?: (status: UserAccountMenuPickableStatus) => void;
   /** Called with the chosen Do Not Disturb duration label, e.g. "1 hour". */
   onPickDnd?: (duration: string) => void;
   onOpenSchedule?: () => void;
@@ -59,7 +59,7 @@ export interface ProfileMenuProps extends Omit<
   onClose?: () => void;
 }
 
-const STATUS_LABELS: Record<ProfileMenuPickableStatus, string> = {
+const STATUS_LABELS: Record<UserAccountMenuPickableStatus, string> = {
   online: 'Online',
   away: 'Away',
   offline: 'Offline',
@@ -80,7 +80,7 @@ const DND_DURATIONS = [
  * submenu, Profile and Log out. Positioning and click-outside dismissal belong to the
  * host; the submenu positions itself relative to the Do Not Disturb row.
  */
-export default function ProfileMenu({
+export default function UserAccountMenu({
   open,
   userName = 'Leonard Riley',
   username = 'leonard.riley',
@@ -98,20 +98,20 @@ export default function ProfileMenu({
   onClose,
   className = '',
   ...rest
-}: ProfileMenuProps) {
+}: UserAccountMenuProps) {
   const [submenu, setSubmenu] = useState(submenuInitiallyOpen);
   useEffect(() => setSubmenu(submenuInitiallyOpen), [submenuInitiallyOpen]);
 
-  const rootClass = [styles['profile-menu'], className]
+  const rootClass = [styles['user-account-menu'], className]
     .filter(Boolean)
     .join(' ');
 
-  const pick = (s: ProfileMenuPickableStatus) => () => {
+  const pick = (s: UserAccountMenuPickableStatus) => () => {
     onPickStatus?.(s);
     onClose?.();
   };
 
-  const statusRow = (s: ProfileMenuPickableStatus) => (
+  const statusRow = (s: UserAccountMenuPickableStatus) => (
     <MenuItem
       label={STATUS_LABELS[s]}
       leadingVisual={<StatusBadge status={s} size="small" />}
@@ -123,16 +123,18 @@ export default function ProfileMenu({
   return (
     <div className={rootClass} {...rest}>
       <PopoverMenu open={open} aria-label="Account menu">
-        <PopoverMenuTitle className={styles['profile-menu__title']}>
+        <PopoverMenuTitle className={styles['user-account-menu__title']}>
           <UserAvatar
             src={avatarSrc}
             alt={userName}
             size="40"
             status={status === 'online'}
           />
-          <span className={styles['profile-menu__identity']}>
-            <span className={styles['profile-menu__name']}>{userName}</span>
-            <span className={styles['profile-menu__username']}>
+          <span className={styles['user-account-menu__identity']}>
+            <span className={styles['user-account-menu__name']}>
+              {userName}
+            </span>
+            <span className={styles['user-account-menu__username']}>
               @{username}
             </span>
           </span>
@@ -153,7 +155,7 @@ export default function ProfileMenu({
           {statusRow('online')}
           {statusRow('away')}
           <div
-            className={styles['profile-menu__dnd']}
+            className={styles['user-account-menu__dnd']}
             onMouseEnter={() => setSubmenu(true)}
             onMouseLeave={() => setSubmenu(false)}
           >
@@ -171,7 +173,7 @@ export default function ProfileMenu({
               onClick={() => setSubmenu((v) => !v)}
             />
             {submenu && (
-              <div className={styles['profile-menu__submenu']}>
+              <div className={styles['user-account-menu__submenu']}>
                 <PopoverMenu aria-label="Do Not Disturb">
                   <PopoverMenuTitle>
                     Disable notifications until:
