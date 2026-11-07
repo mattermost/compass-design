@@ -487,6 +487,14 @@ function AgentsSidebarExample() {
 
   return (
     <>
+      {/* Collapse animates the grid row 0fr <-> 1fr and stays mounted; the
+          list leaves the tab order and accessibility tree once it closes. */}
+      <style>{`
+        .agents-collapse { display: grid; grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows var(--duration-moderate) var(--ease-transition), visibility 0s linear 0s; }
+        .agents-collapse[data-collapsed] { grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows var(--duration-moderate) var(--ease-transition), visibility 0s linear var(--duration-moderate); }
+        .agents-collapse > div { min-height: 0; overflow: hidden; }
+        @media (prefers-reduced-motion: reduce) { .agents-collapse, .agents-collapse[data-collapsed] { transition: none; } }
+      `}</style>
       {AGENTS.map((agent) => {
         const isCollapsed = Boolean(collapsed[agent.id]);
         const listId = `agent-chats-${agent.id}`;
@@ -520,42 +528,48 @@ function AgentsSidebarExample() {
                 />
               }
             />
-            <ul
-              id={listId}
-              aria-label={`${agent.name} chats`}
-              hidden={isCollapsed}
-              style={{ margin: 0, padding: 0, listStyle: 'none' }}
+            <div
+              className="agents-collapse"
+              data-collapsed={isCollapsed || undefined}
             >
-              {agent.chats.map((chat) => (
-                <li key={chat.id}>
-                  <ChannelSidebarItem
-                    name={chat.title}
-                    leadingVisual={chatVisual(chat.state)}
-                    status={chat.state === 'unread' ? 'unread' : 'read'}
-                    active={activeChat === chat.id}
-                    onClick={() => {
-                      setActiveAgent(agent.id);
-                      setActiveChat(chat.id);
-                    }}
-                    actionsOpen={menuFor === chat.id}
-                    actions={
-                      <IconButton
-                        size="x-small"
-                        style="inverted"
-                        icon={<Icon glyph={<DotsVerticalIcon />} />}
-                        aria-label={`Actions for ${chat.title}`}
-                        aria-expanded={menuFor === chat.id}
-                        onClick={() =>
-                          setMenuFor((cur) =>
-                            cur === chat.id ? null : chat.id,
-                          )
+              <div>
+                <ul
+                  id={listId}
+                  aria-label={`${agent.name} chats`}
+                  style={{ margin: 0, padding: 0, listStyle: 'none' }}
+                >
+                  {agent.chats.map((chat) => (
+                    <li key={chat.id}>
+                      <ChannelSidebarItem
+                        name={chat.title}
+                        leadingVisual={chatVisual(chat.state)}
+                        status={chat.state === 'unread' ? 'unread' : 'read'}
+                        active={activeChat === chat.id}
+                        onClick={() => {
+                          setActiveAgent(agent.id);
+                          setActiveChat(chat.id);
+                        }}
+                        actionsOpen={menuFor === chat.id}
+                        actions={
+                          <IconButton
+                            size="x-small"
+                            style="inverted"
+                            icon={<Icon glyph={<DotsVerticalIcon />} />}
+                            aria-label={`Actions for ${chat.title}`}
+                            aria-expanded={menuFor === chat.id}
+                            onClick={() =>
+                              setMenuFor((cur) =>
+                                cur === chat.id ? null : chat.id,
+                              )
+                            }
+                          />
                         }
                       />
-                    }
-                  />
-                </li>
-              ))}
-            </ul>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         );
       })}
