@@ -267,6 +267,12 @@
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     border-radius: var(--radius-m);
+
+    // Room for a child menu that opens to the left of the parent (Profile menu).
+    &--submenu-left {
+      padding-left: calc(var(--spacing-xxxxxl) * 5);
+      padding-bottom: calc(var(--spacing-xxxxxl) * 3);
+    }
   }
 
   &__popover-nested-demo {
