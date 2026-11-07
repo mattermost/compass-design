@@ -158,6 +158,8 @@ Some helpers exist only so a prototype works on its own. Replace each with what 
 
 - **`WithTooltip`** (from `compass-proto`, wraps icon buttons in prototypes) → drop the proto wrapper and use the host's tooltip. In the **webapp** and in **plugins** that is `WithTooltip` from `@mattermost/shared/components/tooltip`. Compass plans full tooltip support, so check whether the consumer's installed `@mattermost/compass-ui` offers a tooltip that covers the case and prefer it if so. Keep the `IconButton`'s `aria-label` either way. **Inside a plugin modal**, the host tooltip layer sits below the modal, so check how the plugin lifts tooltips above modals (for example a wrapper like `TooltipAboveModals` in `mattermost-plugin-agents`) instead of nesting a plain `WithTooltip`.
 
+**Prototype strictness is relaxed; production's is not.** `compass-build`'s prototype context allows plain strings, fake data and simple state, but still expects tokens, hierarchy and accessibility. Production needs all of it: i18n, real data and states, tests, and the consumer kind's rules in `compass-build/references/context.md`. Don't treat the prototype's code as proof that tokens or accessibility were followed. Step 7 audits what you write, not what you copied from.
+
 ### 6. Implement in the consumer
 
 - Stay within the **scoped surface** from step 1 — don’t rebuild unrelated proto chrome.
