@@ -3,14 +3,12 @@ import CircleMultipleOutlineIcon from '@mattermost/compass-icons/components/circ
 import PhoneInTalkIcon from '@mattermost/compass-icons/components/phone-in-talk';
 import Emoji from '@/components/Emoji/Emoji';
 import Icon from '@/components/Icon/Icon';
-import TeamAvatar from '@/components/TeamAvatar/TeamAvatar';
 import UserAvatar from '@/components/UserAvatar/UserAvatar';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
-import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 import sampleImage from '@/assets/images/sample-image.jpg';
 import ChannelSidebarItem from './ChannelSidebarItem';
 import type {
@@ -286,20 +284,6 @@ export const CustomVisuals: Story = {
           leadingVisual={
             <UserAvatar src={avatarDanielle} alt="" size="20" status />
           }
-          onClick={fn()}
-        />
-      </section>
-      <section>
-        <div style={labelStyle}>Team avatar (24px) in the leading slot</div>
-        <ChannelSidebarItem
-          name="Staff Team"
-          leadingVisual={<TeamAvatar src={avatarStaffTeam} alt="" size="24" />}
-          onClick={fn()}
-        />
-        <ChannelSidebarItem
-          name="Staff Team announcements"
-          status="unread"
-          leadingVisual={<TeamAvatar src={avatarStaffTeam} alt="" size="24" />}
           onClick={fn()}
         />
       </section>
