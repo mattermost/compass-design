@@ -323,46 +323,56 @@ export default function GlobalHeader({
           onClick={onSettingsClick}
           toggled={settingsActive}
         />
-        {customStatus && (
-          <WithTooltip label={customStatus.text ?? 'Custom status'}>
-            <button
-              type="button"
-              className={styles['global-header__custom-status']}
-              aria-label={customStatus.text ?? 'Custom status'}
-              onClick={onCustomStatusClick}
-            >
-              {customStatus.emoji}
-            </button>
-          </WithTooltip>
-        )}
-        <button
-          type="button"
+        <div
           className={[
-            styles['global-header__account'],
-            accountActive ? styles['global-header__account--active'] : '',
+            styles['global-header__account-group'],
+            customStatus ? styles['global-header__account-group--custom-status'] : '',
+            accountActive ? styles['global-header__account-group--active'] : '',
           ]
             .filter(Boolean)
             .join(' ')}
-          aria-label="Account menu"
-          aria-expanded={
-            onAccountClick ? accountActive : accountActive || undefined
-          }
-          onClick={onAccountClick}
         >
-          <span className={styles['global-header__avatar']}>
-            <UserAvatar
-              src={userAvatarSrc}
-              alt={userAvatarAlt}
-              size="24"
-              status={status === 'online'}
-            />
-            {status !== 'online' && (
-              <span className={styles['global-header__status']}>
-                <StatusBadge status={status} size="small" />
-              </span>
-            )}
-          </span>
-        </button>
+          {customStatus && (
+            <WithTooltip label={customStatus.text ?? 'Custom status'}>
+              <button
+                type="button"
+                className={styles['global-header__custom-status']}
+                aria-label={customStatus.text ?? 'Custom status'}
+                onClick={onCustomStatusClick}
+              >
+                {customStatus.emoji}
+              </button>
+            </WithTooltip>
+          )}
+          <button
+            type="button"
+            className={[
+              styles['global-header__account'],
+              accountActive ? styles['global-header__account--active'] : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            aria-label="Account menu"
+            aria-expanded={
+              onAccountClick ? accountActive : accountActive || undefined
+            }
+            onClick={onAccountClick}
+          >
+            <span className={styles['global-header__avatar']}>
+              <UserAvatar
+                src={userAvatarSrc}
+                alt={userAvatarAlt}
+                size="24"
+                status={status === 'online'}
+              />
+              {status !== 'online' && (
+                <span className={styles['global-header__status']}>
+                  <StatusBadge status={status} size="small" />
+                </span>
+              )}
+            </span>
+          </button>
+        </div>
       </div>
     </header>
   );
