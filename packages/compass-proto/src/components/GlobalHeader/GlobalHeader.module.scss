@@ -170,6 +170,8 @@
     border: 0;
     border-radius: var(--radius-s);
     cursor: pointer;
+
+    @include focus-ring;
   }
 
   &__custom-status {
@@ -178,7 +180,10 @@
     padding: var(--spacing-xxxxs) 0 var(--spacing-xxxxs) var(--spacing-xs);
     background: transparent;
     border: 0;
+    border-radius: var(--radius-s);
     cursor: pointer;
+
+    @include focus-ring;
   }
 
   &__avatar {

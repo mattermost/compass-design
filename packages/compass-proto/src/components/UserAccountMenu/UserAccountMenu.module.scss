@@ -22,6 +22,8 @@
     cursor: pointer;
     border-radius: 50%;
 
+    @include focus-ring;
+
     &:hover {
       color: var(--center-channel-color);
     }
