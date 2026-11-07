@@ -71,7 +71,7 @@ Do not re-ask every turn; keep the answer for the session.
 
 **Scope to the stated focus.** Multi-scene prototypes often wrap the real change in full channel chrome (`ChannelShell`, sidebars, headers). Limit implementation to the **target surface / intent** from this gate (e.g. threads viewing, one System Console page, plugin RHS). Treat surrounding proto chrome as context — wire into existing host shells; do **not** replace ChannelShell / global nav / whole sidebars unless the user asked for that. If focus is unclear, ask once which surface(s) are in scope.
 
-**Desktop:** keep as a valid kind (e.g. replacing desktop Button / IconButton / form controls with Compass components once that app depends on compass-ui). Unless the user names a **desktop-only** surface/repo, prefer implementing shared product UI with **webapp** host patterns (desktop often embeds or shares that UI) — don’t invent a parallel Electron component layer. Still confirm which repo owns the change and follow that repo’s INTEGRATION.md.
+**Desktop:** its own consumer kind, but **it doesn't depend on `@mattermost/compass-ui` yet**. So for a desktop target the "missing compass-ui" branch below applies by default: stop and point at INTEGRATION.md unless the user asked to adopt it. Once the desktop app adopts compass-ui, replacing its Button / IconButton / form controls with Compass components is in scope. Unless the user names a **desktop-only** surface or repo, prefer implementing shared product UI with **webapp** host patterns (desktop often embeds or shares that UI); don’t invent a parallel Electron component layer. Still confirm which repo owns the change and follow that repo’s INTEGRATION.md.
 
 **Branch from the answer:**
 
