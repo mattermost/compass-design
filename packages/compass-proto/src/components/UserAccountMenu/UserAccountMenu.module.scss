@@ -41,13 +41,50 @@
   }
 
   // Child menu opens to the left: the Account button sits on the right edge of
-  // the Global header. Overlaps the parent by --spacing-xxs; the padding keeps
-  // the hover path from the parent row into the child unbroken.
+  // the Global header. Per the Popover Menu guideline it overlaps the parent by
+  // 8px (+1px parent border, since this box sits inside it) and its first menu
+  // item aligns with the Do Not Disturb row, so the surface (border, padding and
+  // title) reaches above the row.
   &__submenu {
     position: absolute;
-    top: calc(-1 * var(--spacing-s));
-    right: calc(100% - var(--spacing-xxs));
-    padding-right: var(--spacing-xxs);
+    z-index: 1;
+    top: calc(
+      -1 *
+        (
+          1px + var(--spacing-xs) + var(--spacing-xxs) + var(--line-height-75) +
+            var(--spacing-xs)
+        )
+    );
+    right: calc(100% - var(--spacing-xs) + 1px);
     width: max-content;
+
+    // Closed: slid 8px toward the parent, transparent; exits with exit easing.
+    opacity: 0;
+    transform: translateX(var(--spacing-xs));
+    pointer-events: none;
+    transition:
+      opacity var(--duration-quick) var(--ease-exit),
+      transform var(--duration-quick) var(--ease-exit);
+
+    // Open: move left 8px into place, fade in, entrance easing.
+    &--open {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      transition:
+        opacity var(--duration-quick) var(--ease-entrance),
+        transform var(--duration-quick) var(--ease-entrance);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  // Menu Item labels sit --spacing-xxxs inside the row padding; match it so the
+  // title lines up with the rows below.
+  &__submenu-title {
+    padding-inline: calc(var(--spacing-l) + var(--spacing-xxxs));
   }
 }

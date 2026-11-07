@@ -14,6 +14,7 @@ import {
 } from '@mattermost/compass-ui/components/popover-menu';
 import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
 import styles from './UserAccountMenu.module.scss';
 
 export type UserAccountMenuStatus =
@@ -101,6 +102,8 @@ export default function UserAccountMenu({
 }: UserAccountMenuProps) {
   const [submenu, setSubmenu] = useState(submenuInitiallyOpen);
   useEffect(() => setSubmenu(submenuInitiallyOpen), [submenuInitiallyOpen]);
+  const { mounted: submenuMounted, visible: submenuVisible } =
+    usePopoverTransition(submenu);
 
   const rootClass = [styles['user-account-menu'], className]
     .filter(Boolean)
@@ -172,10 +175,19 @@ export default function UserAccountMenu({
               aria-expanded={submenu}
               onClick={() => setSubmenu((v) => !v)}
             />
-            {submenu && (
-              <div className={styles['user-account-menu__submenu']}>
-                <PopoverMenu aria-label="Do Not Disturb">
-                  <PopoverMenuTitle>
+            {submenuMounted && (
+              <div
+                className={[
+                  styles['user-account-menu__submenu'],
+                  submenuVisible && styles['user-account-menu__submenu--open'],
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                <PopoverMenu variant="child" aria-label="Do Not Disturb">
+                  <PopoverMenuTitle
+                    className={styles['user-account-menu__submenu-title']}
+                  >
                     Disable notifications until:
                   </PopoverMenuTitle>
                   <PopoverMenuGroup>
