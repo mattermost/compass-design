@@ -88,12 +88,12 @@ export default function Message({
                       <WithTooltip
                         label={`${customStatus.emoji} ${customStatus.text}`}
                       >
-                        <span
+                        <button
+                          type="button"
                           className={styles['message__status-emoji']}
-                          tabIndex={0}
                         >
                           {customStatus.emoji}
-                        </span>
+                        </button>
                       </WithTooltip>
                     </>
                   ) : (

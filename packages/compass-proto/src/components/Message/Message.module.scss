@@ -75,7 +75,11 @@
   }
 
   &__status-emoji {
-    margin-left: var(--spacing-xxs);
+    margin: 0 0 0 var(--spacing-xxs);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
     font-size: var(--font-size-100);
     line-height: 1;
     cursor: default;
