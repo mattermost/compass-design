@@ -14,6 +14,21 @@ description: >-
 
 Turn a **mattermost-proto-playground** prototype into product code in a consumer repo, using that consumer’s installed `@mattermost/compass-ui` and host patterns for routing/behavior. Install it with the other Compass toolkit skills (see [Install](#install)).
 
+## Non-negotiables
+
+These are the rules that were skipped or missed when this skill was tested on a real prototype. They are repeated here so you can't miss them by not opening another file. The details live in the steps and references.
+
+1. **Use your task list.** Before starting, create one item per step below (1 to 10). Don't mark a step done until its output exists: the version comparison, the variants table, the decisions you confirmed, the audit result, the report. A step you didn't do is reported as skipped with the reason; it is never silently dropped.
+2. **Read the files in "Required reads"** at the point each one says.
+3. **Never depend on `@mattermost/compass-proto`.** Drop playground chrome and any prototype-only control (scene, viewer or state switchers, toggles, demo resets), but implement every variant they reveal.
+4. **Use the Compass components the consumer's installed package has.** The installed `.d.ts` wins over any table.
+5. **Carry over the prototype's spacing values.** Don't pick your own. Form gaps: 24px between fields in a group, 16px between paired fields, 32px between field groups.
+6. **Menus, pickers and tooltips inside a modal must show above it.** Confirm this in the running app.
+7. **Real conditions, i18n and host patterns.** Never fixture fields, pasted English literals or ported demo state.
+8. **Stop and ask** about what the prototype doesn't settle, before building (end of step 6).
+9. **Run the app and look at it** (step 10). Lint and tests can't see layout, spacing, stacking or focus.
+10. **Finish with the report in step 10.** It is the deliverable. A line that is missing means that step was skipped.
+
 ## When to use
 
 - Implement / ship a prototype into webapp, desktop, or a plugin
@@ -41,12 +56,16 @@ This skill lives in the **compass-design** repo at `skills/prototype-to-producti
 
 Once installed, neither compass-design nor the playground needs to be open: fetch prototype source from GitHub; use the consumer’s `node_modules/@mattermost/compass-ui`.
 
-## References (read as needed)
+## Required reads
 
-| File                                                         | Contents                                                     |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [references/resolve-source.md](references/resolve-source.md) | URL/slug → GitHub or local source                            |
-| [references/boundaries.md](references/boundaries.md)         | ui vs proto vs playground drop, skew policy, lookup commands |
+Read each file when its row says, before doing that step. Linking to a file isn't reading it.
+
+| File                                                         | Read it                | Contents                                                     |
+| ------------------------------------------------------------ | ---------------------- | ------------------------------------------------------------ |
+| [references/resolve-source.md](references/resolve-source.md) | at the start of step 2 | URL/slug → GitHub or local source                            |
+| [references/boundaries.md](references/boundaries.md)         | before step 3          | ui vs proto vs playground drop, skew policy, lookup commands |
+| `../compass-build/references/spacing-and-hierarchy.md`       | before step 7          | Spacing scale, form gaps, containers                         |
+| `../compass-build/references/checklist.md`                   | at step 9              | The Compass pre-finish checklist                             |
 
 ## Process
 
@@ -131,6 +150,8 @@ Prototypes often use scenes to show different perspectives and states. The produ
 
 **If there is a UX spec, read it first** and use it to fill the condition and source-of-truth columns. **The spec wins on behavior** (who sees what, which states exist, edge cases); **the prototype wins on look** (it is built from Compass components). Where they disagree on behavior, follow the spec and flag the mismatch; don't choose silently. Read a Confluence spec with the Atlassian MCP (most developers have it), a Figma spec with the Figma MCP, and a markdown spec from disk. If the spec can't be read (no connector, no access, private page), say so and continue from the prototype; don't invent its contents.
 
+**A copy of the spec inside the prototype is not the spec.** Prototypes often keep a condensed copy (for example `docs/*spec*.md`), and it may contain changes made after the source page was written. Read the source when you can. If you only had the copy, say so in the report. Either way, compare the spec with the prototype and report every behavior mismatch (defaults, naming, states) and which side you followed; don't resolve them silently.
+
 Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for anything that renders conditionally, or that differs between scenes. For each, note:
 
 | Element or section | Condition in the prototype | Kind | Product source of truth |
@@ -141,6 +162,7 @@ Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for a
 - **Product source of truth** is the consumer's real check: a role or permission selector, a license or flag check, or store or async state. Never copy the fixture field or prop.
 - Look for a **hardcoded viewer** in the fixtures (a fixed current user). Variants that depend on that user can be invisible in the source: ask which other viewers the surface should handle.
 - **Drop the switcher, keep the variants.** A control that toggles viewer, role, scene or state is prototype chrome (see `boundaries.md` rule 7) and does not ship. Every variant it reveals still gets a row in the table and is implemented from the host's real condition, not from the toggle.
+- **Scenes can be design alternatives, not only perspectives or states.** If scenes show competing versions of the same surface rather than different viewers or states, don't build all of them: ask which one to implement.
 - **Walkthrough files** are worth reading here even though the translation skips them elsewhere, because they sometimes spell out who sees what and when.
 - If a condition is only implied by a fixture and you can't find its product equivalent, **ask the developer once** instead of guessing. List unresolved ones.
 
@@ -198,6 +220,18 @@ Some helpers exist only so a prototype works on its own. Replace each with what 
 
 **Prototype strictness is relaxed; production's is not.** `compass-build`'s prototype context allows plain strings, fake data and simple state, but still expects tokens, hierarchy and accessibility. Production needs all of it: i18n, real data and states, tests, and the consumer kind's rules in `compass-build/references/context.md`. Don't treat the prototype's code as proof that tokens or accessibility were followed. Step 8 audits what you write, not what you copied from.
 
+#### Stop and ask before building
+
+Before writing code, ask the developer **once, in a single batched message**, about anything the prototype and spec don't settle. Typical cases:
+
+- **Persistence:** where the data is stored when the product has no field for it, and who else reads it.
+- **Moved or removed existing UI:** settings or features that the prototype relocates, so the existing code and its callers change.
+- **Behavior that needs work outside the client:** a server, plugin or job (for example something that must happen automatically at a time), and whether to build, stub or leave it as a listed gap.
+- **Access and licensing:** who sees the surface.
+- **Spec vs prototype conflicts** that change behavior (step 4).
+
+If the developer can't be reached, pick the most conservative option, mark it as an **assumption** and list it in the report. Never make these choices silently.
+
 ### 7. Implement in the consumer
 
 - Stay within the **scoped surface** from step 1 — don’t rebuild unrelated proto chrome.
@@ -205,6 +239,7 @@ Some helpers exist only so a prototype works on its own. Replace each with what 
 - Do not copy playground scene/orchestrator structure wholesale.
 - Subpath imports only for compass-ui; kebab-case variant strings.
 - Overlay and menu ownership stays in product code. Follow [references/boundaries.md](references/boundaries.md) rules 5–6.
+- Before running an install or a generator that installs (an i18n extract, a codegen step), check that `node_modules` is this consumer's own. Never run an install through a symlink to another checkout: it modifies that checkout.
 
 ### 8. Audit with `compass-review`
 
@@ -221,6 +256,8 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 
 - [ ] Consumer kind and **scoped surface** recorded for the session (no unsolicited full-shell rewrite)
 - [ ] Playground ref recorded for the session
+- [ ] Every file in "Required reads" was read at its step
+- [ ] Decisions the prototype doesn't settle were confirmed with the developer (step 6), or listed as assumptions
 - [ ] Every variant from step 4 is implemented with the product's real condition, or listed as unresolved in the report
 - [ ] `@mattermost/compass-ui` present; no `@mattermost/compass-proto` in product deps or imports
 - [ ] No playground chrome (`PrototypeTopNav`, `SceneSwitcher`, `DeviceFrame`, `MobileModalStage`, walkthrough runtime), and no other prototype-only controls (viewer, state or theme toggles, demo resets)
@@ -228,6 +265,7 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Style entry correct for consumer kind (webapp: no `styles/standalone`)
 - [ ] No wholesale copy of playground SCSS modules
 - [ ] Any `Select`, `Combobox`, `DateRangePicker` or emoji menu used inside a modal was opened in the running app and shows above the modal (see `boundaries.md` rule 5); lint and unit tests can't see this
+- [ ] The surface was run and every variant and entry point was looked at (step 10), or the report says it was not verified in a running app
 - [ ] Spacing between and within fields matches the prototype's SCSS values (and the form gaps in `compass-build`), not values you picked
 - [ ] Prototype **behavior intent** preserved; implementation uses **host** patterns (no ported playground state/fixtures as production logic)
 - [ ] User-visible strings use the consumer's **i18n** pattern (prototype copy is wording intent, not pasted literals)
@@ -235,6 +273,33 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Ran the `compass-build` `references/checklist.md` on the result, using the **plugin** or **core feature** column of `references/context.md` for the consumer kind (not the prototype column)
 
 The last item is not optional. If you could not run the `compass-build` checklist or the step 8 audit, say so plainly in the final report and list what was not checked; don't present the translation as finished without it.
+
+### 10. Verify in the running app and report
+
+Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at it.
+
+1. Start the consumer with its own dev workflow (webapp: its dev server against a running Mattermost server; plugin: the plugin's deploy or watch command).
+2. If sign-in is needed, ask the developer to sign in, or to give a test account for this local app. Never use a real person's credentials.
+3. Open the scoped surface and walk **every row of the step 4 table** (each viewer, role, state and flag) and **every entry point**. Note any variant you couldn't reach, and why.
+4. Compare with the prototype: run the playground at the recorded ref, or use the screenshots in the prototype's `docs/`. Check spacing, alignment, states, wording and keyboard focus order.
+5. Open every menu, picker, tooltip and popover that sits inside a modal and confirm it shows **above** the modal.
+6. Capture screenshots of the main states for the developer.
+7. If you can't run the app, say so and mark it **not verified in a running app**. Never describe it as verified.
+
+**Final report (required).** Use this shape. Give every line a status: done, skipped (with the reason), or not applicable.
+
+- Consumer, scoped surface and playground ref
+- compass-ui versions: prototype, consumer, and gaps from skew
+- Spec: source read (Confluence, Figma, markdown, none) or "copy only"; behavior mismatches with the prototype and which side you followed
+- Decisions confirmed with the developer, and assumptions made without one
+- Variants: handled, and unresolved
+- Prototype-only controls dropped as chrome
+- Compass components used; anything hand-rolled, and why
+- Spacing: carried over from the prototype; any deviation
+- Menus and pickers in modals checked above the modal
+- Behavior intent not built (needs server or other work), listed as gaps
+- Checks run: step 8 audit, `compass-build` checklist, lint, types, tests, running-app check
+- What was **not** checked
 
 ## Where the Compass rules live
 

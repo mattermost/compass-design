@@ -21,6 +21,10 @@ ln -s /path/to/compass-design/skills/compass-build .claude/skills/compass-build
 ln -s /path/to/compass-design/skills/compass-review .claude/skills/compass-review
 ```
 
+## Testing a skill
+
+[`evals/prototype-to-production/`](evals/prototype-to-production/README.md) holds a repeatable with-skill / without-skill A/B test: a setup script, a prompt template and a fixed rubric. It sits outside the skill folders so installing a skill doesn't copy it.
+
 ## Adding a skill
 
 Add `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Put shared reference material in the skill that owns it and say so in the dependent skill.

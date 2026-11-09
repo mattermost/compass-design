@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Create the with-skill / without-skill worktrees for an A/B test of
+# prototype-to-production. See README.md in this folder.
+set -euo pipefail
+
+usage() {
+  cat <<USAGE
+Usage: setup-ab.sh --consumer <repo> --base <ref> --compass-design <repo> --name <slug>
+
+  --consumer        Path to the consumer repo (mattermost, a plugin, ...)
+  --base            Commit or ref both worktrees start from (e.g. origin/master)
+  --compass-design  Path to a compass-design checkout that has skills/
+  --name            Short slug used for branch and folder names
+USAGE
+}
+
+consumer="" base="" cd_repo="" name=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --consumer) consumer="${2:-}"; shift 2 ;;
+    --base) base="${2:-}"; shift 2 ;;
+    --compass-design) cd_repo="${2:-}"; shift 2 ;;
+    --name) name="${2:-}"; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "Unknown argument: $1" >&2; usage >&2; exit 2 ;;
+  esac
+done
+if [ -z "$consumer" ] || [ -z "$base" ] || [ -z "$cd_repo" ] || [ -z "$name" ]; then
+  usage >&2; exit 2
+fi
+for s in compass-build compass-review prototype-to-production; do
+  [ -d "$cd_repo/skills/$s" ] || { echo "Missing $cd_repo/skills/$s" >&2; exit 1; }
+done
+
+root="$(cd "$consumer/.." && pwd)/ab-test-$name"
+mkdir -p "$root"
+sha="$(git -C "$consumer" rev-parse --short "$base")"
+
+git -C "$consumer" worktree add -b "ab-$name-with-skill" "$root/with-skill" "$base"
+git -C "$consumer" worktree add -b "ab-$name-without-skill" "$root/without-skill" "$base"
+
+# Copy (don't symlink) the skills, side by side, into the with-skill worktree only.
+mkdir -p "$root/with-skill/.claude/skills"
+for s in compass-build compass-review prototype-to-production; do
+  cp -R "$cd_repo/skills/$s" "$root/with-skill/.claude/skills/$s"
+done
+
+cat <<DONE
+
+Both worktrees start at $sha:
+  with skill:    $root/with-skill
+  without skill: $root/without-skill
+
+Next:
+  1. Install dependencies in EACH worktree (do not symlink node_modules).
+  2. Fill in prompt.template.md and paste the identical prompt into a fresh
+     Claude Code session in each worktree.
+  3. Score both with rubric.md.
+
+Clean up later with:
+  git -C "$consumer" worktree remove --force "$root/with-skill"
+  git -C "$consumer" worktree remove --force "$root/without-skill"
+DONE
