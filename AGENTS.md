@@ -60,3 +60,4 @@ Prefer design tokens from `src/styles/tokens.scss` over hardcoded px/hex/ms. Ful
 - [.cursor/skills/add-docs-topic/SKILL.md](.cursor/skills/add-docs-topic/SKILL.md) — Adding a docs topic (procedure)
 - [.cursor/skills/review-compass-ui-component/SKILL.md](.cursor/skills/review-compass-ui-component/SKILL.md) — New/changed compass-ui component checklist
 - [.cursor/rules/creating-agent-rules.mdc](.cursor/rules/creating-agent-rules.mdc) — Adding or changing agent guidance
+- [.cursor/cursor.md](.cursor/cursor.md) — Cursor Cloud Agents: running the docs app / Storybook, verification, troubleshooting (environment in [.cursor/README.md](.cursor/README.md))
