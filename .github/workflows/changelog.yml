@@ -1,0 +1,74 @@
+name: Changelog
+
+# Published compass-ui changes need a CHANGELOG entry. Add the `skip-changelog`
+# label to a PR whose compass-ui changes have no effect on consumers.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  changelog:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-changelog') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require a compass-ui CHANGELOG entry
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          changed=$(git diff --name-only "origin/${BASE_REF}...HEAD")
+          # Published source only. Stories, tests, Storybook, and test-utils
+          # are excluded from the declaration build and don't reach consumers.
+          source=$(echo "$changed" \
+            | grep -E '^packages/compass-ui/src/' \
+            | grep -Ev '\.(stories|test)\.[jt]sx?$|/storybook/|/src/test-utils/' || true)
+          if [ -z "$source" ]; then
+            echo "No published compass-ui source changed."
+            exit 0
+          fi
+
+          changelog=packages/compass-ui/CHANGELOG.md
+          if [ ! -f "$changelog" ]; then
+            echo "::error file=${changelog}::Published compass-ui source changed and CHANGELOG.md is missing. Add an entry under [Unreleased], or add the skip-changelog label if consumers are not affected."
+            echo "Changed compass-ui source:"
+            echo "$source"
+            exit 1
+          fi
+
+          # A new top-level list item under [Unreleased]. Rewording an existing
+          # bullet, adding a sub-bullet, editing an older release, or deleting
+          # the file do not count.
+          unreleased_entry_count() {
+            awk '
+              /^## \[Unreleased\][[:space:]]*$/ { in_section = 1; next }
+              /^## \[/ { if (in_section) exit }
+              in_section && /^-[[:space:]]+[^[:space:]]/ { count++ }
+              END { print count + 0 }
+            ' "$1"
+          }
+
+          base_changelog=$(mktemp)
+          if ! git show "origin/${BASE_REF}:${changelog}" > "$base_changelog" 2>/dev/null; then
+            : > "$base_changelog"
+          fi
+
+          base_count=$(unreleased_entry_count "$base_changelog")
+          head_count=$(unreleased_entry_count "$changelog")
+          rm -f "$base_changelog"
+
+          if [ "$head_count" -gt "$base_count" ]; then
+            echo "compass-ui source changed and [Unreleased] gained an entry (${base_count} → ${head_count})."
+            exit 0
+          fi
+
+          echo "::error file=${changelog}::Published compass-ui source changed without a new [Unreleased] entry. Add a top-level bullet under ### Added, ### Changed or ### Fixed, or add the skip-changelog label if consumers are not affected. Rewording an existing bullet, adding a sub-bullet, or editing an older release does not count."
+          echo "Changed compass-ui source:"
+          echo "$source"
+          exit 1

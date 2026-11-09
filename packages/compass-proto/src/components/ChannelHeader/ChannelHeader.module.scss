@@ -45,6 +45,27 @@
     align-self: center;
   }
 
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  &__status-emoji {
+    flex-shrink: 0;
+    font-size: var(--font-size-75);
+    line-height: 1;
+  }
+
+  &__status-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__name-area {
     display: inline-flex;
     align-items: center;

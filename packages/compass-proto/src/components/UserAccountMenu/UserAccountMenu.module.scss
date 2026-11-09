@@ -1,0 +1,110 @@
+.user-account-menu {
+  position: relative;
+  width: 264px;
+
+  // Avatar + name / username, per Figma Menu Title (40px avatar, 12px gap).
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    padding: var(--spacing-xs) var(--spacing-l);
+  }
+
+  &__emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Clear icon in the row's trailing slot.
+  &__clear {
+    display: inline-flex;
+    cursor: pointer;
+    border-radius: 50%;
+
+    @include focus-ring;
+
+    &:hover {
+      color: var(--center-channel-color);
+    }
+  }
+
+  &__identity {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    overflow: hidden;
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-200);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-200);
+    color: var(--center-channel-color);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__username {
+    overflow: hidden;
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-100);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__dnd {
+    position: relative;
+  }
+
+  // Child menu opens to the left: the Account button sits on the right edge of
+  // the Global header. Per the Popover Menu guideline it overlaps the parent by
+  // 8px (+1px parent border, since this box sits inside it) and its first menu
+  // item aligns with the Do Not Disturb row, so the surface (border, padding and
+  // title) reaches above the row.
+  &__submenu {
+    position: absolute;
+    z-index: 1;
+    top: calc(
+      -1 *
+        (
+          1px + var(--spacing-xs) + var(--spacing-xxs) + var(--line-height-75) +
+            var(--spacing-xs)
+        )
+    );
+    right: calc(100% - var(--spacing-xs) + 1px);
+    width: max-content;
+
+    // Closed: slid 8px toward the parent, transparent; exits with exit easing.
+    opacity: 0;
+    transform: translateX(var(--spacing-xs));
+    pointer-events: none;
+    transition:
+      opacity var(--duration-quick) var(--ease-exit),
+      transform var(--duration-quick) var(--ease-exit);
+
+    // Open: move left 8px into place, fade in, entrance easing.
+    &--open {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      transition:
+        opacity var(--duration-quick) var(--ease-entrance),
+        transform var(--duration-quick) var(--ease-entrance);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  // Menu Item labels sit --spacing-xxxs inside the row padding; match it so the
+  // title lines up with the rows below.
+  &__submenu-title {
+    padding-inline: calc(var(--spacing-l) + var(--spacing-xxxs));
+  }
+}

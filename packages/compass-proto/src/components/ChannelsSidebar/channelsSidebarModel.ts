@@ -1,9 +1,13 @@
-import type { ChannelSidebarItemProps } from '@mattermost/compass-ui/components/channel-sidebar-item';
+import type {
+  ChannelSidebarItemLeadingVisual,
+  ChannelSidebarItemProps,
+} from '@mattermost/compass-ui/components/channel-sidebar-item';
 
 /**
  * Proto sidebar row data. `name` stays `string` (not ChannelSidebarItem's
  * ReactNode) — it is used as identity for keys, active matching, overrides,
- * and click callbacks.
+ * and click callbacks. `leadingVisual` is the built-in token only (not a custom
+ * node) so the same model can feed desktop and mobile row components.
  */
 export type ChannelsSidebarItemModel = Omit<
   Pick<
@@ -17,11 +21,20 @@ export type ChannelsSidebarItemModel = Omit<
     | 'avatarSrc'
     | 'avatarAlt'
     | 'showAvatarStatus'
+    | 'customStatusEmoji'
     | 'onClick'
   >,
-  'name'
+  'name' | 'customStatusEmoji' | 'leadingVisual'
 > & {
   name: string;
+  leadingVisual?: ChannelSidebarItemLeadingVisual;
+  /** Plain custom status emoji after the name. Shown on desktop and mobile. */
+  customStatusEmoji?: string;
+  /**
+   * Custom status text. The desktop sidebar adds a tooltip (large emoji above
+   * this text) to the emoji; mobile shows the emoji alone, with no tooltip.
+   */
+  customStatusText?: string;
 };
 
 export interface ChannelsSidebarCategoryModel {
