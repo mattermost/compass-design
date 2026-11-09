@@ -24,19 +24,50 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           changed=$(git diff --name-only "origin/${BASE_REF}...HEAD")
-          # Published source only: stories and tests don't reach consumers.
+          # Published source only. Stories, tests, Storybook, and test-utils
+          # are excluded from the declaration build and don't reach consumers.
           source=$(echo "$changed" \
             | grep -E '^packages/compass-ui/src/' \
-            | grep -Ev '\.(stories|test)\.[jt]sx?$|/storybook/' || true)
+            | grep -Ev '\.(stories|test)\.[jt]sx?$|/storybook/|/src/test-utils/' || true)
           if [ -z "$source" ]; then
             echo "No published compass-ui source changed."
             exit 0
           fi
-          if echo "$changed" | grep -qx 'packages/compass-ui/CHANGELOG.md'; then
-            echo "compass-ui source changed and CHANGELOG.md was updated."
+
+          changelog=packages/compass-ui/CHANGELOG.md
+          if [ ! -f "$changelog" ]; then
+            echo "::error file=${changelog}::Published compass-ui source changed and CHANGELOG.md is missing. Add an entry under [Unreleased], or add the skip-changelog label if consumers are not affected."
+            echo "Changed compass-ui source:"
+            echo "$source"
+            exit 1
+          fi
+
+          # A list item added to the [Unreleased] section. Edits under an older
+          # release, or deleting the file, do not satisfy the check.
+          unreleased_entries() {
+            awk '
+              /^## \[Unreleased\][[:space:]]*$/ { in_section = 1; next }
+              /^## \[/ { if (in_section) exit }
+              in_section && /^[[:space:]]*-[[:space:]]+[^[:space:]]/ { print }
+            ' "$1"
+          }
+
+          base_changelog=$(mktemp)
+          if ! git show "origin/${BASE_REF}:${changelog}" > "$base_changelog" 2>/dev/null; then
+            : > "$base_changelog"
+          fi
+
+          added=$(LC_ALL=C comm -13 \
+            <(unreleased_entries "$base_changelog" | LC_ALL=C sort) \
+            <(unreleased_entries "$changelog" | LC_ALL=C sort))
+          rm -f "$base_changelog"
+
+          if [ -n "$added" ]; then
+            echo "compass-ui source changed and [Unreleased] gained an entry."
             exit 0
           fi
-          echo "::error file=packages/compass-ui/CHANGELOG.md::Published compass-ui source changed without a CHANGELOG entry. Add one under [Unreleased], or add the skip-changelog label if consumers are not affected."
+
+          echo "::error file=${changelog}::Published compass-ui source changed without a new [Unreleased] entry. Add one under ### Added, ### Changed or ### Fixed, or add the skip-changelog label if consumers are not affected. An edit to an older release does not count."
           echo "Changed compass-ui source:"
           echo "$source"
           exit 1
