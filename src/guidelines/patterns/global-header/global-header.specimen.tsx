@@ -1,4 +1,5 @@
 import { GlobalHeader } from '@mattermost/compass-proto';
+import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
@@ -10,6 +11,18 @@ export default function GlobalHeaderLibrary() {
         product="channels"
         userAvatarSrc={avatarLeonard}
         userAvatarAlt="Leonard Riley"
+      />
+      <p className={styles['patterns__variant-label']}>
+        Channels — with custom status
+      </p>
+      <GlobalHeader
+        product="channels"
+        userAvatarSrc={avatarLeonard}
+        userAvatarAlt="Leonard Riley"
+        customStatus={{
+          emoji: <Emoji emoji="📅" size="16" />,
+          text: 'In a meeting',
+        }}
       />
       <p className={styles['patterns__variant-label']}>
         Channels — with Upgrade
