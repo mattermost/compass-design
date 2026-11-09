@@ -227,6 +227,7 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Every Compass import resolves in the consumer's installed ui
 - [ ] Style entry correct for consumer kind (webapp: no `styles/standalone`)
 - [ ] No wholesale copy of playground SCSS modules
+- [ ] Any `Select`, `Combobox`, `DateRangePicker` or emoji menu used inside a modal was opened in the running app and shows above the modal (see `boundaries.md` rule 5); lint and unit tests can't see this
 - [ ] Spacing between and within fields matches the prototype's SCSS values (and the form gaps in `compass-build`), not values you picked
 - [ ] Prototype **behavior intent** preserved; implementation uses **host** patterns (no ported playground state/fixtures as production logic)
 - [ ] User-visible strings use the consumer's **i18n** pattern (prototype copy is wording intent, not pasted literals)
