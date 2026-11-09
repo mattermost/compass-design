@@ -69,10 +69,8 @@ export interface GlobalHeaderProps {
   userAvatarAlt?: string;
   /** Status badge on the avatar. Default: online. */
   status?: GlobalHeaderUserStatus;
-  /** Custom status; its emoji renders just before the avatar, with a tooltip for the text. */
+  /** Custom status; its emoji renders before the avatar inside the account control. Hover shows a tooltip; the account menu carries the status for assistive tech. */
   customStatus?: GlobalHeaderCustomStatus;
-  /** When set, the custom status emoji calls this on click (e.g. to open the editor). */
-  onCustomStatusClick?: GlobalHeaderClickHandler;
   /** When set, Recent mentions (@) calls this on click. Channels product only. */
   onRecentMentionsClick?: GlobalHeaderClickHandler;
   /** When true, Recent mentions shows as toggled/selected. */
@@ -207,7 +205,6 @@ export default function GlobalHeader({
   userAvatarAlt = 'User',
   status = 'online',
   customStatus,
-  onCustomStatusClick,
   onRecentMentionsClick,
   recentMentionsActive = false,
   onProductSwitcherClick,
@@ -323,53 +320,58 @@ export default function GlobalHeader({
           onClick={onSettingsClick}
           toggled={settingsActive}
         />
-        <div
+        <button
+          type="button"
           className={[
-            styles['global-header__account-group'],
-            customStatus
-              ? styles['global-header__account-group--custom-status']
-              : '',
-            accountActive ? styles['global-header__account-group--active'] : '',
+            styles['global-header__account'],
+            customStatus ? styles['global-header__account--custom-status'] : '',
+            accountActive ? styles['global-header__account--active'] : '',
           ]
             .filter(Boolean)
             .join(' ')}
+          aria-label="Account menu"
+          aria-expanded={
+            onAccountClick ? accountActive : accountActive || undefined
+          }
+          onClick={onAccountClick}
         >
           {customStatus && (
-            <WithTooltip label={customStatus.text ?? 'Custom status'}>
-              <button
-                type="button"
+            <WithTooltip
+              label={customStatus.text ?? 'Custom status'}
+              emoji={
+                typeof customStatus.emoji === 'string'
+                  ? customStatus.emoji
+                  : undefined
+              }
+              emojiSize={
+                typeof customStatus.emoji === 'string' ? 'large' : undefined
+              }
+            >
+              {/* Decorative: status details live in the account menu. Empty
+                  aria-label keeps WithTooltip from copying the tooltip text. */}
+              <span
                 className={styles['global-header__custom-status']}
-                aria-label={customStatus.text ?? 'Custom status'}
-                onClick={onCustomStatusClick}
+                aria-hidden
+                aria-label=""
               >
                 {customStatus.emoji}
-              </button>
+              </span>
             </WithTooltip>
           )}
-          <button
-            type="button"
-            className={styles['global-header__account']}
-            aria-label="Account menu"
-            aria-expanded={
-              onAccountClick ? accountActive : accountActive || undefined
-            }
-            onClick={onAccountClick}
-          >
-            <span className={styles['global-header__avatar']}>
-              <UserAvatar
-                src={userAvatarSrc}
-                alt={userAvatarAlt}
-                size="24"
-                status={status === 'online'}
-              />
-              {status !== 'online' && (
-                <span className={styles['global-header__status']}>
-                  <StatusBadge status={status} size="small" />
-                </span>
-              )}
-            </span>
-          </button>
-        </div>
+          <span className={styles['global-header__avatar']}>
+            <UserAvatar
+              src={userAvatarSrc}
+              alt={userAvatarAlt}
+              size="24"
+              status={status === 'online'}
+            />
+            {status !== 'online' && (
+              <span className={styles['global-header__status']}>
+                <StatusBadge status={status} size="small" />
+              </span>
+            )}
+          </span>
+        </button>
       </div>
     </header>
   );

@@ -139,32 +139,14 @@
     grid-column: 2;
   }
 
-  // Emoji + avatar share one pill, like the webapp's account button: the
-  // background lives on the group so hovering the emoji highlights it too.
-  &__account-group {
+  // Avatar (and optional custom-status emoji) in one account control so hover
+  // and the focus ring cover the whole pill.
+  &__account {
     --status-badge-bg: var(--sidebar-header-bg);
 
     display: inline-flex;
     align-items: center;
-    border-radius: var(--radius-s);
-    transition: background-color var(--duration-quick) var(--ease-transition);
-
-    &:hover,
-    &--active {
-      background: rgba(var(--sidebar-text-rgb), 0.08);
-    }
-
-    // Webapp: with a custom status the pill keeps a stronger fill, which also
-    // wins over the hover/active fill.
-    &--custom-status,
-    &--custom-status:hover {
-      background: rgba(var(--sidebar-text-rgb), 0.16);
-    }
-  }
-
-  &__account {
-    display: inline-flex;
-    align-items: center;
+    gap: var(--spacing-xs);
     padding: var(--spacing-xxxxs) var(--spacing-xs);
     background: transparent;
     border: 0;
@@ -172,18 +154,31 @@
     cursor: pointer;
 
     @include focus-ring;
+
+    // Hover / press fade only — active (`accountActive`) must snap instantly.
+    &:hover,
+    &:active {
+      background: rgba(var(--sidebar-text-rgb), 0.08);
+      transition: background-color var(--duration-quick) var(--ease-transition);
+    }
+
+    &--active {
+      background: rgba(var(--sidebar-text-rgb), 0.08);
+    }
+
+    // Custom status keeps a resting fill so the pill reads as one control;
+    // same strength as hover, including on hover/press.
+    &--custom-status,
+    &--custom-status:hover,
+    &--custom-status:active {
+      background: rgba(var(--sidebar-text-rgb), var(--opacity-8));
+    }
   }
 
+  // Decorative emoji inside the account button; tooltip is pointer-only.
   &__custom-status {
     display: inline-flex;
     align-items: center;
-    padding: var(--spacing-xxxxs) 0 var(--spacing-xxxxs) var(--spacing-xs);
-    background: transparent;
-    border: 0;
-    border-radius: var(--radius-s);
-    cursor: pointer;
-
-    @include focus-ring;
   }
 
   &__avatar {

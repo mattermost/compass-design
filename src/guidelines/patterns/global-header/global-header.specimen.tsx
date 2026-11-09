@@ -12,6 +12,18 @@ export default function GlobalHeaderLibrary() {
         userAvatarAlt="Leonard Riley"
       />
       <p className={styles['patterns__variant-label']}>
+        Channels — with custom status
+      </p>
+      <GlobalHeader
+        product="channels"
+        userAvatarSrc={avatarLeonard}
+        userAvatarAlt="Leonard Riley"
+        customStatus={{
+          emoji: '📅',
+          text: 'In a meeting',
+        }}
+      />
+      <p className={styles['patterns__variant-label']}>
         Channels — with Upgrade
       </p>
       <GlobalHeader
