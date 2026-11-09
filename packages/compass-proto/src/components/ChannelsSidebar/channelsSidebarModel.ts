@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { ChannelSidebarItemProps } from '@mattermost/compass-ui/components/channel-sidebar-item';
 
 /**
@@ -24,11 +23,13 @@ export type ChannelsSidebarItemModel = Omit<
   'name' | 'customStatusEmoji'
 > & {
   name: string;
+  /** Plain custom status emoji after the name. Shown on desktop and mobile. */
+  customStatusEmoji?: string;
   /**
-   * Emoji after the name. Typed here (not via the installed sidebar item)
-   * so a tooltip trigger can be passed through to the row.
+   * Custom status text. The desktop sidebar adds a tooltip (large emoji above
+   * this text) to the emoji; mobile shows the emoji alone, with no tooltip.
    */
-  customStatusEmoji?: ReactNode;
+  customStatusText?: string;
 };
 
 export interface ChannelsSidebarCategoryModel {

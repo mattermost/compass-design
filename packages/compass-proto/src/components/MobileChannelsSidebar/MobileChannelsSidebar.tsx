@@ -14,12 +14,11 @@ import {
 import { buildDefaultChannelsSidebarModel } from '@/fixtures/buildDefaultChannelsSidebarModel';
 import styles from './MobileChannelsSidebar.module.scss';
 
+/** Mobile has no hover, so the emoji shows without its tooltip text. */
 function toMobileItem(row: ChannelsSidebarItemModel) {
-  const { customStatusEmoji, ...rest } = row;
-  return {
-    ...rest,
-    ...(typeof customStatusEmoji === 'string' ? { customStatusEmoji } : {}),
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- desktop tooltip text only
+  const { customStatusText: _customStatusText, ...rest } = row;
+  return rest;
 }
 
 function applyInteractivity(

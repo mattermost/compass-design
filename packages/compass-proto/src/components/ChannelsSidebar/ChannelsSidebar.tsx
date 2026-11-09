@@ -16,6 +16,31 @@ import {
 } from './channelsSidebarModel';
 import styles from './ChannelsSidebar.module.scss';
 
+/**
+ * Desktop row props: with `customStatusText`, the emoji gets a hover tooltip
+ * (large emoji above the text). The row itself is the focus target, so the
+ * emoji is a labelled image, not a nested button.
+ */
+function toDesktopItem(row: ChannelsSidebarItemModel) {
+  const { customStatusEmoji, customStatusText, ...rest } = row;
+  if (!customStatusEmoji || !customStatusText) {
+    return { ...rest, customStatusEmoji };
+  }
+  return {
+    ...rest,
+    customStatusEmoji: (
+      <WithTooltip
+        label={customStatusText}
+        emoji={customStatusEmoji}
+        emojiSize="large"
+        placement="right"
+      >
+        <span role="img">{customStatusEmoji}</span>
+      </WithTooltip>
+    ),
+  };
+}
+
 function applyChannelSidebarInteractivity(
   model: ChannelsSidebarModel,
   activeChannelName: string | undefined,
@@ -232,7 +257,10 @@ export default function ChannelsSidebar({
 
       <div className={styles['channels-sidebar__top-group']}>
         {model.topGroupItems.map((row, i) => (
-          <ChannelSidebarItem key={`top-${i}-${row.name}`} {...row} />
+          <ChannelSidebarItem
+            key={`top-${i}-${row.name}`}
+            {...toDesktopItem(row)}
+          />
         ))}
       </div>
 
@@ -252,7 +280,7 @@ export default function ChannelsSidebar({
                 {group.items.map((row, index) => (
                   <ChannelSidebarItem
                     key={`${group.key}-${index}-${row.name}`}
-                    {...row}
+                    {...toDesktopItem(row)}
                   />
                 ))}
               </div>
