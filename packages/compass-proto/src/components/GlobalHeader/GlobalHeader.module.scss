@@ -152,11 +152,16 @@
     border: 0;
     border-radius: var(--radius-s);
     cursor: pointer;
-    transition: background-color var(--duration-quick) var(--ease-transition);
 
     @include focus-ring;
 
+    // Hover / press fade only — active (`accountActive`) must snap instantly.
     &:hover,
+    &:active {
+      background: rgba(var(--sidebar-text-rgb), 0.08);
+      transition: background-color var(--duration-quick) var(--ease-transition);
+    }
+
     &--active {
       background: rgba(var(--sidebar-text-rgb), 0.08);
     }
@@ -164,7 +169,8 @@
     // Webapp: with a custom status the pill keeps a stronger fill, which also
     // wins over the hover/active fill.
     &--custom-status,
-    &--custom-status:hover {
+    &--custom-status:hover,
+    &--custom-status:active {
       background: rgba(var(--sidebar-text-rgb), 0.16);
     }
   }
