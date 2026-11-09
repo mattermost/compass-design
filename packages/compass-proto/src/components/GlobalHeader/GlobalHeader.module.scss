@@ -139,15 +139,22 @@
     grid-column: 2;
   }
 
-  // Emoji + avatar share one pill, like the webapp's account button: the
-  // background lives on the group so hovering the emoji highlights it too.
-  &__account-group {
+  // Avatar (and optional custom-status emoji) in one account control so hover
+  // and the focus ring cover the whole pill.
+  &__account {
     --status-badge-bg: var(--sidebar-header-bg);
 
     display: inline-flex;
     align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xxxxs) var(--spacing-xs);
+    background: transparent;
+    border: 0;
     border-radius: var(--radius-s);
+    cursor: pointer;
     transition: background-color var(--duration-quick) var(--ease-transition);
+
+    @include focus-ring;
 
     &:hover,
     &--active {
@@ -162,28 +169,10 @@
     }
   }
 
-  &__account {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--spacing-xxxxs) var(--spacing-xs);
-    background: transparent;
-    border: 0;
-    border-radius: var(--radius-s);
-    cursor: pointer;
-
-    @include focus-ring;
-  }
-
+  // Decorative emoji inside the account button; tooltip is pointer-only.
   &__custom-status {
     display: inline-flex;
     align-items: center;
-    padding: var(--spacing-xxxxs) 0 var(--spacing-xxxxs) var(--spacing-xs);
-    background: transparent;
-    border: 0;
-    border-radius: var(--radius-s);
-    cursor: pointer;
-
-    @include focus-ring;
   }
 
   &__avatar {

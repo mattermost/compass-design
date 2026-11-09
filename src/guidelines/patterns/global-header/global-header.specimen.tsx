@@ -1,5 +1,4 @@
 import { GlobalHeader } from '@mattermost/compass-proto';
-import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
@@ -20,7 +19,7 @@ export default function GlobalHeaderLibrary() {
         userAvatarSrc={avatarLeonard}
         userAvatarAlt="Leonard Riley"
         customStatus={{
-          emoji: <Emoji emoji="📅" size="16" />,
+          emoji: '📅',
           text: 'In a meeting',
         }}
       />
