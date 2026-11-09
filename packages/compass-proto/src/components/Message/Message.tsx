@@ -14,7 +14,7 @@ type MessageProps = {
   avatarAlt: string;
   username: string;
   timestamp: string;
-  /** Emoji in the byline. Tooltip shows the emoji and text. */
+  /** Emoji in the byline. Tooltip shows the emoji large above the text. */
   customStatus?: { emoji: string; text: string };
   isBot?: boolean;
   botLabel?: string;
@@ -86,7 +86,9 @@ export default function Message({
                     <>
                       {username}
                       <WithTooltip
-                        label={`${customStatus.emoji} ${customStatus.text}`}
+                        label={customStatus.text}
+                        emoji={customStatus.emoji}
+                        emojiSize="large"
                       >
                         <button
                           type="button"
