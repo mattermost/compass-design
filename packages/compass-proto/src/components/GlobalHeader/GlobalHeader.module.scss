@@ -9,9 +9,10 @@
   padding: 0 var(--spacing-xxxxs);
   background: var(--sidebar-header-bg);
 
-  /* Three tracks: product / navigator | centered search (Channels) | session controls */
+  /* Equal side tracks keep the search centered when the account button
+     changes width, such as when a custom status emoji is cleared. */
   &--channels {
-    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    grid-template-columns: minmax(0, 1fr) minmax(0, max-content) minmax(0, 1fr);
   }
 
   &--product-only {
@@ -26,6 +27,7 @@
     gap: var(--spacing-xs);
     padding: var(--spacing-xxxs) var(--spacing-xs);
     flex-shrink: 0;
+    min-width: 0;
   }
 
   &__product {
@@ -129,6 +131,7 @@
     gap: var(--spacing-xxxs);
     padding: 0 var(--spacing-xs);
     flex-shrink: 0;
+    min-width: 0;
   }
 
   &--channels &__right {
@@ -137,6 +140,24 @@
 
   &--product-only &__right {
     grid-column: 2;
+  }
+
+  &__custom-status {
+    margin-right: var(--spacing-xxs);
+    font-size: var(--font-size-200);
+    line-height: 1;
+  }
+
+  &__account-avatar {
+    position: relative;
+    display: inline-flex;
+  }
+
+  &__account-status {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
   }
 
   &__account {

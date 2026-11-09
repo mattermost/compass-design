@@ -14,6 +14,14 @@ import {
 import { buildDefaultChannelsSidebarModel } from '@/fixtures/buildDefaultChannelsSidebarModel';
 import styles from './MobileChannelsSidebar.module.scss';
 
+function toMobileItem(row: ChannelsSidebarItemModel) {
+  const { customStatusEmoji, ...rest } = row;
+  return {
+    ...rest,
+    ...(typeof customStatusEmoji === 'string' ? { customStatusEmoji } : {}),
+  };
+}
+
 function applyInteractivity(
   model: ChannelsSidebarModel,
   onItemClick?: (name: string) => void,
@@ -165,7 +173,10 @@ export default function MobileChannelsSidebar({
 
       <div className={styles['mobile-channels-sidebar__top-group']}>
         {model.topGroupItems.map((row, i) => (
-          <MobileChannelSidebarItem key={`top-${i}-${row.name}`} {...row} />
+          <MobileChannelSidebarItem
+            key={`top-${i}-${row.name}`}
+            {...toMobileItem(row)}
+          />
         ))}
       </div>
 
@@ -211,7 +222,7 @@ export default function MobileChannelsSidebar({
                 {group.items.map((row, index) => (
                   <MobileChannelSidebarItem
                     key={`${group.key}-${index}-${row.name}`}
-                    {...row}
+                    {...toMobileItem(row)}
                   />
                 ))}
               </div>

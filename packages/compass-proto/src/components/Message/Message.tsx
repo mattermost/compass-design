@@ -1,6 +1,7 @@
 import React from 'react';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { MessageHeader } from '@mattermost/compass-ui/components/message-header';
+import WithTooltip from '../WithTooltip/WithTooltip';
 import {
   MessageActions,
   type MessageActionsType,
@@ -13,6 +14,8 @@ type MessageProps = {
   avatarAlt: string;
   username: string;
   timestamp: string;
+  /** Emoji in the byline. Tooltip shows the emoji and text. */
+  customStatus?: { emoji: string; text: string };
   isBot?: boolean;
   botLabel?: string;
   /** Hover toolbar context. Default: Center Channel. */
@@ -48,6 +51,7 @@ export default function Message({
   avatarAlt,
   username,
   timestamp,
+  customStatus,
   isBot = false,
   botLabel,
   messageActionsType = 'center-channel',
@@ -77,7 +81,25 @@ export default function Message({
           <div className={styles['message__header-row']}>
             <div className={styles['message__header-block']}>
               <MessageHeader
-                username={username}
+                username={
+                  customStatus ? (
+                    <>
+                      {username}
+                      <WithTooltip
+                        label={`${customStatus.emoji} ${customStatus.text}`}
+                      >
+                        <span
+                          className={styles['message__status-emoji']}
+                          tabIndex={0}
+                        >
+                          {customStatus.emoji}
+                        </span>
+                      </WithTooltip>
+                    </>
+                  ) : (
+                    username
+                  )
+                }
                 timestamp={timestamp}
                 isBot={isBot}
                 botLabel={botLabel}

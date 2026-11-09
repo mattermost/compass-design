@@ -75,8 +75,8 @@ export interface ChannelSidebarItemProps {
   avatarAlt?: string;
   /** Shows status badge on the avatar when leadingVisual='direct-message' (not used with a custom node). */
   showAvatarStatus?: boolean;
-  /** Custom status emoji shown after the name for leadingVisual='direct-message' or a custom leadingVisual node (e.g. your own avatar). */
-  customStatusEmoji?: string;
+  /** Custom status emoji after the name for a direct message or a custom leading visual. A node can carry a tooltip trigger. */
+  customStatusEmoji?: ReactNode;
   onClick?: () => void;
   /** Overflow menu (kebab). Sibling of the channel control so it is keyboard-reachable. */
   onMenuClick?: (event: MouseEvent<HTMLButtonElement>) => void;

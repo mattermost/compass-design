@@ -45,6 +45,18 @@
     align-self: center;
   }
 
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    min-width: 0;
+  }
+
+  &__status-emoji {
+    font-size: var(--font-size-75);
+    line-height: 1;
+  }
+
   &__name-area {
     display: inline-flex;
     align-items: center;

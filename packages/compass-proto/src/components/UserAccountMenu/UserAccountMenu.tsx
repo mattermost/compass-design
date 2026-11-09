@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { HTMLAttributes } from 'react';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
+import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
 import ExitToAppIcon from '@mattermost/compass-icons/components/exit-to-app';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -45,8 +46,10 @@ export interface UserAccountMenuProps extends Omit<
   status?: UserAccountMenuStatus;
   /** Secondary label on Do Not Disturb, e.g. "until Monday 9:00 AM". */
   dndUntil?: string;
-  /** Shows "On" / "Off" next to Notification Schedule in the DND submenu. */
-  scheduleOn?: boolean;
+  /** Label for the schedule row in the Do Not Disturb submenu. */
+  scheduleLabel?: string;
+  /** Summary under the schedule row, e.g. "Weekdays, 8:00 AM – 8:00 PM". */
+  scheduleSummary?: string;
   /** Open the Do Not Disturb submenu on first render. */
   submenuInitiallyOpen?: boolean;
   onPickStatus?: (status: UserAccountMenuPickableStatus) => void;
@@ -56,6 +59,10 @@ export interface UserAccountMenuProps extends Omit<
   onProfile?: () => void;
   onLogOut?: () => void;
   onCustomStatus?: () => void;
+  /** Replaces "Set a custom status" while a status is set. */
+  customStatus?: { emoji: string; text: string };
+  /** Clears `customStatus`. The menu stays open. */
+  onClearCustomStatus?: () => void;
   /** Called after any item that should dismiss the menu is chosen. */
   onClose?: () => void;
 }
@@ -88,7 +95,8 @@ export default function UserAccountMenu({
   avatarSrc,
   status = 'online',
   dndUntil,
-  scheduleOn = false,
+  scheduleLabel = 'Working hours',
+  scheduleSummary,
   submenuInitiallyOpen = false,
   onPickStatus,
   onPickDnd,
@@ -96,6 +104,8 @@ export default function UserAccountMenu({
   onProfile,
   onLogOut,
   onCustomStatus,
+  customStatus,
+  onClearCustomStatus,
   onClose,
   className = '',
   ...rest
@@ -125,7 +135,11 @@ export default function UserAccountMenu({
 
   return (
     <div className={rootClass} {...rest}>
-      <PopoverMenu open={open} aria-label="Account menu">
+      <PopoverMenu
+        open={open}
+        aria-label="Account menu"
+        className={styles['user-account-menu__surface']}
+      >
         <PopoverMenuTitle className={styles['user-account-menu__title']}>
           <UserAvatar
             src={avatarSrc}
@@ -144,14 +158,32 @@ export default function UserAccountMenu({
         </PopoverMenuTitle>
         <PopoverMenuDivider />
         <PopoverMenuGroup>
-          <MenuItem
-            label="Set a custom status"
-            leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
-            onClick={() => {
-              onCustomStatus?.();
-              onClose?.();
-            }}
-          />
+          {customStatus ? (
+            <MenuItem
+              label={customStatus.text}
+              aria-label={`Clear custom status, ${customStatus.text}`}
+              leadingVisual={
+                <span
+                  className={styles['user-account-menu__status-emoji']}
+                  aria-hidden
+                >
+                  {customStatus.emoji}
+                </span>
+              }
+              trailingElement
+              trailingVisual={<Icon glyph={<CloseCircleIcon />} />}
+              onClick={() => onClearCustomStatus?.()}
+            />
+          ) : (
+            <MenuItem
+              label="Set a custom status"
+              leadingVisual={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
+              onClick={() => {
+                onCustomStatus?.();
+                onClose?.();
+              }}
+            />
+          )}
         </PopoverMenuGroup>
         <PopoverMenuDivider />
         <PopoverMenuGroup>
@@ -206,10 +238,9 @@ export default function UserAccountMenu({
                   <PopoverMenuDivider />
                   <PopoverMenuGroup>
                     <MenuItem
-                      label="Notification Schedule"
+                      label={scheduleLabel}
                       leadingElement={false}
-                      secondaryLabel={scheduleOn ? 'On' : 'Off'}
-                      secondaryLabelPosition="inline"
+                      secondaryLabel={scheduleSummary}
                       onClick={() => {
                         onOpenSchedule?.();
                         onClose?.();

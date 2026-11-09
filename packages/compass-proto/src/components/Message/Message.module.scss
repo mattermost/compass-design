@@ -74,6 +74,13 @@
     min-width: 0;
   }
 
+  &__status-emoji {
+    margin-left: var(--spacing-xxs);
+    font-size: var(--font-size-100);
+    line-height: 1;
+    cursor: default;
+  }
+
   &__actions-slot {
     position: absolute;
     top: -16px;

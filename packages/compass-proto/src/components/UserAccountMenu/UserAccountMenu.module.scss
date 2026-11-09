@@ -2,6 +2,12 @@
   position: relative;
   width: 264px;
 
+  // Fill the fixed width. The menu surface is max-content, so swapping the
+  // custom status row for "Set a custom status" would resize it.
+  .user-account-menu__surface {
+    width: 100%;
+  }
+
   // Avatar + name / username, per Figma Menu Title (40px avatar, 12px gap).
   &__title {
     display: flex;
@@ -34,6 +40,11 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  &__status-emoji {
+    font-size: var(--font-size-100);
+    line-height: 1;
   }
 
   &__dnd {

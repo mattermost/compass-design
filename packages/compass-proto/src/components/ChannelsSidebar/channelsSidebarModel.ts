@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { ChannelSidebarItemProps } from '@mattermost/compass-ui/components/channel-sidebar-item';
 
 /**
@@ -17,11 +18,17 @@ export type ChannelsSidebarItemModel = Omit<
     | 'avatarSrc'
     | 'avatarAlt'
     | 'showAvatarStatus'
+    | 'customStatusEmoji'
     | 'onClick'
   >,
-  'name'
+  'name' | 'customStatusEmoji'
 > & {
   name: string;
+  /**
+   * Emoji after the name. Typed here (not via the installed sidebar item)
+   * so a tooltip trigger can be passed through to the row.
+   */
+  customStatusEmoji?: ReactNode;
 };
 
 export interface ChannelsSidebarCategoryModel {

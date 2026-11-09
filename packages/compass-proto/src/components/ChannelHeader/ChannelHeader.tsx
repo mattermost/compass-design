@@ -42,6 +42,8 @@ export interface ChannelHeaderProps {
   avatarSrc?: string;
   /** Show online status badge on the DM avatar. */
   avatarStatus?: boolean;
+  /** Emoji and text in the description slot beside a DM name, e.g. outside working hours. */
+  customStatus?: { emoji: string; text: string };
   /** Called when the favorite star is clicked. */
   onFavoriteClick?: () => void;
   /** Called when the channel name is clicked. */
@@ -71,6 +73,7 @@ export default function ChannelHeader({
   muted = false,
   avatarSrc,
   avatarStatus = false,
+  customStatus,
   onFavoriteClick,
   onNameClick,
   onCallClick,
@@ -217,7 +220,19 @@ export default function ChannelHeader({
         </div>
 
         <div className={styles['channel-header__description']}>
-          {description ?? null}
+          {customStatus ? (
+            <span className={styles['channel-header__status']}>
+              <span
+                className={styles['channel-header__status-emoji']}
+                aria-hidden
+              >
+                {customStatus.emoji}
+              </span>
+              {customStatus.text}
+            </span>
+          ) : (
+            (description ?? null)
+          )}
         </div>
       </div>
 

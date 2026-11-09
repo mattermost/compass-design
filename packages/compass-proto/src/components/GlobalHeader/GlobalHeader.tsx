@@ -13,6 +13,8 @@ import CheckboxMultipleMarkedOutlineIcon from '@mattermost/compass-icons/compone
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
+import type { StatusBadgeStatus } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import type { ComponentType, MouseEvent, SyntheticEvent } from 'react';
 import WithTooltip from '../WithTooltip/WithTooltip';
@@ -78,6 +80,13 @@ export interface GlobalHeaderProps {
   onAccountClick?: GlobalHeaderClickHandler;
   /** When true, the Account menu button shows as active (selected styling). Sets `aria-expanded` whenever `onAccountClick` is passed. */
   accountActive?: boolean;
+  /**
+   * Presence on the account avatar. Omit for the online badge, which is the
+   * header's resting state.
+   */
+  status?: StatusBadgeStatus;
+  /** Emoji and text shown beside the account avatar, e.g. outside working hours. */
+  customStatus?: { emoji: string; text: string };
 }
 
 const PRODUCT_ICON: Record<
@@ -195,6 +204,8 @@ export default function GlobalHeader({
   settingsActive = false,
   onAccountClick,
   accountActive = false,
+  status = 'online',
+  customStatus,
 }: GlobalHeaderProps) {
   const isChannels = product === 'channels';
   const showBrand = isChannels ? showChannelsBranding : true;
@@ -303,18 +314,34 @@ export default function GlobalHeader({
           ]
             .filter(Boolean)
             .join(' ')}
-          aria-label="Account menu"
+          aria-label={
+            customStatus
+              ? `Account menu, ${customStatus.text}`
+              : 'Account menu'
+          }
           aria-expanded={
             onAccountClick ? accountActive : accountActive || undefined
           }
           onClick={onAccountClick}
         >
-          <UserAvatar
-            src={userAvatarSrc}
-            alt={userAvatarAlt}
-            size="24"
-            status
-          />
+          {customStatus && (
+            <span className={styles['global-header__custom-status']} aria-hidden>
+              {customStatus.emoji}
+            </span>
+          )}
+          <span className={styles['global-header__account-avatar']}>
+            <UserAvatar
+              src={userAvatarSrc}
+              alt={userAvatarAlt}
+              size="24"
+              status={status === 'online'}
+            />
+            {status !== 'online' && (
+              <span className={styles['global-header__account-status']}>
+                <StatusBadge status={status} size="x-small" />
+              </span>
+            )}
+          </span>
         </button>
       </div>
     </header>
