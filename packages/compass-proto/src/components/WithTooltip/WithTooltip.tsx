@@ -15,6 +15,7 @@ import { createPortal } from 'react-dom';
 import { Tooltip } from '@mattermost/compass-ui/components/tooltip';
 import type {
   TooltipArrow,
+  TooltipEmojiSize,
   TooltipShortcutKey,
 } from '@mattermost/compass-ui/components/tooltip';
 import styles from './WithTooltip.module.scss';
@@ -33,6 +34,10 @@ export interface WithTooltipProps {
   hint?: string;
   /** Optional shortcut chips. */
   shortcutKeys?: TooltipShortcutKey[];
+  /** Optional emoji, e.g. a custom status. Decorative: `label` must carry the meaning. */
+  emoji?: string;
+  /** `inline` beside the label or `large` above it. Default: `inline`. */
+  emojiSize?: TooltipEmojiSize;
   /** Where the tooltip sits relative to the trigger. Default: `top`. */
   placement?: WithTooltipPlacement;
   /** Trigger control — typically an `IconButton`. */
@@ -73,6 +78,8 @@ export default function WithTooltip({
   label,
   hint,
   shortcutKeys,
+  emoji,
+  emojiSize,
   placement = 'top',
   children,
 }: WithTooltipProps) {
@@ -187,6 +194,8 @@ export default function WithTooltip({
               label={label}
               hint={hint}
               shortcutKeys={shortcutKeys}
+              emoji={emoji}
+              emojiSize={emojiSize}
               arrow={ARROW_FOR_PLACEMENT[placement]}
             />
           </div>,

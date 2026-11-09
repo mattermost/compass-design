@@ -16,6 +16,33 @@ import {
 } from './channelsSidebarModel';
 import styles from './ChannelsSidebar.module.scss';
 
+/**
+ * Desktop row props: with `customStatusText`, the emoji gets a hover tooltip
+ * (large emoji above the text) and the row announces the status to screen
+ * readers through `customStatusLabel`. The tooltip is pointer-only on purpose:
+ * the row is the single tab stop.
+ */
+function toDesktopItem(row: ChannelsSidebarItemModel) {
+  const { customStatusEmoji, customStatusText, ...rest } = row;
+  if (!customStatusEmoji || !customStatusText) {
+    return { ...rest, customStatusEmoji };
+  }
+  return {
+    ...rest,
+    customStatusLabel: `${customStatusEmoji} ${customStatusText}`,
+    customStatusEmoji: (
+      <WithTooltip
+        label={customStatusText}
+        emoji={customStatusEmoji}
+        emojiSize="large"
+        placement="right"
+      >
+        <span>{customStatusEmoji}</span>
+      </WithTooltip>
+    ),
+  };
+}
+
 function applyChannelSidebarInteractivity(
   model: ChannelsSidebarModel,
   activeChannelName: string | undefined,
@@ -232,7 +259,10 @@ export default function ChannelsSidebar({
 
       <div className={styles['channels-sidebar__top-group']}>
         {model.topGroupItems.map((row, i) => (
-          <ChannelSidebarItem key={`top-${i}-${row.name}`} {...row} />
+          <ChannelSidebarItem
+            key={`top-${i}-${row.name}`}
+            {...toDesktopItem(row)}
+          />
         ))}
       </div>
 
@@ -252,7 +282,7 @@ export default function ChannelsSidebar({
                 {group.items.map((row, index) => (
                   <ChannelSidebarItem
                     key={`${group.key}-${index}-${row.name}`}
-                    {...row}
+                    {...toDesktopItem(row)}
                   />
                 ))}
               </div>

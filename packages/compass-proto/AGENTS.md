@@ -36,7 +36,7 @@ import BellOutlineIcon from '@mattermost/compass-icons/components/bell-outline';
 `WithTooltip` copies `label` onto the child as `aria-label` when the child has none. Pass `aria-label` yourself only when it should differ from the tooltip.
 
 - Default `placement="top"`. Use `right` / `bottom` / `left` when the trigger sits on an edge.
-- Optional `hint` and `shortcutKeys` map through to Compass `Tooltip`.
+- Optional `hint`, `shortcutKeys`, and `emoji` / `emojiSize` (`inline` | `large`) map through to Compass `Tooltip`.
 - **Skip on mobile-only surfaces** (`Mobile*` bars, sheets, tab bars) — no hover. Still set `aria-label` on the Icon Button.
 - **Skip** when the control already has a visible text label.
 - Do not invent a second tooltip wrapper, CSS-only hover clone, or `title=`.
