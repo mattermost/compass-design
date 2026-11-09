@@ -121,7 +121,7 @@ From orchestrator, `scenes/`, and `components/`, bucket every import:
 
 Use the version comparison from step 2 to anticipate missing exports. Details: [references/boundaries.md](references/boundaries.md).
 
-**Styles / SCSS:** keep Compass **tokens** (`--spacing-*`, `--center-channel-color`, …). Do **not** copy playground `.module.scss` wholesale (including SceneSwitcher / DeviceFrame / walkthrough focus CSS). Re-express layout/spacing intent with host style conventions + tokens; use Compass `className` overrides only when that consumer already does so for standard components. Prototype-local visuals with no host equivalent → small product-local styles, tokens-first (follow host BEM/CSS conventions).
+**Styles / SCSS:** keep Compass **tokens** (`--spacing-*`, `--center-channel-color`, …). Do **not** copy playground `.module.scss` wholesale (including SceneSwitcher / DeviceFrame / walkthrough focus CSS). **Carry over the prototype's spacing values; don't estimate them.** Read the `gap`, `padding` and `margin` values in the prototype's SCSS and reproduce them, mapped to the host's units (the Compass spacing tokens are 2, 4, 6, 8, 10, 12, 16, 20, 24 and 32px: `--spacing-xxxxs` through `--spacing-xxxl`). The prototype's spacing already follows Compass, so a value you chose yourself (20px where it uses 24px) is a regression. For forms, also check the result against the form gaps in `compass-build/references/spacing-and-hierarchy.md` (fields in one group 24px, paired fields 16px, field groups 32px). Re-express layout with host style conventions; use Compass `className` overrides only when that consumer already does so for standard components. Prototype-local visuals with no host equivalent → small product-local styles, tokens-first (follow host BEM/CSS conventions).
 
 **Moved composite (common):** prototype still imports something from `compass-ui` (e.g. older `ChannelsSidebar`) but consumer ui no longer exports it → treat as **proto decompose** (host shell + ui components), not as “build the whole thing from primitives.”
 
@@ -227,10 +227,13 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Every Compass import resolves in the consumer's installed ui
 - [ ] Style entry correct for consumer kind (webapp: no `styles/standalone`)
 - [ ] No wholesale copy of playground SCSS modules
+- [ ] Spacing between and within fields matches the prototype's SCSS values (and the form gaps in `compass-build`), not values you picked
 - [ ] Prototype **behavior intent** preserved; implementation uses **host** patterns (no ported playground state/fixtures as production logic)
 - [ ] User-visible strings use the consumer's **i18n** pattern (prototype copy is wording intent, not pasted literals)
 - [ ] Prototype and consumer compass-ui versions recorded, and gaps from version skew noted briefly for the developer
 - [ ] Ran the `compass-build` `references/checklist.md` on the result, using the **plugin** or **core feature** column of `references/context.md` for the consumer kind (not the prototype column)
+
+The last item is not optional. If you could not run the `compass-build` checklist or the step 8 audit, say so plainly in the final report and list what was not checked; don't present the translation as finished without it.
 
 ## Where the Compass rules live
 
