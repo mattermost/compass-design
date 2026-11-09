@@ -1,0 +1,27 @@
+# Compass design toolkit skills
+
+Agent skills for working with Compass. They live in the repo, not in `@mattermost/compass-ui`, so they are versioned and reviewed on their own and are not published to npm.
+
+| Skill                                       | Purpose                                                                                           |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [`compass-build`](compass-build/SKILL.md)   | Build, restyle or retrofit Mattermost UI to the Compass rules. Holds the shared `references/`.    |
+| [`compass-review`](compass-review/SKILL.md) | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`. |
+
+`compass-review` depends on `compass-build`'s references, so install them together.
+
+## Install
+
+Copy or symlink each skill folder into the agent's skills directory, keeping the folders side by side:
+
+```bash
+# Claude Code, per project
+mkdir -p .claude/skills
+ln -s /path/to/compass-design/skills/compass-build .claude/skills/compass-build
+ln -s /path/to/compass-design/skills/compass-review .claude/skills/compass-review
+```
+
+## Adding a skill
+
+Add `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Put shared reference material in the skill that owns it and say so in the dependent skill.
+
+When a component API change affects a rule or reference, update the skill in the same PR.

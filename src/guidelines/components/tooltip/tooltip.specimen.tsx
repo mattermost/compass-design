@@ -28,6 +28,16 @@ export default function TooltipLibrary() {
             shortcutKeys={[{ label: '⌘' }, { label: 'K' }]}
           />
         </div>
+        <div className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>Emoji</span>
+          <Tooltip label="Out of office" arrow="bottom" emoji="🌴" />
+          <Tooltip
+            label="Out of office"
+            arrow="bottom"
+            emoji="🌴"
+            emojiSize="large"
+          />
+        </div>
       </div>
     </>
   );

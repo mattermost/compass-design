@@ -20,8 +20,20 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+    alias: [
+      // Shared Sass (mixins, breakpoints) lives in compass-ui; must precede '@'.
+      {
+        find: '@/styles',
+        replacement: path.resolve(__dirname, '../compass-ui/src/styles'),
+      },
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+    ],
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/styles/breakpoints" as *;\n@use "@/styles/mixins" as *;\n`,
+      },
     },
   },
   build: {

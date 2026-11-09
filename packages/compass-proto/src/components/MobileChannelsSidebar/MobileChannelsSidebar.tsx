@@ -14,6 +14,13 @@ import {
 import { buildDefaultChannelsSidebarModel } from '@/fixtures/buildDefaultChannelsSidebarModel';
 import styles from './MobileChannelsSidebar.module.scss';
 
+/** Mobile has no hover, so the emoji shows without its tooltip text. */
+function toMobileItem(row: ChannelsSidebarItemModel) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- desktop tooltip text only
+  const { customStatusText: _customStatusText, ...rest } = row;
+  return rest;
+}
+
 function applyInteractivity(
   model: ChannelsSidebarModel,
   onItemClick?: (name: string) => void,
@@ -165,7 +172,10 @@ export default function MobileChannelsSidebar({
 
       <div className={styles['mobile-channels-sidebar__top-group']}>
         {model.topGroupItems.map((row, i) => (
-          <MobileChannelSidebarItem key={`top-${i}-${row.name}`} {...row} />
+          <MobileChannelSidebarItem
+            key={`top-${i}-${row.name}`}
+            {...toMobileItem(row)}
+          />
         ))}
       </div>
 
@@ -211,7 +221,7 @@ export default function MobileChannelsSidebar({
                 {group.items.map((row, index) => (
                   <MobileChannelSidebarItem
                     key={`${group.key}-${index}-${row.name}`}
-                    {...row}
+                    {...toMobileItem(row)}
                   />
                 ))}
               </div>

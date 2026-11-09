@@ -139,9 +139,30 @@
     grid-column: 2;
   }
 
-  &__account {
+  // Emoji + avatar share one pill, like the webapp's account button: the
+  // background lives on the group so hovering the emoji highlights it too.
+  &__account-group {
     --status-badge-bg: var(--sidebar-header-bg);
 
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-s);
+    transition: background-color var(--duration-quick) var(--ease-transition);
+
+    &:hover,
+    &--active {
+      background: rgba(var(--sidebar-text-rgb), 0.08);
+    }
+
+    // Webapp: with a custom status the pill keeps a stronger fill, which also
+    // wins over the hover/active fill.
+    &--custom-status,
+    &--custom-status:hover {
+      background: rgba(var(--sidebar-text-rgb), 0.16);
+    }
+  }
+
+  &__account {
     display: inline-flex;
     align-items: center;
     padding: var(--spacing-xxxxs) var(--spacing-xs);
@@ -149,11 +170,32 @@
     border: 0;
     border-radius: var(--radius-s);
     cursor: pointer;
-    transition: background-color var(--duration-quick) var(--ease-transition);
 
-    &:hover,
-    &--active {
-      background: rgba(var(--sidebar-text-rgb), 0.08);
-    }
+    @include focus-ring;
+  }
+
+  &__custom-status {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-xxxxs) 0 var(--spacing-xxxxs) var(--spacing-xs);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-s);
+    cursor: pointer;
+
+    @include focus-ring;
+  }
+
+  &__avatar {
+    position: relative;
+    display: inline-flex;
+  }
+
+  // Badge for non-online statuses; matches UserAvatar's own badge slot.
+  &__status {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    display: flex;
   }
 }
