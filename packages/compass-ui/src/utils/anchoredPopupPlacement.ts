@@ -3,8 +3,12 @@ export type PopupPlacement = 'above' | 'below';
 export const ANCHORED_POPUP_GAP = 4;
 export const ANCHORED_POPUP_VIEWPORT_MARGIN = 48;
 export const ANCHORED_POPUP_MIN_HEIGHT = 120;
-/** Default stacking above typical product chrome; hosts can override via zIndex. */
-export const ANCHORED_POPUP_Z_INDEX = 1000;
+/**
+ * Default stacking for portaled menus: the `--z-menu` layer, which sits above
+ * modals (`--z-modal`). The fallback keeps it working when tokens aren't loaded.
+ * Hosts can override per use via `zIndex` or by redefining the token.
+ */
+export const ANCHORED_POPUP_Z_INDEX = 'var(--z-menu, 1100)';
 
 export interface AnchoredPopupPlacementOptions {
   /** Gap between trigger and popup. Default: 4. */
@@ -76,7 +80,7 @@ export interface AnchoredPopupFixedStyle {
   bottom?: number;
   left: number;
   width: number;
-  zIndex: number;
+  zIndex: number | string;
 }
 
 export type AnchoredPopupBounds = Pick<
@@ -142,7 +146,7 @@ export function computeAnchoredPopupFixedStyle(
   placement: PopupPlacement,
   options: {
     gap?: number;
-    zIndex?: number;
+    zIndex?: number | string;
     /** Override width (defaults to trigger width). */
     width?: number;
     viewportHeight?: number;

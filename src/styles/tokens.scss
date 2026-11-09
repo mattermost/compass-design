@@ -379,9 +379,13 @@
   // ============================================================
   // Z-index
   // ============================================================
+  // Overlay layers match the Mattermost webapp scale (--z-index-* in its
+  // css variables), so a Compass surface stacks correctly there with no overrides.
   --z-sidebar: 100;
-  --z-modal: 200;
-  --z-tooltip: 300;
+  --z-modal: 1050;
+  --z-menu: 1100;
+  --z-popover: 1200;
+  --z-tooltip: 1350;
 
   // ============================================================
   // Opacity (foundation scale) — compose with theme RGB vars:

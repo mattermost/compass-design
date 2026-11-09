@@ -16,7 +16,7 @@
 
   &__surface {
     position: fixed;
-    z-index: 1350;
+    z-index: var(--z-tooltip, 1350);
     pointer-events: auto;
     animation: with-tooltip-in var(--duration-quick) var(--ease-entrance);
 

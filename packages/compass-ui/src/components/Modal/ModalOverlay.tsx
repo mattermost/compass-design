@@ -37,7 +37,7 @@ export interface ModalOverlayProps extends HTMLAttributes<HTMLDivElement> {
    */
   lockScroll?: boolean;
   /**
-   * Stacking order. Defaults to `--z-modal` (200); a host whose chrome sits
+   * Stacking order. Defaults to `--z-modal` (1050, the webapp's modal layer); a host whose chrome sits
    * higher passes this or redefines `--z-modal`. Applied before `style`, so
    * `style.zIndex` wins.
    */

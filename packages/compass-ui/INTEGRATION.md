@@ -472,7 +472,7 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 | Escape (topmost modal only; skips `defaultPrevented` events) | `Modal` (opt out with `closeOnEscape={false}`) |
 | Scrim, portal, scroll lock, backdrop click, overlay fade     | `ModalOverlay`                                 |
 | Open state, portal container                                 | Host                                           |
-| Stacking: default `--z-modal` (200); override per use        | Host (`zIndex` prop or redefine `--z-modal`)   |
+| Stacking: default `--z-modal` (1050); override per use       | Host (`zIndex` prop or redefine `--z-modal`)   |
 
 `Modal` (since `0.1.0-alpha.14`) focuses the dialog or `initialFocusRef` on mount, traps Tab, closes on Escape, and restores focus on unmount. The modal stack is shared across compass-ui copies on the page (from the release after `0.1.0-alpha.15`), so only the topmost Compass modal reacts. Pick **one** owner for focus and Escape:
 
