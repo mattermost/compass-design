@@ -1,0 +1,42 @@
+name: Changelog
+
+# Published compass-ui changes need a CHANGELOG entry. Add the `skip-changelog`
+# label to a PR whose compass-ui changes have no effect on consumers.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  changelog:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-changelog') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require a compass-ui CHANGELOG entry
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          changed=$(git diff --name-only "origin/${BASE_REF}...HEAD")
+          # Published source only: stories and tests don't reach consumers.
+          source=$(echo "$changed" \
+            | grep -E '^packages/compass-ui/src/' \
+            | grep -Ev '\.(stories|test)\.[jt]sx?$|/storybook/' || true)
+          if [ -z "$source" ]; then
+            echo "No published compass-ui source changed."
+            exit 0
+          fi
+          if echo "$changed" | grep -qx 'packages/compass-ui/CHANGELOG.md'; then
+            echo "compass-ui source changed and CHANGELOG.md was updated."
+            exit 0
+          fi
+          echo "::error file=packages/compass-ui/CHANGELOG.md::Published compass-ui source changed without a CHANGELOG entry. Add one under [Unreleased], or add the skip-changelog label if consumers are not affected."
+          echo "Changed compass-ui source:"
+          echo "$source"
+          exit 1
