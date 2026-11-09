@@ -166,12 +166,12 @@
       background: rgba(var(--sidebar-text-rgb), 0.08);
     }
 
-    // Webapp: with a custom status the pill keeps a stronger fill, which also
-    // wins over the hover/active fill.
+    // Custom status keeps a resting fill (slightly above hover) so the pill
+    // reads as one control; same fill on hover/press.
     &--custom-status,
     &--custom-status:hover,
     &--custom-status:active {
-      background: rgba(var(--sidebar-text-rgb), 0.16);
+      background: rgba(var(--sidebar-text-rgb), var(--opacity-12));
     }
   }
 
