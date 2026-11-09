@@ -228,7 +228,9 @@ export default function ChannelHeader({
               >
                 {customStatus.emoji}
               </span>
-              {customStatus.text}
+              <span className={styles['channel-header__status-text']}>
+                {customStatus.text}
+              </span>
             </span>
           ) : (
             (description ?? null)

@@ -53,8 +53,16 @@
   }
 
   &__status-emoji {
+    flex-shrink: 0;
     font-size: var(--font-size-75);
     line-height: 1;
+  }
+
+  &__status-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__name-area {
