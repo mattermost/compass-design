@@ -9,6 +9,13 @@
 
   &--expandable {
     cursor: pointer;
+    transition:
+      border-color var(--duration-moderate) var(--ease-transition),
+      background-color var(--duration-moderate) var(--ease-transition);
+
+    &:hover {
+      background-color: rgba(var(--center-channel-color-rgb), 0.02);
+    }
 
     .admin-panel-header__actions {
       cursor: auto;
