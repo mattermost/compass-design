@@ -286,11 +286,29 @@ Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at
 6. Capture screenshots of the main states for the developer.
 7. If you can't run the app, say so and mark it **not verified in a running app**. Never describe it as verified.
 
-**Final report (required).** Use this shape. Give every line a status: done, skipped (with the reason), or not applicable.
+**Final report (required).** It has two parts.
+
+**Part 1: step status.** Copy your task list into this table, one row per step plus the required reads. Every row gets a status: **done**, **skipped** (with the reason), or **not applicable**. A row can't be left out; a missing row counts as skipped.
+
+| Step                                                                                  | Status |
+| ------------------------------------------------------------------------------------- | ------ |
+| Required reads (`resolve-source`, `boundaries`, `spacing-and-hierarchy`, `checklist`) |        |
+| 1. Consumer and scope locked                                                          |        |
+| 2. Prototype source resolved; compass-ui versions compared                            |        |
+| 3. Imports inventoried                                                                |        |
+| 4. Variants and conditions mapped; spec read                                          |        |
+| 5. UI pieces matched                                                                  |        |
+| 6. Behavior intent captured; decisions confirmed                                      |        |
+| 7. Implemented                                                                        |        |
+| 8. Audited with `compass-review`                                                      |        |
+| 9. Validation checklist run                                                           |        |
+| 10. Run in the app and looked at                                                      |        |
+
+**Part 2: details.** Give every line a status as above.
 
 - Consumer, scoped surface and playground ref
 - compass-ui versions: prototype, consumer, and gaps from skew
-- Spec: source read (Confluence, Figma, markdown, none) or "copy only"; behavior mismatches with the prototype and which side you followed
+- Spec: which of the source (Confluence, Figma, markdown) and the prototype's copy you read, or none; every behavior mismatch between the source, the copy and the prototype, which was newer, and which you followed
 - Decisions confirmed with the developer, and assumptions made without one
 - Variants: handled, and unresolved
 - Prototype-only controls dropped as chrome
