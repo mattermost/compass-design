@@ -269,7 +269,14 @@ describe('AdminPanel header click-to-toggle', () => {
             Section <a href="#docs">docs</a>
           </>
         }
-        subtitle={<button type="button">Learn more</button>}
+        subtitle={
+          <>
+            <button type="button">Learn more</button>
+            <span role="button" tabIndex={0} data-testid="custom-trigger">
+              More
+            </span>
+          </>
+        }
         expandable
         onExpandedStateChange={onExpandedStateChange}
       >
@@ -278,7 +285,9 @@ describe('AdminPanel header click-to-toggle', () => {
     );
     click(container.querySelector('a[href="#docs"]')!);
     click(getByRole('button', 'Learn more'));
+    click(container.querySelector('[data-testid="custom-trigger"]')!);
     expect(onExpandedStateChange).not.toHaveBeenCalled();
+    expect(isExpanded(container)).toBe(false);
   });
 
   it('skips clicks a descendant already handled with preventDefault', () => {
@@ -340,16 +349,39 @@ describe('AdminPanel header click-to-toggle', () => {
     expect(isExpanded(container)).toBe(false);
   });
 
-  it('does not toggle or add a click handler when not expandable', () => {
+  it('still toggles when the panel sits inside a focusable ancestor', () => {
+    const onExpandedStateChange = vi.fn();
     const { container } = render(
-      <AdminPanel title="Section Title" subtitle="Section sub-title">
+      <div tabIndex={-1}>
+        <AdminPanel
+          title="Section Title"
+          expandable
+          onExpandedStateChange={onExpandedStateChange}
+        >
+          Body
+        </AdminPanel>
+      </div>,
+    );
+    click(container.querySelector('h2')!);
+    expect(onExpandedStateChange).toHaveBeenCalledWith('expanded');
+    expect(isExpanded(container)).toBe(true);
+  });
+
+  it('does not toggle when not expandable', () => {
+    const onExpandedStateChange = vi.fn();
+    const { container } = render(
+      <AdminPanel
+        title="Section Title"
+        subtitle="Section sub-title"
+        onExpandedStateChange={onExpandedStateChange}
+      >
         Body
       </AdminPanel>,
     );
-    const header = container.querySelector('header')!;
     click(container.querySelector('h2')!);
-    expect(header.className).not.toContain('admin-panel-header--expandable');
+    click(container.querySelector('header')!);
+    expect(onExpandedStateChange).not.toHaveBeenCalled();
+    expect(container.querySelector('button[aria-expanded]')).toBeNull();
     expect(bodyEl(container)).not.toBeNull();
-    expect(container.querySelector('[aria-hidden="true"]')).toBeNull();
   });
 });
