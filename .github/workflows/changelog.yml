@@ -42,13 +42,14 @@ jobs:
             exit 1
           fi
 
-          # A list item added to the [Unreleased] section. Edits under an older
-          # release, or deleting the file, do not satisfy the check.
-          unreleased_entries() {
+          # A new list item under [Unreleased]. Rewording an existing bullet,
+          # editing an older release, or deleting the file do not count.
+          unreleased_entry_count() {
             awk '
               /^## \[Unreleased\][[:space:]]*$/ { in_section = 1; next }
               /^## \[/ { if (in_section) exit }
-              in_section && /^[[:space:]]*-[[:space:]]+[^[:space:]]/ { print }
+              in_section && /^[[:space:]]*-[[:space:]]+[^[:space:]]/ { count++ }
+              END { print count + 0 }
             ' "$1"
           }
 
@@ -57,17 +58,16 @@ jobs:
             : > "$base_changelog"
           fi
 
-          added=$(LC_ALL=C comm -13 \
-            <(unreleased_entries "$base_changelog" | LC_ALL=C sort) \
-            <(unreleased_entries "$changelog" | LC_ALL=C sort))
+          base_count=$(unreleased_entry_count "$base_changelog")
+          head_count=$(unreleased_entry_count "$changelog")
           rm -f "$base_changelog"
 
-          if [ -n "$added" ]; then
-            echo "compass-ui source changed and [Unreleased] gained an entry."
+          if [ "$head_count" -gt "$base_count" ]; then
+            echo "compass-ui source changed and [Unreleased] gained an entry (${base_count} → ${head_count})."
             exit 0
           fi
 
-          echo "::error file=${changelog}::Published compass-ui source changed without a new [Unreleased] entry. Add one under ### Added, ### Changed or ### Fixed, or add the skip-changelog label if consumers are not affected. An edit to an older release does not count."
+          echo "::error file=${changelog}::Published compass-ui source changed without a new [Unreleased] entry. Add one under ### Added, ### Changed or ### Fixed, or add the skip-changelog label if consumers are not affected. Rewording an existing bullet or editing an older release does not count."
           echo "Changed compass-ui source:"
           echo "$source"
           exit 1
