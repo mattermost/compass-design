@@ -140,10 +140,11 @@ Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for a
 - **Condition in the prototype** is how the source expresses it: a prop, a scene id, a fixture field, a hardcoded current user, or a walkthrough note. A scene can be a different **perspective** (viewer or role) or a different **state of the same surface**, not only a step in a flow.
 - **Product source of truth** is the consumer's real check: a role or permission selector, a license or flag check, or store or async state. Never copy the fixture field or prop.
 - Look for a **hardcoded viewer** in the fixtures (a fixed current user). Variants that depend on that user can be invisible in the source: ask which other viewers the surface should handle.
+- **Drop the switcher, keep the variants.** A control that toggles viewer, role, scene or state is prototype chrome (see `boundaries.md` rule 7) and does not ship. Every variant it reveals still gets a row in the table and is implemented from the host's real condition, not from the toggle.
 - **Walkthrough files** are worth reading here even though the translation skips them elsewhere, because they sometimes spell out who sees what and when.
 - If a condition is only implied by a fixture and you can't find its product equivalent, **ask the developer once** instead of guessing. List unresolved ones.
 
-Keep this table in your working notes and implement every row. In the final report, list the variants you handled, any you couldn't resolve, and any prototype-vs-spec mismatches.
+Keep this table in your working notes and implement every row. In the final report, list the variants you handled, any you couldn't resolve, any prototype-vs-spec mismatches, and any prototype-local controls you treated as chrome and dropped.
 
 ### 5. Match each UI piece
 
@@ -222,7 +223,7 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Playground ref recorded for the session
 - [ ] Every variant from step 4 is implemented with the product's real condition, or listed as unresolved in the report
 - [ ] `@mattermost/compass-ui` present; no `@mattermost/compass-proto` in product deps or imports
-- [ ] No playground chrome (`PrototypeTopNav`, `SceneSwitcher`, `DeviceFrame`, `MobileModalStage`, walkthrough runtime)
+- [ ] No playground chrome (`PrototypeTopNav`, `SceneSwitcher`, `DeviceFrame`, `MobileModalStage`, walkthrough runtime), and no other prototype-only controls (viewer, state or theme toggles, demo resets)
 - [ ] Every Compass import resolves in the consumer's installed ui
 - [ ] Style entry correct for consumer kind (webapp: no `styles/standalone`)
 - [ ] No wholesale copy of playground SCSS modules
