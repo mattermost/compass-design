@@ -9,10 +9,9 @@
   padding: 0 var(--spacing-xxxxs);
   background: var(--sidebar-header-bg);
 
-  /* Equal side tracks keep the search centered when the account button
-     changes width, such as when a custom status emoji is cleared. */
+  /* Three tracks: product / navigator | centered search (Channels) | session controls */
   &--channels {
-    grid-template-columns: minmax(0, 1fr) minmax(0, max-content) minmax(0, 1fr);
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
   }
 
   &--product-only {
@@ -27,7 +26,6 @@
     gap: var(--spacing-xs);
     padding: var(--spacing-xxxs) var(--spacing-xs);
     flex-shrink: 0;
-    min-width: 0;
   }
 
   &__product {
@@ -131,7 +129,6 @@
     gap: var(--spacing-xxxs);
     padding: 0 var(--spacing-xs);
     flex-shrink: 0;
-    min-width: 0;
   }
 
   &--channels &__right {
@@ -142,27 +139,30 @@
     grid-column: 2;
   }
 
-  &__custom-status {
-    margin-right: var(--spacing-xxs);
-    font-size: var(--font-size-200);
-    line-height: 1;
-  }
+  // Emoji + avatar share one pill, like the webapp's account button: the
+  // background lives on the group so hovering the emoji highlights it too.
+  &__account-group {
+    --status-badge-bg: var(--sidebar-header-bg);
 
-  &__account-avatar {
-    position: relative;
     display: inline-flex;
-  }
+    align-items: center;
+    border-radius: var(--radius-s);
+    transition: background-color var(--duration-quick) var(--ease-transition);
 
-  &__account-status {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    display: flex;
+    &:hover,
+    &--active {
+      background: rgba(var(--sidebar-text-rgb), 0.08);
+    }
+
+    // Webapp: with a custom status the pill keeps a stronger fill, which also
+    // wins over the hover/active fill.
+    &--custom-status,
+    &--custom-status:hover {
+      background: rgba(var(--sidebar-text-rgb), 0.16);
+    }
   }
 
   &__account {
-    --status-badge-bg: var(--sidebar-header-bg);
-
     display: inline-flex;
     align-items: center;
     padding: var(--spacing-xxxxs) var(--spacing-xs);
@@ -170,11 +170,32 @@
     border: 0;
     border-radius: var(--radius-s);
     cursor: pointer;
-    transition: background-color var(--duration-quick) var(--ease-transition);
 
-    &:hover,
-    &--active {
-      background: rgba(var(--sidebar-text-rgb), 0.08);
-    }
+    @include focus-ring;
+  }
+
+  &__custom-status {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-xxxxs) 0 var(--spacing-xxxxs) var(--spacing-xs);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-s);
+    cursor: pointer;
+
+    @include focus-ring;
+  }
+
+  &__avatar {
+    position: relative;
+    display: inline-flex;
+  }
+
+  // Badge for non-online statuses; matches UserAvatar's own badge slot.
+  &__status {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    display: flex;
   }
 }
