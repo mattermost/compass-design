@@ -77,6 +77,13 @@ export interface ChannelSidebarItemProps {
   showAvatarStatus?: boolean;
   /** Custom status emoji after the name for a direct message or a custom leading visual. A node can carry a tooltip trigger. */
   customStatusEmoji?: ReactNode;
+  /**
+   * Visually hidden description of the custom status (for example "🌴 Out of
+   * office"), read with the row name. The emoji itself stays `aria-hidden`, so
+   * pass this whenever `customStatusEmoji` carries meaning. Accepts translated
+   * nodes.
+   */
+  customStatusLabel?: ReactNode;
   onClick?: () => void;
   /** Overflow menu (kebab). Sibling of the channel control so it is keyboard-reachable. */
   onMenuClick?: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -199,6 +206,7 @@ export default function ChannelSidebarItem({
   avatarSrc,
   showAvatarStatus = false,
   customStatusEmoji,
+  customStatusLabel,
   onClick,
   onMenuClick,
   formatMentionLabel = defaultFormatMentions,
@@ -319,6 +327,11 @@ export default function ChannelSidebarItem({
               aria-hidden
             >
               <Icon glyph={<CircleMultipleOutlineIcon />} size="12" />
+            </span>
+          )}
+          {(isDM || isCustomVisual) && customStatusLabel && (
+            <span className={styles['channel-sidebar-item__status-hint']}>
+              {customStatusLabel}
             </span>
           )}
           {(isDM || isCustomVisual) && customStatusEmoji && (

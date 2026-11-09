@@ -18,8 +18,9 @@ import styles from './ChannelsSidebar.module.scss';
 
 /**
  * Desktop row props: with `customStatusText`, the emoji gets a hover tooltip
- * (large emoji above the text). The row itself is the focus target, so the
- * emoji is a labelled image, not a nested button.
+ * (large emoji above the text) and the row announces the status to screen
+ * readers through `customStatusLabel`. The tooltip is pointer-only on purpose:
+ * the row is the single tab stop.
  */
 function toDesktopItem(row: ChannelsSidebarItemModel) {
   const { customStatusEmoji, customStatusText, ...rest } = row;
@@ -28,6 +29,7 @@ function toDesktopItem(row: ChannelsSidebarItemModel) {
   }
   return {
     ...rest,
+    customStatusLabel: `${customStatusEmoji} ${customStatusText}`,
     customStatusEmoji: (
       <WithTooltip
         label={customStatusText}
@@ -35,7 +37,7 @@ function toDesktopItem(row: ChannelsSidebarItemModel) {
         emojiSize="large"
         placement="right"
       >
-        <span role="img">{customStatusEmoji}</span>
+        <span>{customStatusEmoji}</span>
       </WithTooltip>
     ),
   };
