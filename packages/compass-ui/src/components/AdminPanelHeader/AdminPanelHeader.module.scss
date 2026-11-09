@@ -7,6 +7,14 @@
     border-bottom-color: rgba(var(--center-channel-color-rgb), 0.12);
   }
 
+  &--expandable {
+    cursor: pointer;
+
+    .admin-panel-header__actions {
+      cursor: auto;
+    }
+  }
+
   &__main {
     display: flex;
     align-items: center;

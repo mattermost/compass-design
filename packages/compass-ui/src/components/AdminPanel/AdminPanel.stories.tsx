@@ -166,6 +166,40 @@ export const ControlledExpand: Story = {
   },
 };
 
+/**
+ * Clicking the title, subtitle or empty header area toggles an expandable panel,
+ * like the expand button. Clicks on the Switch, Button, `headerActions` and the
+ * expand button itself do not. The expand button stays the keyboard control.
+ */
+export const ExpandableInteractiveHeader: Story = {
+  name: 'Expandable, interactive header',
+  args: {
+    title: 'Section Title',
+    subtitle: 'Click the title or subtitle to expand or collapse.',
+    expandable: true,
+    defaultExpandedState: 'collapsed',
+    onExpandedStateChange: fn(),
+    showSwitch: true,
+    switchLabel: 'Off',
+    onSwitchChange: fn(),
+    showButton: true,
+    buttonLabel: 'Button',
+    onButtonClick: fn(),
+    headerActions: (
+      <IconButton
+        type="button"
+        style="default"
+        size="medium"
+        aria-label="Help"
+        onClick={fn()}
+        icon={<Icon glyph={<InformationOutlineIcon />} />}
+      />
+    ),
+    children:
+      'Header actions keep their own click behavior and do not toggle the panel.',
+  },
+};
+
 export const WithFooter: Story = {
   name: 'Header + body + footer',
   args: {
