@@ -111,6 +111,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'password-input',
         'radio',
         'search-input',
+        'segmented-control',
         'select',
         'switch',
         'text-area',

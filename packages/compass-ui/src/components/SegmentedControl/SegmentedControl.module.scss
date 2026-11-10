@@ -1,0 +1,118 @@
+// ---------------------------------------------------------------------------
+// Block
+// ---------------------------------------------------------------------------
+.segmented-control {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--spacing-xxxxs);
+  padding: var(--spacing-xxxs);
+  border: 0;
+  border-radius: var(--radius-m);
+  background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+
+  // ---------------------------------------------------------------------------
+  // Elements
+  // ---------------------------------------------------------------------------
+  // Slides between segments. Label color stays instant so neighbours don't
+  // crossfade when the selection changes under the pointer (#184).
+  &__indicator {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    border-radius: var(--radius-s);
+    background-color: var(--center-channel-bg);
+    box-shadow: var(--elevation-1);
+    pointer-events: none;
+
+    // High contrast drops the fill and the shadow, so the selected surface
+    // needs its own edge. Outline does not change the measured box.
+    @media (forced-colors: active) {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
+
+    &--ready {
+      transition:
+        transform var(--duration-quick) var(--ease-transition),
+        width var(--duration-quick) var(--ease-transition),
+        height var(--duration-quick) var(--ease-transition);
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    &--unpositioned {
+      visibility: hidden;
+    }
+  }
+
+  &__segment {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: var(--spacing-xxs);
+    margin: 0;
+    border: 0;
+    padding-block: var(--spacing-xxxs);
+    padding-inline: calc(var(--spacing-xs) + var(--spacing-xxxxs));
+    border-radius: var(--radius-s);
+    background-color: transparent;
+    cursor: pointer;
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-semibold);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    white-space: nowrap;
+    // No transitions: the selected segment can change while the pointer is
+    // over a neighbour, and focus leaving must be instant (#184).
+    @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
+
+    &:is(:hover, :focus-visible):not(&--active):not(&--disabled) {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-88));
+    }
+
+    &--active {
+      color: var(--center-channel-color);
+    }
+
+    &--disabled#{$host-reset-boost} {
+      cursor: not-allowed;
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-40));
+    }
+  }
+
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Size modifiers — label and icon sizes match Button.
+  // ---------------------------------------------------------------------------
+  &--size-small {
+    .segmented-control__segment {
+      font-size: var(--font-size-75);
+      line-height: var(--line-height-75);
+    }
+  }
+
+  &--size-medium {
+    .segmented-control__segment {
+      font-size: var(--font-size-100);
+      line-height: var(--line-height-100);
+    }
+  }
+}

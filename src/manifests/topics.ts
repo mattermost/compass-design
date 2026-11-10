@@ -820,6 +820,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/section-notice/section-notice.specimen'),
   },
   {
+    slug: 'segmented-control',
+    name: 'Segmented Control',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/segmented-control/segmented-control.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/segmented-control/segmented-control.specimen'),
+  },
+  {
     slug: 'select',
     name: 'Select',
     category: 'components',
