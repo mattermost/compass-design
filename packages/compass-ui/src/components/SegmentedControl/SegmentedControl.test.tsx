@@ -194,6 +194,49 @@ describe('SegmentedControl disabled', () => {
   });
 });
 
+describe('SegmentedControl indicator', () => {
+  function stubBox(
+    el: HTMLElement,
+    box: { x: number; y: number; width: number; height: number },
+  ) {
+    Object.defineProperties(el, {
+      offsetLeft: { configurable: true, get: () => box.x },
+      offsetTop: { configurable: true, get: () => box.y },
+      offsetWidth: { configurable: true, get: () => box.width },
+      offsetHeight: { configurable: true, get: () => box.height },
+    });
+  }
+
+  it('slides the surface to the selected segment', () => {
+    const { rerender } = render(
+      <SegmentedControl
+        aria-label="Search mode"
+        options={OPTIONS}
+        value="channels"
+        onChange={vi.fn()}
+      />,
+    );
+    const channels = getByRole('tab', 'Channels');
+    const people = getByRole('tab', 'People');
+    stubBox(channels, { x: 4, y: 4, width: 72, height: 24 });
+    stubBox(people, { x: 96, y: 4, width: 64, height: 24 });
+
+    rerender(
+      <SegmentedControl
+        aria-label="Search mode"
+        options={OPTIONS}
+        value="people"
+        onChange={vi.fn()}
+      />,
+    );
+
+    const indicator = document.querySelector('[aria-hidden="true"]');
+    expect(indicator).not.toBeNull();
+    expect(indicator?.getAttribute('style')).toContain('translate(96px, 4px)');
+    expect(indicator?.getAttribute('style')).toContain('width: 64px');
+  });
+});
+
 describe('SegmentedControl options', () => {
   it('renders a leading icon and lets buttonProps veto selection', () => {
     const onChange = vi.fn();

@@ -81,14 +81,17 @@ default text color. Unselected labels are quieter.
   words.
 - <Num>3</Num> **Leading icon** — optional. Same idea on every segment, or none.
 - <Num>4</Num> **Label** — the option name.
-- <Num>5</Num> **Selected segment** — raised surface. Exactly one.
+- <Num>5</Num> **Selected segment** — raised surface. Exactly one. It slides to
+  the segment you choose.
 
 <Divider />
 
 ## Behavior
 
-Clicking a segment selects it. Arrow keys move between segments and skip
-disabled ones. Give the group a name with `aria-label` or `aria-labelledby`.
+Clicking a segment selects it. The raised surface slides over; the label
+color changes immediately. Reduced motion skips the slide. Arrow keys move
+between segments and skip disabled ones. Give the group a name with
+`aria-label` or `aria-labelledby`.
 
 export const SegmentedControlDemo = () => {
   const [value, setValue] = useState('messages');

@@ -2,6 +2,7 @@
 // Block
 // ---------------------------------------------------------------------------
 .segmented-control {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xxxxs);
@@ -13,7 +14,37 @@
   // ---------------------------------------------------------------------------
   // Elements
   // ---------------------------------------------------------------------------
+  // Slides between segments. Label color stays instant so neighbours don't
+  // crossfade when the selection changes under the pointer (#184).
+  &__indicator {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    border-radius: var(--radius-s);
+    background-color: var(--center-channel-bg);
+    box-shadow: var(--elevation-1);
+    pointer-events: none;
+
+    &--ready {
+      transition:
+        transform var(--duration-quick) var(--ease-transition),
+        width var(--duration-quick) var(--ease-transition),
+        height var(--duration-quick) var(--ease-transition);
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    &--unpositioned {
+      visibility: hidden;
+    }
+  }
+
   &__segment {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -40,11 +71,7 @@
       color: var(--center-channel-color);
     }
 
-    // The focus-ring mixin clears host box-shadow at (0,3,0). The selected
-    // segment's elevation has to match that specificity or the shadow is lost.
-    &--active#{$host-reset-boost} {
-      background-color: var(--center-channel-bg);
-      box-shadow: var(--elevation-1);
+    &--active {
       color: var(--center-channel-color);
     }
 

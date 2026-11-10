@@ -167,7 +167,7 @@ describe('default markup is unchanged', () => {
         />,
       ),
     ).toMatchInlineSnapshot(
-      `"<div aria-label="Search mode" role="tablist" aria-orientation="horizontal" class="_segmented-control_c9e460"><button type="button" role="tab" tabindex="0" aria-selected="true" class="_segmented-control__segment_c9e460 _segmented-control__segment--active_c9e460"><span class="_segmented-control__label_c9e460">Messages</span></button><button type="button" role="tab" tabindex="-1" aria-selected="false" class="_segmented-control__segment_c9e460"><span class="_segmented-control__label_c9e460">Files</span></button></div>"`,
+      `"<div aria-label="Search mode" role="tablist" aria-orientation="horizontal" class="_segmented-control_c9e460"><span class="_segmented-control__indicator_c9e460 _segmented-control__indicator--ready_c9e460 _segmented-control__indicator--unpositioned_c9e460" aria-hidden="true"></span><button type="button" role="tab" tabindex="0" aria-selected="true" class="_segmented-control__segment_c9e460 _segmented-control__segment--active_c9e460"><span class="_segmented-control__label_c9e460">Messages</span></button><button type="button" role="tab" tabindex="-1" aria-selected="false" class="_segmented-control__segment_c9e460"><span class="_segmented-control__label_c9e460">Files</span></button></div>"`,
     );
   });
 

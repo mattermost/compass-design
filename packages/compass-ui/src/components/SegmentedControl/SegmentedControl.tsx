@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type HTMLAttributes,
@@ -78,6 +79,35 @@ function arrowDelta(key: string, isRadio: boolean) {
   return 0;
 }
 
+interface IndicatorBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+function readBox(node: HTMLElement | null | undefined): IndicatorBox | null {
+  if (!node || node.offsetWidth === 0) return null;
+  return {
+    x: node.offsetLeft,
+    y: node.offsetTop,
+    width: node.offsetWidth,
+    height: node.offsetHeight,
+  };
+}
+
+function sameBox(a: IndicatorBox | null, b: IndicatorBox | null) {
+  return (
+    a === b ||
+    (a != null &&
+      b != null &&
+      a.x === b.x &&
+      a.y === b.y &&
+      a.width === b.width &&
+      a.height === b.height)
+  );
+}
+
 /**
  * Segmented controls let people pick one option from a short, exclusive set shown as one
  * compact control — search modes in a header, a filter on a list, or a form choice that
@@ -91,16 +121,41 @@ export default function SegmentedControl({
   className,
   ...rest
 }: SegmentedControlProps) {
-  const segmentRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const segmentRefs = useRef(new Map<string, HTMLButtonElement>());
   const [focusedKey, setFocusedKey] = useState(value);
+  const [indicator, setIndicator] = useState<IndicatorBox | null>(null);
+  // The first placement is instant. Motion turns on after paint so the
+  // surface doesn't slide in from the corner on mount.
+  const [indicatorReady, setIndicatorReady] = useState(false);
   const isRadio = role === 'radiogroup';
   const itemRole = isRadio ? 'radio' : 'tab';
+
+  useLayoutEffect(() => {
+    const publish = () => {
+      const next = readBox(segmentRefs.current.get(value));
+      setIndicator((current) => (sameBox(current, next) ? current : next));
+    };
+    publish();
+
+    const track = trackRef.current;
+    if (typeof ResizeObserver === 'undefined' || !track) return;
+    const observer = new ResizeObserver(publish);
+    observer.observe(track);
+    for (const node of segmentRefs.current.values()) {
+      observer.observe(node);
+    }
+    return () => observer.disconnect();
+  }, [value, options]);
+
+  useEffect(() => {
+    setIndicatorReady(true);
+  }, []);
 
   useEffect(() => {
     setFocusedKey(value);
   }, [value]);
 
-  const keys = options.map((option) => option.key);
   const enabledKeys = options
     .filter((option) => !option.disabled)
     .map((option) => option.key);
@@ -112,8 +167,7 @@ export default function SegmentedControl({
 
   const moveFocus = (key: string, select: boolean) => {
     setFocusedKey(key);
-    const index = keys.indexOf(key);
-    segmentRefs.current[index]?.focus();
+    segmentRefs.current.get(key)?.focus();
     if (select) onChange(key);
   };
 
@@ -151,11 +205,29 @@ export default function SegmentedControl({
   return (
     <div
       {...rest}
+      ref={trackRef}
       role={role}
       aria-orientation="horizontal"
       className={mergeClassNames(styles['segmented-control'], className)}
     >
-      {options.map((option, index) => {
+      <span
+        className={mergeClassNames(
+          styles['segmented-control__indicator'],
+          indicatorReady && styles['segmented-control__indicator--ready'],
+          !indicator && styles['segmented-control__indicator--unpositioned'],
+        )}
+        style={
+          indicator
+            ? {
+                transform: `translate(${indicator.x}px, ${indicator.y}px)`,
+                width: indicator.width,
+                height: indicator.height,
+              }
+            : undefined
+        }
+        aria-hidden
+      />
+      {options.map((option) => {
         const isSelected = option.key === value;
         const isDisabled = option.disabled === true;
 
@@ -164,7 +236,8 @@ export default function SegmentedControl({
             {...option.buttonProps}
             key={option.key}
             ref={(node) => {
-              segmentRefs.current[index] = node;
+              if (node) segmentRefs.current.set(option.key, node);
+              else segmentRefs.current.delete(option.key);
             }}
             id={option.id ?? option.buttonProps?.id}
             type="button"
