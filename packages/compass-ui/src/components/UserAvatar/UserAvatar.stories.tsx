@@ -6,7 +6,23 @@ import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import UserAvatar from './UserAvatar';
 import type { UserAvatarFallbackColor, UserAvatarSize } from './UserAvatar';
 
-const IMAGE_SIZES: UserAvatarSize[] = ['24', '32', '48', '64', '96'];
+/** Every Figma User Avatar size. */
+const IMAGE_SIZES: UserAvatarSize[] = [
+  '12',
+  '16',
+  '20',
+  '24',
+  '28',
+  '32',
+  '40',
+  '48',
+  '56',
+  '64',
+  '72',
+  '80',
+  '96',
+  '120',
+];
 /** Sizes that can show a badge (the guideline says not to below 20px). */
 const STATUS_SIZES: UserAvatarSize[] = [
   '20',
