@@ -19,6 +19,31 @@ function key(target: EventTarget, k: string, init: KeyboardEventInit = {}) {
 
 const dialog = () => document.querySelector('[role="dialog"]') as HTMLElement;
 
+describe('Modal headerLeading', () => {
+  it('names the dialog from the title, not the leading control', () => {
+    const { container } = render(
+      <Modal
+        title="Search"
+        subtitle="Should stay hidden"
+        headerLeading={<button type="button">Channels</button>}
+        headerAction={<button type="button">All teams</button>}
+      >
+        body
+      </Modal>,
+    );
+    const labelledBy = dialog().getAttribute('aria-labelledby');
+    const heading = container.querySelector('h2');
+    expect(heading?.id).toBe(labelledBy);
+    expect(heading?.textContent).toBe('Search');
+    expect(heading?.querySelector('button')).toBeNull();
+    expect(
+      container.querySelector('[class*="modal-header__leading"] button')
+        ?.textContent,
+    ).toBe('Channels');
+    expect(container.textContent).not.toContain('Should stay hidden');
+  });
+});
+
 describe('Modal focus and keyboard', () => {
   it('focuses the dialog on mount', () => {
     render(<Modal title="T">body</Modal>);
