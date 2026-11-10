@@ -48,6 +48,12 @@ These came from the developer's review of that run. Don't use them to rescore ea
 23. Every entry point the change replaces opens only the new surface, never the old one as well.
 24. Keyboard: Escape closes each overlay, focus returns to what opened it, Tab order matches the prototype's.
 
+## Added after the Calls admin console evaluation (score from the next evaluation on)
+
+25. The spec source was read (Figma, Confluence or the linked doc), or the report says "spec not read" and what that leaves unchecked. The prototype's own copy is not the spec source.
+26. The diff lists only files the change needed: no stray formatting or lint-fix edits, and no files outside the scoped surface.
+27. Existing behavior or screens the change replaces (a generic page, an old entry point) were confirmed with the developer before being replaced.
+
 ## Process (record, not scored)
 
 - Did the skill trigger unprompted?
