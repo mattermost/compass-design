@@ -27,6 +27,13 @@
     box-shadow: var(--elevation-1);
     pointer-events: none;
 
+    // High contrast drops the fill and the shadow, so the selected surface
+    // needs its own edge. Outline does not change the measured box.
+    @media (forced-colors: active) {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
+
     &--ready {
       transition:
         transform var(--duration-quick) var(--ease-transition),

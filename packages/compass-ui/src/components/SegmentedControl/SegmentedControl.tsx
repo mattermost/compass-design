@@ -240,7 +240,7 @@ export default function SegmentedControl({
     if ((event.key === 'Enter' || event.key === ' ') && index >= 0) {
       event.preventDefault();
       setFocusedKey(key);
-      onChange(key);
+      if (key !== value) onChange(key);
     }
   };
 
@@ -312,7 +312,7 @@ export default function SegmentedControl({
               option.buttonProps?.onClick?.(event);
               if (event.defaultPrevented || isDisabled) return;
               setFocusedKey(option.key);
-              onChange(option.key);
+              if (option.key !== value) onChange(option.key);
             }}
             onKeyDown={(event) => {
               option.buttonProps?.onKeyDown?.(event);

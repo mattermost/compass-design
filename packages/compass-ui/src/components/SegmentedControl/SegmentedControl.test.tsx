@@ -54,6 +54,15 @@ describe('SegmentedControl tabs', () => {
     expect(onChange).toHaveBeenCalledWith('people');
   });
 
+  it('does not call onChange when the selected segment is activated again', () => {
+    const onChange = renderControl();
+    const channels = getByRole('tab', 'Channels');
+    click(channels);
+    keyDown(channels, 'Enter');
+    keyDown(channels, ' ');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('moves focus with arrows, Home, and End without selecting', () => {
     const onChange = renderControl();
     const channels = getByRole('tab', 'Channels');
