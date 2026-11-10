@@ -100,6 +100,10 @@
         @if $size <= 28 {
           right: -1px;
           bottom: -1px;
+        } @else if $size >= 56 and $size <= 80 {
+          // 20px box (was 24px at -2px): 0 keeps the badge centre in place.
+          right: 0;
+          bottom: 0;
         } @else {
           right: -2px;
           bottom: -2px;
