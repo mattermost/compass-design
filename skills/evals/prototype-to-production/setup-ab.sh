@@ -39,12 +39,25 @@ if git -C "$consumer" cat-file -e "$base:.claude/skills/prototype-to-production"
   exit 1
 fi
 
+# A user-level copy of a skill would load in the without-skill session too.
+# Don't move user files from here: ask for them to be moved, then restored.
+for s in compass-build compass-review prototype-to-production; do
+  if [ -e "$HOME/.claude/skills/$s" ] || [ -L "$HOME/.claude/skills/$s" ]; then
+    echo "$HOME/.claude/skills/$s exists, so the without-skill session would load it. Move it out of ~/.claude/skills while you test, then restore it." >&2
+    exit 1
+  fi
+done
+
 root="$(cd "$consumer/.." && pwd)/ab-test-$name"
 mkdir -p "$root"
 sha="$(git -C "$consumer" rev-parse --short "$base")"
 
 git -C "$consumer" worktree add -b "ab-$name-with-skill" "$root/with-skill" "$base"
 git -C "$consumer" worktree add -b "ab-$name-without-skill" "$root/without-skill" "$base"
+
+# Give the baseline its own, empty project skills directory. Without one, a
+# newer Claude Code can fall back to the main checkout's skills in the baseline.
+mkdir -p "$root/without-skill/.claude/skills"
 
 # Copy (don't symlink) the skills, side by side, into the with-skill worktree only.
 mkdir -p "$root/with-skill/.claude/skills"

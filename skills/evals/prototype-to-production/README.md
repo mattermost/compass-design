@@ -8,6 +8,7 @@ This folder is outside `skills/prototype-to-production/` on purpose, so installi
 
 The with-skill session has to be able to run and look at the app (step 10). Set these up first, so a missing one doesn't decide the result:
 
+- **A clean baseline:** `setup-ab.sh` refuses to run if any of the three skills is installed at user level (`~/.claude/skills`). Move it out while you test and restore it afterwards. In the without-skill session, ask it to list its available skills and confirm `prototype-to-production` isn't one of them before you paste the prompt.
 - **Server:** a Mattermost server running and reachable (the webapp proxies to `:8065` by default). If the change sits behind a feature flag, start the server with the flag on (`MM_FEATUREFLAGS_<Name>=true`), from a build that defines it.
 - **Plugins:** anything the surface depends on is installed and enabled (for example the Calls plugin for its System Console page). Turn on plugin uploads if you need to upload one.
 - **Node:** the version the consumer's `package.json` asks for (webapp: `nvm use 24.11.1`).
