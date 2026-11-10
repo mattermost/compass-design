@@ -93,9 +93,11 @@ function stepIndex(index: number, delta: number, count: number) {
   return (index + delta + count) % count;
 }
 
-function arrowDelta(key: string, isRadio: boolean) {
-  if (key === 'ArrowRight' || (isRadio && key === 'ArrowDown')) return 1;
-  if (key === 'ArrowLeft' || (isRadio && key === 'ArrowUp')) return -1;
+function arrowDelta(key: string, isRadio: boolean, isRtl: boolean) {
+  const forward = isRtl ? 'ArrowLeft' : 'ArrowRight';
+  const backward = isRtl ? 'ArrowRight' : 'ArrowLeft';
+  if (key === forward || (isRadio && key === 'ArrowDown')) return 1;
+  if (key === backward || (isRadio && key === 'ArrowUp')) return -1;
   return 0;
 }
 
@@ -153,6 +155,11 @@ export default function SegmentedControl({
   const isRadio = role === 'radiogroup';
   const itemRole = isRadio ? 'radio' : 'tab';
 
+  // A string dependency: `options` is usually a fresh array each render, and
+  // only added or removed segments need new observers (the observers already
+  // cover label-driven size changes).
+  const optionKeys = options.map((option) => option.key).join('\u0000');
+
   useLayoutEffect(() => {
     const publish = () => {
       const next = readBox(segmentRefs.current.get(value));
@@ -168,15 +175,22 @@ export default function SegmentedControl({
       observer.observe(node);
     }
     return () => observer.disconnect();
-  }, [value, options, size]);
+  }, [value, optionKeys, size]);
 
+  // Enable motion only after the first real placement has painted, so a first
+  // measurement that is empty (hidden container) doesn't animate in later.
+  const isPlaced = indicator !== null;
   useEffect(() => {
-    setIndicatorReady(true);
-  }, []);
+    if (isPlaced) setIndicatorReady(true);
+  }, [isPlaced]);
 
-  useEffect(() => {
+  // Re-sync the roving focus to the selection while rendering, so there is no
+  // render with a stale `focusedKey`.
+  const [prevValue, setPrevValue] = useState(value);
+  if (prevValue !== value) {
+    setPrevValue(value);
     setFocusedKey(value);
-  }, [value]);
+  }
 
   const iconSize = SIZE_ICON_MAP[size];
   const enabledKeys = options
@@ -220,7 +234,10 @@ export default function SegmentedControl({
     const count = enabledKeys.length;
     if (count === 0) return;
     const index = enabledKeys.indexOf(key);
-    const delta = arrowDelta(event.key, isRadio);
+    const isRtl =
+      trackRef.current != null &&
+      getComputedStyle(trackRef.current).direction === 'rtl';
+    const delta = arrowDelta(event.key, isRadio, isRtl);
 
     if (delta !== 0) {
       event.preventDefault();

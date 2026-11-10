@@ -67,7 +67,7 @@
     cursor: pointer;
     font-family: var(--font-family-body);
     font-weight: var(--font-weight-semibold);
-    color: rgba(var(--center-channel-color-rgb), 0.75);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     white-space: nowrap;
     // No transitions: the selected segment can change while the pointer is
     // over a neighbour, and focus leaving must be instant (#184).
