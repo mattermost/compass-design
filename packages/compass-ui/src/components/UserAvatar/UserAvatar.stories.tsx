@@ -1,10 +1,37 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
-import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
+import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
+import avatarDariusCole from '@/assets/avatars/Darius Cole.png';
+import avatarDavidLiang from '@/assets/avatars/David Liang.png';
+import avatarEmmaNovak from '@/assets/avatars/Emma Novak.png';
+import avatarEthanBrooks from '@/assets/avatars/Ethan Brooks.png';
+import avatarIsabellaCruz from '@/assets/avatars/Isabella Cruz.png';
+import avatarLeilaHaddad from '@/assets/avatars/Leila Haddad.png';
+import avatarLeonardRiley from '@/assets/avatars/Leonard Riley.png';
+import avatarLukasMeyer from '@/assets/avatars/Lukas Meyer.png';
+import avatarMarcoRinaldi from '@/assets/avatars/Marco Rinaldi.png';
+import avatarMatty from '@/assets/avatars/Matty.png';
+import avatarSofiaBauer from '@/assets/avatars/Sofia Bauer.png';
 import UserAvatar from './UserAvatar';
 import type { UserAvatarFallbackColor, UserAvatarSize } from './UserAvatar';
+
+/** Image choices for the `src` control; the key is shown in Controls. */
+const AVATARS: Record<string, string> = {
+  'Aiko Tan': avatarAikoTan,
+  'Arjun Patel': avatarArjunPatel,
+  'Darius Cole': avatarDariusCole,
+  'David Liang': avatarDavidLiang,
+  'Emma Novak': avatarEmmaNovak,
+  'Ethan Brooks': avatarEthanBrooks,
+  'Isabella Cruz': avatarIsabellaCruz,
+  'Leila Haddad': avatarLeilaHaddad,
+  'Leonard Riley': avatarLeonardRiley,
+  'Lukas Meyer': avatarLukasMeyer,
+  'Marco Rinaldi': avatarMarcoRinaldi,
+  'Matty': avatarMatty,
+  'Sofia Bauer': avatarSofiaBauer,
+};
 
 /** Every Figma User Avatar size. */
 const IMAGE_SIZES: UserAvatarSize[] = [
@@ -80,6 +107,12 @@ const meta = {
   component: UserAvatar,
   tags: ['autodocs'],
   argTypes: {
+    src: {
+      control: 'select',
+      options: Object.keys(AVATARS),
+      mapping: AVATARS,
+      description: 'Avatar image.',
+    },
     size: { control: 'select', options: IMAGE_SIZES },
     status: {
       control: 'select',
@@ -89,6 +122,7 @@ const meta = {
     },
     fallbackColor: { control: 'select', options: FALLBACK_COLORS },
   },
+  args: { src: 'Sofia Bauer' },
 } satisfies Meta<typeof UserAvatar>;
 
 export default meta;
@@ -97,14 +131,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     alt: 'Marco Rinaldi',
-    src: avatarMarco,
     size: '48',
   },
 };
 
 export const WithStatus: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
+  parameters: { controls: { include: ['src'] } },
+  render: (args) => (
     <div style={{ display: 'grid', gap: 16 }}>
       {STATUSES.map((status) => (
         <div
@@ -124,7 +157,7 @@ export const WithStatus: Story = {
             >
               <UserAvatar
                 alt="Sofia Bauer"
-                src={avatarSofia}
+                src={args.src}
                 size={size}
                 status={status}
               />
@@ -138,7 +171,8 @@ export const WithStatus: Story = {
 };
 
 export const ImageSizes: Story = {
-  render: () => (
+  parameters: { controls: { include: ['src'] } },
+  render: (args) => (
     <div
       style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'end' }}
     >
@@ -153,7 +187,7 @@ export const ImageSizes: Story = {
             fontSize: 12,
           }}
         >
-          <UserAvatar alt="Leonard Riley" src={avatarLeonard} size={size} />
+          <UserAvatar alt="Leonard Riley" src={args.src} size={size} />
           <span>{size}</span>
         </div>
       ))}
@@ -163,6 +197,7 @@ export const ImageSizes: Story = {
 
 export const Fallback: Story = {
   args: {
+    src: undefined,
     alt: 'Danielle Okoro',
     name: 'Danielle Okoro',
     size: '48',
@@ -186,15 +221,15 @@ export const FallbackColors: Story = {
 };
 
 export const AllVariants: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
+  parameters: { controls: { include: ['src'] } },
+  render: (args) => (
     <div style={{ display: 'grid', gap: 24 }}>
       <Row label="Image">
         {IMAGE_SIZES.map((size) => (
           <UserAvatar
             key={size}
             alt="Leonard Riley"
-            src={avatarLeonard}
+            src={args.src}
             size={size}
           />
         ))}
@@ -204,7 +239,7 @@ export const AllVariants: Story = {
           <UserAvatar
             key={size}
             alt="Sofia Bauer"
-            src={avatarSofia}
+            src={args.src}
             size={size}
             status="online"
           />
