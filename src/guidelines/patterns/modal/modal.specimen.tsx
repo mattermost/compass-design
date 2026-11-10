@@ -6,6 +6,12 @@ import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import {
+  SettingsModal,
+  SettingsPane,
+  SettingsSection,
+  SettingsSidebar,
+} from '@mattermost/compass-proto';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
@@ -83,6 +89,55 @@ function ModalCanvas({
         >
           {children}
         </ModalOverlay>
+      )}
+    </div>
+  );
+}
+
+// Settings dialog from compass-proto: it renders its own ModalOverlay, so stage it
+// by passing the canvas frame as `container`.
+function SettingsModalExample() {
+  const [stage, setStage] = useState<HTMLDivElement | null>(null);
+  const [tab, setTab] = useState('notifications');
+  const [editing, setEditing] = useState(false);
+  return (
+    <div
+      ref={setStage}
+      className={[
+        styles['patterns__modal-canvas'],
+        styles['patterns__modal-canvas--tall'],
+      ].join(' ')}
+    >
+      {stage && (
+        <SettingsModal
+          open
+          container={stage}
+          onClose={() => {}}
+          sidebar={<SettingsSidebar activeId={tab} onSelect={setTab} />}
+        >
+          <SettingsPane title="Notifications">
+            <SettingsSection
+              title="Desktop and mobile notifications"
+              description="Mentions, direct messages, and group messages"
+            />
+            <SettingsSection
+              title="Email notifications"
+              description={editing ? 'Immediately' : 'Never'}
+              expanded={editing}
+              onEdit={() => setEditing(true)}
+              onSave={() => setEditing(false)}
+              onCancel={() => setEditing(false)}
+            >
+              <p className={styles['patterns__body-text']}>
+                Choose when to receive email about new messages.
+              </p>
+            </SettingsSection>
+            <SettingsSection
+              title="Automatic direct message replies"
+              description="Off"
+            />
+          </SettingsPane>
+        </SettingsModal>
       )}
     </div>
   );
@@ -189,6 +244,12 @@ export default function ModalLibrary() {
             </div>
           </Modal>
         </ModalCanvas>
+      </div>
+      <div>
+        <p className={styles['patterns__variant-label']}>
+          Settings modal (compass-proto)
+        </p>
+        <SettingsModalExample />
       </div>
     </div>
   );

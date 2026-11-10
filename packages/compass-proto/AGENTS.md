@@ -12,6 +12,7 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 - Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `TeamSidebar`, `RightSidebar` (shell), `AppBarItem`
 - Hardcoded menu recipes: `PlusMenu`, `HelpMenu`, `ChannelMenu`, `TeamMenu`, `ChannelCategoryMenu`, `ChannelHeaderMenu`, `ThreadActionsMenu`, `MessageMoreOptionsMenu`, `ProductSwitcherMenu`, `UserAccountMenu`
 - Demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`) and sidebar fixture helpers
+- Settings dialog: `SettingsModal` (Modal shell with sidebar + scrolling pane), `SettingsSidebar`, `SettingsPane`, `SettingsSection` (expand-in-place edit row)
 - `WithTooltip` (prototype tooltip host)
 
 Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `ChannelSidebarItem`, `TourPoint`, `PopoverMenu` / `MenuItem`, etc.
