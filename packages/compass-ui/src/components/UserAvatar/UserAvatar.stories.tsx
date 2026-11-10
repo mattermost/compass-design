@@ -20,9 +20,11 @@ import type { UserAvatarFallbackColor, UserAvatarSize } from './UserAvatar';
 const CUSTOM_URL = '__custom-url__';
 
 /** Resolves the `src` control, using the `customSrc` text when "Custom URL" is picked. */
-function resolveSrc(args: { src?: string }): string | undefined {
-  const { customSrc } = args as { customSrc?: string };
-  return args.src === CUSTOM_URL ? customSrc || undefined : args.src;
+function resolveSrc(args: {
+  src?: string;
+  customSrc?: string;
+}): string | undefined {
+  return args.src === CUSTOM_URL ? args.customSrc || undefined : args.src;
 }
 
 /** Image choices for the `src` control; the key is shown in Controls. */
@@ -38,7 +40,7 @@ const AVATARS: Record<string, string> = {
   'Leonard Riley': avatarLeonardRiley,
   'Lukas Meyer': avatarLukasMeyer,
   'Marco Rinaldi': avatarMarcoRinaldi,
-  'Matty': avatarMatty,
+  Matty: avatarMatty,
   'Sofia Bauer': avatarSofiaBauer,
   'Custom URL': CUSTOM_URL,
 };
@@ -147,10 +149,12 @@ const meta = {
   },
   args: { src: 'Sofia Bauer' },
   render: (args) => {
-    const { customSrc: _customSrc, ...props } = args as typeof args & {
+    const { customSrc, ...props } = args as typeof args & {
       customSrc?: string;
     };
-    return <UserAvatar {...props} src={resolveSrc(args)} />;
+    return (
+      <UserAvatar {...props} src={resolveSrc({ src: props.src, customSrc })} />
+    );
   },
 } satisfies Meta<typeof UserAvatar>;
 
