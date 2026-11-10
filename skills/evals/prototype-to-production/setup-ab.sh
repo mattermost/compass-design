@@ -32,12 +32,15 @@ for s in compass-build compass-review prototype-to-production; do
   [ -d "$cd_repo/skills/$s" ] || { echo "Missing $cd_repo/skills/$s" >&2; exit 1; }
 done
 
-# The base must not already install the skill under test, or the without-skill
-# side would not be a baseline.
-if git -C "$consumer" cat-file -e "$base:.claude/skills/prototype-to-production" 2>/dev/null; then
-  echo "Base $base already has .claude/skills/prototype-to-production, so the without-skill run would not be a baseline. Pick another base." >&2
-  exit 1
-fi
+# The base must contain none of the three skills. The without-skill side would
+# keep them while the with-skill side replaces them, so a difference in a
+# companion skill's version could be blamed on the skill under test.
+for s in compass-build compass-review prototype-to-production; do
+  if git -C "$consumer" cat-file -e "$base:.claude/skills/$s" 2>/dev/null; then
+    echo "Base $base already has .claude/skills/$s, so the without-skill run would not be a baseline. Pick another base." >&2
+    exit 1
+  fi
+done
 
 # A user-level copy of a skill would load in the without-skill session too.
 # Don't move user files from here: ask for them to be moved, then restored.
@@ -62,14 +65,8 @@ mkdir -p "$root/without-skill/.claude/skills"
 # Copy (don't symlink) the skills, side by side, into the with-skill worktree only.
 mkdir -p "$root/with-skill/.claude/skills"
 for s in compass-build compass-review prototype-to-production; do
-  dst="$root/with-skill/.claude/skills/$s"
-  # A base that already tracks this folder would get the copy nested inside it.
-  # -L also catches a dangling symlink, which -e reports as missing.
-  if [ -e "$dst" ] || [ -L "$dst" ]; then
-    echo "Replacing $s, which the base already has, in the with-skill worktree only."
-    rm -rf "$dst"
-  fi
-  cp -R "$cd_repo/skills/$s" "$dst"
+  # The base check above guarantees the destination doesn't exist.
+  cp -R "$cd_repo/skills/$s" "$root/with-skill/.claude/skills/$s"
 done
 
 # Verify every skill copied completely (SKILL.md and references/ included).
