@@ -172,9 +172,7 @@ export default function UserAvatar({
             status={badgeStatus}
             size={badgeSize}
             label={statusLabel}
-            className={
-              badgeSize === 'medium' ? styles['user-avatar__badge--medium'] : ''
-            }
+            className={styles['user-avatar__badge']}
           />
         </span>
       )}

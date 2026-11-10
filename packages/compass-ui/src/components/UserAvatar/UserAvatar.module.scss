@@ -69,14 +69,6 @@
     box-sizing: content-box;
   }
 
-  // Medium badge (56–80px avatars): StatusBadge draws a 24px box around a 20px
-  // glyph, a 2px ring. Drop the ring so the box is the glyph. Scoped to the
-  // avatar; standalone StatusBadge is unchanged.
-  &__status &__badge--medium {
-    width: var(--icon-size-20);
-    height: var(--icon-size-20);
-  }
-
   // ---------------------------------------------------------------------------
   // Size modifiers (Figma Size scale)
   // Fallback initials font-size scales at ~0.467× the avatar size, matching
@@ -92,6 +84,16 @@
       .user-avatar__fallback {
         // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
         font-size: #{$size * 0.467}px;
+      }
+
+      // Badge box is locked to the avatar size. 56–80px use the Medium badge,
+      // whose 24px box leaves a 2px ring; drop it so the box is the 20px glyph.
+      // Scoped to the avatar; standalone StatusBadge is unchanged.
+      @if $size >= 56 and $size <= 80 {
+        .user-avatar__status .user-avatar__badge {
+          width: var(--icon-size-20);
+          height: var(--icon-size-20);
+        }
       }
 
       .user-avatar__status {
