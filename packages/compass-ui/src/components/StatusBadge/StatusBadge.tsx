@@ -28,6 +28,8 @@ export interface StatusBadgeProps {
   size?: StatusBadgeSize;
   /** Status variant. Figma: Status. Default: Online. */
   status?: StatusBadgeStatus;
+  /** Accessible name for the badge. Defaults to the `status` value; pass a translated string. */
+  label?: string;
 }
 
 /** Compass icon size in px per StatusBadge size — Figma. */
@@ -55,6 +57,7 @@ export default function StatusBadge({
   className = '',
   size = 'x-small',
   status = 'online',
+  label,
 }: StatusBadgeProps) {
   const sizeClass = styles[`status-badge--size-${toKebab(size)}`];
   const statusClass = styles[`status-badge--status-${toKebab(status)}`];
@@ -66,7 +69,7 @@ export default function StatusBadge({
   const GlyphIcon = GLYPH_COMPONENT[status];
 
   return (
-    <span className={rootClass} role="img" aria-label={status}>
+    <span className={rootClass} role="img" aria-label={label ?? status}>
       <span className={styles['status-badge__glyph']}>
         <GlyphIcon size={iconSizePx} />
       </span>

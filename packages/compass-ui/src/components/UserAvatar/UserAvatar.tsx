@@ -63,6 +63,8 @@ export interface UserAvatarProps extends Omit<
    * means `online`. The badge size follows the avatar `size`.
    */
   status?: boolean | StatusBadgeStatus;
+  /** Accessible name for the status badge. Defaults to the status value; pass a translated string. */
+  statusLabel?: string;
 }
 
 const FALLBACK_COLORS: readonly UserAvatarFallbackColor[] = [
@@ -122,6 +124,7 @@ export default function UserAvatar({
   fallbackColor,
   size = '48',
   status,
+  statusLabel,
   ...imgProps
 }: UserAvatarProps) {
   const sizeClass = styles[`user-avatar--size-${toKebab(size)}`];
@@ -168,6 +171,7 @@ export default function UserAvatar({
           <StatusBadge
             status={badgeStatus}
             size={badgeSize}
+            label={statusLabel}
             className={
               badgeSize === 'medium' ? styles['user-avatar__badge--medium'] : ''
             }
