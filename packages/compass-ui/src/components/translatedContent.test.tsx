@@ -21,6 +21,7 @@ import Tooltip from './Tooltip/Tooltip';
 import TourPoint from './TourPoint/TourPoint';
 import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
 import ProfilePopover from './ProfilePopover/ProfilePopover';
+import Modal from './Modal/Modal';
 
 /** Stand-in for react-intl's `<FormattedMessage/>`: an element, not a string. */
 function Msg({ children }: { children: ReactNode }) {
@@ -236,6 +237,25 @@ describe('text props accept translated nodes', () => {
       />,
     );
     expect(messages(container)).toEqual(['Thread', 'Beta', 'Follow']);
+  });
+
+  it('Modal title stays the dialog name when headerLeading is set', () => {
+    const { container } = render(
+      <Modal
+        title={<Msg>Search</Msg>}
+        headerLeading={<button type="button">Channels</button>}
+      >
+        body
+      </Modal>,
+    );
+    const heading = container.querySelector('h2');
+    expect(heading?.textContent).toBe('Search');
+    expect(heading?.querySelector('[data-testid="msg"]')).not.toBeNull();
+    expect(heading?.querySelector('button')).toBeNull();
+    expect(
+      container.querySelector('[class*="modal-header__leading"] button')
+        ?.textContent,
+    ).toBe('Channels');
   });
 
   it('ProfilePopover name, title and built-in copy', () => {

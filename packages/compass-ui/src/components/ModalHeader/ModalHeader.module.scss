@@ -24,12 +24,28 @@
     }
   }
 
+  // The visible heading stays top-aligned so a subtitle does not pull close
+  // down. Custom title-row content centers on the close button instead.
+  &--has-leading {
+    .modal-header__content {
+      align-items: center;
+    }
+  }
+
   &__content {
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-s);
     width: 100%;
     padding: var(--spacing-xxl) var(--spacing-xxxl);
+  }
+
+  &__leading {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: var(--spacing-m);
+    min-width: 0;
   }
 
   &__titles {

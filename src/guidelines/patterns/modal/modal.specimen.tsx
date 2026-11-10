@@ -9,6 +9,7 @@ import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
+import { SearchInput } from '@mattermost/compass-ui/components/search-input';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import styles from '@/styles/library-demo/patterns.module.scss';
@@ -136,6 +137,39 @@ export default function ModalLibrary() {
                 }
               />
             ))}
+          </Modal>
+        </ModalCanvas>
+      </div>
+      <div>
+        <p className={styles['patterns__variant-label']}>Leading slot</p>
+        <ModalCanvas>
+          <Modal
+            title="Search"
+            size="small"
+            headerDivider={false}
+            headerLeading={
+              <div className={styles['patterns__modal-leading']}>
+                <Button emphasis="secondary" size="small">
+                  Channels
+                </Button>
+                <Button emphasis="quaternary" size="small">
+                  Messages
+                </Button>
+              </div>
+            }
+            headerAction={
+              <Button emphasis="tertiary" size="small">
+                All teams
+              </Button>
+            }
+            headerSlot={
+              <SearchInput aria-label="Search" placeholder="Search" />
+            }
+          >
+            <p className={styles['patterns__body-text']}>
+              The mode switcher sits where the title would. The dialog is still
+              named Search.
+            </p>
           </Modal>
         </ModalCanvas>
       </div>

@@ -45,6 +45,15 @@ export interface ModalHeaderProps {
    */
   headerAction?: ReactNode;
   /**
+   * Custom content in the title position: left aligned, vertically centered
+   * with the close button. Not wrapped in the heading and not given heading
+   * type, so a control keeps its own styles. `title` stays the accessible
+   * name and is visually hidden, the same as `hideTitle`. The subtitle is
+   * omitted. `showBackButton` still renders before this content. Without
+   * this prop, `hideTitle` stays the close-only header.
+   */
+  leading?: ReactNode;
+  /**
    * Full-width slot rendered below the title row and above the divider.
    * Accepts any ReactNode — SearchInput, Tabs, a custom toolbar, etc.
    * Padding is provided by the slot container; no extra wrapper is needed.
@@ -53,8 +62,9 @@ export interface ModalHeaderProps {
 }
 
 /**
- * Modal Header — title row, optional subtitle (below or beside), optional back,
- * optional header action, and close. Compose into `Modal` or use standalone.
+ * Modal Header — title row, optional subtitle (below or beside), optional
+ * leading content in place of the visible title, optional back, optional
+ * header action, and close. Compose into `Modal` or use standalone.
  *
  * @see https://www.figma.com/design/qdm5tKododENqnTvjLovDT/Patterns---Modals?node-id=789-15921
  */
@@ -74,18 +84,33 @@ export default function ModalHeader({
   closeButtonProps,
   divider = true,
   headerAction,
+  leading,
   headerSlot,
 }: ModalHeaderProps) {
-  const showTitleBlock = !hideTitle && title != null;
+  const hasLeading = Boolean(leading);
+  const showTitleBlock = !hideTitle && !hasLeading && title != null;
   const showSubtitle = showTitleBlock && subtitle != null;
   const beside = subtitlePlacement === 'beside' && showSubtitle;
+  const backButton = showBackButton ? (
+    <IconButton
+      {...backButtonProps}
+      aria-label={backLabel}
+      className={mergeClassNames(
+        styles['modal-header__back'],
+        backButtonProps?.className,
+      )}
+      icon={<Icon glyph={<ArrowLeftIcon />} size="20" />}
+      onClick={onBack}
+    />
+  ) : null;
 
   return (
     <div
       className={[
         styles['modal-header'],
         !divider && styles['modal-header--no-divider'],
-        hideTitle && styles['modal-header--close-only'],
+        hideTitle && !hasLeading && styles['modal-header--close-only'],
+        hasLeading && styles['modal-header--has-leading'],
         headerSlot && styles['modal-header--has-slot'],
         className,
       ]
@@ -96,18 +121,7 @@ export default function ModalHeader({
         {showTitleBlock ? (
           <div className={styles['modal-header__titles']}>
             <div className={styles['modal-header__primary']}>
-              {showBackButton && (
-                <IconButton
-                  {...backButtonProps}
-                  aria-label={backLabel}
-                  className={mergeClassNames(
-                    styles['modal-header__back'],
-                    backButtonProps?.className,
-                  )}
-                  icon={<Icon glyph={<ArrowLeftIcon />} size="20" />}
-                  onClick={onBack}
-                />
-              )}
+              {backButton}
               <h2 id={titleId} className={styles['modal-header__title']}>
                 {title}
               </h2>
@@ -130,6 +144,13 @@ export default function ModalHeader({
             {title}
           </h2>
         ) : null}
+
+        {hasLeading && (
+          <div className={styles['modal-header__leading']}>
+            {backButton}
+            {leading}
+          </div>
+        )}
 
         <div className={styles['modal-header__actions']}>
           {headerAction}
