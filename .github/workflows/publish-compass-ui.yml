@@ -106,4 +106,4 @@ jobs:
           # Inline code so "@mattermost" is not parsed as a user or group mention.
           text="#### :package: \`@mattermost/compass-ui\` $VERSION published"$'\n'"npm tag: \`$DIST_TAG\` · [Release notes]($RELEASE_URL) · [npm](https://www.npmjs.com/package/@mattermost/compass-ui/v/$VERSION)"
           payload=$(jq -n --arg text "$text" '{text: $text}')
-          curl -fsS -X POST -H 'Content-Type: application/json' -d "$payload" "$WEBHOOK_URL"
+          curl -fsS --max-time 15 -X POST -H 'Content-Type: application/json' -d "$payload" "$WEBHOOK_URL"
