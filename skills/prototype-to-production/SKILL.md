@@ -25,7 +25,7 @@ These are the rules that were skipped or missed when this skill was tested on a 
 5. **Carry over the prototype's spacing values.** Don't pick your own. Form gaps: 24px between fields in a group, 16px between paired fields, 32px between field groups.
 6. **Menus, pickers and tooltips inside a modal must show above it.** Confirm this in the running app.
 7. **Real conditions, i18n and host patterns.** Never fixture fields, pasted English literals or ported demo state.
-8. **Stop and ask** about what the prototype doesn't settle, before building (end of step 6). Use the `AskUserQuestion` tool.
+8. **Stop and ask** about what the prototype doesn't settle, before building (end of step 6). Use the `AskUserQuestion` tool. If it is rejected or dismissed, that is a stop, not an answer: don't build. Write the questions out in plain text and wait.
 9. **Run the app and look at it** (step 10). Lint and tests can't see layout, spacing, stacking or focus.
 10. **Finish with the report in step 10.** It is the deliverable. A line that is missing means that step was skipped.
 
@@ -230,7 +230,11 @@ Before step 7, call `AskUserQuestion` (or your agent's equivalent) **once, with 
 - **Access and licensing:** who sees the surface.
 - **Spec vs prototype conflicts** that change behavior (step 4).
 
-If you cannot ask (the tool is unavailable or the developer doesn't answer), pick the most conservative option, mark each one as an **assumption**, and list every assumption in the report. Never make these choices silently, and never skip this step because the answers seem obvious.
+**Also write the questions in your message text**, each with its options and your recommendation, not only in the tool call. Whoever started or is watching this session reads the text, and it survives if the dialog is dismissed or never shown.
+
+**A rejected or dismissed `AskUserQuestion` is a stop, not an answer.** The tool result will say the user doesn't want to proceed. Don't build, and don't treat it as "no answer, so assume". End your turn with the open questions written out in plain text and wait for the developer to reply.
+
+Use the assumption fallback only when no developer is present at all (a scheduled or headless run, and your prompt says so) or the tool does not exist in your environment. Then pick the most conservative option, mark each one as an **assumption**, list every assumption in the report, and say in the report why you couldn't ask. Never make these choices silently, and never skip this step because the answers seem obvious.
 
 ### 7. Implement in the consumer
 
@@ -309,7 +313,7 @@ Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at
 - Consumer, scoped surface and playground ref
 - compass-ui versions: prototype, consumer, and gaps from skew
 - Spec: which of the source (Confluence, Figma, markdown) and the prototype's copy you read, or none; every behavior mismatch between the source, the copy and the prototype, which was newer, and which you followed
-- Decisions confirmed with the developer, and assumptions made without one
+- Decisions confirmed with the developer, and assumptions made without one. Also say how step 6 went: asked and answered, asked and rejected (you then waited), or not asked (and why)
 - Variants: handled, and unresolved
 - Prototype-only controls dropped as chrome
 - Compass components used; anything hand-rolled, and why
