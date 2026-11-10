@@ -16,14 +16,17 @@ export type UserAvatarSize =
   | '24'
   | '28'
   | '32'
+  | '36'
   | '40'
   | '48'
+  | '50'
   | '56'
   | '64'
   | '72'
   | '80'
   | '96'
-  | '120';
+  | '120'
+  | '128';
 
 /** Figma User Avatar Fallback colour variants. */
 export type UserAvatarFallbackColor =
@@ -88,14 +91,17 @@ const USER_AVATAR_TO_BADGE_SIZE: Record<UserAvatarSize, StatusBadgeSize> = {
   '24': 'x-small',
   '28': 'x-small',
   '32': 'small',
+  '36': 'small',
   '40': 'small',
   '48': 'small',
+  '50': 'small',
   '56': 'medium',
   '64': 'medium',
   '72': 'medium',
   '80': 'medium',
   '96': 'large',
   '120': 'large',
+  '128': 'large',
 };
 
 function hashFallbackColor(s: string): UserAvatarFallbackColor {

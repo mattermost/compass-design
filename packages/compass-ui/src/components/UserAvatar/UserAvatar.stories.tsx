@@ -50,14 +50,17 @@ const IMAGE_SIZES: UserAvatarSize[] = [
   '24',
   '28',
   '32',
+  '36',
   '40',
   '48',
+  '50',
   '56',
   '64',
   '72',
   '80',
   '96',
   '120',
+  '128',
 ];
 /** Sizes that can show a badge (the guideline says not to below 20px). */
 const STATUS_SIZES: UserAvatarSize[] = [
@@ -65,14 +68,17 @@ const STATUS_SIZES: UserAvatarSize[] = [
   '24',
   '28',
   '32',
+  '36',
   '40',
   '48',
+  '50',
   '56',
   '64',
   '72',
   '80',
   '96',
   '120',
+  '128',
 ];
 const STATUSES = ['online', 'away', 'do-not-disturb', 'offline'] as const;
 const FALLBACK_COLORS: UserAvatarFallbackColor[] = [

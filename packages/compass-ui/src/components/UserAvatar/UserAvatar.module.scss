@@ -74,7 +74,7 @@
   // Fallback initials font-size scales at ~0.467× the avatar size, matching
   // the Figma spec (e.g. 22.4px at 48px, 14.93px at 32px).
   // ---------------------------------------------------------------------------
-  $sizes: 12, 16, 20, 24, 28, 32, 40, 48, 56, 64, 72, 80, 96, 120;
+  $sizes: 12, 16, 20, 24, 28, 32, 36, 40, 48, 50, 56, 64, 72, 80, 96, 120, 128;
 
   @each $size in $sizes {
     &--size-#{$size} {
