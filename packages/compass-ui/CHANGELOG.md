@@ -22,7 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
-- **`UserAvatar` badge ring at 56–80px:** the `medium` status badge box is now 22px around its 20px glyph (was 24px), so the ring is 1px instead of 2px. Only the badge inside `UserAvatar` changes; `StatusBadge` on its own is unchanged.
+- **`UserAvatar` badge ring at 56–80px:** the `medium` status badge box is now 20px, the size of its glyph (was 24px), so the 2px ring is gone. Only the badge inside `UserAvatar` changes; `StatusBadge` on its own is unchanged.
 - **`ChannelSidebarItem` `customStatusEmoji` accepts a `ReactNode`:** the prop was `string`; it now also takes a node, so the emoji can carry a tooltip trigger. Strings render as before. Hosts that read the prop's type, for example to wrap `ChannelSidebarItemProps`, now see `ReactNode`.
 - **`DateRangePicker` trigger role is now `combobox`:** the trigger was `role="button"`, which cannot carry `aria-required`, so `required` was not exposed. It is now `role="combobox"` (still `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`), which supports `aria-required`. Hosts and tests that query the trigger with `getByRole('button', …)` must switch to `combobox`. Props are unchanged.
 - **`DateRangePicker` header shows a 3-letter month:** the header reads "Sep 2026" instead of "September 2026". New optional `shortMonthNames` prop (twelve strings) overrides it; when you pass your own `monthNames` without it, the header keeps using your full names, so translations are never cut mid-word. The day grid's accessible name still uses the full `monthNames`.
