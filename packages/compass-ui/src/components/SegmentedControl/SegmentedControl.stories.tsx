@@ -122,7 +122,15 @@ export const Sizes: Story = {
   },
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: 16,
+        width: 'fit-content',
+      }}
+    >
       <Stateful {...args} withIcons size="small" />
       <Stateful {...args} withIcons size="medium" />
     </div>
