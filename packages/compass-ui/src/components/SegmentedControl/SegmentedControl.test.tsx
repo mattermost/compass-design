@@ -78,6 +78,57 @@ describe('SegmentedControl tabs', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it('leaves Alt, Ctrl, and Meta shortcuts to the browser', () => {
+    const onChange = renderControl();
+    const channels = getByRole('tab', 'Channels');
+    focus(channels);
+
+    for (const init of [
+      { key: 'ArrowLeft', altKey: true },
+      { key: 'Home', ctrlKey: true },
+      { key: 'End', metaKey: true },
+    ]) {
+      const event = new KeyboardEvent('keydown', {
+        ...init,
+        bubbles: true,
+        cancelable: true,
+      });
+      act(() => {
+        channels.dispatchEvent(event);
+      });
+      expect(event.defaultPrevented).toBe(false);
+      expect(document.activeElement).toBe(channels);
+    }
+
+    const shifted = new KeyboardEvent('keydown', {
+      key: 'ArrowRight',
+      shiftKey: true,
+      bubbles: true,
+      cancelable: true,
+    });
+    act(() => {
+      channels.dispatchEvent(shifted);
+    });
+    expect(document.activeElement).toBe(getByRole('tab', 'People'));
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('puts the tab stop back on the selected segment after focus leaves', async () => {
+    renderControl();
+    const channels = getByRole('tab', 'Channels');
+    const people = getByRole('tab', 'People');
+    focus(channels);
+    keyDown(channels, 'ArrowRight');
+    expect(people.tabIndex).toBe(0);
+
+    await act(async () => {
+      people.blur();
+    });
+
+    expect(channels.tabIndex).toBe(0);
+    expect(people.tabIndex).toBe(-1);
+  });
+
   it('selects the focused segment with Enter and Space', () => {
     const onChange = renderControl();
     const people = getByRole('tab', 'People');

@@ -3,6 +3,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type FocusEvent,
   type HTMLAttributes,
   type KeyboardEvent,
   type ReactNode,
@@ -139,6 +140,7 @@ export default function SegmentedControl({
   role = 'tablist',
   size = 'small',
   className,
+  onBlur,
   ...rest
 }: SegmentedControlProps) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -192,10 +194,29 @@ export default function SegmentedControl({
     if (select) onChange(key);
   };
 
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    onBlur?.(event);
+    // Manual tabs keep the last focused segment as the tab stop. Once focus
+    // leaves the group, put it back on the selected segment so the next visit
+    // lands on the choice, not a segment the user only passed through.
+    if (event.defaultPrevented || isRadio) return;
+    const track = event.currentTarget;
+    queueMicrotask(() => {
+      if (!track.isConnected) return;
+      const active = document.activeElement;
+      if (active instanceof Node && track.contains(active)) return;
+      const tabStop = enabledKeys.includes(value) ? value : enabledKeys[0];
+      if (tabStop) setFocusedKey(tabStop);
+    });
+  };
+
   const handleKeyDown = (
     event: KeyboardEvent<HTMLButtonElement>,
     key: string,
   ) => {
+    // Alt, Ctrl, and Meta belong to the browser (Back, scroll-to-ends).
+    // Shift still moves within the group.
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
     const count = enabledKeys.length;
     if (count === 0) return;
     const index = enabledKeys.indexOf(key);
@@ -229,6 +250,7 @@ export default function SegmentedControl({
       ref={trackRef}
       role={role}
       aria-orientation="horizontal"
+      onBlur={handleBlur}
       className={mergeClassNames(
         styles['segmented-control'],
         styles[`segmented-control--size-${toKebab(size)}`],

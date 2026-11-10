@@ -126,11 +126,14 @@ export const SegmentedControlDemo = () => {
 <SegmentedControlDemo />
 
 - **View switcher (`tablist`)** — Left and Right move focus. Enter, Space, or
-  a click selects. The host renders the panel.
+  a click selects. Leaving the group puts the tab stop back on the selected
+  segment. The host renders the panel.
 - **Form choice (`radiogroup`)** — arrow keys move the selection. Up and
   Down do the same as Left and Right.
 - **Disabled** — the label dims, clicks do nothing, and arrow keys skip it.
-  Add a short tooltip explaining why.
+  Explain why in text next to the group. A tooltip can repeat that reason,
+  but keyboard users never land on the segment, so the tooltip is not enough
+  on its own.
 - **Hover and keyboard focus** — an unselected segment picks up a light
   fill and its label darkens slightly. The selected label stays at full
   strength.

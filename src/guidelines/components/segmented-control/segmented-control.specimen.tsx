@@ -46,6 +46,27 @@ function SearchModes({ size = 'small' }: { size?: 'small' | 'medium' }) {
   );
 }
 
+function WithDisabled() {
+  const [value, setValue] = useState('channels');
+  return (
+    <SegmentedControl
+      aria-label="Search mode"
+      value={value}
+      onChange={setValue}
+      options={[
+        { key: 'channels', label: 'Channels' },
+        { key: 'messages', label: 'Messages' },
+        {
+          key: 'files',
+          label: 'Files',
+          disabled: true,
+          title: 'Files search is unavailable',
+        },
+      ]}
+    />
+  );
+}
+
 function Range() {
   const [value, setValue] = useState('week');
   return (
@@ -82,21 +103,7 @@ export default function SegmentedControlLibrary() {
       </div>
       <div className={styles['components__button-row']}>
         <span className={styles['components__instance-label']}>Disabled</span>
-        <SegmentedControl
-          aria-label="Search mode"
-          value="channels"
-          onChange={() => {}}
-          options={[
-            { key: 'channels', label: 'Channels' },
-            { key: 'messages', label: 'Messages' },
-            {
-              key: 'files',
-              label: 'Files',
-              disabled: true,
-              title: 'Files search is unavailable',
-            },
-          ]}
-        />
+        <WithDisabled />
       </div>
     </div>
   );
