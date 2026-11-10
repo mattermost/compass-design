@@ -1,3 +1,4 @@
+import { forwardRef, useState } from 'react';
 import type { ImgHTMLAttributes } from 'react';
 import StatusBadge from '@/components/StatusBadge/StatusBadge';
 import type {
@@ -44,8 +45,9 @@ export interface UserAvatarProps extends Omit<
   /** Optional CSS class name. */
   className?: string;
   /**
-   * Image URL for the avatar. When omitted, the avatar renders as Fallback
-   * (initials on a deterministic colour background).
+   * Image URL for the avatar. When omitted, or when the image fails to load,
+   * the avatar renders as Fallback (initials on a deterministic colour
+   * background). A failed image sets `data-image-failed="true"` on the root.
    */
   src?: string;
   /**
@@ -114,69 +116,90 @@ function getInitials(name: string): string {
 /**
  * User Avatars represent a person — usually their uploaded photo, with initials on a colour
  * background as a fallback. Their circular shape distinguishes them from rounded-square Team
- * Avatars at a glance.
+ * Avatars at a glance. `ref` points at the root element, which is present for both the image and
+ * the fallback, so it works as a tooltip or popover anchor.
  */
-export default function UserAvatar({
-  alt,
-  className = '',
-  src,
-  name,
-  fallbackColor,
-  size = '48',
-  status,
-  statusLabel,
-  ...imgProps
-}: UserAvatarProps) {
-  const sizeClass = styles[`user-avatar--size-${toKebab(size)}`];
-  const rootClass = [styles['user-avatar'], sizeClass, className]
-    .filter(Boolean)
-    .join(' ');
+const UserAvatar = forwardRef<HTMLDivElement, UserAvatarProps>(
+  function UserAvatar(
+    {
+      alt,
+      className = '',
+      src,
+      name,
+      fallbackColor,
+      size = '48',
+      status,
+      statusLabel,
+      onError,
+      ...imgProps
+    },
+    ref,
+  ) {
+    // The src that failed to load; a new src is tried again.
+    const [failedSrc, setFailedSrc] = useState<string>();
+    const sizeClass = styles[`user-avatar--size-${toKebab(size)}`];
+    const rootClass = [styles['user-avatar'], sizeClass, className]
+      .filter(Boolean)
+      .join(' ');
 
-  const isFallback = !src;
-  const displayName = name ?? alt;
-  const initials = isFallback ? getInitials(displayName) : '';
-  const color = fallbackColor ?? hashFallbackColor(displayName);
-  const fallbackColorClass = isFallback
-    ? styles[`user-avatar__fallback--${toKebab(color)}`]
-    : '';
+    const imageFailed = !!src && src === failedSrc;
+    const isFallback = !src || imageFailed;
+    const displayName = name ?? alt;
+    const initials = isFallback ? getInitials(displayName) : '';
+    const color = fallbackColor ?? hashFallbackColor(displayName);
+    const fallbackColorClass = isFallback
+      ? styles[`user-avatar__fallback--${toKebab(color)}`]
+      : '';
 
-  const badgeStatus: StatusBadgeStatus | undefined =
-    status === true ? 'online' : status || undefined;
-  const badgeSize = USER_AVATAR_TO_BADGE_SIZE[size];
+    const badgeStatus: StatusBadgeStatus | undefined =
+      status === true ? 'online' : status || undefined;
+    const badgeSize = USER_AVATAR_TO_BADGE_SIZE[size];
 
-  return (
-    <div className={rootClass} data-size={size}>
-      {isFallback ? (
-        <span
-          className={[styles['user-avatar__fallback'], fallbackColorClass]
-            .filter(Boolean)
-            .join(' ')}
-          role="img"
-          aria-label={alt}
-        >
-          {initials}
-        </span>
-      ) : (
-        <img
-          loading="lazy"
-          {...imgProps}
-          alt={alt}
-          className={styles['user-avatar__image']}
-          src={src}
-          width={Number(size)}
-          height={Number(size)}
-        />
-      )}
-      {badgeStatus && (
-        <span className={styles['user-avatar__status']}>
-          <StatusBadge
-            status={badgeStatus}
-            size={badgeSize}
-            label={statusLabel}
-            className={styles['user-avatar__badge']}
+    return (
+      <div
+        ref={ref}
+        className={rootClass}
+        data-size={size}
+        data-image-failed={imageFailed ? 'true' : undefined}
+      >
+        {isFallback ? (
+          <span
+            className={[styles['user-avatar__fallback'], fallbackColorClass]
+              .filter(Boolean)
+              .join(' ')}
+            role="img"
+            aria-label={alt}
+          >
+            {initials}
+          </span>
+        ) : (
+          <img
+            loading="lazy"
+            {...imgProps}
+            onError={(e) => {
+              onError?.(e);
+              setFailedSrc(src);
+            }}
+            alt={alt}
+            className={styles['user-avatar__image']}
+            src={src}
+            width={Number(size)}
+            height={Number(size)}
           />
-        </span>
-      )}
-    </div>
-  );
-}
+        )}
+        {badgeStatus && (
+          <span className={styles['user-avatar__status']}>
+            <StatusBadge
+              status={badgeStatus}
+              size={badgeSize}
+              label={statusLabel}
+              className={styles['user-avatar__badge']}
+            />
+          </span>
+        )}
+      </div>
+    );
+  },
+);
+
+export default UserAvatar;
