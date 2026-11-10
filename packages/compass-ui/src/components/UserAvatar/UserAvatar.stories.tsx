@@ -40,6 +40,7 @@ const AVATARS: Record<string, string> = {
   'Marco Rinaldi': avatarMarcoRinaldi,
   'Matty': avatarMatty,
   'Sofia Bauer': avatarSofiaBauer,
+  'Custom URL': CUSTOM_URL,
 };
 
 /** Every Figma User Avatar size. */
