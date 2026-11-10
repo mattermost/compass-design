@@ -45,6 +45,19 @@ for s in compass-build compass-review prototype-to-production; do
   cp -R "$cd_repo/skills/$s" "$root/with-skill/.claude/skills/$s"
 done
 
+# Verify every skill copied completely (SKILL.md and references/ included).
+echo "Verifying copied skills:"
+for s in compass-build compass-review prototype-to-production; do
+  src="$cd_repo/skills/$s"
+  dst="$root/with-skill/.claude/skills/$s"
+  [ -f "$dst/SKILL.md" ] || { echo "  $s: SKILL.md missing in copy" >&2; exit 1; }
+  if [ -d "$src/references" ] && [ ! -d "$dst/references" ]; then
+    echo "  $s: references/ missing in copy" >&2; exit 1
+  fi
+  diff -r "$src" "$dst" >/dev/null || { echo "  $s: copy differs from source" >&2; exit 1; }
+  echo "  $s: $(find "$dst" -type f | wc -l | tr -d ' ') files, matches source"
+done
+
 cat <<DONE
 
 Both worktrees start at $sha:

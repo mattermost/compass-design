@@ -18,14 +18,14 @@ Turn a **mattermost-proto-playground** prototype into product code in a consumer
 
 These are the rules that were skipped or missed when this skill was tested on a real prototype. They are repeated here so you can't miss them by not opening another file. The details live in the steps and references.
 
-1. **Use your task list.** Before starting, create one item per step below (1 to 10). Don't mark a step done until its output exists: the version comparison, the variants table, the decisions you confirmed, the audit result, the report. A step you didn't do is reported as skipped with the reason; it is never silently dropped.
+1. **Use your task list.** Before starting, create these eleven items, with exactly these titles, and don't write your own list or merge items: "Required reads", "1. Consumer and scope", "2. Source and versions", "3. Imports", "4. Variants and spec", "5. UI pieces", "6. Decisions", "7. Implement", "8. Audit with compass-review", "9. Validation checklist", "10. Run in the app and report". Don't mark an item done until its output exists: the version comparison, the variants table, the decisions you confirmed, the audit result, the report. A step you didn't do is reported as skipped with the reason; it is never silently dropped.
 2. **Read the files in "Required reads"** at the point each one says.
 3. **Never depend on `@mattermost/compass-proto`.** Drop playground chrome and any prototype-only control (scene, viewer or state switchers, toggles, demo resets), but implement every variant they reveal.
 4. **Use the Compass components the consumer's installed package has.** The installed `.d.ts` wins over any table.
 5. **Carry over the prototype's spacing values.** Don't pick your own. Form gaps: 24px between fields in a group, 16px between paired fields, 32px between field groups.
 6. **Menus, pickers and tooltips inside a modal must show above it.** Confirm this in the running app.
 7. **Real conditions, i18n and host patterns.** Never fixture fields, pasted English literals or ported demo state.
-8. **Stop and ask** about what the prototype doesn't settle, before building (end of step 6).
+8. **Stop and ask** about what the prototype doesn't settle, before building (end of step 6). Use the `AskUserQuestion` tool.
 9. **Run the app and look at it** (step 10). Lint and tests can't see layout, spacing, stacking or focus.
 10. **Finish with the report in step 10.** It is the deliverable. A line that is missing means that step was skipped.
 
@@ -222,7 +222,7 @@ Some helpers exist only so a prototype works on its own. Replace each with what 
 
 #### Stop and ask before building
 
-Before writing code, ask the developer **once, in a single batched message**, about anything the prototype and spec don't settle. Typical cases:
+Before step 7, call `AskUserQuestion` (or your agent's equivalent) **once, with the open items batched into that one call**; it takes up to four questions, so group related items. Ask about anything the prototype and spec don't settle. Typical cases:
 
 - **Persistence:** where the data is stored when the product has no field for it, and who else reads it.
 - **Moved or removed existing UI:** settings or features that the prototype relocates, so the existing code and its callers change.
@@ -230,7 +230,7 @@ Before writing code, ask the developer **once, in a single batched message**, ab
 - **Access and licensing:** who sees the surface.
 - **Spec vs prototype conflicts** that change behavior (step 4).
 
-If the developer can't be reached, pick the most conservative option, mark it as an **assumption** and list it in the report. Never make these choices silently.
+If you cannot ask (the tool is unavailable or the developer doesn't answer), pick the most conservative option, mark each one as an **assumption**, and list every assumption in the report. Never make these choices silently, and never skip this step because the answers seem obvious.
 
 ### 7. Implement in the consumer
 
@@ -243,7 +243,7 @@ If the developer can't be reached, pick the most conservative option, mark it as
 
 ### 8. Audit with `compass-review`
 
-Before the checklist, run `compass-review` on the code you wrote or changed (the diff, not the whole consumer repo). It is read-only and reports findings with file, line and the rule broken.
+Before the checklist, invoke the `compass-review` skill with the Skill tool on the code you wrote or changed (the diff, not the whole consumer repo). Linting, type-checking and running tests are not the audit. It is read-only and reports findings with file, line and the rule broken.
 
 - Tell it the context is the consumer kind from step 1 (**core feature** for webapp and desktop, **plugin** for a plugin), not prototype, so `compass-proto` imports and playground stand-ins count as violations.
 - Fix every **Blocker** and **Should fix** that your change introduced. Don't touch findings in code you didn't change; list them for the developer instead.
@@ -284,9 +284,9 @@ Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at
 4. Compare with the prototype: run the playground at the recorded ref, or use the screenshots in the prototype's `docs/`. Check spacing, alignment, states, wording and keyboard focus order.
 5. Open every menu, picker, tooltip and popover that sits inside a modal and confirm it shows **above** the modal.
 6. Capture screenshots of the main states for the developer.
-7. If you can't run the app, say so and mark it **not verified in a running app**. Never describe it as verified.
+7. If you can't run the app, say so and mark it **not verified in a running app**. Never describe it as verified. Put that first in the status table, and list it as the top item under "What was **not** checked".
 
-**Final report (required).** It has two parts.
+**Final report (required).** It has two parts. It is required even when the request asks for a short report: put Part 1, the status table, first, and keep everything else brief.
 
 **Part 1: step status.** Copy your task list into this table, one row per step plus the required reads. Every row gets a status: **done**, **skipped** (with the reason), or **not applicable**. A row can't be left out; a missing row counts as skipped.
 

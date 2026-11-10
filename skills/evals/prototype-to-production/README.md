@@ -27,7 +27,7 @@ This folder is outside `skills/prototype-to-production/` on purpose, so installi
 ## Reading the result
 
 - One run per side is anecdotal. Repeat each side at least twice before drawing conclusions, and try a plugin consumer as well as the webapp.
-- Record in the process log: whether the skill triggered unprompted, which steps it skipped (compare its report with the report template in step 10), and any question it asked.
+- First check the with-skill report: it must open with the 11-row status table from step 10, even though the shared prompt asks for a short report. Then record in the process log whether the skill triggered unprompted, which steps it skipped (compare its report with the report template in step 10), whether it ran `compass-review` through the Skill tool, and whether it asked its questions with `AskUserQuestion`.
 - Use the `skill-creator` skill to test whether the description triggers reliably.
 
 ## Keep it honest

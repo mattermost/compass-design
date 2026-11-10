@@ -41,6 +41,9 @@ Score each side 0 (no), 1 (partly) or 2 (yes). Fix this before either run; don't
 ## Process (record, not scored)
 
 - Did the skill trigger unprompted?
+- **Report check (do this first):** does the final report open with the 11-row status table (required reads plus steps 1 to 10), each row done, skipped with a reason, or not applicable? A report without the table fails this check, even when the prompt asked for a short report.
+- Did it create the eleven task-list items with the titles the skill gives, or write its own list?
+- Did it invoke `compass-review` with the Skill tool (not just lint and type-check) and call `AskUserQuestion` before building?
 - Which steps did it skip? Compare its report with the step 10 report template: every line present with a status?
 - Questions asked before building (step 6 "Stop and ask"); decisions made silently.
 - Did it run the app and look at it? Any install run through a shared `node_modules`?
