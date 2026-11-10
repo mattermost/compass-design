@@ -251,7 +251,7 @@ If `AskUserQuestion` doesn't exist in your environment but the developer is pres
 - Do not copy playground scene/orchestrator structure wholesale.
 - Subpath imports only for compass-ui; kebab-case variant strings.
 - Overlay and menu ownership stays in product code. Follow [references/boundaries.md](references/boundaries.md) rules 5–6.
-- **Keep the diff to what you meant to change.** Don't run a linter's `--fix` or a formatter over files you didn't write, and read `git diff --stat` before you finish: revert any file or line you didn't intend to touch (for example removed `eslint-disable` comments or reformatted neighbors).
+- **Keep the diff to what you meant to change.** Don't run a linter's `--fix` or a formatter over files you didn't write, and note `git status --short` before you start editing, so you can tell your changes from work that was already there. Before you finish, read `git diff --stat` against that starting state and revert any file or line you didn't intend to touch (for example removed `eslint-disable` comments or reformatted neighbors).
 - **Tests.** Write or update tests for the behavior you built from the step 4 table: at least one case per variant, entry point or state that changes what the user sees. Use the consumer's existing test pattern and utilities, and don't introduce a new one. If you changed existing components, update their tests and snapshots, and explain any snapshot change that isn't only hashed class names. Don't test Compass components themselves. A green test run says nothing about layout, spacing, stacking or focus; step 10 covers those.
 - Before running an install or a generator that installs (an i18n extract, a codegen step), check that `node_modules` is this consumer's own. Never run an install through a symlink to another checkout: it modifies that checkout.
 
@@ -274,7 +274,7 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Decisions the prototype doesn't settle were confirmed with the developer (step 6), or listed as assumptions
 - [ ] Every variant from step 4 is implemented with the product's real condition, or listed as unresolved in the report
 - [ ] Every row of the step 4 table has at least one test, or the report lists it as untested with the reason
-- [ ] `git diff --stat` lists only files you meant to change, with no stray formatting or lint-fix edits on lines you didn't write
+- [ ] Compared with the working tree at the start, `git diff --stat` lists only files you meant to change, with no stray formatting or lint-fix edits on lines you didn't write (leave changes that were already there alone)
 - [ ] `@mattermost/compass-ui` present; no `@mattermost/compass-proto` in product deps or imports
 - [ ] No playground chrome (`PrototypeTopNav`, `SceneSwitcher`, `DeviceFrame`, `MobileModalStage`, walkthrough runtime), and no other prototype-only controls (viewer, state or theme toggles, demo resets)
 - [ ] Every Compass import resolves in the consumer's installed ui
@@ -297,7 +297,7 @@ The last item is not optional. If you could not run the `compass-build` checklis
 Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at it.
 
 1. Start the consumer with its own dev workflow (webapp: its dev server against a running Mattermost server; plugin: the plugin's deploy or watch command).
-2. If the app shows a sign-in page, stop and ask the developer to sign in, or to give a test account for this local app, then wait for the reply and continue. Don't end your turn with "I can't sign in", and don't mark step 10 skipped until you have asked. Never use a real person's credentials.
+2. If the app shows a sign-in page, stop and ask the developer to sign in, or to give a test account for this local app, then wait for the reply and continue. Don't end your turn with "I can't sign in", and don't mark step 10 skipped until you have asked. In a run with no developer present (a scheduled or headless run, and your prompt says so), mark the running-app check **not verified in a running app**, report the sign-in blocker, and list it as the top item not checked. Never use a real person's credentials.
 3. Open the scoped surface and walk **every row of the step 4 table** (each viewer, role, state and flag) and **every entry point**. Note any variant you couldn't reach, and why.
 4. Compare with the prototype: run the playground at the recorded ref, or use the screenshots in the prototype's `docs/`. Check spacing, alignment, states, wording and keyboard focus order.
 5. Open every menu, picker, tooltip and popover that sits inside a modal and confirm it shows **above** the modal.
@@ -308,7 +308,7 @@ Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at
 
 **Final report (required).** It has two parts. It is required even when the request asks for a short report: put Part 1, the status table, first, and keep everything else brief.
 
-**Part 1: step status.** Copy your task list into this table, one row per step plus the required reads. Every row gets a status: **done**, **skipped** (with the reason), or **not applicable**. A row can't be left out; a missing row counts as skipped. **A "done" row names its evidence**, so a step can't be marked done without its output: step 2 the two versions, step 4 the number of variants and the spec you read, step 6 the questions asked and answered, step 8 the audit's findings count and the files it covered, step 9 any checklist item that failed, step 10 the URL you opened and the states you looked at. The audit is not lint, types or tests.
+**Part 1: step status.** Copy your task list into this table, one row per step plus the required reads. Every row gets a status: **done**, **skipped** (with the reason), or **not applicable**. A row can't be left out; a missing row counts as skipped. **A "done" row names its evidence**, so a step can't be marked done without its output: step 2 the two versions, step 4 the number of variants and the spec you read (or "no spec provided" when none was given), step 6 the questions asked and answered (or, in a run with no developer present, the assumptions you documented), step 8 the audit's findings count and the files it covered, step 9 any checklist item that failed, step 10 the URL you opened and the states you looked at. The audit is not lint, types or tests.
 
 | Step                                                                                  | Status |
 | ------------------------------------------------------------------------------------- | ------ |

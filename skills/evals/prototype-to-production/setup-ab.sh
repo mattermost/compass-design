@@ -51,7 +51,8 @@ mkdir -p "$root/with-skill/.claude/skills"
 for s in compass-build compass-review prototype-to-production; do
   dst="$root/with-skill/.claude/skills/$s"
   # A base that already tracks this folder would get the copy nested inside it.
-  if [ -e "$dst" ]; then
+  # -L also catches a dangling symlink, which -e reports as missing.
+  if [ -e "$dst" ] || [ -L "$dst" ]; then
     echo "Replacing $s, which the base already has, in the with-skill worktree only."
     rm -rf "$dst"
   fi

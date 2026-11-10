@@ -50,8 +50,8 @@ These came from the developer's review of that run. Don't use them to rescore ea
 
 ## Added after the Calls admin console evaluation (score from the next evaluation on)
 
-25. The spec source was read (Figma, Confluence or the linked doc), or the report says "spec not read" and what that leaves unchecked. The prototype's own copy is not the spec source.
-26. The diff lists only files the change needed: no stray formatting or lint-fix edits, and no files outside the scoped surface.
+25. The spec source was read (Figma, Confluence or the linked doc). The fallback only earns credit when the session attempted the read and the report gives an access-related reason (no tool, no permission, the developer couldn't provide it) along with what that leaves unchecked. Skipping an accessible spec doesn't earn it. The prototype's own copy is not the spec source. Score "no spec provided" as not applicable when none was given.
+26. The diff lists only files the change needed: no stray formatting or lint-fix edits and no unrelated files. Supporting files the change requires (translation files, tests, host data wiring) are fine even when they sit outside the surface's folder.
 27. Existing behavior or screens the change replaces (a generic page, an old entry point) were confirmed with the developer before being replaced.
 
 ## Process (record, not scored)
