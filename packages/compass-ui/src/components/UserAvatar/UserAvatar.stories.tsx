@@ -225,8 +225,34 @@ export const Fallback: Story = {
     src: undefined,
     alt: 'Danielle Okoro',
     name: 'Danielle Okoro',
-    size: '48',
   },
+  parameters: { controls: { include: ['name', 'fallbackColor'] } },
+  render: ({ name, fallbackColor }) => (
+    <div
+      style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'end' }}
+    >
+      {IMAGE_SIZES.map((size) => (
+        <div
+          key={size}
+          style={{
+            display: 'grid',
+            gap: 8,
+            justifyItems: 'center',
+            color: 'var(--center-channel-color)',
+            fontSize: 12,
+          }}
+        >
+          <UserAvatar
+            alt={name ?? 'Danielle Okoro'}
+            name={name}
+            fallbackColor={fallbackColor}
+            size={size}
+          />
+          <span>{size}</span>
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 export const FallbackColors: Story = {
