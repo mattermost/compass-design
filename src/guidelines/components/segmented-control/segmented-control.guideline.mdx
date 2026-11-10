@@ -86,6 +86,15 @@ default text color. Unselected labels are quieter.
 
 <Divider />
 
+## Sizes
+
+Small is the default. It uses the same label size and icon size as a small
+[Button](/components/button). Medium uses the same label size and icon size
+as a medium Button. Pass `size="medium"` when the control sits with medium
+type.
+
+<Divider />
+
 ## Behavior
 
 Clicking a segment selects it. The raised surface slides over; the label
@@ -142,8 +151,9 @@ export const SegmentedControlDemo = () => {
 ## Implementation
 
 Import from `@mattermost/compass-ui/components/segmented-control`. Pass
-`aria-label` (or `aria-labelledby`) on the group. Icons are
-`<Icon glyph={<SomeIcon />} />` with no `size` — the control sizes them.
+`aria-label` (or `aria-labelledby`) on the group. `size` is `small` or
+`medium` (default `small`). Icons are `<Icon glyph={<SomeIcon />} />` with no
+`size` — the control sizes them to match a Button of the same size.
 
 ```tsx
 import { SegmentedControl } from '@mattermost/compass-ui/components/segmented-control';

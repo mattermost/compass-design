@@ -41,6 +41,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     role: { control: 'radio', options: ['tablist', 'radiogroup'] },
+    size: { control: 'radio', options: ['small', 'medium'] },
   },
 } satisfies Meta<typeof SegmentedControl>;
 
@@ -110,6 +111,22 @@ export const WithDisabledSegment: Story = {
     onChange: fn(),
   },
   render: (args) => <Stateful {...args} />,
+};
+
+export const Sizes: Story = {
+  args: {
+    'aria-label': 'Search mode',
+    options: SEARCH_MODES,
+    value: 'messages',
+    onChange: fn(),
+  },
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <Stateful {...args} withIcons size="small" />
+      <Stateful {...args} withIcons size="medium" />
+    </div>
+  ),
 };
 
 export const Static: Story = {

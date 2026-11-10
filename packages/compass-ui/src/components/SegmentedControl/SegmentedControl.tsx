@@ -7,12 +7,25 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
+import type { IconSize } from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import { mergeClassNames, type BuiltInButtonProps } from '@/utils/props';
+import { toKebab } from '@/utils/string';
 import styles from './SegmentedControl.module.scss';
 
 /** `tablist` switches views. `radiogroup` is a short exclusive form choice. */
 export type SegmentedControlRole = 'tablist' | 'radiogroup';
+
+/**
+ * `small` matches a small Button (12px label, 12px icon). `medium` matches a
+ * medium Button (14px label, 16px icon).
+ */
+export type SegmentedControlSize = 'small' | 'medium';
+
+const SIZE_ICON_MAP: Record<SegmentedControlSize, IconSize> = {
+  small: '12',
+  medium: '16',
+};
 
 export interface SegmentedControlOption {
   /**
@@ -24,7 +37,8 @@ export interface SegmentedControlOption {
   label: ReactNode;
   /**
    * Optional leading icon. Pass `<Icon glyph={<SomeIcon />} />`;
-   * SegmentedControl provides the 12px size via context.
+   * SegmentedControl provides the size via context (12px at `small`, 16px at
+   * `medium`), matching Button. No `size` prop is needed on the Icon.
    */
   icon?: ReactNode;
   /** Optional id for this segment (pair with `panelId` for `aria-controls`). */
@@ -64,6 +78,11 @@ export interface SegmentedControlProps extends Omit<
    * `aria-label` or `aria-labelledby` so the group has a name.
    */
   role?: SegmentedControlRole;
+  /**
+   * Size of the label and leading icon, matching Button. `small` (default)
+   * is 12px text with a 12px icon. `medium` is 14px text with a 16px icon.
+   */
+  size?: SegmentedControlSize;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -118,6 +137,7 @@ export default function SegmentedControl({
   value,
   onChange,
   role = 'tablist',
+  size = 'small',
   className,
   ...rest
 }: SegmentedControlProps) {
@@ -146,7 +166,7 @@ export default function SegmentedControl({
       observer.observe(node);
     }
     return () => observer.disconnect();
-  }, [value, options]);
+  }, [value, options, size]);
 
   useEffect(() => {
     setIndicatorReady(true);
@@ -156,6 +176,7 @@ export default function SegmentedControl({
     setFocusedKey(value);
   }, [value]);
 
+  const iconSize = SIZE_ICON_MAP[size];
   const enabledKeys = options
     .filter((option) => !option.disabled)
     .map((option) => option.key);
@@ -208,7 +229,11 @@ export default function SegmentedControl({
       ref={trackRef}
       role={role}
       aria-orientation="horizontal"
-      className={mergeClassNames(styles['segmented-control'], className)}
+      className={mergeClassNames(
+        styles['segmented-control'],
+        styles[`segmented-control--size-${toKebab(size)}`],
+        className,
+      )}
     >
       <span
         className={mergeClassNames(
@@ -275,7 +300,7 @@ export default function SegmentedControl({
           >
             {option.icon != null && (
               <span className={styles['segmented-control__icon']}>
-                <IconSlotContext.Provider value={{ size: '12' }}>
+                <IconSlotContext.Provider value={{ size: iconSize }}>
                   {option.icon}
                 </IconSlotContext.Provider>
               </span>

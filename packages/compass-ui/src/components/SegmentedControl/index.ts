@@ -3,4 +3,5 @@ export type {
   SegmentedControlOption,
   SegmentedControlProps,
   SegmentedControlRole,
+  SegmentedControlSize,
 } from './SegmentedControl';

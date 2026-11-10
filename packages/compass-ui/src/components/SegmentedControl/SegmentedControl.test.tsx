@@ -237,6 +237,44 @@ describe('SegmentedControl indicator', () => {
   });
 });
 
+describe('SegmentedControl size', () => {
+  it('defaults to the small Button icon size', () => {
+    const { container } = render(
+      <SegmentedControl
+        aria-label="Search mode"
+        options={[
+          { key: 'channels', label: 'Channels', icon: <Icon glyph={null} /> },
+        ]}
+        value="channels"
+        onChange={vi.fn()}
+      />,
+    );
+    expect(container.firstElementChild?.className).toMatch(
+      /segmented-control--size-small/,
+    );
+    expect(container.querySelector('[class*="icon--size-12"]')).not.toBeNull();
+  });
+
+  it('uses the medium Button icon size', () => {
+    const { container } = render(
+      <SegmentedControl
+        aria-label="Search mode"
+        size="medium"
+        options={[
+          { key: 'channels', label: 'Channels', icon: <Icon glyph={null} /> },
+        ]}
+        value="channels"
+        onChange={vi.fn()}
+      />,
+    );
+    expect(container.firstElementChild?.className).toMatch(
+      /segmented-control--size-medium/,
+    );
+    expect(container.querySelector('[class*="icon--size-16"]')).not.toBeNull();
+    expect(container.querySelector('[class*="icon--size-12"]')).toBeNull();
+  });
+});
+
 describe('SegmentedControl options', () => {
   it('renders a leading icon and lets buttonProps veto selection', () => {
     const onChange = vi.fn();

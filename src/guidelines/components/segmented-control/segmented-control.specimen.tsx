@@ -33,12 +33,13 @@ const SEARCH_MODES: SegmentedControlOption[] = [
   },
 ];
 
-function SearchModes() {
+function SearchModes({ size = 'small' }: { size?: 'small' | 'medium' }) {
   const [value, setValue] = useState('messages');
   return (
     <SegmentedControl
       aria-label="Search mode"
       options={SEARCH_MODES}
+      size={size}
       value={value}
       onChange={setValue}
     />
@@ -66,10 +67,12 @@ export default function SegmentedControlLibrary() {
   return (
     <div className={styles['components__button-block']}>
       <div className={styles['components__button-row']}>
-        <span className={styles['components__instance-label']}>
-          View switcher
-        </span>
+        <span className={styles['components__instance-label']}>Small</span>
         <SearchModes />
+      </div>
+      <div className={styles['components__button-row']}>
+        <span className={styles['components__instance-label']}>Medium</span>
+        <SearchModes size="medium" />
       </div>
       <div className={styles['components__button-row']}>
         <span className={styles['components__instance-label']}>
