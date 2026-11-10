@@ -75,11 +75,7 @@ export interface UserAvatarProps extends Omit<
   statusLabel?: string;
 }
 
-/**
- * Colours picked by the name hash. `charcoal`, `indigo` and `teal` are deliberately not here: adding a
- * colour would change the hashed colour of existing avatars, so it is opt-in via
- * `fallbackColor`.
- */
+/** Colours picked by the name hash when `fallbackColor` is not set. */
 const FALLBACK_COLORS: readonly UserAvatarFallbackColor[] = [
   'red',
   'purple',
@@ -89,6 +85,9 @@ const FALLBACK_COLORS: readonly UserAvatarFallbackColor[] = [
   'yellow',
   'green',
   'orange',
+  'charcoal',
+  'indigo',
+  'teal',
 ];
 
 /** Map UserAvatar size to StatusBadge size (Figma scale). */

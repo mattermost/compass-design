@@ -8,8 +8,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
-- **`UserAvatar` `fallbackColor` `indigo` and `teal`:** two more initials backgrounds, `--color-indigo-500` and `--color-teal-700` (teal-500 is too light for white initials). Opt-in only, like `charcoal`; existing avatars are unchanged.
-- **`UserAvatar` `fallbackColor="charcoal"`:** a darker neutral initials background (`--color-neutral-900`). It is opt-in and not part of the name-hash pool, so the colour of existing avatars without `fallbackColor` is unchanged.
+- **`UserAvatar` `fallbackColor` `indigo` and `teal`:** two more initials backgrounds, `--color-indigo-500` and `--color-teal-700` (teal-500 is too light for white initials). They join the pool the name hash draws from.
+- **`UserAvatar` `fallbackColor="charcoal"`:** a darker neutral initials background (`--color-neutral-900`).
 - **`UserAvatar` sizes `36`, `50` and `128`:** three new `size` values, matching the webapp `Avatar` scale. `36` and `50` use the `small` status badge and `128` uses `large`, following the rule for neighbouring sizes. Existing sizes are unchanged.
 - **`UserAvatar` forwards a `ref`:** the ref points at the root `div`, which exists for both the image and the initials fallback, so it works as a tooltip or popover anchor. Default markup is unchanged.
 - **`UserAvatar` `status` variants:** `status` now also accepts `online`, `away`, `do-not-disturb` and `offline`, so every status renders at the badge size mapped from the avatar `size`. `true` still means `online`; omit it or pass `false` for no badge. New optional `statusLabel` (and `StatusBadge` `label`) sets the badge's accessible name, which defaults to the status value. The badge ring change under Changed applies to existing status avatars at 56–80px.
@@ -26,6 +26,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **`UserAvatar` automatic fallback colours:** with `charcoal`, `indigo` and `teal` added, the name hash now picks from eleven colours instead of eight, so an avatar without `fallbackColor` can change colour on upgrade (the same name still always gets the same colour). Pass `fallbackColor` to pin one. Default markup changes only in the colour modifier class. Tests that assert a fallback colour class for a given name need updating.
 - **`UserAvatar` falls back to initials when the image fails:** a `src` that errors now shows the initials avatar instead of a broken image, and sets `data-image-failed="true"` on the root so hosts can tell. A new `src` is tried again, and your `onError` still runs. Default markup is unchanged until an image fails. The fallback is named by `alt` and takes its initials from `name`, which defaults to `alt`, so pass `name` when `alt` is not the person's name.
 - **`UserAvatar` lazy-loads its image:** the `<img>` now has `loading="lazy"` by default, as the webapp `Avatar` does. Default markup changes (a new attribute on the image). Pass `loading="eager"` to opt out.
 - **`UserAvatar` badge ring at 56–80px:** the `medium` status badge box is now 20px, the size of its glyph (was 24px), so the 2px ring is gone, and its offset is `0` instead of `-2px` so the badge stays in place. Default markup changes: every status badge inside `UserAvatar` gains a `user-avatar__badge` class. Only the badge inside `UserAvatar` changes; `StatusBadge` on its own is unchanged.
