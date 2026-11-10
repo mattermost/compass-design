@@ -33,6 +33,7 @@ export type UserAvatarFallbackColor =
   | 'red'
   | 'purple'
   | 'neutral'
+  | 'neutral-900'
   | 'blue'
   | 'cyan'
   | 'yellow'
@@ -72,6 +73,11 @@ export interface UserAvatarProps extends Omit<
   statusLabel?: string;
 }
 
+/**
+ * Colours picked by the name hash. `neutral-900` is deliberately not here: adding a
+ * colour would change the hashed colour of existing avatars, so it is opt-in via
+ * `fallbackColor`.
+ */
 const FALLBACK_COLORS: readonly UserAvatarFallbackColor[] = [
   'red',
   'purple',

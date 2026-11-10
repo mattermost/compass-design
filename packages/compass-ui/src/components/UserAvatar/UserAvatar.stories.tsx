@@ -85,6 +85,7 @@ const FALLBACK_COLORS: UserAvatarFallbackColor[] = [
   'red',
   'purple',
   'neutral',
+  'neutral-900',
   'blue',
   'cyan',
   'yellow',
