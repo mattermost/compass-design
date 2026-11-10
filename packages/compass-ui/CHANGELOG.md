@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
+- **`UserAvatar` `fallbackColor` `indigo` and `teal`:** two more initials backgrounds, `--color-indigo-500` and `--color-teal-700` (teal-500 is too light for white initials). Opt-in only, like `charcoal`; existing avatars are unchanged.
 - **`UserAvatar` `fallbackColor="charcoal"`:** a darker neutral initials background (`--color-neutral-900`). It is opt-in and not part of the name-hash pool, so the colour of existing avatars without `fallbackColor` is unchanged.
 - **`UserAvatar` sizes `36`, `50` and `128`:** three new `size` values, matching the webapp `Avatar` scale. `36` and `50` use the `small` status badge and `128` uses `large`, following the rule for neighbouring sizes. Existing sizes are unchanged.
 - **`UserAvatar` forwards a `ref`:** the ref points at the root `div`, which exists for both the image and the initials fallback, so it works as a tooltip or popover anchor. Default markup is unchanged.
