@@ -14,7 +14,7 @@
       background-color: rgba(var(--center-channel-color-rgb), 0.02);
       transition:
         border-color var(--duration-moderate) var(--ease-transition),
-        background-color var(--duration-moderate) var(--ease-transition);
+        background-color var(--duration-quick) var(--ease-transition);
     }
 
     .admin-panel-header__actions {

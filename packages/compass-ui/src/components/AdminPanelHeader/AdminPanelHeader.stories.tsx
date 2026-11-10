@@ -105,39 +105,6 @@ export const ControlledExpand: Story = {
   },
 };
 
-/**
- * When expandable, a click on the title, subtitle or empty header area toggles
- * like the expand button. The Switch, Button, `headerActions` and the expand
- * button handle their own clicks and do not toggle.
- */
-export const ExpandableInteractiveHeader: Story = {
-  name: 'Expandable, interactive header',
-  args: {
-    title: 'Section Title',
-    subtitle: 'Click the title or subtitle to expand or collapse.',
-    expandable: true,
-    defaultExpandedState: 'collapsed',
-    onExpandedStateChange: fn(),
-    showSwitch: true,
-    switchLabel: 'Off',
-    onSwitchChange: fn(),
-    showButton: true,
-    buttonLabel: 'Button',
-    onButtonClick: fn(),
-    headerActions: (
-      <IconButton
-        type="button"
-        style="default"
-        size="medium"
-        aria-label="Help"
-        onClick={fn()}
-        icon={<Icon glyph={<InformationOutlineIcon />} />}
-      />
-    ),
-    children: 'Expanded content.',
-  },
-};
-
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (

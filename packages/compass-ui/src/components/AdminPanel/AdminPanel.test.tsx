@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { click, getByRole, render } from '@/test-utils/render';
 import AdminPanel, { type AdminPanelExpandedState } from './AdminPanel';
@@ -258,6 +259,25 @@ describe('AdminPanel header click-to-toggle', () => {
     expect(onButtonClick).toHaveBeenCalledTimes(1);
     expect(onExpandedStateChange).not.toHaveBeenCalled();
     expect(isExpanded(container)).toBe(false);
+  });
+
+  it('does not toggle from a portaled header action', () => {
+    const onExpandedStateChange = vi.fn();
+    render(
+      <AdminPanel
+        title="Section Title"
+        expandable
+        onExpandedStateChange={onExpandedStateChange}
+        headerActions={createPortal(
+          <button type="button">Pick date</button>,
+          document.body,
+        )}
+      >
+        Body
+      </AdminPanel>,
+    );
+    click(getByRole('button', 'Pick date'));
+    expect(onExpandedStateChange).not.toHaveBeenCalled();
   });
 
   it('does not toggle from interactive content inside the title', () => {

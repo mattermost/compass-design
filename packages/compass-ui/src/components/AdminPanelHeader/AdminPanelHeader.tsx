@@ -131,6 +131,7 @@ export default function AdminPanelHeader({
     if (event.defaultPrevented) return;
     const target = event.target as Element;
     if (typeof target.closest !== 'function') return;
+    if (!event.currentTarget.contains(target)) return;
     if (actionsRef.current?.contains(target)) return;
     const interactive = target.closest(INTERACTIVE_SELECTOR);
     if (interactive && event.currentTarget.contains(interactive)) return;
