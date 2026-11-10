@@ -69,8 +69,28 @@ export const WithStatus: Story = {
     alt: 'Sofia Bauer',
     src: avatarSofia,
     size: '48',
-    status: true,
+    status: 'online',
   },
+};
+
+export const AllStatuses: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 16, alignItems: 'end' }}>
+      {(['32', '56'] as const).flatMap((size) =>
+        (['online', 'away', 'do-not-disturb', 'offline'] as const).map(
+          (status) => (
+            <UserAvatar
+              key={`${size}-${status}`}
+              alt="Sofia Bauer"
+              src={avatarSofia}
+              size={size}
+              status={status}
+            />
+          ),
+        ),
+      )}
+    </div>
+  ),
 };
 
 export const ImageSizes: Story = {

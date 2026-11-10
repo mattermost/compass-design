@@ -69,6 +69,16 @@
     box-sizing: content-box;
   }
 
+  // Medium badge (56–80px avatars): StatusBadge draws a 24px box around a 20px
+  // glyph, a 2px ring. Trim it to 1px so it matches the lighter ring on the
+  // smaller avatars. Scoped to the avatar; standalone StatusBadge is unchanged.
+  &__status &__badge--medium {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- 1px ring around the 20px glyph
+    width: calc(var(--icon-size-20) + 2px);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- 1px ring around the 20px glyph
+    height: calc(var(--icon-size-20) + 2px);
+  }
+
   // ---------------------------------------------------------------------------
   // Size modifiers (Figma Size scale)
   // Fallback initials font-size scales at ~0.467× the avatar size, matching

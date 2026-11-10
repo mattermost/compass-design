@@ -108,6 +108,24 @@ context — message headers, profile popovers, channel members lists.
   <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="64" status />
 </div>
 
+`status` takes `online`, `away`, `do-not-disturb` or `offline` (`status` alone
+means online). The badge size follows the avatar size, so every status at a
+given size matches.
+
+<div
+  style={{
+    display: 'flex',
+    gap: '0.75rem',
+    flexWrap: 'wrap',
+    alignItems: 'flex-end',
+  }}
+>
+  <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="56" status="online" />
+  <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="56" status="away" />
+  <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="56" status="do-not-disturb" />
+  <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="56" status="offline" />
+</div>
+
 Don't show status on avatars **smaller than 20px** — the badge becomes
 illegible — and don't show it in places where presence isn't actionable
 (e.g. dense table rows of historical authors).

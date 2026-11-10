@@ -1,6 +1,9 @@
 import type { ImgHTMLAttributes } from 'react';
 import StatusBadge from '@/components/StatusBadge/StatusBadge';
-import type { StatusBadgeSize } from '@/components/StatusBadge/StatusBadge';
+import type {
+  StatusBadgeSize,
+  StatusBadgeStatus,
+} from '@/components/StatusBadge/StatusBadge';
 import { toKebab } from '@/utils/string';
 import styles from './UserAvatar.module.scss';
 
@@ -54,8 +57,12 @@ export interface UserAvatarProps extends Omit<
   fallbackColor?: UserAvatarFallbackColor;
   /** Size variant. Figma: Size. Default: 48. */
   size?: UserAvatarSize;
-  /** When true, shows online status badge (green dot with check). Figma: Status = On. */
-  status?: boolean;
+  /**
+   * Status badge shown on the avatar: `online`, `away`, `do-not-disturb` or `offline`.
+   * Omit (or `false`) to hide it. `true` is kept for backwards compatibility and
+   * means `online`. The badge size follows the avatar `size`.
+   */
+  status?: boolean | StatusBadgeStatus;
 }
 
 const FALLBACK_COLORS: readonly UserAvatarFallbackColor[] = [
@@ -114,7 +121,7 @@ export default function UserAvatar({
   name,
   fallbackColor,
   size = '48',
-  status = false,
+  status,
   ...imgProps
 }: UserAvatarProps) {
   const sizeClass = styles[`user-avatar--size-${toKebab(size)}`];
@@ -129,6 +136,10 @@ export default function UserAvatar({
   const fallbackColorClass = isFallback
     ? styles[`user-avatar__fallback--${toKebab(color)}`]
     : '';
+
+  const badgeStatus: StatusBadgeStatus | undefined =
+    status === true ? 'online' : status || undefined;
+  const badgeSize = USER_AVATAR_TO_BADGE_SIZE[size];
 
   return (
     <div className={rootClass} data-size={size}>
@@ -152,9 +163,15 @@ export default function UserAvatar({
           height={Number(size)}
         />
       )}
-      {status && (
+      {badgeStatus && (
         <span className={styles['user-avatar__status']}>
-          <StatusBadge status="online" size={USER_AVATAR_TO_BADGE_SIZE[size]} />
+          <StatusBadge
+            status={badgeStatus}
+            size={badgeSize}
+            className={
+              badgeSize === 'medium' ? styles['user-avatar__badge--medium'] : ''
+            }
+          />
         </span>
       )}
     </div>
