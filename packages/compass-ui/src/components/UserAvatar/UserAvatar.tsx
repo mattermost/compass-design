@@ -158,6 +158,7 @@ export default function UserAvatar({
         </span>
       ) : (
         <img
+          loading="lazy"
           {...imgProps}
           alt={alt}
           className={styles['user-avatar__image']}

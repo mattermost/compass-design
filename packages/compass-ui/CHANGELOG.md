@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
+- **`UserAvatar` lazy-loads its image:** the `<img>` now has `loading="lazy"` by default, as the webapp `Avatar` does. Default markup changes (a new attribute on the image). Pass `loading="eager"` to opt out.
 - **`UserAvatar` badge ring at 56–80px:** the `medium` status badge box is now 20px, the size of its glyph (was 24px), so the 2px ring is gone, and its offset is `0` instead of `-2px` so the badge stays in place. Default markup changes: every status badge inside `UserAvatar` gains a `user-avatar__badge` class. Only the badge inside `UserAvatar` changes; `StatusBadge` on its own is unchanged.
 - **`ChannelSidebarItem` `customStatusEmoji` accepts a `ReactNode`:** the prop was `string`; it now also takes a node, so the emoji can carry a tooltip trigger. Strings render as before. Hosts that read the prop's type, for example to wrap `ChannelSidebarItemProps`, now see `ReactNode`.
 - **`DateRangePicker` trigger role is now `combobox`:** the trigger was `role="button"`, which cannot carry `aria-required`, so `required` was not exposed. It is now `role="combobox"` (still `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`), which supports `aria-required`. Hosts and tests that query the trigger with `getByRole('button', …)` must switch to `combobox`. Props are unchanged.
