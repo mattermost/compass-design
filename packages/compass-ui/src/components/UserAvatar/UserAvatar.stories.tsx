@@ -7,6 +7,22 @@ import UserAvatar from './UserAvatar';
 import type { UserAvatarFallbackColor, UserAvatarSize } from './UserAvatar';
 
 const IMAGE_SIZES: UserAvatarSize[] = ['24', '32', '48', '64', '96'];
+/** Sizes that can show a badge (the guideline says not to below 20px). */
+const STATUS_SIZES: UserAvatarSize[] = [
+  '20',
+  '24',
+  '28',
+  '32',
+  '40',
+  '48',
+  '56',
+  '64',
+  '72',
+  '80',
+  '96',
+  '120',
+];
+const STATUSES = ['online', 'away', 'do-not-disturb', 'offline'] as const;
 const FALLBACK_COLORS: UserAvatarFallbackColor[] = [
   'red',
   'purple',
@@ -71,24 +87,36 @@ export const WithStatus: Story = {
     size: '48',
     status: 'online',
   },
-};
-
-export const AllStatuses: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: 16, alignItems: 'end' }}>
-      {(['32', '56'] as const).flatMap((size) =>
-        (['online', 'away', 'do-not-disturb', 'offline'] as const).map(
-          (status) => (
-            <UserAvatar
-              key={`${size}-${status}`}
-              alt="Sofia Bauer"
-              src={avatarSofia}
-              size={size}
-              status={status}
-            />
-          ),
-        ),
-      )}
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 16 }}>
+      <UserAvatar {...args} />
+      {STATUSES.map((status) => (
+        <div
+          key={status}
+          style={{ display: 'flex', gap: 16, alignItems: 'end' }}
+        >
+          {STATUS_SIZES.map((size) => (
+            <div
+              key={size}
+              style={{
+                display: 'grid',
+                gap: 8,
+                justifyItems: 'center',
+                color: 'var(--center-channel-color)',
+                fontSize: 12,
+              }}
+            >
+              <UserAvatar
+                alt="Sofia Bauer"
+                src={avatarSofia}
+                size={size}
+                status={status}
+              />
+              <span>{size}</span>
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   ),
 };
