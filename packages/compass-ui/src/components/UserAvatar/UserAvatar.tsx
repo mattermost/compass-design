@@ -33,7 +33,7 @@ export type UserAvatarFallbackColor =
   | 'red'
   | 'purple'
   | 'neutral'
-  | 'neutral-900'
+  | 'charcoal'
   | 'blue'
   | 'cyan'
   | 'yellow'
@@ -74,7 +74,7 @@ export interface UserAvatarProps extends Omit<
 }
 
 /**
- * Colours picked by the name hash. `neutral-900` is deliberately not here: adding a
+ * Colours picked by the name hash. `charcoal` is deliberately not here: adding a
  * colour would change the hashed colour of existing avatars, so it is opt-in via
  * `fallbackColor`.
  */
