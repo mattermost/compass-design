@@ -42,6 +42,16 @@
   &__fallback--neutral {
     background-color: var(--color-neutral-500);
   }
+  &__fallback--charcoal {
+    background-color: var(--color-neutral-900);
+  }
+  &__fallback--indigo {
+    background-color: var(--color-indigo-500);
+  }
+  // Teal-500 is too light for white initials; -700 keeps them readable.
+  &__fallback--teal {
+    background-color: var(--color-teal-700);
+  }
   &__fallback--blue {
     background-color: var(--color-blue-500);
   }
@@ -74,7 +84,7 @@
   // Fallback initials font-size scales at ~0.467× the avatar size, matching
   // the Figma spec (e.g. 22.4px at 48px, 14.93px at 32px).
   // ---------------------------------------------------------------------------
-  $sizes: 12, 16, 20, 24, 28, 32, 40, 48, 56, 64, 72, 80, 96, 120;
+  $sizes: 12, 16, 20, 24, 28, 32, 36, 40, 48, 50, 56, 64, 72, 80, 96, 120, 128;
 
   @each $size in $sizes {
     &--size-#{$size} {
@@ -86,10 +96,24 @@
         font-size: #{$size * 0.467}px;
       }
 
+      // Badge box is locked to the avatar size. 56–80px use the Medium badge,
+      // whose 24px box leaves a 2px ring; drop it so the box is the 20px glyph.
+      // Scoped to the avatar; standalone StatusBadge is unchanged.
+      @if $size >= 56 and $size <= 80 {
+        .user-avatar__status .user-avatar__badge {
+          width: var(--icon-size-20);
+          height: var(--icon-size-20);
+        }
+      }
+
       .user-avatar__status {
         @if $size <= 28 {
           right: -1px;
           bottom: -1px;
+        } @else if $size >= 56 and $size <= 80 {
+          // 20px box (was 24px at -2px): 0 keeps the badge centre in place.
+          right: 0;
+          bottom: 0;
         } @else {
           right: -2px;
           bottom: -2px;
