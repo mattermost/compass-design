@@ -1,0 +1,218 @@
+import {
+  useEffect,
+  useRef,
+  useState,
+  type HTMLAttributes,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react';
+import { IconSlotContext } from '@/components/Icon/Icon';
+import { mergeClassNames, type BuiltInButtonProps } from '@/utils/props';
+import styles from './SegmentedControl.module.scss';
+
+/** `tablist` switches views. `radiogroup` is a short exclusive form choice. */
+export type SegmentedControlRole = 'tablist' | 'radiogroup';
+
+export interface SegmentedControlOption {
+  /**
+   * Stable id for this segment. Used as the React key and the `onChange`
+   * argument, so it is a string rather than translated text.
+   */
+  key: string;
+  /** Segment label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
+  label: ReactNode;
+  /**
+   * Optional leading icon. Pass `<Icon glyph={<SomeIcon />} />`;
+   * SegmentedControl provides the 12px size via context.
+   */
+  icon?: ReactNode;
+  /** Optional id for this segment (pair with `panelId` for `aria-controls`). */
+  id?: string;
+  /**
+   * Optional id of the host panel this segment controls. Applied as
+   * `aria-controls` when `role` is `tablist`. The host owns the panel.
+   */
+  panelId?: string;
+  /** When true, the segment can't be selected and arrow keys skip it. */
+  disabled?: boolean;
+  /** Native tooltip text, e.g. to explain why the segment is disabled. */
+  title?: string;
+  /**
+   * Extra attributes for this segment's `<button>` (e.g. `data-testid`).
+   * Segment semantics (`role`, `aria-selected` / `aria-checked`, `tabIndex`,
+   * `type`) take precedence. `className` is merged. `onClick`, `onKeyDown`,
+   * and `onMouseDown` run first; `preventDefault()` skips selection.
+   */
+  buttonProps?: BuiltInButtonProps;
+}
+
+export interface SegmentedControlProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'role'
+> {
+  /** Segments, in order. One is selected. */
+  options: SegmentedControlOption[];
+  /** Key of the selected segment. */
+  value: string;
+  /** Called with the segment key when the selection changes. */
+  onChange: (key: string) => void;
+  /**
+   * Semantics. `tablist` (default) switches views: arrow keys move focus, and
+   * Enter, Space, or a click selects. The host owns the panel. `radiogroup`
+   * is a short exclusive form choice: arrow keys move the selection. Pass
+   * `aria-label` or `aria-labelledby` so the group has a name.
+   */
+  role?: SegmentedControlRole;
+  /** Optional CSS class name. */
+  className?: string;
+}
+
+function stepIndex(index: number, delta: number, count: number) {
+  if (index < 0) return delta < 0 ? count - 1 : 0;
+  return (index + delta + count) % count;
+}
+
+function arrowDelta(key: string, isRadio: boolean) {
+  if (key === 'ArrowRight' || (isRadio && key === 'ArrowDown')) return 1;
+  if (key === 'ArrowLeft' || (isRadio && key === 'ArrowUp')) return -1;
+  return 0;
+}
+
+/**
+ * Segmented controls let people pick one option from a short, exclusive set shown as one
+ * compact control — search modes in a header, a filter on a list, or a form choice that
+ * doesn't need a radio mark. One segment is selected; choosing another replaces it.
+ */
+export default function SegmentedControl({
+  options,
+  value,
+  onChange,
+  role = 'tablist',
+  className,
+  ...rest
+}: SegmentedControlProps) {
+  const segmentRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const [focusedKey, setFocusedKey] = useState(value);
+  const isRadio = role === 'radiogroup';
+  const itemRole = isRadio ? 'radio' : 'tab';
+
+  useEffect(() => {
+    setFocusedKey(value);
+  }, [value]);
+
+  const keys = options.map((option) => option.key);
+  const enabledKeys = options
+    .filter((option) => !option.disabled)
+    .map((option) => option.key);
+  const focusKey = enabledKeys.includes(focusedKey)
+    ? focusedKey
+    : enabledKeys.includes(value)
+      ? value
+      : enabledKeys[0];
+
+  const moveFocus = (key: string, select: boolean) => {
+    setFocusedKey(key);
+    const index = keys.indexOf(key);
+    segmentRefs.current[index]?.focus();
+    if (select) onChange(key);
+  };
+
+  const handleKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    key: string,
+  ) => {
+    const count = enabledKeys.length;
+    if (count === 0) return;
+    const index = enabledKeys.indexOf(key);
+    const delta = arrowDelta(event.key, isRadio);
+
+    if (delta !== 0) {
+      event.preventDefault();
+      const next = enabledKeys[stepIndex(index, delta, count)];
+      moveFocus(next, isRadio && next !== key);
+      return;
+    }
+
+    if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      const next =
+        event.key === 'Home' ? enabledKeys[0] : enabledKeys[count - 1];
+      moveFocus(next, isRadio && next !== key);
+      return;
+    }
+
+    if ((event.key === 'Enter' || event.key === ' ') && index >= 0) {
+      event.preventDefault();
+      setFocusedKey(key);
+      onChange(key);
+    }
+  };
+
+  return (
+    <div
+      {...rest}
+      role={role}
+      aria-orientation="horizontal"
+      className={mergeClassNames(styles['segmented-control'], className)}
+    >
+      {options.map((option, index) => {
+        const isSelected = option.key === value;
+        const isDisabled = option.disabled === true;
+
+        return (
+          <button
+            {...option.buttonProps}
+            key={option.key}
+            ref={(node) => {
+              segmentRefs.current[index] = node;
+            }}
+            id={option.id ?? option.buttonProps?.id}
+            type="button"
+            role={itemRole}
+            tabIndex={focusKey === option.key ? 0 : -1}
+            aria-selected={isRadio ? undefined : isSelected}
+            aria-checked={isRadio ? isSelected : undefined}
+            aria-controls={
+              !isRadio && option.panelId ? option.panelId : undefined
+            }
+            aria-disabled={isDisabled || undefined}
+            disabled={undefined}
+            title={option.title ?? option.buttonProps?.title}
+            className={mergeClassNames(
+              styles['segmented-control__segment'],
+              isSelected && styles['segmented-control__segment--active'],
+              isDisabled && styles['segmented-control__segment--disabled'],
+              option.buttonProps?.className,
+            )}
+            onMouseDown={(event) => {
+              option.buttonProps?.onMouseDown?.(event);
+              if (isDisabled) event.preventDefault();
+            }}
+            onClick={(event) => {
+              option.buttonProps?.onClick?.(event);
+              if (event.defaultPrevented || isDisabled) return;
+              setFocusedKey(option.key);
+              onChange(option.key);
+            }}
+            onKeyDown={(event) => {
+              option.buttonProps?.onKeyDown?.(event);
+              if (event.defaultPrevented) return;
+              handleKeyDown(event, option.key);
+            }}
+          >
+            {option.icon != null && (
+              <span className={styles['segmented-control__icon']}>
+                <IconSlotContext.Provider value={{ size: '12' }}>
+                  {option.icon}
+                </IconSlotContext.Provider>
+              </span>
+            )}
+            <span className={styles['segmented-control__label']}>
+              {option.label}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}

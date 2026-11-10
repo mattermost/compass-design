@@ -276,6 +276,9 @@
       "components/section-notice": [
         "./dist/components/section-notice/index.d.ts"
       ],
+      "components/segmented-control": [
+        "./dist/components/segmented-control/index.d.ts"
+      ],
       "components/select": [
         "./dist/components/select/index.d.ts"
       ],

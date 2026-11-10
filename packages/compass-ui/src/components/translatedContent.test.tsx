@@ -13,6 +13,7 @@ import MenuGroupHeading from './MenuGroupHeading/MenuGroupHeading';
 import MenuItem from './MenuItem/MenuItem';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import SectionNotice from './SectionNotice/SectionNotice';
+import SegmentedControl from './SegmentedControl/SegmentedControl';
 import Tabs from './Tabs/Tabs';
 import Tag from './Tag/Tag';
 import Toast from './Toast/Toast';
@@ -41,6 +42,19 @@ describe('text props accept translated nodes', () => {
   it('MenuItem label', () => {
     const { container } = render(<MenuItem label={<Msg>Edit</Msg>} />);
     expect(messages(container)).toEqual(['Edit']);
+  });
+
+  it('SegmentedControl option label', () => {
+    const { container } = render(
+      <SegmentedControl
+        aria-label="Mode"
+        options={[{ key: 'a', label: <Msg>Channels</Msg> }]}
+        value="a"
+        onChange={() => {}}
+      />,
+    );
+    expect(getByRole('tab').textContent).toBe('Channels');
+    expect(messages(container)).toEqual(['Channels']);
   });
 
   it('Tabs tab label', () => {

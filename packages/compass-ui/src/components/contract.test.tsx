@@ -18,6 +18,7 @@ import PasswordInput from './PasswordInput/PasswordInput';
 import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
 import SearchInput from './SearchInput/SearchInput';
 import SectionNotice from './SectionNotice/SectionNotice';
+import SegmentedControl from './SegmentedControl/SegmentedControl';
 import Tabs from './Tabs/Tabs';
 import ChannelSidebarItem from './ChannelSidebarItem/ChannelSidebarItem';
 import Tag from './Tag/Tag';
@@ -54,6 +55,15 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
     <Tabs
       tabs={[{ key: 'a', label: 'A' }]}
       activeKey="a"
+      onChange={() => {}}
+      {...a}
+    />
+  ),
+  SegmentedControl: (a) => (
+    <SegmentedControl
+      aria-label="Mode"
+      options={[{ key: 'a', label: 'A' }]}
+      value="a"
       onChange={() => {}}
       {...a}
     />
@@ -298,6 +308,20 @@ const BUTTON_CASES: Record<
           { key: 'b', label: 'B', buttonProps: p },
         ]}
         activeKey="a"
+        onChange={() => {}}
+      />
+    ),
+  },
+  'SegmentedControl option buttonProps': {
+    label: 'B',
+    render: (p, on) => (
+      <SegmentedControl
+        aria-label="Mode"
+        options={[
+          { key: 'a', label: 'A' },
+          { key: 'b', label: 'B', buttonProps: { ...p, onClick: on } },
+        ]}
+        value="a"
         onChange={() => {}}
       />
     ),

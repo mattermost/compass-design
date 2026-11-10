@@ -55,6 +55,8 @@ export const TITLE_LAYOUT_SCROLLBAR =
   'Components/Layout and Containers/Scrollbar';
 export const TITLE_LAYOUT_TABS = 'Components/Layout and Containers/Tabs';
 
+export const TITLE_FORMS_SEGMENTED_CONTROL =
+  'Components/Forms and Input/Segmented Control';
 export const TITLE_FORMS_CHIP = 'Components/Forms and Input/Chip';
 export const TITLE_FORMS_COMBOBOX = 'Components/Forms and Input/Combobox';
 export const TITLE_FORMS_DATE_RANGE_PICKER =
