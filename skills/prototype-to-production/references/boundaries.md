@@ -38,7 +38,8 @@ Prototypes and consumers often pin different `@mattermost/compass-ui` alphas.
 
 ```sh
 ls node_modules/@mattermost/compass-ui/dist/components/
-grep -i "MenuItem" node_modules/@mattermost/compass-ui/dist/index.d.ts
+grep -ril "MenuItem" node_modules/@mattermost/compass-ui/dist/components/
+# The root index.d.ts alone can miss a component re-exported through a kebab-case path (menu-item).
 # Props / variants:
 # node_modules/@mattermost/compass-ui/dist/components/<kebab>/<Name>.d.ts
 ```

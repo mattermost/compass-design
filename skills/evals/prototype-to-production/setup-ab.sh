@@ -32,6 +32,13 @@ for s in compass-build compass-review prototype-to-production; do
   [ -d "$cd_repo/skills/$s" ] || { echo "Missing $cd_repo/skills/$s" >&2; exit 1; }
 done
 
+# The base must not already install the skill under test, or the without-skill
+# side would not be a baseline.
+if git -C "$consumer" cat-file -e "$base:.claude/skills/prototype-to-production" 2>/dev/null; then
+  echo "Base $base already has .claude/skills/prototype-to-production, so the without-skill run would not be a baseline. Pick another base." >&2
+  exit 1
+fi
+
 root="$(cd "$consumer/.." && pwd)/ab-test-$name"
 mkdir -p "$root"
 sha="$(git -C "$consumer" rev-parse --short "$base")"
@@ -42,7 +49,13 @@ git -C "$consumer" worktree add -b "ab-$name-without-skill" "$root/without-skill
 # Copy (don't symlink) the skills, side by side, into the with-skill worktree only.
 mkdir -p "$root/with-skill/.claude/skills"
 for s in compass-build compass-review prototype-to-production; do
-  cp -R "$cd_repo/skills/$s" "$root/with-skill/.claude/skills/$s"
+  dst="$root/with-skill/.claude/skills/$s"
+  # A base that already tracks this folder would get the copy nested inside it.
+  if [ -e "$dst" ]; then
+    echo "Replacing $s, which the base already has, in the with-skill worktree only."
+    rm -rf "$dst"
+  fi
+  cp -R "$cd_repo/skills/$s" "$dst"
 done
 
 # Verify every skill copied completely (SKILL.md and references/ included).

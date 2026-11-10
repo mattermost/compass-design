@@ -34,8 +34,8 @@ The with-skill session has to be able to run and look at the app (step 10). Set 
 3. **Install dependencies in each worktree yourself** (the consumer's normal install). Don't symlink `node_modules` between worktrees or into the original checkout: a session that runs an install through the link modifies the original.
 4. Fill in `prompt.template.md` once and paste the **identical** prompt into a fresh Claude Code session in each worktree. Don't name the skill in either prompt; the with-skill run has to trigger it from the description.
    If a session asks questions, the answers must come from the human. When you run the sessions through an orchestrator (another Claude session that starts them), the orchestrator relays every open question, or a rejected `AskUserQuestion`, to the human and passes the answers back before the run continues. It never lets the session proceed on assumptions, and it never answers for the human.
-5. When both finish, score them with `rubric.md` before reading either report. Review the diffs with the branch labels hidden if a second person can.
-6. Run the app from each worktree (different ports) and compare them side by side.
+5. When both finish, run the app from each worktree (different ports) and compare them side by side. The rubric's Look criteria need that running-app evidence.
+6. Score with `rubric.md`. Score the code and Look criteria from the diffs and the running apps first, with the branch labels hidden if a second person can, and the report-dependent criteria (checks reported honestly, questions, assumptions, spec handling) after reading the reports.
 
 ## Reading the result
 

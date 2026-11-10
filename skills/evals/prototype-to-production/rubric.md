@@ -11,7 +11,7 @@ Score each side 0 (no), 1 (partly) or 2 (yes). Fix this before either run; don't
 
 ## Components
 
-5. Compass components used wherever the consumer's installed version has them; no hand-rolled equivalents.
+5. Compass standard components used wherever the consumer's installed version has them; no hand-rolled equivalents. Overlays, menus and tooltips are scored under 6, because the host pattern can win there.
 6. Overlays, menus and tooltips follow the host pattern; no second menu stack.
 7. Variant props are lowercase kebab-case; `IconButton` gets `<Icon glyph>` without size and an `aria-label`.
 
@@ -19,8 +19,8 @@ Score each side 0 (no), 1 (partly) or 2 (yes). Fix this before either run; don't
 
 (Score each entry point separately and note any that is missing.)
 
-8. Every variant from the spec and prototype handled and tied to a real host source (viewer, role, state, flag, user preference), not a fixture or prop.
-9. Spec vs prototype: the spec wins on behavior, the prototype on look; every mismatch flagged with the side followed.
+8. Every in-scope variant from the spec and prototype handled and tied to a real host source (viewer, role, state, flag, user preference), not a fixture or prop. Scenes that are competing design alternatives are not variants to build; the developer picks one.
+9. Spec vs prototype: the spec wins on behavior, the prototype on look, unless the prototype's copy of the spec explicitly marks a later change (follow it) or it is unclear which is newer (ask). Every mismatch is flagged with the side followed.
 10. Real data and saving through the host's pattern, not fixtures or local-only state.
 11. Prototype fixtures not shipped.
 
@@ -42,7 +42,7 @@ Score each side 0 (no), 1 (partly) or 2 (yes). Fix this before either run; don't
 
 These came from the developer's review of that run. Don't use them to rescore earlier runs.
 
-20. Placement, size and motion match the prototype: anchor and offset, width, height rules (fixed, auto, minimum, maximum), transitions between states. With a variable height, the anchored edge doesn't move as the height changes, and the maximum height is set.
+20. Placement, size and motion match the prototype: anchor and offset, width, height rules (fixed, auto, minimum, maximum), transitions between states. With a variable height, the prototype's anchor is kept (an anchored edge doesn't move as the height changes; a centered surface stays centered), and the prototype's maximum height is set.
 21. Compass parts the prototype hides or overrides (a removed close button, changed header or body padding, a custom input style, a transparent overlay instead of a dimmed scrim) are hidden or overridden the same way.
 22. Secondary and transient states are built: autocomplete rows (with what they show, such as avatars), tips and footers, derived default lists, and their empty states.
 23. Every entry point the change replaces opens only the new surface, never the old one as well.

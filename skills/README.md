@@ -2,11 +2,11 @@
 
 Agent skills for working with Compass. They live in the repo, not in `@mattermost/compass-ui`, so they are versioned and reviewed on their own and are not published to npm.
 
-| Skill                                                         | Purpose                                                                                                                              |
-| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| [`compass-build`](compass-build/SKILL.md)                     | Build, restyle or retrofit Mattermost UI to the Compass rules. Holds the shared `references/`.                                       |
-| [`compass-review`](compass-review/SKILL.md)                   | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                                    |
-| [`prototype-to-production`](prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Draft, moved from mattermost-proto-playground#76. |
+| Skill                                                         | Purpose                                                                                                                       |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [`compass-build`](compass-build/SKILL.md)                     | Build, restyle or retrofit Mattermost UI to the Compass rules. Holds the shared `references/`.                                |
+| [`compass-review`](compass-review/SKILL.md)                   | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                             |
+| [`prototype-to-production`](prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Moved from mattermost-proto-playground#76. |
 
 `compass-review` depends on `compass-build`'s references, so install them together.
 
@@ -19,7 +19,10 @@ Copy or symlink each skill folder into the agent's skills directory, keeping the
 mkdir -p .claude/skills
 ln -s /path/to/compass-design/skills/compass-build .claude/skills/compass-build
 ln -s /path/to/compass-design/skills/compass-review .claude/skills/compass-review
+ln -s /path/to/compass-design/skills/prototype-to-production .claude/skills/prototype-to-production
 ```
+
+`prototype-to-production` reads `../compass-build/references/` and invokes `compass-review`, so install all three.
 
 ## Testing a skill
 
