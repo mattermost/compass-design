@@ -243,6 +243,7 @@ Use the assumption fallback only when no developer is present at all (a schedule
 - Do not copy playground scene/orchestrator structure wholesale.
 - Subpath imports only for compass-ui; kebab-case variant strings.
 - Overlay and menu ownership stays in product code. Follow [references/boundaries.md](references/boundaries.md) rules 5–6.
+- **Tests.** Write or update tests for the behavior you built from the step 4 table: at least one case per variant, entry point or state that changes what the user sees. Use the consumer's existing test pattern and utilities, and don't introduce a new one. If you changed existing components, update their tests and snapshots, and explain any snapshot change that isn't only hashed class names. Don't test Compass components themselves. A green test run says nothing about layout, spacing, stacking or focus; step 10 covers those.
 - Before running an install or a generator that installs (an i18n extract, a codegen step), check that `node_modules` is this consumer's own. Never run an install through a symlink to another checkout: it modifies that checkout.
 
 ### 8. Audit with `compass-review`
@@ -263,6 +264,7 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Every file in "Required reads" was read at its step
 - [ ] Decisions the prototype doesn't settle were confirmed with the developer (step 6), or listed as assumptions
 - [ ] Every variant from step 4 is implemented with the product's real condition, or listed as unresolved in the report
+- [ ] Every row of the step 4 table has at least one test, or the report lists it as untested with the reason
 - [ ] `@mattermost/compass-ui` present; no `@mattermost/compass-proto` in product deps or imports
 - [ ] No playground chrome (`PrototypeTopNav`, `SceneSwitcher`, `DeviceFrame`, `MobileModalStage`, walkthrough runtime), and no other prototype-only controls (viewer, state or theme toggles, demo resets)
 - [ ] Every Compass import resolves in the consumer's installed ui
@@ -320,6 +322,7 @@ Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at
 - Spacing: carried over from the prototype; any deviation
 - Menus and pickers in modals checked above the modal
 - Behavior intent not built (needs server or other work), listed as gaps
+- Tests: files added, files updated, snapshots refreshed and why, and any variant or entry point with no test
 - Checks run: step 8 audit, `compass-build` checklist, lint, types, tests, running-app check
 - What was **not** checked
 
