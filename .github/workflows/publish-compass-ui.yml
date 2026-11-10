@@ -87,3 +87,22 @@ jobs:
           --tag ${{ steps.meta.outputs.dist_tag }}
           --workspace=@mattermost/compass-ui
           --provenance
+
+      # Requires the MATTERMOST_WEBHOOK_URL repository secret (incoming webhook).
+      # A failed notification must not fail a publish that already succeeded.
+      - name: Notify Mattermost
+        if: steps.check.outputs.exists != 'true'
+        continue-on-error: true
+        env:
+          WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          VERSION: ${{ steps.meta.outputs.version }}
+          DIST_TAG: ${{ steps.meta.outputs.dist_tag }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "::warning::MATTERMOST_WEBHOOK_URL secret is not set — skipping notification"
+            exit 0
+          fi
+          text="#### :package: @mattermost/compass-ui $VERSION published"$'\n'"npm tag: \`$DIST_TAG\` · [Release notes]($RELEASE_URL) · [npm](https://www.npmjs.com/package/@mattermost/compass-ui/v/$VERSION)"
+          payload=$(jq -n --arg text "$text" '{text: $text}')
+          curl -fsS -X POST -H 'Content-Type: application/json' -d "$payload" "$WEBHOOK_URL"
