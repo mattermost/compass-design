@@ -16,6 +16,15 @@ import avatarSofiaBauer from '@/assets/avatars/Sofia Bauer.png';
 import UserAvatar from './UserAvatar';
 import type { UserAvatarFallbackColor, UserAvatarSize } from './UserAvatar';
 
+/** Sentinel the `src` control maps "Custom URL" to; resolved by `resolveSrc`. */
+const CUSTOM_URL = '__custom-url__';
+
+/** Resolves the `src` control, using the `customSrc` text when "Custom URL" is picked. */
+function resolveSrc(args: { src?: string }): string | undefined {
+  const { customSrc } = args as { customSrc?: string };
+  return args.src === CUSTOM_URL ? customSrc || undefined : args.src;
+}
+
 /** Image choices for the `src` control; the key is shown in Controls. */
 const AVATARS: Record<string, string> = {
   'Aiko Tan': avatarAikoTan,
@@ -111,7 +120,11 @@ const meta = {
       control: 'select',
       options: Object.keys(AVATARS),
       mapping: AVATARS,
-      description: 'Avatar image.',
+      description: 'Avatar image. Pick "Custom URL" to use `customSrc`.',
+    },
+    customSrc: {
+      control: 'text',
+      description: 'Image URL or path used when `src` is "Custom URL".',
     },
     size: { control: 'select', options: IMAGE_SIZES },
     status: {
@@ -123,6 +136,12 @@ const meta = {
     fallbackColor: { control: 'select', options: FALLBACK_COLORS },
   },
   args: { src: 'Sofia Bauer' },
+  render: (args) => {
+    const { customSrc: _customSrc, ...props } = args as typeof args & {
+      customSrc?: string;
+    };
+    return <UserAvatar {...props} src={resolveSrc(args)} />;
+  },
 } satisfies Meta<typeof UserAvatar>;
 
 export default meta;
@@ -136,7 +155,7 @@ export const Default: Story = {
 };
 
 export const WithStatus: Story = {
-  parameters: { controls: { include: ['src'] } },
+  parameters: { controls: { include: ['src', 'customSrc'] } },
   render: (args) => (
     <div style={{ display: 'grid', gap: 16 }}>
       {STATUSES.map((status) => (
@@ -157,7 +176,7 @@ export const WithStatus: Story = {
             >
               <UserAvatar
                 alt="Sofia Bauer"
-                src={args.src}
+                src={resolveSrc(args)}
                 size={size}
                 status={status}
               />
@@ -171,7 +190,7 @@ export const WithStatus: Story = {
 };
 
 export const ImageSizes: Story = {
-  parameters: { controls: { include: ['src'] } },
+  parameters: { controls: { include: ['src', 'customSrc'] } },
   render: (args) => (
     <div
       style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'end' }}
@@ -187,7 +206,7 @@ export const ImageSizes: Story = {
             fontSize: 12,
           }}
         >
-          <UserAvatar alt="Leonard Riley" src={args.src} size={size} />
+          <UserAvatar alt="Leonard Riley" src={resolveSrc(args)} size={size} />
           <span>{size}</span>
         </div>
       ))}
@@ -221,7 +240,7 @@ export const FallbackColors: Story = {
 };
 
 export const AllVariants: Story = {
-  parameters: { controls: { include: ['src'] } },
+  parameters: { controls: { include: ['src', 'customSrc'] } },
   render: (args) => (
     <div style={{ display: 'grid', gap: 24 }}>
       <Row label="Image">
@@ -229,7 +248,7 @@ export const AllVariants: Story = {
           <UserAvatar
             key={size}
             alt="Leonard Riley"
-            src={args.src}
+            src={resolveSrc(args)}
             size={size}
           />
         ))}
@@ -239,7 +258,7 @@ export const AllVariants: Story = {
           <UserAvatar
             key={size}
             alt="Sofia Bauer"
-            src={args.src}
+            src={resolveSrc(args)}
             size={size}
             status="online"
           />
