@@ -103,9 +103,8 @@ export const WithStatus: Story = {
     size: '48',
     status: 'online',
   },
-  render: (args) => (
+  render: () => (
     <div style={{ display: 'grid', gap: 16 }}>
-      <UserAvatar {...args} />
       {STATUSES.map((status) => (
         <div
           key={status}
