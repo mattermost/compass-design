@@ -228,45 +228,61 @@ export const Fallback: Story = {
   },
   parameters: { controls: { include: ['name', 'fallbackColor'] } },
   render: ({ name, fallbackColor }) => (
-    <div
-      style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'end' }}
-    >
-      {IMAGE_SIZES.map((size) => (
+    <div style={{ display: 'grid', gap: 24 }}>
+      <div style={{ display: 'grid', gap: 8 }}>
+        <span style={labelStyle}>Sizes</span>
         <div
-          key={size}
           style={{
-            display: 'grid',
-            gap: 8,
-            justifyItems: 'center',
-            color: 'var(--center-channel-color)',
-            fontSize: 12,
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 16,
+            alignItems: 'end',
           }}
         >
-          <UserAvatar
-            alt={name ?? 'Danielle Okoro'}
-            name={name}
-            fallbackColor={fallbackColor}
-            size={size}
-          />
-          <span>{size}</span>
+          {IMAGE_SIZES.map((size) => (
+            <div
+              key={size}
+              style={{
+                display: 'grid',
+                gap: 8,
+                justifyItems: 'center',
+                color: 'var(--center-channel-color)',
+                fontSize: 12,
+              }}
+            >
+              <UserAvatar
+                alt={name ?? 'Danielle Okoro'}
+                name={name}
+                fallbackColor={fallbackColor}
+                size={size}
+              />
+              <span>{size}</span>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  ),
-};
-
-export const FallbackColors: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-      {FALLBACK_COLORS.map((fallbackColor) => (
-        <UserAvatar
-          key={fallbackColor}
-          alt="Sample User"
-          name="Sample User"
-          fallbackColor={fallbackColor}
-          size="40"
-        />
-      ))}
+      </div>
+      <Row label="Colors">
+        {FALLBACK_COLORS.map((color) => (
+          <div
+            key={color}
+            style={{
+              display: 'grid',
+              gap: 8,
+              justifyItems: 'center',
+              color: 'var(--center-channel-color)',
+              fontSize: 12,
+            }}
+          >
+            <UserAvatar
+              alt={name ?? 'Danielle Okoro'}
+              name={name}
+              fallbackColor={color}
+              size="40"
+            />
+            <span>{color}</span>
+          </div>
+        ))}
+      </Row>
     </div>
   ),
 };
