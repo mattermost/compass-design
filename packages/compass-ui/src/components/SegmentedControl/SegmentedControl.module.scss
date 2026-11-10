@@ -69,7 +69,7 @@
 
     &:is(:hover, :focus-visible):not(&--active):not(&--disabled) {
       background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
-      color: var(--center-channel-color);
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-88));
     }
 
     &--active {
