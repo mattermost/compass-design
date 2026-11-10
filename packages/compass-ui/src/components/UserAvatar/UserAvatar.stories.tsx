@@ -103,12 +103,7 @@ export const Default: Story = {
 };
 
 export const WithStatus: Story = {
-  args: {
-    alt: 'Sofia Bauer',
-    src: avatarSofia,
-    size: '48',
-    status: 'online',
-  },
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 16 }}>
       {STATUSES.map((status) => (
