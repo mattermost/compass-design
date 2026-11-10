@@ -22,7 +22,7 @@ These are the rules that were skipped or missed when this skill was tested on a 
 2. **Read the files in "Required reads"** at the point each one says.
 3. **Never depend on `@mattermost/compass-proto`.** Drop playground chrome and any prototype-only control (scene, viewer or state switchers, toggles, demo resets), but implement every variant they reveal.
 4. **Use the Compass components the consumer's installed package has.** The installed `.d.ts` wins over any table.
-5. **Carry over the prototype's spacing values.** Don't pick your own. Form gaps: 24px between fields in a group, 16px between paired fields, 32px between field groups.
+5. **Carry over the prototype's spacing values, placement, size and motion.** Don't pick your own or leave a component's defaults where the prototype overrides them. Form gaps: 24px between fields in a group, 16px between paired fields, 32px between field groups.
 6. **Menus, pickers and tooltips inside a modal must show above it.** Confirm this in the running app.
 7. **Real conditions, i18n and host patterns.** Never fixture fields, pasted English literals or ported demo state.
 8. **Stop and ask** about what the prototype doesn't settle, before building (end of step 6). Use the `AskUserQuestion` tool. If it is rejected or dismissed, that is a stop, not an answer: don't build. Write the questions out in plain text and wait.
@@ -142,6 +142,8 @@ Use the version comparison from step 2 to anticipate missing exports. Details: [
 
 **Styles / SCSS:** keep Compass **tokens** (`--spacing-*`, `--center-channel-color`, …). Do **not** copy playground `.module.scss` wholesale (including SceneSwitcher / DeviceFrame / walkthrough focus CSS). **Carry over the prototype's spacing values; don't estimate them.** Read the `gap`, `padding` and `margin` values in the prototype's SCSS and reproduce them, mapped to the host's units (the Compass spacing tokens are 2, 4, 6, 8, 10, 12, 16, 20, 24 and 32px: `--spacing-xxxxs` through `--spacing-xxxl`). The prototype's spacing already follows Compass, so a value you chose yourself (20px where it uses 24px) is a regression. For forms, also check the result against the form gaps in `compass-build/references/spacing-and-hierarchy.md` (fields in one group 24px, paired fields 16px, field groups 32px). Re-express layout with host style conventions; use Compass `className` overrides only when that consumer already does so for standard components. Prototype-local visuals with no host equivalent → small product-local styles, tokens-first (follow host BEM/CSS conventions).
 
+**Placement, size and motion are part of the look.** Read them from the prototype's SCSS and carry them over, using tokens: where the surface sits (anchor and offset from the edge, for example 8px from the top rather than centered), its width, and its height rules (fixed, `auto`, minimum, maximum). When the height follows its content, the surface must stay anchored to one edge so that edge doesn't move as the height changes: a centered surface re-centers and jumps on every change. Set the maximum height too, and let the body scroll past it. Also carry over what the prototype hides or overrides on a Compass component (a close button it removes, header or body padding it changes, a custom input style). This includes the overlay layer itself: `ModalOverlay` paints a dimmed scrim and centers its content by default, and a prototype may make it transparent and anchor the dialog to the top while keeping the outside click. Read the overlay's overrides in the prototype's SCSS, not just the dialog's. Also carry over any transition or animation, with its duration, easing and reduced-motion handling. The host owns the mechanics of an overlay (portal, stacking, open state), but where it sits is still the prototype's to specify: copy it with host-owned CSS. Don't leave the component's defaults in place unless the prototype uses them.
+
 **Moved composite (common):** prototype still imports something from `compass-ui` (e.g. older `ChannelsSidebar`) but consumer ui no longer exports it → treat as **proto decompose** (host shell + ui components), not as “build the whole thing from primitives.”
 
 ### 4. Map variants and conditions
@@ -164,6 +166,7 @@ Read the orchestrator, `scenes/*`, `components/*` and any walkthrough file for a
 - **Drop the switcher, keep the variants.** A control that toggles viewer, role, scene or state is prototype chrome (see `boundaries.md` rule 7) and does not ship. Every variant it reveals still gets a row in the table and is implemented from the host's real condition, not from the toggle.
 - **Scenes can be design alternatives, not only perspectives or states.** If scenes show competing versions of the same surface rather than different viewers or states, don't build all of them: ask which one to implement.
 - **Walkthrough files** are worth reading here even though the translation skips them elsewhere, because they sometimes spell out who sees what and when.
+- **Include secondary and transient states, not only whole scenes.** Autocomplete and suggestion lists (and what their rows show, such as avatars), menus, empty and no-result states, selected and hover rows, tips and footers, and the transition between modes or screens each get a row in the table.
 - If a condition is only implied by a fixture and you can't find its product equivalent, **ask the developer once** instead of guessing. List unresolved ones.
 
 Keep this table in your working notes and implement every row. In the final report, list the variants you handled, any you couldn't resolve, any prototype-vs-spec mismatches, and any prototype-local controls you treated as chrome and dropped.
@@ -228,6 +231,7 @@ Before step 7, call `AskUserQuestion` (or your agent's equivalent) **once, with 
 - **Moved or removed existing UI:** settings or features that the prototype relocates, so the existing code and its callers change.
 - **Behavior that needs work outside the client:** a server, plugin or job (for example something that must happen automatically at a time), and whether to build, stub or leave it as a listed gap.
 - **Access and licensing:** who sees the surface.
+- **Derived or inferred lists:** when a list has no server source and you will build it from the client store (frequent people, recent items), what it includes or excludes (bots and agents, deactivated users, archived channels, other teams) and how it is ranked.
 - **Spec vs prototype conflicts** that change behavior (step 4).
 
 **Also write the questions in your message text**, each with its options and your recommendation, not only in the tool call. Whoever started or is watching this session reads the text, and it survives if the dialog is dismissed or never shown.
@@ -273,6 +277,8 @@ Translation-specific checks. The Compass design rules (tokens, one primary actio
 - [ ] Any `Select`, `Combobox`, `DateRangePicker` or emoji menu used inside a modal was opened in the running app and shows above the modal (see `boundaries.md` rule 5); lint and unit tests can't see this
 - [ ] The surface was run and every variant and entry point was looked at (step 10), or the report says it was not verified in a running app
 - [ ] Spacing between and within fields matches the prototype's SCSS values (and the form gaps in `compass-build`), not values you picked
+- [ ] Placement, size and motion match the prototype's SCSS: anchor and offset, width, height rules, hidden or overridden Compass parts, transitions
+- [ ] Every entry point this change replaces was clicked, and only the new surface opens; the old one does not open too
 - [ ] Prototype **behavior intent** preserved; implementation uses **host** patterns (no ported playground state/fixtures as production logic)
 - [ ] User-visible strings use the consumer's **i18n** pattern (prototype copy is wording intent, not pasted literals)
 - [ ] Prototype and consumer compass-ui versions recorded, and gaps from version skew noted briefly for the developer
@@ -289,8 +295,10 @@ Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at
 3. Open the scoped surface and walk **every row of the step 4 table** (each viewer, role, state and flag) and **every entry point**. Note any variant you couldn't reach, and why.
 4. Compare with the prototype: run the playground at the recorded ref, or use the screenshots in the prototype's `docs/`. Check spacing, alignment, states, wording and keyboard focus order.
 5. Open every menu, picker, tooltip and popover that sits inside a modal and confirm it shows **above** the modal.
-6. Capture screenshots of the main states for the developer.
-7. If you can't run the app, say so and mark it **not verified in a running app**. Never describe it as verified. Put that first in the status table, and list it as the top item under "What was **not** checked".
+6. For every entry point the change replaces (a button, a header box, a shortcut), click it and confirm only the new surface opens, not the old one as well.
+7. Keyboard pass on each overlay: Escape closes it, focus returns to what opened it, and Tab order matches the prototype's. Also compare where it sits, its size across modes and states, and its transitions with the prototype. Switch between modes and type to change the result count: the anchored edge must not move, and the height must stop at the maximum.
+8. Capture screenshots of the main states for the developer.
+9. If you can't run the app, say so and mark it **not verified in a running app**. Never describe it as verified. Put that first in the status table, and list it as the top item under "What was **not** checked".
 
 **Final report (required).** It has two parts. It is required even when the request asks for a short report: put Part 1, the status table, first, and keep everything else brief.
 
@@ -320,6 +328,9 @@ Lint, types and unit tests can't see layout, spacing, stacking or focus. Look at
 - Prototype-only controls dropped as chrome
 - Compass components used; anything hand-rolled, and why
 - Spacing: carried over from the prototype; any deviation
+- Placement, size and motion: carried over from the prototype; any deviation, including Compass parts you hid or overrode
+- Replaced entry points: each one clicked, and whether the old surface also opened
+- Keyboard: Escape, focus return and Tab order checked on each overlay
 - Menus and pickers in modals checked above the modal
 - Behavior intent not built (needs server or other work), listed as gaps
 - Tests: files added, files updated, snapshots refreshed and why, and any variant or entry point with no test

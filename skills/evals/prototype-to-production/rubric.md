@@ -38,6 +38,16 @@ Score each side 0 (no), 1 (partly) or 2 (yes). Fix this before either run; don't
 18. Version skew noted and no version bump made.
 19. Lint, types and tests of touched files run and reported honestly.
 
+## Added after the Universal Search evaluation (score from the next evaluation on)
+
+These came from the developer's review of that run. Don't use them to rescore earlier runs.
+
+20. Placement, size and motion match the prototype: anchor and offset, width, height rules (fixed, auto, minimum, maximum), transitions between states. With a variable height, the anchored edge doesn't move as the height changes, and the maximum height is set.
+21. Compass parts the prototype hides or overrides (a removed close button, changed header or body padding, a custom input style, a transparent overlay instead of a dimmed scrim) are hidden or overridden the same way.
+22. Secondary and transient states are built: autocomplete rows (with what they show, such as avatars), tips and footers, derived default lists, and their empty states.
+23. Every entry point the change replaces opens only the new surface, never the old one as well.
+24. Keyboard: Escape closes each overlay, focus returns to what opened it, Tab order matches the prototype's.
+
 ## Process (record, not scored)
 
 - Did the skill trigger unprompted?
