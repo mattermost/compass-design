@@ -68,6 +68,7 @@
     @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
 
     &:is(:hover, :focus-visible):not(&--active):not(&--disabled) {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
       color: var(--center-channel-color);
     }
 
