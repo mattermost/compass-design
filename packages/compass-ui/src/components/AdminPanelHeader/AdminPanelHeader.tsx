@@ -1,4 +1,9 @@
-import { type ChangeEvent, type ReactNode } from 'react';
+import {
+  useRef,
+  type ChangeEvent,
+  type MouseEvent,
+  type ReactNode,
+} from 'react';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import ChevronUpIcon from '@mattermost/compass-icons/components/chevron-up';
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
@@ -10,6 +15,24 @@ import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
 import Switch from '@/components/Switch/Switch';
 import styles from './AdminPanelHeader.module.scss';
+
+/** Click targets inside the header that handle their own activation. */
+const INTERACTIVE_SELECTOR = [
+  'a[href]',
+  'button',
+  'input',
+  'select',
+  'textarea',
+  'label',
+  'summary',
+  '[role="button"]',
+  '[role="link"]',
+  '[role="switch"]',
+  '[role="checkbox"]',
+  '[role="menuitem"]',
+  '[tabindex]',
+  '[contenteditable]:not([contenteditable="false"])',
+].join(', ');
 
 /** System Console admin panel expand/collapse (`expandedState` in Figma). */
 export type AdminPanelExpandedState = 'collapsed' | 'expanded';
@@ -45,6 +68,12 @@ export interface AdminPanelHeaderProps {
   switchDisabled?: boolean;
   expandable?: boolean;
   isExpanded?: boolean;
+  /**
+   * Called by the expand button, and by pointer clicks on the non-interactive
+   * header area (title, subtitle, padding) when `expandable`. Clicks on the
+   * header actions (Switch, Button, `headerActions`, expand button) or on other
+   * interactive descendants do not call it.
+   */
   onToggleExpand?: () => void;
   /** Accessible name for the expand button while collapsed. Default: "Expand section". */
   expandLabel?: string;
@@ -95,11 +124,28 @@ export default function AdminPanelHeader({
 
   const defaultLeading = <Icon size="20" glyph={<CogOutlineIcon />} />;
 
+  const actionsRef = useRef<HTMLDivElement>(null);
+  const toggleOnHeaderClick = expandable && onToggleExpand != null;
+
+  const handleHeaderClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.defaultPrevented) return;
+    const target = event.target as Element;
+    if (typeof target.closest !== 'function') return;
+    if (!event.currentTarget.contains(target)) return;
+    if (actionsRef.current?.contains(target)) return;
+    const interactive = target.closest(INTERACTIVE_SELECTOR);
+    if (interactive && event.currentTarget.contains(interactive)) return;
+    onToggleExpand?.();
+  };
+
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- header click is a pointer shortcut; keyboard users toggle with the expand button
     <header
+      onClick={toggleOnHeaderClick ? handleHeaderClick : undefined}
       className={[
         styles['admin-panel-header'],
         showDivider ? styles['admin-panel-header--divided'] : '',
+        toggleOnHeaderClick ? styles['admin-panel-header--expandable'] : '',
         className,
       ]
         .filter(Boolean)
@@ -140,7 +186,10 @@ export default function AdminPanelHeader({
           </div>
         </div>
         {hasActions ? (
-          <div className={styles['admin-panel-header__actions']}>
+          <div
+            ref={actionsRef}
+            className={styles['admin-panel-header__actions']}
+          >
             {showSwitch ? (
               <Switch
                 size="medium"
