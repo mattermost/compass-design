@@ -81,6 +81,12 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: IMAGE_SIZES },
+    status: {
+      control: 'select',
+      options: [undefined, ...STATUSES],
+      description:
+        'Status badge. Omit for none. `true` (legacy) also means online.',
+    },
     fallbackColor: { control: 'select', options: FALLBACK_COLORS },
   },
 } satisfies Meta<typeof UserAvatar>;
@@ -199,13 +205,13 @@ export const AllVariants: Story = {
         ))}
       </Row>
       <Row label="Image with status">
-        {IMAGE_SIZES.map((size) => (
+        {STATUS_SIZES.map((size) => (
           <UserAvatar
             key={size}
             alt="Sofia Bauer"
             src={avatarSofia}
             size={size}
-            status
+            status="online"
           />
         ))}
       </Row>
@@ -216,6 +222,17 @@ export const AllVariants: Story = {
             alt="Danielle Okoro"
             name="Danielle Okoro"
             size={size}
+          />
+        ))}
+      </Row>
+      <Row label="Fallback with status">
+        {STATUS_SIZES.map((size) => (
+          <UserAvatar
+            key={size}
+            alt="Danielle Okoro"
+            name="Danielle Okoro"
+            size={size}
+            status="online"
           />
         ))}
       </Row>
