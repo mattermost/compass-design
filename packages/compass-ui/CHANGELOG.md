@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.28] - 2026-11-10
+
 ### Added
 
 - **`UserAvatar` `fallbackColor` `indigo` and `teal`:** two more initials backgrounds, `--color-indigo-500` and `--color-teal-700` (teal-500 is too light for white initials). They join the pool the name hash draws from.
