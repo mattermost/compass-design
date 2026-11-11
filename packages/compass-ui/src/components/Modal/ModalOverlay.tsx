@@ -37,11 +37,12 @@ export interface ModalOverlayProps extends HTMLAttributes<HTMLDivElement> {
    */
   lockScroll?: boolean;
   /**
-   * Stacking order. Defaults to `--z-modal` (1050, the webapp's modal layer); a host whose chrome sits
-   * higher passes this or redefines `--z-modal`. Applied before `style`, so
-   * `style.zIndex` wins.
+   * Stacking order. Defaults to `--z-modal` (1050, the webapp's modal layer).
+   * A confirm opened over another modal should pass `var(--z-confirm-modal)`
+   * (1060); other host chrome that sits higher passes a value or redefines
+   * `--z-modal`. Applied before `style`, so `style.zIndex` wins.
    */
-  zIndex?: number;
+  zIndex?: number | string;
   /** Usually a `Modal`. */
   children?: ReactNode;
 }

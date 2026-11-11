@@ -260,6 +260,7 @@ import PlusBoxIcon from '@mattermost/compass-icons/components/plus-box';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import PoundIcon from '@mattermost/compass-icons/components/pound';
 import PowerPlugOutlineIcon from '@mattermost/compass-icons/components/power-plug-outline';
+import PowerSleepIcon from '@mattermost/compass-icons/components/power-sleep';
 import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
 import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
@@ -593,6 +594,7 @@ export const STORYBOOK_ICONS = {
   'plus': PlusIcon,
   'pound': PoundIcon,
   'power-plug-outline': PowerPlugOutlineIcon,
+  'power-sleep': PowerSleepIcon,
   'product-boards': ProductBoardsIcon,
   'product-channels': ProductChannelsIcon,
   'product-playbooks': ProductPlaybooksIcon,
