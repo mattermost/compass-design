@@ -2,15 +2,21 @@
 
 One example each for a modal, a form field, a select, an async select and a confirm dialog. Pick the one that matches and adapt it; don't start from a blank file.
 
-**Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.28, because gcal has no confirm dialog and the one in mattermost-plugin-dataminr builds its own portal and backdrop from before `ModalOverlay` existed. Z-index values are the team convention described in `gotchas.md`, not Compass tokens.
+**Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.28, because gcal has no confirm dialog and the one in mattermost-plugin-dataminr builds its own portal and backdrop from before `ModalOverlay` existed. The examples target compass-ui alpha.29 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
 
-Shared stacking constants (one file, imported everywhere; see `gotchas.md` before changing the numbers):
+**Stacking.** From alpha.29 the tokens do the work: `ModalOverlay` defaults to `--z-modal` (1050) and the menus of `Select`, `Combobox` and `DateRangePicker` default to `--z-menu` (1100), above any modal. Pass no `zIndex` to them. The one number you still set is for a confirm dialog opened over another modal (pattern 5).
+
+On **alpha.28 and earlier** the defaults put menus behind modals. Add one constants file and pass the values to `ModalOverlay`, `Select`, `Combobox` and `DateRangePicker`, then delete the file and the props when you upgrade (`gotchas.md`, row 2):
 
 ```ts
-// utils/styles.ts
+// utils/styles.ts (alpha.28 and earlier only)
 export const Z_INDEX_MODAL = 1050;
-export const Z_INDEX_CONFIRM_MODAL = 1060;
 export const Z_INDEX_MENU_PORTAL = 1070;
+```
+
+```ts
+// utils/styles.ts (all versions: the confirm layer)
+export const Z_INDEX_CONFIRM_MODAL = 1060;
 ```
 
 ## 1. Modal with a form
@@ -20,7 +26,6 @@ export const Z_INDEX_MENU_PORTAL = 1070;
 ```tsx
 // create_event_modal.tsx
 import {ModalOverlay} from '@mattermost/compass-ui/components/modal';
-import {Z_INDEX_MODAL} from '@/utils/styles';
 
 export default function CreateEventModal() {
     const visible = useSelector(isCreateEventModalVisible);
@@ -30,7 +35,7 @@ export default function CreateEventModal() {
     // No onClose on the overlay: the backdrop is static, so only Cancel, the
     // close button or Escape dismiss it. Report this as a behavior choice.
     return (
-        <ModalOverlay open={visible} zIndex={Z_INDEX_MODAL}>
+        <ModalOverlay open={visible}>
             <CreateEventForm open={visible} close={close}/>
         </ModalOverlay>
     );
@@ -110,7 +115,6 @@ const handleChange = (selectedTime: string) => {
     value={value}
     onChange={handleChange}
     options={options}
-    zIndex={Z_INDEX_MENU_PORTAL}
 />
 ```
 
@@ -118,7 +122,7 @@ If the old react-select kept showing a value that was no longer in its options, 
 
 ## 4. Async select (Combobox)
 
-Agents get this wrong without a recipe. All four parts are required: `filter={false}`, drop stale responses, cache the selected options, and set `zIndex`. This is the multi-select with freeform email; for a single select drop `multiple` and `creatable`, add `clearable`, and pass `selectedOptions={resolved ? [resolved] : []}` (see gcal `channel_selector.tsx`).
+Agents get this wrong without a recipe. All three parts are required: `filter={false}`, drop stale responses, and cache the selected options. (On alpha.28 and earlier also set `zIndex`.) This is the multi-select with freeform email; for a single select drop `multiple` and `creatable`, add `clearable`, and pass `selectedOptions={resolved ? [resolved] : []}` (see gcal `channel_selector.tsx`).
 
 ```tsx
 import {Combobox, type ComboboxOption} from '@mattermost/compass-ui/components/combobox';
@@ -168,7 +172,6 @@ const selectable = options.filter((o) => !props.value.includes(o.value));
     onInputChange={loadOptions}
     onCreateOption={handleCreate}
     invalid={Boolean(storedError)}
-    zIndex={Z_INDEX_MENU_PORTAL}
 />
 {storedError && <ErrorMessage message={storedError}/>}
 ```
@@ -177,7 +180,7 @@ Validate freeform input in `onCreateOption` (gcal checks an email pattern and re
 
 ## 5. Confirm dialog
 
-Compass has no confirm component. Compose `ModalOverlay` and `Modal` with two buttons. Turn both dividers off (`headerDivider={false}` and `footerDivider={false}`; they default to `true`), because a confirm is a short message, not a form. Use `destructive` on the confirm `Button` for removals. Give it a higher z-index than the modal it can open over.
+Compass has no confirm component. Compose `ModalOverlay` and `Modal` with two buttons. Turn both dividers off (`headerDivider={false}` and `footerDivider={false}`; they default to `true`), because a confirm is a short message, not a form. Use `destructive` on the confirm `Button` for removals. Give it a higher z-index than the modal it can open over: both overlays default to `--z-modal`, and there is no token between modal and menu, so pass one explicit number for the confirm layer. Both portal to `document.body`, so the later-opened one may already render on top at the same layer, but that has not been verified; check it in the browser and drop `zIndex` if it holds.
 
 ```tsx
 import {Button} from '@mattermost/compass-ui/components/button';

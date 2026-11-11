@@ -9,7 +9,7 @@ Move UI that already ships off react-bootstrap, react-select and custom componen
 
 **Check the install first.** If `../compass-build/SKILL.md` or `../compass-build/references/checklist.md` doesn't exist, stop and tell the user to install the `mattermost-compass-toolkit` plugin, which ships `compass-build`, `compass-review` and this skill together. The Compass rules live in `compass-build`; this skill adds the migration process and does not repeat them.
 
-**Versions.** The gotchas in this skill were checked against compass-ui `0.1.0-alpha.28`. The reference migrations used alpha.22 and alpha.23. Before you start, read the consumer's installed compass-ui version and the compass-ui `CHANGELOG.md`, and treat every entry in `references/gotchas.md` as true only for the versions it names. Some problems the reference migrations hit have since been fixed, and some have not.
+**Versions.** The gotchas in this skill were checked against compass-ui `0.1.0-alpha.28`, plus the z-index fix that ships in alpha.29. The reference migrations used alpha.22 and alpha.23. Before you start, read the consumer's installed compass-ui version and the compass-ui `CHANGELOG.md`, and treat every entry in `references/gotchas.md` as true only for the versions it names. Some problems the reference migrations hit have since been fixed, and some have not.
 
 ## Rules
 

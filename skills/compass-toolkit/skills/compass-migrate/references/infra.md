@@ -50,4 +50,4 @@ Never wrap compass-ui CSS in `@layer` or add a bundler rule that layers third-pa
 
 ## Stacking
 
-Modals, confirm dialogs and portaled menus need an agreed order. At alpha.28 portaled menus default to a z-index below the modal layer, so set it explicitly. See `gotchas.md` (menu z-index) for the values and why.
+Modals, confirm dialogs and portaled menus need an agreed order. From alpha.29 the `--z-` tokens give the right order with no overrides: modal 1050, menus 1100, popovers 1200, tooltips 1350. On alpha.28 and earlier portaled menus default below the modal layer, so set `zIndex` explicitly. See `gotchas.md` (row 2) and the stacking note in `patterns.md`.
