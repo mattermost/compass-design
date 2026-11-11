@@ -20,6 +20,10 @@ npx skills add mattermost/compass-design --skill '*'
 
 Add `--agent claude-code` to install only for Claude Code, or `--global` to install for your user instead of the project. The CLI downloads and runs an npm package, so check what it will install before you run it.
 
+**Working on a consumer** (the webapp, desktop app or a plugin)? Run the command from that consumer's repo root, where you start your agent. The skills land in that project's `.claude/skills/`, which you probably don't want to commit there: add it to `.git/info/exclude` (a local-only ignore) and check `git status` after the install, since the CLI may write other files too. With `--global` nothing is added to the consumer.
+
+Testing a skill with the [A/B harness](evals/prototype-to-production/README.md)? Don't install it globally: the without-skill side must not load it, and the setup script refuses to run if a copy is in `~/.claude/skills`.
+
 To install by hand instead, copy or symlink each skill folder into the agent's skills directory, keeping the folders side by side:
 
 ```bash
