@@ -22,7 +22,7 @@ Whatever they choose goes in the report under "Left on the old stack or custom".
 | Skeleton or loading placeholder | `Spinner`, `ProgressBar` | No skeleton component. |
 | File upload or drop zone | None | |
 | Color picker | None | |
-| Generic popover with arbitrary content | `PopoverMenu` (a menu), `ProfilePopover`, `PopoverNotice`, `Dropdown` | No content popover. Host owns positioning for overlays other than the form widgets. |
+| Generic popover with arbitrary content | None | The popover-style components are specific: `PopoverMenu` is a menu surface for `MenuItem` rows, `PopoverNotice` is a short dismissable message card, `ProfilePopover` shows a user profile. `Dropdown` is a heading-style trigger button that opens a `PopoverMenu`, not a popover. Host owns positioning for overlays other than the form widgets. |
 | Form field wrapper (label, hint, error) | The input's own `label`, `message`, `messageTone` props | Intentional: `Setting`-style wrappers are deleted, not replaced. |
 | Hover tooltip wiring | `Tooltip` is chrome only | The host owns hover, focus and positioning. In prototypes `WithTooltip` from `compass-proto` does it; plugins and the webapp use their own. |
 
