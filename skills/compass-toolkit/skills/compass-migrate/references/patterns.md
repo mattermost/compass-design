@@ -121,6 +121,21 @@ const requiredLabel = (text: string) => (
 
 Compass draws no required marker anywhere. On `TextInput` and `TextArea`, `required` is the native attribute (the browser may run its own validation when the form submits). On `Select` and `Combobox` it only sets `aria-required`. The visible star is yours to add, as above.
 
+On `Select` and `Combobox`, a node label (like the starred one) does not name the options list. The list is named from `label` only when `label` is a string; otherwise it uses `aria-label`, then `listboxLabel`, then the default "Options". So when a `Select` or `Combobox` gets a starred label, also pass a plain string for the list, or assistive tech hears "Options" instead of the field name:
+
+```tsx
+<Select
+  id="start_time"
+  label={requiredLabel('Start Time')}
+  listboxLabel="Start time"
+  options={options}
+  value={value}
+  onChange={handleChange}
+/>
+```
+
+(`Combobox` takes `listboxLabel` too; a plain `aria-label` also works.) The combobox itself is still named "Start Time", because the star is `aria-hidden`. Only the popup list needs the extra string.
+
 Optional fields say so in the label (`'Location (optional)'`). There is no `Setting` wrapper any more: the input's own `label` and, on Select and Combobox, `message` and `messageTone` replace it.
 
 ## 3. Select (sync)
