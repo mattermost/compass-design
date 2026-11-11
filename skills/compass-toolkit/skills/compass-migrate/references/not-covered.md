@@ -1,6 +1,6 @@
 # What Compass doesn't cover yet
 
-**Checked against compass-ui `0.1.0-alpha.29`** (`packages/compass-ui/src/components/`): every "None" below means no component with that purpose exists, found by listing the components and searching the source for expand, collapse, upload, skeleton and similar names. Which gaps matter is a product call, so the owner of compass-ui should still correct this list.
+**Checked against compass-ui `0.1.0-alpha.30`** (`packages/compass-ui/src/components/`): every "None" below means no component with that purpose exists, found by listing the components and searching the source for expand, collapse, upload, skeleton and similar names. Which gaps matter is a product call, so the owner of compass-ui should still correct this list.
 
 **The rule:** when you hit one of these, don't build a replacement on your own and don't hide it in the diff. Stop and ask the user which they want:
 
@@ -14,7 +14,7 @@ The **Issue** column links the compass-design issue that tracks the gap. Read it
 
 | Need | Today | Notes | Issue |
 | --- | --- | --- | --- |
-| Confirm or alert dialog | Compose `ModalOverlay` + `Modal` + two `Button`s, with `headerDivider={false}` and `footerDivider={false}` (`patterns.md`) | No confirm component, and `Modal` sets `aria-modal` but not `role="alertdialog"`. Ask before adding the role. | [#234](https://github.com/mattermost/compass-design/issues/234), and the confirm z-index token in PR [#233](https://github.com/mattermost/compass-design/pull/233) |
+| Confirm or alert dialog | Compose `ModalOverlay` + `Modal` + two `Button`s, with `headerDivider={false}` and `footerDivider={false}` (`patterns.md`) | No confirm component, and `Modal` sets `aria-modal` but not `role="alertdialog"`. Ask before adding the role. | [#234](https://github.com/mattermost/compass-design/issues/234), the confirm layer token shipped in alpha.30 ([#233](https://github.com/mattermost/compass-design/pull/233)) |
 | Time picker | A `Select` of time options (`patterns.md`) | No time component. | [#235](https://github.com/mattermost/compass-design/issues/235) |
 | Data table, grid or sortable list | None | No table component. | [#236](https://github.com/mattermost/compass-design/issues/236) |
 | Pagination for paged data (page numbers, next and previous) | None | `PaginationDots` is not a substitute: it marks the current step in a form or slideshow, not a page of data. Don't use it to replace a pager. | [#91](https://github.com/mattermost/compass-design/issues/91) (Prev/Next control) |

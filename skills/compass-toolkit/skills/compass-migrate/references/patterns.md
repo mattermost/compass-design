@@ -2,9 +2,9 @@
 
 One example each for a modal, a form field, a select, an async select and a confirm dialog. Pick the one that matches and adapt it; don't start from a blank file.
 
-**Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.29, because gcal has no confirm dialog, and the hand-rolled confirm dialogs seen in other migrations build their own portal, backdrop and fade from before `ModalOverlay` existed. The examples target compass-ui alpha.29 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
+**Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.30, because gcal has no confirm dialog, and the hand-rolled confirm dialogs seen in other migrations build their own portal, backdrop and fade from before `ModalOverlay` existed. The examples target compass-ui alpha.30 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
 
-**Stacking.** From alpha.29 the tokens do the work: `ModalOverlay` defaults to `--z-modal` (1050) and the menus of `Select`, `Combobox` and `DateRangePicker` default to `--z-menu` (1100), above any modal. Pass no `zIndex` to them. The one number you still set is for a confirm dialog opened over another modal (pattern 5). The published alpha.29 has no token between `--z-modal` (1050) and `--z-menu` (1100), so use the 1060 constant below. PR #233 adds `--z-confirm-modal` (1060) and lets `ModalOverlay` take a string `zIndex`; it is expected in alpha.30 and is not released yet. Once you are on a release that has it, use `zIndex='var(--z-confirm-modal)'` and delete the constant.
+**Stacking.** From alpha.29 the tokens do the work: `ModalOverlay` defaults to `--z-modal` (1050) and the menus of `Select`, `Combobox` and `DateRangePicker` default to `--z-menu` (1100), above any modal. Pass no `zIndex` to them. The one layer you still set is for a confirm dialog opened over another modal (pattern 5). From alpha.30 that layer is a token: pass `zIndex='var(--z-confirm-modal)'` (1060, between `--z-modal` and `--z-menu`; `ModalOverlay`'s `zIndex` accepts a string from that release). On alpha.29 and earlier there is no token between modal (1050) and menu (1100), so pass the number 1060 from the constant below.
 
 On **alpha.28 and earlier** `--z-modal` is 200 and menus default to 1000, so a modal raised to the webapp's layer (1050) covers its own menus. Add one constants file and pass the values to `ModalOverlay`, `Select`, `Combobox` and `DateRangePicker`, then delete the file and the props when you upgrade (`gotchas.md`, row 2):
 
@@ -15,7 +15,7 @@ export const Z_INDEX_MENU_PORTAL = 1070;
 ```
 
 ```ts
-// utils/styles.ts: the confirm layer. alpha.29 has no token for it (see below).
+// utils/styles.ts (alpha.29 and earlier only; alpha.30 has --z-confirm-modal)
 export const Z_INDEX_CONFIRM_MODAL = 1060;
 ```
 
@@ -182,12 +182,11 @@ Validate freeform input in `onCreateOption` (gcal checks an email pattern and re
 
 ## 5. Confirm dialog
 
-Compass has no confirm component. Compose `ModalOverlay` and `Modal` with two buttons. Turn both dividers off (`headerDivider={false}` and `footerDivider={false}`; they default to `true`), because a confirm is a short message, not a form. Use `destructive` on the confirm `Button` for removals. Give it a higher z-index than the modal it can open over: both overlays default to `--z-modal`, and there is no token between modal and menu, so pass one explicit number for the confirm layer. Both portal to `document.body`, so the later-opened one may already render on top at the same layer, but that has not been verified; check it in the browser and drop `zIndex` if it holds.
+Compass has no confirm component. Compose `ModalOverlay` and `Modal` with two buttons. Turn both dividers off (`headerDivider={false}` and `footerDivider={false}`; they default to `true`), because a confirm is a short message, not a form. Use `destructive` on the confirm `Button` for removals. Give it the confirm layer so it opens above the modal it was launched from: both overlays default to `--z-modal`, so pass `zIndex='var(--z-confirm-modal)'` (alpha.30 and later; on alpha.29 and earlier pass 1060). A menu opened inside the confirm still sits above it (`--z-menu`, 1100).
 
 ```tsx
 import {Button} from '@mattermost/compass-ui/components/button';
 import {Modal, ModalOverlay} from '@mattermost/compass-ui/components/modal';
-import {Z_INDEX_CONFIRM_MODAL} from '@/utils/styles';
 
 type Props = {
     open: boolean;
@@ -202,7 +201,7 @@ type Props = {
 
 export default function ConfirmDialog(props: Props) {
     return (
-        <ModalOverlay open={props.open} onClose={props.onCancel} zIndex={Z_INDEX_CONFIRM_MODAL}>
+        <ModalOverlay open={props.open} onClose={props.onCancel} zIndex='var(--z-confirm-modal)'>   {/* alpha.29 and earlier: zIndex={1060} */}
             <Modal
                 open={props.open}
                 onClose={props.onCancel}

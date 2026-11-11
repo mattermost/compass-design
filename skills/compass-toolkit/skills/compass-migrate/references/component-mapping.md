@@ -1,6 +1,6 @@
 # Old component to Compass component
 
-Use this in step 1 (inventory). Rows marked **seen** were migrated this way in a reference migration: `gcal` is mattermost-plugin-google-calendar PR 179 (compass-ui alpha.22) and `agents` is mattermost-plugin-agents (alpha.23). Rows marked **source** come from the compass-ui source at alpha.29. Anything not in this table: check `../../compass-build/references/components.md`, and if nothing fits, `not-covered.md`.
+Use this in step 1 (inventory). Rows marked **seen** were migrated this way in a reference migration: `gcal` is mattermost-plugin-google-calendar PR 179 (compass-ui alpha.22) and `agents` is mattermost-plugin-agents (alpha.23). Rows marked **source** come from the compass-ui source at alpha.30. Anything not in this table: check `../../compass-build/references/components.md`, and if nothing fits, `not-covered.md`.
 
 Import rule: subpath imports only, for example `@mattermost/compass-ui/components/combobox`. Never the root barrel. Icons come from `@mattermost/compass-icons/components`.
 
