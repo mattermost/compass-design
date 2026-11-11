@@ -56,6 +56,8 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 - [ ] Every field has a visible label; errors are associated with their fields.
 - [ ] Targets at least 24x24px pointer / 40x40px touch with 8px between.
 - [ ] Each overlay follows its own focus pattern: modal dialogs move focus in, trap it, close on Escape and restore focus; non-modal dialogs and popovers don't trap focus; a menu button moves focus into its menu; a tooltip never takes focus.
+- [ ] Modals animate in and out, close on Escape and on the backdrop, use a deliberate `size`, and carry a plain title. A form's Cancel, Back, Escape and backdrop confirm a discard only when something changed.
+- [ ] Every icon-only button has a tooltip as well as an `aria-label`.
 - [ ] Dynamic updates are announced (`aria-live` / `role`).
 
 ## Before reporting

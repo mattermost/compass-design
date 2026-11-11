@@ -32,10 +32,11 @@ export default function CreateEventModal() {
   const dispatch = useDispatch();
   const close = () => dispatch(closeCreateEventModal());
 
-  // No onClose on the overlay: the backdrop is static, so only Cancel, the
-  // close button or Escape dismiss it. Report this as a behavior choice.
+  // Give the overlay an onClose or the backdrop won't dismiss. Pass `open` to
+  // the Modal too, or it never animates. Use the same guarded handler as
+  // Cancel, so a dirty form asks before it discards.
   return (
-    <ModalOverlay open={visible}>
+    <ModalOverlay open={visible} onClose={close}>
       <CreateEventForm open={visible} close={close} />
     </ModalOverlay>
   );
@@ -87,6 +88,8 @@ return (
   </Modal>
 );
 ```
+
+Checks before you move on: the modal fades in and out like the confirm dialog; Escape and a backdrop click both close it; `size` was chosen on purpose; the title says what it is (`New Jira Subscription`, `Edit Jira Subscription`) with no filler subtitle; icon-only buttons in the header and in rows have tooltips; and Cancel, Back, Escape and the backdrop open a discard confirm only when the form is dirty.
 
 Layout inside the form uses tokens only: `display: flex; flex-direction: column; gap: var(--spacing-l);` and a two-column grid for paired fields. Submit errors go in a `SectionNotice` with `role='alert'`, not a toast.
 
