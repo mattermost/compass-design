@@ -19,19 +19,26 @@ compass-migrate ────────reads──▶ compass-build/references/
 
 ## Install
 
+As a plugin, from the marketplace in this repo (the skills are namespaced, for example `mattermost-compass-toolkit:compass-review`):
+
+```
+/plugin marketplace add mattermost/compass-design
+/plugin install mattermost-compass-toolkit@compass-design
+```
+
+Refresh later with `claude plugin marketplace update compass-design`. The plugin updates when its `version` in `.claude-plugin/plugin.json` changes.
+
 With the `skills` CLI, which copies the four skills side by side into the project (add `--global` for your user, or `--agent` for the agent you use):
 
 ```bash
 npx skills add mattermost/compass-design --skill '*'
 ```
 
-As a plugin (skills are namespaced, for example `mattermost-compass-toolkit:compass-review`), from a checkout of the repo:
+While developing the skills, load the plugin straight from a checkout:
 
 ```bash
 claude --plugin-dir /path/to/compass-design/skills/compass-toolkit
 ```
-
-A marketplace entry for the plugin is not set up yet.
 
 By hand, copy or symlink all four skill folders into the agent's skills directory, keeping them side by side. Installing one skill without `compass-build` makes the others stop and ask you to install the toolkit.
 

@@ -3,6 +3,7 @@
 All agent skills for this repo live here. They are not part of `@mattermost/compass-ui`, so they are versioned and reviewed on their own and are not published to npm.
 
 ```
+.claude-plugin/marketplace.json  # the marketplace: lists the plugin below
 skills/
   compass-toolkit/              # the plugin: mattermost-compass-toolkit (ships as one unit)
     .claude-plugin/plugin.json
@@ -49,7 +50,16 @@ Playbooks for working on this repo, outside the plugin. `.cursor/skills/` and `.
 
 ## Install the toolkit
 
-The quickest way is the `skills` CLI. Run it from your project and it copies the four toolkit skills side by side (add `--global` for your user, or `--agent` for the agent you use):
+As a plugin, from the marketplace in this repo. The skills are namespaced, for example `mattermost-compass-toolkit:compass-review`:
+
+```
+/plugin marketplace add mattermost/compass-design
+/plugin install mattermost-compass-toolkit@compass-design
+```
+
+`.claude-plugin/marketplace.json` at the repo root is the marketplace; it points at `skills/compass-toolkit/`. Listing it in the org plugin library is still open (see `docs/ROADMAP.md`).
+
+Or with the `skills` CLI. Run it from your project and it copies the four toolkit skills side by side (add `--global` for your user, or `--agent` for the agent you use):
 
 ```bash
 npx skills add mattermost/compass-design --skill '*'
@@ -57,15 +67,11 @@ npx skills add mattermost/compass-design --skill '*'
 
 The two repo-only playbooks in `internal/` are marked `metadata.internal: true`, so the CLI does not list or install them. Tested with `skills` 1.8.1 against this layout: it finds the skills in `compass-toolkit/skills/`, and the installed folders resolve each other's `../compass-build/references/`. The CLI downloads and runs an npm package, so check what it will install before you run it.
 
-As a plugin, the skills are namespaced, for example `mattermost-compass-toolkit:compass-review`.
-
-To try it from a checkout of this repo:
+To load the plugin from a checkout of this repo while you work on the skills:
 
 ```bash
 claude --plugin-dir /path/to/compass-design/skills/compass-toolkit
 ```
-
-Marketplace distribution (org plugin library or a git marketplace) is not set up yet; see `docs/ROADMAP.md`.
 
 **Working on a consumer** (the webapp, desktop app or a plugin)? Don't commit the installed skills into that repo.
 
@@ -91,3 +97,7 @@ If `compass-review`, `compass-migrate` or `prototype-to-production` is missing a
 - **Repo-internal:** add `skills/internal/<skill-name>/SKILL.md`, set `metadata.internal: true` in its frontmatter so `npx skills add` does not install it into consumers, then symlink it from both `.cursor/skills/<skill-name>` and `.claude/skills/<skill-name>`.
 
 When a component API change affects a rule or reference, update the skill in the same PR.
+
+## Releasing the plugin
+
+The plugin pins `version` in `skills/compass-toolkit/.claude-plugin/plugin.json`, so installed copies only update when it changes. CI (`.github/workflows/plugin-version.yml`) fails a PR that changes files under `skills/compass-toolkit/skills/` without changing that `version`. Bump it in the PR, or add the `skip-plugin-version` label when installed copies need no update. Then run `claude plugin validate .` (checks the marketplace) and `claude plugin validate skills/compass-toolkit` (checks the plugin).
