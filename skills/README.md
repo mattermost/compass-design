@@ -100,4 +100,4 @@ When a component API change affects a rule or reference, update the skill in the
 
 ## Releasing the plugin
 
-The plugin pins `version` in `skills/compass-toolkit/.claude-plugin/plugin.json`, so installed copies only update when it changes. Bump it in the PR that changes a shipped skill. Then run `claude plugin validate .` (checks the marketplace) and `claude plugin validate skills/compass-toolkit` (checks the plugin).
+The plugin pins `version` in `skills/compass-toolkit/.claude-plugin/plugin.json`, so installed copies only update when it changes. CI (`.github/workflows/plugin-version.yml`) fails a PR that changes files under `skills/compass-toolkit/skills/` without changing that `version`. Bump it in the PR, or add the `skip-plugin-version` label when installed copies need no update. Then run `claude plugin validate .` (checks the marketplace) and `claude plugin validate skills/compass-toolkit` (checks the plugin).

@@ -1,0 +1,42 @@
+name: Plugin version
+
+# The Compass toolkit plugin pins `version`, so installed copies only update
+# when it changes. Add the `skip-plugin-version` label to a PR whose skill
+# changes need no update for installed copies (for example a typo fix).
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  plugin-version:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-plugin-version') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require a plugin version bump when shipped skills change
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          manifest=skills/compass-toolkit/.claude-plugin/plugin.json
+          changed=$(git diff --name-only "origin/${BASE_REF}...HEAD" -- skills/compass-toolkit/skills/)
+          if [ -z "$changed" ]; then
+            echo "No shipped skill files changed."
+            exit 0
+          fi
+
+          base_version=$(git show "origin/${BASE_REF}:${manifest}" | jq -r .version)
+          head_version=$(jq -r .version "$manifest")
+          if [ "$base_version" = "$head_version" ]; then
+            echo "::error file=${manifest}::Shipped skills changed but the plugin version is still ${head_version}. Installed copies only update when it changes. Bump it, or add the skip-plugin-version label if installed copies need no update."
+            echo "Changed shipped skill files:"
+            echo "$changed"
+            exit 1
+          fi
+          echo "Plugin version ${base_version} -> ${head_version}."
