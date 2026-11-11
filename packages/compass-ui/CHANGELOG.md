@@ -10,6 +10,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`--z-confirm-modal` (1060):** stacking token between `--z-modal` (1050) and `--z-menu` (1100) for a confirm opened over another modal. Matches the webapp's first stacked-modal step (+10). `ModalOverlay` still defaults to `--z-modal`; pass `zIndex="var(--z-confirm-modal)"` (or `1060`) on the confirm overlay. Nothing changes without it.
 
+### Changed
+
+- **`@mattermost/compass-icons` peer/dev dependency `^0.1.64` → `^0.1.65`:** picks up the new `power-sleep` icon. Hosts on 0.1.64 keep working with the caret range until they bump; install at least 0.1.65 to match this package's peer.
+
 ## [0.1.0-alpha.29] - 2026-11-11
 
 ### Changed
