@@ -9,7 +9,7 @@ Usage: setup-ab.sh --consumer <repo> --base <ref> --compass-design <repo> --name
 
   --consumer        Path to the consumer repo (mattermost, a plugin, ...)
   --base            Commit or ref both worktrees start from (e.g. origin/master)
-  --compass-design  Path to a compass-design checkout that has skills/
+  --compass-design  Path to a compass-design checkout that has skills/compass-toolkit/
   --name            Short slug used for branch and folder names
 USAGE
 }
@@ -29,7 +29,7 @@ if [ -z "$consumer" ] || [ -z "$base" ] || [ -z "$cd_repo" ] || [ -z "$name" ]; 
   usage >&2; exit 2
 fi
 for s in compass-build compass-review prototype-to-production; do
-  [ -d "$cd_repo/skills/$s" ] || { echo "Missing $cd_repo/skills/$s" >&2; exit 1; }
+  [ -d "$cd_repo/skills/compass-toolkit/skills/$s" ] || { echo "Missing $cd_repo/skills/compass-toolkit/skills/$s" >&2; exit 1; }
 done
 
 # The base must contain none of the three skills. The without-skill side would
@@ -66,13 +66,13 @@ mkdir -p "$root/without-skill/.claude/skills"
 mkdir -p "$root/with-skill/.claude/skills"
 for s in compass-build compass-review prototype-to-production; do
   # The base check above guarantees the destination doesn't exist.
-  cp -R "$cd_repo/skills/$s" "$root/with-skill/.claude/skills/$s"
+  cp -R "$cd_repo/skills/compass-toolkit/skills/$s" "$root/with-skill/.claude/skills/$s"
 done
 
 # Verify every skill copied completely (SKILL.md and references/ included).
 echo "Verifying copied skills:"
 for s in compass-build compass-review prototype-to-production; do
-  src="$cd_repo/skills/$s"
+  src="$cd_repo/skills/compass-toolkit/skills/$s"
   dst="$root/with-skill/.claude/skills/$s"
   [ -f "$dst/SKILL.md" ] || { echo "  $s: SKILL.md missing in copy" >&2; exit 1; }
   if [ -d "$src/references" ] && [ ! -d "$dst/references" ]; then

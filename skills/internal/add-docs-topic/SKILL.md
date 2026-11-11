@@ -1,6 +1,8 @@
 ---
 name: add-docs-topic
 description: Add a new Compass docs topic (MDX guidelines, optional specimen, topics.ts, sections). Use when creating or registering a foundation, component, pattern, or layout docs entry.
+metadata:
+  internal: true
 ---
 
 # Add a docs topic

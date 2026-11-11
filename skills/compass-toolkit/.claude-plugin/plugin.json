@@ -1,0 +1,8 @@
+{
+  "name": "mattermost-compass-toolkit",
+  "version": "0.1.0",
+  "author": { "name": "Mattermost" },
+  "description": "Agent skills for building, reviewing and productionizing Mattermost UI with Compass: compass-build, compass-review, compass-migrate and prototype-to-production.",
+  "repository": "https://github.com/mattermost/compass-design",
+  "keywords": ["compass", "mattermost", "design-system"]
+}

@@ -10,7 +10,7 @@ Mobile*, Call*, `ChannelShell`, `Message`, `MessageInput`, `ChannelHeader`, `Cha
 
 Every docs entry is a **topic** in `src/manifests/topics.ts` (prose + optional specimen) at `/<category>/<slug>`.
 
-Procedure (step-by-step): use the skill [.cursor/skills/add-docs-topic/SKILL.md](../../.cursor/skills/add-docs-topic/SKILL.md).
+Procedure (step-by-step): use the skill [skills/internal/add-docs-topic/SKILL.md](../../skills/internal/add-docs-topic/SKILL.md).
 
 Invariants:
 

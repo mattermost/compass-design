@@ -2,7 +2,7 @@
 
 A repeatable A/B test: the same task run twice from the same commit, once with the skills installed and once without. It measures what the skill changes, using a rubric fixed in advance.
 
-This folder is outside `skills/prototype-to-production/` on purpose, so installing the skill doesn't copy the test files.
+This folder is outside `skills/compass-toolkit/` on purpose, so installing the skill doesn't copy the test files.
 
 ## Preflight (before you start the sessions)
 
