@@ -196,7 +196,7 @@ const loadOptions = useCallback(
         return;
       }
       if (response.error) {
-        setStoredError(response.error);
+        setStoredError(response.error); // must be a string: gcal's thunk returns `e.message`; if yours returns an Error object, store its `message`
         setOptions([]);
         return;
       }
