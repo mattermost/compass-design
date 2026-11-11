@@ -19,12 +19,12 @@ skills/
 
 ## Toolkit skills (shipped)
 
-| Skill                                                                                  | Purpose                                                                                                                       |
-| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| [`compass-build`](compass-toolkit/skills/compass-build/SKILL.md)                       | Build, restyle or retrofit Mattermost UI to the Compass rules. **Owns the shared rules** in `references/`.                    |
-| [`compass-review`](compass-toolkit/skills/compass-review/SKILL.md)                     | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                             |
-| [`compass-migrate`](compass-toolkit/skills/compass-migrate/SKILL.md)                   | Migrate a shipped plugin or webapp from react-bootstrap, react-select and custom UI to Compass: inventory first, patterns, gotchas by version, tests, required checks. |
-| [`prototype-to-production`](compass-toolkit/skills/prototype-to-production/SKILL.md)   | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Moved from mattermost-proto-playground#76. |
+| Skill                                                                                | Purpose                                                                                                                                                                |
+| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`compass-build`](compass-toolkit/skills/compass-build/SKILL.md)                     | Build, restyle or retrofit Mattermost UI to the Compass rules. **Owns the shared rules** in `references/`.                                                             |
+| [`compass-review`](compass-toolkit/skills/compass-review/SKILL.md)                   | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                                                                      |
+| [`compass-migrate`](compass-toolkit/skills/compass-migrate/SKILL.md)                 | Migrate a shipped plugin or webapp from react-bootstrap, react-select and custom UI to Compass: inventory first, patterns, gotchas by version, tests, required checks. |
+| [`prototype-to-production`](compass-toolkit/skills/prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Moved from mattermost-proto-playground#76.                                          |
 
 How they depend on each other:
 
@@ -42,10 +42,10 @@ There is one copy of the rules, in `compass-build/references/`. The other two sk
 
 Playbooks for working on this repo, outside the plugin. `.cursor/skills/` holds symlinks to them so Cursor still finds them.
 
-| Skill                                                                | Purpose                                                              |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [`add-docs-topic`](internal/add-docs-topic/SKILL.md)                 | Add a Compass docs topic (MDX, optional specimen, `topics.ts`).      |
-| [`review-compass-ui-component`](internal/review-compass-ui-component/SKILL.md) | Checklist for a new or changed compass-ui component.       |
+| Skill                                                                          | Purpose                                                         |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| [`add-docs-topic`](internal/add-docs-topic/SKILL.md)                           | Add a Compass docs topic (MDX, optional specimen, `topics.ts`). |
+| [`review-compass-ui-component`](internal/review-compass-ui-component/SKILL.md) | Checklist for a new or changed compass-ui component.            |
 
 ## Install the toolkit
 

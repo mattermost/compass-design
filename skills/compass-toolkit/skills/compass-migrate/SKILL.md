@@ -59,12 +59,12 @@ Finish with a short report in your final message, with these sections:
 
 ## Where things live
 
-| Need | Read |
-| --- | --- |
-| Which Compass component replaces what, with the props that matter | `references/component-mapping.md` |
-| Dependencies, stylesheet, bundler, lint, what to delete | `references/infra.md` |
-| Modal, form field, select, async select, confirm dialog | `references/patterns.md` |
-| Behavior that trips agents, by compass-ui version | `references/gotchas.md` |
-| Jest and Playwright updates, visual baselines | `references/testing.md` |
-| What Compass doesn't cover yet (ask first) | `references/not-covered.md` |
-| General Compass rules: tokens, spacing, a11y, writing | `../compass-build/references/` (`checklist.md` first) |
+| Need                                                              | Read                                                  |
+| ----------------------------------------------------------------- | ----------------------------------------------------- |
+| Which Compass component replaces what, with the props that matter | `references/component-mapping.md`                     |
+| Dependencies, stylesheet, bundler, lint, what to delete           | `references/infra.md`                                 |
+| Modal, form field, select, async select, confirm dialog           | `references/patterns.md`                              |
+| Behavior that trips agents, by compass-ui version                 | `references/gotchas.md`                               |
+| Jest and Playwright updates, visual baselines                     | `references/testing.md`                               |
+| What Compass doesn't cover yet (ask first)                        | `references/not-covered.md`                           |
+| General Compass rules: tokens, spacing, a11y, writing             | `../compass-build/references/` (`checklist.md` first) |

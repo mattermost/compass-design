@@ -9,23 +9,32 @@ Query by role and accessible name, the way the reference migrations do.
 **Open a Combobox or Select, pick an option** (the menu doesn't open on focus; click first):
 
 ```tsx
-await userEvent.click(screen.getByRole('combobox', {name: 'Guests (optional)'}));
-await userEvent.click(await screen.findByRole('option', {name: 'User Two'}));
+await userEvent.click(
+  screen.getByRole('combobox', { name: 'Guests (optional)' }),
+);
+await userEvent.click(await screen.findByRole('option', { name: 'User Two' }));
 expect(onChange).toHaveBeenLastCalledWith(['u2']);
 ```
 
 **Type into a creatable Combobox:**
 
 ```tsx
-await userEvent.type(screen.getByRole('combobox', {name: 'Guests (optional)'}), 'new@example.com');
-await userEvent.click(await screen.findByRole('option', {name: /new@example\.com/}));
+await userEvent.type(
+  screen.getByRole('combobox', { name: 'Guests (optional)' }),
+  'new@example.com',
+);
+await userEvent.click(
+  await screen.findByRole('option', { name: /new@example\.com/ }),
+);
 ```
 
 **Async data.** Render inside `act` so the initial load settles, and mock the dispatch:
 
 ```tsx
 await act(async () => {
-    render(<AttendeeSelector inputId='attendees' value={value} onChange={onChange}/>);
+  render(
+    <AttendeeSelector inputId="attendees" value={value} onChange={onChange} />,
+  );
 });
 ```
 
@@ -35,26 +44,30 @@ await act(async () => {
 mockDispatch.mockRejectedValue(new Error('network down'));
 await setup();
 expect(screen.getByRole('alert')).toHaveTextContent('network down');
-await userEvent.click(screen.getByRole('combobox', {name: 'Guests (optional)'}));
+await userEvent.click(
+  screen.getByRole('combobox', { name: 'Guests (optional)' }),
+);
 expect(document.querySelector('[aria-busy="true"]')).not.toBeInTheDocument();
 ```
 
 **A labelled popup list** (a Select with `listboxLabel`):
 
 ```tsx
-expect(screen.getByRole('listbox', {name: 'End time'})).toBeInTheDocument();
+expect(screen.getByRole('listbox', { name: 'End time' })).toBeInTheDocument();
 ```
 
 **Required marker doesn't change the name.** The star is `aria-hidden`, so `getByRole('combobox', {name: 'Start Time'})` still matches. Test the star separately:
 
 ```tsx
-expect(screen.getByText('Subject').parentElement).toHaveTextContent('Subject *');
+expect(screen.getByText('Subject').parentElement).toHaveTextContent(
+  'Subject *',
+);
 ```
 
 **Submit from a modal footer** works through `form={FORM_ID}`, so click the footer button by name:
 
 ```tsx
-await userEvent.click(screen.getByRole('button', {name: 'Create'}));
+await userEvent.click(screen.getByRole('button', { name: 'Create' }));
 ```
 
 **Notices.** A `SectionNotice` with `type='danger'` and `role='alert'`:
@@ -78,15 +91,21 @@ The class name comes from a CSS module, so it is brittle. Prefer the role and th
 Use page objects, and role-based locators with exact names. Stacked dialogs and similar labels ("Save", "Cancel") are why `exact: true` matters:
 
 ```ts
-this.removeDialog = page.getByRole('dialog', {name: 'Remove item?'});
-this.confirmRemoveButton = this.removeDialog.getByRole('button', {name: 'Remove', exact: true});
-this.saveButton = page.getByRole('button', {name: 'Save', exact: true});
+this.removeDialog = page.getByRole('dialog', { name: 'Remove item?' });
+this.confirmRemoveButton = this.removeDialog.getByRole('button', {
+  name: 'Remove',
+  exact: true,
+});
+this.saveButton = page.getByRole('button', { name: 'Save', exact: true });
 
 // a combobox by its field name
-this.container.getByRole('combobox', {name: field});
+this.container.getByRole('combobox', { name: field });
 
 // a removable Chip: its name is `{label}. Press Delete to remove.` unless aria-label is set
-this.container.getByRole('button', {name: `${value}. Press Delete to remove.`, exact: true});
+this.container.getByRole('button', {
+  name: `${value}. Press Delete to remove.`,
+  exact: true,
+});
 ```
 
 Rules for the specs:
