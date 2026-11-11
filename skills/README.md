@@ -8,11 +8,19 @@ Agent skills for working with Compass. They live in the repo, not in `@mattermos
 | [`compass-review`](compass-review/SKILL.md)                   | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                             |
 | [`prototype-to-production`](prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Moved from mattermost-proto-playground#76. |
 
-`compass-review` depends on `compass-build`'s references, so install them together.
+`compass-review` and `prototype-to-production` read `compass-build`'s references, and `prototype-to-production` also invokes `compass-review`. Install all three together.
 
 ## Install
 
-Copy or symlink each skill folder into the agent's skills directory, keeping the folders side by side:
+The quickest way is the `skills` CLI. Run it from your project, and it installs all three skills side by side:
+
+```bash
+npx skills add mattermost/compass-design --skill '*'
+```
+
+Add `--agent claude-code` to install only for Claude Code, or `--global` to install for your user instead of the project. The CLI downloads and runs an npm package, so check what it will install before you run it.
+
+To install by hand instead, copy or symlink each skill folder into the agent's skills directory, keeping the folders side by side:
 
 ```bash
 # Claude Code, per project
@@ -22,7 +30,7 @@ ln -s /path/to/compass-design/skills/compass-review .claude/skills/compass-revie
 ln -s /path/to/compass-design/skills/prototype-to-production .claude/skills/prototype-to-production
 ```
 
-`prototype-to-production` reads `../compass-build/references/` and invokes `compass-review`, so install all three.
+If `compass-review` or `prototype-to-production` is installed without `compass-build`, it stops and tells you to install `compass-build` next to it.
 
 ## Testing a skill
 
