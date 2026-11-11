@@ -88,6 +88,6 @@ If `compass-review`, `compass-migrate` or `prototype-to-production` is missing a
 ## Adding a skill
 
 - **Shipped:** add `skills/compass-toolkit/skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Put shared reference material in the skill that owns it and say so in the dependent skill.
-- **Repo-internal:** add `skills/internal/<skill-name>/SKILL.md`, then symlink it from both `.cursor/skills/<skill-name>` and `.claude/skills/<skill-name>`.
+- **Repo-internal:** add `skills/internal/<skill-name>/SKILL.md`, set `metadata.internal: true` in its frontmatter so `npx skills add` does not install it into consumers, then symlink it from both `.cursor/skills/<skill-name>` and `.claude/skills/<skill-name>`.
 
 When a component API change affects a rule or reference, update the skill in the same PR.

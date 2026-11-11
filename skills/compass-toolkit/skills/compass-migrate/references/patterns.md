@@ -168,7 +168,7 @@ const handleChange = (selectedTime: string) => {
 />;
 ```
 
-If the old react-select kept showing a value that was no longer in its options, the new select shows nothing. That is a behavior difference to report.
+If the old react-select kept showing a value that was no longer in its options, the new select shows nothing. That is a behavior difference to report. The host still holds the old value, so a form that submits host state submits it too: validate the value against the current options, and clear it when it is no longer valid.
 
 ## 4. Async select (Combobox)
 
@@ -183,6 +183,7 @@ import {
 const [labelMap, setLabelMap] = useState<Record<string, string>>({}); // cache of every label ever loaded
 const [options, setOptions] = useState<ComboboxOption[]>([]);
 const [loading, setLoading] = useState(false);
+const [storedError, setStoredError] = useState('');
 const requestIdRef = useRef(0);
 
 const loadOptions = useCallback(
@@ -194,7 +195,12 @@ const loadOptions = useCallback(
       if (requestId !== requestIdRef.current) {
         return;
       }
-      // ... handle response.error, then:
+      if (response.error) {
+        setStoredError(response.error);
+        setOptions([]);
+        return;
+      }
+      setStoredError('');
       const loaded = (response.data ?? []).map((u) => ({
         label: u.mm_display_name,
         value: u.mm_id,
@@ -204,6 +210,10 @@ const loadOptions = useCallback(
         ...Object.fromEntries(loaded.map((o) => [o.value, o.label])),
       }));
       setOptions(loaded);
+    } catch (err) {
+      if (requestId === requestIdRef.current) {
+        setStoredError(String(err)); // shown through the field's `message`
+      }
     } finally {
       if (requestId === requestIdRef.current) {
         setLoading(false);
@@ -242,6 +252,8 @@ const selectable = options.filter((o) => !props.value.includes(o.value));
 ```
 
 A field error goes in the field's own `message` prop (`Select`, `Combobox`, `TextInput`, `TextArea`; error tone is the default), as the rule in `../../compass-build/references/components.md` says. gcal rendered a separate `ErrorMessage` under the field; `ErrorMessage` is `FieldMessage` in the error tone, kept for existing imports, and is only needed where the input has no `message` prop (`DateRangePicker` today).
+
+While a request is pending the previous rows stay visible and selectable: the `loading` row only takes the place of the empty message. That matches the gcal migration; if stale rows would be wrong for your data, decide how to hide them and check it in the browser.
 
 Validate freeform input in `onCreateOption` (gcal checks an email pattern and rejects duplicates case-insensitively) and cover it in the tests.
 

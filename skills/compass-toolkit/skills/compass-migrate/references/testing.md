@@ -50,7 +50,7 @@ await userEvent.click(
 expect(document.querySelector('[aria-busy="true"]')).not.toBeInTheDocument();
 ```
 
-**A labelled popup list** (a Select with `listboxLabel`):
+**A labelled popup list.** For a `Select` whose `label` is a node (like the starred one), the list takes its name from `listboxLabel`; with a string `label` the list is named after that label instead:
 
 ```tsx
 expect(screen.getByRole('listbox', { name: 'End time' })).toBeInTheDocument();
@@ -110,7 +110,7 @@ this.container.getByRole('button', {
 
 Rules for the specs:
 
-- Scope a locator to its dialog (`this.removeDialog.getByRole(...)`) instead of searching the whole page.
+- Scope a locator to its dialog (`this.removeDialog.getByRole(...)`) instead of searching the whole page. Exception: `Select` and `Combobox` portal their option lists to `document.body` by default, so find the `listbox` and its `option`s from `page`, not from the dialog locator.
 - Open a Combobox by clicking it or typing, then click an `option`. Don't focus the field and press Enter.
 - Match dialogs by title, so give every dialog a specific title.
 - Keep the repo's own runner settings (workers, retries, trace and screenshot options); follow the consumer's config rather than changing it.

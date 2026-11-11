@@ -6,7 +6,7 @@ Step 2 of the process. Source for each item is marked: `gcal` is mattermost-plug
 
 - Add `@mattermost/compass-ui`, `@mattermost/compass-icons` and `simplebar-react`. gcal used compass-ui `0.1.0-alpha.22`, compass-icons `0.1.63`, simplebar-react `3.3.2`. Don't copy those versions: compass-ui's peer range for compass-icons is `^0.1.64` in the published alpha.29, so 0.1.63 is outside it. The latest compass-icons is 0.1.65 (alpha.30 raises the peer to `^0.1.65`); install that. `simplebar-react` must satisfy `^3.3.2`.
 - `simplebar-react` is a **required** peer dependency (changelog, alpha.13). npm 7 and later install it automatically; yarn and pnpm setups may not, so add it explicitly. Modal, PopoverMenu, Select, Combobox and EmptyState render scrollbars with it.
-- Remove what the migration replaces: `react-bootstrap`, `react-select`, and type packages only they used (gcal also dropped `@types/react-transition-group`). Remove the `react-bootstrap` entry from webpack `externals` and delete any `react-bootstrap.d.ts` shim. (gcal)
+- Remove what the migration replaces: `react-bootstrap`, `react-select`, and type packages only they used (gcal also dropped `@types/react-transition-group`). Remove the `react-bootstrap` entry from webpack `externals` and delete any `react-bootstrap.d.ts` shim. (gcal) Remove each only after a search shows nothing else imports it: a partial migration, or a component kept on the old stack (`not-covered.md`), still needs it.
 - Plugins bundle their own copy of compass-ui. Pick a version close to the one the webapp ships (`../../compass-build/references/context.md`).
 
 ## Entry stylesheet
