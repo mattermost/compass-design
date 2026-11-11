@@ -7,6 +7,8 @@ description: Audit existing Mattermost UI code against the Compass design rules 
 
 Audit code against the Compass rules and report what breaks them. **Do not edit files** unless the user asks you to fix findings after reading the report.
 
+**Check the install first.** If `../compass-build/SKILL.md` (it holds the version note) or `../compass-build/references/checklist.md` doesn't exist, stop and tell the user to install `compass-build` next to this skill (`npx skills add mattermost/compass-design --skill '*'` installs all three; add `--global` if this skill is installed globally and `--agent` with the agent you use, so they land beside this skill). Don't audit without the rules.
+
 The rules live in `compass-build`. Read `../compass-build/references/` as needed (`checklist.md` first). This skill and `compass-build` are installed together. Before reporting, read `compass-build`'s version note and check the installed component API (for example whether `DateRangePicker` has `label` and `Select` has `message`). Don't report a missing prop-based pattern as a violation if the installed version can't do it; apply the documented fallbacks and report the gap instead.
 
 Rules tagged **[proposed]** in those files are suggestions, not violations: report them as "Suggestion", never as a blocker.
