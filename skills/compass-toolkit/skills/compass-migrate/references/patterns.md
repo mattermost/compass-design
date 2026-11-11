@@ -1,6 +1,6 @@
 # Patterns to copy
 
-One example each for a modal, a form field, a select, an async select and a confirm dialog. Pick the one that matches and adapt it; don't start from a blank file.
+One example each for a modal, a form field, a select, an async select, a confirm dialog and a popover menu. Pick the one that matches and adapt it; don't start from a blank file.
 
 **Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.30, because gcal has no confirm dialog, and the hand-rolled confirm dialogs seen in other migrations build their own portal, backdrop and fade from before `ModalOverlay` existed. The examples target compass-ui alpha.30 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
 
@@ -318,3 +318,70 @@ Notes:
 - `Modal` sets `aria-modal="true"`. It does not set `role="alertdialog"`. If a destructive confirm should be an alert dialog, that is a Compass gap (`not-covered.md`); ask before adding the role yourself.
 - Don't hand-roll a portal, backdrop and fade, as older confirm dialogs do. `ModalOverlay` ships the scrim, scroll lock, backdrop click and exit motion.
 - Opening a confirm over another modal works because compass-ui keeps one modal stack, and Escape closes only the top one (fixed in alpha.19; see `gotchas.md`).
+
+## 6. Popover menu with enter and exit motion
+
+`PopoverMenu` plays its scale-and-fade only when it is given `open` (alpha.14 and later), and it unmounts itself once the exit finishes. The host owns the open state, the portal and the positioning, so the host must also keep the positioner mounted until the exit has played. Don't render it as `{open && <PopoverMenu>}`: it is removed on the same frame it closes, so it appears and disappears with no motion. (That is how mattermost-plugin-boards-v2 renders its menus, on alpha.20, which has `open`.)
+
+mattermost-plugin-agents (alpha.23) does it with one small hook and its own positioner (`Dropdown`, a floating-ui wrapper with a `FloatingPortal`):
+
+```tsx
+// hooks/use_menu_transition.ts
+import { useCallback, useEffect, useState } from 'react';
+
+/**
+ * Keeps a compass PopoverMenu mounted while it plays its exit animation.
+ * Pass `rendered` as `isOpen` to the positioner, give the menu `open={isOpen}`
+ * and `onExited`, and the menu unmounts once it has faded out.
+ */
+export function useMenuTransition(isOpen: boolean) {
+  const [mounted, setMounted] = useState(isOpen);
+
+  useEffect(() => {
+    if (isOpen) {
+      setMounted(true);
+    }
+  }, [isOpen]);
+
+  const onExited = useCallback(() => setMounted(false), []);
+
+  return { rendered: isOpen || mounted, onExited };
+}
+```
+
+```tsx
+const [open, setOpen] = useState(false);
+const menu = useMenuTransition(open);
+
+return (
+  <Dropdown
+    isOpen={menu.rendered} // positioner stays mounted through the exit
+    onOpenChange={setOpen}
+    placement="bottom-start"
+    target={
+      <IconButton
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen(!open)}
+        aria-label={label}
+        icon={<Icon glyph={<PlusIcon />} />}
+      />
+    }
+  >
+    <PopoverMenu
+      open={open} // drives the enter and exit motion
+      onExited={menu.onExited} // lets the positioner unmount afterwards
+      role="menu"
+      aria-label={label}
+    >
+      {/* PopoverMenuGroup, MenuItem, ... */}
+    </PopoverMenu>
+  </Dropdown>
+);
+```
+
+Notes:
+
+- If the plugin has no positioner, or one that unmounts on close, that is the part to fix, not `PopoverMenu`.
+- Check it in the browser: open and close the menu, and compare with a `Select` menu, which animates by itself. A menu that still pops in and out means the positioner or the conditional render is unmounting it early.
+- The menu motion is scale and fade today. A side-aware slide is planned (compass-design#111); don't build it.

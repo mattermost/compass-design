@@ -19,7 +19,7 @@ Default when unsure: quick + transition. Arrive gently, leave decisively.
 
 ## Patterns
 
-- **Popover/menu:** scale 90% to 100% + fade, `transform-origin` toward the anchor. Reverse on close.
+- **Popover/menu:** scale 90% to 100% + fade, `transform-origin` toward the anchor. Reverse on close. `PopoverMenu` only does this when it gets `open` (the same as `Modal`): keep it mounted and pass `open`, don't render it conditionally.
 - **Modal:** fade + drop from above with scale 98% to 100%. `ModalOverlay` fades the scrim with the same tokens.
 - **Expand/collapse:** always animate. Grid `0fr` to `1fr`, `--duration-moderate`, keep content mounted, toggle `aria-expanded`.
 - **Hide collapsed content from keyboard and assistive technology:** a clipped (`overflow: hidden`, 0-height) region keeps its controls tabbable and exposed to screen readers. Mark the collapsed content `inert` (or `visibility: hidden` after the collapse finishes), so nothing inside can take focus.
