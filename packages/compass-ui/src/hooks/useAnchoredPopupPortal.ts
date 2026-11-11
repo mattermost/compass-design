@@ -30,7 +30,7 @@ export interface UseAnchoredPopupPortalOptions {
    * than `static`); coords are converted to that container’s space.
    */
   portalContainer?: HTMLElement | null;
-  zIndex?: number;
+  zIndex?: number | string;
   /**
    * When true (default), fixed width matches the trigger.
    * DateRangePicker sets false and keeps its CSS width.
