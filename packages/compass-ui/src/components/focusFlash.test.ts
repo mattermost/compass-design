@@ -40,6 +40,7 @@ const NO_BASE_FADE = [
   'CardButton',
   'Chip',
   'Tabs',
+  'SegmentedControl',
   'ReactionButton',
   'ReactionsRow',
   'PaginationDots',

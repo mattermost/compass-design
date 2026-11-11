@@ -14,7 +14,10 @@ Card Button is a button, not a native radio input, so its selection is not
 included in native form submission and gets no native required-field
 validation. Follow the new channel dialog in Mattermost, where Public and
 Private are Card Buttons: always start with one option selected, keep the
-selected value in state, and send it with your own submit handler.
+selected value in state, and send it with your own submit handler. For a
+compact row of short labels — search modes, a two- or three-way filter —
+use a [Segmented control](/components/segmented-control). It is a controlled
+choice, not a native radio, so it is not included in form submission.
 
 <Divider />
 

@@ -61,6 +61,7 @@ export * from './components/SearchInput/index';
 export * from './components/SearchTipBanner/index';
 export * from './components/ShortcutTag/index';
 export * from './components/SectionNotice/index';
+export * from './components/SegmentedControl/index';
 export * from './components/Select/index';
 export { default as Spinner } from './components/Spinner/Spinner';
 export type * from './components/Spinner/Spinner';

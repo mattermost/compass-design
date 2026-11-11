@@ -68,6 +68,15 @@ export interface ModalProps extends Omit<
   /** Optional control before close (Button, search field, …). */
   headerAction?: ReactNode;
   /**
+   * Custom content in the title position: left aligned and vertically
+   * centered with the close button. Not wrapped in the heading, so it does
+   * not inherit heading type. `title` stays required and names the dialog;
+   * it is visually hidden, the same as `hideTitle`. The subtitle is omitted.
+   * `hideTitle` without this prop stays the close-only header. `headerSlot`
+   * stays the full-width area under the title row.
+   */
+  headerLeading?: ReactNode;
+  /**
    * Full-width slot rendered below the title row and above the header divider.
    * Accepts any ReactNode — SearchInput, Tabs, a custom toolbar, etc.
    */
@@ -145,6 +154,7 @@ function ModalPanel({
   closeButtonProps,
   headerDivider = true,
   headerAction,
+  headerLeading,
   headerSlot,
   bodyPadding = 'default',
   scrollable = true,
@@ -227,6 +237,7 @@ function ModalPanel({
         closeButtonProps={closeButtonProps}
         divider={headerDivider}
         headerAction={headerAction}
+        leading={headerLeading}
         headerSlot={headerSlot}
       />
 
@@ -248,7 +259,8 @@ function ModalPanel({
 }
 
 /**
- * Modal dialog shell — composes ModalHeader, scrollable body, and ModalFooter.
+ * Modal dialog shell — composes ModalHeader (title, or `headerLeading` in the
+ * title position), scrollable body, and ModalFooter.
  * Owns dialog-level focus and keyboard behavior: initial focus, Tab trap,
  * Escape, and focus restore on unmount. Host owns portal, overlay/backdrop,
  * scroll lock, stacking, and open state. Mount-controlled by default; pass

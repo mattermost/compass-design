@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content -- asChild hosts replace empty anchor children with anatomy */
 import { describe, expect, it } from 'vitest';
 import { render } from '@/test-utils/render';
+import SegmentedControl from './SegmentedControl/SegmentedControl';
 import TileButton from './TileButton/TileButton';
 import Button from './Button/Button';
 import CardButton from './CardButton/CardButton';
@@ -149,6 +150,24 @@ describe('default markup is unchanged', () => {
       ),
     ).toMatchInlineSnapshot(
       `"<div class="_combobox_70f7ac _combobox--size-medium_70f7ac _combobox--label-floated_70f7ac _combobox--has-chips_70f7ac"><div class="_combobox__wrapper_70f7ac"><label class="_combobox__label_70f7ac" for="cbm">People</label><div class="_combobox__inner_70f7ac"><div class="_combobox__value_70f7ac"><div aria-label="People selections" class="_chip-group_0aa38f" role="toolbar" aria-orientation="horizontal"><div class="_chip_db480f _chip--size-medium_db480f" role="button" tabindex="0" aria-label="Alice. Press Delete to remove." data-chip=""><span class="_chip__label_db480f">Alice</span><button type="button" class="_chip__remove_db480f" data-chip-remove="" tabindex="-1" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="12" height="12" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"></path></svg></button></div><div class="_chip_db480f _chip--size-medium_db480f" role="button" tabindex="-1" aria-label="Bob. Press Delete to remove." data-chip=""><span class="_chip__label_db480f">Bob</span><button type="button" class="_chip__remove_db480f" data-chip-remove="" tabindex="-1" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="12" height="12" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"></path></svg></button></div></div><input id="cbm" class="_combobox__control_70f7ac" role="combobox" autocomplete="off" spellcheck="false" aria-expanded="false" aria-controls="cbm-listbox" aria-autocomplete="list" type="text" value=""></div><span class="_combobox__trailing-icon_70f7ac" aria-hidden="true"><div class="_icon_596ab4 _icon--size-12_596ab4" aria-hidden="true"><div class="_icon__glyph-area_596ab4"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"></path></svg></div></div></span></div></div></div>"`,
+    );
+  });
+
+  it('SegmentedControl', () => {
+    expect(
+      html(
+        <SegmentedControl
+          aria-label="Search mode"
+          options={[
+            { key: 'messages', label: 'Messages' },
+            { key: 'files', label: 'Files' },
+          ]}
+          value="messages"
+          onChange={() => {}}
+        />,
+      ),
+    ).toMatchInlineSnapshot(
+      `"<div aria-label="Search mode" role="tablist" aria-orientation="horizontal" class="_segmented-control_c9e460 _segmented-control--size-small_c9e460"><span class="_segmented-control__indicator_c9e460 _segmented-control__indicator--unpositioned_c9e460" aria-hidden="true"></span><button type="button" role="tab" tabindex="0" aria-selected="true" class="_segmented-control__segment_c9e460 _segmented-control__segment--active_c9e460"><span class="_segmented-control__label_c9e460">Messages</span></button><button type="button" role="tab" tabindex="-1" aria-selected="false" class="_segmented-control__segment_c9e460"><span class="_segmented-control__label_c9e460">Files</span></button></div>"`,
     );
   });
 
