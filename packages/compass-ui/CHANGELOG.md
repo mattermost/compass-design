@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
-- **Z-index tokens now match the webapp scale (breaking for hosts that relied on the old values):** `--z-modal` 200 → 1050, `--z-tooltip` 300 → 1350, plus new `--z-menu` (1100) and `--z-popover` (1200); `--z-sidebar` is unchanged at 100. Portaled menus in `Select`, `Combobox` and `DateRangePicker` previously defaulted to a hardcoded 1000, which rendered behind the webapp's modal (1050); they now default to `var(--z-menu, 1100)`. Hosts that redefined `--z-modal` or passed `zIndex` keep working; remove the override if it only existed to match the webapp. `ModalOverlay` now stacks at 1050 by default.
+- **Z-index tokens now match the webapp scale (breaking for hosts that relied on the old values):** `--z-modal` 200 → 1050, `--z-tooltip` 300 → 1350, plus new `--z-menu` (1100) and `--z-popover` (1200); `--z-sidebar` is unchanged at 100. Portaled menus in `Select`, `Combobox` and `DateRangePicker` previously defaulted to a hardcoded 1000, which rendered behind the webapp's modal (1050); they now default to `var(--z-menu, 1100)`. Hosts that redefined `--z-modal` or passed `zIndex` keep working; remove the override if it only existed to match the webapp. `ModalOverlay` now stacks at 1050 by default. Only a few hosts read these tokens directly: a host layer that used `var(--z-modal)` or `var(--z-tooltip)` for its own stacking now sits higher, and a host that hardcoded 1050 to work around the old default can drop that and its `zIndex` override.
 
 ## [0.1.0-alpha.28] - 2026-11-10
 
