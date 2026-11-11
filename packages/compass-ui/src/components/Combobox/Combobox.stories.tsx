@@ -194,6 +194,60 @@ export const MultiSelect: Story = {
   },
 };
 
+/** Filled rounded-square colour swatch used as a `leadingVisual`. `size` is injected by `Icon` (chips) and menu rows. */
+function ColorSwatch({ color, size }: { color: string; size?: number }) {
+  const d = Math.round((size ?? 16) * 0.75);
+  return (
+    <span
+      data-testid="color-swatch"
+      style={{
+        display: 'inline-block',
+        width: d,
+        height: d,
+        borderRadius: 'var(--radius-xs)',
+        background: color,
+      }}
+    />
+  );
+}
+
+const TAG_COLORS: Record<string, string> = {
+  alpha: '#0033A0',
+  bravo: '#2E7D32',
+  charlie: '#C62828',
+};
+
+const TAG_OPTIONS: ComboboxOption[] = Object.entries(TAG_COLORS).map(
+  ([value, color]) => ({
+    value,
+    label: value[0].toUpperCase() + value.slice(1),
+    leadingVisual: <ColorSwatch color={color} />,
+  }),
+);
+
+/**
+ * Experiment: does a colour swatch passed as `leadingVisual` reach both the menu rows and the
+ * selected chips in `multiple` mode? Used to evaluate coloured multiselect options in the webapp.
+ */
+export const MultiSelectColorSwatch: Story = {
+  render: function MultiSelectColorSwatchStory(args) {
+    const [value, setValue] = useState<string[]>(['alpha', 'charlie']);
+    return (
+      <div style={{ maxWidth: 360 }}>
+        <Combobox
+          {...args}
+          label="Tags"
+          placeholder="Select tags…"
+          multiple
+          options={TAG_OPTIONS}
+          value={value}
+          onChange={(next) => setValue((next as string[]) ?? [])}
+        />
+      </div>
+    );
+  },
+};
+
 /** Regression: many long chips wrap; the input must keep a usable width instead of collapsing outside the field. */
 export const MultiSelectManyLongChips: Story = {
   render: function MultiSelectManyLongChipsStory({ leadingIcon, ...args }) {
