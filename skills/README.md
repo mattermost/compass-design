@@ -49,6 +49,14 @@ Playbooks for working on this repo, outside the plugin. `.cursor/skills/` holds 
 
 ## Install the toolkit
 
+The quickest way is the `skills` CLI. Run it from your project and it copies the four toolkit skills side by side (add `--global` for your user, or `--agent` for the agent you use):
+
+```bash
+npx skills add mattermost/compass-design --skill '*'
+```
+
+The two repo-only playbooks in `internal/` are marked `metadata.internal: true`, so the CLI does not list or install them. Tested with `skills` 1.8.1 against this layout: it finds the skills in `compass-toolkit/skills/`, and the installed folders resolve each other's `../compass-build/references/`. The CLI downloads and runs an npm package, so check what it will install before you run it.
+
 As a plugin, the skills are namespaced, for example `mattermost-compass-toolkit:compass-review`.
 
 To try it from a checkout of this repo:

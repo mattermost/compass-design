@@ -1,6 +1,8 @@
 ---
 name: review-compass-ui-component
 description: Checklist for writing or reviewing a new or changed @mattermost/compass-ui component against the consumer API contract (backwards compatibility, translatable text, label props, attribute pass-through, refs, states, tests). Use before opening or approving a compass-ui component PR.
+metadata:
+  internal: true
 ---
 
 # Review a compass-ui component
