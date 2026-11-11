@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`--z-confirm-modal` (1060):** stacking token between `--z-modal` (1050) and `--z-menu` (1100) for a confirm opened over another modal. Matches the webapp's first stacked-modal step (+10). `ModalOverlay` still defaults to `--z-modal`; pass `zIndex="var(--z-confirm-modal)"` (or `1060`) on the confirm overlay. Nothing changes without it.
+
 ## [0.1.0-alpha.29] - 2026-11-11
 
 ### Changed
