@@ -346,6 +346,19 @@ describe('ModalOverlay', () => {
       expect((scrim() as HTMLElement).style.zIndex).toBe('40');
     });
 
+    it('applies a string zIndex (token reference)', () => {
+      render(
+        <ModalOverlay
+          open
+          zIndex="var(--z-confirm-modal)"
+          data-testid="scrim"
+        />,
+      );
+      expect((scrim() as HTMLElement).style.zIndex).toBe(
+        'var(--z-confirm-modal)',
+      );
+    });
+
     it('lets style override both zIndex and position', () => {
       render(
         <ModalOverlay

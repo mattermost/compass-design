@@ -381,8 +381,12 @@
   // ============================================================
   // Overlay layers match the Mattermost webapp scale (--z-index-* in its
   // css variables), so a Compass surface stacks correctly there with no overrides.
+  // --z-confirm-modal sits between modal and menu (webapp stacked-modal step
+  // is +10 from 1050) so a confirm over another modal clears it but stays
+  // under portaled menus.
   --z-sidebar: 100;
   --z-modal: 1050;
+  --z-confirm-modal: 1060;
   --z-menu: 1100;
   --z-popover: 1200;
   --z-tooltip: 1350;

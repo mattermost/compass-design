@@ -27,8 +27,8 @@
     "typecheck": "tsc -p tsconfig.build.json --noEmit"
   },
   "peerDependencies": {
-    "@mattermost/compass-icons": "^0.1.64",
-    "@mattermost/compass-ui": "0.1.0-alpha.29",
+    "@mattermost/compass-icons": "^0.1.65",
+    "@mattermost/compass-ui": "0.1.0-alpha.30",
     "react": "^18.2.0 || ^19.0.0",
     "react-dom": "^18.2.0 || ^19.0.0",
     "simplebar-react": "^3.3.2"
@@ -39,7 +39,7 @@
     }
   },
   "devDependencies": {
-    "@mattermost/compass-icons": "^0.1.64",
+    "@mattermost/compass-icons": "^0.1.65",
     "@mattermost/compass-ui": "*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

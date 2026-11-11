@@ -269,6 +269,7 @@ export const COMPASS_ICON_LOADERS: Record<
   'plus': () => import('@mattermost/compass-icons/components/plus'),
   'pound': () => import('@mattermost/compass-icons/components/pound'),
   'power-plug-outline': () => import('@mattermost/compass-icons/components/power-plug-outline'),
+  'power-sleep': () => import('@mattermost/compass-icons/components/power-sleep'),
   'product-boards': () => import('@mattermost/compass-icons/components/product-boards'),
   'product-channels': () => import('@mattermost/compass-icons/components/product-channels'),
   'product-playbooks': () => import('@mattermost/compass-icons/components/product-playbooks'),
