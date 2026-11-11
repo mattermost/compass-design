@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.29] - 2026-11-11
+
 ### Changed
 
 - **Z-index tokens now match the webapp scale (breaking for hosts that relied on the old values):** `--z-modal` 200 → 1050, `--z-tooltip` 300 → 1350, plus new `--z-menu` (1100) and `--z-popover` (1200); `--z-sidebar` is unchanged at 100. Portaled menus in `Select`, `Combobox` and `DateRangePicker` previously defaulted to a hardcoded 1000, which rendered behind the webapp's modal (1050); they now default to `var(--z-menu, 1100)`. Hosts that redefined `--z-modal` or passed `zIndex` keep working; remove the override if it only existed to match the webapp. `ModalOverlay` now stacks at 1050 by default. Only a few hosts read these tokens directly: a host layer that used `var(--z-modal)` or `var(--z-tooltip)` for its own stacking now sits higher, and a host that hardcoded 1050 to work around the old default can drop that and its `zIndex` override.
@@ -558,7 +560,9 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.27...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.29...HEAD
+[0.1.0-alpha.29]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.28...0.1.0-alpha.29
+[0.1.0-alpha.28]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.27...0.1.0-alpha.28
 [0.1.0-alpha.27]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.26...0.1.0-alpha.27
 [0.1.0-alpha.26]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.25...0.1.0-alpha.26
 [0.1.0-alpha.25]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.24...0.1.0-alpha.25
