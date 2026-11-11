@@ -177,7 +177,7 @@ Validate freeform input in `onCreateOption` (gcal checks an email pattern and re
 
 ## 5. Confirm dialog
 
-Compass has no confirm component. Compose `ModalOverlay` and `Modal` with two buttons. Use `destructive` on the confirm `Button` for removals. Give it a higher z-index than the modal it can open over.
+Compass has no confirm component. Compose `ModalOverlay` and `Modal` with two buttons. Turn both dividers off (`headerDivider={false}` and `footerDivider={false}`; they default to `true`), because a confirm is a short message, not a form. Use `destructive` on the confirm `Button` for removals. Give it a higher z-index than the modal it can open over.
 
 ```tsx
 import {Button} from '@mattermost/compass-ui/components/button';
@@ -202,6 +202,8 @@ export default function ConfirmDialog(props: Props) {
                 open={props.open}
                 onClose={props.onCancel}
                 title={props.title}
+                headerDivider={false}
+                footerDivider={false}
                 footer={
                     <>
                         <Button emphasis='tertiary' onClick={props.onCancel}>{props.cancelLabel ?? 'Cancel'}</Button>

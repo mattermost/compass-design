@@ -12,7 +12,7 @@ Whatever they choose goes in the report under "Left on the old stack or custom".
 
 | Need | Today | Notes |
 | --- | --- | --- |
-| Confirm or alert dialog | Compose `ModalOverlay` + `Modal` + two `Button`s (`patterns.md`) | No confirm component, and `Modal` sets `aria-modal` but not `role="alertdialog"`. Ask before adding the role. |
+| Confirm or alert dialog | Compose `ModalOverlay` + `Modal` + two `Button`s, with `headerDivider={false}` and `footerDivider={false}` (`patterns.md`) | No confirm component, and `Modal` sets `aria-modal` but not `role="alertdialog"`. Ask before adding the role. |
 | Time picker | A `Select` of time options (`patterns.md`) | No time component. |
 | Data table, grid or sortable list | None | No table component. |
 | Pagination | `PaginationDots` only | A dot indicator, not a page-number pager. |
