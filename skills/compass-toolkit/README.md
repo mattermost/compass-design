@@ -26,7 +26,7 @@ As a plugin, from the marketplace in this repo (the skills are namespaced, for e
 /plugin install mattermost-compass-toolkit@compass-design
 ```
 
-On Claude Code 2.1.275 or later one step also works: `/plugin install mattermost-compass-toolkit --marketplace mattermost/compass-design`. Refresh later with `/plugin marketplace update compass-design`. The plugin updates when its `version` in `.claude-plugin/plugin.json` changes.
+Refresh later with `claude plugin marketplace update compass-design`. The plugin updates when its `version` in `.claude-plugin/plugin.json` changes.
 
 With the `skills` CLI, which copies the four skills side by side into the project (add `--global` for your user, or `--agent` for the agent you use):
 
