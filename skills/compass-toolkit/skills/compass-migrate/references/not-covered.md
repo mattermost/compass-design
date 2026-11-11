@@ -24,7 +24,7 @@ Whatever they choose goes in the report under "Left on the old stack or custom".
 | Color picker | None | |
 | Generic popover with arbitrary content | None | The popover-style components are specific: `PopoverMenu` is a menu surface for `MenuItem` rows, `PopoverNotice` is a short dismissable message card, `ProfilePopover` shows a user profile. `Dropdown` is a heading-style trigger button that opens a `PopoverMenu`, not a popover. Host owns positioning for overlays other than the form widgets. |
 | Form field wrapper (label, hint, error) | The input's own `label`, `message`, `messageTone` props | Intentional: `Setting`-style wrappers are deleted, not replaced. |
-| Hover tooltip wiring | `Tooltip` is chrome only | The host owns hover, focus and positioning. In prototypes `WithTooltip` from `compass-proto` does it; plugins and the webapp use their own. |
+| Hover tooltip wiring (show on hover or focus, positioning) | `Tooltip` is chrome only | Better support in compass-ui is planned. Until it ships, the host owns hover, focus and positioning: prototypes use `WithTooltip` from `compass-proto`, and plugins and the webapp use their own. Check `CHANGELOG.md` for a newer release before wiring a tooltip yourself, and don't build a shared hover helper as part of a migration. |
 
 ## Not a gap
 
