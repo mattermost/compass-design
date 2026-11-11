@@ -28,6 +28,8 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - `IconButton` without `aria-label`, or with a raw glyph (a Blocker or Should fix). An explicit icon `size` is allowed as a deliberate override: report it as a Suggestion, not a violation.
    - A `Switch` inside a form with a submit button; Radio groups of more than four options.
    - Modals: a `ModalOverlay` with no `onClose`, a `Modal` with no `open`, or an overlay rendered only while visible (no motion, no Escape or backdrop close); `size` left at the default without a reason; a subtitle that could be `subtitlePlacement="beside"` or removed; a create or edit title that isn't the plain `New <thing>` / `Edit <thing>`; confirm dialogs with dividers on.
+   - Forms: `gap` set on a `<form>` while fields sit inside a wrapper `<div>` or lazy-loaded section; `--spacing-l` between floating-label fields (the rule is `--spacing-xxl`).
+   - Modals: `Tabs` without `appearance='underlined'`; both dividers on for a short body.
    - Icon-only `IconButton` (trash, back, close in a row or header) with no tooltip.
    - A discard confirm that opens without comparing the form to its initial values.
    - A native `type=date`, or a `readOnly` field styled like an input; two `EmptyState`s stacked in one view; sections stacked that `Tabs` would separate.

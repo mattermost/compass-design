@@ -12,6 +12,8 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 - [ ] Advanced or secondary content is behind progressive disclosure; required content is visible. **[proposed]**
 - [ ] Form fields follow the field disclosure rules: required always visible, collapsed sections only hold optional or defaulted fields, and have a summary line. **[proposed]**
 - [ ] Forms in an RHS have 24px padding and a pinned footer.
+- [ ] Form field gaps match the Forms table in every state, including lazy-loaded and conditional fields (a wrapper `<div>` inside a form drops the parent's `gap`).
+- [ ] Modals: dividers off when the body is short in every state (keep them if lazy-loaded content makes it grow); tabs use `appearance='underlined'` with a full-width bottom border.
 
 ## Components and tokens
 

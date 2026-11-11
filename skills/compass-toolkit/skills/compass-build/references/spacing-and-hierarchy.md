@@ -85,6 +85,15 @@ Other measurements:
 - **Paired fields:** two short, clearly related fields may sit side by side (city and state, postal code and country), `--spacing-l` (16px) apart. Never more than two per row; full width on narrow containers.
 - **Boolean radios** (True/False, On/Off, Yes/No, Enable/Disable) sit side by side in one row, `--spacing-xxl` (24px) apart, each hugging its content. Never stretch them to the column width or spread them to the ends.
 
+### Modals **[proposed]**
+
+From the Jira plugin migration review.
+
+- **Field gaps live on the element that directly contains the fields.** `gap` on a form only spaces its direct children. A wrapper `<div>` or a lazy-loaded or conditional section inside the form gets no gap, and its fields sit against each other. Render those fields as direct children (a Fragment), or give the wrapper the same flex column and gap.
+- **Dividers follow the body height.** `Modal` shows header and footer dividers by default. When the body is short (it never scrolls and holds a few lines or fields: a confirm, connect or disconnect, a one or two field form), turn both off with `headerDivider={false}` and `footerDivider={false}`. Keep them when the body can scroll or is a long form, where they mark the edge of scrolling content. **Exception: judge by the tallest state.** If lazy-loaded or conditional content (fields that arrive after a fetch, a section that appears on a choice) makes the modal grow, keep the dividers even if the first render is short, and don't switch them on when the content arrives (the layout would jump).
+- **Tabs in a modal use `appearance='underlined'`.** The tab bar's bottom border spans the full width of the modal, edge to edge, like the RHS rule below, and the first tab label lines up with the content margin. Check in the browser that the header divider doesn't draw a second line against it.
+- Subtitle, title and size: a short subtitle goes beside the title (`subtitlePlacement='beside'`), a create or edit modal has a plain title and no subtitle, and `size` is chosen on purpose.
+
 ### Right sidebar (RHS) forms
 
 - Padding is `--spacing-xxl` (24px) on all sides. The form is a single column at the RHS width (500px is the common width; it can be narrower); the values above apply unchanged.

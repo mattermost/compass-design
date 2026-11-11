@@ -28,7 +28,7 @@ Work these in order. Ask the user when the consumer kind (core webapp or plugin,
 1. **Inventory, no edits.** List every usage of react-bootstrap, react-select, and every custom input, modal, spinner, avatar, icon, tooltip and theme-prop path. Include tests and styles that reference them. For each, name the Compass replacement from `references/component-mapping.md`, or mark it a gap. Show the table to the user.
 2. **Infra.** Dependencies, entry stylesheet, bundler rules and lint config. Follow `references/infra.md`.
 3. **Shared primitives first.** The wrappers other files import (a `Setting` or `Input` wrapper, a `Select`, a `Loading`, a confirm modal). Migrating these first shrinks every later step.
-4. **Modals.** `ModalOverlay` plus `Modal`, with the footer submit tied to the form by id. See `references/patterns.md`.
+4. **Modals.** `ModalOverlay` plus `Modal`, with the footer submit tied to the form by id. See `references/patterns.md`. **Before you lay out any form, tab bar or modal body, open `../compass-build/references/spacing-and-hierarchy.md` (Forms and Modals) and follow it.** `patterns.md` shows wiring, not spacing. In the Jira run the agent never opened that file, and its forms came out cramped.
 5. **Everything else.** Then delete theme-prop plumbing, old style overrides, now-unused wrappers and dependencies.
 6. **Tests.** Update unit and E2E tests for the new roles and behavior. See `references/testing.md`.
 7. **Verify** with the checks below, then audit with the review skill.
@@ -42,6 +42,7 @@ You may not call the work done until every check has run and you have the output
 - Lint on the changed files, and the type check.
 - A production build of the bundle.
 - E2E tests, if the consumer has them.
+- Form and modal layout, in the running app: open every form in each state (loading, loaded with the lazy or conditional fields, error), and confirm the gaps match the Forms table, dividers follow the body height and tabs are underlined. Unit tests can't see this.
 - Visual baselines, if the consumer keeps them: regenerate them, then open the PNGs and look at each one. A baseline you didn't look at proves nothing.
 - Audit the changed code with the `compass-review` skill (listed as `mattermost-compass-toolkit:compass-review` when installed as a plugin) and fix what it reports, or list it under "Left as is".
 - Search for leftovers: no import of the removed libraries, no unused wrapper files, no `theme` prop passed only to styling.
