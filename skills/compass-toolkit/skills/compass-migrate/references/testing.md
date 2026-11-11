@@ -50,9 +50,24 @@ await userEvent.click(
 expect(document.querySelector('[aria-busy="true"]')).not.toBeInTheDocument();
 ```
 
-**A labelled popup list.** For a `Select` whose `label` is a node (like the starred one), the list takes its name from `listboxLabel`; with a string `label` the list is named after that label instead:
+**A labelled popup list.** The list is named from `label` when `label` is a string. When `label` is a node (like the starred one), the name is `aria-label` if you set it, otherwise `listboxLabel`, otherwise the default "Options". This example names the list "End time" with `listboxLabel`, and the combobox keeps its own name from the label text:
 
 ```tsx
+render(
+  <Select
+    label={
+      <>
+        End Time<span aria-hidden="true"> *</span>
+      </>
+    }
+    listboxLabel="End time"
+    options={options}
+    value=""
+    onChange={onChange}
+  />,
+);
+
+await userEvent.click(screen.getByRole('combobox', { name: 'End Time' }));
 expect(screen.getByRole('listbox', { name: 'End time' })).toBeInTheDocument();
 ```
 
