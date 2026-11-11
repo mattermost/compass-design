@@ -1,6 +1,6 @@
 # Gotchas, by compass-ui version
 
-Each row says where it comes from and which versions it applies to. **Verified** means I checked it against the compass-ui source at alpha.29, or against the release commit named in the row. **Seen** means a reference migration did it (gcal = mattermost-plugin-google-calendar PR 179, alpha.22; dataminr, alpha.22; agents, alpha.23). **Reported** means consumer feedback that I could not reproduce here: treat it as a lead, confirm it, and don't state it to the user as fact.
+Each row says where it comes from and which versions it applies to. **Verified** means I checked it against the compass-ui source at alpha.29, or against the release commit named in the row. **Seen** means a reference migration did it (gcal = mattermost-plugin-google-calendar PR 179, alpha.22; agents = mattermost-plugin-agents, alpha.23). **Reported** means consumer feedback that I could not reproduce here: treat it as a lead, confirm it, and don't state it to the user as fact.
 
 Before relying on any row, read the installed compass-ui version and the `CHANGELOG.md` entry for the release that matches. If a row's fix has shipped, follow the new behavior and drop the workaround.
 

@@ -1,6 +1,6 @@
 # Updating tests
 
-Step 6. Migrated components expose different roles and behavior from react-bootstrap and react-select, so tests must change with them. The snippets come from the reference migrations: Jest and Testing Library from mattermost-plugin-google-calendar PR 179 (`gcal`), Playwright from mattermost-plugin-dataminr (`dataminr`). The visual-baseline step is standard Playwright and none of the three reference repos uses it yet, so it is marked as such.
+Step 6. Migrated components expose different roles and behavior from react-bootstrap and react-select, so tests must change with them. The Jest and Testing Library snippets come from mattermost-plugin-google-calendar PR 179 (`gcal`). The Playwright snippets and the visual-baseline step are standard Playwright written against the roles in the compass-ui source (`Modal` is `role="dialog"` named by its title, the `Combobox` input is `role="combobox"`, a removable `Chip` has a fixed accessible name); they are not taken from a published reference migration, so run them against your app before relying on them.
 
 ## Jest and Testing Library
 
@@ -75,14 +75,12 @@ The class name comes from a CSS module, so it is brittle. Prefer the role and th
 
 ## Playwright
 
-Use page objects, and role-based locators with exact names. Stacked dialogs and similar labels ("Save", "Cancel") are why `exact: true` matters (dataminr `support/components/`):
+Use page objects, and role-based locators with exact names. Stacked dialogs and similar labels ("Save", "Cancel") are why `exact: true` matters:
 
 ```ts
-this.confirmDialog = page.getByRole('dialog', {name: 'Enable feature?'});
-this.saveButton = page.getByRole('button', {name: 'Save', exact: true});
-
-this.removeDialog = channelsPage.page.getByRole('dialog', {name: 'Remove item?'});
+this.removeDialog = page.getByRole('dialog', {name: 'Remove item?'});
 this.confirmRemoveButton = this.removeDialog.getByRole('button', {name: 'Remove', exact: true});
+this.saveButton = page.getByRole('button', {name: 'Save', exact: true});
 
 // a combobox by its field name
 this.container.getByRole('combobox', {name: field});
@@ -96,7 +94,7 @@ Rules for the specs:
 - Scope a locator to its dialog (`this.removeDialog.getByRole(...)`) instead of searching the whole page.
 - Open a Combobox by clicking it or typing, then click an `option`. Don't focus the field and press Enter.
 - Match dialogs by title, so give every dialog a specific title.
-- Keep the repo's own runner settings. dataminr runs serially with `trace: 'retain-on-failure'` and `screenshot: 'only-on-failure'`; follow the consumer's config rather than changing it.
+- Keep the repo's own runner settings (workers, retries, trace and screenshot options); follow the consumer's config rather than changing it.
 
 ## Visual baselines
 
