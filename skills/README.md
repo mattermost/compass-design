@@ -1,47 +1,80 @@
-# Compass design toolkit skills
+# Compass skills
 
-Agent skills for working with Compass. They live in the repo, not in `@mattermost/compass-ui`, so they are versioned and reviewed on their own and are not published to npm.
+All agent skills for this repo live here. They are not part of `@mattermost/compass-ui`, so they are versioned and reviewed on their own and are not published to npm.
 
-| Skill                                                         | Purpose                                                                                                                       |
-| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| [`compass-build`](compass-build/SKILL.md)                     | Build, restyle or retrofit Mattermost UI to the Compass rules. Holds the shared `references/`.                                |
-| [`compass-review`](compass-review/SKILL.md)                   | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                             |
-| [`prototype-to-production`](prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Moved from mattermost-proto-playground#76. |
-
-`compass-review` and `prototype-to-production` read `compass-build`'s references, and `prototype-to-production` also invokes `compass-review`. Install all three together.
-
-## Install
-
-The quickest way is the `skills` CLI. Run it from your project, and it installs all three skills side by side:
-
-```bash
-npx skills add mattermost/compass-design --skill '*'
+```
+skills/
+  compass-toolkit/              # the plugin: mattermost-compass-toolkit (ships as one unit)
+    .claude-plugin/plugin.json
+    skills/
+      compass-build/            # owns the shared rules in references/
+      compass-review/
+      prototype-to-production/
+  internal/                     # repo playbooks, not shipped
+    add-docs-topic/
+    review-compass-ui-component/
+  evals/                        # test harnesses, outside both groups so installs don't copy them
 ```
 
-Add `--agent claude-code` to install only for Claude Code, or `--global` to install for your user instead of the project. The CLI downloads and runs an npm package, so check what it will install before you run it.
+## Toolkit skills (shipped)
 
-**Working on a consumer** (the webapp, desktop app or a plugin)? Run the command from that consumer's repo root, and don't commit the installed skills there. Use `--global` to keep them out of the consumer entirely.
+| Skill                                                                                  | Purpose                                                                                                                       |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [`compass-build`](compass-toolkit/skills/compass-build/SKILL.md)                       | Build, restyle or retrofit Mattermost UI to the Compass rules. **Owns the shared rules** in `references/`.                    |
+| [`compass-review`](compass-toolkit/skills/compass-review/SKILL.md)                     | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                             |
+| [`prototype-to-production`](compass-toolkit/skills/prototype-to-production/SKILL.md)   | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Moved from mattermost-proto-playground#76. |
 
-Testing a skill with the [A/B harness](evals/prototype-to-production/README.md)? Don't install it globally: the without-skill side must not load it, and the setup script refuses to run if a copy is in `~/.claude/skills`.
+How they depend on each other:
 
-To install by hand instead, copy or symlink each skill folder into the agent's skills directory, keeping the folders side by side:
+```
+prototype-to-production ──reads──▶ compass-build/references/   (rules)
+        └──invokes──▶ compass-review ──reads──▶ compass-build/references/
+```
+
+There is one copy of the rules, in `compass-build/references/`. The other two skills read it through `../compass-build/references/`, and `prototype-to-production` also keeps its own `references/` for material only it uses. The three skills must stay side by side, which is why they ship as one plugin.
+
+## Internal skills (not shipped)
+
+Playbooks for working on this repo, outside the plugin. `.cursor/skills/` holds symlinks to them so Cursor still finds them.
+
+| Skill                                                                | Purpose                                                              |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [`add-docs-topic`](internal/add-docs-topic/SKILL.md)                 | Add a Compass docs topic (MDX, optional specimen, `topics.ts`).      |
+| [`review-compass-ui-component`](internal/review-compass-ui-component/SKILL.md) | Checklist for a new or changed compass-ui component.       |
+
+## Install the toolkit
+
+As a plugin, the skills are namespaced, for example `mattermost-compass-toolkit:compass-review`.
+
+To try it from a checkout of this repo:
+
+```bash
+claude --plugin-dir /path/to/compass-design/skills/compass-toolkit
+```
+
+Marketplace distribution (org plugin library or a git marketplace) is not set up yet; see `docs/ROADMAP.md`.
+
+**Working on a consumer** (the webapp, desktop app or a plugin)? Don't commit the installed skills into that repo.
+
+To install by hand without the plugin, copy or symlink all three skill folders into the agent's skills directory, keeping them side by side:
 
 ```bash
 # Claude Code, per project
 mkdir -p .claude/skills
-ln -s /path/to/compass-design/skills/compass-build .claude/skills/compass-build
-ln -s /path/to/compass-design/skills/compass-review .claude/skills/compass-review
-ln -s /path/to/compass-design/skills/prototype-to-production .claude/skills/prototype-to-production
+for s in compass-build compass-review prototype-to-production; do
+  ln -s /path/to/compass-design/skills/compass-toolkit/skills/$s .claude/skills/$s
+done
 ```
 
-If `compass-review` or `prototype-to-production` is installed without `compass-build`, it stops and tells you to install `compass-build` next to it.
+If `compass-review` or `prototype-to-production` is missing a sibling, it stops and tells you to install the toolkit.
 
 ## Testing a skill
 
-[`evals/prototype-to-production/`](evals/prototype-to-production/README.md) holds a repeatable with-skill / without-skill A/B test: a setup script, a prompt template and a fixed rubric. It sits outside the skill folders so installing a skill doesn't copy it.
+[`evals/prototype-to-production/`](evals/prototype-to-production/README.md) holds a repeatable with-skill / without-skill A/B test: a setup script, a prompt template and a fixed rubric. It installs the skills as standalone `.claude/skills/` folders, so it doesn't exercise the plugin path. Don't install the skills globally while you test: the setup script refuses to run if a copy is in `~/.claude/skills`.
 
 ## Adding a skill
 
-Add `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Put shared reference material in the skill that owns it and say so in the dependent skill.
+- **Shipped:** add `skills/compass-toolkit/skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Put shared reference material in the skill that owns it and say so in the dependent skill.
+- **Repo-internal:** add `skills/internal/<skill-name>/SKILL.md`, then symlink it from `.cursor/skills/<skill-name>`.
 
 When a component API change affects a rule or reference, update the skill in the same PR.

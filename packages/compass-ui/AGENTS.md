@@ -16,7 +16,7 @@ See also the repo-wide rule in [AGENTS.md](../../AGENTS.md#variant-prop-string-v
 
 ## Component API contract (consumers: Mattermost webapp and plugins)
 
-The webapp and plugins (react-intl, Playwright by role / name / `data-testid`) upgrade compass-ui in place. Apply these rules when writing or reviewing any new or changed component. Review checklist: [.cursor/skills/review-compass-ui-component/SKILL.md](../../.cursor/skills/review-compass-ui-component/SKILL.md).
+The webapp and plugins (react-intl, Playwright by role / name / `data-testid`) upgrade compass-ui in place. Apply these rules when writing or reviewing any new or changed component. Review checklist: [skills/internal/review-compass-ui-component/SKILL.md](../../skills/internal/review-compass-ui-component/SKILL.md).
 
 1. **Backwards compatible:** public props only widen. Never rename or remove a prop, narrow a type, or change a default or the default DOM; add an optional prop instead. **Bug fixes are allowed:** making a component honor what its public type or docs already promise (e.g. a typed prop it silently ignored) is a fix, not a break. Use the existing prop rather than adding a new one, and list it under `### Fixed` in the CHANGELOG.
 2. **Translatable text:** every prop rendered as visible or accessible text is `ReactNode`. Keep `string` only for values used as data (option labels used for filtering, React keys, ids) and say why in the JSDoc. When a component derives an `aria-label`/`title` from text, derive it only from strings and accept an explicit string override for JSX.

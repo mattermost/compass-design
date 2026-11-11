@@ -57,7 +57,7 @@ Prefer design tokens from `src/styles/tokens.scss` over hardcoded px/hex/ms. Ful
 - [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md) — Proto composites, `WithTooltip`
 - [.claude/rules/styling.md](.claude/rules/styling.md) / [.cursor/rules/styling.mdc](.cursor/rules/styling.mdc) — Styling (keep both files in sync)
 - [.claude/rules/version-bumps.md](.claude/rules/version-bumps.md) — Version bump procedure: consumer reminders + compass-ui/compass-proto coupling
-- [.cursor/skills/add-docs-topic/SKILL.md](.cursor/skills/add-docs-topic/SKILL.md) — Adding a docs topic (procedure)
-- [.cursor/skills/review-compass-ui-component/SKILL.md](.cursor/skills/review-compass-ui-component/SKILL.md) — New/changed compass-ui component checklist
+- [skills/internal/add-docs-topic/SKILL.md](skills/internal/add-docs-topic/SKILL.md) — Adding a docs topic (procedure)
+- [skills/internal/review-compass-ui-component/SKILL.md](skills/internal/review-compass-ui-component/SKILL.md) — New/changed compass-ui component checklist
 - [.cursor/rules/creating-agent-rules.mdc](.cursor/rules/creating-agent-rules.mdc) — Adding or changing agent guidance
 - [.cursor/cursor.md](.cursor/cursor.md) — Cursor Cloud Agents: running the docs app / Storybook, verification, troubleshooting (environment in [.cursor/README.md](.cursor/README.md))
