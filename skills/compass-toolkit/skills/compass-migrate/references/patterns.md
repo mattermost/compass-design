@@ -4,7 +4,7 @@ One example each for a modal, a form field, a select, an async select and a conf
 
 **Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.29, because gcal has no confirm dialog and the one in mattermost-plugin-dataminr builds its own portal and backdrop from before `ModalOverlay` existed. The examples target compass-ui alpha.29 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
 
-**Stacking.** From alpha.29 the tokens do the work: `ModalOverlay` defaults to `--z-modal` (1050) and the menus of `Select`, `Combobox` and `DateRangePicker` default to `--z-menu` (1100), above any modal. Pass no `zIndex` to them. The one number you still set is for a confirm dialog opened over another modal (pattern 5).
+**Stacking.** From alpha.29 the tokens do the work: `ModalOverlay` defaults to `--z-modal` (1050) and the menus of `Select`, `Combobox` and `DateRangePicker` default to `--z-menu` (1100), above any modal. Pass no `zIndex` to them. The one number you still set is for a confirm dialog opened over another modal (pattern 5). The published alpha.29 has no token between `--z-modal` (1050) and `--z-menu` (1100), so use the 1060 constant below. PR #233 adds `--z-confirm-modal` (1060) and lets `ModalOverlay` take a string `zIndex`; once a release includes it, use `zIndex='var(--z-confirm-modal)'` and delete the constant.
 
 On **alpha.28 and earlier** `--z-modal` is 200 and menus default to 1000, so a modal raised to the webapp's layer (1050) covers its own menus. Add one constants file and pass the values to `ModalOverlay`, `Select`, `Combobox` and `DateRangePicker`, then delete the file and the props when you upgrade (`gotchas.md`, row 2):
 
@@ -15,7 +15,7 @@ export const Z_INDEX_MENU_PORTAL = 1070;
 ```
 
 ```ts
-// utils/styles.ts (all versions: the confirm layer)
+// utils/styles.ts: the confirm layer. alpha.29 has no token for it (see below).
 export const Z_INDEX_CONFIRM_MODAL = 1060;
 ```
 
