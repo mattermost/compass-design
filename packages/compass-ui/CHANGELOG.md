@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.30] - 2026-11-11
+
 ### Added
 
 - **`--z-confirm-modal` (1060):** stacking token between `--z-modal` (1050) and `--z-menu` (1100) for a confirm opened over another modal. Matches the webapp's first stacked-modal step (+10). `ModalOverlay` still defaults to `--z-modal`; pass `zIndex="var(--z-confirm-modal)"` (or `1060`) on the confirm overlay. Nothing changes without it.
@@ -568,7 +570,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.29...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.30...HEAD
+[0.1.0-alpha.30]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.29...0.1.0-alpha.30
 [0.1.0-alpha.29]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.28...0.1.0-alpha.29
 [0.1.0-alpha.28]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.27...0.1.0-alpha.28
 [0.1.0-alpha.27]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.26...0.1.0-alpha.27
