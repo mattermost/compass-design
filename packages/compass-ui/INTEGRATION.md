@@ -465,14 +465,14 @@ Compass does **not** integrate with `react-intl` today. There is no `react-intl`
 
 `Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover`, and similar surfaces own the WAI-ARIA behavior of the surface itself; the host owns everything around it. Follow each component's lifecycle (`Modal` mount-controlled or `open`; `Dropdown` and similar triggers use controlled `isOpen`; pass `onClose` where provided).
 
-| Concern                                                      | Owner                                          |
-| ------------------------------------------------------------ | ---------------------------------------------- |
-| Header, body, footer, sizes, max height, enter/exit motion   | `Modal`                                        |
-| Initial focus, Tab trap, focus restore                       | `Modal` (opt out with `manageFocus={false}`)   |
-| Escape (topmost modal only; skips `defaultPrevented` events) | `Modal` (opt out with `closeOnEscape={false}`) |
-| Scrim, portal, scroll lock, backdrop click, overlay fade     | `ModalOverlay`                                 |
-| Open state, portal container                                 | Host                                           |
-| Stacking: default `--z-modal` (1050); confirm over a modal uses `--z-confirm-modal` (1060) | Host (`zIndex` prop or redefine `--z-modal`) |
+| Concern                                                                                    | Owner                                          |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| Header, body, footer, sizes, max height, enter/exit motion                                 | `Modal`                                        |
+| Initial focus, Tab trap, focus restore                                                     | `Modal` (opt out with `manageFocus={false}`)   |
+| Escape (topmost modal only; skips `defaultPrevented` events)                               | `Modal` (opt out with `closeOnEscape={false}`) |
+| Scrim, portal, scroll lock, backdrop click, overlay fade                                   | `ModalOverlay`                                 |
+| Open state, portal container                                                               | Host                                           |
+| Stacking: default `--z-modal` (1050); confirm over a modal uses `--z-confirm-modal` (1060) | Host (`zIndex` prop or redefine `--z-modal`)   |
 
 `Modal` (since `0.1.0-alpha.14`) focuses the dialog or `initialFocusRef` on mount, traps Tab, closes on Escape, and restores focus on unmount. The modal stack is shared across compass-ui copies on the page (from the release after `0.1.0-alpha.15`), so only the topmost Compass modal reacts. Pick **one** owner for focus and Escape:
 

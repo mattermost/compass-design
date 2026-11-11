@@ -22,7 +22,7 @@ Source: `.claude/rules/styling.md`, `packages/compass-ui/AGENTS.md`, `/foundatio
 | Shadow      | `--elevation-1`…`-6`                                                                                                          |
 | Icon size   | `--icon-size-16`, `-20`, `-24` …                                                                                              |
 | Motion      | `--duration-quick` 150ms, `--duration-moderate` 300ms, `--ease-transition`, `--ease-entrance`, `--ease-exit`                  |
-| Stacking    | `--z-sidebar` 100, `--z-modal` 1050, `--z-confirm-modal` 1060, `--z-menu` 1100, `--z-popover` 1200, `--z-tooltip` 1350       |
+| Stacking    | `--z-sidebar` 100, `--z-modal` 1050, `--z-confirm-modal` 1060, `--z-menu` 1100, `--z-popover` 1200, `--z-tooltip` 1350        |
 
 - Nearest token, or `calc()` of tokens, beats raw px. Allowed raw: 1px hairlines, visually-hidden, one-off layout widths with no token, breakpoints.
 - No tokenizable spacing or font in inline `style={{}}`. Use a CSS module.
