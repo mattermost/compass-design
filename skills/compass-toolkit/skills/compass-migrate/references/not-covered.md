@@ -15,7 +15,7 @@ Whatever they choose goes in the report under "Left on the old stack or custom".
 | Confirm or alert dialog | Compose `ModalOverlay` + `Modal` + two `Button`s, with `headerDivider={false}` and `footerDivider={false}` (`patterns.md`) | No confirm component, and `Modal` sets `aria-modal` but not `role="alertdialog"`. Ask before adding the role. |
 | Time picker | A `Select` of time options (`patterns.md`) | No time component. |
 | Data table, grid or sortable list | None | No table component. |
-| Pagination | `PaginationDots` only | A dot indicator, not a page-number pager. |
+| Pagination for paged data (page numbers, next and previous) | None | `PaginationDots` is not a substitute: it marks the current step in a form or slideshow, not a page of data. Don't use it to replace a pager. |
 | Accordion, collapsible section | None | |
 | Slider, range input | None | |
 | Breadcrumbs, stepper | None | |
