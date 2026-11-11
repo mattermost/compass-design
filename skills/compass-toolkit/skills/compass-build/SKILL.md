@@ -1,6 +1,6 @@
 ---
 name: compass-build
-description: Build or restyle Mattermost UI with @mattermost/compass-ui. Use whenever you build, design or restyle a screen, form, modal, panel, settings page, plugin UI or prototype with Compass, or when the user asks to bring existing UI in line with Compass or says it looks off, crowded, inconsistent or "not Compass". Covers spacing, hierarchy, buttons, color/themes, type, radius, elevation, motion, states, accessibility, writing, tokens and what to avoid. To only audit existing code without changing it, use compass-review.
+description: Build or restyle Mattermost UI with @mattermost/compass-ui. Use whenever you build, design or restyle a screen, form, modal, panel, settings page, plugin UI or prototype with Compass, or when the user asks to bring existing UI in line with Compass or says it looks off, crowded, inconsistent or "not Compass". Covers spacing, hierarchy, buttons, color/themes, type, radius, elevation, motion, states, accessibility, writing, tokens and what to avoid. To only audit existing code without changing it, use compass-review. To move a shipped plugin or webapp off react-bootstrap or react-select, use compass-migrate.
 ---
 
 # Compass build
