@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "author": { "name": "Mattermost" },
   "description": "Agent skills for building, reviewing and productionizing Mattermost UI with Compass: compass-build, compass-review, compass-migrate and prototype-to-production.",
+  "license": "Apache-2.0",
   "repository": "https://github.com/mattermost/compass-design",
   "keywords": ["compass", "mattermost", "design-system"]
 }
