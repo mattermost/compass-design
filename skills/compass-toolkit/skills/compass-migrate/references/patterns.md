@@ -2,11 +2,11 @@
 
 One example each for a modal, a form field, a select, an async select and a confirm dialog. Pick the one that matches and adapt it; don't start from a blank file.
 
-**Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.28, because gcal has no confirm dialog and the one in mattermost-plugin-dataminr builds its own portal and backdrop from before `ModalOverlay` existed. The examples target compass-ui alpha.29 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
+**Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.29, because gcal has no confirm dialog and the one in mattermost-plugin-dataminr builds its own portal and backdrop from before `ModalOverlay` existed. The examples target compass-ui alpha.29 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
 
 **Stacking.** From alpha.29 the tokens do the work: `ModalOverlay` defaults to `--z-modal` (1050) and the menus of `Select`, `Combobox` and `DateRangePicker` default to `--z-menu` (1100), above any modal. Pass no `zIndex` to them. The one number you still set is for a confirm dialog opened over another modal (pattern 5).
 
-On **alpha.28 and earlier** the defaults put menus behind modals. Add one constants file and pass the values to `ModalOverlay`, `Select`, `Combobox` and `DateRangePicker`, then delete the file and the props when you upgrade (`gotchas.md`, row 2):
+On **alpha.28 and earlier** `--z-modal` is 200 and menus default to 1000, so a modal raised to the webapp's layer (1050) covers its own menus. Add one constants file and pass the values to `ModalOverlay`, `Select`, `Combobox` and `DateRangePicker`, then delete the file and the props when you upgrade (`gotchas.md`, row 2):
 
 ```ts
 // utils/styles.ts (alpha.28 and earlier only)
@@ -86,8 +86,10 @@ const requiredLabel = (text: string) => (
 ```
 
 ```scss
-.gcal-required-star { color: var(--error-text); }
+.gcal-required-star { color: var(--error-text, var(--color-danger)); }
 ```
+
+Compass draws no required marker anywhere. On `TextInput` and `TextArea`, `required` is the native attribute (the browser may run its own validation when the form submits). On `Select` and `Combobox` it only sets `aria-required`. The visible star is yours to add, as above.
 
 Optional fields say so in the label (`'Location (optional)'`). There is no `Setting` wrapper any more: the input's own `label` and, on Select and Combobox, `message` and `messageTone` replace it.
 
@@ -126,7 +128,6 @@ Agents get this wrong without a recipe. All three parts are required: `filter={f
 
 ```tsx
 import {Combobox, type ComboboxOption} from '@mattermost/compass-ui/components/combobox';
-import {ErrorMessage} from '@mattermost/compass-ui/components/error-message';
 
 const [labelMap, setLabelMap] = useState<Record<string, string>>({});   // cache of every label ever loaded
 const [options, setOptions] = useState<ComboboxOption[]>([]);
@@ -171,10 +172,11 @@ const selectable = options.filter((o) => !props.value.includes(o.value));
     onChange={handleChange}
     onInputChange={loadOptions}
     onCreateOption={handleCreate}
-    invalid={Boolean(storedError)}
+    message={storedError || undefined}   // error tone by default: sets the invalid state and aria-describedby
 />
-{storedError && <ErrorMessage message={storedError}/>}
 ```
+
+A field error goes in the field's own `message` prop (`Select`, `Combobox`, `TextInput`, `TextArea`; error tone is the default), as the rule in `../../compass-build/references/components.md` says. gcal rendered a separate `ErrorMessage` under the field; `ErrorMessage` is `FieldMessage` in the error tone, kept for existing imports, and is only needed where the input has no `message` prop (`DateRangePicker` today).
 
 Validate freeform input in `onCreateOption` (gcal checks an email pattern and rejects duplicates case-insensitively) and cover it in the tests.
 
@@ -223,7 +225,7 @@ export default function ConfirmDialog(props: Props) {
 
 Notes:
 
-- The title is the dialog's accessible name. E2E tests find it with `getByRole('dialog', {name: 'Remove subscription?'})` (dataminr). Make titles specific.
+- The title is the dialog's accessible name. E2E tests find it with `getByRole('dialog', {name: 'Remove item?'})` (dataminr). Make titles specific.
 - `Modal` sets `aria-modal="true"`. It does not set `role="alertdialog"`. If a destructive confirm should be an alert dialog, that is a Compass gap (`not-covered.md`); ask before adding the role yourself.
 - Don't hand-roll a portal, backdrop and fade as dataminr's older `ConfirmationDialog` does. `ModalOverlay` ships the scrim, scroll lock, backdrop click and exit motion.
 - Opening a confirm over another modal works because compass-ui keeps one modal stack, and Escape closes only the top one (fixed in alpha.19; see `gotchas.md`).

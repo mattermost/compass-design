@@ -1,6 +1,6 @@
 # Old component to Compass component
 
-Use this in step 1 (inventory). Rows marked **seen** were migrated this way in a reference migration: `gcal` is mattermost-plugin-google-calendar PR 179 (compass-ui alpha.22), `dataminr` is mattermost-plugin-dataminr (alpha.22), `agents` is mattermost-plugin-agents (alpha.23). Rows marked **source** come from the compass-ui source at alpha.28. Anything not in this table: check `../../compass-build/references/components.md`, and if nothing fits, `not-covered.md`.
+Use this in step 1 (inventory). Rows marked **seen** were migrated this way in a reference migration: `gcal` is mattermost-plugin-google-calendar PR 179 (compass-ui alpha.22), `dataminr` is mattermost-plugin-dataminr (alpha.22), `agents` is mattermost-plugin-agents (alpha.23). Rows marked **source** come from the compass-ui source at alpha.29. Anything not in this table: check `../../compass-build/references/components.md`, and if nothing fits, `not-covered.md`.
 
 Import rule: subpath imports only, for example `@mattermost/compass-ui/components/combobox`. Never the root barrel. Icons come from `@mattermost/compass-icons/components`.
 
@@ -17,15 +17,15 @@ Import rule: subpath imports only, for example `@mattermost/compass-ui/component
 | react-select `Creatable`, `AsyncCreatable` | `Combobox` with `creatable` and `onCreateOption` | **seen** (gcal attendees). |
 | react-select multi | `Combobox` with `multiple` | **seen** (gcal). Shows removable chips. |
 | Clearable single select | `Combobox` with `clearable` | **seen** (gcal channel selector). Calls `onChange(null)`. |
-| Date `<input type=date>` or a date library input | `DateRangePicker` with `mode='date'` | **seen** (gcal). `mode='range'` for a range. |
+| Date `<input type=date>` or a date library input | `DateRangePicker` with `mode='date'` | **seen** (gcal). `mode='range'` for a range. Use its own `label` prop; gcal's separate `<label htmlFor>` predates it. |
 | Time picker | `Select` of time options | **seen** (gcal). There is no time picker component; see `not-covered.md`. |
 | Custom `Loading` or spinner | `Spinner` | **seen** (gcal, agents). |
 | Custom `Icon` component, raw SVG or font icon | `<Icon glyph={<XIcon/>}/>` | **seen** (gcal). Glyph from `@mattermost/compass-icons/components`. Omit `size` unless deliberate. |
 | Icon-only button | `IconButton` with `icon={<Icon glyph={...}/>}` and an `aria-label` | **seen** (gcal header, agents). Omit `size`; the button sizes the icon. |
-| Inline form or request error | `ErrorMessage` | **seen** (gcal, dataminr). |
-| Error, warning or info banner | `SectionNotice` | **seen** (gcal: `type='danger'`, `role='alert'`). |
+| Field error under an input | The input's own `message` prop (error tone by default) on `TextInput`, `TextArea`, `Select`, `Combobox` | **source**. gcal drew a separate `ErrorMessage`, which is `FieldMessage` in the error tone kept for existing imports; use it only where the input has no `message` (`DateRangePicker`). |
+| Request-level error, warning or info banner | `SectionNotice` | **seen** (gcal: `type='danger'`, `role='alert'`). Types: `info`, `warning`, `danger`, `success`, `hint`. |
 | Empty list or panel | `EmptyState` | **seen** (gcal, agents). The action `Button` omits `size`. |
-| Badge-like labels, filter chips | `Tag`, `Chip` | **seen** (agents, dataminr). |
+| Status or category labels; removable or filter chips | `Tag` for labels (a role, tier, status or category), `Chip` for removable chips | **seen** (agents, dataminr). A removable `Chip`'s accessible name is `{label}. Press Delete to remove.` unless you pass `aria-label`. |
 | Avatars | `UserAvatar`, `UserAvatarGroup`, `TeamAvatar` | **seen** (agents). Pass a real image when you have one. |
 | Context menu | `PopoverMenu` with `MenuItem` and `MenuGroupHeading` | **seen** (agents). Keep the consumer's own menu unless the task is to adopt this one. |
 | Search box | `SearchInput` | **seen** (agents). |

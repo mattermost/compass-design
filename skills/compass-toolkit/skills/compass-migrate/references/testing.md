@@ -65,6 +65,8 @@ expect(notice).toHaveTextContent('Calendar unavailable');
 expect(notice.className).toMatch(/section-notice--type-danger/);
 ```
 
+The class name comes from a CSS module, so it is brittle. Prefer the role and the text, and keep the class assertion only when the tone itself is what you are testing.
+
 **Mock what the component doesn't own.** gcal replaced child selectors with `jest.mock('@/components/attendee_selector', () => () => null)` in the form test, and tested each selector in its own file. That keeps a form test from needing a server.
 
 **What to add.** Each migrated selector and modal gets a test file. gcal added tests for the attendee, channel and time selectors and the create form, where there were none before.
@@ -76,14 +78,17 @@ expect(notice.className).toMatch(/section-notice--type-danger/);
 Use page objects, and role-based locators with exact names. Stacked dialogs and similar labels ("Save", "Cancel") are why `exact: true` matters (dataminr `support/components/`):
 
 ```ts
-this.confirmDialog = page.getByRole('dialog', {name: 'Enable demo mode?'});
+this.confirmDialog = page.getByRole('dialog', {name: 'Enable feature?'});
 this.saveButton = page.getByRole('button', {name: 'Save', exact: true});
 
-this.removeDialog = channelsPage.page.getByRole('dialog', {name: 'Remove subscription?'});
+this.removeDialog = channelsPage.page.getByRole('dialog', {name: 'Remove item?'});
 this.confirmRemoveButton = this.removeDialog.getByRole('button', {name: 'Remove', exact: true});
 
 // a combobox by its field name
 this.container.getByRole('combobox', {name: field});
+
+// a removable Chip: its name is `{label}. Press Delete to remove.` unless aria-label is set
+this.container.getByRole('button', {name: `${value}. Press Delete to remove.`, exact: true});
 ```
 
 Rules for the specs:

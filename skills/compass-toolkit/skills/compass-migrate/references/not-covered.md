@@ -1,6 +1,6 @@
 # What Compass doesn't cover yet
 
-**Draft.** Derived from the components that exist in compass-ui `0.1.0-alpha.28` (`packages/compass-ui/src/components/`), not from a migration that hit each gap. Treat it as a starting point: an item listed here is missing from that version's component list, and an item missing from this list may still not fit your case. The owner of compass-ui should correct this list.
+**Checked against compass-ui `0.1.0-alpha.29`** (`packages/compass-ui/src/components/`): every "None" below means no component with that purpose exists, found by listing the components and searching the source for expand, collapse, upload, skeleton and similar names. Which gaps matter is a product call, so the owner of compass-ui should still correct this list.
 
 **The rule:** when you hit one of these, don't build a replacement on your own and don't hide it in the diff. Stop and ask the user which they want:
 
@@ -18,11 +18,11 @@ The **Issue** column links the compass-design issue that tracks the gap. Read it
 | Time picker | A `Select` of time options (`patterns.md`) | No time component. | [#235](https://github.com/mattermost/compass-design/issues/235) |
 | Data table, grid or sortable list | None | No table component. | None filed |
 | Pagination for paged data (page numbers, next and previous) | None | `PaginationDots` is not a substitute: it marks the current step in a form or slideshow, not a page of data. Don't use it to replace a pager. | [#91](https://github.com/mattermost/compass-design/issues/91) (Prev/Next control) |
-| Accordion, collapsible section | None | | None filed |
+| Accordion, collapsible section | `AdminPanel` expands and collapses, for admin console sections only | No general accordion or disclosure component. | None filed |
 | Slider, range input | None | | [#123](https://github.com/mattermost/compass-design/issues/123) |
 | Breadcrumbs | None | | None filed |
 | Step indicator with labels | `PaginationDots` marks the current step in a form or slideshow, with no labels | | None filed |
-| Number input increment and decrement controls | Native browser spinners on `TextInput type="number"` | | [#105](https://github.com/mattermost/compass-design/issues/105) | None filed |
+| Number input increment and decrement controls | Native browser spinners on `TextInput type="number"` | | [#105](https://github.com/mattermost/compass-design/issues/105) |
 | Skeleton or loading placeholder | `Spinner`, `ProgressBar` | No skeleton component. | None filed |
 | File upload or drop zone | None | | None filed |
 | Color picker | None | | None filed |
