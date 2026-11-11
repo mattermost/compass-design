@@ -16,7 +16,7 @@ Use when adding or changing project agent instructions. Prefer **conditional** c
 | Area-nested | `src/guidelines/AGENTS.md`, `packages/compass-ui/AGENTS.md`, `packages/compass-proto/AGENTS.md` (+ tiny `CLAUDE.md` with `@AGENTS.md`) | Docs / Storybook / proto handbooks |
 | Path-scoped styling | [.claude/rules/styling.md](../../.claude/rules/styling.md) **and** [.cursor/rules/styling.mdc](styling.mdc) | BEM, tokens, motion, opacity, Scrollbars — **keep both bodies in sync** |
 
-Playbooks (multi-step how-tos) → [skills/](../../skills/README.md) (repo-internal ones in `skills/internal/`, e.g. `add-docs-topic`; `.cursor/skills/` symlinks to them), not always-on AGENTS.
+Playbooks (multi-step how-tos) → [skills/](../../skills/README.md) (repo-internal ones in `skills/internal/`, e.g. `add-docs-topic`; `.cursor/skills/` and `.claude/skills/` symlink to them so Cursor and Claude Code load them), not always-on AGENTS.
 
 Claude path nudges (thin): `.claude/rules/guidelines.md` — point at nested AGENTS; do not duplicate full handbooks.
 

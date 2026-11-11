@@ -40,7 +40,7 @@ There is one copy of the rules, in `compass-build/references/`. The other two sk
 
 ## Internal skills (not shipped)
 
-Playbooks for working on this repo, outside the plugin. `.cursor/skills/` holds symlinks to them so Cursor still finds them.
+Playbooks for working on this repo, outside the plugin. `.cursor/skills/` and `.claude/skills/` hold symlinks to them, so Cursor and Claude Code both load them when working in this repo.
 
 | Skill                                                                          | Purpose                                                         |
 | ------------------------------------------------------------------------------ | --------------------------------------------------------------- |
@@ -88,6 +88,6 @@ If `compass-review`, `compass-migrate` or `prototype-to-production` is missing a
 ## Adding a skill
 
 - **Shipped:** add `skills/compass-toolkit/skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Put shared reference material in the skill that owns it and say so in the dependent skill.
-- **Repo-internal:** add `skills/internal/<skill-name>/SKILL.md`, then symlink it from `.cursor/skills/<skill-name>`.
+- **Repo-internal:** add `skills/internal/<skill-name>/SKILL.md`, then symlink it from both `.cursor/skills/<skill-name>` and `.claude/skills/<skill-name>`.
 
 When a component API change affects a rule or reference, update the skill in the same PR.
