@@ -199,6 +199,12 @@
     }
   }
 
+  &__message-input-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
   &__message-input-narrow {
     max-width: 400px;
     width: 100%;

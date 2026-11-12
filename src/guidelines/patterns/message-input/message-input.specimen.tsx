@@ -1,5 +1,12 @@
 import { MessageInput } from '@mattermost/compass-proto';
+import { Button } from '@mattermost/compass-ui/components/button';
 import styles from '@/styles/library-demo/patterns.module.scss';
+
+const SUGGESTIONS = [
+  'Summarize this channel',
+  'Draft a status update',
+  'Find action items',
+];
 
 export default function MessageInputLibrary() {
   return (
@@ -25,6 +32,19 @@ export default function MessageInputLibrary() {
         placeholder="Message #ux-design…"
         showPriorityIndicator
         showAttachments
+      />
+      <p className={styles['patterns__variant-label']}>With suggestions</p>
+      <MessageInput
+        placeholder="Message #ux-design…"
+        suggestions={
+          <div className={styles['patterns__message-input-suggestions']}>
+            {SUGGESTIONS.map((suggestion) => (
+              <Button key={suggestion} emphasis="tertiary" size="small">
+                {suggestion}
+              </Button>
+            ))}
+          </div>
+        }
       />
     </div>
   );
