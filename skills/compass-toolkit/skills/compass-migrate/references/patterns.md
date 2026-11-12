@@ -1,6 +1,6 @@
 # Patterns to copy
 
-One example each for a modal, a form field, a select, an async select, a confirm dialog and a popover menu. Pick the one that matches and adapt it; don't start from a blank file.
+One example each for a modal, a form field, a select, an async select, a confirm dialog, a popover menu and tabs in a modal header. Pick the one that matches and adapt it; don't start from a blank file.
 
 **Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.30, because gcal has no confirm dialog, and the hand-rolled confirm dialogs seen in other migrations build their own portal, backdrop and fade from before `ModalOverlay` existed. The examples target compass-ui alpha.30 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
 
@@ -385,3 +385,46 @@ Notes:
 - If the plugin has no positioner, or one that unmounts on close, that is the part to fix, not `PopoverMenu`.
 - Check it in the browser: open and close the menu, and compare with a `Select` menu, which animates by itself. A menu that still pops in and out means the positioner or the conditional render is unmounting it early.
 - The menu motion is scale and fade today. A side-aware slide is planned (compass-design#111); don't build it.
+
+## 7. Tabs in a modal header
+
+From the mattermost-plugin-agents settings modal (`agent_settings_modal.tsx`). The tab bar sits in `headerSlot`, the header divider is off so the tab bar's own bottom border is the only line, and the body owns its padding:
+
+```tsx
+<Modal
+  open={show}
+  size="large"
+  title={title}
+  onClose={requestClose}
+  headerDivider={false} // the tab bar's border is the separator
+  headerSlot={tabs} // full width, under the title row
+  bodyPadding="none" // panels own their padding
+  scrollable={false}
+  footer={footer}
+>
+  {body}
+</Modal>
+```
+
+```tsx
+// headerSlot adds 16px / 32px / 24px of padding, which insets the bar and stops its
+// border short of the edges. compass-ui has no prop for it, so agents zeroes it with a
+// selector on the generated class name (fragile; say so in the report) ...
+const SettingsModal = styled(Modal)`
+  && [class*='modal-header__slot'] {
+    padding: 0;
+  }
+`;
+
+// ... and insets the tab strip inside the bar so the first label lines up with the
+// 32px content margin. The border still spans the full width.
+const ConfigTabs = styled(UnderlineTabs)`
+  padding: 0 0 0 var(--spacing-xxxl);
+`;
+```
+
+Notes:
+
+- Agents draws its own `UnderlineTabs` (a comment says it is there until compass-ui ships the underlined variant). Compass `Tabs` has `appearance='underlined'` as of alpha.30. It draws its rule on its own root, so keep the root full width and inset the labels inside it. Whether `Tabs` accepts that inset without an internal override is untested here.
+- The Jira B2 run put `Tabs appearance='underlined'` in `headerSlot` inside a wrapper with `padding: 0 var(--spacing-xxl)` and left the header divider on. Result: the bar was inset about 56px (32px slot padding plus 24px), the border stopped short of the edges, and the header showed two lines.
+- Check it in the browser: one line under the tabs, edge to edge, the first label aligned with the body content.

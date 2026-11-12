@@ -14,7 +14,7 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 - [ ] Forms in an RHS have 24px padding and a pinned footer.
 - [ ] Form field gaps match the Forms table in every state, including lazy-loaded and conditional fields (a wrapper `<div>` inside a form drops the parent's `gap`).
 - [ ] Repeating rows of controls (filters, key-value rows) keep their full width in the empty, populated and disabled states.
-- [ ] Modals: dividers off when the body is short in every state (keep them if lazy-loaded content makes it grow); tabs use `appearance='underlined'` with a full-width bottom border.
+- [ ] Modals: dividers off when the body is short in every state (keep them if lazy-loaded content makes it grow); tabs sit in `headerSlot` with `appearance='underlined'`, the header divider off, and one full-width bottom border.
 
 ## Components and tokens
 

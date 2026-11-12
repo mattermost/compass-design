@@ -19,11 +19,10 @@ Score each row 0 (present as in the review), 1 (partly fixed) or 2 (correct). Sc
 | 13  | Dates use the Compass date picker, and its icon is themed                                                                         | App         |
 
 | 14 | Escape closes modals, or the host handler that swallows it is reported (webapp header search, MM-71834) | Running app, report |
-| 15 | Tabs in modals use the underlined appearance with a full-width bottom border | App |
+| 15 | Tabs in a modal: underlined, in `headerSlot`, header divider off, one bottom border running edge to edge | App |
 | 16 | Form fields are evenly spaced in every state, including lazy-loaded fields (24px, gap on the direct container) | App |
 | 17 | Dividers are off for short modal bodies, and kept when lazy-loaded content makes the modal grow | App |
-| 18 | Opening Create Jira Issue from the slash command raises no JS error (error text not yet captured) | Console |
-| 19 | Icon-only buttons use `WithTooltip` from `@mattermost/shared/components/tooltip` (rows 6 and 7) | Diff, app |
+| 18 | Icon-only buttons use `WithTooltip` from `@mattermost/shared/components/tooltip` (rows 6 and 7) | Diff, app |
 
 Rows 11 to 13 may be Compass defects, not skill misses. If B fails one, check the CHANGELOG and source before blaming the skill, and record it as "upstream".
 

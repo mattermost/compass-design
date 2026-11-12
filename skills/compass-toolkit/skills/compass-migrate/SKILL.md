@@ -14,7 +14,7 @@ Move UI that already ships off react-bootstrap, react-select and custom componen
 ## Rules
 
 1. **Inventory before any edit.** Find every usage first and show the map. Without it, files get missed and old code is left behind.
-2. **Copy a proven pattern, not a spec.** `references/patterns.md` has one tested example each for a modal, a form field, a select, an async select, a confirm dialog and a popover menu. Start from the one that matches.
+2. **Copy a proven pattern, not a spec.** `references/patterns.md` has one tested example each for a modal, a form field, a select, an async select, a confirm dialog, a popover menu and tabs in a modal header. Start from the one that matches.
 3. **Delete the old plumbing.** Theme-prop architecture, react-select style overrides, wrapper components and unused dependencies go in the same change. Leaving them is the most common way a migration is "done" and still wrong.
 4. **Don't build what Compass lacks. Ask.** Check `references/not-covered.md`. If a need isn't covered, stop and ask the user whether to keep the old component, build a local one, or wait. Mark anything kept with a `compass-gap:` comment and list it in the report.
 5. **Say what changed.** Behavior and UX differences (a menu that no longer opens on focus, a backdrop that no longer dismisses, a different keyboard path) go in the report. Check modals against `references/gotchas.md` rows 18 to 21 before you report them done one by one. Don't leave them for a reviewer to find in the diff.
