@@ -4,6 +4,7 @@ Scope: webapp desktop. Order: channels, system console, agents, playbooks, board
 Sizes are rough prototype-quality estimates (S/M/L). "ui" = compass-ui primitive, "proto" = compass-proto composite.
 Evidence is grep/skim based; items marked (verify) were not confirmed from source.
 Playground workaround scan is included as P-1.
+This doc is a snapshot and the rationale. Status of each item is tracked on a Mattermost board, not here. See [ROADMAP.md](./ROADMAP.md) (Prototype coverage).
 
 Audited 2026-11-12 against the Mattermost webapp, the Agents, Playbooks, and Boards v2 plugins, `compass-ui`, `compass-proto`, and the prototypes in `mattermost-proto-playground`. Playbooks was audited from a fork snapshot of the plugin (last commit 2026-10-29).
 
