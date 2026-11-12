@@ -46,7 +46,7 @@ Calls-related items are in P4 (Calls), not here. The remaining evidence comes fr
 - Global threads recipe. proto, S.
 - Form widgets: DatePicker (M), TimePicker, ColorInput, CopyButton, avatar/image upload, URL-prefix input, chip input. ui, S-M each.
 - Auth layout (login, signup, MFA, reset, ToS, select team) and onboarding (task list, spotlight, preparing workspace). proto, L total.
-- Menu submenu flyouts, anchored Popover, Skeleton loader, labeled Divider (verify these four are truly missing). The anchored popover is #243; submenu flyouts may be part of #111.
+- Menu submenu flyouts, anchored Popover, Skeleton loader, labeled Divider (verify these four are truly missing). The anchored popover is the positioner in #111 plus the content surface in #243; submenu flyouts may be part of #111.
 
 ## P2: System console
 
@@ -99,13 +99,13 @@ Core components:
 9. VideoStage: grid, speaker, and screen-share layouts with a layout function. proto, L. Seed: `video-calls/components/VideoStage` and `layout/computeStageLayout.ts`. Strongest candidate, with real logic.
 10. CallControlsBar with a split icon button, reaction tray, and share indicator. proto, M. Seed: `video-calls/components/CallControlsBar`. Depends on the inverted `IconButton` fix below: the control buttons use `style="inverted"`, which reads the sidebar text tokens and is near-invisible on the call surface in the Quartz theme.
 11. Device picker menu with mic level meter. proto, M. Seed: `video-calls/components/DeviceMenu`. Needs the shared anchored positioner in #111.
-12. Call event post (call started and ended, with participants and duration). proto, M. No seed; plugin source is `custom_post_types/post_type_event.tsx`.
+12. Call post card (call started, ended, calling, missed, declined, canceled), with participants, duration, and recordings. This is also the channel call card. proto, M. Seed: `video-calls/components/CallCard` (about 125 lines, props-driven, states calling, active, joined, and ended). The plugin renders the same card in `custom_post_types/post_type_event.tsx`.
 13. Channel header call button, start-call menu, and call toast. proto, S-M. Seeds: `video-calls/components/StartCallButton`, `CallHeaderButton`, and `scenes/StartCallMenu.tsx`; merge with the outbound `OutboundCallStartCallMenu.tsx`.
 14. Host controls menu and participant row actions. proto, S. Seed: `video-calls/components/ParticipantMenu`.
 15. Call chat and threads panel in the popout. proto, M. Seed: `video-calls/components/CallThreadPane`.
 16. Recording consent and info prompt, plus recording and transcription posts. proto, M and S-M. No prototype seed.
 17. SelfViewPip with corner snap. proto, M. Seed: `video-calls/components/SelfViewPip`.
-18. Channel call card and call banner. proto, S each. Seed: `video-calls/components/CallCard`, `CallBanner`.
+18. Call banner (ongoing-call pill with Join and dismiss). proto, S. Seed: `video-calls/components/CallBanner`. The channel call card is item 12.
 
 Extending existing compass-proto components:
 
@@ -190,7 +190,7 @@ Products that need each item, from this audit:
 - Wizard modal: agents (MCP wizard), playbooks, boards v2 (import).
 - SettingRow: system console, calls admin settings, playbooks editor.
 - Anchored popup / menu button: channels (autocomplete, popovers), calls (device picker, menus), agents.
-- Timeline: boards v2, playbooks. Lower overlap; build with the first product that needs it.
+- Timeline: not shared. The playbooks vertical event list and the boards Gantt timeline are different components and are tracked separately.
 - Calendar grid: boards v2 only so far. Lower overlap; listed here in case channels scheduling needs it.
 
 ## Note on ranking
