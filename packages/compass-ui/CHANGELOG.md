@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`UserAvatar` 96px uses the `medium` status badge (was `large`):** `large` now starts at 120px. The 96px badge is the same 20px glyph as 56–80px, at a 0 corner offset (was a 32px badge at -2px). Corner offsets for 96, 120 and 128px are otherwise unchanged and still to be confirmed against the Figma spec (#250).
+
 ## [0.1.0-alpha.30] - 2026-11-11
 
 ### Added

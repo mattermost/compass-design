@@ -39,6 +39,23 @@ describe('UserAvatar image failure', () => {
   });
 });
 
+describe('UserAvatar status badge size', () => {
+  const badgeClass = (size: '80' | '96' | '120' | '128') => {
+    const { container } = render(
+      <UserAvatar alt="Sofia Bauer" size={size} status="online" />,
+    );
+    return container.querySelector('[class*="status-badge--size-"]')
+      ?.className;
+  };
+
+  it('uses medium up to 96px and large from 120px', () => {
+    expect(badgeClass('80')).toMatch(/size-medium/);
+    expect(badgeClass('96')).toMatch(/size-medium/);
+    expect(badgeClass('120')).toMatch(/size-large/);
+    expect(badgeClass('128')).toMatch(/size-large/);
+  });
+});
+
 describe('UserAvatar ref', () => {
   it('points at the root element for an image and for the fallback', () => {
     const ref = { current: null as HTMLDivElement | null };

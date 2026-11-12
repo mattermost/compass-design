@@ -90,7 +90,10 @@ const FALLBACK_COLORS: readonly UserAvatarFallbackColor[] = [
   'teal',
 ];
 
-/** Map UserAvatar size to StatusBadge size (Figma scale). */
+/**
+ * Map UserAvatar size to StatusBadge size (Figma scale). `medium` covers
+ * 56–96px; `large` starts at 120px.
+ */
 const USER_AVATAR_TO_BADGE_SIZE: Record<UserAvatarSize, StatusBadgeSize> = {
   '12': 'xx-small',
   '16': 'xx-small',
@@ -106,7 +109,7 @@ const USER_AVATAR_TO_BADGE_SIZE: Record<UserAvatarSize, StatusBadgeSize> = {
   '64': 'medium',
   '72': 'medium',
   '80': 'medium',
-  '96': 'large',
+  '96': 'medium',
   '120': 'large',
   '128': 'large',
 };

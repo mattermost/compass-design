@@ -96,10 +96,10 @@
         font-size: #{$size * 0.467}px;
       }
 
-      // Badge box is locked to the avatar size. 56–80px use the Medium badge,
+      // Badge box is locked to the avatar size. 56–96px use the Medium badge,
       // whose 24px box leaves a 2px ring; drop it so the box is the 20px glyph.
       // Scoped to the avatar; standalone StatusBadge is unchanged.
-      @if $size >= 56 and $size <= 80 {
+      @if $size >= 56 and $size <= 96 {
         .user-avatar__status .user-avatar__badge {
           width: var(--icon-size-20);
           height: var(--icon-size-20);
@@ -110,7 +110,7 @@
         @if $size <= 28 {
           right: -1px;
           bottom: -1px;
-        } @else if $size >= 56 and $size <= 80 {
+        } @else if $size >= 56 and $size <= 96 {
           // 20px box (was 24px at -2px): 0 keeps the badge centre in place.
           right: 0;
           bottom: 0;
