@@ -47,6 +47,7 @@ export interface MobileChannelsSidebarProps {
   /** Secondary line under the team title (e.g. organization). */
   subtitle?: string;
   showUnreadsCategory?: boolean;
+  /** @deprecated Build the model with `buildDefaultChannelsSidebarModel({ channelNames })` instead. Still works. */
   channelNameOverrides?: Record<string, string>;
   onItemClick?: (name: string) => void;
   /** Controlled value for the Find channels field. */

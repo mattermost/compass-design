@@ -6,6 +6,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`@mattermost/compass-proto` fixtures (unpublished package):** exports `fixtureUsers`, `fixturePresence`, `fixtureTeams`, `fixtureChannels`, `fixturePosts` / `fixtureThreads` (with `getFixture*` lookups and `Fixture*` types) and `createAvatarRegistry`. The registry maps host-supplied image URLs (for example `import.meta.glob` over `src/assets/avatars/*.png`) onto fixture user ids, so a host no longer needs one import per avatar. The images are not bundled in the package. Fixture content is sample data derived from the docs app, not the playground branches.
+- **`buildDefaultChannelsSidebarModel` `channelNames` and `avatars`:** `channelNames` renames rows (`name` and `avatarAlt`) by default name; `avatars` takes an avatar registry. The seven `avatar*` inputs are now optional and win over the registry when passed.
+
+### Deprecated
+
+- **`ChannelsSidebar` / `MobileChannelsSidebar` `channelNameOverrides`:** still works; prefer `channelNames` on the model builder.
+
 ## [0.1.0-alpha.30] - 2026-11-11
 
 ### Added

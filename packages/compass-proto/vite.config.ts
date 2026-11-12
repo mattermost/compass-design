@@ -15,7 +15,7 @@ export default defineConfig({
     dts({
       tsconfigPath: path.resolve(__dirname, 'tsconfig.build.json'),
       include: ['src'],
-      exclude: ['**/*.stories.tsx'],
+      exclude: ['**/*.stories.tsx', '**/*.test.ts', '**/*.test.tsx'],
       rollupTypes: false,
     }),
   ],

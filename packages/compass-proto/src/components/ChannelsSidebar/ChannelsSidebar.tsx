@@ -209,6 +209,7 @@ export interface ChannelsSidebarProps {
    * Rename built-in channel/DM items without editing the model.
    * Keys are the default names; values are the display names to use instead.
    * Applies to `name` and `avatarAlt` on each item (same as the legacy hardcoded list).
+   * @deprecated Build the model with `buildDefaultChannelsSidebarModel({ channelNames })` instead. Still works.
    */
   channelNameOverrides?: Record<string, string>;
   /**

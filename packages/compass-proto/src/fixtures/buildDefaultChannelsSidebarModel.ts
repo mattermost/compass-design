@@ -3,18 +3,28 @@ import type {
   ChannelsSidebarGroupModel,
   ChannelsSidebarModel,
 } from '../components/ChannelsSidebar';
+import { applyChannelNameOverrides } from '../components/ChannelsSidebar/channelsSidebarModel';
+import type { AvatarRegistry } from './avatars';
 
 export interface BuildDefaultChannelsSidebarModelInput {
   showUnreadsCategory: boolean;
   /** When true, appends "dial-pad" to the top group (Threads / Drafts row). */
   showDialPad?: boolean;
-  avatarAikoTan: string;
-  avatarArjunPatel: string;
-  avatarDanielleOkoro: string;
-  avatarDariusCole: string;
-  avatarDavidLiang: string;
-  avatarEmmaNovak: string;
-  avatarEthanBrooks: string;
+  /**
+   * Display names to use instead of the defaults. Keys are the default row
+   * names (e.g. "UX Design", "Aiko Tan"); values replace `name` and
+   * `avatarAlt`. Replaces passing `channelNameOverrides` to the sidebar.
+   */
+  channelNames?: Record<string, string>;
+  /** Avatar registry (see `createAvatarRegistry`). Fills any avatar prop not passed explicitly. */
+  avatars?: AvatarRegistry;
+  avatarAikoTan?: string;
+  avatarArjunPatel?: string;
+  avatarDanielleOkoro?: string;
+  avatarDariusCole?: string;
+  avatarDavidLiang?: string;
+  avatarEmmaNovak?: string;
+  avatarEthanBrooks?: string;
 }
 
 /** Builds the canonical playground sidebar tree (matches pre-model hardcoded markup). */
@@ -24,14 +34,18 @@ export function buildDefaultChannelsSidebarModel(
   const {
     showUnreadsCategory,
     showDialPad = false,
-    avatarAikoTan,
-    avatarArjunPatel,
-    avatarDanielleOkoro,
-    avatarDariusCole,
-    avatarDavidLiang,
-    avatarEmmaNovak,
-    avatarEthanBrooks,
+    channelNames,
+    avatars,
   } = input;
+  const avatarAikoTan = input.avatarAikoTan ?? avatars?.['aiko-tan'];
+  const avatarArjunPatel = input.avatarArjunPatel ?? avatars?.['arjun-patel'];
+  const avatarDanielleOkoro =
+    input.avatarDanielleOkoro ?? avatars?.['danielle-okoro'];
+  const avatarDariusCole = input.avatarDariusCole ?? avatars?.['darius-cole'];
+  const avatarDavidLiang = input.avatarDavidLiang ?? avatars?.['david-liang'];
+  const avatarEmmaNovak = input.avatarEmmaNovak ?? avatars?.['emma-novak'];
+  const avatarEthanBrooks =
+    input.avatarEthanBrooks ?? avatars?.['ethan-brooks'];
 
   const topGroupItems: ChannelsSidebarItemModel[] = [
     { name: 'Threads', leadingVisual: 'threads' },
@@ -231,5 +245,5 @@ export function buildDefaultChannelsSidebarModel(
     items: dmItems,
   });
 
-  return { topGroupItems, groups };
+  return applyChannelNameOverrides({ topGroupItems, groups }, channelNames);
 }
