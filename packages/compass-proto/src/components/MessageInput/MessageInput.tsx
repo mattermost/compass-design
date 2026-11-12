@@ -120,7 +120,9 @@ export default function MessageInput({
       !onSend ||
       e.key !== 'Enter' ||
       e.shiftKey ||
-      e.nativeEvent.isComposing
+      // keyCode 229 covers older Safari, which doesn't set isComposing
+      e.nativeEvent.isComposing ||
+      e.keyCode === 229
     ) {
       return;
     }

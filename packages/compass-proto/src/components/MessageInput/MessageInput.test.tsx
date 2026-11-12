@@ -14,9 +14,14 @@ function type(textarea: HTMLTextAreaElement, value: string) {
   });
 }
 
-function pressEnter(textarea: HTMLTextAreaElement, shiftKey = false) {
+function pressEnter(
+  textarea: HTMLTextAreaElement,
+  shiftKey = false,
+  keyCode = 13,
+) {
   const event = new KeyboardEvent('keydown', {
     key: 'Enter',
+    keyCode,
     shiftKey,
     bubbles: true,
     cancelable: true,
@@ -66,6 +71,15 @@ describe('MessageInput', () => {
     expect(onSend).not.toHaveBeenCalled();
     expect(pressEnter(textarea).defaultPrevented).toBe(true);
     expect(onSend).toHaveBeenCalledWith('Hello');
+  });
+
+  it('does not send on Enter that confirms IME composition (keyCode 229)', () => {
+    const onSend = vi.fn();
+    const { container } = render(<MessageInput onSend={onSend} />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, 'こんにちは');
+    expect(pressEnter(textarea, false, 229).defaultPrevented).toBe(false);
+    expect(onSend).not.toHaveBeenCalled();
   });
 
   it('does not send empty text', () => {
