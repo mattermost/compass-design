@@ -228,67 +228,80 @@
   // Style = Inverted (Figma: for dark backgrounds)
   // ---------------------------------------------------------------------------
   &--style-inverted {
+    // A dark surface can set --inverted-color, --inverted-color-rgb and
+    // --inverted-surface on an ancestor. Unset, the sidebar tokens apply, so
+    // nothing changes where the inverted style already sits on the sidebar.
+    --icon-button-inverted-color: var(--inverted-color, var(--sidebar-text));
+    --icon-button-inverted-color-rgb: var(
+      --inverted-color-rgb,
+      var(--sidebar-text-rgb)
+    );
+    --icon-button-inverted-ring: var(
+      --inverted-surface,
+      var(--sidebar-header-bg)
+    );
+    --icon-button-inverted-on-color: var(--inverted-surface, var(--sidebar-bg));
     background-color: transparent;
-    --icon-button-fg: rgba(var(--sidebar-text-rgb), 0.64);
-    color: rgba(var(--sidebar-text-rgb), 0.64);
+    --icon-button-fg: rgba(var(--icon-button-inverted-color-rgb), 0.64);
+    color: rgba(var(--icon-button-inverted-color-rgb), 0.64);
 
     .icon-button__unread-badge {
-      box-shadow: 0 0 0 2px var(--sidebar-header-bg);
+      box-shadow: 0 0 0 2px var(--icon-button-inverted-ring);
     }
 
     &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
         :active
       ):not(.icon-button--toggled):not(.icon-button--active) {
-      background-color: rgba(var(--sidebar-text-rgb), 0.08);
-      --icon-button-fg: var(--sidebar-text);
-      color: var(--sidebar-text);
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.08);
+      --icon-button-fg: var(--icon-button-inverted-color);
+      color: var(--icon-button-inverted-color);
     }
     &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
-      background-color: rgba(var(--sidebar-text-rgb), 0.16);
-      --icon-button-fg: var(--sidebar-text);
-      color: var(--sidebar-text);
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.16);
+      --icon-button-fg: var(--icon-button-inverted-color);
+      color: var(--icon-button-inverted-color);
     }
 
     &.icon-button--active:not(:disabled, .icon-button--disabled) {
-      background-color: rgba(var(--sidebar-text-rgb), 0.16);
-      --icon-button-fg: var(--sidebar-text);
-      color: var(--sidebar-text);
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.16);
+      --icon-button-fg: var(--icon-button-inverted-color);
+      color: var(--icon-button-inverted-color);
 
       &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
           :active
         ) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.2);
-        --icon-button-fg: var(--sidebar-text);
-        color: var(--sidebar-text);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.2);
+        --icon-button-fg: var(--icon-button-inverted-color);
+        color: var(--icon-button-inverted-color);
       }
 
       &:active:not(:disabled, .icon-button--disabled) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.24);
-        --icon-button-fg: var(--sidebar-text);
-        color: var(--sidebar-text);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.24);
+        --icon-button-fg: var(--icon-button-inverted-color);
+        color: var(--icon-button-inverted-color);
       }
     }
     &.icon-button--toggled {
-      background-color: var(--sidebar-text);
-      --icon-button-fg: var(--sidebar-bg);
-      color: var(--sidebar-bg);
+      background-color: var(--icon-button-inverted-color);
+      --icon-button-fg: var(--icon-button-inverted-on-color);
+      color: var(--icon-button-inverted-on-color);
 
       &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
           :active
         ) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.92);
-        --icon-button-fg: var(--sidebar-bg);
-        color: var(--sidebar-bg);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.92);
+        --icon-button-fg: var(--icon-button-inverted-on-color);
+        color: var(--icon-button-inverted-on-color);
       }
 
       &:active:not(:disabled, .icon-button--disabled) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.88);
-        --icon-button-fg: var(--sidebar-bg);
-        color: var(--sidebar-bg);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.88);
+        --icon-button-fg: var(--icon-button-inverted-on-color);
+        color: var(--icon-button-inverted-on-color);
       }
 
       .icon-button__unread-badge {
-        box-shadow: 0 0 0 2px var(--sidebar-text);
+        box-shadow: 0 0 0 2px var(--icon-button-inverted-color);
       }
     }
 

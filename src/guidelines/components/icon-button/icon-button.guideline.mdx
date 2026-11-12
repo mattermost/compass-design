@@ -190,7 +190,9 @@ Renders the icon in `--color-danger` and tints the hover background.
 ### Inverted
 
 For dark surfaces — sidebar, theme-coloured headers, banner overlays —
-where the default colours wouldn't hold contrast.
+where the default colours wouldn't hold contrast. A dark surface that is not
+the sidebar, such as the call window, supplies its own foreground and surface
+colours; see Implementation.
 
 <div
   style={{
@@ -291,6 +293,20 @@ import { Link } from 'react-router-dom';
 >
   <Link to="/settings" />
 </IconButton>;
+```
+
+The inverted style takes its colours from the sidebar theme by default. On a
+dark surface that uses different colours, set the foreground and surface on
+an ancestor and every inverted Icon Button below it follows. Without them the
+sidebar colours apply, so existing uses do not change:
+
+```scss
+.call-surface {
+  background: var(--calls-bg);
+  --inverted-color: var(--calls-color);
+  --inverted-color-rgb: var(--calls-color-rgb);
+  --inverted-surface: var(--calls-bg);
+}
 ```
 
 In prototypes and layout specimens, wrap Icon Buttons with

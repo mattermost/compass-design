@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`--calls-color` and `--calls-color-rgb` theme tokens:** the foreground that reads on the call surface (`--calls-bg`), defined in every theme next to `--calls-bg`. White in all five themes today.
+- **`--inverted-color`, `--inverted-color-rgb` and `--inverted-surface` hooks on `IconButton` `style="inverted"`:** a dark surface that is not the sidebar can set these on an ancestor so inverted Icon Buttons read on it. Unset, they fall back to the sidebar tokens, so nothing changes for existing uses. Before this, an inverted Icon Button on the call surface in a light-sidebar theme such as Quartz rendered near-black icons on a near-black surface.
+
 ## [0.1.0-alpha.30] - 2026-11-11
 
 ### Added
