@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`StatusBadge` `--status-badge-offline-color` custom property:** overrides the `offline` glyph color so the badge can match sidebar, global header and other colored surfaces, alongside the existing `--status-badge-bg`. Falls back to the previous value, so default markup and appearance are unchanged.
+
 ### Changed
 
 - **`@mattermost/compass-proto` `MobileMessageInput` `variant` values are now lowercase kebab-case (breaking for hosts that passed the old values):** `variant` takes `'root'` and `'reply'` instead of `'Root'` and `'Reply'`, matching the public variant-value convention. Update any `variant="Root"` / `variant="Reply"` usage to the lowercase values; the default is still `'root'`. Nothing else in the component's API changes.

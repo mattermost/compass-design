@@ -68,6 +68,29 @@ export const DoNotDisturb: Story = {
   },
 };
 
+/** Set `--status-badge-bg` and `--status-badge-offline-color` on the surface. */
+export const OnColoredSurface: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        gap: 16,
+        alignItems: 'center',
+        padding: 16,
+        background: 'var(--sidebar-bg)',
+        ['--status-badge-bg' as string]: 'var(--sidebar-bg)',
+        ['--status-badge-offline-color' as string]:
+          'rgba(var(--sidebar-text-rgb), 0.32)',
+      }}
+    >
+      {STATUSES.map((status) => (
+        <StatusBadge key={status} status={status} />
+      ))}
+    </div>
+  ),
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
