@@ -96,7 +96,7 @@ Core components:
 
 8. VideoTile (video, mirror, loading, speaking ring, mute and hand badges). proto, M. Seed: `video-calls/components/VideoTile`. Unblocks the popout, the widget video mode, and the stage.
 9. VideoStage: grid, speaker, and screen-share layouts with a layout function. proto, L. Seed: `video-calls/components/VideoStage` and `layout/computeStageLayout.ts`. Strongest candidate, with real logic.
-10. CallControlsBar with a split icon button, reaction tray, and share indicator. proto, M. Seed: `video-calls/components/CallControlsBar`.
+10. CallControlsBar with a split icon button, reaction tray, and share indicator. proto, M. Seed: `video-calls/components/CallControlsBar`. Depends on the inverted `IconButton` fix below: the control buttons use `style="inverted"`, which reads the sidebar text tokens and is near-invisible on the call surface in the Quartz theme.
 11. Device picker menu with mic level meter. proto, M. Seed: `video-calls/components/DeviceMenu`. Needs the anchored popup (P-1 item 2).
 12. Call event post (call started and ended, with participants and duration). proto, M. No seed; plugin source is `custom_post_types/post_type_event.tsx`.
 13. Channel header call button, start-call menu, and call toast. proto, S-M. Seeds: `video-calls/components/StartCallButton`, `CallHeaderButton`, and `scenes/StartCallMenu.tsx`; merge with the outbound `OutboundCallStartCallMenu.tsx`.
@@ -110,25 +110,26 @@ Extending existing compass-proto components:
 
 19. CallWidget phases (pre-join, calling, active, incoming) and video mode. proto, L. Seed: `video-calls/components/VideoCallWidget`, `WidgetFrame`, `WidgetMediaControls`.
 20. CallPopout as the large call window, and a softphone variant. proto, L. Seeds: `video-calls/components/VideoCallWindow`, `outbound-calls/CallPip/CallPip.tsx` (about 780 lines with hand-built tab strips).
-21. CallPopout style and slot props, and a ChannelShell slot, to remove `!important` overrides in `external-call-participants`. proto, S-M.
-22. CallNotice banner with actions (host notices, alert banners). proto, S.
-23. RecordingIndicator states for transcribing and captions. proto, S.
+21. Inverted `IconButton` on dark call surfaces. ui, S-M. `style="inverted"` takes its colors from `--sidebar-text`, `--sidebar-text-rgb`, and `--sidebar-header-bg`, but the call surface uses `--calls-bg`. In Quartz the sidebar text is near-black (`neutral-1100`) on a near-black call surface (`neutral-1050`). `CallParticipantAvatar` has the same dependency. Fix upstream in compass-ui: have the inverted style read an on-dark foreground pair (for example `--inverted-color` and `--inverted-color-rgb`) with a fallback to the sidebar tokens, add `--calls-color` and `--calls-color-rgb` next to `--calls-bg` in each theme, and set the pair on the popout root. A fix local to compass-proto would not reach the real Calls plugin, which uses compass-ui only. Not yet checked: the destructive inverted state (leave button) and a rendered check in Quartz.
+22. CallPopout style and slot props, and a ChannelShell slot, to remove `!important` overrides in `external-call-participants`. proto, S-M.
+23. CallNotice banner with actions (host notices, alert banners). proto, S.
+24. RecordingIndicator states for transcribing and captions. proto, S.
 
 Softphone (after the foundations):
 
-24. CallDialerPanel, composed from DialPad and CallHistoryRow. proto, M. Seed: `outbound-calls/RhsDialer.tsx`.
-25. SoftphonePip. proto, L. Seed: `outbound-calls/CallPip/CallPip.tsx`.
-26. PhoneNumberLink and phone glyphs. proto, S. Seed: `outbound-calls/OutboundCallPhoneNumberLink.tsx`.
+25. CallDialerPanel, composed from DialPad and CallHistoryRow. proto, M. Seed: `outbound-calls/RhsDialer.tsx`.
+26. SoftphonePip. proto, L. Seed: `outbound-calls/CallPip/CallPip.tsx`.
+27. PhoneNumberLink and phone glyphs. proto, S. Seed: `outbound-calls/OutboundCallPhoneNumberLink.tsx`.
 
 Smaller items:
 
-27. Leave menu (leave versus end for all). proto, S.
-28. Switch-call, error, remove, and stop-recording confirm modals. Use the ConfirmDialog preset (P0). proto, S.
-29. Screen source picker modal. proto, M.
-30. Live captions overlay and reaction stream. proto, S each.
-31. Call settings (audio, video, screen share) in the settings modal. proto, M. Seed: `video-calls/components/UserSettingsModal`. Depends on the settings shell (P0 item 4).
-32. Calls admin console settings (about 40) built on SettingRow (P2 item 1), plus the RTCD and recording modals via ConfirmDialog. proto, M-L. Seed: `calls-admin-console/components/SettingRow.tsx` on `claude/determined-wozniak-jxwzjn`.
-33. Cloud pricing and upgrade modals. proto, S-M. Overlaps the feature discovery panel.
+28. Leave menu (leave versus end for all). proto, S.
+29. Switch-call, error, remove, and stop-recording confirm modals. Use the ConfirmDialog preset (P0). proto, S.
+30. Screen source picker modal. proto, M.
+31. Live captions overlay and reaction stream. proto, S each.
+32. Call settings (audio, video, screen share) in the settings modal. proto, M. Seed: `video-calls/components/UserSettingsModal`. Depends on the settings shell (P0 item 4).
+33. Calls admin console settings (about 40) built on SettingRow (P2 item 1), plus the RTCD and recording modals via ConfirmDialog. proto, M-L. Seed: `calls-admin-console/components/SettingRow.tsx` on `claude/determined-wozniak-jxwzjn`.
+34. Cloud pricing and upgrade modals. proto, S-M. Overlaps the feature discovery panel.
 
 Scene-only, leave in the playground: the call state context, the widget and window hosts, the chat scenes, `OutboundCalls.tsx` and the other outbound scenes, the walkthrough files, and the admin console scene.
 
@@ -174,13 +175,26 @@ Generic items (also help channels, console, playbooks), do first:
 8. KanbanBoard, KanbanColumn, CardTile (column/drop-zone part is reusable). proto, L.
 9. Gallery tile, card detail modal + RHS composition, card post preview. proto, M.
 
-## Cross-product shared set (appears in 3+ products; build before product recipes)
+## Cross-product shared set (appears in 2 or more products; build before product recipes)
 
-DataTable + Pagination + filter toolbar; sortable list + drag handle; Collapsible/Card; option-color Chip + swatch picker; UserPicker (avatar-row Combobox); DatePicker/DateTimePicker; markdown textarea/inline edit; wizard modal; SettingRow; anchored popup/menu button; Timeline and Calendar grid.
+Products that need each item, from this audit:
+
+- DataTable + Pagination + filter toolbar: system console, playbooks, boards v2.
+- Sortable list + drag handle: boards v2, playbooks, system console (attribute option lists).
+- Collapsible/Card: agents, playbooks.
+- Option-color Chip + swatch picker: boards v2, playbooks, system console (attributes).
+- UserPicker (avatar-row Combobox): playbooks, boards v2, system console, channels (invite and add members).
+- DatePicker/DateTimePicker: playbooks, boards v2, channels (scheduled posts).
+- Markdown textarea and inline edit: playbooks, boards v2, channels.
+- Wizard modal: agents (MCP wizard), playbooks, boards v2 (import).
+- SettingRow: system console, calls admin settings, playbooks editor.
+- Anchored popup / menu button: channels (autocomplete, popovers), calls (device picker, menus), agents.
+- Timeline: boards v2, playbooks. Lower overlap; build with the first product that needs it.
+- Calendar grid: boards v2 only so far. Lower overlap; listed here in case channels scheduling needs it.
 
 ## Note on ranking
 
-Boards is last in your priority order, but DataTable, the sortable list, option colors, and the filter builder overlap the system console and playbooks. Build the shared pieces under the console item; boards then only needs the recipes (items 8-9).
+Boards is last in the priority order, but DataTable, the sortable list, option colors, and the filter builder overlap the system console and playbooks. Build those shared pieces under the console item. Boards still needs more after that: the property cell editors (item 4), the view toolbar (item 5), the calendar grid and timeline (item 6), and the wizard modal and small pieces (item 7), plus the kanban and card recipes (items 8-9). Build the shared pieces first, then these.
 
 ## Suggested build order (shared dependencies first)
 
