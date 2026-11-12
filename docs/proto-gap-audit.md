@@ -1,6 +1,6 @@
 # Prototype gap audit: what to add to compass-ui and compass-proto
 
-Scope: webapp desktop. Order: channels, system console, agents, playbooks, boards v2. Playbooks was audited from a fork snapshot.
+Scope: webapp desktop. Order: channels, system console, agents, calls, playbooks, boards v2. Playbooks was audited from a fork snapshot.
 Sizes are rough prototype-quality estimates (S/M/L). "ui" = compass-ui primitive, "proto" = compass-proto composite.
 Evidence is grep/skim based; items marked (verify) were not confirmed from source.
 Playground workaround scan is included as P-1.
@@ -10,7 +10,7 @@ Audited 2026-11-12 against the Mattermost webapp, the Agents, Playbooks, and Boa
 
 ## P-1: Foundations in existing compass-proto (from playground workaround scan)
 
-Calls-related items are excluded here and moved to "Later: Calls" at the end. The remaining evidence comes from the playground prototypes; with only 3 prototypes this is a small sample.
+Calls-related items are in P4 (Calls), not here. The remaining evidence comes from the playground prototypes; with only 3 prototypes this is a small sample.
 
 1. Rest/`data-*` pass-through and click handlers on composites (`Message` has neither; `MessageInput` has no `onSend` and no suggestion slot). Playground hacks around it with DOM queries (`externalWalkthroughFocus.ts`, `PositionedProfilePopover.tsx`, `ProfileClickable` sniffing tagName). proto, S. Do first; it unblocks guided walkthroughs.
 2. Anchored popup / menu-button primitive. Hand-positioned popups and flip logic (profile popover and others). ui or proto, M. Also feeds the autocomplete list (P0 item 2).
@@ -78,20 +78,74 @@ Generic primitives first (also benefit channels and playbooks):
 9. HtmlArtifactCard (mock), Ask AI menu items, recap post. proto, M.
 10. Agents product screens (list, 4-tab editor, version history) and admin (LLM service, MCP wizard, tool policies). proto, L.
 
-## P4: Playbooks
+## P4: Calls
+
+Sources: the Calls plugin webapp (desktop UI), the video-calls prototype (`claude/practical-goodall-ac0d7b`; `claude/video-calls-walkthrough-update` is a near-duplicate with a small SIP ring-sound tweak), and the outbound-calls, external-call-participants, and calls admin console prototypes. compass-proto already has `CallWidget`, `CallPopout`, `CallInfoPanel`, `ParticipantsPanel`, `CallNotice` (promoted from the video-calls prototype), `CallParticipantAvatar`, and `RecordingIndicator`. compass-ui has no call primitives. The Calls plugin hand-builds its widgets and uses almost no compass-ui, so many shared widgets there are an adoption issue, not a gap. Seeds are under `src/pages/prototypes/` in `mattermost-proto-playground` unless noted.
+
+Foundations (small, useful across calls work):
+
+1. DialPad. proto, S. Seed: `outbound-calls/OutboundCallKeypad.tsx` (styles are tangled in a 1,000-line scss file).
+2. CallHistoryRow. proto, S. Copied three times in the playground; seed in `outbound-calls/RhsDialer.tsx`.
+3. IncomingCallCard, full and condensed, with the calling pulse. proto, M. Seeds: `video-calls/components/IncomingCallCard`, `WidgetIncoming`, `CallingPulse`.
+4. PreJoinPanel. proto, S. Seed: `video-calls/components/PreJoinPanel`.
+5. Draggable window hook. proto, S. Seed: `video-calls/scenes/useWidgetDrag.ts` (remove a hardcoded class selector).
+6. Calls hooks: local camera, screen share, mic level, media devices, voice activity, call timer, call sounds. proto, S. Seeds in `video-calls/hooks/` and `useScreenShare.ts` (decouple from the call context).
+7. Call participants fixtures, and drop the duplicated `types/callParticipant.ts`. proto, S.
+
+Core components:
+
+8. VideoTile (video, mirror, loading, speaking ring, mute and hand badges). proto, M. Seed: `video-calls/components/VideoTile`. Unblocks the popout, the widget video mode, and the stage.
+9. VideoStage: grid, speaker, and screen-share layouts with a layout function. proto, L. Seed: `video-calls/components/VideoStage` and `layout/computeStageLayout.ts`. Strongest candidate, with real logic.
+10. CallControlsBar with a split icon button, reaction tray, and share indicator. proto, M. Seed: `video-calls/components/CallControlsBar`.
+11. Device picker menu with mic level meter. proto, M. Seed: `video-calls/components/DeviceMenu`. Needs the anchored popup (P-1 item 2).
+12. Call event post (call started and ended, with participants and duration). proto, M. No seed; plugin source is `custom_post_types/post_type_event.tsx`.
+13. Channel header call button, start-call menu, and call toast. proto, S-M. Seeds: `video-calls/components/StartCallButton`, `CallHeaderButton`, and `scenes/StartCallMenu.tsx`; merge with the outbound `OutboundCallStartCallMenu.tsx`.
+14. Host controls menu and participant row actions. proto, S. Seed: `video-calls/components/ParticipantMenu`.
+15. Call chat and threads panel in the popout. proto, M. Seed: `video-calls/components/CallThreadPane`.
+16. Recording consent and info prompt, plus recording and transcription posts. proto, M and S-M. No prototype seed.
+17. SelfViewPip with corner snap. proto, M. Seed: `video-calls/components/SelfViewPip`.
+18. Channel call card and call banner. proto, S each. Seed: `video-calls/components/CallCard`, `CallBanner`.
+
+Extending existing compass-proto components:
+
+19. CallWidget phases (pre-join, calling, active, incoming) and video mode. proto, L. Seed: `video-calls/components/VideoCallWidget`, `WidgetFrame`, `WidgetMediaControls`.
+20. CallPopout as the large call window, and a softphone variant. proto, L. Seeds: `video-calls/components/VideoCallWindow`, `outbound-calls/CallPip/CallPip.tsx` (about 780 lines with hand-built tab strips).
+21. CallPopout style and slot props, and a ChannelShell slot, to remove `!important` overrides in `external-call-participants`. proto, S-M.
+22. CallNotice banner with actions (host notices, alert banners). proto, S.
+23. RecordingIndicator states for transcribing and captions. proto, S.
+
+Softphone (after the foundations):
+
+24. CallDialerPanel, composed from DialPad and CallHistoryRow. proto, M. Seed: `outbound-calls/RhsDialer.tsx`.
+25. SoftphonePip. proto, L. Seed: `outbound-calls/CallPip/CallPip.tsx`.
+26. PhoneNumberLink and phone glyphs. proto, S. Seed: `outbound-calls/OutboundCallPhoneNumberLink.tsx`.
+
+Smaller items:
+
+27. Leave menu (leave versus end for all). proto, S.
+28. Switch-call, error, remove, and stop-recording confirm modals. Use the ConfirmDialog preset (P0). proto, S.
+29. Screen source picker modal. proto, M.
+30. Live captions overlay and reaction stream. proto, S each.
+31. Call settings (audio, video, screen share) in the settings modal. proto, M. Seed: `video-calls/components/UserSettingsModal`. Depends on the settings shell (P0 item 4).
+32. Calls admin console settings (about 40) built on SettingRow (P2 item 1), plus the RTCD and recording modals via ConfirmDialog. proto, M-L. Seed: `calls-admin-console/components/SettingRow.tsx` on `claude/determined-wozniak-jxwzjn`.
+33. Cloud pricing and upgrade modals. proto, S-M. Overlaps the feature discovery panel.
+
+Scene-only, leave in the playground: the call state context, the widget and window hosts, the chat scenes, `OutboundCalls.tsx` and the other outbound scenes, the walkthrough files, and the admin console scene.
+
+## P5: Playbooks
 
 Source: user's fork snapshot (matthewbirtch/mattermost-plugin-playbooks, branch audit-snapshot, last commit 2026-10-29), because mattermost/mattermost-plugin-playbooks could not be attached. Confirm the snapshot matches upstream main.
 Context: the plugin imports only compass-icons (zero compass-ui/proto). Stack is styled-components, react-bootstrap, react-select, @hello-pangea/dnd, tanstack table. Everything is hand-rolled; compass matches are visual equivalents. Classification is from listings and prop greps.
 Migration note (from user): a playbooks work order is in flight to migrate the plugin to compass-ui components, using existing compass-ui components only for now. It is therefore not blocked by the gaps below, and this section does not change the overall ranking. Items 1-10 are the likely next phase if the migration later needs components that don't exist yet. Product code uses compass-ui only; proto recipes (11-16) are for prototyping. The work order itself was not available to check scope.
 Shared generic items (overlap earlier sections; build once):
 
-1. DataTable (sortable headers, pagination, row actions). Same as P2/P5.
-2. Sortable list + drag handle. Same as P5.
+1. DataTable (sortable headers, pagination, row actions). Same as P2/P6.
+2. Sortable list + drag handle. Same as P6.
 3. Collapsible/Accordion. Same as P3.
 4. DatePicker/DateTimePicker with relative/natural-language entry (task due dates). ui, M.
 5. UserPicker (Combobox + avatar rows, multi-select, "me"/"none", recents). ui, M. Also serves boards person property, system console, channels invite.
 6. Chip tones (overdue, soon, assigned) + avatar-in-chip. ui, S.
-7. Filter bar / filter builder (runs list). Same as P5.
+7. Filter bar / filter builder (runs list). Same as P6.
 8. Timeline (vertical event list). ui, M.
 9. Markdown textarea with edit/preview + inline-edit text. ui, M.
 10. Wizard modal; tour spotlight backdrop; labelled ProgressBar ("x/y"); file drop zone; scroll-nav. S-M each.
@@ -104,7 +158,7 @@ Shared generic items (overlap earlier sections; build once):
 16. RetrospectiveEditor, StatusUpdate/UpdateRequest post cards, participants row + add modal, template-card grid + getting-started empty state, channel-header run pill. S-M each.
     Low priority: metrics charts, task conditions/requirements, upgrade modals.
 
-## P5: Boards v2 (mattermost-plugin-boards-v2)
+## P6: Boards v2 (mattermost-plugin-boards-v2)
 
 Context: a board is a channel and a card is a post, so sidebar, sharing, and comments are core channels UI (already covered). The plugin webapp imports only about 13 compass-ui primitives; the rest is hand-rolled `boards-*` SCSS. No board/table/kanban/dnd code exists in either compass package. Audit was grep/read based.
 Generic items (also help channels, console, playbooks), do first:
@@ -135,6 +189,7 @@ B. proto: message body rendering + system messages, composer variants, ConfirmDi
 C. proto: Quick switch, searchable list modal, RHS search results, drafts/scheduled, bookmarks.
 D. ui: DataTable + Pagination + toolbar, then console pages.
 E. proto: AgentMessage, tool cards, agents RHS.
+F. proto: calls foundations (VideoTile, IncomingCallCard, DialPad, hooks), then VideoStage and the CallWidget and CallPopout extensions.
 
 ## Build order note
 
@@ -160,15 +215,15 @@ Branches in `mattermost-proto-playground` hold one-off components that could see
 | Searchable channel list (P0)                  | `prototype/matrix-interop`: `ChannelAutocompleteField.tsx`                                                                                                  | Combobox with public/private icons.                                                                                                                                                                                |
 | Quick switch modal (P0)                       | `feature/quick-switcher`: `QuickSwitcher.tsx`; `prototype/universal-search`: `UniversalSearchModal.tsx`                                                     | The quick switcher is cleanest. Its destinations are tied to the docs site, so it needs `items` and `onSelect` props. Universal search needs a compass-ui build with `SegmentedControl` and Modal `headerLeading`. |
 | Typing indicator (P0, P3)                     | `channel-automations-v2`: `ChatTypingIndicator.tsx`; `cursor/agents-vision-prototype-c820`: `AgentTypingDots.tsx`                                           | 11 lines and props-driven.                                                                                                                                                                                         |
-| SettingRow (P2, P4)                           | `abhijit-prototypes` / `global-attributes-asaad`: `ConsoleSetting.tsx`; `claude/determined-wozniak-jxwzjn`: `calls-admin-console/components/SettingRow.tsx` | Both props-driven. The second adds `useId` wiring and a True/False radio helper. Check disabled and env-lock states.                                                                                               |
-| DataTable (P2, P5)                            | `abhijit-prototypes`: `ConsolePropertyTable`, `ConsolePropertyRow`; `cursor/automations-product-prototype-373c`: `RunsPage.tsx`, `HomePage.tsx`             | Partial. No sorting, pagination, or sticky header.                                                                                                                                                                 |
-| Option-color Chip, chip input (P4, P5)        | `global-attributes-asaad`: `RankedValueChip`, `ColoredRankedInputChip`                                                                                      | Open PR #195 adds a pressable Chip mode.                                                                                                                                                                           |
-| Collapsible card (P3, P4)                     | `channel-automations-v2`: `settings/SettingsDisclosureCard.tsx`                                                                                             | 82 lines, props-driven.                                                                                                                                                                                            |
+| SettingRow (P2, P5)                           | `abhijit-prototypes` / `global-attributes-asaad`: `ConsoleSetting.tsx`; `claude/determined-wozniak-jxwzjn`: `calls-admin-console/components/SettingRow.tsx` | Both props-driven. The second adds `useId` wiring and a True/False radio helper. Check disabled and env-lock states.                                                                                               |
+| DataTable (P2, P6)                            | `abhijit-prototypes`: `ConsolePropertyTable`, `ConsolePropertyRow`; `cursor/automations-product-prototype-373c`: `RunsPage.tsx`, `HomePage.tsx`             | Partial. No sorting, pagination, or sticky header.                                                                                                                                                                 |
+| Option-color Chip, chip input (P5, P6)        | `global-attributes-asaad`: `RankedValueChip`, `ColoredRankedInputChip`                                                                                      | Open PR #195 adds a pressable Chip mode.                                                                                                                                                                           |
+| Collapsible card (P3, P5)                     | `channel-automations-v2`: `settings/SettingsDisclosureCard.tsx`                                                                                             | 82 lines, props-driven.                                                                                                                                                                                            |
 | Agent tool and prompt cards (P3)              | `cursor/agents-vision-prototype-c820`: `AgentApprovalCard`, `AgentToolAuthCard`, `AgentToolConnectCard`, `AgentArtifactCard`                                | Agent-specific props to strip.                                                                                                                                                                                     |
 | Agent message bubble, sidebar (P3)            | `cursor/agents-vision-prototype-c820`: `agents-app/AgentChat.tsx`                                                                                           | About 1,900 lines tied to its own context. Heavy extraction.                                                                                                                                                       |
 | MCP and tool policies (P3)                    | `channel-automations-v2`: `McpServersToolsList.tsx`                                                                                                         | Embedded fixtures.                                                                                                                                                                                                 |
-| Tour spotlight, onboarding (P1, P4)           | `tour-point-pattern`, `proto-onboarding`; `abhijit-prototypes`: `src/components/walkthrough/`                                                               | `TourPoint` already ships in compass-ui. The spotlight scrim is what is missing.                                                                                                                                   |
-| Playbooks run sidebar sketch (P4)             | `cursor/agents-vision-prototype-c820`: `PlaybookRunRhs.tsx`                                                                                                 |                                                                                                                                                                                                                    |
+| Tour spotlight, onboarding (P1, P5)           | `tour-point-pattern`, `proto-onboarding`; `abhijit-prototypes`: `src/components/walkthrough/`                                                               | `TourPoint` already ships in compass-ui. The spotlight scrim is what is missing.                                                                                                                                   |
+| Playbooks run sidebar sketch (P5)             | `cursor/agents-vision-prototype-c820`: `PlaybookRunRhs.tsx`                                                                                                 |                                                                                                                                                                                                                    |
 
 Useful components that are not in the gap list above:
 
@@ -184,14 +239,3 @@ Notes:
 - `resource-level` is an older subset of `global-attributes-asaad`.
 - `abhijit-prototypes` fixtures may contain customer-adjacent copy. Do not copy them.
 - `RightSidebarHeader` and `Scrollbar` already ship in compass-ui.
-
-## Later: Calls (deferred by request; group with any other calls work)
-
-From the playground scan:
-
-- Softphone pieces: dial pad, call-history row (copied 3 times), PiP call window, call RHS. proto, M-L. `OutboundCalls.module.scss` is 1486 lines.
-- Call participants fixtures; `types/callParticipant.ts` is duplicated byte-for-byte between playground and compass-proto.
-- ChannelShell flexibility for calls prototypes (outbound-calls rebuilds the shell; external-call uses `!important` overrides on ChannelShell and CallPopout). The general ChannelShell slot work stays in P1.
-- Hand-positioned call menus (`OutboundCallStartCallMenu.tsx`, `CallPip.tsx` device picker, `TelAutocompleteMessageInput.tsx` tel: popup); these will use the anchored popup from P-1 item 2.
-- Hand-built `role="tab"` strips in CallPip where Tabs/SegmentedControl exist (adoption, not a gap).
-- WithTooltip missing on IconButtons in CallPip, RhsDialer, DialerScene.
