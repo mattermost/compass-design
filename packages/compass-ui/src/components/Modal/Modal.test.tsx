@@ -1,8 +1,17 @@
 import { act, createRef, useRef, useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { flushSync } from 'react-dom';
 import { POPOVER_TRANSITION_MS } from '@/hooks/usePopoverTransition';
-import { render } from '@/test-utils/render';
+import { click, getByRole, keyDown, render } from '@/test-utils/render';
+import Combobox from '@/components/Combobox/Combobox';
+import DateRangePicker from '@/components/DateRangePicker/DateRangePicker';
+import Select from '@/components/Select/Select';
 import Modal from './Modal';
+
+const OPTIONS = [
+  { value: 'a', label: 'Alpha' },
+  { value: 'b', label: 'Beta' },
+];
 
 function key(target: EventTarget, k: string, init: KeyboardEventInit = {}) {
   const e = new KeyboardEvent('keydown', {
@@ -209,6 +218,179 @@ describe('Modal focus and keyboard', () => {
     );
     key(document.body, 'Escape');
     expect(upper).toHaveBeenCalledTimes(1);
+    expect(lower).not.toHaveBeenCalled();
+  });
+});
+
+describe('Modal Escape with host and inner-widget listeners (#247)', () => {
+  let hostListener: ((e: KeyboardEvent) => void) | null = null;
+  afterEach(() => {
+    if (hostListener) document.removeEventListener('keydown', hostListener);
+    hostListener = null;
+  });
+
+  it('closes from inside the dialog when a host document listener prevents Escape first', () => {
+    // Registered before the modal mounts, like the webapp header search.
+    hostListener = (e) => {
+      if (e.key === 'Escape') e.preventDefault();
+    };
+    document.addEventListener('keydown', hostListener);
+    const onClose = vi.fn();
+    render(
+      <Modal title="T" onClose={onClose}>
+        <button data-testid="in">in</button>
+      </Modal>,
+    );
+    key(dialog(), 'Escape');
+    expect(onClose).toHaveBeenCalledTimes(1);
+
+    const e = key(document.querySelector('[data-testid="in"]')!, 'Escape');
+    expect(onClose).toHaveBeenCalledTimes(2);
+    expect(e.defaultPrevented).toBe(true);
+  });
+
+  it('calls onClose once per Escape (dialog handler and document fallback do not both fire)', () => {
+    const onClose = vi.fn();
+    render(
+      <Modal title="T" onClose={onClose}>
+        body
+      </Modal>,
+    );
+    const e = key(dialog(), 'Escape');
+    expect(e.defaultPrevented).toBe(true);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('lets the host onKeyDown keep the modal open', () => {
+    const onClose = vi.fn();
+    render(
+      <Modal title="T" onClose={onClose} onKeyDown={(e) => e.preventDefault()}>
+        body
+      </Modal>,
+    );
+    key(dialog(), 'Escape');
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('does not close when an open Select consumed Escape', () => {
+    const onClose = vi.fn();
+    render(
+      <Modal title="T" onClose={onClose}>
+        <Select aria-label="Letter" options={OPTIONS} />
+      </Modal>,
+    );
+    const trigger = getByRole('combobox');
+    keyDown(trigger, 'ArrowDown');
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    keyDown(trigger, 'Escape');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(onClose).not.toHaveBeenCalled();
+
+    keyDown(trigger, 'Escape');
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not close when an open Combobox consumed Escape', () => {
+    const onClose = vi.fn();
+    render(
+      <Modal title="T" onClose={onClose}>
+        <Combobox aria-label="Letter" options={OPTIONS} />
+      </Modal>,
+    );
+    const input = getByRole('combobox');
+    keyDown(input, 'ArrowDown');
+    expect(input.getAttribute('aria-expanded')).toBe('true');
+    keyDown(input, 'Escape');
+    expect(input.getAttribute('aria-expanded')).toBe('false');
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('does not close when Escape is pressed inside an open DateRangePicker calendar', () => {
+    const onClose = vi.fn();
+    render(
+      <Modal title="T" onClose={onClose}>
+        <DateRangePicker aria-label="Date" />
+      </Modal>,
+    );
+    const trigger = getByRole('combobox');
+    click(trigger);
+    const calendar = document.querySelector(
+      '[role="dialog"][aria-modal="false"]',
+    ) as HTMLElement;
+    expect(calendar).toBeTruthy();
+    const day = calendar.querySelector('button') as HTMLElement;
+    day.focus();
+    key(day, 'Escape');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  // A nested confirm mounts after its parent, so it lands on top of the stack.
+  function NestedStack({
+    onLowerClose,
+    onUpperClose,
+  }: {
+    onLowerClose: () => void;
+    onUpperClose: (hide: () => void) => void;
+  }) {
+    const [upperOpen, setUpperOpen] = useState(false);
+    return (
+      <Modal title="A" onClose={onLowerClose}>
+        <button data-testid="open" onClick={() => setUpperOpen(true)}>
+          open
+        </button>
+        {upperOpen && (
+          <Modal
+            title="B"
+            onClose={() => onUpperClose(() => setUpperOpen(false))}
+          >
+            <button data-testid="b">b</button>
+          </Modal>
+        )}
+      </Modal>
+    );
+  }
+
+  it('closes only the top modal when it is nested inside the lower one', () => {
+    const lower = vi.fn();
+    const upper = vi.fn();
+    render(<NestedStack onLowerClose={lower} onUpperClose={upper} />);
+    click(document.querySelector('[data-testid="open"]')!);
+    key(document.querySelector('[data-testid="b"]')!, 'Escape');
+    expect(upper).toHaveBeenCalledTimes(1);
+    expect(lower).not.toHaveBeenCalled();
+  });
+
+  it('closes only the top modal when focus sits in the lower one', () => {
+    const lower = vi.fn();
+    const upper = vi.fn();
+    render(
+      <>
+        <Modal title="A" onClose={lower}>
+          <button data-testid="a">a</button>
+        </Modal>
+        <Modal title="B" onClose={upper}>
+          b
+        </Modal>
+      </>,
+    );
+    key(document.querySelector('[data-testid="a"]')!, 'Escape');
+    expect(upper).toHaveBeenCalledTimes(1);
+    expect(lower).not.toHaveBeenCalled();
+  });
+
+  it('closes only the top modal when its onClose unmounts it synchronously', () => {
+    const lower = vi.fn();
+    render(
+      <NestedStack
+        onLowerClose={lower}
+        onUpperClose={(hide) => flushSync(hide)}
+      />,
+    );
+    click(document.querySelector('[data-testid="open"]')!);
+    expect(document.querySelectorAll('[role="dialog"]')).toHaveLength(2);
+    key(document.querySelector('[data-testid="b"]')!, 'Escape');
+    expect(document.querySelectorAll('[role="dialog"]')).toHaveLength(1);
     expect(lower).not.toHaveBeenCalled();
   });
 });

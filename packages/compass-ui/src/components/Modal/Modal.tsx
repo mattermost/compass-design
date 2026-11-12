@@ -103,8 +103,12 @@ export interface ModalProps extends Omit<
   /** Show divider between body and footer. Default: true. */
   footerDivider?: boolean;
   /**
-   * Close on Escape via a document listener while mounted. Escapes already
-   * handled by an inner widget (`defaultPrevented`) are ignored. Default: true.
+   * Close on Escape while mounted (topmost modal only). Handled on the dialog
+   * root first, so a host `document` listener that prevents every Escape
+   * cannot block it, with a document listener as the fallback when focus is
+   * outside the dialog. Escapes already handled by an inner widget or this
+   * modal's `onKeyDown` (`defaultPrevented`) are ignored; a handled Escape
+   * calls `preventDefault()`. Default: true.
    */
   closeOnEscape?: boolean;
   /**
@@ -169,10 +173,11 @@ function ModalPanel({
   active,
   transition,
   visible,
+  onKeyDown,
   ...rest
 }: ModalProps & ModalPanelState) {
   const rootRef = useRef<HTMLDivElement>(null);
-  useModalFocus(rootRef, {
+  const { onDialogKeyDown } = useModalFocus(rootRef, {
     initialFocusRef,
     closeOnEscape,
     manageFocus,
@@ -204,10 +209,16 @@ function ModalPanel({
     footerType === 'spacer-large';
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- WAI-ARIA dialog pattern: Escape closes the dialog
     <div
       {...rest}
       ref={rootRef}
       tabIndex={-1}
+      onKeyDown={(event) => {
+        // Host handler first: it can still preventDefault to keep the modal open.
+        onKeyDown?.(event);
+        onDialogKeyDown(event);
+      }}
       className={[
         styles.modal,
         sizeClass,
