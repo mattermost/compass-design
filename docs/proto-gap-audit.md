@@ -23,8 +23,8 @@ Calls-related items are in P4 (Calls), not here. The remaining evidence comes fr
 1. Message body rendering: markdown (headings, lists, blockquote, tables, inline code, mention/channel chips), CodeBlock with copy, system messages. proto, M-L. Also reused by agents.
 2. Autocomplete suggestion list (@mention, ~channel, :emoji:, /slash) anchored to composer. ui, M.
 3. Composer variants: edit mode, thread-reply, DM/GM, char counter, schedule-send picker, OOO/DND notice, read-only/archived notice. proto, M.
-4. Settings modal shell (vertical Tabs + content pane) plus SettingItem min/max row and SaveChanges bar. ui S-M + proto M. Serves user, channel, team settings. Partly in flight: the unmerged `claude/nice-clarke-mjs9w8` branch in this repo adds `SettingsModal`, `SettingsSidebar`, `SettingsPane`, and `SettingsSection` to compass-proto (no open PR). The remaining gap is the collapsed/expanded setting row and the save bar.
-5. ConfirmDialog preset (about 15 near-identical modals). proto, S.
+4. Settings modal shell (vertical Tabs + content pane) plus SettingItem min/max row and SaveChanges bar. ui S-M + proto M. Serves user, channel, team settings. Partly in flight: the unmerged `claude/nice-clarke-mjs9w8` branch in this repo adds `SettingsModal`, `SettingsSidebar`, `SettingsPane`, and `SettingsSection` to compass-proto (no open PR). The remaining gap is the collapsed/expanded setting row and the save bar. Tracked in [#213](https://github.com/mattermost/compass-design/issues/213) (the compass-proto Settings modal, which also covers the expandable section and row); there is no separate issue.
+5. ConfirmDialog preset (about 15 near-identical modals). proto, S. Tracked in [#234](https://github.com/mattermost/compass-design/issues/234) (ConfirmModal); there is no separate issue.
 6. Searchable user/channel list + multiselect modal (invite, add members, DM, groups). proto, M-L.
 7. Quick switch modal. proto, M.
 8. RHS search results (search, mentions, saved, pinned, files; Message variant with highlight and jump link). proto, M-L.
@@ -41,18 +41,18 @@ Calls-related items are in P4 (Calls), not here. The remaining evidence comes fr
 - Message attachments (interactive, action buttons), apps_form. proto, M-L / L.
 - Burn-on-read states, post reminder submenu and modal, priority picker. proto, M.
 - Channel info RHS variants (DM, GM, archived), members RHS (role menu, join requests). proto, S-M.
-- Channel header text line, archived/shared states, plugin icon slot; ChannelShell slots (announcement, rail, app bar). proto, S-M.
+- Channel header text line, archived/shared states, plugin icon slot. proto, S-M. Tracked in #278. The `ChannelShell` slots (announcement, rail, app bar) are a separate item, #360.
 - Recaps (page, card, create modal). proto, L.
 - Global threads recipe. proto, S.
-- Form widgets: DatePicker (M), TimePicker, ColorInput, CopyButton, avatar/image upload, URL-prefix input, chip input. ui, S-M each.
+- Form widgets. Mostly tracked elsewhere: TimePicker #235, color input #242, file and avatar upload #241, and chip input already exists as `Combobox` with `multiple` and `creatable` (chip changes in #116). Natural-language date entry is #339, and `DateRangePicker` fixes are #284. CopyButton and the URL-prefix input are #359.
 - Auth layout (login, signup, MFA, reset, ToS, select team) and onboarding (task list, spotlight, preparing workspace). proto, L total.
-- Menu submenu flyouts, anchored Popover, Skeleton loader, labeled Divider (verify these four are truly missing). The anchored popover is the positioner in #111 plus the content surface in #243; submenu flyouts may be part of #111.
+- Menu submenu flyouts, anchored Popover, Skeleton loader, labeled Divider. Mostly tracked elsewhere: submenu flyouts #160 (also child-menu positioning in #111), the anchored popover is the positioner in #111 plus the content surface in #243, and the skeleton loader is #240. A labeled Divider is not tracked.
 
 ## P2: System console
 
 1. SettingRow (label left, control right, help text, disabled, env lock; about 380 uses; True/False radios 146). ui, S. Currently only scss in a specimen.
-2. DataTable + Pagination + table toolbar (filter popover, column toggler). About 30 tables. ui, L + M.
-3. Small fields: FileUpload, ColorInput, GeneratedField, async RequestButton. ui, S-M.
+2. DataTable + Pagination + table toolbar (filter popover, column toggler). About 30 tables. ui, L + M. Related: #236 (Table gap report) and #91 (Prev/Next pager).
+3. Small fields: FileUpload, ColorInput, GeneratedField, async RequestButton. ui, S-M. FileUpload is #241 and the color input is #242; the generated field and async request button are not tracked there.
 4. AdminConsoleSidebar upgrades: Find settings search, badges, permission hiding. proto, M.
 5. User/team cells and user multiselect option and pill. proto, M.
 6. StatTile and ChartCard (no chart components exist). ui/proto, M-L.
@@ -60,16 +60,16 @@ Calls-related items are in P4 (Calls), not here. The remaining evidence comes fr
 8. ABAC editors (rule table, CEL code editor). proto, L.
 9. Attribute tables (inline edit, chips, rank, reorder; about 14 pages). proto, L.
 10. LogViewer, License/Billing/Plan cards, Health dashboard, Workspace optimization, Jobs table, Plugin cards. proto, M-L each.
-11. Composed pages (Users, Teams, Channels, Groups, Roles, Data retention, IP filter). proto, M-L each, after 1-5.
+11. Composed pages (Users, Teams, Channels, Roles). proto, M-L each, after 1-5. Groups, Data retention, and IP filter were dropped from tracking.
 12. Hierarchical (tree) select for graph-valued attributes. ui, L. `Combobox` supports `multiple` but has no tree or expand/collapse, and it closes on option click, so the webapp restyled its existing picker instead of migrating (mattermost/mattermost#39977). No design yet; design comes first, including whether the picker is a tree or a flat list with breadcrumbs. Tracked in [#270](https://github.com/mattermost/compass-design/issues/270).
 
 ## P3: Agents
 
 Generic primitives first (also benefit channels and playbooks):
 
-1. Collapsible/Disclosure and bordered status Card. ui, S-M.
+1. Collapsible/Disclosure and bordered status Card. ui, S-M. The collapsible part is #237 (Accordion).
 2. Typing/WaveDots indicator, StreamingText, CodeBlock (shared with channels item 1), KeyValueList, inline citation chip. ui, S-M.
-3. AI icon set, ring gauge, floating jump-to-latest, drop-zone overlay, copyable field. ui, S.
+3. Floating jump-to-latest button. ui, S. The AI icon set, ring gauge, drop-zone overlay, and copyable field were dropped from tracking.
    Agents recipes:
 4. AgentMessage bubble (rounds, reasoning, tool activity, controls bar). proto, L.
 5. Tool cards and approval set (states: pending, running, accepted, rejected, redacted, awaiting share). proto, M.
@@ -150,7 +150,7 @@ Shared generic items (overlap earlier sections; build once):
 7. Filter bar / filter builder (runs list). Same as P6.
 8. Timeline (vertical event list). ui, M.
 9. Markdown textarea with edit/preview + inline-edit text. ui, M.
-10. Wizard modal; tour spotlight backdrop; labelled ProgressBar ("x/y"); file drop zone; scroll-nav. S-M each.
+10. Wizard modal; tour spotlight backdrop; labelled ProgressBar ("x/y"); file drop zone; scroll-nav. S-M each. Related: #239 (Stepper) and #241 (FileUpload).
     Playbooks recipes (proto):
 11. TaskItem (checkbox, title, assignee, due, command, hover menu). L. Most central.
 12. ChecklistSection (header, progress, collapse, drag, add task). L.
