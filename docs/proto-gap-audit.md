@@ -36,7 +36,7 @@ Calls-related items are in P4 (Calls), not here. The remaining evidence comes fr
 ## P1: Channels (important, less frequent)
 
 - Search popover (hints, suggestions, recent). proto, M.
-- Product rail and App bar container. proto, M / S.
+- Product rail. proto, M. The app bar container was dropped from tracking; the `ChannelShell` slot for it is #360.
 - File preview modal (gallery). proto, L.
 - Message attachments (interactive, action buttons), apps_form. proto, M-L / L.
 - Burn-on-read states, post reminder submenu and modal, priority picker. proto, M.
