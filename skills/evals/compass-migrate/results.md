@@ -33,6 +33,26 @@ Scored from the code, then updated with what you saw in the running B2. B1 and A
 
 **Reading the totals.** A's zeros come from your review, which listed what was wrong, so they are by construction and not an independent measurement. The one row A scores on that the review did not list (the filter row width) is observed and fine. Rows 11 and 12 pass on both B runs and probably reflect the compass-ui version, not the skills. Many B1 and B2 cells are code evidence only. One run per side.
 
+## Final score
+
+| Basis                                             | A      | B1       | B2       |
+| ------------------------------------------------- | ------ | -------- | -------- |
+| Rows scored for all three (18 rows, max 36)       | 2 (6%) | 21 (58%) | 31 (86%) |
+| Same rows without 11, 12 and 14 (15 rows, max 30) | 2      | 17       | 27       |
+| Every row scored for that run                     | 2 / 36 | 21 / 38  | 33 / 38  |
+
+The second line drops the rows that don't measure the skills: 11 and 12 pass on both B runs on compass-ui alpha.30 and were broken on alpha.27, and 14 (Escape) can't pass in this webapp until MM-71834 or compass-design#247 ships.
+
+**Result.** B2 scores highest on every basis, then B1, then A. B1 to B2 gained on modal size (2), the trash tooltip (6), tabs (15, partly), form spacing (16), dividers (17), `WithTooltip` (18) and the filter row (19). Rows 2, 6, 15, 16, 17 and 18 match guidance that B2's skills (`7b2de82`) had and B1's (`d546299`) did not. Row 19 does not: gotcha 30 was written after B2 ran, so that gain was incidental.
+
+**What the remaining B2 misses are.**
+
+- Tabs (15, scored 1): underlined tabs, but inset about 56px with two header separations. Pattern 7 and the Modals rule now describe the agents approach; B2 has not been re-run with them.
+- Back button tooltip (7, scored 0): a Compass gap. The built-in header button can't be wrapped (compass-design#101).
+- Escape (14, scored 0): a host defect (MM-71834, compass-design#247).
+
+**How far to trust it.** A's score is mostly your review, so its zeros are by construction; its 2 is the filter row, which you observed. One run per side. Most B1 and B2 cells that were not in your review are code evidence; the rest are marked observed. B2 ran on skills `7b2de82`, not the final `9c3770e`, and I don't know whether B2 received follow-up instructions (it committed its own work). Treat this as evidence the updated skills move the result, not as a measured effect size.
+
 ## Observed in B2 (running app)
 
 Animation (1), error spacing (11), form field spacing and grouping (16) and the trash tooltip (6) are good. The Back button in the modal header has no tooltip (7): the button is built into `ModalHeader`, so the plugin cannot wrap it, which the skill had not said. Tracked by compass-design#101 (header icon buttons); gotcha 20 and `not-covered.md` now say so.
@@ -70,6 +90,8 @@ B1 used Compass `Tabs` with the default rounded appearance, in the modal body. B
 - B2 ran on `7b2de82`, not the current `e93ac8d`.
 - Rows 1, 10 and 14 to 17 are code evidence only. Escape (14) cannot pass in this webapp until the host handler is fixed.
 
-## To finish scoring in the app
+## Not scored
 
-Nothing is still unchecked in B1 or B2 except the tab bar fix noted above. A was not run, so its `c` and `?` cells stay as they are.
+- A was not run. Its `c` and `?` cells stay as they are (row 16 for A is `?`, which is why row 16 is not in the 18-row total).
+- Process rows P1, P3 and P4 (inventory table, UX changes listed, gaps asked about) need the session reports read.
+- B2 has not been re-run with the final skills (`9c3770e`), which add pattern 7 (tabs in the modal header), gotcha 30 (collapsed rows) and the Escape workaround note.
