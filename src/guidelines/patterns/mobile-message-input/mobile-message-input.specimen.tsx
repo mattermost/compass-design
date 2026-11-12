@@ -37,7 +37,7 @@ function InteractiveRoot() {
 
   return (
     <MobileMessageInput
-      variant="Root"
+      variant="root"
       placeholder="Write to UX Design…"
       value={value}
       onChange={setValue}
@@ -87,12 +87,12 @@ export default function MobileMessageInputLibrary() {
   return (
     <div className={styles['mmi-specimen']}>
       <Stage label="Root — unfocused">
-        <MobileMessageInput variant="Root" placeholder="Write to UX Design…" />
+        <MobileMessageInput variant="root" placeholder="Write to UX Design…" />
       </Stage>
 
       <Stage label="Root — focused (placeholder)">
         <MobileMessageInput
-          variant="Root"
+          variant="root"
           placeholder="Write to UX Design…"
           defaultFocused
         />
@@ -100,7 +100,7 @@ export default function MobileMessageInputLibrary() {
 
       <Stage label="Root — focused with value (send)">
         <MobileMessageInput
-          variant="Root"
+          variant="root"
           placeholder="Write to UX Design…"
           value={focusedValue}
           onChange={setFocusedValue}
@@ -110,7 +110,7 @@ export default function MobileMessageInputLibrary() {
 
       <Stage label="Reply — focused">
         <MobileMessageInput
-          variant="Reply"
+          variant="reply"
           value={replyValue}
           onChange={setReplyValue}
           defaultFocused
@@ -119,7 +119,7 @@ export default function MobileMessageInputLibrary() {
 
       <Stage label="Root — expanded" tall>
         <MobileMessageInput
-          variant="Root"
+          variant="root"
           placeholder="Write to UX Design…"
           value={expandedValue}
           onChange={setExpandedValue}
@@ -131,7 +131,7 @@ export default function MobileMessageInputLibrary() {
 
       <Stage label="Root — with attachments">
         <MobileMessageInput
-          variant="Root"
+          variant="root"
           placeholder="Write to UX Design…"
           value={attachmentValue}
           onChange={setAttachmentValue}
