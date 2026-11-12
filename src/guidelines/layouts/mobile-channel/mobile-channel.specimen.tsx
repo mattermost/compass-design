@@ -218,7 +218,7 @@ export default function MobileChannelLayout() {
               />
               <div className={styles['mobile-channel-layout__composer-sheet']}>
                 <MobileMessageInput
-                  variant="Root"
+                  variant="root"
                   placeholder="Write to Town Square…"
                   value={draft}
                   onChange={setDraft}
