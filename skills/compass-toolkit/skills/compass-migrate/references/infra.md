@@ -21,7 +21,7 @@ Never import `@mattermost/compass-ui/styles/standalone` in the webapp or a plugi
 
 ## Webpack
 
-compass-ui ships plain CSS and its JavaScript imports it, both `@mattermost/compass-ui/styles` and a `.css` file for each component. Component subpath imports such as `@mattermost/compass-ui/components/Modal` pull one in too, so the bundler needs a `.css` rule even if nothing imports `/styles`. Without one the build fails with "Module parse failed ... You may need an appropriate loader". Many plugin configs have only a `.scss` rule or no style rule at all.
+compass-ui ships plain CSS and its JavaScript imports it, both `@mattermost/compass-ui/styles` and a `.css` file for each component. Component subpath imports such as `@mattermost/compass-ui/components/Modal` pull one in too, so the bundler needs a `.css` rule even if nothing imports `/styles`. Without one the build fails with "Module parse failed ... You may need an appropriate loader".
 
 Give `.css` its own rule and keep sass for `.scss`. Don't put `exclude: /node_modules/` on the `.css` rule, because compass-ui's CSS lives there.
 
