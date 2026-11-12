@@ -19,7 +19,7 @@ import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import styles from './MobileMessageInput.module.scss';
 
-export type MobileMessageInputVariant = 'Root' | 'Reply';
+export type MobileMessageInputVariant = 'root' | 'reply';
 
 export interface MobileMessageAttachment {
   id: string;
@@ -57,7 +57,7 @@ export interface MobileMessageInputProps {
 }
 
 function defaultPlaceholder(variant: MobileMessageInputVariant): string {
-  return variant === 'Reply' ? 'Reply…' : 'Write a message…';
+  return variant === 'reply' ? 'Reply…' : 'Write a message…';
 }
 
 /**
@@ -66,7 +66,7 @@ function defaultPlaceholder(variant: MobileMessageInputVariant): string {
  * @see Figma Patterns — Mobile — Message Input
  */
 export default function MobileMessageInput({
-  variant = 'Root',
+  variant = 'root',
   placeholder,
   value,
   onChange,
