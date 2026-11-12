@@ -1,6 +1,6 @@
 # Patterns to copy
 
-One example each for a modal, a form field, a select, an async select and a confirm dialog. Pick the one that matches and adapt it; don't start from a blank file.
+One example each for a modal, a form field, a select, an async select, a confirm dialog, a popover menu and tabs in a modal header. Pick the one that matches and adapt it; don't start from a blank file.
 
 **Provenance.** The modal, form, select and async select examples are trimmed from mattermost-plugin-google-calendar PR 179 (`gcal`, compass-ui alpha.22, with Jest tests). The confirm dialog is composed from the `Modal` API at alpha.30, because gcal has no confirm dialog, and the hand-rolled confirm dialogs seen in other migrations build their own portal, backdrop and fade from before `ModalOverlay` existed. The examples target compass-ui alpha.30 and later, where the `--z-` tokens give a correct stacking order with no overrides. For alpha.28 and earlier, see the stacking note below.
 
@@ -32,11 +32,21 @@ export default function CreateEventModal() {
   const dispatch = useDispatch();
   const close = () => dispatch(closeCreateEventModal());
 
-  // No onClose on the overlay: the backdrop is static, so only Cancel, the
-  // close button or Escape dismiss it. Report this as a behavior choice.
+  // The form publishes its guarded close (the one Cancel and the close button
+  // use) here, so the backdrop goes through the same dirty check. Calling
+  // `close` directly would skip the discard confirmation.
+  const requestCloseRef = useRef<(() => void) | null>(null);
+  const requestClose = () => (requestCloseRef.current ?? close)();
+
+  // Give the overlay an onClose or the backdrop won't dismiss. Pass `open` to
+  // the Modal too, or it never animates.
   return (
-    <ModalOverlay open={visible}>
-      <CreateEventForm open={visible} close={close} />
+    <ModalOverlay open={visible} onClose={requestClose}>
+      <CreateEventForm
+        open={visible}
+        close={close}
+        requestCloseRef={requestCloseRef}
+      />
     </ModalOverlay>
   );
 }
@@ -49,6 +59,12 @@ import { Modal } from '@mattermost/compass-ui/components/modal';
 import { SectionNotice } from '@mattermost/compass-ui/components/section-notice';
 
 const FORM_ID = 'gcal-create-event-form';
+
+// Cancel, the close button and (through requestCloseRef) Escape and the backdrop
+// all use this one handler: ask first only when the form has changes.
+const handleClose = () =>
+  isDirty() ? setShowDiscardConfirm(true) : props.close();
+props.requestCloseRef.current = handleClose;
 
 const footer = (
   <>
@@ -88,7 +104,9 @@ return (
 );
 ```
 
-Layout inside the form uses tokens only: `display: flex; flex-direction: column; gap: var(--spacing-l);` and a two-column grid for paired fields. Submit errors go in a `SectionNotice` with `role='alert'`, not a toast.
+Checks before you move on: the modal fades in and out like the confirm dialog; Escape and a backdrop click both close it; `size` was chosen on purpose; the title says what it is (`New Jira Subscription`, `Edit Jira Subscription`) with no filler subtitle; icon-only buttons in the header and in rows have tooltips; and Cancel, Back, Escape and the backdrop open a discard confirm only when the form is dirty.
+
+Layout inside the form uses tokens only. Floating-label fields are `--spacing-xxl` (24px) apart, not `--spacing-l` (the Forms table in `../compass-build/references/spacing-and-hierarchy.md`): `display: flex; flex-direction: column; gap: var(--spacing-xxl);`. Put that on the element that directly contains the fields. A wrapper `<div>` or a lazy-loaded section inside the form doesn't inherit the gap, so render those fields as direct children (a Fragment) or give the wrapper the same rule. Paired fields use a two-column grid. Submit errors go in a `SectionNotice` with `role='alert'`, not a toast.
 
 ## 2. Form field (text, with a required marker)
 
@@ -315,3 +333,113 @@ Notes:
 - `Modal` sets `aria-modal="true"`. It does not set `role="alertdialog"`. If a destructive confirm should be an alert dialog, that is a Compass gap (`not-covered.md`); ask before adding the role yourself.
 - Don't hand-roll a portal, backdrop and fade, as older confirm dialogs do. `ModalOverlay` ships the scrim, scroll lock, backdrop click and exit motion.
 - Opening a confirm over another modal works because compass-ui keeps one modal stack, and Escape closes only the top one (fixed in alpha.19; see `gotchas.md`).
+
+## 6. Popover menu with enter and exit motion
+
+`PopoverMenu` plays its scale-and-fade only when it is given `open` (alpha.14 and later), and it unmounts itself once the exit finishes. The host owns the open state, the portal and the positioning, so the host must also keep the positioner mounted until the exit has played. Don't render it as `{open && <PopoverMenu>}`: it is removed on the same frame it closes, so it appears and disappears with no motion. (That is how mattermost-plugin-boards-v2 renders its menus, on alpha.20, which has `open`.)
+
+mattermost-plugin-agents (alpha.23) does it with one small hook and its own positioner (`Dropdown`, a floating-ui wrapper with a `FloatingPortal`):
+
+```tsx
+// hooks/use_menu_transition.ts
+import { useCallback, useEffect, useState } from 'react';
+
+/**
+ * Keeps a compass PopoverMenu mounted while it plays its exit animation.
+ * Pass `rendered` as `isOpen` to the positioner, give the menu `open={isOpen}`
+ * and `onExited`, and the menu unmounts once it has faded out.
+ */
+export function useMenuTransition(isOpen: boolean) {
+  const [mounted, setMounted] = useState(isOpen);
+
+  useEffect(() => {
+    if (isOpen) {
+      setMounted(true);
+    }
+  }, [isOpen]);
+
+  const onExited = useCallback(() => setMounted(false), []);
+
+  return { rendered: isOpen || mounted, onExited };
+}
+```
+
+```tsx
+const [open, setOpen] = useState(false);
+const menu = useMenuTransition(open);
+
+return (
+  <Dropdown
+    isOpen={menu.rendered} // positioner stays mounted through the exit
+    onOpenChange={setOpen}
+    placement="bottom-start"
+    target={
+      <IconButton
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen(!open)}
+        aria-label={label}
+        icon={<Icon glyph={<PlusIcon />} />}
+      />
+    }
+  >
+    <PopoverMenu
+      open={open} // drives the enter and exit motion
+      onExited={menu.onExited} // lets the positioner unmount afterwards
+      role="menu"
+      aria-label={label}
+    >
+      {/* PopoverMenuGroup, MenuItem, ... */}
+    </PopoverMenu>
+  </Dropdown>
+);
+```
+
+Notes:
+
+- If the plugin has no positioner, or one that unmounts on close, that is the part to fix, not `PopoverMenu`.
+- Check it in the browser: open and close the menu, and compare with a `Select` menu, which animates by itself. A menu that still pops in and out means the positioner or the conditional render is unmounting it early.
+- The menu motion is scale and fade today. A side-aware slide is planned (compass-design#111); don't build it.
+
+## 7. Tabs in a modal header
+
+From the mattermost-plugin-agents settings modal (`agent_settings_modal.tsx`). The tab bar sits in `headerSlot`, the header divider is off so the tab bar's own bottom border is the only line, and the body owns its padding:
+
+```tsx
+<Modal
+  open={show}
+  size="large"
+  title={title}
+  onClose={requestClose}
+  headerDivider={false} // the tab bar's border is the separator
+  headerSlot={tabs} // full width, under the title row
+  bodyPadding="none" // panels own their padding
+  scrollable={false}
+  footer={footer}
+>
+  {body}
+</Modal>
+```
+
+```tsx
+// headerSlot adds 16px / 32px / 24px of padding, which insets the bar and stops its
+// border short of the edges. compass-ui has no prop for it, so agents zeroes it with a
+// selector on the generated class name (fragile; say so in the report) ...
+const SettingsModal = styled(Modal)`
+  && [class*='modal-header__slot'] {
+    padding: 0;
+  }
+`;
+
+// ... and insets the tab strip inside the bar so the first label lines up with the
+// 32px content margin. The border still spans the full width.
+const ConfigTabs = styled(UnderlineTabs)`
+  padding: 0 0 0 var(--spacing-xxxl);
+`;
+```
+
+Notes:
+
+- Agents draws its own `UnderlineTabs` (a comment says it is there until compass-ui ships the underlined variant). Compass `Tabs` has `appearance='underlined'` as of alpha.30. It draws its rule on its own root, so keep the root full width and inset the labels inside it. Whether `Tabs` accepts that inset without an internal override is untested here.
+- The Jira B2 run put `Tabs appearance='underlined'` in `headerSlot` inside a wrapper with `padding: 0 var(--spacing-xxl)` and left the header divider on. Result: the bar was inset about 56px (32px slot padding plus 24px), the border stopped short of the edges, and the header showed two lines.
+- Check it in the browser: one line under the tabs, edge to edge, the first label aligned with the body content.

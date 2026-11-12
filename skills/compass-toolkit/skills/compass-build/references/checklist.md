@@ -12,6 +12,9 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 - [ ] Advanced or secondary content is behind progressive disclosure; required content is visible. **[proposed]**
 - [ ] Form fields follow the field disclosure rules: required always visible, collapsed sections only hold optional or defaulted fields, and have a summary line. **[proposed]**
 - [ ] Forms in an RHS have 24px padding and a pinned footer.
+- [ ] Form field gaps match the Forms table in every state, including lazy-loaded and conditional fields (a wrapper `<div>` inside a form drops the parent's `gap`).
+- [ ] Repeating rows of controls (filters, key-value rows) keep their full width in the empty, populated and disabled states.
+- [ ] Modals: dividers off when the body is short in every state (keep them if lazy-loaded content makes it grow); tabs sit in `headerSlot` with `appearance='underlined'`, the header divider off, and one full-width bottom border.
 
 ## Components and tokens
 
@@ -56,6 +59,8 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 - [ ] Every field has a visible label; errors are associated with their fields.
 - [ ] Targets at least 24x24px pointer / 40x40px touch with 8px between.
 - [ ] Each overlay follows its own focus pattern: modal dialogs move focus in, trap it, close on Escape and restore focus; non-modal dialogs and popovers don't trap focus; a menu button moves focus into its menu; a tooltip never takes focus.
+- [ ] Modals animate in and out, close on Escape and on the backdrop, use a deliberate `size`, and carry a plain title. A form's Cancel, Back, Escape and backdrop confirm a discard only when something changed.
+- [ ] Every icon-only button has a tooltip as well as an `aria-label`.
 - [ ] Dynamic updates are announced (`aria-live` / `role`).
 
 ## Before reporting

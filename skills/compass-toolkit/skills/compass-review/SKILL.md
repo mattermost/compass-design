@@ -27,6 +27,15 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - More than one primary Button in a view (count a `Button` with no `emphasis` prop, or `emphasis={undefined}`, as primary, since that is its default); `secondary` where `tertiary` is the norm.
    - `IconButton` without `aria-label`, or with a raw glyph (a Blocker or Should fix). An explicit icon `size` is allowed as a deliberate override: report it as a Suggestion, not a violation.
    - A `Switch` inside a form with a submit button; Radio groups of more than four options.
+   - Modals: a `ModalOverlay` with no `onClose`, a `Modal` with no `open`, or an overlay rendered only while visible (no motion, no Escape or backdrop close); `size` left at the default without a reason; a subtitle that could be `subtitlePlacement="beside"` or removed; a create or edit title that isn't the plain `New <thing>` / `Edit <thing>`; confirm dialogs with dividers on.
+   - Layout: a bare wrapper `<div>` (no width of its own) around a repeating row, as a flex item under `align-items: flex-start`: it shrinks to its content, so a `width: 100%` row inside it follows the wrapper. A child that has its own `width: 100%` directly in the flex column is not shrunk. Confirm the computed width in the browser before reporting.
+   - Forms: `gap` set on a `<form>` while fields sit inside a wrapper `<div>` or lazy-loaded section; `--spacing-l` between floating-label fields (the rule is `--spacing-xxl`).
+   - A `PopoverMenu` rendered conditionally or without `open` (no enter or exit motion).
+   - Duplicate field `id`s rendered on one screen (a selector with a fixed default `id` used several times).
+   - Modals: `Tabs` without `appearance='underlined'`, tabs in the body, or tabs in `headerSlot` with the header divider on or a padded wrapper (two lines, bar inset); both dividers on for a short body.
+   - Icon-only `IconButton` (trash, back, close in a row or header) with no tooltip.
+   - A discard confirm that opens without comparing the form to its initial values.
+   - A native `type=date`, or a `readOnly` field styled like an input; two `EmptyState`s stacked in one view; sections stacked that `Tabs` would separate.
    - `TextInput` without a fitting `type` (email, tel, url, number).
    - Text alpha below 0.72, icon alpha below 0.56.
    - Hardcoded English in `aria-label`, `title` or `placeholder` inside components.

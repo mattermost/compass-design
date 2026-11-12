@@ -104,6 +104,8 @@ Identifiers that only look numeric (postal codes, account or ID numbers) stay `t
 | Scrolling region     | `Scrollbar`                                                            |
 | Separator            | `Divider`                                                              |
 
+**Modal wiring.** Pass the same `open` to `ModalOverlay` and `Modal` and keep both mounted (no `open` means no enter or exit motion), give both an `onClose` (Escape and the Modal close button use the Modal's, the backdrop uses the overlay's), and choose `size`, dividers and tabs as `spacing-and-hierarchy.md` (Modals) says.
+
 ## When nothing fits
 
 - Compass has no generic collapsible. For admin use `AdminPanel expandable` (a nested one needs a title and a subtitle; top-level admin panels should have a subtitle too). Elsewhere hand-build it per `motion-and-states.md` (grid `0fr` to `1fr`, `aria-expanded`, `aria-controls`, hidden content not tabbable) and keep the hand-built piece small.
