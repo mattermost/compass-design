@@ -21,7 +21,9 @@ Never import `@mattermost/compass-ui/styles/standalone` in the webapp or a plugi
 
 ## Webpack
 
-compass-ui ships plain CSS, and its JavaScript imports it (`@mattermost/compass-ui/styles` plus one `.css` file per component), so the bundler needs a rule that matches `.css`. Component subpath imports (for example `@mattermost/compass-ui/components/Modal`) pull in a `.css` file as a side effect, so the rule is needed even if nothing imports `/styles`. Most plugin configs have only a `.scss` rule (sass-loader) or no style rule at all; either fails with "Module parse failed ... You may need an appropriate loader". The `.css` rule must also match files inside `node_modules`: check that it has no `exclude: /node_modules/`, because compass-ui's CSS lives there (reported, not reproduced). gcal's config already matched `.css`, but through `/\.(scss|css)$/` and sass, and its PR split the rule so `.css` goes through `css-loader` only (gcal `webpack.config.js`). I could not reproduce sass breaking the shipped CSS: sass 1.60.0 compiled all 82 files in alpha.29 without errors, though it rewrites them. Treat the split as a safe default, and check the consumer's sass-loader options (for example `additionalData`) before sending compass-ui's CSS through it:
+compass-ui ships plain CSS and its JavaScript imports it, both `@mattermost/compass-ui/styles` and a `.css` file for each component. Component subpath imports such as `@mattermost/compass-ui/components/Modal` pull one in too, so the bundler needs a `.css` rule even if nothing imports `/styles`. Without one the build fails with "Module parse failed ... You may need an appropriate loader". Many plugin configs have only a `.scss` rule or no style rule at all.
+
+Give `.css` its own rule and keep sass for `.scss`. Don't put `exclude: /node_modules/` on the `.css` rule, because compass-ui's CSS lives there.
 
 ```js
 {
