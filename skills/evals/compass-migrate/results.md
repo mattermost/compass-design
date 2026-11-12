@@ -1,6 +1,6 @@
 # Results: Jira plugin migration, A / B1 / B2
 
-Scored from the code, then updated with what you saw in the running B2. B1 and A were never run. Cells marked `observed` were seen in the app; `c` is code evidence only; `?` is not checked. Scale: 2 = correct, 1 = partly, 0 = not done or as in the review, `—` = not applicable.
+Scored from the code, then updated with what you saw in the running B2. B1 was run, but only some rows were checked in the app (they say `observed`); the rest are code evidence. A was not run. Cells marked `observed` were seen in the app; `c` is code evidence only; `?` is not checked. Scale: 2 = correct, 1 = partly, 0 = not done or as in the review, `—` = not applicable.
 
 - **A:** mattermost-plugin-jira PR 1391 at `2fe1dfa` (migration done before this skill work; scored from your review and the code).
 - **B1:** first run from master, skills at `d546299`. Kept as branch `compass-migrate-eval-b-run1` (commit `a6c1cd7`).
@@ -67,10 +67,14 @@ B1 used Compass `Tabs` with the default rounded appearance, in the modal body. B
 
 ## What changed between B1 and B2
 
-- Rows that went from 0 to 2: size (2), tabs (15), dividers (17), tooltips (6, 18). Those match the guidance added between the runs.
-- Row 16 went from 0 to 1: B2 read `spacing-and-hierarchy.md` (B1 never opened it), used 24px and moved the gap to the direct container.
-- Rows that did not move: Escape (14, host defect), `EmptyState` weight (4), date picker (13), titles (5).
-- B1 did better than B2 on row 5. B1 renamed the subscription titles without being asked, and B2 kept master's.
+From the grid, rows where the two runs differ:
+
+- 0 to 2: modal size (2), trash tooltip (6), form spacing in every state (16), `WithTooltip` (18), filter row width (19).
+- 0 to 1: tabs (15): B2 used the underlined appearance but inset the bar and left two header separations.
+- 1 to 2: dividers by body height (17).
+- Same score in both: titles (5, both 2), empty state (4), date picker (13), error spacing (11), read-only value (12), animation (1), Escape (14, host defect) and the Back button tooltip (7, both 0).
+
+Rows 2, 6, 15, 16, 17 and 18 match guidance B2's skills had and B1's did not. Row 19 does not: gotcha 30 was written after B2 ran.
 
 ## Process rows (partial)
 

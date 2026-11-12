@@ -28,7 +28,7 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - `IconButton` without `aria-label`, or with a raw glyph (a Blocker or Should fix). An explicit icon `size` is allowed as a deliberate override: report it as a Suggestion, not a violation.
    - A `Switch` inside a form with a submit button; Radio groups of more than four options.
    - Modals: a `ModalOverlay` with no `onClose`, a `Modal` with no `open`, or an overlay rendered only while visible (no motion, no Escape or backdrop close); `size` left at the default without a reason; a subtitle that could be `subtitlePlacement="beside"` or removed; a create or edit title that isn't the plain `New <thing>` / `Edit <thing>`; confirm dialogs with dividers on.
-   - Layout: `align-items: flex-start` on a flex column whose children rely on `width: 100%`, or bare wrapper `<div>`s around repeating rows (they shrink to content in the empty state).
+   - Layout: a bare wrapper `<div>` (no width of its own) around a repeating row, as a flex item under `align-items: flex-start`: it shrinks to its content, so a `width: 100%` row inside it follows the wrapper. A child that has its own `width: 100%` directly in the flex column is not shrunk. Confirm the computed width in the browser before reporting.
    - Forms: `gap` set on a `<form>` while fields sit inside a wrapper `<div>` or lazy-loaded section; `--spacing-l` between floating-label fields (the rule is `--spacing-xxl`).
    - A `PopoverMenu` rendered conditionally or without `open` (no enter or exit motion).
    - Duplicate field `id`s rendered on one screen (a selector with a fixed default `id` used several times).

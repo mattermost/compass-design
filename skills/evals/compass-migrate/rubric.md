@@ -22,9 +22,10 @@ Score each row 0 (present as in the review), 1 (partly fixed) or 2 (correct). Sc
 | 15 | Tabs in a modal: underlined, in `headerSlot`, header divider off, one bottom border running edge to edge | App |
 | 16 | Form fields are evenly spaced in every state, including lazy-loaded fields (24px, gap on the direct container) | App |
 | 17 | Dividers are off for short modal bodies, and kept when lazy-loaded content makes the modal grow | App |
-| 18 | Icon-only buttons use `WithTooltip` from `@mattermost/shared/components/tooltip` (rows 6 and 7) | Diff, app |
+| 18 | Icon-only buttons the plugin owns use `WithTooltip` from `@mattermost/shared/components/tooltip` (row 6). The built-in `Modal` header Back and close buttons are excluded: a plugin cannot wrap them (compass-ui gap, scored in row 7) | Diff, app |
+| 19 | Filter row keeps its full width in its empty state, not only once a field is chosen | App (open the subscription edit form with no filter chosen) |
 
-Rows 11 to 13 may be Compass defects, not skill misses. If B fails one, check the CHANGELOG and source before blaming the skill, and record it as "upstream".
+Rows 11, 12 and 14 may be compass-ui or webapp defects, not skill misses. If B fails one, check the CHANGELOG and source before blaming the skill, and record it as "upstream".
 
 ## Process rows (from the report and the diff)
 

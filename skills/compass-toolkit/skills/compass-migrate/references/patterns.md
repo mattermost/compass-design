@@ -32,12 +32,21 @@ export default function CreateEventModal() {
   const dispatch = useDispatch();
   const close = () => dispatch(closeCreateEventModal());
 
+  // The form publishes its guarded close (the one Cancel and the close button
+  // use) here, so the backdrop goes through the same dirty check. Calling
+  // `close` directly would skip the discard confirmation.
+  const requestCloseRef = useRef<(() => void) | null>(null);
+  const requestClose = () => (requestCloseRef.current ?? close)();
+
   // Give the overlay an onClose or the backdrop won't dismiss. Pass `open` to
-  // the Modal too, or it never animates. Use the same guarded handler as
-  // Cancel, so a dirty form asks before it discards.
+  // the Modal too, or it never animates.
   return (
-    <ModalOverlay open={visible} onClose={close}>
-      <CreateEventForm open={visible} close={close} />
+    <ModalOverlay open={visible} onClose={requestClose}>
+      <CreateEventForm
+        open={visible}
+        close={close}
+        requestCloseRef={requestCloseRef}
+      />
     </ModalOverlay>
   );
 }
@@ -50,6 +59,12 @@ import { Modal } from '@mattermost/compass-ui/components/modal';
 import { SectionNotice } from '@mattermost/compass-ui/components/section-notice';
 
 const FORM_ID = 'gcal-create-event-form';
+
+// Cancel, the close button and (through requestCloseRef) Escape and the backdrop
+// all use this one handler: ask first only when the form has changes.
+const handleClose = () =>
+  isDirty() ? setShowDiscardConfirm(true) : props.close();
+props.requestCloseRef.current = handleClose;
 
 const footer = (
   <>
