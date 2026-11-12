@@ -50,3 +50,20 @@ describe('UserAvatar ref', () => {
     expect(ref.current).toBe(container.firstElementChild);
   });
 });
+
+describe('UserAvatar status badge size', () => {
+  it.each([
+    ['80', 'medium'],
+    ['96', 'medium'],
+    ['120', 'medium'],
+    ['128', 'large'],
+  ] as const)('uses the %s badge tier at %spx', (size, tier) => {
+    const { container } = render(
+      <UserAvatar alt="Sofia Bauer" size={size} status="online" />,
+    );
+    const badge = container.querySelector('[role="img"][aria-label="online"]')!;
+    expect([...badge.classList].some((c) => c.includes(`size-${tier}`))).toBe(
+      true,
+    );
+  });
+});

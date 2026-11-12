@@ -106,8 +106,8 @@ const USER_AVATAR_TO_BADGE_SIZE: Record<UserAvatarSize, StatusBadgeSize> = {
   '64': 'medium',
   '72': 'medium',
   '80': 'medium',
-  '96': 'large',
-  '120': 'large',
+  '96': 'medium',
+  '120': 'medium',
   '128': 'large',
 };
 

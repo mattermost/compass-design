@@ -77,7 +77,31 @@ Five sizes match the avatar scale they overlay.
 | X-Small    | 28–32px     | The default for most surfaces.        |
 | Small      | 40px        | Mention lists, compact cards.         |
 | Medium     | 48–56px     | Profile popover header, member lists. |
-| Large      | 72px+       | Profile pages and large cards.        |
+| Large      | 128px       | Profile pages and large cards.        |
+
+<Divider />
+
+## On a colored surface
+
+The badge defaults to the center channel surface. On the sidebar, global
+header, or any other colored surface, set two CSS variables on the row or
+container and nothing else:
+
+| Variable                       | Controls                                | Default                                      |
+| ------------------------------ | --------------------------------------- | -------------------------------------------- |
+| `--status-badge-bg`            | Circle behind the glyph (all statuses). | `var(--center-channel-bg)`                   |
+| `--status-badge-offline-color` | Offline glyph color.                    | `rgba(var(--center-channel-color-rgb), .32)` |
+
+```css
+.sidebar-row {
+  --status-badge-bg: var(--sidebar-bg);
+  --status-badge-offline-color: rgba(var(--sidebar-text-rgb), 0.32);
+}
+```
+
+Online, away, and do not disturb use the theme-wide indicator colors, so they
+need no override. Update `--status-badge-bg` per row state (hover, active,
+selected) so the circle follows the row.
 
 <Divider />
 

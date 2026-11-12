@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`StatusBadge` `--status-badge-offline-color`:** overrides the offline glyph color (falls back to `rgba(var(--center-channel-color-rgb), 0.32)`), alongside `--status-badge-bg`, so the badge works on sidebar/header surfaces.
+
+### Changed
+
+- **`UserAvatar` status badge at 96px and 120px:** now the `medium` badge (20px, offset 0) instead of `large`; `large` applies only at 128px.
+
 ## [0.1.0-alpha.30] - 2026-11-11
 
 ### Added
