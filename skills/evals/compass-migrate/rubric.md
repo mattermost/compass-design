@@ -13,7 +13,7 @@ Score each row 0 (present as in the review), 1 (partly fixed) or 2 (correct). Sc
 | 7   | Header Back button has a tooltip                                                                                                  | App         |
 | 8   | Back and Cancel confirm a discard only when the form changed                                                                      | App         |
 | 9   | Confirm modals have no header or footer divider                                                                                   | App         |
-| 10  | Escape and backdrop click close every modal (the top one only when stacked)                                                       | App         |
+| 10  | A backdrop click closes every modal (the top one only when stacked). Escape is row 14                                             | App         |
 | 11  | Error messages spaced the same under every field type                                                                             | App         |
 | 12  | The read-only textarea in "Attach message to Jira issue" doesn't look editable                                                    | App         |
 | 13  | Dates use the Compass date picker, and its icon is themed                                                                         | App         |
