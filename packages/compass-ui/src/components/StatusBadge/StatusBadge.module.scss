@@ -94,7 +94,10 @@
   }
 
   &--status-offline {
-    color: rgba(var(--center-channel-color-rgb), 0.32);
+    color: var(
+      --status-badge-offline-color,
+      rgba(var(--center-channel-color-rgb), var(--opacity-32))
+    );
     background-color: var(--status-badge-bg, var(--center-channel-bg));
   }
 }

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import StatusBadge from './StatusBadge';
 import type { StatusBadgeSize, StatusBadgeStatus } from './StatusBadge';
@@ -66,6 +66,33 @@ export const DoNotDisturb: Story = {
     size: 'small',
     status: 'do-not-disturb',
   },
+};
+
+/**
+ * Set `--status-badge-bg` and `--status-badge-offline-color` on the
+ * surrounding element to match a colored surface such as the sidebar.
+ */
+export const OnColoredSurface: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div
+      style={
+        {
+          display: 'flex',
+          gap: 16,
+          alignItems: 'center',
+          padding: 16,
+          background: 'var(--sidebar-bg)',
+          '--status-badge-bg': 'var(--sidebar-bg)',
+          '--status-badge-offline-color': 'rgba(var(--sidebar-text-rgb), 0.32)',
+        } as CSSProperties
+      }
+    >
+      {STATUSES.map((status) => (
+        <StatusBadge key={status} status={status} />
+      ))}
+    </div>
+  ),
 };
 
 export const AllVariants: Story = {

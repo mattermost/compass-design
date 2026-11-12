@@ -81,7 +81,49 @@ Five sizes match the avatar scale they overlay.
 
 <Divider />
 
+## On colored surfaces
+
+By default the badge sits on the center channel background. On the sidebar,
+global header, or any other colored surface, the ring should blend into the
+row and the offline glyph should read against it. Set the two variables on the
+row or surface that contains the badge, and update them when the row state
+changes (hover, active, selected).
+
+<div
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'center',
+    padding: '1rem',
+    background: 'var(--sidebar-bg)',
+    '--status-badge-bg': 'var(--sidebar-bg)',
+    '--status-badge-offline-color': 'rgba(var(--sidebar-text-rgb), 0.32)',
+  }}
+>
+  <StatusBadge status="online" size="medium" />
+  <StatusBadge status="away" size="medium" />
+  <StatusBadge status="do-not-disturb" size="medium" />
+  <StatusBadge status="offline" size="medium" />
+</div>
+
+<Divider />
+
 ## Implementation
+
+Two CSS variables adapt the badge to its surface. Online, away, and Do Not
+Disturb already follow the theme-wide presence colors.
+
+| Variable                       | Default                                      |
+| ------------------------------ | -------------------------------------------- |
+| `--status-badge-bg`            | `var(--center-channel-bg)`                   |
+| `--status-badge-offline-color` | `rgba(var(--center-channel-color-rgb), .32)` |
+
+```css
+.sidebar-row {
+  --status-badge-bg: var(--sidebar-bg);
+  --status-badge-offline-color: rgba(var(--sidebar-text-rgb), 0.32);
+}
+```
 
 For props, variants, and copy-ready examples, see the
 [Status Badge specimen page](/components/status-badge/specimen).

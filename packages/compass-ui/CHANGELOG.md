@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`StatusBadge` `--status-badge-offline-color`:** overridable color for the `offline` status, mirroring `--status-badge-bg`, so the badge can match sidebar, global header and other colored surfaces without CSS hacks. Falls back to the previous value (`rgba(var(--center-channel-color-rgb), var(--opacity-32))`), so default markup and appearance are unchanged.
+
 ## [0.1.0-alpha.30] - 2026-11-11
 
 ### Added
