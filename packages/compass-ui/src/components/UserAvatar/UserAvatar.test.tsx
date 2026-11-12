@@ -44,8 +44,7 @@ describe('UserAvatar status badge size', () => {
     const { container } = render(
       <UserAvatar alt="Sofia Bauer" size={size} status="online" />,
     );
-    return container.querySelector('[class*="status-badge--size-"]')
-      ?.className;
+    return container.querySelector('[class*="status-badge--size-"]')?.className;
   };
 
   it('uses medium up to 96px and large from 120px', () => {
