@@ -2,6 +2,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { CSSProperties, ReactNode } from 'react';
 import { MemoryRouter, Link } from 'react-router-dom';
+import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
+import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-off';
+import MonitorOffIcon from '@mattermost/compass-icons/components/monitor-off';
+import RecordCircleOutlineIcon from '@mattermost/compass-icons/components/record-circle-outline';
+import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
+import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
+import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
+import PhoneHangupIcon from '@mattermost/compass-icons/components/phone-hangup';
+import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
+import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import IconButton, {
   type IconButtonPadding,
@@ -93,38 +103,102 @@ export const Inverted: Story = {
   ],
 };
 
+/**
+ * Inverted buttons on a dark call surface, mirroring the call popout's header
+ * and control bar. The surface sets `--inverted-color`, `--inverted-color-rgb`
+ * and `--inverted-surface` from the `--calls-*` tokens; without them the
+ * buttons fall back to the sidebar tokens, which are near-black on the call
+ * surface in Quartz. Switch themes in the toolbar to compare; hover, press and
+ * the toggled buttons (Participants, Call info) are the states that were
+ * unreadable.
+ */
 export const InvertedOnCallSurface: Story = {
-  args: {
-    'aria-label': 'Mute',
-    size: 'medium',
-    style: 'inverted',
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={
-          {
-            display: 'flex',
-            gap: 8,
-            padding: 16,
-            borderRadius: 8,
-            background: 'var(--calls-bg)',
-            '--inverted-color': 'var(--calls-color)',
-            '--inverted-color-rgb': 'var(--calls-color-rgb)',
-            '--inverted-surface': 'var(--calls-bg)',
-          } as CSSProperties
-        }
-      >
-        <Story />
+  render: () => (
+    <div
+      style={
+        {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 24,
+          padding: 16,
+          width: 'fit-content',
+          borderRadius: 8,
+          background: 'var(--calls-bg)',
+          '--inverted-color': 'var(--calls-color)',
+          '--inverted-color-rgb': 'var(--calls-color-rgb)',
+          '--inverted-surface': 'var(--calls-bg)',
+        } as CSSProperties
+      }
+    >
+      <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
         <IconButton
-          aria-label="Unmute (toggled)"
+          size="small"
           style="inverted"
+          aria-label="Close call info"
           toggled
-          icon={<Icon glyph={<GlobeIcon />} />}
+          icon={<Icon size="16" glyph={<InformationOutlineIcon />} />}
+        />
+        <IconButton
+          size="small"
+          style="inverted"
+          aria-label="Collapse call"
+          icon={<Icon size="16" glyph={<ArrowCollapseIcon />} />}
         />
       </div>
-    ),
-  ],
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <IconButton
+          size="medium"
+          style="inverted"
+          aria-label="Participants (4)"
+          toggled
+          count={4}
+          icon={<Icon size="20" glyph={<AccountMultipleOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          style="inverted"
+          aria-label="Unmute"
+          icon={<Icon size="20" glyph={<MicrophoneOffIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          style="inverted"
+          aria-label="Share screen"
+          icon={<Icon size="20" glyph={<MonitorOffIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          style="inverted"
+          aria-label="Record"
+          icon={<Icon size="20" glyph={<RecordCircleOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          style="inverted"
+          aria-label="Reactions"
+          icon={<Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          style="inverted"
+          aria-label="Chat"
+          icon={<Icon size="20" glyph={<MessageTextOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          style="inverted"
+          aria-label="More"
+          icon={<Icon size="20" glyph={<DotsHorizontalIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          destructive
+          aria-label="Leave call"
+          icon={<Icon size="20" glyph={<PhoneHangupIcon />} />}
+        />
+      </div>
+    </div>
+  ),
 };
 
 function Row({
