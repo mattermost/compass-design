@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`StatusBadge` `--status-badge-offline-color` custom property:** overrides the `offline` glyph color so the badge can match sidebar, global header and other colored surfaces, alongside the existing `--status-badge-bg`. Falls back to the previous value, so default markup and appearance are unchanged.
+
 ### Changed
 
 - **`StatusBadge` `size` gains `'large'` between `medium` and the old `large`, which is renamed `'x-large'` (breaking for hosts that passed `size="large"`):** `large` is now a 28px badge with a 28px glyph; the previous 32px badge (36px glyph) is `x-large`. Update `size="large"` to `size="x-large"` to keep the old rendering. Other sizes are unchanged.
