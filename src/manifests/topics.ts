@@ -597,6 +597,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/menu-group-heading/menu-group-heading.specimen'),
   },
   {
+    slug: 'suggestion-list',
+    name: 'Suggestion List',
+    category: 'components',
+    description:
+      'Autocomplete listbox for a composer: @mention, ~channel, :emoji: and /slash rows with avatar, status and grouped headings.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/components/suggestion-list/suggestion-list.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/suggestion-list/suggestion-list.specimen'),
+  },
+  {
     slug: 'menu-item',
     name: 'Menu Item',
     category: 'components',
