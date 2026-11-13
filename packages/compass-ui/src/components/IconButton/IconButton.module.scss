@@ -38,13 +38,14 @@
     opacity: 0.5;
   }
 
-  // `:not(--destructive)`: the destructive hover below has lower specificity
-  // than this rule, so without it a destructive button hovered to grey.
+  // The destructive and tone hovers below have lower specificity than this
+  // rule, so without the exclusion a destructive button hovered to grey.
+  // `:where()` keeps the exclusion at zero specificity: a plain `:not()` here
+  // would raise this rule above the inverted hover and break it.
   &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
       :active
     ):not(.icon-button--active):not(.icon-button--toggled):not(
-      .icon-button--destructive,
-      .icon-button--tone
+      :where(.icon-button--destructive, .icon-button--tone)
     ) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
     --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
