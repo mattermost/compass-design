@@ -249,6 +249,37 @@ describe('Button tone', () => {
     );
   });
 
+  it('adds a loading class only while loading', () => {
+    const { container, rerender } = render(<Button tone="info">Save</Button>);
+    expect(container.querySelector('button')!.className).not.toMatch(
+      /button--loading/,
+    );
+    rerender(
+      <Button tone="info" loading>
+        Save
+      </Button>,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /button--loading/,
+    );
+  });
+
+  it.each([
+    ['danger', true],
+    ['success', true],
+    ['info', true],
+    ['warning', false],
+  ] as const)('tone=%s loading spinner inverted=%s', (tone, inverted) => {
+    const { container } = render(
+      <Button tone={tone} loading>
+        Save
+      </Button>,
+    );
+    const spinner = container.querySelector('[class*="spinner"]');
+    expect(spinner).not.toBeNull();
+    expect(/spinner--inverted/.test(spinner!.className)).toBe(inverted);
+  });
+
   it('adds no tone classes by default', () => {
     const { container } = render(<Button>Plain</Button>);
     expect(container.querySelector('button')!.className).not.toMatch(/--tone/);

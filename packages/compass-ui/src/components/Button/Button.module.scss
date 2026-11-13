@@ -396,6 +396,23 @@
     }
   }
 
+  // Loading with a tone on the solid emphasis: a 64% tint of the tone with the
+  // label and spinner in the tone's foreground (white; dark on `warning`),
+  // instead of the grey disabled look. Matches a loading toned `IconButton`.
+  // `destructive` keeps the grey disabled look.
+  &--tone.button--emphasis-primary.button--loading:is(
+      :disabled,
+      .button--disabled
+    ) {
+    --button-fg: var(--button-tone-solid-fg);
+
+    background-color: color-mix(
+      in srgb,
+      var(--button-tone-resolved) 64%,
+      transparent
+    );
+  }
+
   // `warning` is yellow, so white on the fill fails contrast: the solid fill
   // takes a dark label and the text emphasis takes a darker yellow.
   &--tone-warning {
