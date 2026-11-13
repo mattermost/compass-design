@@ -280,6 +280,17 @@ describe('Button tone', () => {
     expect(/spinner--inverted/.test(spinner!.className)).toBe(inverted);
   });
 
+  it('keeps the default spinner on a toned button that is not primary', () => {
+    const { container } = render(
+      <Button tone="danger" emphasis="secondary" loading>
+        Save
+      </Button>,
+    );
+    const spinner = container.querySelector('[class*="spinner"]');
+    expect(spinner).not.toBeNull();
+    expect(/spinner--inverted/.test(spinner!.className)).toBe(false);
+  });
+
   it('adds no tone classes by default', () => {
     const { container } = render(<Button>Plain</Button>);
     expect(container.querySelector('button')!.className).not.toMatch(/--tone/);

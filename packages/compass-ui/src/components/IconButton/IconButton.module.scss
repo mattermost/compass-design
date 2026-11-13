@@ -403,13 +403,18 @@
   &--tone-warning {
     --icon-button-tone-base: var(--color-warning-solid);
     --icon-button-tone-default-fg: var(--color-neutral-1050);
+    // Yellow on a light page is about 1.7:1; the ring needs 3:1.
+    --icon-button-tone-ring: var(--color-warning-text);
     // Yellow is brighter, so the same black mix reads about 1.4x stronger.
     --icon-button-tone-hover-keep: 94%;
     --icon-button-tone-press-keep: 89%;
   }
 
   &--tone {
-    --focus-ring-color: var(--icon-button-tone-base);
+    --focus-ring-color: var(
+      --icon-button-tone-ring,
+      var(--icon-button-tone-base)
+    );
     --icon-button-tone-fill: var(
       --icon-button-tone-bg,
       var(--icon-button-tone-base)

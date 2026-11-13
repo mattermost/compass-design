@@ -420,6 +420,8 @@
     --button-tone-base-rgb: var(--color-warning-solid-rgb);
     --button-tone-solid-fg: var(--color-neutral-1050);
     --button-tone-text: var(--button-tone-color, var(--color-warning-text));
+    // Yellow on a light page is about 1.7:1; the ring needs 3:1.
+    --focus-ring-color: var(--color-warning-text);
     // Yellow is brighter, so the same black mix reads about 1.4x stronger.
     --button-tone-hover-darken: 6%;
     --button-tone-press-darken: 11%;

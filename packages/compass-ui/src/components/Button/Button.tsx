@@ -127,15 +127,19 @@ type ButtonComponent = {
 };
 
 /**
- * White spinner on inverted buttons and on toned buttons. `warning` keeps the
- * dark spinner because its fill is light yellow.
+ * White spinner on inverted buttons and on toned primary buttons, whose loading
+ * state is a tint of the tone. Other emphases keep the grey disabled look, so
+ * they keep the default spinner. `warning` keeps the dark spinner because its
+ * fill is light yellow.
  */
 function spinnerInverted(
   appearance: ButtonAppearance,
+  emphasis: ButtonEmphasis,
   tone: ButtonTone | undefined,
 ): boolean {
   return (
-    appearance === 'inverted' || (tone !== undefined && tone !== 'warning')
+    appearance === 'inverted' ||
+    (tone !== undefined && tone !== 'warning' && emphasis === 'primary')
   );
 }
 
@@ -228,7 +232,7 @@ const Button = forwardRef(function Button(
         {loading ? (
           <Spinner
             size={iconSize as SpinnerSize}
-            inverted={spinnerInverted(appearance, tone)}
+            inverted={spinnerInverted(appearance, emphasis, tone)}
           />
         ) : (
           <IconSlotContext.Provider value={{ size: iconSize }}>
@@ -318,7 +322,7 @@ const Button = forwardRef(function Button(
           {loading ? (
             <Spinner
               size={iconSize as SpinnerSize}
-              inverted={spinnerInverted(appearance, tone)}
+              inverted={spinnerInverted(appearance, emphasis, tone)}
             />
           ) : (
             <IconSlotContext.Provider value={{ size: iconSize }}>
