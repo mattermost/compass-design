@@ -34,6 +34,8 @@ interface IconButtonOwnProps {
   destructive?: boolean;
   /**
    * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success`, `warning` or `info`.
+   * `tone` looks the same whether or not the button is `toggled`, and is not
+   * supported with `style="inverted"`.
    * Unlike `destructive` (a transparent button with a danger icon), `tone`
    * fills the button, for a primary action such as Leave call. A host can
    * retheme a tone with `--icon-button-tone-bg`, `--icon-button-tone-fg`,
@@ -124,6 +126,15 @@ type IconButtonComponent = {
   displayName?: string;
 };
 
+/**
+ * `data-active` is `"true"` / `"false"` once the host passes `active`, and absent
+ * otherwise. The hover fade skips any button that has the attribute, so a forced
+ * active state that flips under the pointer switches instantly (#184).
+ */
+function activeAttr(active: boolean | undefined): 'true' | 'false' | undefined {
+  return active === undefined ? undefined : active ? 'true' : 'false';
+}
+
 function buildRootClass({
   className = '',
   count,
@@ -180,7 +191,7 @@ const IconButton = forwardRef(function IconButton(
 ) {
   if (props.asChild) {
     const {
-      active = false,
+      active: activeProp,
       className = '',
       count,
       destructive = false,
@@ -199,6 +210,7 @@ const IconButton = forwardRef(function IconButton(
       ...rest
     } = props;
     void asChild;
+    const active = activeProp ?? false;
 
     const rootClass = buildRootClass({
       className,
@@ -241,7 +253,7 @@ const IconButton = forwardRef(function IconButton(
         ...rest,
         className: rootClass,
         'aria-label': ariaLabel,
-        'data-active': active ? 'true' : undefined,
+        'data-active': activeAttr(activeProp),
         ...(loading ? { 'aria-busy': true } : null),
       },
       ref,
@@ -253,7 +265,7 @@ const IconButton = forwardRef(function IconButton(
   }
 
   const {
-    active = false,
+    active: activeProp,
     className = '',
     count,
     destructive = false,
@@ -273,6 +285,7 @@ const IconButton = forwardRef(function IconButton(
     ...rest
   } = props;
   void asChild;
+  const active = activeProp ?? false;
 
   const rootClass = buildRootClass({
     className,
@@ -298,7 +311,7 @@ const IconButton = forwardRef(function IconButton(
       disabled={isDisabled}
       aria-label={ariaLabel}
       aria-pressed={toggled === undefined ? undefined : toggled}
-      data-active={active ? 'true' : undefined}
+      data-active={activeAttr(activeProp)}
       {...rest}
     >
       <span className={styles['icon-button__icon-slot']} aria-hidden>

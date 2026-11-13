@@ -38,7 +38,7 @@
   // transition (#184). Buttons that can toggle (`aria-pressed`) or are forced
   // active skip the fade: a toggle that flips while the pointer is still over
   // the button would otherwise crossfade instead of switching instantly.
-  &:is(:hover, :active):not([aria-pressed], [data-active='true']) {
+  &:is(:hover, :active):not([aria-pressed], [data-active]) {
     transition:
       background-color var(--duration-quick) var(--ease-transition),
       color var(--duration-quick) var(--ease-transition);
@@ -438,32 +438,6 @@
       color: var(--icon-button-fg);
     }
     &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
-      --icon-button-fg: var(
-        --icon-button-tone-fg,
-        var(--icon-button-tone-default-fg, var(--color-neutral-0))
-      );
-
-      background-color: var(
-        --icon-button-tone-active-bg,
-        color-mix(
-          in srgb,
-          var(--icon-button-tone-bg, var(--icon-button-tone-base))
-            var(--icon-button-tone-press-keep, 84%),
-          black
-        )
-      );
-      color: var(--icon-button-fg);
-    }
-
-    // Toggled: rests on the pressed (darker) fill, so the selected state reads
-    // against the same tone untoggled. Without this the toggled rules above lose
-    // to the tone fill and the two states look identical.
-    &.icon-button--toggled,
-    &.icon-button--toggled:is(:hover, :focus-visible):not(
-        :disabled,
-        .icon-button--disabled
-      ):not(:active),
-    &.icon-button--toggled:active:not(:disabled, .icon-button--disabled) {
       --icon-button-fg: var(
         --icon-button-tone-fg,
         var(--icon-button-tone-default-fg, var(--color-neutral-0))

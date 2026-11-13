@@ -156,3 +156,18 @@ describe('IconButton tone', () => {
     expect(container.querySelector('button')!.className).not.toMatch(/--tone/);
   });
 });
+
+describe('IconButton data-active', () => {
+  it.each([
+    [undefined, null],
+    [false, 'false'],
+    [true, 'true'],
+  ])('active=%s renders data-active=%s', (active, expected) => {
+    const { container } = render(
+      <IconButton aria-label="A" icon={null} active={active} />,
+    );
+    expect(container.querySelector('button')!.getAttribute('data-active')).toBe(
+      expected,
+    );
+  });
+});
