@@ -286,7 +286,7 @@
       "--color-danger": "rgb(var(--color-danger-rgb))",
       "--color-warning-solid-rgb": "var(--color-yellow-400-rgb)",
       "--color-warning-solid": "rgb(var(--color-warning-solid-rgb))",
-      "--color-warning-text": "var(--color-yellow-800)",
+      "--color-warning-text": "var(--color-yellow-700)",
       "--attachment-blue": "var(--color-blue-300)",
       "--attachment-green": "var(--color-green-600)",
       "--attachment-red": "var(--color-red-500)",
