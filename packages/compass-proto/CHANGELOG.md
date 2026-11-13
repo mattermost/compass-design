@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+
+- **2026-11-13 · `ChannelBookmarksBar` and `ChannelBookmarkModal`:** channel bookmarks bar for under the channel header, with overflow handling (bookmarks that don't fit collapse into a "More bookmarks" menu), a per-bookmark actions menu (edit, copy link, delete), an add button, and a create / edit modal for link bookmarks. Controlled by the host through callbacks; user-visible strings are overridable via `labels`. Shown in the Channel layout specimen.
+
 ### Changed
 
 - **2026-11-12 · `MobileMessageInput` `variant` values are now lowercase kebab-case (breaking for hosts that passed the old values):** `variant` takes `'root'` and `'reply'` instead of `'Root'` and `'Reply'`, matching the public variant-value convention. Update any `variant="Root"` / `variant="Reply"` usage to the lowercase values; the default is still `'root'`. Nothing else in the component's API changes.
