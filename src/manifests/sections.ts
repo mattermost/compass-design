@@ -197,7 +197,12 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Overlays',
-      slugs: ['emoji-popover', 'popover-menu', 'profile-popover'],
+      slugs: [
+        'emoji-popover',
+        'popover-menu',
+        'profile-popover',
+        'quick-switch-modal',
+      ],
     },
   ],
   layouts: [

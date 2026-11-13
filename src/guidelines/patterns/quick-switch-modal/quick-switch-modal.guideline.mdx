@@ -1,0 +1,68 @@
+import { QuickSwitchModalCanvas } from './quick-switch-modal.specimen';
+
+The Quick Switch Modal is the keyboard-first way to jump to a channel, direct
+message, or group message. Users open it with a shortcut, type a few letters,
+and press Enter. It lives in `@mattermost/compass-proto` as a prototyping
+surface and is not yet published to `@mattermost/compass-ui`.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <QuickSwitchModalCanvas />
+</AnatomyStage>
+
+- <Num>1</Num> **Search field** — a large search input in the header. It keeps
+  focus the whole time; the arrow keys move the highlight without leaving it.
+- <Num>2</Num> **Results** — the same row used in the channel sidebar, so
+  channel type, unread state, and mentions read the same way in both places. A
+  muted breadcrumb after the name says where the destination lives.
+- <Num>3</Num> **Keyboard hint** — a footer line that lists the keys.
+
+<Divider />
+
+## States
+
+- **Default** — every destination in the host's order (typically recents
+  first), with the first row highlighted.
+- **Filtered** — rows narrow as the user types. Every word must match the name,
+  breadcrumb, or a keyword such as a username. The highlight returns to the
+  first row.
+- **Empty** — a centered "No results found" message replaces the list.
+
+## Keyboard
+
+| Key        | Action                                   |
+| ---------- | ---------------------------------------- |
+| Down / Up  | Move the highlight, wrapping at the ends |
+| Home / End | Jump to the first or last result         |
+| Enter      | Open the highlighted result              |
+| Escape     | Close and return focus to where it was   |
+
+<Divider />
+
+## Implementation
+
+The host owns open state, the shortcut that toggles it, and what selecting a
+row does. Pass `items` and `onSelect`; call `onClose` from `onSelect` to
+dismiss. See the Specimen tab for a live example.
+
+```tsx
+import { QuickSwitchModal } from '@mattermost/compass-proto';
+
+<QuickSwitchModal
+  open={open}
+  onClose={() => setOpen(false)}
+  items={channels}
+  onSelect={(item) => {
+    navigate(item.id);
+    setOpen(false);
+  }}
+/>;
+```
