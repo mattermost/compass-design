@@ -21,7 +21,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Size modifiers (Figma: XX-Small, X-Small, Small, Medium, Large)
+  // Size modifiers (Figma: XX-Small, X-Small, Small, Medium, Large, X-Large)
   // ---------------------------------------------------------------------------
   &--size-xx-small {
     width: var(--icon-size-12);
@@ -64,6 +64,16 @@
   }
 
   &--size-large {
+    width: var(--icon-size-28);
+    height: var(--icon-size-28);
+
+    .status-badge__glyph {
+      width: var(--icon-size-28);
+      height: var(--icon-size-28);
+    }
+  }
+
+  &--size-x-large {
     width: var(--icon-size-32);
     height: var(--icon-size-32);
 
