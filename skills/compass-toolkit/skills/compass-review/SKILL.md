@@ -21,7 +21,7 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
 
 1. **Pick the context:** core feature, plugin or prototype (`references/context.md`). It changes what counts as a violation (for example, `compass-proto` imports are fine only in a prototype).
 2. **Scan for mechanical issues** (search, then read each hit in context):
-   - Raw values: hex colors, `px` for spacing, font sizes, radii, shadows, `ms`, `ease` keywords.
+   - Raw values: hex colors, `px` for spacing, font sizes, radii, shadows, `ms`, `ease` keywords. Border widths (`border: 1px solid`, `border-left: 4px solid`) are not raw-value violations, and a spacing token used as a border width (`border-left: var(--spacing-xxxs) solid`) is one: report it.
    - Inline `style={{ ... }}` with tokenizable values, `!important`, deep selectors into Compass components.
    - Root-barrel imports from `@mattermost/compass-ui`, or the standalone stylesheet loaded in a host.
    - More than one primary Button in a view (count a `Button` with no `emphasis` prop, or `emphasis={undefined}`, as primary, since that is its default); `secondary` where `tertiary` is the norm.
@@ -32,7 +32,8 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - Forms: `gap` set on a `<form>` while fields sit inside a wrapper `<div>` or lazy-loaded section; `--spacing-l` between floating-label fields (the rule is `--spacing-xxl`).
    - A `PopoverMenu` rendered conditionally or without `open` (no enter or exit motion).
    - Duplicate field `id`s rendered on one screen (a selector with a fixed default `id` used several times).
-   - Modals: `Tabs` without `appearance='underlined'`, tabs in the body, or tabs in `headerSlot` with the header divider on or a padded wrapper (two lines, bar inset); both dividers on for a short body.
+   - Modals: `Tabs` without `appearance='underlined'`, tabs in the body, or tabs in `headerSlot` with the header divider on or a padded wrapper (two lines, bar inset); both dividers on for a short body. A selector on `[class*='modal-header__slot']` that zeroes the slot padding is the accepted workaround until mattermost/compass-design#371 lands: don't report it unless the installed `Modal` already has a prop for it, and report any override of `Tabs` internals (`tabs__controls`, `tabs__tab-list`), or the action placed in `Tabs` `controls` instead of `headerAction`.
+   - Parent/child modals (a list that opens a detail `Modal`, and back): views swapped in place with no transition, `open` passed to only the first view, or the overlay unmounted between views. Each view should have a controlled `open` and the switch should exit then enter (see `compass-build` `references/motion-and-states.md`).
    - Icon-only `IconButton` (trash, back, close in a row or header) with no tooltip.
    - A discard confirm that opens without comparing the form to its initial values.
    - A native `type=date`, or a `readOnly` field styled like an input; two `EmptyState`s stacked in one view; sections stacked that `Tabs` would separate.

@@ -440,6 +440,59 @@ const ConfigTabs = styled(UnderlineTabs)`
 
 Notes:
 
-- Agents draws its own `UnderlineTabs` (a comment says it is there until compass-ui ships the underlined variant). Compass `Tabs` has `appearance='underlined'` as of alpha.30. It draws its rule on its own root, so keep the root full width and inset the labels inside it. Whether `Tabs` accepts that inset without an internal override is untested here.
+- **Check the installed `Modal` props before using the selector**: a slot-padding or tabs prop (mattermost/compass-design#371) replaces it.
+- With Compass `Tabs` (verified in the Jira plugin): scope the selector with `[class*='modal-header__slot']:has(> .my-tabs)` and keep a small top padding (`padding: var(--spacing-xs) 0 0`) so the tabs don't touch the title row. Inset the `Tabs` root, not the slot, with `padding: 0 var(--spacing-xxxl) 0 calc(var(--spacing-xxxl) - var(--spacing-xs))`: the rule is a `box-shadow` on the root so it stays full width, and the tab's own `--spacing-xs` is taken off so the label lines up with the title. Put the modal's action in `headerAction`, not `Tabs` `controls` (it crowds the rule, and spacing it needs overrides on Tabs internals).
+- Agents draws its own `UnderlineTabs` (a comment says it is there until compass-ui ships the underlined variant). Compass `Tabs` has `appearance='underlined'` as of alpha.30. It draws its rule on its own root, so keep the root full width and inset the labels inside it. `Tabs` accepts that inset on its root without an internal override.
 - The Jira B2 run put `Tabs appearance='underlined'` in `headerSlot` inside a wrapper with `padding: 0 var(--spacing-xxl)` and left the header divider on. Result: the bar was inset about 56px (32px slot padding plus 24px), the border stopped short of the edges, and the header showed two lines.
 - Check it in the browser: one line under the tabs, edge to edge, the first label aligned with the body content.
+
+## 8. Parent and child modals (list to detail)
+
+From the Jira plugin's subscriptions flow: a list modal opens a detail modal (create or edit), and Back returns to the list. Both are `Modal`s under one `ModalOverlay`, so the scrim stays up. Each view takes `open` and `onExited` and passes them to its `Modal`. The wrapper sequences the exit and the enter:
+
+```tsx
+type View = { selected: Item | null; creating: boolean };
+const LIST: View = { selected: null, creating: false };
+
+class Flow extends React.PureComponent<Props, { view: View; pending: View | null }> {
+  state = { view: LIST, pending: null };
+
+  // Exit the current modal first; the next one enters once the exit has finished.
+  goTo = (view: View) => this.setState({ pending: view });
+  handleExited = () => {
+    if (this.state.pending) {
+      this.setState({ view: this.state.pending, pending: null });
+    }
+  };
+
+  render() {
+    const open = this.props.open && !this.state.pending;
+    const { view } = this.state;
+    if (view.selected || view.creating) {
+      return (
+        <DetailModal
+          open={open}
+          onExited={this.handleExited}
+          onBack={() => this.goTo(LIST)}
+          item={view.selected}
+        />
+      );
+    }
+    return (
+      <ListModal
+        open={open}
+        onExited={this.handleExited}
+        onOpenItem={(item) => this.goTo({ selected: item, creating: false })}
+        onCreate={() => this.goTo({ selected: null, creating: true })}
+      />
+    );
+  }
+}
+```
+
+Notes:
+
+- The mistake to avoid: passing `open` to the first view only ("later views swap in place"). The later views then mount and unmount with no transition. Pass the controlled `open` to every view.
+- Each switch costs one exit plus one enter (roughly two `--duration-quick`). The modal is briefly gone between them while the scrim stays. That is the intended look.
+- Closing the whole flow: the outer `ModalOverlay` still gets `open`, `onClose` and `onExited`. `handleExited` does nothing when there is no pending view.
+- Tests: the next dialog appears after the exit, so assert with `await screen.findByRole('dialog', {name})`, not `getByRole`.

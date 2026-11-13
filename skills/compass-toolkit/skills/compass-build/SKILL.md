@@ -19,7 +19,7 @@ Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, 
 ## House rules (these win over everything else)
 
 1. **Reuse before building.** Look in `@mattermost/compass-ui` first. If a component covers the need, use it. Don't restyle it from outside; use its props. The one exception is a documented override, such as Radio's full width in a boolean pair.
-2. **Tokens only.** No raw px, hex, ms or easing keywords where a token exists. See `references/tokens-and-implementation.md`.
+2. **Tokens only.** No raw px, hex, ms or easing keywords where a token exists. Border widths stay raw; never use a spacing token for one. See `references/tokens-and-implementation.md`.
 3. **At most one primary action per view.** One `emphasis="primary"` Button when the view has a main action (a read-only view may have none). Every other action sets a lower `emphasis` explicitly, because `Button` defaults to `primary`: **`tertiary` is the usual choice** (Cancel, back, alternatives). Use `quaternary`, `dim` or `link` for lighter actions. Avoid `secondary` unless a design calls for it; it may be phased out.
 4. **Theme tokens for product UI.** Use role tokens (`--center-channel-bg`, `--button-bg`), never palette hex. It must work on every theme.
 5. **Less is the default.** If an element, border, label or sentence can go without losing meaning, remove it.
