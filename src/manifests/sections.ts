@@ -142,6 +142,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'reaction-button',
         'reactions-row',
         'message-separator',
+        'draft-list-item',
         'thread-footer',
         'thread-list-item',
       ],
@@ -176,6 +177,10 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     {
       label: 'Admin Console',
       slugs: ['admin-panel', 'admin-console-sidebar'],
+    },
+    {
+      label: 'Messaging',
+      slugs: ['drafts-page'],
     },
     {
       label: 'Mobile',

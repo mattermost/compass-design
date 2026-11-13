@@ -153,6 +153,9 @@
       "components/divider": [
         "./dist/components/divider/index.d.ts"
       ],
+      "components/draft-list-item": [
+        "./dist/components/draft-list-item/index.d.ts"
+      ],
       "components/dropdown": [
         "./dist/components/dropdown/index.d.ts"
       ],

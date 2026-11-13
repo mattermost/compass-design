@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`DraftListItem` (`@mattermost/compass-ui/components/draft-list-item`):** a row for Drafts and Scheduled lists. `status` is `'draft' | 'scheduled' | 'failed'` (default `'draft'`); shows destination, optional thread tag, two-line preview, timestamp and, for `failed` rows, an `errorMessage`. Edit, Send and Delete icon buttons render only when `onEdit` / `onSend` / `onDelete` are passed and reveal on hover and focus; their names come from `editLabel`, `deleteLabel` and `sendLabel`, and each takes `*ButtonProps`. New component, no change to existing markup.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

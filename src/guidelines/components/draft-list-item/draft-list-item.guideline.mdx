@@ -1,0 +1,64 @@
+import { DraftListItem } from '@mattermost/compass-ui/components/draft-list-item';
+
+The Draft List Item is one entry in the Drafts and Scheduled views. It shows
+where a message is headed, a preview of it, and when it was last edited or will
+send, with quick actions to edit, send, or delete it.
+
+<Divider />
+
+## States
+
+| Status    | Use when                                                                    |
+| --------- | --------------------------------------------------------------------------- |
+| Draft     | An unsent message. The timestamp says when it was last edited.              |
+| Scheduled | Will send at a set time. A Scheduled tag and the send time are shown.       |
+| Failed    | A scheduled message that could not send. A danger tag and reason are shown. |
+
+<div style={{ maxWidth: '640px' }}>
+  <DraftListItem
+    destination="Town Square"
+    previewText="Here is the draft of the release notes for 10.4."
+    timestamp="Edited 5 mins ago"
+  />
+  <DraftListItem
+    status="scheduled"
+    destination="Town Square"
+    previewText="Here is the draft of the release notes for 10.4."
+    timestamp="Send on Mon, Nov 16 at 9:00 AM"
+  />
+  <DraftListItem
+    status="failed"
+    destination="Town Square"
+    previewText="Here is the draft of the release notes for 10.4."
+    timestamp="Was due Mon, Nov 16 at 9:00 AM"
+    errorMessage="This channel was archived before the message could send."
+  />
+</div>
+
+<Divider />
+
+## Behavior
+
+- Clicking the row (or pressing **Enter** / **Space** on it) opens the message
+  for editing via `onClick`.
+- Edit, Send, and Delete buttons render only when `onEdit`, `onSend`, or
+  `onDelete` is passed. They are siblings of the row button and reveal on hover
+  or `:focus-within` via opacity, so they stay in the tab order.
+- The timestamp is hidden while the actions are revealed.
+- Button names come from `editLabel`, `deleteLabel`, and `sendLabel`.
+
+<Divider />
+
+## Content
+
+- Preview text is clamped to two lines.
+- Keep destinations short: a channel name or a person's name.
+
+<Divider />
+
+## Implementation
+
+For props and copy-ready examples, see the
+[Draft List Item specimen page](/components/draft-list-item/specimen). The full
+Drafts & scheduled page, with tabs and empty states, is `DraftsPage` in
+`@mattermost/compass-proto`.

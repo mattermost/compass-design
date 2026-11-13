@@ -14,6 +14,7 @@ import AttachmentCard from './AttachmentCard/AttachmentCard';
 import ChannelSidebarItem from './ChannelSidebarItem/ChannelSidebarItem';
 import Combobox from './Combobox/Combobox';
 import DateRangePicker from './DateRangePicker/DateRangePicker';
+import DraftListItem from './DraftListItem/DraftListItem';
 import EmojiPopover from './EmojiPopover/EmojiPopover';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
 import ImagePreview from './ImagePreview/ImagePreview';
@@ -200,6 +201,42 @@ const BUTTON_NAME_CASES: Array<{
     name: 'AttachmentCard downloadLabel',
     english: 'Download',
     render: (l) => <AttachmentCard fileName="f.txt" downloadLabel={l} />,
+  },
+  {
+    name: 'DraftListItem editLabel',
+    english: 'Edit',
+    render: (l) => (
+      <DraftListItem
+        destination="d"
+        previewText="p"
+        onEdit={noop}
+        editLabel={l}
+      />
+    ),
+  },
+  {
+    name: 'DraftListItem deleteLabel',
+    english: 'Delete',
+    render: (l) => (
+      <DraftListItem
+        destination="d"
+        previewText="p"
+        onDelete={noop}
+        deleteLabel={l}
+      />
+    ),
+  },
+  {
+    name: 'DraftListItem sendLabel',
+    english: 'Send now',
+    render: (l) => (
+      <DraftListItem
+        destination="d"
+        previewText="p"
+        onSend={noop}
+        sendLabel={l}
+      />
+    ),
   },
   {
     name: 'ThreadListItem menuLabel',

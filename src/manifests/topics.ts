@@ -919,6 +919,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/thread-footer/thread-footer.specimen'),
   },
   {
+    slug: 'draft-list-item',
+    name: 'Draft List Item',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/draft-list-item/draft-list-item.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/draft-list-item/draft-list-item.specimen'),
+  },
+  {
     slug: 'thread-list-item',
     name: 'Thread List Item',
     category: 'components',
@@ -1241,6 +1251,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/profile-popover/profile-popover.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/patterns/profile-popover/profile-popover.specimen'),
+  },
+  {
+    slug: 'drafts-page',
+    name: 'Drafts Page',
+    category: 'patterns',
+    description:
+      'Drafts and scheduled messages: Drafts / Scheduled tabs, draft rows, and empty states.',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/drafts-page/drafts-page.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/drafts-page/drafts-page.specimen'),
   },
   {
     slug: 'right-sidebar',

@@ -10,6 +10,7 @@ export * from './components/ChannelHeaderMenu/index';
 export * from './components/ChannelMenu/index';
 export * from './components/ChannelShell/index';
 export * from './components/ChannelsSidebar/index';
+export * from './components/DraftsPage/index';
 export * from './components/EmojiPopover/index';
 export * from './components/GlobalHeader/index';
 export * from './components/HelpMenu/index';

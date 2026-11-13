@@ -1,0 +1,31 @@
+The Drafts & scheduled page lists messages a person has started but not sent,
+and messages queued to send later. Two tabs split the list, each with a count,
+and each tab has its own empty state.
+
+<Divider />
+
+## Anatomy
+
+- **Title** — page heading.
+- **Tabs** — Drafts and Scheduled, underlined, with count badges.
+- **Rows** — one [Draft List Item](/components/draft-list-item) per message.
+  Scheduled rows carry a Scheduled tag; failed sends carry a danger tag and a
+  reason.
+- **Empty state** — the drafts or scheduled illustration with a short
+  explanation, shown when the active tab has no rows.
+
+<Divider />
+
+## Behavior
+
+- Switching tabs swaps the list; the tab panel is labelled by the active tab.
+- Rows open the message for editing; Edit, Send now, and Delete are hover and
+  focus actions on each row.
+- `DraftsPage` is a proto composite in `@mattermost/compass-proto`. It owns only
+  the active tab; the host owns the data and every handler.
+
+<Divider />
+
+## Implementation
+
+See the [specimen page](/patterns/drafts-page/specimen).
