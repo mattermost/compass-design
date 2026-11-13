@@ -12,7 +12,8 @@ export type StatusBadgeSize =
   | 'x-small'
   | 'small'
   | 'medium'
-  | 'large';
+  | 'large'
+  | 'x-large';
 
 /** Figma Status Badge status variant. */
 export type StatusBadgeStatus =
@@ -38,7 +39,8 @@ const BADGE_ICON_SIZE_PX: Record<StatusBadgeSize, number> = {
   'x-small': 12,
   small: 16,
   medium: 20,
-  large: 32,
+  large: 28,
+  'x-large': 32,
 };
 
 /** Compass icon component per status variant. */
