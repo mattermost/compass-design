@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content -- asChild replaces empty anchor children with icon anatomy */
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { MemoryRouter, Link } from 'react-router-dom';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import IconButton, {
@@ -88,6 +88,40 @@ export const Inverted: Story = {
         }}
       >
         <Story />
+      </div>
+    ),
+  ],
+};
+
+export const InvertedOnCallSurface: Story = {
+  args: {
+    'aria-label': 'Mute',
+    size: 'medium',
+    style: 'inverted',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={
+          {
+            display: 'flex',
+            gap: 8,
+            padding: 16,
+            borderRadius: 8,
+            background: 'var(--calls-bg)',
+            '--inverted-color': 'var(--calls-color)',
+            '--inverted-color-rgb': 'var(--calls-color-rgb)',
+            '--inverted-surface': 'var(--calls-bg)',
+          } as CSSProperties
+        }
+      >
+        <Story />
+        <IconButton
+          aria-label="Unmute (toggled)"
+          style="inverted"
+          toggled
+          icon={<Icon glyph={<GlobeIcon />} />}
+        />
       </div>
     ),
   ],
