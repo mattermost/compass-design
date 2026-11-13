@@ -101,7 +101,7 @@
       var(--spacing-l) + var(--spacing-xxxs) + var(--icon-size-16) +
         var(--spacing-s)
     );
-    color: rgba(var(--center-channel-color-rgb), 0.64);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
   }
 
   &--has-clear &__value {

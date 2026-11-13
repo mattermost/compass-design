@@ -337,10 +337,10 @@ export default function DateRangePicker({
   /** Opens the calendar on the month of the selected date, or of the range start. */
   const openCalendar = useCallback(() => {
     const target = monthFromIso(mode === 'date' ? selectedDate : selectedStart);
-    if (target) {
-      setDisplayYear(target.year);
-      setDisplayMonth(target.month);
-    }
+    // No selection (e.g. just cleared): open on today's month, not the last one browsed.
+    const now = new Date();
+    setDisplayYear(target?.year ?? now.getFullYear());
+    setDisplayMonth(target?.month ?? now.getMonth());
     setIsOpen(true);
   }, [mode, selectedDate, selectedStart]);
 

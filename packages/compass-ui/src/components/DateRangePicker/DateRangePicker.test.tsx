@@ -35,6 +35,19 @@ describe('DateRangePicker opens on the selected month', () => {
   });
 });
 
+describe('DateRangePicker with no selection', () => {
+  it("opens on today's month after the value is cleared", () => {
+    const { rerender } = render(<DateRangePicker value="2031-03-15" />);
+    rerender(<DateRangePicker value="" />);
+    click(trigger());
+    const now = new Date();
+    const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(
+      now,
+    );
+    expect(getByRole('grid', `${month} ${now.getFullYear()}`)).toBeTruthy();
+  });
+});
+
 describe('DateRangePicker clearable', () => {
   it('renders no clear button by default', () => {
     render(<DateRangePicker value="2031-03-15" />);
