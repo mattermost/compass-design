@@ -454,7 +454,10 @@ From the Jira plugin's subscriptions flow: a list modal opens a detail modal (cr
 type View = { selected: Item | null; creating: boolean };
 const LIST: View = { selected: null, creating: false };
 
-class Flow extends React.PureComponent<Props, { view: View; pending: View | null }> {
+class Flow extends React.PureComponent<
+  Props,
+  { view: View; pending: View | null }
+> {
   state = { view: LIST, pending: null };
 
   // Exit the current modal first; the next one enters once the exit has finished.
