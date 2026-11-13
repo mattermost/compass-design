@@ -38,9 +38,13 @@
     opacity: 0.5;
   }
 
+  // `:not(--destructive)`: the destructive hover below has lower specificity
+  // than this rule, so without it a destructive button hovered to grey.
   &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
       :active
-    ):not(.icon-button--active):not(.icon-button--toggled) {
+    ):not(.icon-button--active):not(.icon-button--toggled):not(
+      .icon-button--destructive
+    ) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
     --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
     color: rgba(var(--center-channel-color-rgb), 0.75);

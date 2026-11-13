@@ -118,14 +118,14 @@ export const Inverted: Story = {
  * the story does not depend on compass-proto.
  */
 const CALL_SURFACE_OVERRIDES = `
-  .call-surface-story__controls button:not(.call-surface-story__leave) {
+  .call-surface-story__controls button:not(.call-surface-story__leave):not([aria-pressed='true']) {
     background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent);
   }
   .call-surface-story .call-surface-story__leave.call-surface-story__leave {
     background-color: var(--error-text, var(--color-danger));
     color: var(--neutral-0);
   }
-  .call-surface-story .call-surface-story__leave.call-surface-story__leave.call-surface-story__leave.call-surface-story__leave:hover:not(:disabled) {
+  button.call-surface-story__leave.call-surface-story__leave:hover:not(:disabled) {
     background-color: var(--color-red-600);
     color: var(--neutral-0);
   }
