@@ -390,7 +390,7 @@
   }
   // Yellow: white fails contrast, so the icon is dark.
   &--tone-warning {
-    --icon-button-tone-base: var(--color-warning);
+    --icon-button-tone-base: var(--color-warning-solid);
     --icon-button-tone-default-fg: var(--color-neutral-1050);
   }
 

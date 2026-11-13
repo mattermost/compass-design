@@ -377,6 +377,13 @@
     --color-danger-rgb: var(--semantic-color-danger);
     --color-danger: rgb(var(--color-danger-rgb));
 
+    // Warning for solid fills and text. `--color-warning` is a dark mustard that
+    // reads poorly as a button fill; these give a true yellow fill (dark label,
+    // about 9:1) and an amber that passes contrast for text on light surfaces.
+    --color-warning-solid-rgb: var(--color-yellow-400-rgb);
+    --color-warning-solid: rgb(var(--color-warning-solid-rgb));
+    --color-warning-text: var(--color-yellow-800);
+
     // ============================================================
     // Attachment Card file-type accent colors
     // ============================================================

@@ -397,10 +397,10 @@
   // `warning` is yellow, so white on the fill fails contrast: the solid fill
   // takes a dark label and the text emphasis takes a darker yellow.
   &--tone-warning {
-    --button-tone-base: var(--color-warning);
-    --button-tone-base-rgb: var(--color-warning-rgb);
+    --button-tone-base: var(--color-warning-solid);
+    --button-tone-base-rgb: var(--color-warning-solid-rgb);
     --button-tone-solid-fg: var(--color-neutral-1050);
-    --button-tone-text: var(--color-yellow-800);
+    --button-tone-text: var(--color-warning-text);
   }
 
   // ---------------------------------------------------------------------------
