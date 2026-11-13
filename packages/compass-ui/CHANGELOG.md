@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.32] - 2026-11-13
+
 ### Fixed
 
 - **`Modal` Escape no longer blocked by host listeners ([#247](https://github.com/mattermost/compass-design/issues/247)):** `closeOnEscape` is now handled on the dialog root's `onKeyDown` first, so a host `document` listener that calls `preventDefault` on every Escape (such as the webapp header search) can no longer stop the modal from closing. Escape that an inner widget or the modal's own `onKeyDown` already handled (`defaultPrevented`) is still ignored. The document listener stays as the fallback when focus is outside the dialog, and only the topmost modal reacts. A handled Escape now calls `preventDefault()`, so one Escape cannot close two modals and host listeners can tell it was consumed. `useModalFocus` returns `onDialogKeyDown` for custom dialogs; callers that ignore it keep the document-listener behavior. No markup change.
@@ -587,7 +589,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.31...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...HEAD
+[0.1.0-alpha.32]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.31...0.1.0-alpha.32
 [0.1.0-alpha.31]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.30...0.1.0-alpha.31
 [0.1.0-alpha.30]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.29...0.1.0-alpha.30
 [0.1.0-alpha.29]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.28...0.1.0-alpha.29
