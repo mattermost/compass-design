@@ -45,6 +45,14 @@ const meta = {
     appearance: { control: 'select', options: ['default', 'inverted'] },
     compact: { control: 'boolean' },
     emphasis: { control: 'select', options: EMPHASES },
+    tone: {
+      control: 'select',
+      options: [undefined, 'danger', 'success', 'warning', 'info'],
+      description:
+        'Semantic color applied to the chosen emphasis. Leave unset for the neutral/brand button. `destructive` is the same as `danger`.',
+    },
+    destructive: { control: 'boolean' },
+    disabled: { control: 'boolean' },
     loading: { control: 'boolean' },
     size: { control: 'select', options: SIZES },
     leadingIcon: iconSelectArgType({
