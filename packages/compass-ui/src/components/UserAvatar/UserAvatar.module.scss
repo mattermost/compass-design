@@ -94,7 +94,7 @@
   // Per-size right/bottom offsets (px) for the larger avatars.
   $status-offsets: (
     80: 1,
-    96: -1, // 28px large badge: keeps the centre of the earlier 20px badge at 3px
+    96: 0,
     120: 3,
     128: 2,
   );
