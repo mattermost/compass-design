@@ -231,6 +231,13 @@ describe('Button tone', () => {
     expect(button.getAttribute('type')).toBe('submit');
   });
 
+  it('adds the warning tone class', () => {
+    const { container } = render(<Button tone="warning">Review</Button>);
+    expect(container.querySelector('button')!.className).toMatch(
+      /button--tone-warning/,
+    );
+  });
+
   it('adds tone classes on asChild', () => {
     const { container } = render(
       <Button asChild tone="info">

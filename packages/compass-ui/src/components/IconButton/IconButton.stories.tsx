@@ -322,11 +322,11 @@ function PermutationGrid({
   );
 }
 
-/** `tone` fills the button red (`danger`), green (`success`) or blue (`info`). */
+/** `tone` fills the button red (`danger`), green (`success`), yellow (`warning`) or blue (`info`). */
 export const Tones: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 12 }}>
-      {(['danger', 'success', 'info'] as const).map((tone) => (
+      {(['danger', 'success', 'warning', 'info'] as const).map((tone) => (
         <IconButton
           key={tone}
           tone={tone}

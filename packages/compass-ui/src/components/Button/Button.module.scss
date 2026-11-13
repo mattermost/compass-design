@@ -287,10 +287,12 @@
       --button-tone-color-rgb,
       var(--button-tone-base-rgb)
     );
+    --button-tone-solid-fg: var(--button-color);
+    --button-tone-text: var(--button-tone-resolved);
     --focus-ring-color: var(--button-tone-resolved);
 
     &.button--emphasis-primary {
-      --button-fg: var(--button-color);
+      --button-fg: var(--button-tone-solid-fg);
 
       background-color: var(--button-tone-resolved);
 
@@ -316,7 +318,7 @@
     }
 
     &.button--emphasis-secondary {
-      --button-fg: var(--button-tone-resolved);
+      --button-fg: var(--button-tone-text);
 
       box-shadow: inset 0 0 0 1px var(--button-tone-resolved);
 
@@ -334,7 +336,7 @@
     }
 
     &.button--emphasis-tertiary {
-      --button-fg: var(--button-tone-resolved);
+      --button-fg: var(--button-tone-text);
 
       background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
 
@@ -352,7 +354,7 @@
     }
 
     &.button--emphasis-quaternary {
-      --button-fg: var(--button-tone-resolved);
+      --button-fg: var(--button-tone-text);
 
       &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
         background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
@@ -366,15 +368,15 @@
     }
 
     &.button--emphasis-dim {
-      --button-fg: var(--button-tone-resolved);
+      --button-fg: var(--button-tone-text);
 
       &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
-        --button-fg: var(--button-tone-resolved);
+        --button-fg: var(--button-tone-text);
 
         background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
       }
       &:active:not(:disabled, .button--disabled) {
-        --button-fg: var(--button-tone-resolved);
+        --button-fg: var(--button-tone-text);
 
         background-color: rgba(var(--button-tone-resolved-rgb), 0.12);
       }
@@ -384,12 +386,21 @@
     }
 
     &.button--emphasis-link {
-      --button-fg: var(--button-tone-resolved);
+      --button-fg: var(--button-tone-text);
 
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
       }
     }
+  }
+
+  // `warning` is yellow, so white on the fill fails contrast: the solid fill
+  // takes a dark label and the text emphasis takes a darker yellow.
+  &--tone-warning {
+    --button-tone-base: var(--color-warning);
+    --button-tone-base-rgb: var(--color-warning-rgb);
+    --button-tone-solid-fg: var(--color-neutral-1050);
+    --button-tone-text: var(--color-yellow-800);
   }
 
   // ---------------------------------------------------------------------------

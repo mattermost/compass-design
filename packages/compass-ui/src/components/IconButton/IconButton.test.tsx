@@ -142,6 +142,15 @@ describe('IconButton tone', () => {
     expect(button.getAttribute('type')).toBe('submit');
   });
 
+  it('adds the warning tone class', () => {
+    const { container } = render(
+      <IconButton aria-label="Review" tone="warning" icon={null} />,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--tone-warning/,
+    );
+  });
+
   it('adds no tone classes by default', () => {
     const { container } = render(<IconButton aria-label="Plain" icon={null} />);
     expect(container.querySelector('button')!.className).not.toMatch(/--tone/);

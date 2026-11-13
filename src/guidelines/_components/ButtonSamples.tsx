@@ -111,6 +111,7 @@ export function ButtonTones() {
     <div className={styles['row']}>
       <Button tone="danger">Remove</Button>
       <Button tone="success">Approve</Button>
+      <Button tone="warning">Review</Button>
       <Button tone="info">Publish</Button>
       <Button tone="success" emphasis="secondary">
         Approve

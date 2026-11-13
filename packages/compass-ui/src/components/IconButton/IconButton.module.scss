@@ -388,10 +388,18 @@
   &--tone-info {
     --icon-button-tone-base: var(--color-info);
   }
+  // Yellow: white fails contrast, so the icon is dark.
+  &--tone-warning {
+    --icon-button-tone-base: var(--color-warning);
+    --icon-button-tone-default-fg: var(--color-neutral-1050);
+  }
 
   &--tone {
     --focus-ring-color: var(--icon-button-tone-base);
-    --icon-button-fg: var(--icon-button-tone-fg, var(--color-neutral-0));
+    --icon-button-fg: var(
+      --icon-button-tone-fg,
+      var(--icon-button-tone-default-fg, var(--color-neutral-0))
+    );
 
     background-color: var(--icon-button-tone-bg, var(--icon-button-tone-base));
     color: var(--icon-button-fg);
@@ -399,7 +407,10 @@
     &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
         :active
       ) {
-      --icon-button-fg: var(--icon-button-tone-fg, var(--color-neutral-0));
+      --icon-button-fg: var(
+        --icon-button-tone-fg,
+        var(--icon-button-tone-default-fg, var(--color-neutral-0))
+      );
 
       background-color: var(
         --icon-button-tone-hover-bg,
@@ -412,7 +423,10 @@
       color: var(--icon-button-fg);
     }
     &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
-      --icon-button-fg: var(--icon-button-tone-fg, var(--color-neutral-0));
+      --icon-button-fg: var(
+        --icon-button-tone-fg,
+        var(--icon-button-tone-default-fg, var(--color-neutral-0))
+      );
 
       background-color: var(
         --icon-button-tone-active-bg,

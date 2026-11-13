@@ -189,8 +189,8 @@ Renders the icon in `--color-danger` and tints the hover background.
 
 ### Tone
 
-`tone` fills the button red (`danger`), green (`success`) or blue (`info`)
-with a white icon, for a primary action that needs more weight than a
+`tone` fills the button red (`danger`), green (`success`), yellow (`warning`) or
+blue (`info`) with a white icon (dark on yellow, where white fails contrast), for a primary action that needs more weight than a
 neutral Icon Button, such as Leave call. It differs from `destructive`,
 which keeps the button transparent and colors only the icon.
 
@@ -213,6 +213,11 @@ which keeps the button transparent and colors only the icon.
     aria-label="Success"
     tone="success"
     icon={<Icon glyph={<StarOutlineIcon />} />}
+  />
+  <IconButton
+    aria-label="Warning"
+    tone="warning"
+    icon={<Icon glyph={<CloseIcon />} />}
   />
   <IconButton
     aria-label="Info"

@@ -18,8 +18,8 @@ export type IconButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 /** Figma "Style": Default (light context) | Inverted (dark context). */
 export type IconButtonStyle = 'default' | 'inverted';
 
-/** Semantic color: `danger` (red), `success` (green) or `info` (blue). */
-export type IconButtonTone = 'danger' | 'success' | 'info';
+/** Semantic color: `danger` (red), `success` (green), `warning` (yellow) or `info` (blue). */
+export type IconButtonTone = 'danger' | 'success' | 'warning' | 'info';
 
 export type IconButtonPadding = 'default' | 'compact';
 
@@ -33,7 +33,7 @@ interface IconButtonOwnProps {
   /** When true, uses destructive (danger) styling. Figma: Destructive. */
   destructive?: boolean;
   /**
-   * Solid semantic fill with a white icon: `danger`, `success` or `info`.
+   * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success`, `warning` or `info`.
    * Unlike `destructive` (a transparent button with a danger icon), `tone`
    * fills the button, for a primary action such as Leave call. A host can
    * retheme a tone with `--icon-button-tone-bg`, `--icon-button-tone-fg`,

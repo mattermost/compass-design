@@ -265,9 +265,9 @@ function PermutationGrid({
   );
 }
 
-const TONES: ButtonTone[] = ['danger', 'success', 'info'];
+const TONES: ButtonTone[] = ['danger', 'success', 'warning', 'info'];
 
-/** `tone` colors each emphasis red (`danger`), green (`success`) or blue (`info`). */
+/** `tone` colors each emphasis red (`danger`), green (`success`), yellow (`warning`) or blue (`info`). */
 export const Tones: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 12 }}>
