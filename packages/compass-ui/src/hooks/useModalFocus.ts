@@ -1,5 +1,5 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
-import type { RefObject } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import type { KeyboardEvent as ReactKeyboardEvent, RefObject } from 'react';
 
 const FOCUSABLE_SELECTOR = [
   'a[href]',
@@ -72,15 +72,28 @@ export interface UseModalFocusOptions {
   active?: boolean;
 }
 
+export interface UseModalFocusResult {
+  /**
+   * Attach as the dialog root's React `onKeyDown`. Handles Escape after inner
+   * widgets' handlers (bubbling, so `defaultPrevented` from them is honored)
+   * and before any `document` listener, so a host listener that calls
+   * `preventDefault` on every Escape cannot swallow it first.
+   */
+  onDialogKeyDown: (event: ReactKeyboardEvent<HTMLElement>) => void;
+}
+
 /**
  * Dialog focus and keyboard behavior for a modal panel: initial focus, Tab trap
  * (focusable elements computed at keypress), Escape (skipped when already
  * handled), and focus restore on unmount.
  *
- * Tab and Escape are handled by one document listener, so the trap still holds
- * when focus sits outside the dialog (e.g. after a backdrop click), and only
- * the topmost active modal responds. Events whose default was prevented (by an
- * inner widget or the host's `onKeyDown`) are ignored.
+ * Escape inside the dialog is handled by `onDialogKeyDown` on the dialog root.
+ * A document listener handles Tab, and Escape when focus sits outside the
+ * dialog (e.g. after a backdrop click), so the trap still holds there. Only the
+ * topmost active modal responds. Events whose default was prevented (by an
+ * inner widget or the host's `onKeyDown`) are ignored, and a handled Escape
+ * calls `preventDefault()` so the fallback, lower modals and host listeners
+ * can tell it was consumed.
  */
 export function useModalFocus(
   rootRef: RefObject<HTMLElement | null>,
@@ -91,7 +104,7 @@ export function useModalFocus(
     onClose,
     active = true,
   }: UseModalFocusOptions,
-): void {
+): UseModalFocusResult {
   // Initial focus + restore only run once; the Tab trap reads `manageFocus` live.
   const manageFocusOnMount = useRef(manageFocus);
   const initialFocusRefRef = useRef(initialFocusRef);
@@ -147,7 +160,12 @@ export function useModalFocus(
       const dialog = rootRef.current;
       if (!dialog) return;
       if (e.key === 'Escape') {
-        if (latest.current.closeOnEscape) latest.current.onClose?.();
+        // Fallback for focus outside the dialog (or a caller that does not
+        // attach `onDialogKeyDown`). When `onDialogKeyDown` already closed the
+        // modal it called preventDefault, so the check above skips it here.
+        if (!latest.current.closeOnEscape) return;
+        e.preventDefault();
+        latest.current.onClose?.();
         return;
       }
       if (e.key !== 'Tab' || !latest.current.manageFocus) return;
@@ -182,4 +200,17 @@ export function useModalFocus(
       modalStack.splice(index, 1);
     };
   }, [rootRef, active]);
+
+  const onDialogKeyDown = useCallback((e: ReactKeyboardEvent<HTMLElement>) => {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    const token = keyToken.current;
+    if (!token || modalStack[modalStack.length - 1] !== token) return;
+    if (!latest.current.closeOnEscape) return;
+    // Mark it handled so the document fallback, a lower modal (DOM- or
+    // React-nested) and host listeners do not act on the same Escape.
+    e.preventDefault();
+    latest.current.onClose?.();
+  }, []);
+
+  return { onDialogKeyDown };
 }
