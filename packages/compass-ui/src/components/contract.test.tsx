@@ -5,6 +5,7 @@ import type { BuiltInButtonProps } from '@/utils/props';
 import AdminPanel from './AdminPanel/AdminPanel';
 import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
 import Combobox from './Combobox/Combobox';
+import DraftListItem from './DraftListItem/DraftListItem';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FieldMessage from './FieldMessage/FieldMessage';
@@ -38,6 +39,9 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
     <TourPoint title="Tip" {...a}>
       Body
     </TourPoint>
+  ),
+  DraftListItem: (a) => (
+    <DraftListItem destination="town-square" previewText="Hello" {...a} />
   ),
   EmptyState: (a) => <EmptyState title="Nothing here" {...a} />,
   Tag: (a) => <Tag label="Beta" {...a} />,
