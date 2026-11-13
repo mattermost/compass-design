@@ -1,4 +1,12 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  type HTMLAttributes,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import ChevronUpIcon from '@mattermost/compass-icons/components/chevron-up';
@@ -27,7 +35,10 @@ import styles from './MessageInput.module.scss';
 
 export type MessageInputWidth = 'wide' | 'narrow';
 
-export interface MessageInputProps {
+export interface MessageInputProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'placeholder' | 'defaultValue'
+> {
   className?: string;
   placeholder?: string;
   showPriorityIndicator?: boolean;
@@ -38,6 +49,19 @@ export interface MessageInputProps {
   inputRef?: React.RefObject<HTMLTextAreaElement | null>;
   /** `narrow` matches the Figma Message Input “Narrow” / right-sidebar layout. */
   width?: MessageInputWidth;
+  /**
+   * Called with the current text when the user sends: the Send button, or
+   * Enter without Shift in the text area. Enter keeps inserting a new line
+   * when `onSend` is not set. Uncontrolled inputs clear after sending;
+   * controlled inputs (`value`) leave clearing to the host.
+   */
+  onSend?: (value: string) => void;
+  /**
+   * Suggestions shown above the input box (e.g. an autocomplete list or
+   * suggestion chips). The host owns their content, open state and keyboard
+   * handling; nothing extra renders when this is omitted.
+   */
+  suggestions?: ReactNode;
 }
 
 export default function MessageInput({
@@ -50,6 +74,9 @@ export default function MessageInput({
   onSelectionChange,
   inputRef,
   width = 'wide',
+  onSend,
+  suggestions,
+  ...rest
 }: MessageInputProps) {
   const [internalText, setInternalText] = useState('');
   const isControlled = value !== undefined;
@@ -81,6 +108,27 @@ export default function MessageInput({
   }, [text, handleInput]);
 
   const hasSendValue = text.trim().length > 0;
+
+  const send = () => {
+    if (!onSend || !hasSendValue) return;
+    onSend(text);
+    if (!isControlled) setInternalText('');
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (
+      !onSend ||
+      e.key !== 'Enter' ||
+      e.shiftKey ||
+      // keyCode 229 covers older Safari, which doesn't set isComposing
+      e.nativeEvent.isComposing ||
+      e.keyCode === 229
+    ) {
+      return;
+    }
+    e.preventDefault();
+    send();
+  };
 
   const cls = (base: string, mod?: string) =>
     [styles[base], mod ? styles[mod] : ''].filter(Boolean).join(' ');
@@ -143,6 +191,7 @@ export default function MessageInput({
           className={styles['message-input__send-main']}
           aria-label="Send message"
           disabled={!hasSendValue}
+          onClick={send}
         >
           <Icon glyph={<SendIcon />} size="16" />
         </button>
@@ -167,7 +216,12 @@ export default function MessageInput({
     .join(' ');
 
   return (
-    <div className={rootClass}>
+    <div {...rest} className={rootClass}>
+      {suggestions != null && (
+        <div className={styles['message-input__suggestions']}>
+          {suggestions}
+        </div>
+      )}
       <div
         className={cls(
           'message-input__container',
@@ -213,6 +267,7 @@ export default function MessageInput({
             placeholder={placeholder}
             value={text}
             onChange={(e) => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
             onInput={handleInput}
             onSelect={onSelectionChange}
             onKeyUp={onSelectionChange}

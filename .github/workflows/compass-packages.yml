@@ -32,6 +32,10 @@ jobs:
       - name: Build compass-ui
         run: npm run build --workspace=@mattermost/compass-ui
 
+      # Runs after the compass-ui build: proto imports compass-ui from dist.
+      - name: Test compass-proto
+        run: npm test --workspace=@mattermost/compass-proto
+
       - name: Build compass-proto
         run: npm run build --workspace=@mattermost/compass-proto
 
