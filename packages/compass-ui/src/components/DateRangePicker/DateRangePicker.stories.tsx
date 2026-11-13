@@ -78,3 +78,12 @@ export const InsideOverflowClip: Story = {
     </div>
   ),
 };
+
+/** `clearable` adds a clear button once a date is set; it calls `onChange('')`. */
+export const Clearable: Story = {
+  args: {
+    mode: 'date',
+    clearable: true,
+    value: '2031-03-15',
+  },
+};

@@ -90,6 +90,24 @@
     }
   }
 
+  // Clear button: sits between the value and the chevron, outside the combobox trigger
+  // so it is a separate tab stop and clicking it never toggles the calendar.
+  &__clear {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    inset-inline-end: calc(
+      var(--spacing-l) + var(--spacing-xxxs) + var(--icon-size-16) +
+        var(--spacing-s)
+    );
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+  }
+
+  &--has-clear &__value {
+    margin-inline-end: calc(var(--icon-size-16) + var(--spacing-s));
+  }
+
   &__chevron {
     display: inline-flex;
     align-items: center;
