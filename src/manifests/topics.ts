@@ -1040,6 +1040,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/emoji-popover/emoji-popover.specimen'),
   },
   {
+    slug: 'quick-switch-modal',
+    name: 'Quick Switch Modal',
+    category: 'patterns',
+    description:
+      'Keyboard-first dialog for jumping to a channel, direct message, or group message.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.specimen'),
+  },
+  {
     slug: 'channel-header',
     name: 'Channel Header',
     category: 'patterns',
