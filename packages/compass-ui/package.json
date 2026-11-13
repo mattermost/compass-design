@@ -291,6 +291,9 @@
       "components/status-badge": [
         "./dist/components/status-badge/index.d.ts"
       ],
+      "components/suggestion-list": [
+        "./dist/components/suggestion-list/index.d.ts"
+      ],
       "components/switch": [
         "./dist/components/switch/index.d.ts"
       ],
