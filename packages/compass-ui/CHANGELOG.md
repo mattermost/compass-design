@@ -11,9 +11,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`Modal` Escape no longer blocked by host listeners ([#247](https://github.com/mattermost/compass-design/issues/247)):** `closeOnEscape` is now handled on the dialog root's `onKeyDown` first, so a host `document` listener that calls `preventDefault` on every Escape (such as the webapp header search) can no longer stop the modal from closing. Escape that an inner widget or the modal's own `onKeyDown` already handled (`defaultPrevented`) is still ignored. The document listener stays as the fallback when focus is outside the dialog, and only the topmost modal reacts. A handled Escape now calls `preventDefault()`, so one Escape cannot close two modals and host listeners can tell it was consumed. `useModalFocus` returns `onDialogKeyDown` for custom dialogs; callers that ignore it keep the document-listener behavior. No markup change.
 - **`DateRangePicker` Escape inside an open calendar:** closes the calendar and calls `preventDefault()` instead of also closing a parent `Modal`. No markup change.
 
+## [0.1.0-alpha.31] - 2026-11-13
+
+### Added
+
+- **`StatusBadge` `--status-badge-offline-color` custom property:** overrides the `offline` glyph color so the badge can match sidebar, global header and other colored surfaces, alongside the existing `--status-badge-bg`. Falls back to the previous value, so default markup and appearance are unchanged.
+
 ### Changed
 
-- **`@mattermost/compass-proto` `MobileMessageInput` `variant` values are now lowercase kebab-case (breaking for hosts that passed the old values):** `variant` takes `'root'` and `'reply'` instead of `'Root'` and `'Reply'`, matching the public variant-value convention. Update any `variant="Root"` / `variant="Reply"` usage to the lowercase values; the default is still `'root'`. Nothing else in the component's API changes.
+- **`StatusBadge` `size` gains `'large'` between `medium` and the old `large`, which is renamed `'x-large'` (breaking for hosts that passed `size="large"`):** `large` is now a 28px badge with a 28px glyph; the previous 32px badge (36px glyph) is `x-large`. Update `size="large"` to `size="x-large"` to keep the old rendering. Other sizes are unchanged.
+
+- **`UserAvatar` status badge sizes and offsets:** 56–80px use `medium`, 96 and 120px use the new `large`, and 128px uses `x-large` (the old `large`). The badge also moves up/left on the larger avatars: right/bottom offset is now 1px at 80px (was 0), 0 at 96px, 3px at 120px (was -2px) and 2px at 128px (was -2px). Offsets are still to be confirmed against the Figma spec (#250).
 
 ## [0.1.0-alpha.30] - 2026-11-11
 
@@ -579,7 +587,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.30...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.31...HEAD
+[0.1.0-alpha.31]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.30...0.1.0-alpha.31
 [0.1.0-alpha.30]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.29...0.1.0-alpha.30
 [0.1.0-alpha.29]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.28...0.1.0-alpha.29
 [0.1.0-alpha.28]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.27...0.1.0-alpha.28
