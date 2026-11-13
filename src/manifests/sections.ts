@@ -165,7 +165,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Progress Indicators',
-      slugs: ['pagination-dots', 'progress-bar', 'spinner'],
+      slugs: ['pagination-dots', 'progress-bar', 'spinner', 'typing-indicator'],
     },
     {
       label: 'Status Indicators',

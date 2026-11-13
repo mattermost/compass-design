@@ -850,6 +850,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/spinner/spinner.specimen'),
   },
   {
+    slug: 'typing-indicator',
+    name: 'Typing Indicator',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/typing-indicator/typing-indicator.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/typing-indicator/typing-indicator.specimen'),
+  },
+  {
     slug: 'status-badge',
     name: 'Status Badge',
     category: 'components',

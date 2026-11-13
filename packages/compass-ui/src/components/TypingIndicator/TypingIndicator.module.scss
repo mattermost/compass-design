@@ -1,0 +1,54 @@
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: rgba(var(--center-channel-color-rgb), 0.72);
+
+  &__dots {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxxxs);
+  }
+
+  &__dot {
+    width: var(--spacing-xxxs);
+    height: var(--spacing-xxxs);
+    border-radius: var(--radius-pill);
+    background-color: currentcolor;
+    animation: typing-indicator-bounce var(--duration-moderate)
+      var(--ease-transition) infinite alternate;
+
+    &:nth-child(2) {
+      animation-delay: var(--duration-quick);
+    }
+
+    &:nth-child(3) {
+      animation-delay: calc(var(--duration-quick) * 2);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      opacity: 0.64;
+    }
+  }
+
+  &__label {
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+  }
+
+  &__hint {
+    @include visually-hidden;
+  }
+}
+
+@keyframes typing-indicator-bounce {
+  from {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(calc(var(--spacing-xxxxs) * -1));
+  }
+}
