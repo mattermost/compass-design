@@ -18,7 +18,7 @@ Published chrome that pairs with these (import from `@mattermost/compass-ui` sub
 
 ## Changelog
 
-`compass-proto` is unpublished and has no changelog. Do not record proto changes (renamed props, new variants, etc.) in `packages/compass-ui/CHANGELOG.md`, which covers the published `@mattermost/compass-ui` package only. The `Changelog` workflow only checks published compass-ui source.
+Record proto changes (renamed props, new variants, etc.) in [CHANGELOG.md](./CHANGELOG.md), under `[Unreleased]` with the date they land (`YYYY-MM-DD`, newest first). `compass-proto` is unpublished, so it has no release sections. Do not put proto changes in `packages/compass-ui/CHANGELOG.md`, which covers the published `@mattermost/compass-ui` package only. The `Changelog` workflow only checks published compass-ui source, not this file.
 
 ## Icon Buttons: Icon glyph + WithTooltip
 
