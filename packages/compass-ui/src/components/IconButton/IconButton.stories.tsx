@@ -47,6 +47,22 @@ const meta = {
     size: { control: 'select', options: SIZES },
     loading: { control: 'boolean' },
     padding: { control: 'select', options: ['default', 'compact'] },
+    tone: {
+      control: 'select',
+      options: [undefined, 'danger', 'success', 'warning', 'info'],
+      description: 'Solid semantic fill. Leave unset for the neutral button.',
+    },
+    toggled: {
+      control: 'boolean',
+      description:
+        'Selected state; also sets `aria-pressed`. Leave unset (not false) for a button that cannot toggle.',
+    },
+    destructive: { control: 'boolean' },
+    active: { control: 'boolean' },
+    rounded: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    unreadBadge: { control: 'boolean' },
+    count: { control: 'number' },
     icon: iconSelectArgType({
       description: 'Icon glyph shown inside the button.',
     }),
@@ -322,17 +338,26 @@ function PermutationGrid({
   );
 }
 
-/** `tone` fills the button red (`danger`), green (`success`), yellow (`warning`) or blue (`info`). */
+/**
+ * `tone` fills the button red (`danger`), green (`success`), yellow (`warning`)
+ * or blue (`info`). The second row is `toggled`, which rests on the darker
+ * pressed fill. Use the controls on Default to try other combinations.
+ */
 export const Tones: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 12 }}>
-      {(['danger', 'success', 'warning', 'info'] as const).map((tone) => (
-        <IconButton
-          key={tone}
-          tone={tone}
-          aria-label={tone}
-          icon={<Icon glyph={<GlobeIcon />} />}
-        />
+    <div style={{ display: 'grid', gap: 12 }}>
+      {[undefined, true].map((toggled) => (
+        <div key={String(toggled)} style={{ display: 'flex', gap: 12 }}>
+          {(['danger', 'success', 'warning', 'info'] as const).map((tone) => (
+            <IconButton
+              key={tone}
+              tone={tone}
+              toggled={toggled}
+              aria-label={toggled ? `${tone} (toggled)` : tone}
+              icon={<Icon glyph={<GlobeIcon />} />}
+            />
+          ))}
+        </div>
       ))}
     </div>
   ),
