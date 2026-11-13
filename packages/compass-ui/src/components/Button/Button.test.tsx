@@ -217,3 +217,33 @@ describe('Button asChild', () => {
     expect(host).toHaveBeenCalledOnce();
   });
 });
+
+describe('Button tone', () => {
+  it('adds tone classes and keeps the native button type', () => {
+    const { container } = render(
+      <Button tone="success" type="submit">
+        Save
+      </Button>,
+    );
+    const button = container.querySelector('button')!;
+    expect(button.className).toMatch(/button--tone(?!-)/);
+    expect(button.className).toMatch(/button--tone-success/);
+    expect(button.getAttribute('type')).toBe('submit');
+  });
+
+  it('adds tone classes on asChild', () => {
+    const { container } = render(
+      <Button asChild tone="info">
+        <a href="/x">Go</a>
+      </Button>,
+    );
+    expect(container.querySelector('a')!.className).toMatch(
+      /button--tone-info/,
+    );
+  });
+
+  it('adds no tone classes by default', () => {
+    const { container } = render(<Button>Plain</Button>);
+    expect(container.querySelector('button')!.className).not.toMatch(/--tone/);
+  });
+});

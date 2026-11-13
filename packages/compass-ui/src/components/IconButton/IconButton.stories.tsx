@@ -113,21 +113,12 @@ export const Inverted: Story = {
  * unreadable.
  */
 /**
- * Mirrors the one-off overrides `CallPopout` applies to its control bar (a faint
- * white fill on the inverted buttons, a solid red Leave button). Kept inline so
- * the story does not depend on compass-proto.
+ * Mirrors the one-off fill `CallPopout` gives its inverted control-bar buttons
+ * (a faint white fill). Kept inline so the story does not depend on compass-proto.
  */
 const CALL_SURFACE_OVERRIDES = `
-  .call-surface-story__controls button:not(.call-surface-story__leave):not([aria-pressed='true']) {
+  .call-surface-story__controls button:not([aria-pressed='true']):not(.call-surface-story__leave) {
     background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent);
-  }
-  .call-surface-story .call-surface-story__leave.call-surface-story__leave {
-    background-color: var(--error-text, var(--color-danger));
-    color: var(--neutral-0);
-  }
-  button.call-surface-story__leave.call-surface-story__leave:hover:not(:disabled) {
-    background-color: var(--color-red-600);
-    color: var(--neutral-0);
   }
 `;
 
@@ -217,7 +208,7 @@ export const InvertedOnCallSurface: Story = {
         <IconButton
           className="call-surface-story__leave"
           size="medium"
-          destructive
+          tone="danger"
           aria-label="Leave call"
           icon={<Icon size="20" glyph={<PhoneHangupIcon />} />}
         />
@@ -330,6 +321,22 @@ function PermutationGrid({
     </div>
   );
 }
+
+/** `tone` fills the button red (`danger`), green (`success`) or blue (`info`). */
+export const Tones: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 12 }}>
+      {(['danger', 'success', 'info'] as const).map((tone) => (
+        <IconButton
+          key={tone}
+          tone={tone}
+          aria-label={tone}
+          icon={<Icon glyph={<GlobeIcon />} />}
+        />
+      ))}
+    </div>
+  ),
+};
 
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },

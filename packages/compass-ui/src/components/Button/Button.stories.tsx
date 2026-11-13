@@ -12,6 +12,7 @@ import type {
   ButtonEmphasis,
   ButtonProps,
   ButtonSize,
+  ButtonTone,
 } from './Button';
 import Icon from '../Icon/Icon';
 import {
@@ -263,6 +264,28 @@ function PermutationGrid({
     </div>
   );
 }
+
+const TONES: ButtonTone[] = ['danger', 'success', 'info'];
+
+/** `tone` colors each emphasis red (`danger`), green (`success`) or blue (`info`). */
+export const Tones: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 12 }}>
+      {TONES.map((tone) => (
+        <div
+          key={tone}
+          style={{ display: 'flex', gap: 12, alignItems: 'center' }}
+        >
+          {EMPHASES.map((emphasis) => (
+            <Button key={emphasis} emphasis={emphasis} tone={tone}>
+              {tone} {emphasis}
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+};
 
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },

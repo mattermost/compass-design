@@ -43,7 +43,8 @@
   &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
       :active
     ):not(.icon-button--active):not(.icon-button--toggled):not(
-      .icon-button--destructive
+      .icon-button--destructive,
+      .icon-button--tone
     ) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
     --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
@@ -368,6 +369,59 @@
       );
       --icon-button-fg: var(--error-text, var(--color-danger));
       color: var(--error-text, var(--color-danger));
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Tone (danger | success | info): solid fill with a white icon. A host can
+  // retheme a tone by setting `--icon-button-tone-bg`, `-fg`, `-hover-bg` and
+  // `-active-bg` on the button or an ancestor. Declared last so it wins over the
+  // default, inverted and destructive states at equal specificity.
+  // ---------------------------------------------------------------------------
+  &--tone-danger {
+    --icon-button-tone-base: var(--error-text, var(--color-danger));
+  }
+  &--tone-success {
+    --icon-button-tone-base: var(--color-success);
+  }
+  &--tone-info {
+    --icon-button-tone-base: var(--color-info);
+  }
+
+  &--tone {
+    --focus-ring-color: var(--icon-button-tone-base);
+    --icon-button-fg: var(--icon-button-tone-fg, var(--color-neutral-0));
+
+    background-color: var(--icon-button-tone-bg, var(--icon-button-tone-base));
+    color: var(--icon-button-fg);
+
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ) {
+      --icon-button-fg: var(--icon-button-tone-fg, var(--color-neutral-0));
+
+      background-color: var(
+        --icon-button-tone-hover-bg,
+        color-mix(
+          in srgb,
+          var(--icon-button-tone-bg, var(--icon-button-tone-base)) 92%,
+          black
+        )
+      );
+      color: var(--icon-button-fg);
+    }
+    &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
+      --icon-button-fg: var(--icon-button-tone-fg, var(--color-neutral-0));
+
+      background-color: var(
+        --icon-button-tone-active-bg,
+        color-mix(
+          in srgb,
+          var(--icon-button-tone-bg, var(--icon-button-tone-base)) 84%,
+          black
+        )
+      );
+      color: var(--icon-button-fg);
     }
   }
 }

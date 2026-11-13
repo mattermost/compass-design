@@ -18,6 +18,9 @@ export type IconButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 /** Figma "Style": Default (light context) | Inverted (dark context). */
 export type IconButtonStyle = 'default' | 'inverted';
 
+/** Semantic color: `danger` (red), `success` (green) or `info` (blue). */
+export type IconButtonTone = 'danger' | 'success' | 'info';
+
 export type IconButtonPadding = 'default' | 'compact';
 
 interface IconButtonOwnProps {
@@ -29,6 +32,15 @@ interface IconButtonOwnProps {
   count?: number;
   /** When true, uses destructive (danger) styling. Figma: Destructive. */
   destructive?: boolean;
+  /**
+   * Solid semantic fill with a white icon: `danger`, `success` or `info`.
+   * Unlike `destructive` (a transparent button with a danger icon), `tone`
+   * fills the button, for a primary action such as Leave call. A host can
+   * retheme a tone with `--icon-button-tone-bg`, `--icon-button-tone-fg`,
+   * `--icon-button-tone-hover-bg` and `--icon-button-tone-active-bg` on the
+   * button or an ancestor. Unset, the button keeps its neutral colors.
+   */
+  tone?: IconButtonTone;
   /** Icon to show. Pass `<Icon glyph={<YourIcon />} />` — IconButton provides the correct size via context; no `size` prop needed on the Icon. */
   icon: ReactNode;
   /** When true, shows a Spinner in place of the icon and disables the button (or blocks navigation when `asChild`). */
@@ -120,6 +132,7 @@ function buildRootClass({
   rounded = false,
   size = 'medium',
   style = 'default',
+  tone,
   active = false,
   toggled,
 }: {
@@ -130,6 +143,7 @@ function buildRootClass({
   rounded?: boolean;
   size?: IconButtonSize;
   style?: IconButtonStyle;
+  tone?: IconButtonTone;
   active?: boolean;
   toggled?: boolean;
 }): string {
@@ -139,6 +153,8 @@ function buildRootClass({
     padding === 'compact' ? styles['icon-button--padding-compact'] : '',
     style === 'inverted' ? styles['icon-button--style-inverted'] : '',
     destructive ? styles['icon-button--destructive'] : '',
+    tone ? styles['icon-button--tone'] : '',
+    tone ? styles[`icon-button--tone-${tone}`] : '',
     rounded ? styles['icon-button--rounded'] : '',
     toggled ? styles['icon-button--toggled'] : '',
     active ? styles['icon-button--active'] : '',
@@ -174,6 +190,7 @@ const IconButton = forwardRef(function IconButton(
       rounded = false,
       size = 'medium',
       style = 'default',
+      tone,
       unreadBadge = false,
       disabled,
       children,
@@ -191,6 +208,7 @@ const IconButton = forwardRef(function IconButton(
       rounded,
       size,
       style,
+      tone,
       active,
     });
     const spinnerSize = ICON_BUTTON_ICON_SIZES[size];
@@ -245,6 +263,7 @@ const IconButton = forwardRef(function IconButton(
     rounded = false,
     size = 'medium',
     style = 'default',
+    tone,
     toggled,
     unreadBadge = false,
     disabled,
@@ -263,6 +282,7 @@ const IconButton = forwardRef(function IconButton(
     rounded,
     size,
     style,
+    tone,
     active,
     toggled,
   });

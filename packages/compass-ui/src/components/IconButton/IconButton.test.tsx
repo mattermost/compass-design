@@ -130,3 +130,20 @@ describe('IconButton asChild', () => {
     );
   });
 });
+
+describe('IconButton tone', () => {
+  it('adds tone classes and keeps the native button type', () => {
+    const { container } = render(
+      <IconButton aria-label="Leave" tone="danger" icon={null} type="submit" />,
+    );
+    const button = container.querySelector('button')!;
+    expect(button.className).toMatch(/icon-button--tone(?!-)/);
+    expect(button.className).toMatch(/icon-button--tone-danger/);
+    expect(button.getAttribute('type')).toBe('submit');
+  });
+
+  it('adds no tone classes by default', () => {
+    const { container } = render(<IconButton aria-label="Plain" icon={null} />);
+    expect(container.querySelector('button')!.className).not.toMatch(/--tone/);
+  });
+});

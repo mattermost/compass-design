@@ -187,6 +187,43 @@ Renders the icon in `--color-danger` and tints the hover background.
   />
 </div>
 
+### Tone
+
+`tone` fills the button red (`danger`), green (`success`) or blue (`info`)
+with a white icon, for a primary action that needs more weight than a
+neutral Icon Button, such as Leave call. It differs from `destructive`,
+which keeps the button transparent and colors only the icon.
+
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+  }}
+>
+  <IconButton
+    aria-label="Danger"
+    tone="danger"
+    icon={<Icon glyph={<TrashCanOutlineIcon />} />}
+  />
+  <IconButton
+    aria-label="Success"
+    tone="success"
+    icon={<Icon glyph={<StarOutlineIcon />} />}
+  />
+  <IconButton
+    aria-label="Info"
+    tone="info"
+    icon={<Icon glyph={<GlobeIcon />} />}
+  />
+</div>
+
+A host can retheme a tone with `--icon-button-tone-bg`, `--icon-button-tone-fg`,
+`--icon-button-tone-hover-bg` and `--icon-button-tone-active-bg`.
+
 ### Inverted
 
 For dark surfaces — sidebar, theme-coloured headers, banner overlays —

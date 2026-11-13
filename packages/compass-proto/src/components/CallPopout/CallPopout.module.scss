@@ -242,15 +242,4 @@
   &__controls-middle button {
     background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent);
   }
-
-  &__controls-right button {
-    background-color: var(--error-text, var(--color-danger));
-    color: var(--neutral-0);
-  }
-
-  // Doubled class: the destructive IconButton hover outranks a single class.
-  &__controls-right#{&}__controls-right button:hover:not(:disabled) {
-    background-color: var(--color-red-600);
-    color: var(--neutral-0);
-  }
 }

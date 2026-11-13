@@ -251,26 +251,61 @@
   // ---------------------------------------------------------------------------
   // Destructive + emphasis
   // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // Tone (danger | success | info) and Destructive. `destructive` is the
+  // `danger` tone, so both share these rules, one set per emphasis. A host can
+  // retheme a tone by setting `--button-tone-color` and `--button-tone-color-rgb`
+  // on an ancestor or the button.
+  // ---------------------------------------------------------------------------
   &--destructive {
-    --focus-ring-color: var(--error-text, var(--color-danger));
+    --button-tone-base: var(--error-text, var(--color-danger));
+    --button-tone-base-rgb: var(
+      --error-text-color-rgb,
+      var(--color-danger-rgb)
+    );
+  }
+  &--tone-danger {
+    --button-tone-base: var(--error-text, var(--color-danger));
+    --button-tone-base-rgb: var(
+      --error-text-color-rgb,
+      var(--color-danger-rgb)
+    );
+  }
+  &--tone-success {
+    --button-tone-base: var(--color-success);
+    --button-tone-base-rgb: var(--color-success-rgb);
+  }
+  &--tone-info {
+    --button-tone-base: var(--color-info);
+    --button-tone-base-rgb: var(--color-info-rgb);
+  }
+
+  &--destructive,
+  &--tone {
+    --button-tone-resolved: var(--button-tone-color, var(--button-tone-base));
+    --button-tone-resolved-rgb: var(
+      --button-tone-color-rgb,
+      var(--button-tone-base-rgb)
+    );
+    --focus-ring-color: var(--button-tone-resolved);
 
     &.button--emphasis-primary {
       --button-fg: var(--button-color);
 
-      background-color: var(--error-text, var(--color-danger));
+      background-color: var(--button-tone-resolved);
 
       &:hover:not(:disabled, .button--disabled) {
         background-color: color-mix(
           in srgb,
           black 8%,
-          var(--error-text, var(--color-danger))
+          var(--button-tone-resolved)
         );
       }
       &:active:not(:disabled, .button--disabled) {
         background-color: color-mix(
           in srgb,
           black 16%,
-          var(--error-text, var(--color-danger))
+          var(--button-tone-resolved)
         );
       }
       &:is(:disabled, .button--disabled) {
@@ -281,21 +316,15 @@
     }
 
     &.button--emphasis-secondary {
-      --button-fg: var(--error-text, var(--color-danger));
+      --button-fg: var(--button-tone-resolved);
 
-      box-shadow: inset 0 0 0 1px var(--error-text, var(--color-danger));
+      box-shadow: inset 0 0 0 1px var(--button-tone-resolved);
 
       &:hover:not(:disabled, .button--disabled) {
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.08
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
       }
       &:active:not(:disabled, .button--disabled) {
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.16
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
       }
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
@@ -305,24 +334,15 @@
     }
 
     &.button--emphasis-tertiary {
-      --button-fg: var(--error-text, var(--color-danger));
+      --button-fg: var(--button-tone-resolved);
 
-      background-color: rgba(
-        var(--error-text-color-rgb, var(--color-danger-rgb)),
-        0.08
-      );
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
 
       &:hover:not(:disabled, .button--disabled) {
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.12
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.12);
       }
       &:active:not(:disabled, .button--disabled) {
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.16
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
       }
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
@@ -332,19 +352,13 @@
     }
 
     &.button--emphasis-quaternary {
-      --button-fg: var(--error-text, var(--color-danger));
+      --button-fg: var(--button-tone-resolved);
 
       &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.08
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
       }
       &:active:not(:disabled, .button--disabled) {
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.16
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
       }
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
@@ -352,23 +366,17 @@
     }
 
     &.button--emphasis-dim {
-      --button-fg: var(--error-text, var(--color-danger));
+      --button-fg: var(--button-tone-resolved);
 
       &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
-        --button-fg: var(--error-text, var(--color-danger));
+        --button-fg: var(--button-tone-resolved);
 
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.08
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
       }
       &:active:not(:disabled, .button--disabled) {
-        --button-fg: var(--error-text, var(--color-danger));
+        --button-fg: var(--button-tone-resolved);
 
-        background-color: rgba(
-          var(--error-text-color-rgb, var(--color-danger-rgb)),
-          0.12
-        );
+        background-color: rgba(var(--button-tone-resolved-rgb), 0.12);
       }
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
@@ -376,7 +384,7 @@
     }
 
     &.button--emphasis-link {
-      --button-fg: var(--error-text, var(--color-danger));
+      --button-fg: var(--button-tone-resolved);
 
       &:is(:disabled, .button--disabled) {
         --button-fg: rgba(var(--center-channel-color-rgb), 0.32);

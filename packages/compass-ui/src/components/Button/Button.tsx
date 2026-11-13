@@ -27,6 +27,9 @@ export type ButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 
 export type ButtonAppearance = 'default' | 'inverted';
 
+/** Semantic color: `danger` (red), `success` (green) or `info` (blue). */
+export type ButtonTone = 'danger' | 'success' | 'info';
+
 /** True when the slot should render (icons, badges, or other JSX). */
 function hasSlotContent(node: ReactNode): boolean {
   if (node == null || typeof node === 'boolean') {
@@ -63,6 +66,14 @@ interface ButtonOwnProps {
   loading?: boolean;
   /** Size variant. Default: medium. */
   size?: ButtonSize;
+  /**
+   * Semantic color applied to the chosen `emphasis`: `danger`, `success` or
+   * `info`. `destructive` is the same as `tone="danger"`; when both are set,
+   * `tone` wins. A host can retheme a tone by setting `--button-tone-color` and
+   * `--button-tone-color-rgb` on the button or an ancestor. Unset, the button
+   * keeps its neutral/brand colors.
+   */
+  tone?: ButtonTone;
   /**
    * Trailing slot — typically `<Icon glyph={<YourIcon />} />`, or any other
    * React node (badge, custom markup). Button provides Icon size via context
@@ -122,6 +133,7 @@ function buildRootClass({
   destructive = false,
   emphasis = 'primary',
   size = 'medium',
+  tone,
 }: {
   appearance?: ButtonAppearance;
   className?: string;
@@ -129,6 +141,7 @@ function buildRootClass({
   destructive?: boolean;
   emphasis?: ButtonEmphasis;
   size?: ButtonSize;
+  tone?: ButtonTone;
 }): string {
   return [
     styles.button,
@@ -137,6 +150,8 @@ function buildRootClass({
     appearance === 'inverted' ? styles['button--appearance-inverted'] : '',
     compact ? styles['button--compact'] : '',
     destructive ? styles['button--destructive'] : '',
+    tone ? styles['button--tone'] : '',
+    tone ? styles[`button--tone-${tone}`] : '',
     className,
   ]
     .filter(Boolean)
@@ -166,6 +181,7 @@ const Button = forwardRef(function Button(
       leadingIcon,
       loading = false,
       size = 'medium',
+      tone,
       trailingIcon,
       disabled,
       asChild,
@@ -180,6 +196,7 @@ const Button = forwardRef(function Button(
       destructive,
       emphasis,
       size,
+      tone,
     });
     const iconSize = SIZE_ICON_MAP[size];
     const showLeadingSlot = loading || hasSlotContent(leadingIcon);
@@ -245,6 +262,7 @@ const Button = forwardRef(function Button(
     leadingIcon,
     loading = false,
     size = 'medium',
+    tone,
     trailingIcon,
     disabled,
     type = 'button',
@@ -260,6 +278,7 @@ const Button = forwardRef(function Button(
     destructive,
     emphasis,
     size,
+    tone,
   });
   const iconSize = SIZE_ICON_MAP[size];
   const showLeadingSlot = loading || hasSlotContent(leadingIcon);

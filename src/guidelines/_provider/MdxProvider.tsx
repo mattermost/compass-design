@@ -55,6 +55,7 @@ import {
   ButtonStates,
   ButtonInverted,
   ButtonDestructive,
+  ButtonTones,
   ButtonWidths,
   ButtonPositioning,
 } from '@/guidelines/_components/ButtonSamples';
@@ -126,6 +127,7 @@ const MDX_COMPONENTS = {
   ButtonStates,
   ButtonInverted,
   ButtonDestructive,
+  ButtonTones,
   ButtonWidths,
   ButtonPositioning,
   ModalAnatomy,

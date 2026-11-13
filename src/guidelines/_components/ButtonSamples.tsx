@@ -106,6 +106,22 @@ export function ButtonInverted() {
   );
 }
 
+export function ButtonTones() {
+  return (
+    <div className={styles['row']}>
+      <Button tone="danger">Remove</Button>
+      <Button tone="success">Approve</Button>
+      <Button tone="info">Publish</Button>
+      <Button tone="success" emphasis="secondary">
+        Approve
+      </Button>
+      <Button tone="info" emphasis="tertiary">
+        Publish
+      </Button>
+    </div>
+  );
+}
+
 export function ButtonDestructive() {
   return (
     <div className={styles['row']}>

@@ -6,4 +6,5 @@ export {
   type IconButtonSize,
   type IconButtonStyle,
   type IconButtonPadding,
+  type IconButtonTone,
 } from './IconButton';
