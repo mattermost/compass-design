@@ -13,6 +13,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`--calls-color` and `--calls-color-rgb` theme tokens:** the foreground that reads on the call surface (`--calls-bg`), defined in every theme next to `--calls-bg`. White in all five themes today.
 - **`--inverted-color`, `--inverted-color-rgb` and `--inverted-surface` hooks on `IconButton` `style="inverted"`:** a dark surface that is not the sidebar can set these on an ancestor so inverted Icon Buttons read on it. Unset, they fall back to the sidebar tokens, so nothing changes for existing uses. Before this, an inverted Icon Button on the call surface in a light-sidebar theme such as Quartz rendered near-black icons on a near-black surface.
 
+### Changed
+
+- **`IconButton` hover and press now fade like `Button`:** `background-color` and `color` transition over `--duration-quick` when the pointer enters or presses the button. Leaving snaps, and there is still no resting transition. Buttons that can toggle (`aria-pressed` set through `toggled`) or are forced `active` keep snapping, so a toggle that flips under the pointer does not crossfade (#184). Default markup is unchanged.
+
 ### Fixed
 
 - **`IconButton` `destructive` hover:** a hovered destructive Icon Button rendered the default grey hover (grey icon on a faint grey fill) because the default hover rule out-ranked the destructive one. It now shows the intended danger-tinted hover, and a host override of the destructive hover (for example a solid red Leave button) no longer has to out-rank the default rule. Default markup is unchanged.

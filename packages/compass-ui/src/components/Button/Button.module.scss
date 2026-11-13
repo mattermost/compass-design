@@ -288,6 +288,8 @@
       var(--button-tone-base-rgb)
     );
     --button-tone-solid-fg: var(--button-color);
+    --button-tone-hover-darken: 8%;
+    --button-tone-press-darken: 16%;
     --button-tone-text: var(--button-tone-resolved);
     --focus-ring-color: var(--button-tone-resolved);
 
@@ -299,14 +301,14 @@
       &:hover:not(:disabled, .button--disabled) {
         background-color: color-mix(
           in srgb,
-          black 8%,
+          black var(--button-tone-hover-darken),
           var(--button-tone-resolved)
         );
       }
       &:active:not(:disabled, .button--disabled) {
         background-color: color-mix(
           in srgb,
-          black 16%,
+          black var(--button-tone-press-darken),
           var(--button-tone-resolved)
         );
       }
@@ -401,6 +403,9 @@
     --button-tone-base-rgb: var(--color-warning-solid-rgb);
     --button-tone-solid-fg: var(--color-neutral-1050);
     --button-tone-text: var(--color-warning-text);
+    // Yellow is brighter, so the same black mix reads about 1.4x stronger.
+    --button-tone-hover-darken: 6%;
+    --button-tone-press-darken: 11%;
   }
 
   // ---------------------------------------------------------------------------
