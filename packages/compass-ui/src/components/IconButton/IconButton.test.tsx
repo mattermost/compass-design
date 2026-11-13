@@ -164,6 +164,20 @@ describe('IconButton tone', () => {
     );
   });
 
+  it.each([
+    ['danger', true],
+    ['success', true],
+    ['info', true],
+    ['warning', false],
+  ] as const)('tone=%s loading spinner inverted=%s', (tone, inverted) => {
+    const { container } = render(
+      <IconButton aria-label="Save" tone={tone} icon={null} loading />,
+    );
+    const spinner = container.querySelector('[class*="spinner"]');
+    expect(spinner).not.toBeNull();
+    expect(/spinner--inverted/.test(spinner!.className)).toBe(inverted);
+  });
+
   it('adds no tone classes by default', () => {
     const { container } = render(<IconButton aria-label="Plain" icon={null} />);
     expect(container.querySelector('button')!.className).not.toMatch(/--tone/);

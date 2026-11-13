@@ -410,59 +410,84 @@
 
   &--tone {
     --focus-ring-color: var(--icon-button-tone-base);
-    --icon-button-fg: var(
+    --icon-button-tone-fill: var(
+      --icon-button-tone-bg,
+      var(--icon-button-tone-base)
+    );
+    --icon-button-tone-hover-fill: var(
+      --icon-button-tone-hover-bg,
+      color-mix(
+        in srgb,
+        var(--icon-button-tone-fill) var(--icon-button-tone-hover-keep, 92%),
+        black
+      )
+    );
+    --icon-button-tone-press-fill: var(
+      --icon-button-tone-active-bg,
+      color-mix(
+        in srgb,
+        var(--icon-button-tone-fill) var(--icon-button-tone-press-keep, 84%),
+        black
+      )
+    );
+    --icon-button-tone-label: var(
       --icon-button-tone-fg,
       var(--icon-button-tone-default-fg, var(--color-neutral-0))
     );
+    --icon-button-fg: var(--icon-button-tone-label);
 
-    background-color: var(--icon-button-tone-bg, var(--icon-button-tone-base));
+    background-color: var(--icon-button-tone-fill);
     color: var(--icon-button-fg);
 
     &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
         :active
       ) {
-      --icon-button-fg: var(
-        --icon-button-tone-fg,
-        var(--icon-button-tone-default-fg, var(--color-neutral-0))
-      );
+      --icon-button-fg: var(--icon-button-tone-label);
 
-      background-color: var(
-        --icon-button-tone-hover-bg,
-        color-mix(
-          in srgb,
-          var(--icon-button-tone-bg, var(--icon-button-tone-base))
-            var(--icon-button-tone-hover-keep, 92%),
-          black
-        )
-      );
+      background-color: var(--icon-button-tone-hover-fill);
       color: var(--icon-button-fg);
     }
     &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
-      --icon-button-fg: var(
-        --icon-button-tone-fg,
-        var(--icon-button-tone-default-fg, var(--color-neutral-0))
-      );
+      --icon-button-fg: var(--icon-button-tone-label);
 
-      background-color: var(
-        --icon-button-tone-active-bg,
-        color-mix(
-          in srgb,
-          var(--icon-button-tone-bg, var(--icon-button-tone-base))
-            var(--icon-button-tone-press-keep, 84%),
-          black
-        )
-      );
+      background-color: var(--icon-button-tone-press-fill);
       color: var(--icon-button-fg);
     }
 
-    // Loading: a pale tint of the tone instead of the solid fill, with the dark
-    // spinner on top. `loading` also disables the button, whose 50% opacity
-    // would fade the spinner too, so it is reset here.
+    // A tone looks the same whether or not the button is `toggled` or `active`.
+    // Those states set their own (brand-blue) fills at higher specificity, so
+    // the tone fills are restated here for them.
+    &.icon-button--active:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-fill);
+      color: var(--icon-button-fg);
+    }
+    &.icon-button--active:is(:hover, :focus-visible):not(
+        :disabled,
+        .icon-button--disabled
+      ):not(:active) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-hover-fill);
+      color: var(--icon-button-fg);
+    }
+    &.icon-button--active:active:not(:disabled, .icon-button--disabled),
+    &.icon-button--toggled:active:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-press-fill);
+      color: var(--icon-button-fg);
+    }
+
+    // Loading: a pale tint of the tone instead of the solid fill. `loading` also
+    // disables the button, whose 50% opacity would fade the spinner too, so it
+    // is reset here.
     &.icon-button--loading {
       opacity: 1;
       background-color: color-mix(
         in srgb,
-        var(--icon-button-tone-bg, var(--icon-button-tone-base)) 32%,
+        var(--icon-button-tone-fill) 32%,
         transparent
       );
     }

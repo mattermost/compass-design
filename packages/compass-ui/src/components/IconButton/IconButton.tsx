@@ -34,7 +34,7 @@ interface IconButtonOwnProps {
   destructive?: boolean;
   /**
    * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success`, `warning` or `info`.
-   * `tone` looks the same whether or not the button is `toggled`, and is not
+   * `tone` looks the same whether or not the button is `toggled` or `active`, and is not
    * supported with `style="inverted"`.
    * Unlike `destructive` (a transparent button with a danger icon), `tone`
    * fills the button, for a primary action such as Leave call. A host can
@@ -133,6 +133,17 @@ type IconButtonComponent = {
  */
 function activeAttr(active: boolean | undefined): 'true' | 'false' | undefined {
   return active === undefined ? undefined : active ? 'true' : 'false';
+}
+
+/**
+ * White spinner on inverted buttons and on toned buttons. `warning` keeps the
+ * dark spinner because its fill is light yellow.
+ */
+function spinnerInverted(
+  style: IconButtonStyle,
+  tone: IconButtonTone | undefined,
+): boolean {
+  return style === 'inverted' || (tone !== undefined && tone !== 'warning');
 }
 
 function buildRootClass({
@@ -235,7 +246,10 @@ const IconButton = forwardRef(function IconButton(
       <>
         <span className={styles['icon-button__icon-slot']} aria-hidden>
           {loading ? (
-            <Spinner size={spinnerSize} inverted={style === 'inverted'} />
+            <Spinner
+              size={spinnerSize}
+              inverted={spinnerInverted(style, tone)}
+            />
           ) : (
             <IconSlotContext.Provider value={{ size: spinnerSize }}>
               {icon}
@@ -321,7 +335,7 @@ const IconButton = forwardRef(function IconButton(
     >
       <span className={styles['icon-button__icon-slot']} aria-hidden>
         {loading ? (
-          <Spinner size={spinnerSize} inverted={style === 'inverted'} />
+          <Spinner size={spinnerSize} inverted={spinnerInverted(style, tone)} />
         ) : (
           <IconSlotContext.Provider value={{ size: spinnerSize }}>
             {icon}
