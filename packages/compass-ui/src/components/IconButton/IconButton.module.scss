@@ -454,5 +454,17 @@
       );
       color: var(--icon-button-fg);
     }
+
+    // Loading: a pale tint of the tone instead of the solid fill, with the dark
+    // spinner on top. `loading` also disables the button, whose 50% opacity
+    // would fade the spinner too, so it is reset here.
+    &.icon-button--loading {
+      opacity: 1;
+      background-color: color-mix(
+        in srgb,
+        var(--icon-button-tone-bg, var(--icon-button-tone-base)) 32%,
+        transparent
+      );
+    }
   }
 }

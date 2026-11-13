@@ -139,6 +139,7 @@ function buildRootClass({
   className = '',
   count,
   destructive = false,
+  loading = false,
   padding = 'default',
   rounded = false,
   size = 'medium',
@@ -150,6 +151,7 @@ function buildRootClass({
   className?: string;
   count?: number;
   destructive?: boolean;
+  loading?: boolean;
   padding?: IconButtonPadding;
   rounded?: boolean;
   size?: IconButtonSize;
@@ -164,6 +166,7 @@ function buildRootClass({
     padding === 'compact' ? styles['icon-button--padding-compact'] : '',
     style === 'inverted' ? styles['icon-button--style-inverted'] : '',
     destructive ? styles['icon-button--destructive'] : '',
+    loading ? styles['icon-button--loading'] : '',
     tone ? styles['icon-button--tone'] : '',
     tone ? styles[`icon-button--tone-${tone}`] : '',
     rounded ? styles['icon-button--rounded'] : '',
@@ -216,6 +219,7 @@ const IconButton = forwardRef(function IconButton(
       className,
       count,
       destructive,
+      loading,
       padding,
       rounded,
       size,
@@ -291,6 +295,7 @@ const IconButton = forwardRef(function IconButton(
     className,
     count,
     destructive,
+    loading,
     padding,
     rounded,
     size,

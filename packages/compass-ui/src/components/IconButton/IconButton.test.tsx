@@ -151,6 +151,19 @@ describe('IconButton tone', () => {
     );
   });
 
+  it('adds a loading class only while loading', () => {
+    const { container, rerender } = render(
+      <IconButton aria-label="Save" tone="info" icon={null} />,
+    );
+    expect(container.querySelector('button')!.className).not.toMatch(
+      /icon-button--loading/,
+    );
+    rerender(<IconButton aria-label="Save" tone="info" icon={null} loading />);
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--loading/,
+    );
+  });
+
   it('adds no tone classes by default', () => {
     const { container } = render(<IconButton aria-label="Plain" icon={null} />);
     expect(container.querySelector('button')!.className).not.toMatch(/--tone/);
