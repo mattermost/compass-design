@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 // ---------------------------------------------------------------------------
 // Block — circular avatar container (Figma User Avatar; Image + Fallback)
 // ---------------------------------------------------------------------------
@@ -89,6 +91,13 @@
   // USER_AVATAR_TO_BADGE_SIZE in UserAvatar.tsx.
   $medium-badge-min: 56;
   $medium-badge-max: 96;
+  // Per-size right/bottom offsets (px) for the larger avatars.
+  $status-offsets: (
+    80: 1,
+    96: 3,
+    120: 1,
+    128: 2,
+  );
 
   @each $size in $sizes {
     &--size-#{$size} {
@@ -111,7 +120,11 @@
       }
 
       .user-avatar__status {
-        @if $size <= 28 {
+        @if map.has-key($status-offsets, $size) {
+          // Inset from the avatar corner, nudged up/left of the default.
+          right: #{map.get($status-offsets, $size)}px;
+          bottom: #{map.get($status-offsets, $size)}px;
+        } @else if $size <= 28 {
           right: -1px;
           bottom: -1px;
         } @else if $size >= $medium-badge-min and $size <= $medium-badge-max {

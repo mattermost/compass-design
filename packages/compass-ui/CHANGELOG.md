@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Changed
 
-- **`UserAvatar` 96px uses the `medium` status badge (was `large`):** `large` now starts at 120px. The 96px badge is the same 20px glyph as 56–80px, at a 0 corner offset (was a 32px badge at -2px). Corner offsets for 96, 120 and 128px are otherwise unchanged and still to be confirmed against the Figma spec (#250).
+- **`UserAvatar` 96px uses the `medium` status badge (was `large`):** `large` now starts at 120px. The 96px badge is the same 20px glyph as 56–80px, at a 0 corner offset (was a 32px badge at -2px). The status badge also moves up/left on the larger avatars: right/bottom offset is now 1px at 80px (was 0), 3px at 96px, 1px at 120px (was -2px) and 2px at 128px (was -2px). Offsets are still to be confirmed against the Figma spec (#250).
 
 - **`@mattermost/compass-proto` `MobileMessageInput` `variant` values are now lowercase kebab-case (breaking for hosts that passed the old values):** `variant` takes `'root'` and `'reply'` instead of `'Root'` and `'Reply'`, matching the public variant-value convention. Update any `variant="Root"` / `variant="Reply"` usage to the lowercase values; the default is still `'root'`. Nothing else in the component's API changes.
 
