@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`DateRangePicker` `clearable`, `clearLabel` and `clearButtonProps` ([#284](https://github.com/mattermost/compass-design/issues/284)):** set `clearable` to show a clear button once a date (or range) is set. It calls `onChange('')` in single mode and `onRangeChange('', '')` in range mode, and returns focus to the field. `clearLabel` (default `'Clear'`) names the button; `clearButtonProps` passes attributes to it. Off by default, so default markup is unchanged.
+
+### Fixed
+
+- **`DateRangePicker` opens on the selected month ([#284](https://github.com/mattermost/compass-design/issues/284)):** the calendar now opens on the month of the selected date, or of the range start, instead of always today's month. With no value it still opens on today. No markup change.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

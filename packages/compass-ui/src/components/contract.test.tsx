@@ -4,6 +4,7 @@ import { click, render } from '@/test-utils/render';
 import type { BuiltInButtonProps } from '@/utils/props';
 import AdminPanel from './AdminPanel/AdminPanel';
 import AdminPanelFooter from './AdminPanelFooter/AdminPanelFooter';
+import DateRangePicker from './DateRangePicker/DateRangePicker';
 import Combobox from './Combobox/Combobox';
 import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
@@ -283,6 +284,17 @@ const BUTTON_CASES: Record<
         clearable
         options={[{ value: 'a', label: 'A' }]}
         value="a"
+        onChange={on}
+        clearButtonProps={p}
+      />
+    ),
+  },
+  'DateRangePicker clearButtonProps': {
+    label: 'Clear',
+    render: (p, on) => (
+      <DateRangePicker
+        clearable
+        value="2031-03-15"
         onChange={on}
         clearButtonProps={p}
       />

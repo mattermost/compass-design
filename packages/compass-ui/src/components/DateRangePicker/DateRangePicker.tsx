@@ -10,6 +10,8 @@ import IconButton, {
   ICON_BUTTON_ICON_SIZES,
 } from '@/components/IconButton/IconButton';
 import Icon from '@/components/Icon/Icon';
+import FieldClearButton from '@/components/field/FieldClearButton';
+import type { BuiltInButtonProps } from '@/utils/props';
 import CalendarOutlineIcon from '@mattermost/compass-icons/components/calendar-outline';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import ChevronLeftIcon from '@mattermost/compass-icons/components/chevron-left';
@@ -72,6 +74,15 @@ export interface DateRangePickerProps extends Omit<
   previousMonthLabel?: string;
   /** Accessible name for the next-month button. Default: "Next month". */
   nextMonthLabel?: string;
+  /**
+   * Shows a clear button once a date (or range) is set. Clearing calls `onChange('')` in
+   * single mode and `onRangeChange('', '')` in range mode. Default: `false`.
+   */
+  clearable?: boolean;
+  /** Accessible name for the clear button. Default: "Clear". */
+  clearLabel?: string;
+  /** Extra props for the built-in clear button (`data-testid`, `className`, …). */
+  clearButtonProps?: BuiltInButtonProps;
 }
 
 /** Approximate calendar panel height for the initial flip decision. */
@@ -122,6 +133,15 @@ function isBetween(date: string, start: string, end: string): boolean {
   return date > s && date < e;
 }
 
+/** Year and zero-based month of an ISO `yyyy-mm-dd` date, or `null` if it isn't one. */
+function monthFromIso(iso: string): { year: number; month: number } | null {
+  const match = /^(\d{4})-(\d{2})-\d{2}/.exec(iso);
+  if (!match) return null;
+  const month = Number(match[2]) - 1;
+  if (month < 0 || month > 11) return null;
+  return { year: Number(match[1]), month };
+}
+
 function dayFromIso(iso: string, year: number, month: number): number | null {
   if (!iso) return null;
   const [y, m, d] = iso.split('-').map(Number);
@@ -163,6 +183,9 @@ export default function DateRangePicker({
   todayLabel = 'Today',
   previousMonthLabel = 'Previous month',
   nextMonthLabel = 'Next month',
+  clearable = false,
+  clearLabel = 'Clear',
+  clearButtonProps,
 }: DateRangePickerProps) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
@@ -182,9 +205,17 @@ export default function DateRangePicker({
     today.getDate(),
   );
 
-  // Calendar display state
-  const [displayYear, setDisplayYear] = useState(today.getFullYear());
-  const [displayMonth, setDisplayMonth] = useState(today.getMonth());
+  // Calendar display state. Starts on the month of the selected date (or range start)
+  // so a controlled field with a value never flashes today's month.
+  const initialMonth = monthFromIso(
+    mode === 'date' ? (value ?? '') : (startDate ?? ''),
+  );
+  const [displayYear, setDisplayYear] = useState(
+    initialMonth?.year ?? today.getFullYear(),
+  );
+  const [displayMonth, setDisplayMonth] = useState(
+    initialMonth?.month ?? today.getMonth(),
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   /** Roving tabindex day-of-month within the visible grid. */
@@ -303,10 +334,45 @@ export default function DateRangePicker({
     });
   }, []);
 
+  /** Opens the calendar on the month of the selected date, or of the range start. */
+  const openCalendar = useCallback(() => {
+    const target = monthFromIso(mode === 'date' ? selectedDate : selectedStart);
+    // No selection (e.g. just cleared): open on today's month, not the last one browsed.
+    const now = new Date();
+    setDisplayYear(target?.year ?? now.getFullYear());
+    setDisplayMonth(target?.month ?? now.getMonth());
+    setIsOpen(true);
+  }, [mode, selectedDate, selectedStart]);
+
   const handleToggle = useCallback(() => {
     if (disabled) return;
-    setIsOpen((open) => !open);
-  }, [disabled]);
+    if (isOpen) {
+      setIsOpen(false);
+    } else {
+      openCalendar();
+    }
+  }, [disabled, isOpen, openCalendar]);
+
+  const handleClear = useCallback(() => {
+    if (mode === 'date') {
+      if (onChange) {
+        onChange('');
+      } else {
+        setInternalDate('');
+      }
+    } else {
+      if (onRangeChange) {
+        onRangeChange('', '');
+      } else {
+        setInternalStart('');
+        setInternalEnd('');
+      }
+      // Controlled range: the half-picked start lives in internal state too.
+      setInternalStart('');
+      setInternalEnd('');
+    }
+    triggerRef.current?.focus();
+  }, [mode, onChange, onRangeChange]);
 
   const handlePrevMonth = useCallback(() => {
     setDisplayMonth((m) => {
@@ -489,7 +555,7 @@ export default function DateRangePicker({
         case 'ArrowDown':
           if (!isOpen) {
             e.preventDefault();
-            setIsOpen(true);
+            openCalendar();
           }
           break;
         case 'Escape':
@@ -502,7 +568,7 @@ export default function DateRangePicker({
           break;
       }
     },
-    [disabled, handleToggle, isOpen, close],
+    [disabled, handleToggle, isOpen, close, openCalendar],
   );
 
   // Keep focusedDay in range when the month changes (nav buttons / PageUp).
@@ -533,11 +599,14 @@ export default function DateRangePicker({
         ? `${formatDate(selectedStart)}${selectedEnd ? ` – ${formatDate(selectedEnd)}` : ''}`
         : '';
 
+  const showClear = clearable && hasValue && !disabled;
+
   const rootClass = [
     styles['date-range-picker'],
     isOpen ? styles['date-range-picker--open'] : '',
     disabled ? styles['date-range-picker--disabled'] : '',
     hasLabel ? styles['date-range-picker--has-label'] : '',
+    showClear ? styles['date-range-picker--has-clear'] : '',
     hasLabel && (isOpen || isFocused || hasValue)
       ? styles['date-range-picker--label-floated']
       : '',
@@ -609,6 +678,16 @@ export default function DateRangePicker({
           <Icon size="12" glyph={<ChevronDownIcon />} />
         </span>
       </div>
+
+      {showClear && (
+        <FieldClearButton
+          size="medium"
+          clearLabel={clearLabel}
+          clearButtonProps={clearButtonProps}
+          onClick={handleClear}
+          className={styles['date-range-picker__clear']}
+        />
+      )}
 
       {/* Calendar popover */}
       {popoverMounted &&
