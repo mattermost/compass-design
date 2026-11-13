@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`Modal` Escape no longer blocked by host listeners ([#247](https://github.com/mattermost/compass-design/issues/247)):** `closeOnEscape` is now handled on the dialog root's `onKeyDown` first, so a host `document` listener that calls `preventDefault` on every Escape (such as the webapp header search) can no longer stop the modal from closing. Escape that an inner widget or the modal's own `onKeyDown` already handled (`defaultPrevented`) is still ignored. The document listener stays as the fallback when focus is outside the dialog, and only the topmost modal reacts. A handled Escape now calls `preventDefault()`, so one Escape cannot close two modals and host listeners can tell it was consumed. `useModalFocus` returns `onDialogKeyDown` for custom dialogs; callers that ignore it keep the document-listener behavior. No markup change.
+- **`DateRangePicker` Escape inside an open calendar:** closes the calendar and calls `preventDefault()` instead of also closing a parent `Modal`. No markup change.
+
 ## [0.1.0-alpha.31] - 2026-11-13
 
 ### Added
