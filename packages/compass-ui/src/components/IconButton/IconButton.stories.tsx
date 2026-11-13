@@ -112,9 +112,29 @@ export const Inverted: Story = {
  * the toggled buttons (Participants, Call info) are the states that were
  * unreadable.
  */
+/**
+ * Mirrors the one-off overrides `CallPopout` applies to its control bar (a faint
+ * white fill on the inverted buttons, a solid red Leave button). Kept inline so
+ * the story does not depend on compass-proto.
+ */
+const CALL_SURFACE_OVERRIDES = `
+  .call-surface-story__controls button:not(.call-surface-story__leave) {
+    background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent);
+  }
+  .call-surface-story .call-surface-story__leave.call-surface-story__leave {
+    background-color: var(--error-text, var(--color-danger));
+    color: var(--neutral-0);
+  }
+  .call-surface-story .call-surface-story__leave.call-surface-story__leave.call-surface-story__leave.call-surface-story__leave:hover:not(:disabled) {
+    background-color: var(--color-red-600);
+    color: var(--neutral-0);
+  }
+`;
+
 export const InvertedOnCallSurface: Story = {
   render: () => (
     <div
+      className="call-surface-story"
       style={
         {
           display: 'flex',
@@ -130,6 +150,7 @@ export const InvertedOnCallSurface: Story = {
         } as CSSProperties
       }
     >
+      <style>{CALL_SURFACE_OVERRIDES}</style>
       <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
         <IconButton
           size="small"
@@ -145,7 +166,10 @@ export const InvertedOnCallSurface: Story = {
           icon={<Icon size="16" glyph={<ArrowCollapseIcon />} />}
         />
       </div>
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+      <div
+        className="call-surface-story__controls"
+        style={{ display: 'flex', gap: 8, alignItems: 'center' }}
+      >
         <IconButton
           size="medium"
           style="inverted"
@@ -191,6 +215,7 @@ export const InvertedOnCallSurface: Story = {
           icon={<Icon size="20" glyph={<DotsHorizontalIcon />} />}
         />
         <IconButton
+          className="call-surface-story__leave"
           size="medium"
           destructive
           aria-label="Leave call"
