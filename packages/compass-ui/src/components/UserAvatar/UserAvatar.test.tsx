@@ -47,11 +47,11 @@ describe('UserAvatar status badge size', () => {
     return container.querySelector('[class*="status-badge--size-"]')?.className;
   };
 
-  it('uses medium up to 96px and large from 120px', () => {
+  it('uses medium up to 80px, large at 96px and x-large from 120px', () => {
     expect(badgeClass('80')).toMatch(/size-medium/);
-    expect(badgeClass('96')).toMatch(/size-medium/);
-    expect(badgeClass('120')).toMatch(/size-large/);
-    expect(badgeClass('128')).toMatch(/size-large/);
+    expect(badgeClass('96')).toMatch(/size-large/);
+    expect(badgeClass('120')).toMatch(/size-x-large/);
+    expect(badgeClass('128')).toMatch(/size-x-large/);
   });
 });
 

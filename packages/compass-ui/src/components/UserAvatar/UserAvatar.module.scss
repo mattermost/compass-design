@@ -90,11 +90,11 @@
   // Sizes that use the Medium status badge; keep in sync with
   // USER_AVATAR_TO_BADGE_SIZE in UserAvatar.tsx.
   $medium-badge-min: 56;
-  $medium-badge-max: 96;
+  $medium-badge-max: 80;
   // Per-size right/bottom offsets (px) for the larger avatars.
   $status-offsets: (
     80: 1,
-    96: 3,
+    96: -1, // 28px large badge: keeps the centre of the earlier 20px badge at 3px
     120: 1,
     128: 2,
   );
@@ -109,7 +109,7 @@
         font-size: #{$size * 0.467}px;
       }
 
-      // Badge box is locked to the avatar size. 56–96px use the Medium badge,
+      // Badge box is locked to the avatar size. 56–80px use the Medium badge,
       // whose 24px box leaves a 2px ring; drop it so the box is the 20px glyph.
       // Scoped to the avatar; standalone StatusBadge is unchanged.
       @if $size >= $medium-badge-min and $size <= $medium-badge-max {

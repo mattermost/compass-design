@@ -9,6 +9,7 @@ const SIZES: StatusBadgeSize[] = [
   'small',
   'medium',
   'large',
+  'x-large',
 ];
 const STATUSES: StatusBadgeStatus[] = [
   'online',
