@@ -104,6 +104,8 @@ return (
 );
 ```
 
+If the consumer has a local modal wrapper, give it `size`, `headerDivider` and `footerDivider` (or one `dividers` prop) and either default the dividers off for `size='small'` or make callers pass them. Setting them once, inside the confirm dialog, leaves every other small modal on the Compass default of dividers on.
+
 Checks before you move on: the modal fades in and out like the confirm dialog; Escape and a backdrop click both close it; `size` was chosen on purpose; the title says what it is (`New Jira Subscription`, `Edit Jira Subscription`) with no filler subtitle; icon-only buttons in the header and in rows have tooltips; and Cancel, Back, Escape and the backdrop open a discard confirm only when the form is dirty.
 
 Layout inside the form uses tokens only. Floating-label fields are `--spacing-xxl` (24px) apart, not `--spacing-l` (the Forms table in `../compass-build/references/spacing-and-hierarchy.md`): `display: flex; flex-direction: column; gap: var(--spacing-xxl);`. Put that on the element that directly contains the fields. A wrapper `<div>` or a lazy-loaded section inside the form doesn't inherit the gap, so render those fields as direct children (a Fragment) or give the wrapper the same rule. Paired fields use a two-column grid. Submit errors go in a `SectionNotice` with `role='alert'`, not a toast.
