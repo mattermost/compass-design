@@ -82,6 +82,11 @@ export interface QuickSwitchModalProps {
   >;
   /** Dialog heading. Default: "Find channels". */
   title?: ReactNode;
+  /**
+   * Line under the title. Default: "Type to find a channel. Use UP/DOWN to
+   * browse, ENTER to select, ESC to dismiss." Pass `null` to hide it.
+   */
+  subtitle?: ReactNode;
   /** Search input placeholder. Default: "Search". */
   placeholder?: string;
   /** Accessible name of the search input. Default: "Search channels". */
@@ -94,6 +99,9 @@ export interface QuickSwitchModalProps {
   closeLabel?: string;
   className?: string;
 }
+
+const DEFAULT_SUBTITLE =
+  'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.';
 
 /**
  * Quick switcher: a search field over a keyboard-navigable list of channels, DMs
@@ -112,6 +120,7 @@ export default function QuickSwitchModal({
   onQueryChange,
   overlayProps,
   title = 'Find channels',
+  subtitle = DEFAULT_SUBTITLE,
   placeholder = 'Search',
   searchLabel = 'Search channels',
   listLabel = 'Results',
@@ -134,6 +143,7 @@ export default function QuickSwitchModal({
         filter={filter}
         onQueryChange={onQueryChange}
         title={title}
+        subtitle={subtitle}
         placeholder={placeholder}
         searchLabel={searchLabel}
         listLabel={listLabel}
@@ -153,6 +163,7 @@ type PanelProps = Required<
     | 'items'
     | 'onSelect'
     | 'title'
+    | 'subtitle'
     | 'placeholder'
     | 'searchLabel'
     | 'listLabel'
@@ -170,6 +181,7 @@ function QuickSwitchPanel({
   filter,
   onQueryChange,
   title,
+  subtitle,
   placeholder,
   searchLabel,
   listLabel,
@@ -248,6 +260,7 @@ function QuickSwitchPanel({
       open={open}
       size="small"
       title={title}
+      subtitle={subtitle ?? undefined}
       onClose={onClose}
       closeLabel={closeLabel}
       initialFocusRef={inputRef}

@@ -206,6 +206,18 @@ describe('QuickSwitchModal', () => {
     expect(document.body.textContent).toContain('Sin resultados');
   });
 
+  it('shows the keyboard-help subtitle by default and lets it be replaced or hidden', () => {
+    mount();
+    expect(document.body.textContent).toContain(
+      'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.',
+    );
+  });
+
+  it('hides the subtitle when null', () => {
+    mount({ subtitle: null });
+    expect(document.body.textContent).not.toContain('Type to find');
+  });
+
   it('renders nothing when closed', () => {
     mount({ open: false });
     expect(document.body.querySelector('[role="dialog"]')).toBeNull();
