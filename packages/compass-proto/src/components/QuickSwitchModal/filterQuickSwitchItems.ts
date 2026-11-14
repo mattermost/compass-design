@@ -34,9 +34,11 @@ function itemScore(item: QuickSwitchItem, terms: string[]): number | null {
     if (score === null) return null;
     total += score;
   }
-  // An exact name match beats everything else.
-  return item.name.toLowerCase() === terms.join(' ') ? total - 1 : total;
+  return total;
 }
+
+const isExactName = (item: QuickSwitchItem, terms: string[]) =>
+  item.name.toLowerCase() === terms.join(' ');
 
 /**
  * Default matcher and ranker. Every query term must match the name, secondary
@@ -50,14 +52,31 @@ export function filterQuickSwitchItems(
 ): QuickSwitchItem[] {
   const terms = splitTerms(query);
   if (terms.length === 0) return items;
-  return items
-    .map((item, index) => ({ item, index, score: itemScore(item, terms) }))
-    .filter(
-      (
-        entry,
-      ): entry is { item: QuickSwitchItem; index: number; score: number } =>
-        entry.score !== null,
-    )
-    .sort((a, b) => a.score - b.score || a.index - b.index)
-    .map((entry) => entry.item);
+  return (
+    items
+      .map((item, index) => ({
+        item,
+        index,
+        score: itemScore(item, terms),
+        exact: isExactName(item, terms),
+      }))
+      .filter(
+        (
+          entry,
+        ): entry is {
+          item: QuickSwitchItem;
+          index: number;
+          score: number;
+          exact: boolean;
+        } => entry.score !== null,
+      )
+      // An exact name match always comes first, then closeness, then original order.
+      .sort(
+        (a, b) =>
+          Number(b.exact) - Number(a.exact) ||
+          a.score - b.score ||
+          a.index - b.index,
+      )
+      .map((entry) => entry.item)
+  );
 }

@@ -263,6 +263,8 @@ function QuickSwitchPanel({
     if (event.nativeEvent.isComposing) return;
     switch (event.key) {
       case 'Escape':
+        // A host that already handled Escape (defaultPrevented) keeps the dialog open.
+        if (event.defaultPrevented) break;
         // SearchInput would clear a non-empty query on Escape and mark it
         // handled, which stops Modal closing; the hint promises dismiss.
         event.preventDefault();

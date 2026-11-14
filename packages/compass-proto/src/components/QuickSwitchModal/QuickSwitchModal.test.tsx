@@ -262,6 +262,32 @@ describe('QuickSwitchModal', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  it('leaves the dialog open when the host already handled Escape', () => {
+    const { onClose } = mount({
+      overlayProps: {
+        onKeyDownCapture: (e) => {
+          if (e.key === 'Escape') e.preventDefault();
+        },
+      },
+    });
+    key('Escape');
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('ranks an exact name match first even when listed after a closer-scoring item', () => {
+    mount({
+      items: [
+        { id: 'a', name: 'Development' },
+        { id: 'b', name: 'Dev Development' },
+      ],
+    });
+    type('dev development');
+    expect(options().map((o) => o.textContent)).toEqual([
+      'Dev Development',
+      'Development',
+    ]);
+  });
+
   it('names each group for assistive tech', () => {
     mount();
     const groups = Array.from(
