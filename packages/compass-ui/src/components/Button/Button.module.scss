@@ -1,3 +1,130 @@
+// The per-emphasis rules shared by `tone` and `destructive`. `$boosted` builds
+// the copy that makes `tone` win over `appearance="inverted"`: it raises the
+// specificity (via the caller's selector), skips the disabled rules (an inverted
+// or default disabled button keeps its own disabled look) and does not apply to
+// disabled buttons.
+@mixin tone-emphasis($boosted: false) {
+  $not-disabled: '';
+
+  @if $boosted {
+    $not-disabled: ':not(:disabled, .button--disabled)';
+  }
+
+  &.button--emphasis-primary#{$not-disabled} {
+    --button-fg: var(--button-tone-solid-fg);
+
+    background-color: var(--button-tone-resolved);
+
+    &:hover:not(:disabled, .button--disabled) {
+      background-color: color-mix(
+        in srgb,
+        black var(--button-tone-hover-darken),
+        var(--button-tone-resolved)
+      );
+    }
+    &:active:not(:disabled, .button--disabled) {
+      background-color: color-mix(
+        in srgb,
+        black var(--button-tone-press-darken),
+        var(--button-tone-resolved)
+      );
+    }
+    @if not $boosted {
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+      }
+    }
+  }
+
+  &.button--emphasis-secondary#{$not-disabled} {
+    --button-fg: var(--button-tone-text);
+
+    box-shadow: inset 0 0 0 1px var(--button-tone-resolved);
+
+    &:hover:not(:disabled, .button--disabled) {
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
+    }
+    &:active:not(:disabled, .button--disabled) {
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
+    }
+    @if not $boosted {
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+
+        box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.32);
+      }
+    }
+  }
+
+  &.button--emphasis-tertiary#{$not-disabled} {
+    --button-fg: var(--button-tone-text);
+
+    background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
+
+    &:hover:not(:disabled, .button--disabled) {
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.12);
+    }
+    &:active:not(:disabled, .button--disabled) {
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
+    }
+    @if not $boosted {
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+      }
+    }
+  }
+
+  &.button--emphasis-quaternary#{$not-disabled} {
+    --button-fg: var(--button-tone-text);
+
+    &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
+    }
+    &:active:not(:disabled, .button--disabled) {
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
+    }
+    @if not $boosted {
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+      }
+    }
+  }
+
+  &.button--emphasis-dim#{$not-disabled} {
+    --button-fg: var(--button-tone-text);
+
+    &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
+      --button-fg: var(--button-tone-text);
+
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
+    }
+    &:active:not(:disabled, .button--disabled) {
+      --button-fg: var(--button-tone-text);
+
+      background-color: rgba(var(--button-tone-resolved-rgb), 0.12);
+    }
+    @if not $boosted {
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+      }
+    }
+  }
+
+  &.button--emphasis-link#{$not-disabled} {
+    --button-fg: var(--button-tone-text);
+
+    @if not $boosted {
+      &:is(:disabled, .button--disabled) {
+        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
+      }
+    }
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Block
 // ---------------------------------------------------------------------------
@@ -299,107 +426,7 @@
     --button-tone-text: var(--button-tone-resolved);
     --focus-ring-color: var(--button-tone-resolved);
 
-    &.button--emphasis-primary {
-      --button-fg: var(--button-tone-solid-fg);
-
-      background-color: var(--button-tone-resolved);
-
-      &:hover:not(:disabled, .button--disabled) {
-        background-color: color-mix(
-          in srgb,
-          black var(--button-tone-hover-darken),
-          var(--button-tone-resolved)
-        );
-      }
-      &:active:not(:disabled, .button--disabled) {
-        background-color: color-mix(
-          in srgb,
-          black var(--button-tone-press-darken),
-          var(--button-tone-resolved)
-        );
-      }
-      &:is(:disabled, .button--disabled) {
-        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
-
-        background-color: rgba(var(--center-channel-color-rgb), 0.08);
-      }
-    }
-
-    &.button--emphasis-secondary {
-      --button-fg: var(--button-tone-text);
-
-      box-shadow: inset 0 0 0 1px var(--button-tone-resolved);
-
-      &:hover:not(:disabled, .button--disabled) {
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
-      }
-      &:active:not(:disabled, .button--disabled) {
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
-      }
-      &:is(:disabled, .button--disabled) {
-        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
-
-        box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.32);
-      }
-    }
-
-    &.button--emphasis-tertiary {
-      --button-fg: var(--button-tone-text);
-
-      background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
-
-      &:hover:not(:disabled, .button--disabled) {
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.12);
-      }
-      &:active:not(:disabled, .button--disabled) {
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
-      }
-      &:is(:disabled, .button--disabled) {
-        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
-
-        background-color: rgba(var(--center-channel-color-rgb), 0.08);
-      }
-    }
-
-    &.button--emphasis-quaternary {
-      --button-fg: var(--button-tone-text);
-
-      &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
-      }
-      &:active:not(:disabled, .button--disabled) {
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.16);
-      }
-      &:is(:disabled, .button--disabled) {
-        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
-      }
-    }
-
-    &.button--emphasis-dim {
-      --button-fg: var(--button-tone-text);
-
-      &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
-        --button-fg: var(--button-tone-text);
-
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.08);
-      }
-      &:active:not(:disabled, .button--disabled) {
-        --button-fg: var(--button-tone-text);
-
-        background-color: rgba(var(--button-tone-resolved-rgb), 0.12);
-      }
-      &:is(:disabled, .button--disabled) {
-        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
-      }
-    }
-
-    &.button--emphasis-link {
-      --button-fg: var(--button-tone-text);
-
-      &:is(:disabled, .button--disabled) {
-        --button-fg: rgba(var(--center-channel-color-rgb), 0.32);
-      }
-    }
+    @include tone-emphasis;
   }
 
   // `warning` is yellow, so white on the fill fails contrast: the solid fill
@@ -513,5 +540,14 @@
         --button-fg: rgba(var(--sidebar-text-rgb), 0.32);
       }
     }
+  }
+
+  // `tone` looks the same on any surface: this copy of the tone rules has higher
+  // specificity than the inverted rules above, so it wins over
+  // `appearance="inverted"`. Disabled and loading buttons are left to the
+  // disabled rules (an inverted loading button keeps the inverted colours).
+  // `destructive` is not boosted, so it keeps its inverted look.
+  &--tone.button--tone {
+    @include tone-emphasis($boosted: true);
   }
 }

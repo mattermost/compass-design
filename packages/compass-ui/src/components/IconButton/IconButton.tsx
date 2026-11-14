@@ -41,8 +41,9 @@ interface IconButtonOwnProps {
   destructive?: boolean;
   /**
    * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success` or `warning`.
-   * `tone` looks the same whether or not the button is `toggled` or `active`, and is not
-   * supported with `appearance="inverted"`.
+   * `tone` looks the same whether or not the button is `toggled` or `active`, and
+   * with `appearance="inverted"` (except while loading, which keeps the inverted
+   * look).
    * Unlike `destructive` (a transparent button with a danger icon), `tone`
    * fills the button, for a primary action such as Leave call. A host can
    * retheme a tone with `--icon-button-tone-bg`, `--icon-button-tone-fg`,

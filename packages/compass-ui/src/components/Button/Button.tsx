@@ -71,10 +71,12 @@ interface ButtonOwnProps {
   size?: ButtonSize;
   /**
    * Semantic color applied to the chosen `emphasis`: `danger`, `success`
-   * or `warning`. `destructive` is the same as `tone="danger"`; when both are set,
+   * or `warning`. `destructive` is the same as `tone="danger"` except on
+   * `appearance="inverted"`, where it keeps its inverted look; when both are set,
    * `tone` wins. A host can retheme a tone by setting `--button-tone-color` and
-   * `--button-tone-color-rgb` on the button or an ancestor. Not supported with
-   * `appearance="inverted"`. Unset, the button keeps its neutral/brand colors.
+   * `--button-tone-color-rgb` on the button or an ancestor. A tone looks the same
+   * with `appearance="inverted"` (except while loading or disabled, which keep the
+   * inverted look). Unset, the button keeps its neutral/brand colors.
    */
   tone?: ButtonTone;
   /**

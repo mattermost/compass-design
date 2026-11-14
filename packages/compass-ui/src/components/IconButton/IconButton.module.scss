@@ -512,4 +512,32 @@
       background-color: rgba(var(--icon-button-inverted-color-rgb), 0.08);
     }
   }
+
+  // `tone` looks the same on any surface. The inverted rules have higher
+  // specificity than the tone rules above for hover, press and the toggled and
+  // active states, so this copy (repeated classes for extra specificity) restates
+  // the tone fills for an inverted button. Disabled and loading buttons are left
+  // to their own rules (an inverted loading button keeps the inverted colours).
+  &--tone.icon-button--tone.icon-button--style-inverted.icon-button--style-inverted {
+    &:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-fill);
+      color: var(--icon-button-fg);
+    }
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-hover-fill);
+      color: var(--icon-button-fg);
+    }
+    &:active:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-press-fill);
+      color: var(--icon-button-fg);
+    }
+  }
 }
