@@ -402,27 +402,6 @@
     }
   }
 
-  // Loading with a tone on the solid emphasis: a 64% tint of the tone instead of
-  // the grey disabled look, with the label and spinner in the tone's foreground
-  // at the same 32% opacity as a default loading button. `destructive` keeps the
-  // grey disabled look.
-  &--tone.button--emphasis-primary.button--loading:is(
-      :disabled,
-      .button--disabled
-    ) {
-    --button-fg: color-mix(
-      in srgb,
-      var(--button-tone-solid-fg) 32%,
-      transparent
-    );
-
-    background-color: color-mix(
-      in srgb,
-      var(--button-tone-resolved) 64%,
-      transparent
-    );
-  }
-
   // `warning` is yellow, so white on the fill fails contrast: the solid fill
   // takes a dark label and the text emphasis takes a darker yellow.
   &--tone-warning {

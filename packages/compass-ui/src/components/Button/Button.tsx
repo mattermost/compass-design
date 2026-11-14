@@ -135,7 +135,6 @@ function buildRootClass({
   compact = false,
   destructive = false,
   emphasis = 'primary',
-  loading = false,
   size = 'medium',
   tone,
 }: {
@@ -144,7 +143,6 @@ function buildRootClass({
   compact?: boolean;
   destructive?: boolean;
   emphasis?: ButtonEmphasis;
-  loading?: boolean;
   size?: ButtonSize;
   tone?: ButtonTone;
 }): string {
@@ -155,7 +153,6 @@ function buildRootClass({
     appearance === 'inverted' ? styles['button--appearance-inverted'] : '',
     compact ? styles['button--compact'] : '',
     destructive ? styles['button--destructive'] : '',
-    loading ? styles['button--loading'] : '',
     tone ? styles['button--tone'] : '',
     tone ? styles[`button--tone-${tone}`] : '',
     className,
@@ -201,7 +198,6 @@ const Button = forwardRef(function Button(
       compact,
       destructive,
       emphasis,
-      loading,
       size,
       tone,
     });
@@ -281,7 +277,6 @@ const Button = forwardRef(function Button(
     compact,
     destructive,
     emphasis,
-    loading,
     size,
     tone,
   });

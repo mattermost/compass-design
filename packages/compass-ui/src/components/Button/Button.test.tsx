@@ -249,23 +249,6 @@ describe('Button tone', () => {
     );
   });
 
-  it('adds a loading class only while loading', () => {
-    const { container, rerender } = render(
-      <Button tone="success">Save</Button>,
-    );
-    expect(container.querySelector('button')!.className).not.toMatch(
-      /button--loading/,
-    );
-    rerender(
-      <Button tone="success" loading>
-        Save
-      </Button>,
-    );
-    expect(container.querySelector('button')!.className).toMatch(
-      /button--loading/,
-    );
-  });
-
   it.each([
     ['default', undefined, 'primary'],
     ['inverted', undefined, 'primary'],
