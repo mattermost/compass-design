@@ -15,6 +15,8 @@ export interface ProductRailItemData {
   mentionBadge?: number;
   /** Unread dot badge. Hidden when `mentionBadge` is set. */
   unreadBadge?: boolean;
+  /** Styles the mention badge as urgent. */
+  urgent?: boolean;
 }
 
 export interface ProductRailProps {
@@ -36,6 +38,7 @@ export interface ProductRailProps {
 /**
  * Labeled vertical product rail: one icon + label tile per product (Channels,
  * Playbooks, Boards, …), with selection, badges, and header/footer slots.
+ * Visual treatment follows the Mattermost webapp product rail.
  */
 export default function ProductRail({
   items,
@@ -65,6 +68,7 @@ export default function ProductRail({
               selected={item.id === activeId}
               mentionBadge={item.mentionBadge}
               unreadBadge={item.unreadBadge}
+              urgent={item.urgent}
               onClick={() => onSelect?.(item.id)}
             />
           </li>

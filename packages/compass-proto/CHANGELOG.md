@@ -10,7 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
-- **2026-11-13 · `ProductRail` and `ProductRailItem`:** labeled vertical product rail (icon + label tiles with selected state, mention/unread badges, `header`/`footer` slots, translatable `navLabel`, `mentionsLabel`, `unreadLabel`). Not yet slotted into `ChannelShell` (tracked in #360). Documented under Patterns. Part of #273. Also adds a `vitest` setup (`npm test`) to this package.
+- **2026-11-13 · `ProductRail` and `ProductRailItem`:** labeled vertical product rail styled after the Mattermost webapp rail (72px, icon chip with selected tint, label beneath, mention/unread badges incl. `urgent`, `header`/`footer` slots, translatable `navLabel`, `mentionsLabel`, `unreadLabel`). Not yet slotted into `ChannelShell` (tracked in #360). Documented under Patterns. Part of #273. Also adds a `vitest` setup (`npm test`) to this package.
 
 ### Changed
 

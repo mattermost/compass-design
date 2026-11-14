@@ -15,6 +15,8 @@ export interface ProductRailItemProps extends Omit<
   mentionBadge?: number;
   /** Unread dot badge. Hidden when `mentionBadge` is set. */
   unreadBadge?: boolean;
+  /** Styles the mention badge as urgent (e.g. an urgent-priority mention). */
+  urgent?: boolean;
   /** Suffix appended to the accessible name for a mention count, e.g. "3 mentions". */
   mentionsLabel?: (count: number) => string;
   /** Suffix appended to the accessible name when unread. */
@@ -32,6 +34,7 @@ export default function ProductRailItem({
   selected = false,
   mentionBadge,
   unreadBadge = false,
+  urgent = false,
   mentionsLabel = defaultMentionsLabel,
   unreadLabel = 'unread',
   className = '',
@@ -52,6 +55,8 @@ export default function ProductRailItem({
   const rootClass = [
     styles['product-rail-item'],
     selected ? styles['product-rail-item--selected'] : '',
+    showMentions || showUnread ? styles['product-rail-item--unread'] : '',
+    urgent && showMentions ? styles['product-rail-item--urgent'] : '',
     className,
   ]
     .filter(Boolean)
@@ -72,12 +77,12 @@ export default function ProductRailItem({
             className={styles['product-rail-item__mention-badge']}
             aria-hidden
           >
-            {mentionBadge}
+            {mentionBadge > 99 ? '99+' : mentionBadge}
           </span>
         )}
         {showUnread && (
           <span
-            className={styles['product-rail-item__unread-badge']}
+            className={styles['product-rail-item__unread-dot']}
             aria-hidden
           />
         )}

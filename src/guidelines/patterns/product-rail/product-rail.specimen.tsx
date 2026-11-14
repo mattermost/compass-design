@@ -3,7 +3,6 @@ import ProductChannelsIcon from '@mattermost/compass-icons/components/product-ch
 import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
 import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import { ProductRail } from '@mattermost/compass-proto';
-import { Icon } from '@mattermost/compass-ui/components/icon';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 export default function ProductRailLibrary() {
@@ -17,19 +16,19 @@ export default function ProductRailLibrary() {
           {
             id: 'channels',
             label: 'Channels',
-            icon: <Icon glyph={<ProductChannelsIcon />} size="24" />,
+            icon: <ProductChannelsIcon size={20} />,
             unreadBadge: true,
           },
           {
             id: 'playbooks',
             label: 'Playbooks',
-            icon: <Icon glyph={<ProductPlaybooksIcon />} size="24" />,
+            icon: <ProductPlaybooksIcon size={20} />,
             mentionBadge: 3,
           },
           {
             id: 'boards',
             label: 'Boards',
-            icon: <Icon glyph={<ProductBoardsIcon />} size="24" />,
+            icon: <ProductBoardsIcon size={20} />,
           },
         ]}
       />
