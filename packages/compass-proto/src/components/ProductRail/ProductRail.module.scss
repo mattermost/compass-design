@@ -55,7 +55,7 @@
   border: none;
   border-radius: var(--radius-m);
   background: none;
-  color: rgba(var(--sidebar-text-rgb), 0.75);
+  color: rgba(var(--sidebar-text-rgb), var(--opacity-72));
   font-family: inherit;
   text-decoration: none;
   cursor: pointer;
@@ -64,8 +64,14 @@
     color: var(--sidebar-text);
   }
 
+  // Hover fades in; state changes (selected) and leaving hover snap, so neighbours never crossfade.
   &:hover .product-rail-item__icon {
-    background: rgba(var(--sidebar-text-rgb), 0.08);
+    background: rgba(var(--sidebar-text-rgb), var(--opacity-8));
+    transition: background-color var(--duration-quick) var(--ease-transition);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   &:focus-visible {
@@ -81,7 +87,6 @@
     width: 36px;
     height: 36px;
     border-radius: var(--radius-m);
-    transition: background-color var(--duration-quick) var(--ease-transition);
 
     svg {
       fill: currentColor;
@@ -104,6 +109,10 @@
     line-height: 14px;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  &__sr-only {
+    @include visually-hidden;
   }
 
   &__mention-badge {
@@ -150,12 +159,6 @@
 
   &--selected &__icon,
   &--selected:hover &__icon {
-    background: rgba(var(--sidebar-text-rgb), 0.16);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .product-rail-item__icon {
-      transition: none;
-    }
+    background: rgba(var(--sidebar-text-rgb), var(--opacity-16));
   }
 }

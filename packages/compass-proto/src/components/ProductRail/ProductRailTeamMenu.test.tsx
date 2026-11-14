@@ -39,7 +39,9 @@ describe('ProductRailTeamButton', () => {
       />,
     );
     const b = c.querySelector('button')!;
-    expect(b.getAttribute('aria-label')).toBe('Switch teams');
+    expect(b.getAttribute('aria-label')).toBe(
+      'Switch teams, Alpha, other teams have unread messages',
+    );
     expect(b.getAttribute('aria-haspopup')).toBe('menu');
     expect(b.getAttribute('aria-expanded')).toBe('true');
     act(() => b.click());
@@ -51,7 +53,22 @@ describe('ProductRailTeamButton', () => {
       <ProductRailTeamButton teams={teams} buttonLabel="Changer d’équipe" />,
     );
     expect(c.querySelector('button')!.getAttribute('aria-label')).toBe(
-      'Changer d’équipe',
+      'Changer d’équipe, Alpha, other teams have unread messages',
+    );
+  });
+
+  it('names the current team and omits the unread phrase when nothing is unread', () => {
+    const c = render(
+      <ProductRailTeamButton
+        teams={[
+          { id: 'a', name: 'Alpha' },
+          { id: 'b', name: 'Beta' },
+        ]}
+        activeTeamId="b"
+      />,
+    );
+    expect(c.querySelector('button')!.getAttribute('aria-label')).toBe(
+      'Switch teams, Beta',
     );
   });
 
@@ -112,6 +129,25 @@ describe('ProductRailTeamMenu', () => {
     expect(c.querySelector('[role="menu"]')?.getAttribute('aria-label')).toBe(
       'Teams',
     );
-    expect(c.querySelectorAll('[role="menuitem"]')).toHaveLength(3);
+    expect(c.querySelectorAll('[role="menuitemradio"]')).toHaveLength(3);
+  });
+
+  it('marks the current team checked and speaks unread teams', () => {
+    const c = render(
+      <ProductRailTeamMenu
+        teams={teams}
+        activeTeamId="a"
+        open
+        unreadLabel="non lu"
+      />,
+    );
+    const rows = Array.from(c.querySelectorAll('[role="menuitemradio"]'));
+    expect(rows.map((r) => r.getAttribute('aria-checked'))).toEqual([
+      'true',
+      'false',
+      'false',
+    ]);
+    expect(rows[1].textContent).toContain('non lu');
+    expect(rows[0].textContent).not.toContain('non lu');
   });
 });

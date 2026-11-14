@@ -38,8 +38,10 @@ export interface ProductRailTeamButtonProps {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   /** Reflects whether the host's menu is open. */
   open?: boolean;
-  /** Accessible name of the button. Default: "Switch teams". */
+  /** Accessible name of the button, followed by the current team. Default: "Switch teams". */
   buttonLabel?: string;
+  /** Appended to the name when another team has unread activity. Default: "other teams have unread messages". */
+  otherTeamsUnreadLabel?: string;
   className?: string;
 }
 
@@ -55,6 +57,7 @@ export function ProductRailTeamButton({
   onClick,
   open = false,
   buttonLabel = 'Switch teams',
+  otherTeamsUnreadLabel = 'other teams have unread messages',
   className = '',
 }: ProductRailTeamButtonProps) {
   const current = teams.find((t) => t.id === activeTeamId) ?? teams[0];
@@ -70,7 +73,7 @@ export function ProductRailTeamButton({
         className={[styles['product-rail-team-button'], className]
           .filter(Boolean)
           .join(' ')}
-        aria-label={buttonLabel}
+        aria-label={`${buttonLabel}, ${current.name}${otherUnread ? `, ${otherTeamsUnreadLabel}` : ''}`}
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={onClick}
@@ -111,6 +114,8 @@ export interface ProductRailTeamMenuProps {
   showTeamSidebarLabel?: ReactNode;
   /** Accessible name of the menu. Default: "Teams". */
   menuLabel?: string;
+  /** Spoken after a team name when it has unread activity. Default: "unread". */
+  unreadLabel?: string;
   /**
    * Controlled visibility with the Compass popover transition (scale + fade in,
    * reverse on close); the menu unmounts after the exit. Omit to always render.
@@ -133,6 +138,7 @@ export function ProductRailTeamMenu({
   onShowTeamSidebar,
   showTeamSidebarLabel = 'Show team sidebar',
   menuLabel = 'Teams',
+  unreadLabel = 'unread',
   open,
   onExited,
   className = '',
@@ -155,7 +161,8 @@ export function ProductRailTeamMenu({
             <button
               key={team.id}
               type="button"
-              role="menuitem"
+              role="menuitemradio"
+              aria-checked={active}
               className={styles['product-rail-team-menu__row']}
               onClick={() => onSelectTeam?.(team.id)}
             >
@@ -169,6 +176,11 @@ export function ProductRailTeamMenu({
               <span className={styles['product-rail-team-menu__label']}>
                 {team.name}
               </span>
+              {!active && mentions === 0 && team.unread && (
+                <span className={styles['product-rail-team-menu__sr-only']}>
+                  {`, ${unreadLabel}`}
+                </span>
+              )}
               {active ? (
                 <Icon glyph={<CheckIcon />} size="16" />
               ) : mentions > 0 ? (
@@ -196,6 +208,7 @@ export function ProductRailTeamMenu({
           <PopoverMenuDivider />
           <PopoverMenuGroup>
             <MenuItem
+              role="menuitem"
               label={showTeamSidebarLabel}
               leadingVisual={<Icon glyph={<DockLeftIcon />} size="16" />}
               onClick={onShowTeamSidebar}

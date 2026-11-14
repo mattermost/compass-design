@@ -117,7 +117,7 @@
     cursor: pointer;
 
     &:hover {
-      background: rgba(var(--center-channel-color-rgb), 0.08);
+      background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
     }
 
     &:focus-visible {
@@ -137,11 +137,15 @@
     white-space: nowrap;
   }
 
+  &__sr-only {
+    @include visually-hidden;
+  }
+
   &__badge {
     min-width: 20px;
     height: 18px;
     padding: 0 5px;
-    border-radius: 9px;
+    border-radius: var(--radius-pill);
     background: var(--mention-bg);
     color: var(--mention-color);
     font-weight: var(--font-weight-bold);

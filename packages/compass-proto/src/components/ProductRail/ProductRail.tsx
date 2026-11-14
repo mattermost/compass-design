@@ -28,6 +28,10 @@ export interface ProductRailProps {
   onSelect?: (id: string) => void;
   /** Accessible name of the navigation landmark. */
   navLabel?: string;
+  /** Accessible phrase for a mention count, e.g. "3 mentions". Applies to every item. */
+  mentionsLabel?: (count: number) => string;
+  /** Accessible phrase appended for an unread dot. Applies to every item. Default: "unread". */
+  unreadLabel?: string;
   /** Pinned above the items (e.g. a product switcher trigger). */
   header?: ReactNode;
   /** Pinned to the bottom of the rail (e.g. settings or help). */
@@ -45,6 +49,8 @@ export default function ProductRail({
   activeId,
   onSelect,
   navLabel = 'Products',
+  mentionsLabel,
+  unreadLabel,
   header,
   footer,
   className = '',
@@ -69,6 +75,8 @@ export default function ProductRail({
               mentionBadge={item.mentionBadge}
               unreadBadge={item.unreadBadge}
               urgent={item.urgent}
+              mentionsLabel={mentionsLabel}
+              unreadLabel={unreadLabel}
               onClick={() => onSelect?.(item.id)}
             />
           </li>

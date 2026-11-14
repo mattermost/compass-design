@@ -71,7 +71,36 @@ describe('ProductRail', () => {
   });
 });
 
+describe('ProductRail label hooks', () => {
+  it('forwards mentionsLabel and unreadLabel to every item', () => {
+    const c = render(
+      <ProductRail
+        items={items}
+        mentionsLabel={(n) => `${n} mentions (fr)`}
+        unreadLabel="non lu"
+      />,
+    );
+    const [channels, boards] = Array.from(c.querySelectorAll('button'));
+    expect(channels.getAttribute('aria-label')).toBe('Channels, non lu');
+    expect(boards.getAttribute('aria-label')).toBe('Boards, 3 mentions (fr)');
+  });
+});
+
 describe('ProductRailItem', () => {
+  it('keeps unread status for a rich label that supplies the name', () => {
+    const c = render(
+      <ProductRailItem
+        icon={<svg />}
+        label={<span>Boards</span>}
+        unreadBadge
+      />,
+    );
+    const b = c.querySelector('button')!;
+    expect(b.getAttribute('aria-label')).toBeNull();
+    expect(b.textContent).toContain('Boards');
+    expect(b.textContent).toContain(', unread');
+  });
+
   it('passes through attributes and supports translatable badge labels', () => {
     const c = render(
       <ProductRailItem

@@ -88,6 +88,12 @@ export default function ProductRailItem({
         )}
       </span>
       <span className={styles['product-rail-item__label']}>{label}</span>
+      {/* A rich label gives the button its name from content, so the status is spoken from here. */}
+      {name == null && suffix && (
+        <span
+          className={styles['product-rail-item__sr-only']}
+        >{`, ${suffix}`}</span>
+      )}
     </button>
   );
 }
