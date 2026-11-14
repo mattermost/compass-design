@@ -3,24 +3,48 @@ import {
   QuickSwitchModal,
   type QuickSwitchItem,
 } from '@mattermost/compass-proto';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import avatarAiko from '@/assets/avatars/Aiko Tan.png';
+import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
-const quickSwitchItems: QuickSwitchItem[] = [
-  ['Ask Anything', 'announcements', 'Unread'],
-  ['Ask R&D', 'ask-r-and-d', 'Unread'],
-  ['Bugs', 'bugs', 'Unread'],
-  ['Contributors', 'contributors', 'Unread'],
-  ['Design Challenge', 'design-challenge', 'Unread'],
-  ['Developers: Webapp', 'developers-web-app', 'Recent'],
-  ['Integrations and Apps', 'integrations-and-apps', 'Recent'],
-  ['Off-Topic', 'off-topic', 'Recent'],
-  ['QA: Builds', 'qa-builds', 'Recent'],
-].map(([name, handle, group]) => ({
+const channel = (
+  name: string,
+  handle: string,
+  group: string,
+): QuickSwitchItem => ({
   id: handle,
   name,
   secondaryLabel: `~${handle}`,
   group,
-}));
+});
+
+const directMessage = (
+  name: string,
+  handle: string,
+  src: string,
+  group: string,
+): QuickSwitchItem => ({
+  id: `dm-${handle}`,
+  name,
+  secondaryLabel: `@${handle}`,
+  group,
+  leadingVisual: <UserAvatar src={src} alt="" size="20" />,
+});
+
+const quickSwitchItems: QuickSwitchItem[] = [
+  channel('Ask Anything', 'announcements', 'Unread'),
+  channel('Ask R&D', 'ask-r-and-d', 'Unread'),
+  channel('Bugs', 'bugs', 'Unread'),
+  channel('Contributors', 'contributors', 'Unread'),
+  channel('Design Challenge', 'design-challenge', 'Unread'),
+  channel('Developers: Webapp', 'developers-web-app', 'Recent'),
+  directMessage('Aiko Tan', 'aiko', avatarAiko, 'Recent'),
+  channel('Integrations and Apps', 'integrations-and-apps', 'Recent'),
+  directMessage('Marco Rinaldi', 'marco', avatarMarco, 'Recent'),
+  channel('Off-Topic', 'off-topic', 'Recent'),
+  channel('QA: Builds', 'qa-builds', 'Recent'),
+];
 
 /** Stages the real overlay inside the canvas frame instead of the page. */
 export function QuickSwitchModalCanvas() {
