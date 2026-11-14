@@ -1,0 +1,106 @@
+import { ChannelBookmarksBar } from '@mattermost/compass-proto';
+
+`ChannelBookmarksBar` and `ChannelBookmarkModal` live in `@mattermost/compass-proto` for prototyping until a published API is ready.
+
+The Channel Bookmarks Bar is a single row of quick links that sits directly
+under the Channel Header. It lets members keep the links and files a channel
+depends on one click away without pinning or searching.
+
+<Divider />
+
+## Anatomy
+
+<Preview caption="Channel bookmarks bar">
+  <div style={{ width: '100%' }}>
+    <ChannelBookmarksBar
+      bookmarks={[
+        {
+          id: 'wiki',
+          label: 'Team wiki',
+          labelText: 'Team wiki',
+          href: 'https://example.com/wiki',
+        },
+        {
+          id: 'roadmap',
+          label: 'Q4 roadmap',
+          labelText: 'Q4 roadmap',
+          href: 'https://example.com/roadmap',
+        },
+        {
+          id: 'handbook',
+          label: 'Employee handbook',
+          labelText: 'Employee handbook',
+          type: 'file',
+          href: 'https://example.com/handbook.pdf',
+        },
+      ]}
+    />
+  </div>
+</Preview>
+
+- <Num>1</Num> **Bookmark** — Icon and name. Link bookmarks open in a new tab.
+  The icon is a link or file glyph by default and can be replaced.
+- <Num>2</Num> **Bookmark actions** — A small menu button that appears on hover
+  or keyboard focus. Offers Edit, Copy link, and Delete.
+- <Num>3</Num> **Overflow button** — Appears only when some bookmarks don't fit.
+  Opens a menu listing the hidden bookmarks in order.
+- <Num>4</Num> **Add button** — Opens the create modal. Hidden for members who
+  can't manage bookmarks.
+
+<Divider />
+
+## Overflow
+
+The bar never wraps or scrolls. Bookmarks are shown in order until the next one
+would not fit alongside the overflow button; the rest move into the overflow
+menu. The split recalculates when the channel column is resized or bookmarks
+change, so narrowing the window moves bookmarks into the menu one at a time.
+
+## Create and edit
+
+The modal asks for a link and an optional title. When the title is left empty
+it defaults to the link's host. A missing or invalid link shows an inline error
+and keeps the modal open. Editing reuses the same modal with the existing
+values filled in and a Save button.
+
+## Permissions
+
+Members without permission to manage bookmarks still see the bar, open
+bookmarks, and copy links. Add, Edit, and Delete are removed for them.
+
+## Behavior
+
+- Opening one menu closes any other. Escape and clicking outside close it.
+- Long names truncate with an ellipsis; the full name remains the accessible
+  name.
+- The bar is a toolbar with a translatable label, and every visible string can
+  be overridden through `labels`.
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for the interactive bar and modal. The host owns the
+bookmark data and the modal's open state: pass `bookmarks` plus `onAdd`,
+`onEdit`, `onCopyLink`, and `onDelete`, and render `ChannelBookmarkModal`
+beside it.
+
+```tsx
+import {
+  ChannelBookmarkModal,
+  ChannelBookmarksBar,
+} from '@mattermost/compass-proto';
+
+<ChannelBookmarksBar
+  bookmarks={bookmarks}
+  onAdd={() => setModalOpen(true)}
+  onEdit={openEditor}
+  onDelete={removeBookmark}
+  onCopyLink={copyLink}
+/>
+<ChannelBookmarkModal
+  open={modalOpen}
+  onClose={() => setModalOpen(false)}
+  onSubmit={saveBookmark}
+/>
+```
