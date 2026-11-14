@@ -265,31 +265,29 @@ describe('Button tone', () => {
   });
 
   it.each([
-    ['danger', true],
-    ['success', true],
-    ['info', true],
-    ['warning', false],
-  ] as const)('tone=%s loading spinner inverted=%s', (tone, inverted) => {
-    const { container } = render(
-      <Button tone={tone} loading>
-        Save
-      </Button>,
-    );
-    const spinner = container.querySelector('[class*="spinner"]');
-    expect(spinner).not.toBeNull();
-    expect(/spinner--inverted/.test(spinner!.className)).toBe(inverted);
-  });
-
-  it('keeps the default spinner on a toned button that is not primary', () => {
-    const { container } = render(
-      <Button tone="danger" emphasis="secondary" loading>
-        Save
-      </Button>,
-    );
-    const spinner = container.querySelector('[class*="spinner"]');
-    expect(spinner).not.toBeNull();
-    expect(/spinner--inverted/.test(spinner!.className)).toBe(false);
-  });
+    ['default', undefined, 'primary'],
+    ['inverted', undefined, 'primary'],
+    ['tone danger', 'danger', 'primary'],
+    ['tone warning', 'warning', 'secondary'],
+  ] as const)(
+    'loading spinner takes its colour from the label (%s)',
+    (label, tone, emphasis) => {
+      const { container } = render(
+        <Button
+          tone={tone}
+          emphasis={emphasis}
+          appearance={label === 'inverted' ? 'inverted' : 'default'}
+          loading
+        >
+          Save
+        </Button>,
+      );
+      const spinner = container.querySelector('[class*="spinner"]');
+      expect(spinner).not.toBeNull();
+      // The Button overrides the gradient; the Spinner's own variant is not used.
+      expect(/spinner--inverted/.test(spinner!.className)).toBe(false);
+    },
+  );
 
   it('adds no tone classes by default', () => {
     const { container } = render(<Button>Plain</Button>);

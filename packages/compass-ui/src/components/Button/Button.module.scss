@@ -59,6 +59,16 @@
     justify-content: center;
     flex-shrink: 0;
     color: var(--button-fg);
+
+    // The loading spinner follows the label colour in every state, emphasis,
+    // tone and appearance: a tail fading to transparent, ending in the label
+    // colour. It replaces the Spinner's own fixed colours.
+    [role='status'] {
+      background: conic-gradient(
+        color-mix(in srgb, var(--button-fg) 0%, transparent),
+        var(--button-fg)
+      );
+    }
   }
 
   // ---------------------------------------------------------------------------
