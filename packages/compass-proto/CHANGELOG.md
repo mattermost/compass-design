@@ -16,4 +16,5 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
+- **2026-11-14 · `GlobalHeader` `product` accepts `'agents'`, `'docs'`, `'automation'`:** adds branding (sparkle `creation-outline`, `book-outline`, `lightning-bolt-outline` icons) for the new Product Rail products. Existing values are unchanged. Part of #273.
 - **2026-11-12 · `MobileMessageInput` `variant` values are now lowercase kebab-case (breaking for hosts that passed the old values):** `variant` takes `'root'` and `'reply'` instead of `'Root'` and `'Reply'`, matching the public variant-value convention. Update any `variant="Root"` / `variant="Reply"` usage to the lowercase values; the default is still `'root'`. Nothing else in the component's API changes.

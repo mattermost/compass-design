@@ -2,6 +2,9 @@ import ProductsIcon from '@mattermost/compass-icons/components/products';
 import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
 import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
 import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
+import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
+import BookOutlineIcon from '@mattermost/compass-icons/components/book-outline';
+import LightningBoltOutlineIcon from '@mattermost/compass-icons/components/lightning-bolt-outline';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import ArrowRightIcon from '@mattermost/compass-icons/components/arrow-right';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
@@ -24,7 +27,13 @@ import type {
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
-export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
+export type GlobalHeaderProduct =
+  | 'channels'
+  | 'playbooks'
+  | 'boards'
+  | 'agents'
+  | 'docs'
+  | 'automation';
 
 /**
  * Click handler for Global Header controls. Receives the click event so hosts can
@@ -110,12 +119,18 @@ const PRODUCT_ICON: Record<
   channels: ProductChannelsIcon,
   playbooks: ProductPlaybooksIcon,
   boards: ProductBoardsIcon,
+  agents: CreationOutlineIcon,
+  docs: BookOutlineIcon,
+  automation: LightningBoltOutlineIcon,
 };
 
 const PRODUCT_LABEL: Record<GlobalHeaderProduct, string> = {
   channels: 'Channels',
   playbooks: 'Playbooks',
   boards: 'Boards',
+  agents: 'Agents',
+  docs: 'Docs',
+  automation: 'Automation',
 };
 
 function InvertedIconButton({

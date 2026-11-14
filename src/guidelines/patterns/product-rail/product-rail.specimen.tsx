@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import { ProductRail } from '@mattermost/compass-proto';
+import { productRailDemoItems } from '@/fixtures/productRailDemo';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 export default function ProductRailLibrary() {
@@ -12,25 +10,7 @@ export default function ProductRailLibrary() {
       <ProductRail
         activeId={activeId}
         onSelect={setActiveId}
-        items={[
-          {
-            id: 'channels',
-            label: 'Channels',
-            icon: <ProductChannelsIcon size={20} />,
-            unreadBadge: true,
-          },
-          {
-            id: 'playbooks',
-            label: 'Playbooks',
-            icon: <ProductPlaybooksIcon size={20} />,
-            mentionBadge: 3,
-          },
-          {
-            id: 'boards',
-            label: 'Boards',
-            icon: <ProductBoardsIcon size={20} />,
-          },
-        ]}
+        items={productRailDemoItems}
       />
     </div>
   );

@@ -1,8 +1,5 @@
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
-import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
 import {
   ChannelHeader,
   ChannelsSidebar,
@@ -19,10 +16,12 @@ import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import {
+  productRailDemoItems,
+  type ProductRailDemoId,
+} from '@/fixtures/productRailDemo';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-
-type ProductId = 'channels' | 'playbooks' | 'boards';
 
 const TEAMS: ProductRailTeam[] = [
   { id: 'contributors', name: 'Contributors', initials: 'Co' },
@@ -75,7 +74,7 @@ function TeamSwitcher() {
 }
 
 export default function ProductLayout() {
-  const [product, setProduct] = useState<ProductId>('channels');
+  const [product, setProduct] = useState<ProductRailDemoId>('channels');
 
   return (
     <ProductShell
@@ -84,26 +83,8 @@ export default function ProductLayout() {
         <ProductRail
           header={<TeamSwitcher />}
           activeId={product}
-          onSelect={(id) => setProduct(id as ProductId)}
-          items={[
-            {
-              id: 'channels',
-              label: 'Channels',
-              icon: <ProductChannelsIcon size={20} />,
-              unreadBadge: true,
-            },
-            {
-              id: 'playbooks',
-              label: 'Playbooks',
-              icon: <ProductPlaybooksIcon size={20} />,
-              mentionBadge: 2,
-            },
-            {
-              id: 'boards',
-              label: 'Boards',
-              icon: <ProductBoardsIcon size={20} />,
-            },
-          ]}
+          onSelect={(id) => setProduct(id as ProductRailDemoId)}
+          items={productRailDemoItems}
         />
       }
       sidebar={
@@ -146,7 +127,7 @@ export default function ProductLayout() {
         </>
       ) : (
         <EmptyState
-          title={product === 'playbooks' ? 'Playbooks' : 'Boards'}
+          title={productRailDemoItems.find((i) => i.id === product)?.label}
           description="This product has no prototype yet. Its content fills the main area."
         />
       )}

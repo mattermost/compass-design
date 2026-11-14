@@ -1,7 +1,4 @@
 import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
-import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import {
   ProductRail,
   ProductRailTeamButton,
@@ -9,6 +6,7 @@ import {
 } from '@mattermost/compass-proto';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { productRailDemoItems } from '@/fixtures/productRailDemo';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import patternsStyles from '@/styles/library-demo/patterns.module.scss';
 
@@ -31,25 +29,7 @@ export function ProductRailAnatomyStage() {
             />
           }
           activeId="channels"
-          items={[
-            {
-              id: 'channels',
-              label: 'Channels',
-              icon: <ProductChannelsIcon size={20} />,
-              unreadBadge: true,
-            },
-            {
-              id: 'playbooks',
-              label: 'Playbooks',
-              icon: <ProductPlaybooksIcon size={20} />,
-              mentionBadge: 3,
-            },
-            {
-              id: 'boards',
-              label: 'Boards',
-              icon: <ProductBoardsIcon size={20} />,
-            },
-          ]}
+          items={productRailDemoItems}
           footer={
             <WithTooltip label="Settings" placement="right">
               <IconButton
