@@ -16,7 +16,10 @@ import { PopoverMenuDivider } from '@mattermost/compass-ui/components/popover-me
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 import type { ModalOverlayProps } from '@mattermost/compass-ui/components/modal';
 import { SearchInput } from '@mattermost/compass-ui/components/search-input';
-import { filterQuickSwitchItems } from './filterQuickSwitchItems';
+import {
+  filterQuickSwitchItems,
+  hasSearchTerms,
+} from './filterQuickSwitchItems';
 import styles from './QuickSwitchModal.module.scss';
 
 /** One destination in the switcher (a channel, DM, or group message). */
@@ -213,7 +216,7 @@ function QuickSwitchPanel({
 
   // Consecutive results with the same `group` form one section.
   // While searching, groups flatten into one list ranked by match closeness.
-  const searching = query.trim() !== '';
+  const searching = hasSearchTerms(query);
   const sections = useMemo(() => {
     const out: {
       group?: string;

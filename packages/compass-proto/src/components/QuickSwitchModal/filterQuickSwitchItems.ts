@@ -9,6 +9,9 @@ const splitTerms = (query: string) =>
     .map((term) => term.replace(/^[~@#]+/, ''))
     .filter(Boolean);
 
+/** True when the query has at least one real term (a bare `~` or `@` doesn't). */
+export const hasSearchTerms = (query: string) => splitTerms(query).length > 0;
+
 /** Lower is better; `null` means the term doesn't match. */
 function termScore(item: QuickSwitchItem, term: string): number | null {
   const name = item.name.toLowerCase();

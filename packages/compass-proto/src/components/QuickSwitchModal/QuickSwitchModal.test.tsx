@@ -248,6 +248,13 @@ describe('QuickSwitchModal', () => {
     expect(document.body.querySelectorAll('[role="group"]')).toHaveLength(4);
   });
 
+  it('keeps groups while the query is only a handle sigil', () => {
+    mount();
+    type('~');
+    expect(document.body.querySelectorAll('[role="group"]')).toHaveLength(2);
+    expect(options()).toHaveLength(3);
+  });
+
   it('closes on Escape from the search field even with a query typed', () => {
     const { onClose } = mount();
     type('bug');
