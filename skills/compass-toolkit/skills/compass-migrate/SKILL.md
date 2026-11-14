@@ -42,10 +42,11 @@ You may not call the work done until every check has run and you have the output
 - Lint on the changed files, and the type check.
 - A production build of the bundle.
 - E2E tests, if the consumer has them.
+- Icons in Compass buttons, by search (always runnable): search every `<Button`, `<IconButton` and menu trigger for a bare `<…Icon` (an icon not inside `<Icon glyph=…>`) or an icon passed as a child of `Button`. A mechanical `<button>` to `Button` conversion keeps the old children, so it carries raw icons across; fix them to `leadingIcon`, `trailingIcon` or `icon={<Icon glyph={<X />} />}`.
 - Modal props, by search (always runnable): list every `<Modal`, `<ModalOverlay` and local modal wrapper call site and check `size`, `headerDivider`, `footerDivider` and `subtitlePlacement` on each. A body that stays short in every state with the dividers left at the default is a failure, even when the in-app check below can't run.
 - Form and modal layout, in the running app: open every form in each state (loading, loaded with the lazy or conditional fields, error), and confirm the gaps match the Forms table, dividers follow the body height in its tallest state and tabs are underlined. Unit tests can't see this.
 - Visual baselines, if the consumer keeps them: regenerate them, then open the PNGs and look at each one. A baseline you didn't look at proves nothing.
-- Audit the changed code with the `compass-review` skill (listed as `mattermost-compass-toolkit:compass-review` when installed as a plugin) and fix what it reports, or list it under "Left as is".
+- Audit the changed code with the `compass-review` skill, after every pass of a staged migration and not only the last (a check listed as "not run" in a PR is a check nobody ran) (listed as `mattermost-compass-toolkit:compass-review` when installed as a plugin) and fix what it reports, or list it under "Left as is".
 - Search for leftovers: no import of the removed libraries, no unused wrapper files, no `theme` prop passed only to styling.
 
 ## Report
