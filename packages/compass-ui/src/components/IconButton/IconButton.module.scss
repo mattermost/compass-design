@@ -492,13 +492,14 @@
       color: var(--icon-button-fg);
     }
 
-    // Loading looks the same as an untoned loading button: transparent, with
-    // the default icon colour (the disabled 50% opacity still applies, and the
-    // spinner follows the icon colour).
+    // Loading drops the tone: the default icon colour on a faint neutral fill
+    // (the disabled 50% opacity still applies, and the spinner follows the icon
+    // colour). A toned `Button` gets the same neutral fill from its disabled
+    // look.
     &.icon-button--loading {
       --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
 
-      background-color: transparent;
+      background-color: rgba(var(--center-channel-color-rgb), 0.08);
       color: var(--icon-button-fg);
     }
   }
