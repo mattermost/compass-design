@@ -217,3 +217,65 @@ describe('Button asChild', () => {
     expect(host).toHaveBeenCalledOnce();
   });
 });
+
+describe('Button tone', () => {
+  it('adds tone classes and keeps the native button type', () => {
+    const { container } = render(
+      <Button tone="success" type="submit">
+        Save
+      </Button>,
+    );
+    const button = container.querySelector('button')!;
+    expect(button.className).toMatch(/button--tone(?!-)/);
+    expect(button.className).toMatch(/button--tone-success/);
+    expect(button.getAttribute('type')).toBe('submit');
+  });
+
+  it('adds the warning tone class', () => {
+    const { container } = render(<Button tone="warning">Review</Button>);
+    expect(container.querySelector('button')!.className).toMatch(
+      /button--tone-warning/,
+    );
+  });
+
+  it('adds tone classes on asChild', () => {
+    const { container } = render(
+      <Button asChild tone="success">
+        <a href="/x">Go</a>
+      </Button>,
+    );
+    expect(container.querySelector('a')!.className).toMatch(
+      /button--tone-success/,
+    );
+  });
+
+  it.each([
+    ['default', undefined, 'primary'],
+    ['inverted', undefined, 'primary'],
+    ['tone danger', 'danger', 'primary'],
+    ['tone warning', 'warning', 'secondary'],
+  ] as const)(
+    'loading spinner takes its colour from the label (%s)',
+    (label, tone, emphasis) => {
+      const { container } = render(
+        <Button
+          tone={tone}
+          emphasis={emphasis}
+          appearance={label === 'inverted' ? 'inverted' : 'default'}
+          loading
+        >
+          Save
+        </Button>,
+      );
+      const spinner = container.querySelector('[class*="spinner"]');
+      expect(spinner).not.toBeNull();
+      // The Button overrides the gradient; the Spinner's own variant is not used.
+      expect(/spinner--inverted/.test(spinner!.className)).toBe(false);
+    },
+  );
+
+  it('adds no tone classes by default', () => {
+    const { container } = render(<Button>Plain</Button>);
+    expect(container.querySelector('button')!.className).not.toMatch(/--tone/);
+  });
+});

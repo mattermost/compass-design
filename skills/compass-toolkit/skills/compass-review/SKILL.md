@@ -32,7 +32,7 @@ A file, folder, component, diff or PR. If the target is unclear, ask which one. 
    - Forms: `gap` set on a `<form>` while fields sit inside a wrapper `<div>` or lazy-loaded section; `--spacing-l` between floating-label fields (the rule is `--spacing-xxl`).
    - A `PopoverMenu` rendered conditionally or without `open` (no enter or exit motion).
    - Duplicate field `id`s rendered on one screen (a selector with a fixed default `id` used several times).
-   - Modals: `Tabs` without `appearance='underlined'`, tabs in the body, or tabs in `headerSlot` with the header divider on or a padded wrapper (two lines, bar inset); both dividers on for a short body.
+   - Modals: `Tabs` without `appearance='underlined'`, tabs in the body, or tabs in `headerSlot` with the header divider on or a padded wrapper (two lines, bar inset); both dividers on for a body that stays short in every state. Judge by the tallest state: a body that can grow (lazy or conditional fields) or scroll should keep them, so don't flag those.
    - Icon-only `IconButton` (trash, back, close in a row or header) with no tooltip.
    - A discard confirm that opens without comparing the form to its initial values.
    - A native `type=date`, or a `readOnly` field styled like an input; two `EmptyState`s stacked in one view; sections stacked that `Tabs` would separate.

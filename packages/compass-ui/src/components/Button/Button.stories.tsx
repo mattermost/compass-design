@@ -12,6 +12,7 @@ import type {
   ButtonEmphasis,
   ButtonProps,
   ButtonSize,
+  ButtonTone,
 } from './Button';
 import Icon from '../Icon/Icon';
 import {
@@ -44,6 +45,14 @@ const meta = {
     appearance: { control: 'select', options: ['default', 'inverted'] },
     compact: { control: 'boolean' },
     emphasis: { control: 'select', options: EMPHASES },
+    tone: {
+      control: 'select',
+      options: [undefined, 'danger', 'success', 'warning'],
+      description:
+        'Semantic color applied to the chosen emphasis. Leave unset for the neutral/brand button. `destructive` is the same as `danger`.',
+    },
+    destructive: { control: 'boolean' },
+    disabled: { control: 'boolean' },
     loading: { control: 'boolean' },
     size: { control: 'select', options: SIZES },
     leadingIcon: iconSelectArgType({
@@ -263,6 +272,28 @@ function PermutationGrid({
     </div>
   );
 }
+
+const TONES: ButtonTone[] = ['danger', 'success', 'warning'];
+
+/** `tone` colors each emphasis red (`danger`), green (`success`) or yellow (`warning`). */
+export const Tones: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 12 }}>
+      {TONES.map((tone) => (
+        <div
+          key={tone}
+          style={{ display: 'flex', gap: 12, alignItems: 'center' }}
+        >
+          {EMPHASES.map((emphasis) => (
+            <Button key={emphasis} emphasis={emphasis} tone={tone}>
+              {tone} {emphasis}
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+};
 
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },

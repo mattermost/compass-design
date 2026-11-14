@@ -169,6 +169,7 @@ non-destructiveness.
 
 For irreversible actions like deleting a message or removing a member.
 Renders the icon in `--color-danger` and tints the hover background.
+This is different from `tone="danger"` (below), which fills the whole button.
 
 <div
   style={{
@@ -187,10 +188,49 @@ Renders the icon in `--color-danger` and tints the hover background.
   />
 </div>
 
+### Tone
+
+`tone` fills the button red (`danger`), green (`success`) or yellow
+(`warning`) with a white icon (dark on yellow, where white fails contrast), for a primary action that needs more weight than a
+neutral Icon Button, such as Leave call. It differs from `destructive`,
+which keeps the button transparent and colors only the icon.
+
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '1.5rem',
+    background: 'rgba(0,0,0,0.04)',
+    borderRadius: '8px',
+  }}
+>
+  <IconButton
+    aria-label="Danger"
+    tone="danger"
+    icon={<Icon glyph={<TrashCanOutlineIcon />} />}
+  />
+  <IconButton
+    aria-label="Success"
+    tone="success"
+    icon={<Icon glyph={<StarOutlineIcon />} />}
+  />
+  <IconButton
+    aria-label="Warning"
+    tone="warning"
+    icon={<Icon glyph={<CloseIcon />} />}
+  />
+</div>
+
+A host can retheme a tone with `--icon-button-tone-bg`, `--icon-button-tone-fg`,
+`--icon-button-tone-hover-bg` and `--icon-button-tone-active-bg`.
+
 ### Inverted
 
 For dark surfaces — sidebar, theme-coloured headers, banner overlays —
-where the default colours wouldn't hold contrast.
+where the default colours wouldn't hold contrast. A dark surface that is not
+the sidebar, such as the call window, supplies its own foreground and surface
+colours; see Implementation.
 
 <div
   style={{
@@ -204,12 +244,12 @@ where the default colours wouldn't hold contrast.
 >
   <IconButton
     aria-label="Inverted"
-    style="inverted"
+    appearance="inverted"
     icon={<Icon glyph={<CloseIcon />} />}
   />
   <IconButton
     aria-label="Inverted toggled"
-    style="inverted"
+    appearance="inverted"
     toggled
     icon={<Icon glyph={<StarOutlineIcon />} />}
   />
@@ -291,6 +331,20 @@ import { Link } from 'react-router-dom';
 >
   <Link to="/settings" />
 </IconButton>;
+```
+
+The inverted style takes its colours from the sidebar theme by default. On a
+dark surface that uses different colours, set the foreground and surface on
+an ancestor and every inverted Icon Button below it follows. Without them the
+sidebar colours apply, so existing uses do not change:
+
+```scss
+.call-surface {
+  background: var(--calls-bg);
+  --inverted-color: var(--calls-color);
+  --inverted-color-rgb: var(--calls-color-rgb);
+  --inverted-surface: var(--calls-bg);
+}
 ```
 
 In prototypes and layout specimens, wrap Icon Buttons with

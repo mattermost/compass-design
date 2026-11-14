@@ -130,3 +130,109 @@ describe('IconButton asChild', () => {
     );
   });
 });
+
+describe('IconButton tone', () => {
+  it('adds tone classes and keeps the native button type', () => {
+    const { container } = render(
+      <IconButton aria-label="Leave" tone="danger" icon={null} type="submit" />,
+    );
+    const button = container.querySelector('button')!;
+    expect(button.className).toMatch(/icon-button--tone(?!-)/);
+    expect(button.className).toMatch(/icon-button--tone-danger/);
+    expect(button.getAttribute('type')).toBe('submit');
+  });
+
+  it('adds the warning tone class', () => {
+    const { container } = render(
+      <IconButton aria-label="Review" tone="warning" icon={null} />,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--tone-warning/,
+    );
+  });
+
+  it('adds a loading class only while loading', () => {
+    const { container, rerender } = render(
+      <IconButton aria-label="Save" tone="success" icon={null} />,
+    );
+    expect(container.querySelector('button')!.className).not.toMatch(
+      /icon-button--loading/,
+    );
+    rerender(
+      <IconButton aria-label="Save" tone="success" icon={null} loading />,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--loading/,
+    );
+  });
+
+  it('the loading spinner is not given a fixed palette (it follows the icon colour)', () => {
+    const { container } = render(
+      <IconButton aria-label="Save" tone="danger" icon={null} loading />,
+    );
+    const spinner = container.querySelector('[class*="spinner"]');
+    expect(spinner).not.toBeNull();
+    expect(/spinner--inverted/.test(spinner!.className)).toBe(false);
+  });
+
+  it('adds no tone classes by default', () => {
+    const { container } = render(<IconButton aria-label="Plain" icon={null} />);
+    expect(container.querySelector('button')!.className).not.toMatch(/--tone/);
+  });
+});
+
+describe('IconButton data-active', () => {
+  it.each([
+    [undefined, null],
+    [false, 'false'],
+    [true, 'true'],
+  ])('active=%s renders data-active=%s', (active, expected) => {
+    const { container } = render(
+      <IconButton aria-label="A" icon={null} active={active} />,
+    );
+    expect(container.querySelector('button')!.getAttribute('data-active')).toBe(
+      expected,
+    );
+  });
+});
+
+describe('IconButton appearance', () => {
+  it('appearance="inverted" adds the inverted class', () => {
+    const { container } = render(
+      <IconButton aria-label="A" icon={null} appearance="inverted" />,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--style-inverted/,
+    );
+  });
+
+  it('the deprecated style="inverted" still works', () => {
+    const { container } = render(
+      <IconButton aria-label="A" icon={null} style="inverted" />,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--style-inverted/,
+    );
+  });
+
+  it('appearance wins over style when both are set', () => {
+    const { container } = render(
+      <IconButton
+        aria-label="A"
+        icon={null}
+        appearance="default"
+        style="inverted"
+      />,
+    );
+    expect(container.querySelector('button')!.className).not.toMatch(
+      /icon-button--style-inverted/,
+    );
+  });
+
+  it('is not inverted by default', () => {
+    const { container } = render(<IconButton aria-label="A" icon={null} />);
+    expect(container.querySelector('button')!.className).not.toMatch(
+      /icon-button--style-inverted/,
+    );
+  });
+});

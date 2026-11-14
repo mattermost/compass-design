@@ -238,7 +238,7 @@ export default function CallPopout({
           <div className={styles['popout__controls-right']}>
             <IconButton
               size="medium"
-              destructive
+              tone="danger"
               aria-label="Leave call"
               icon={<Icon size="20" glyph={<PhoneHangupIcon />} />}
               onClick={onLeave}

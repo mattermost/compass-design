@@ -6,6 +6,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`IconButton` `appearance` prop (`'default' | 'inverted'`):** the preferred name for the inverted variant, matching `Button`'s `appearance`. It wins over `style` when both are set. Exports the `IconButtonAppearance` type. Default markup is unchanged.
+- **`--color-success-solid` and `--color-success-solid-rgb` tokens:** the green used by `tone="success"`, owned by compass-ui (`--color-green-600`). `--color-success` follows `--semantic-color-success`, which the webapp sets to a lighter green, so the success tone uses its own token to keep white labels readable. `--color-success` is unchanged.
+- **`--color-warning-solid`, `--color-warning-solid-rgb` and `--color-warning-text` tokens:** a true-yellow warning fill (`yellow-400`, about 9:1 with a dark label) and an amber for warning text on light surfaces. `--color-warning` is unchanged; it stays the shared webapp semantic color. Used by the `warning` tone.
+- **`Button` and `IconButton` `tone` prop (`'danger' | 'success' | 'warning'`):** colors a button red, green or yellow. On `Button` the tone applies to the chosen `emphasis` (`destructive` is the same as `tone="danger"`, and `tone` wins when both are set). On `IconButton` it gives a solid fill with a white icon. `tone` looks the same whether or not the button is `toggled` or `active`, and the same with `appearance="inverted"` (`destructive` keeps its inverted look there; loading and disabled buttons keep the inverted look too). While `loading`, a toned button drops the tone: a toned `Button` looks like an untoned loading `Button`, and a toned `IconButton` shows the default loading icon colour on a faint neutral (8%) fill (on an inverted surface, the inverted colour — the sidebar text colour unless a surface sets `--inverted-color-rgb`). `warning` uses a yellow fill with a dark label or icon, and a darker amber for text-style emphasis, because white and plain yellow fail contrast. Hosts can retheme a tone with `--button-tone-color` / `--button-tone-color-rgb` (`Button`) and `--icon-button-tone-bg`, `-fg`, `-hover-bg`, `-active-bg` (`IconButton`). Omitted, default markup and styles are unchanged. Exports the `ButtonTone` and `IconButtonTone` types.
+- **`--calls-color` and `--calls-color-rgb` theme tokens:** the foreground that reads on the call surface (`--calls-bg`), defined in every theme next to `--calls-bg`. White in all five themes today.
+- **`--inverted-color`, `--inverted-color-rgb` and `--inverted-surface` hooks on `IconButton` `style="inverted"`:** a dark surface that is not the sidebar can set these on an ancestor so inverted Icon Buttons read on it. Unset, they fall back to the sidebar tokens, so nothing changes for existing uses. Before this, an inverted Icon Button on the call surface in a light-sidebar theme such as Quartz rendered near-black icons on a near-black surface.
+
+### Changed
+
+- **`IconButton` `style` is deprecated in favour of `appearance`:** same values, still works, and still replaces the HTML `style` attribute until it is removed in a breaking release (after which the native `style` attribute can return). Marked `@deprecated` in the JSDoc and the `IconButtonStyle` type.
+- **`IconButton` loading spinner follows the icon colour:** like `Button`, the spinner fades from transparent to the icon colour in every tone and appearance, instead of the Spinner's fixed colours. Default markup is unchanged.
+- **`Button` loading spinner follows the label colour:** in every emphasis, tone and appearance the spinner now fades from transparent to the label colour, instead of the Spinner's fixed dark (or, for `appearance="inverted"`, `--button-color`) tone. While loading the button is disabled, so the label (and spinner) take the disabled colour unless a tone primary supplies its own. Default markup is unchanged.
+- **`IconButton` hover and press now fade like `Button`:** `background-color` and `color` transition over `--duration-quick` when the pointer enters or presses the button. Leaving snaps, and there is still no resting transition. Buttons that can toggle (`aria-pressed` set through `toggled`) or are forced `active` keep snapping, so a toggle that flips under the pointer does not crossfade (#184). Default markup is unchanged.
+
+### Fixed
+
+- **`IconButton` `destructive` hover:** a hovered destructive Icon Button rendered the default grey hover (grey icon on a faint grey fill) because the default hover rule out-ranked the destructive one. It now shows the intended danger-tinted hover, and a host override of the destructive hover (for example a solid red Leave button) no longer has to out-rank the default rule. Default markup is unchanged.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

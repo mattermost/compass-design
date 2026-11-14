@@ -42,7 +42,7 @@ You may not call the work done until every check has run and you have the output
 - Lint on the changed files, and the type check.
 - A production build of the bundle.
 - E2E tests, if the consumer has them.
-- Form and modal layout, in the running app: open every form in each state (loading, loaded with the lazy or conditional fields, error), and confirm the gaps match the Forms table, dividers follow the body height and tabs are underlined. Unit tests can't see this.
+- Form and modal layout, in the running app: open every form in each state (loading, loaded with the lazy or conditional fields, error), and confirm the gaps match the Forms table, dividers follow the body height in its tallest state (off only if it stays short in every state) and tabs are underlined. Unit tests can't see this.
 - Visual baselines, if the consumer keeps them: regenerate them, then open the PNGs and look at each one. A baseline you didn't look at proves nothing.
 - Audit the changed code with the `compass-review` skill (listed as `mattermost-compass-toolkit:compass-review` when installed as a plugin) and fix what it reports, or list it under "Left as is".
 - Search for leftovers: no import of the removed libraries, no unused wrapper files, no `theme` prop passed only to styling.

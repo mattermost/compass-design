@@ -284,6 +284,11 @@
       "--color-warning": "rgb(var(--color-warning-rgb))",
       "--color-danger-rgb": "var(--semantic-color-danger)",
       "--color-danger": "rgb(var(--color-danger-rgb))",
+      "--color-success-solid-rgb": "var(--color-green-600-rgb)",
+      "--color-success-solid": "rgb(var(--color-success-solid-rgb))",
+      "--color-warning-solid-rgb": "var(--color-yellow-400-rgb)",
+      "--color-warning-solid": "rgb(var(--color-warning-solid-rgb))",
+      "--color-warning-text": "var(--color-yellow-700)",
       "--attachment-blue": "var(--color-blue-300)",
       "--attachment-green": "var(--color-green-600)",
       "--attachment-red": "var(--color-red-500)",
@@ -365,7 +370,9 @@
       "--away-indicator": "var(--color-yellow-500)",
       "--dnd-indicator": "var(--color-red-400)",
       "--calls-bg": "var(--color-indigo-600)",
-      "--calls-bg-rgb": "var(--color-indigo-600-rgb)"
+      "--calls-bg-rgb": "var(--color-indigo-600-rgb)",
+      "--calls-color": "var(--color-neutral-0)",
+      "--calls-color-rgb": "var(--color-neutral-0-rgb)"
     },
     "@layer compass-ui.themes [data-theme=sapphire]": {
       "--sidebar-bg": "#1543a3",
@@ -407,7 +414,9 @@
       "--away-indicator": "var(--color-yellow-500)",
       "--dnd-indicator": "var(--color-red-400)",
       "--calls-bg": "#091d48",
-      "--calls-bg-rgb": "9, 29, 72"
+      "--calls-bg-rgb": "9, 29, 72",
+      "--calls-color": "var(--color-neutral-0)",
+      "--calls-color-rgb": "var(--color-neutral-0-rgb)"
     },
     "@layer compass-ui.themes [data-theme=quartz]": {
       "--sidebar-bg": "var(--color-neutral-50)",
@@ -449,7 +458,9 @@
       "--away-indicator": "var(--color-yellow-500)",
       "--dnd-indicator": "var(--color-red-400)",
       "--calls-bg": "var(--color-neutral-1050)",
-      "--calls-bg-rgb": "var(--color-neutral-1050-rgb)"
+      "--calls-bg-rgb": "var(--color-neutral-1050-rgb)",
+      "--calls-color": "var(--color-neutral-0)",
+      "--calls-color-rgb": "var(--color-neutral-0-rgb)"
     },
     "@layer compass-ui.themes [data-theme=indigo]": {
       "--sidebar-bg": "#151e32",
@@ -491,7 +502,9 @@
       "--away-indicator": "var(--color-yellow-500)",
       "--dnd-indicator": "var(--color-red-400)",
       "--calls-bg": "#222c3f",
-      "--calls-bg-rgb": "34, 44, 63"
+      "--calls-bg-rgb": "34, 44, 63",
+      "--calls-color": "var(--color-neutral-0)",
+      "--calls-color-rgb": "var(--color-neutral-0-rgb)"
     },
     "@layer compass-ui.themes [data-theme=onyx]": {
       "--sidebar-bg": "#202228",
@@ -533,7 +546,9 @@
       "--away-indicator": "var(--color-yellow-500)",
       "--dnd-indicator": "var(--color-red-400)",
       "--calls-bg": "#24262d",
-      "--calls-bg-rgb": "36, 38, 45"
+      "--calls-bg-rgb": "36, 38, 45",
+      "--calls-color": "var(--color-neutral-0)",
+      "--calls-color-rgb": "var(--color-neutral-0-rgb)"
     }
   }
 }
