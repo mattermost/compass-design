@@ -502,5 +502,14 @@
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
       color: var(--icon-button-fg);
     }
+
+    // On an inverted (dark) surface the loading colours come from the inverted
+    // hooks instead (the sidebar text colour unless a surface sets
+    // `--inverted-color-rgb`), as for an untoned inverted loading button.
+    &.icon-button--style-inverted.icon-button--loading {
+      --icon-button-fg: rgba(var(--icon-button-inverted-color-rgb), 0.64);
+
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.08);
+    }
   }
 }
