@@ -8,6 +8,7 @@ import {
   PopoverMenuDivider,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
+import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './ProductRailTeamMenu.module.scss';
 
@@ -26,31 +27,9 @@ export interface ProductRailTeam {
   urgent?: boolean;
 }
 
-/** Initials as the webapp builds them: the name without spaces, first two characters. */
+/** Initials fallback: the name without spaces, first two characters. */
 const initialsOf = (team: ProductRailTeam) =>
-  (team.initials ?? team.name.replace(/\s/g, '').substring(0, 2)).toUpperCase();
-
-/** A team's image, or its initials, in a rounded square: `lg` for the rail, `md` for menu rows. */
-function TeamGlyph({
-  team,
-  size,
-}: {
-  team: ProductRailTeam;
-  size: 'md' | 'lg';
-}) {
-  const cls = `${styles['product-rail-team-avatar']} ${styles[`product-rail-team-avatar--${size}`]}`;
-  return team.src ? (
-    <span
-      className={cls}
-      style={{ backgroundImage: `url('${team.src}')` }}
-      aria-hidden
-    />
-  ) : (
-    <span className={cls} aria-hidden>
-      {initialsOf(team)}
-    </span>
-  );
-}
+  team.initials ?? team.name.replace(/\s/g, '').substring(0, 2);
 
 export interface ProductRailTeamButtonProps {
   teams: ProductRailTeam[];
@@ -105,7 +84,14 @@ export function ProductRailTeamButton({
           {teams.length > 1 && (
             <span className={styles['product-rail-team-button__card']} />
           )}
-          <TeamGlyph team={current} size="lg" />
+          <TeamAvatar
+            className={styles['product-rail-team-button__avatar']}
+            src={current.src}
+            alt=""
+            initials={initialsOf(current)}
+            size="40"
+            state="default"
+          />
           {otherUnread && (
             <span className={styles['product-rail-team-button__dot']} />
           )}
@@ -173,7 +159,13 @@ export function ProductRailTeamMenu({
               className={styles['product-rail-team-menu__row']}
               onClick={() => onSelectTeam?.(team.id)}
             >
-              <TeamGlyph team={team} size="md" />
+              <TeamAvatar
+                src={team.src}
+                alt=""
+                initials={initialsOf(team)}
+                size="32"
+                variant="menu"
+              />
               <span className={styles['product-rail-team-menu__label']}>
                 {team.name}
               </span>

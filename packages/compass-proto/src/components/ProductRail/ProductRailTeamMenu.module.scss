@@ -15,10 +15,21 @@
     outline: none;
   }
 
-  &:hover .product-rail-team-avatar--lg {
-    box-shadow:
-      0 0 0 2px rgba(var(--sidebar-text-rgb), 0.32),
-      0 2px 4px rgba(0, 0, 0, 0.32);
+  // The webapp's customizations to Team Avatar's background so it reads on the rail: a tint mixed
+  // from the sidebar colors behind initials, and a shadow lifting it off the stacked cards. Team
+  // Avatar exposes no hook for either, so this reaches its inner fallback by structure.
+  &__avatar {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.32);
+
+    > div:first-child > div {
+      background: color-mix(
+        in srgb,
+        var(--sidebar-header-bg) 70%,
+        var(--sidebar-text)
+      );
+    }
   }
 
   // The current team on cards that peek out below it, hinting at the other teams.
@@ -69,43 +80,6 @@
     border-radius: var(--radius-pill);
     background: var(--sidebar-text);
     box-shadow: 0 0 0 2px var(--sidebar-header-bg);
-  }
-}
-
-.product-rail-team-avatar {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  background-color: color-mix(
-    in srgb,
-    var(--sidebar-header-bg) 70%,
-    var(--sidebar-text)
-  );
-  background-position: center;
-  background-size: cover;
-  color: var(--sidebar-text);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-
-  &--lg {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-m);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.32);
-    font-size: var(--font-size-100);
-  }
-
-  // Menu rows sit on the center channel colors, so their avatar takes those.
-  &--md {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-m);
-    background-color: rgba(var(--center-channel-color-rgb), 0.16);
-    color: var(--center-channel-color);
-    font-size: var(--font-size-75);
   }
 }
 
