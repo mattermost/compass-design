@@ -16,6 +16,7 @@ const channel = (
 ): QuickSwitchItem => ({
   id: handle,
   name,
+  kind: 'channel',
   secondaryLabel: `~${handle}`,
   group,
 });
@@ -28,6 +29,7 @@ const directMessage = (
 ): QuickSwitchItem => ({
   id: `dm-${handle}`,
   name,
+  kind: 'direct-message',
   secondaryLabel: `@${handle}`,
   group,
   leadingVisual: <UserAvatar src={src} alt="" size="20" />,

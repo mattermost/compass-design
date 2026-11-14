@@ -42,6 +42,10 @@ surface and is not yet published to `@mattermost/compass-ui`.
   with no headings or dividers, ordered by how closely each row matches
   (names that start with the query first). Every word must match the name,
   handle, or a keyword. The highlight returns to the first row.
+- **Scoped** — a query that starts with `~` limits results to channels, and one
+  that starts with `@` limits them to direct messages. Typing just the symbol
+  shows that kind alone, still grouped; words after it narrow further
+  (`@ai`, `~bugs`).
 - **Empty** — a centered "No results found" message replaces the list.
 
 ## Keyboard

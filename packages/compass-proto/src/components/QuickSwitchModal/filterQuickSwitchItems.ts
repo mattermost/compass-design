@@ -1,4 +1,4 @@
-import type { QuickSwitchItem } from './QuickSwitchModal';
+import type { QuickSwitchItem, QuickSwitchKind } from './QuickSwitchModal';
 
 // A leading `~`, `@` or `#` (as in `~bugs`) is a handle sigil, not part of the match.
 const splitTerms = (query: string) =>
@@ -8,6 +8,22 @@ const splitTerms = (query: string) =>
     .split(/\s+/)
     .map((term) => term.replace(/^[~@#]+/, ''))
     .filter(Boolean);
+
+const SCOPE_BY_SIGIL: Record<string, QuickSwitchKind> = {
+  '~': 'channel',
+  '@': 'direct-message',
+};
+
+/** What an item is: its explicit `kind`, else inferred from an `@` handle; default channel. */
+export function quickSwitchKind(item: QuickSwitchItem): QuickSwitchKind {
+  if (item.kind) return item.kind;
+  return item.secondaryLabel?.startsWith('@') ? 'direct-message' : 'channel';
+}
+
+/** `~` at the start of the query limits results to channels, `@` to direct messages. */
+export function quickSwitchScope(query: string): QuickSwitchKind | undefined {
+  return SCOPE_BY_SIGIL[query.trimStart().charAt(0)];
+}
 
 /** True when the query has at least one real term (a bare `~` or `@` doesn't). */
 export const hasSearchTerms = (query: string) => splitTerms(query).length > 0;
@@ -44,16 +60,21 @@ const isExactName = (item: QuickSwitchItem, terms: string[]) =>
  * Default matcher and ranker. Every query term must match the name, secondary
  * label or keywords. Results are ordered by closeness (name prefix, then word
  * start, then substring, then secondary label / keywords); ties keep the
- * original order. An empty query returns `items` unchanged.
+ * original order. A leading `~` limits results to channels and `@` to direct
+ * messages (see `quickSwitchScope`). An empty query returns `items` unchanged.
  */
 export function filterQuickSwitchItems(
   items: QuickSwitchItem[],
   query: string,
 ): QuickSwitchItem[] {
   const terms = splitTerms(query);
-  if (terms.length === 0) return items;
+  const scope = quickSwitchScope(query);
+  const pool = scope
+    ? items.filter((item) => quickSwitchKind(item) === scope)
+    : items;
+  if (terms.length === 0) return pool;
   return (
-    items
+    pool
       .map((item, index) => ({
         item,
         index,

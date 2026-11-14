@@ -22,6 +22,9 @@ import {
 } from './filterQuickSwitchItems';
 import styles from './QuickSwitchModal.module.scss';
 
+/** What a switcher item is. A leading `~` in the query limits to channels, `@` to direct messages. */
+export type QuickSwitchKind = 'channel' | 'direct-message';
+
 /** One destination in the switcher (a channel, DM, or group message). */
 export interface QuickSwitchItem {
   /** Stable key; also used to build the option `id`. */
@@ -32,6 +35,12 @@ export interface QuickSwitchItem {
    */
   label?: ReactNode;
   name: string;
+  /**
+   * Channel or direct message, used to scope results when the query starts with
+   * `~` (channels) or `@` (direct messages). Default: inferred from
+   * `secondaryLabel` (`@handle` is a direct message), otherwise a channel.
+   */
+  kind?: QuickSwitchKind;
   /**
    * Muted text after the name, e.g. the channel handle `~bugs`. A string
    * because it is also matched against the query.

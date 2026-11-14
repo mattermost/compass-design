@@ -255,6 +255,38 @@ describe('QuickSwitchModal', () => {
     expect(options()).toHaveLength(3);
   });
 
+  it('limits to channels with a leading ~ and to direct messages with a leading @', () => {
+    mount({
+      items: [
+        { id: 'c1', name: 'Bugs', secondaryLabel: '~bugs', group: 'Unread' },
+        {
+          id: 'd1',
+          name: 'Aiko Tan',
+          secondaryLabel: '@aiko',
+          group: 'Recent',
+        },
+        { id: 'c2', name: 'Aikido', kind: 'channel', group: 'Recent' },
+        { id: 'd2', name: 'Marco', kind: 'direct-message', group: 'Recent' },
+      ],
+    });
+    type('~');
+    expect(options().map((o) => o.textContent)).toEqual([
+      'Bugs~bugs',
+      'Aikido',
+    ]);
+    type('@');
+    expect(options().map((o) => o.textContent)).toEqual([
+      'Aiko Tan@aiko',
+      'Marco',
+    ]);
+    type('@ai');
+    expect(options().map((o) => o.textContent)).toEqual(['Aiko Tan@aiko']);
+    type('~ai');
+    expect(options().map((o) => o.textContent)).toEqual(['Aikido']);
+    type('ai');
+    expect(options()).toHaveLength(2);
+  });
+
   it('closes on Escape from the search field even with a query typed', () => {
     const { onClose } = mount();
     type('bug');
