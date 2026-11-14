@@ -1,0 +1,80 @@
+import { QuickSwitchModalCanvas } from './quick-switch-modal.specimen';
+
+The Quick Switch Modal ("Find channels") is the keyboard-first way to jump to a channel, direct
+message, or group message. Users open it with a shortcut, type a few letters,
+and press Enter. It lives in `@mattermost/compass-proto` as a prototyping
+surface and is not yet published to `@mattermost/compass-ui`.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    backgroundColor: 'transparent',
+  }}
+>
+  <QuickSwitchModalCanvas />
+</AnatomyStage>
+
+- <Num>1</Num> **Header** — the "Find channels" title, a one-line keyboard hint
+  ("Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to
+  dismiss."), and a close button.
+- <Num>2</Num> **Search field** — a medium search input under the title. It
+  keeps focus the whole time; the arrow keys move the highlight without leaving
+  it.
+- <Num>3</Num> **Results** — menu items with a channel glyph, the name, and a
+  muted handle after it. The highlighted row has a soft fill.
+- <Num>4</Num> **Group headings and dividers** — a divider separates groups, and
+  small all-caps labels such as Unread and Recent that title consecutive
+  results.
+
+<Divider />
+
+## States
+
+- **Default** — every destination in the host's order, grouped (for example
+  Unread, then Recent), with the first row highlighted.
+- **Filtered** — once the user types, the groups flatten into a single list
+  with no headings or dividers, ordered by how closely each row matches
+  (names that start with the query first). Every word must match the name,
+  handle, or a keyword. The highlight returns to the first row.
+- **Scoped** — a query that starts with `~` limits results to channels, and one
+  that starts with `@` limits them to direct messages. Typing just the symbol
+  shows that kind alone, still grouped; words after it narrow further
+  (`@ai`, `~bugs`).
+- **Empty** — a centered "No results found" message replaces the list.
+
+## Keyboard
+
+| Key        | Action                                   |
+| ---------- | ---------------------------------------- |
+| Down / Up  | Move the highlight, wrapping at the ends |
+| Home / End | Jump to the first or last result         |
+| Enter      | Open the highlighted result              |
+| Escape     | Close and return focus to where it was   |
+
+<Divider />
+
+## Implementation
+
+The host owns open state, the shortcut that toggles it, and what selecting a
+row does. Pass `items` and `onSelect`; call `onClose` from `onSelect` to
+dismiss. See the Specimen tab for a live example.
+
+```tsx
+import { QuickSwitchModal } from '@mattermost/compass-proto';
+
+<QuickSwitchModal
+  open={open}
+  onClose={() => setOpen(false)}
+  items={channels}
+  onSelect={(item) => {
+    navigate(item.id);
+    setOpen(false);
+  }}
+/>;
+```

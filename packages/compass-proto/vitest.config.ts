@@ -1,16 +1,17 @@
 import path from 'path';
 import { defineConfig } from 'vitest/config';
 
+// Note: `@mattermost/compass-ui` resolves to its built `dist`; build compass-ui
+// before running these tests on a fresh checkout.
 export default defineConfig({
   esbuild: { jsx: 'automatic' },
   resolve: {
     alias: [
-      // Shared Sass (mixins, breakpoints) lives in compass-ui; must precede '@'.
       {
         find: '@/styles',
         replacement: path.resolve(__dirname, '../compass-ui/src/styles'),
       },
-      { find: '@', replacement: path.resolve(__dirname, './src') },
+      { find: '@', replacement: path.resolve(__dirname, 'src') },
     ],
   },
   css: {

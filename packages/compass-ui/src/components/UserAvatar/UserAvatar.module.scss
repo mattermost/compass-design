@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 // ---------------------------------------------------------------------------
 // Block — circular avatar container (Figma User Avatar; Image + Fallback)
 // ---------------------------------------------------------------------------
@@ -85,6 +87,17 @@
   // the Figma spec (e.g. 22.4px at 48px, 14.93px at 32px).
   // ---------------------------------------------------------------------------
   $sizes: 12, 16, 20, 24, 28, 32, 36, 40, 48, 50, 56, 64, 72, 80, 96, 120, 128;
+  // Sizes that use the Medium status badge; keep in sync with
+  // USER_AVATAR_TO_BADGE_SIZE in UserAvatar.tsx.
+  $medium-badge-min: 56;
+  $medium-badge-max: 80;
+  // Per-size right/bottom offsets (px) for the larger avatars.
+  $status-offsets: (
+    80: 1,
+    96: 0,
+    120: 3,
+    128: 2,
+  );
 
   @each $size in $sizes {
     &--size-#{$size} {
@@ -99,7 +112,7 @@
       // Badge box is locked to the avatar size. 56–80px use the Medium badge,
       // whose 24px box leaves a 2px ring; drop it so the box is the 20px glyph.
       // Scoped to the avatar; standalone StatusBadge is unchanged.
-      @if $size >= 56 and $size <= 80 {
+      @if $size >= $medium-badge-min and $size <= $medium-badge-max {
         .user-avatar__status .user-avatar__badge {
           width: var(--icon-size-20);
           height: var(--icon-size-20);
@@ -107,10 +120,14 @@
       }
 
       .user-avatar__status {
-        @if $size <= 28 {
+        @if map.has-key($status-offsets, $size) {
+          // Inset from the avatar corner, nudged up/left of the default.
+          right: #{map.get($status-offsets, $size)}px;
+          bottom: #{map.get($status-offsets, $size)}px;
+        } @else if $size <= 28 {
           right: -1px;
           bottom: -1px;
-        } @else if $size >= 56 and $size <= 80 {
+        } @else if $size >= $medium-badge-min and $size <= $medium-badge-max {
           // 20px box (was 24px at -2px): 0 keeps the badge centre in place.
           right: 0;
           bottom: 0;
