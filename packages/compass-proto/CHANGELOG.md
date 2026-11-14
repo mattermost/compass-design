@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+
+- **2026-11-13 · `QuickSwitchModal`:** keyboard-first "Find channels" switcher (Ctrl/Cmd+K dialog) matching the Patterns — Modals Figma: titled `Modal` (with a keyboard-help subtitle) with a `SearchInput` in the header, grouped `MenuItem` rows (`MenuGroupHeading` for Unread / Recent) with an inline `~handle`. Takes `items` and `onSelect` (plus `open`, `onClose`, optional `filter`, `onQueryChange`, `overlayProps`, and label props with English defaults); also exports `filterQuickSwitchItems` and the `QuickSwitchItem` type. Groups show only while the query is empty; typing flattens them into one list ranked by match closeness. A leading `~` in the query limits results to channels and `@` to direct messages (`QuickSwitchItem.kind`, inferred from an `@handle` when unset; `quickSwitchScope` / `quickSwitchKind` exported). Part of #263.
+
 ### Changed
 
 - **2026-11-12 · `MobileMessageInput` `variant` values are now lowercase kebab-case (breaking for hosts that passed the old values):** `variant` takes `'root'` and `'reply'` instead of `'Root'` and `'Reply'`, matching the public variant-value convention. Update any `variant="Root"` / `variant="Reply"` usage to the lowercase values; the default is still `'root'`. Nothing else in the component's API changes.
