@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
+- **2026-11-14 · `ProductShell`:** product-agnostic desktop layout with the `ProductRail` in place of the Team Sidebar (`productRail`, optional `sidebar`, `children`, `trailing`, `floating`, `overlay`, `globalHeaderProps`). Shares its frame styles with `ChannelShell`, which is unchanged. Part of #273.
 - **2026-11-13 · `ProductRail` and `ProductRailItem`:** labeled vertical product rail styled after the Mattermost webapp rail (72px, icon chip with selected tint, label beneath, mention/unread badges incl. `urgent`, `header`/`footer` slots, translatable `navLabel`, `mentionsLabel`, `unreadLabel`). Not yet slotted into `ChannelShell` (tracked in #360). Documented under Patterns. Part of #273. Also adds a `vitest` setup (`npm test`) to this package.
 
 ### Changed

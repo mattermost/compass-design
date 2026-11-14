@@ -1295,6 +1295,16 @@ export const TOPICS: Topic[] = [
   // Layouts
   // ===========================================================================
   {
+    slug: 'product',
+    name: 'Product',
+    category: 'layouts',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/layouts/product/product.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/layouts/product/product.specimen'),
+    fullBleedSpecimen: true,
+  },
+  {
     slug: 'channel',
     name: 'Channel',
     category: 'layouts',
