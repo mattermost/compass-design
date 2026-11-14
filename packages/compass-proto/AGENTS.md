@@ -16,6 +16,14 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 
 Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `ChannelSidebarItem`, `TourPoint`, `PopoverMenu` / `MenuItem`, etc.
 
+## Changelog
+
+Record proto changes (renamed props, new variants, etc.) in [CHANGELOG.md](./CHANGELOG.md), under `[Unreleased]` with the date they land (`YYYY-MM-DD`, newest first). `compass-proto` is unpublished, so it has no release sections. Do not put proto changes in `packages/compass-ui/CHANGELOG.md`, which covers the published `@mattermost/compass-ui` package only. The `Changelog` workflow only checks published compass-ui source, not this file.
+
+## Tests
+
+`npm test` in `packages/compass-proto` runs vitest (happy-dom). Proto imports `@mattermost/compass-ui` through its built `dist`, so build compass-ui first (`npm run build` in `packages/compass-ui`) on a fresh checkout.
+
 ## Icon Buttons: Icon glyph + WithTooltip
 
 Every `IconButton` must take `icon={<Icon glyph={<SomeIcon />} />}` — never a raw `@mattermost/compass-icons` glyph. Omit `size` on `Icon`; `IconButton` injects it via `IconSlotContext`.
