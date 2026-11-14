@@ -16,7 +16,13 @@ import styles from './IconButton.module.scss';
 export type IconButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 
 /** Figma "Style": Default (light context) | Inverted (dark context). */
-export type IconButtonStyle = 'default' | 'inverted';
+export type IconButtonAppearance = 'default' | 'inverted';
+
+/** @deprecated Use {@link IconButtonAppearance}. Same values. */
+export type IconButtonStyle = IconButtonAppearance;
+
+/** Semantic color: `danger` (red), `success` (green) or `warning` (yellow). */
+export type IconButtonTone = 'danger' | 'success' | 'warning';
 
 export type IconButtonPadding = 'default' | 'compact';
 
@@ -27,8 +33,24 @@ interface IconButtonOwnProps {
   className?: string;
   /** Numeric count shown inline after the icon. Figma: Count. */
   count?: number;
-  /** When true, uses destructive (danger) styling. Figma: Destructive. */
+  /**
+   * When true, uses destructive (danger) styling: a danger-coloured icon on a
+   * transparent button. Figma: Destructive. This is not `tone="danger"`, which
+   * gives a solid red fill.
+   */
   destructive?: boolean;
+  /**
+   * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success` or `warning`.
+   * `tone` looks the same whether or not the button is `toggled` or `active`, and
+   * with `appearance="inverted"` (except while loading, which keeps the inverted
+   * look).
+   * Unlike `destructive` (a transparent button with a danger icon), `tone`
+   * fills the button, for a primary action such as Leave call. A host can
+   * retheme a tone with `--icon-button-tone-bg`, `--icon-button-tone-fg`,
+   * `--icon-button-tone-hover-bg` and `--icon-button-tone-active-bg` on the
+   * button or an ancestor. Unset, the button keeps its neutral colors.
+   */
+  tone?: IconButtonTone;
   /** Icon to show. Pass `<Icon glyph={<YourIcon />} />` — IconButton provides the correct size via context; no `size` prop needed on the Icon. */
   icon: ReactNode;
   /** When true, shows a Spinner in place of the icon and disables the button (or blocks navigation when `asChild`). */
@@ -39,7 +61,16 @@ interface IconButtonOwnProps {
   rounded?: boolean;
   /** Size variant. Figma: Size. Default: Medium. */
   size?: IconButtonSize;
-  /** Default | Inverted. Figma: Style (for light vs dark backgrounds). Replaces the HTML `style` attribute. */
+  /**
+   * Default | Inverted (for dark backgrounds). Figma: Style. Matches `Button`'s
+   * `appearance`. Wins over the deprecated `style` when both are set.
+   */
+  appearance?: IconButtonAppearance;
+  /**
+   * @deprecated Use `appearance`. Same values; kept so existing callers keep
+   * working. Replaces the HTML `style` attribute until it is removed in a
+   * breaking release, after which the native `style` attribute can return.
+   */
   style?: IconButtonStyle;
   /** When true, shows a small unread dot over the icon. Figma: Unread Badge. */
   unreadBadge?: boolean;
@@ -112,24 +143,37 @@ type IconButtonComponent = {
   displayName?: string;
 };
 
+/**
+ * `data-active` is `"true"` / `"false"` once the host passes `active`, and absent
+ * otherwise. The hover fade skips any button that has the attribute, so a forced
+ * active state that flips under the pointer switches instantly (#184).
+ */
+function activeAttr(active: boolean | undefined): 'true' | 'false' | undefined {
+  return active === undefined ? undefined : active ? 'true' : 'false';
+}
+
 function buildRootClass({
   className = '',
   count,
   destructive = false,
+  loading = false,
   padding = 'default',
   rounded = false,
   size = 'medium',
-  style = 'default',
+  appearance = 'default',
+  tone,
   active = false,
   toggled,
 }: {
   className?: string;
   count?: number;
   destructive?: boolean;
+  loading?: boolean;
   padding?: IconButtonPadding;
   rounded?: boolean;
   size?: IconButtonSize;
-  style?: IconButtonStyle;
+  appearance?: IconButtonAppearance;
+  tone?: IconButtonTone;
   active?: boolean;
   toggled?: boolean;
 }): string {
@@ -137,8 +181,11 @@ function buildRootClass({
     styles['icon-button'],
     styles[`icon-button--size-${toKebab(size)}`],
     padding === 'compact' ? styles['icon-button--padding-compact'] : '',
-    style === 'inverted' ? styles['icon-button--style-inverted'] : '',
+    appearance === 'inverted' ? styles['icon-button--style-inverted'] : '',
     destructive ? styles['icon-button--destructive'] : '',
+    loading ? styles['icon-button--loading'] : '',
+    tone ? styles['icon-button--tone'] : '',
+    tone ? styles[`icon-button--tone-${tone}`] : '',
     rounded ? styles['icon-button--rounded'] : '',
     toggled ? styles['icon-button--toggled'] : '',
     active ? styles['icon-button--active'] : '',
@@ -164,7 +211,7 @@ const IconButton = forwardRef(function IconButton(
 ) {
   if (props.asChild) {
     const {
-      active = false,
+      active: activeProp,
       className = '',
       count,
       destructive = false,
@@ -173,7 +220,9 @@ const IconButton = forwardRef(function IconButton(
       padding = 'default',
       rounded = false,
       size = 'medium',
-      style = 'default',
+      appearance: appearanceProp,
+      style: styleProp,
+      tone,
       unreadBadge = false,
       disabled,
       children,
@@ -182,15 +231,19 @@ const IconButton = forwardRef(function IconButton(
       ...rest
     } = props;
     void asChild;
+    const active = activeProp ?? false;
+    const appearance = appearanceProp ?? styleProp ?? 'default';
 
     const rootClass = buildRootClass({
       className,
       count,
       destructive,
+      loading,
       padding,
       rounded,
       size,
-      style,
+      appearance,
+      tone,
       active,
     });
     const spinnerSize = ICON_BUTTON_ICON_SIZES[size];
@@ -201,7 +254,7 @@ const IconButton = forwardRef(function IconButton(
       <>
         <span className={styles['icon-button__icon-slot']} aria-hidden>
           {loading ? (
-            <Spinner size={spinnerSize} inverted={style === 'inverted'} />
+            <Spinner size={spinnerSize} />
           ) : (
             <IconSlotContext.Provider value={{ size: spinnerSize }}>
               {icon}
@@ -223,7 +276,7 @@ const IconButton = forwardRef(function IconButton(
         ...rest,
         className: rootClass,
         'aria-label': ariaLabel,
-        'data-active': active ? 'true' : undefined,
+        'data-active': activeAttr(activeProp),
         ...(loading ? { 'aria-busy': true } : null),
       },
       ref,
@@ -235,7 +288,7 @@ const IconButton = forwardRef(function IconButton(
   }
 
   const {
-    active = false,
+    active: activeProp,
     className = '',
     count,
     destructive = false,
@@ -244,7 +297,9 @@ const IconButton = forwardRef(function IconButton(
     padding = 'default',
     rounded = false,
     size = 'medium',
-    style = 'default',
+    appearance: appearanceProp,
+    style: styleProp,
+    tone,
     toggled,
     unreadBadge = false,
     disabled,
@@ -254,15 +309,19 @@ const IconButton = forwardRef(function IconButton(
     ...rest
   } = props;
   void asChild;
+  const active = activeProp ?? false;
+  const appearance = appearanceProp ?? styleProp ?? 'default';
 
   const rootClass = buildRootClass({
     className,
     count,
     destructive,
+    loading,
     padding,
     rounded,
     size,
-    style,
+    appearance,
+    tone,
     active,
     toggled,
   });
@@ -278,12 +337,12 @@ const IconButton = forwardRef(function IconButton(
       disabled={isDisabled}
       aria-label={ariaLabel}
       aria-pressed={toggled === undefined ? undefined : toggled}
-      data-active={active ? 'true' : undefined}
+      data-active={activeAttr(activeProp)}
       {...rest}
     >
       <span className={styles['icon-button__icon-slot']} aria-hidden>
         {loading ? (
-          <Spinner size={spinnerSize} inverted={style === 'inverted'} />
+          <Spinner size={spinnerSize} />
         ) : (
           <IconSlotContext.Provider value={{ size: spinnerSize }}>
             {icon}

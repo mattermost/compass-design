@@ -100,6 +100,12 @@
     flex-direction: column;
     padding: 0 12px 8px;
     background: var(--calls-bg);
+    // The call surface is dark in every theme. Point the inverted IconButton
+    // and avatar hover at the call foreground, not the sidebar text, which is
+    // dark in light-sidebar themes such as Quartz.
+    --inverted-color: var(--calls-color);
+    --inverted-color-rgb: var(--calls-color-rgb);
+    --inverted-surface: var(--calls-bg);
   }
 
   &__header {
@@ -235,15 +241,5 @@
   &__controls-left button,
   &__controls-middle button {
     background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent);
-  }
-
-  &__controls-right button {
-    background-color: var(--error-text, var(--color-danger));
-    color: var(--neutral-0);
-
-    &:hover:not(:disabled) {
-      background-color: var(--color-red-600);
-      color: var(--neutral-0);
-    }
   }
 }

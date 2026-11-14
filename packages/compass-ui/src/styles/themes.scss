@@ -68,6 +68,8 @@
     // Misc
     --calls-bg: var(--color-indigo-600);
     --calls-bg-rgb: var(--color-indigo-600-rgb);
+    --calls-color: var(--color-neutral-0);
+    --calls-color-rgb: var(--color-neutral-0-rgb);
   }
 
   // ============================================================
@@ -125,6 +127,8 @@
     // Misc
     --calls-bg: #091d48;
     --calls-bg-rgb: 9, 29, 72;
+    --calls-color: var(--color-neutral-0);
+    --calls-color-rgb: var(--color-neutral-0-rgb);
   }
 
   // ============================================================
@@ -182,6 +186,8 @@
     // Misc
     --calls-bg: var(--color-neutral-1050);
     --calls-bg-rgb: var(--color-neutral-1050-rgb);
+    --calls-color: var(--color-neutral-0);
+    --calls-color-rgb: var(--color-neutral-0-rgb);
   }
 
   // ============================================================
@@ -239,6 +245,8 @@
     // Misc
     --calls-bg: #222c3f;
     --calls-bg-rgb: 34, 44, 63;
+    --calls-color: var(--color-neutral-0);
+    --calls-color-rgb: var(--color-neutral-0-rgb);
   }
 
   // ============================================================
@@ -296,5 +304,7 @@
     // Misc
     --calls-bg: #24262d;
     --calls-bg-rgb: 36, 38, 45;
+    --calls-color: var(--color-neutral-0);
+    --calls-color-rgb: var(--color-neutral-0-rgb);
   }
 }

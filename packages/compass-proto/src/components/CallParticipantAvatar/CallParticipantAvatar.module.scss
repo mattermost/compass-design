@@ -12,12 +12,18 @@
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: rgba(var(--sidebar-text-rgb), 0.08);
+      background-color: rgba(
+        var(--inverted-color-rgb, var(--sidebar-text-rgb)),
+        0.08
+      );
     }
   }
 
   &:focus-within {
-    background-color: rgba(var(--sidebar-text-rgb), 0.08);
+    background-color: rgba(
+      var(--inverted-color-rgb, var(--sidebar-text-rgb)),
+      0.08
+    );
   }
 
   // ---------------------------------------------------------------------------

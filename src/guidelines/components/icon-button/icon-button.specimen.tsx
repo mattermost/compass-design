@@ -253,12 +253,12 @@ export default function IconButtonLibrary() {
             aria-label="Inverted with count"
             count={7}
             icon={<Icon glyph={<GlobeIcon />} />}
-            style="inverted"
+            appearance="inverted"
           />
           <IconButton
             aria-label="Inverted with unread badge"
             icon={<Icon glyph={<GlobeIcon />} />}
-            style="inverted"
+            appearance="inverted"
             unreadBadge
           />
         </div>

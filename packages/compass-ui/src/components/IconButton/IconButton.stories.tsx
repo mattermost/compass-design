@@ -1,13 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-has-content -- asChild replaces empty anchor children with icon anatomy */
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { MemoryRouter, Link } from 'react-router-dom';
+import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
+import MicrophoneOffIcon from '@mattermost/compass-icons/components/microphone-off';
+import MonitorOffIcon from '@mattermost/compass-icons/components/monitor-off';
+import RecordCircleOutlineIcon from '@mattermost/compass-icons/components/record-circle-outline';
+import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
+import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
+import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
+import PhoneHangupIcon from '@mattermost/compass-icons/components/phone-hangup';
+import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
+import ArrowCollapseIcon from '@mattermost/compass-icons/components/arrow-collapse';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import IconButton, {
   type IconButtonPadding,
   type IconButtonProps,
   type IconButtonSize,
-  type IconButtonStyle,
+  type IconButtonAppearance,
 } from './IconButton';
 import Icon from '../Icon/Icon';
 import { iconSelectArgType, resolveStoryIcon } from '../../storybook/icons';
@@ -33,10 +43,30 @@ const meta = {
   component: IconButton,
   tags: ['autodocs'],
   argTypes: {
-    style: { control: 'select', options: ['default', 'inverted'] },
+    appearance: { control: 'select', options: ['default', 'inverted'] },
+    style: {
+      control: false,
+      description: 'Deprecated: use `appearance`.',
+    },
     size: { control: 'select', options: SIZES },
     loading: { control: 'boolean' },
     padding: { control: 'select', options: ['default', 'compact'] },
+    tone: {
+      control: 'select',
+      options: [undefined, 'danger', 'success', 'warning'],
+      description: 'Solid semantic fill. Leave unset for the neutral button.',
+    },
+    toggled: {
+      control: 'boolean',
+      description:
+        'Selected state; also sets `aria-pressed`. Leave unset (not false) for a button that cannot toggle.',
+    },
+    destructive: { control: 'boolean' },
+    active: { control: 'boolean' },
+    rounded: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    unreadBadge: { control: 'boolean' },
+    count: { control: 'number' },
     icon: iconSelectArgType({
       description: 'Icon glyph shown inside the button.',
     }),
@@ -60,7 +90,7 @@ export const Default: Story = {
   args: {
     'aria-label': 'Open menu',
     size: 'medium',
-    style: 'default',
+    appearance: 'default',
   },
 };
 
@@ -76,7 +106,7 @@ export const Inverted: Story = {
   args: {
     'aria-label': 'Open menu',
     size: 'medium',
-    style: 'inverted',
+    appearance: 'inverted',
   },
   decorators: [
     (Story) => (
@@ -91,6 +121,120 @@ export const Inverted: Story = {
       </div>
     ),
   ],
+};
+
+/**
+ * Inverted buttons on a dark call surface, mirroring the call popout's header
+ * and control bar. The surface sets `--inverted-color`, `--inverted-color-rgb`
+ * and `--inverted-surface` from the `--calls-*` tokens; without them the
+ * buttons fall back to the sidebar tokens, which are near-black on the call
+ * surface in Quartz. Switch themes in the toolbar to compare; hover, press and
+ * the toggled buttons (Participants, Call info) are the states that were
+ * unreadable.
+ */
+/**
+ * Mirrors the one-off fill `CallPopout` gives its inverted control-bar buttons
+ * (a faint white fill). Kept inline so the story does not depend on compass-proto.
+ */
+const CALL_SURFACE_OVERRIDES = `
+  .call-surface-story__controls button:not([aria-pressed='true']):not(.call-surface-story__leave) {
+    background-color: color-mix(in srgb, var(--neutral-0) 8%, transparent);
+  }
+`;
+
+export const InvertedOnCallSurface: Story = {
+  render: () => (
+    <div
+      className="call-surface-story"
+      style={
+        {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 24,
+          padding: 16,
+          width: 'fit-content',
+          borderRadius: 8,
+          background: 'var(--calls-bg)',
+          '--inverted-color': 'var(--calls-color)',
+          '--inverted-color-rgb': 'var(--calls-color-rgb)',
+          '--inverted-surface': 'var(--calls-bg)',
+        } as CSSProperties
+      }
+    >
+      <style>{CALL_SURFACE_OVERRIDES}</style>
+      <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
+        <IconButton
+          size="small"
+          appearance="inverted"
+          aria-label="Close call info"
+          toggled
+          icon={<Icon size="16" glyph={<InformationOutlineIcon />} />}
+        />
+        <IconButton
+          size="small"
+          appearance="inverted"
+          aria-label="Collapse call"
+          icon={<Icon size="16" glyph={<ArrowCollapseIcon />} />}
+        />
+      </div>
+      <div
+        className="call-surface-story__controls"
+        style={{ display: 'flex', gap: 8, alignItems: 'center' }}
+      >
+        <IconButton
+          size="medium"
+          appearance="inverted"
+          aria-label="Participants (4)"
+          toggled
+          count={4}
+          icon={<Icon size="20" glyph={<AccountMultipleOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          appearance="inverted"
+          aria-label="Unmute"
+          icon={<Icon size="20" glyph={<MicrophoneOffIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          appearance="inverted"
+          aria-label="Share screen"
+          icon={<Icon size="20" glyph={<MonitorOffIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          appearance="inverted"
+          aria-label="Record"
+          icon={<Icon size="20" glyph={<RecordCircleOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          appearance="inverted"
+          aria-label="Reactions"
+          icon={<Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          appearance="inverted"
+          aria-label="Chat"
+          icon={<Icon size="20" glyph={<MessageTextOutlineIcon />} />}
+        />
+        <IconButton
+          size="medium"
+          appearance="inverted"
+          aria-label="More"
+          icon={<Icon size="20" glyph={<DotsHorizontalIcon />} />}
+        />
+        <IconButton
+          className="call-surface-story__leave"
+          size="medium"
+          tone="danger"
+          aria-label="Leave call"
+          icon={<Icon size="20" glyph={<PhoneHangupIcon />} />}
+        />
+      </div>
+    </div>
+  ),
 };
 
 function Row({
@@ -126,12 +270,12 @@ function Row({
 }
 
 function PermutationGrid({
-  style,
+  appearance,
   destructive,
   disabled,
   labelColor = 'var(--center-channel-color)',
 }: {
-  style: IconButtonStyle;
+  appearance: IconButtonAppearance;
   destructive: boolean;
   disabled: boolean;
   labelColor?: string;
@@ -183,7 +327,7 @@ function PermutationGrid({
             <IconButton
               key={size}
               aria-label={`${row.label}, ${size}`}
-              style={style}
+              appearance={appearance}
               destructive={destructive}
               disabled={disabled}
               size={size}
@@ -198,21 +342,44 @@ function PermutationGrid({
   );
 }
 
+/**
+ * `tone` fills the button red (`danger`), green (`success`) or yellow
+ * (`warning`). Use the controls on Default to try other combinations.
+ */
+export const Tones: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 12 }}>
+      {(['danger', 'success', 'warning'] as const).map((tone) => (
+        <IconButton
+          key={tone}
+          tone={tone}
+          aria-label={tone}
+          icon={<Icon glyph={<GlobeIcon />} />}
+        />
+      ))}
+    </div>
+  ),
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 32 }}>
       <section>
         <h3 style={{ marginBottom: 12 }}>Default</h3>
-        <PermutationGrid style="default" destructive={false} disabled={false} />
+        <PermutationGrid
+          appearance="default"
+          destructive={false}
+          disabled={false}
+        />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Destructive</h3>
-        <PermutationGrid style="default" destructive disabled={false} />
+        <PermutationGrid appearance="default" destructive disabled={false} />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Disabled</h3>
-        <PermutationGrid style="default" destructive={false} disabled />
+        <PermutationGrid appearance="default" destructive={false} disabled />
       </section>
       <section
         style={{
@@ -225,7 +392,7 @@ export const AllVariants: Story = {
           Inverted
         </h3>
         <PermutationGrid
-          style="inverted"
+          appearance="inverted"
           destructive={false}
           disabled={false}
           labelColor="var(--sidebar-text)"

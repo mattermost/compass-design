@@ -33,14 +33,31 @@
     text-decoration: none;
   }
 
+  // Hover and press fade, as on `Button`. Declared only on the hovered/pressed
+  // state, so entering it fades and leaving it snaps, and there is no resting
+  // transition (#184). Buttons that can toggle (`aria-pressed`) or are forced
+  // active skip the fade: a toggle that flips while the pointer is still over
+  // the button would otherwise crossfade instead of switching instantly.
+  &:is(:hover, :active):not([aria-pressed], [data-active]) {
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      color var(--duration-quick) var(--ease-transition);
+  }
+
   &:is(:disabled, .icon-button--disabled) {
     cursor: not-allowed;
     opacity: 0.5;
   }
 
+  // The destructive and tone hovers below have lower specificity than this
+  // rule, so without the exclusion a destructive button hovered to grey.
+  // `:where()` keeps the exclusion at zero specificity: a plain `:not()` here
+  // would raise this rule above the inverted hover and break it.
   &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
       :active
-    ):not(.icon-button--active):not(.icon-button--toggled) {
+    ):not(.icon-button--active):not(.icon-button--toggled):not(
+      :where(.icon-button--destructive, .icon-button--tone)
+    ) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
     --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.75);
     color: rgba(var(--center-channel-color-rgb), 0.75);
@@ -61,6 +78,16 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+
+    // The loading spinner follows the icon colour in every state, tone and
+    // appearance: a tail fading to transparent that ends in the icon colour.
+    // It replaces the Spinner's own fixed colours.
+    [role='status'] {
+      background: conic-gradient(
+        color-mix(in srgb, var(--icon-button-fg) 0%, transparent),
+        var(--icon-button-fg)
+      );
+    }
   }
 
   &__unread-badge {
@@ -228,67 +255,80 @@
   // Style = Inverted (Figma: for dark backgrounds)
   // ---------------------------------------------------------------------------
   &--style-inverted {
+    // A dark surface can set --inverted-color, --inverted-color-rgb and
+    // --inverted-surface on an ancestor. Unset, the sidebar tokens apply, so
+    // nothing changes where the inverted style already sits on the sidebar.
+    --icon-button-inverted-color: var(--inverted-color, var(--sidebar-text));
+    --icon-button-inverted-color-rgb: var(
+      --inverted-color-rgb,
+      var(--sidebar-text-rgb)
+    );
+    --icon-button-inverted-ring: var(
+      --inverted-surface,
+      var(--sidebar-header-bg)
+    );
+    --icon-button-inverted-on-color: var(--inverted-surface, var(--sidebar-bg));
     background-color: transparent;
-    --icon-button-fg: rgba(var(--sidebar-text-rgb), 0.64);
-    color: rgba(var(--sidebar-text-rgb), 0.64);
+    --icon-button-fg: rgba(var(--icon-button-inverted-color-rgb), 0.64);
+    color: rgba(var(--icon-button-inverted-color-rgb), 0.64);
 
     .icon-button__unread-badge {
-      box-shadow: 0 0 0 2px var(--sidebar-header-bg);
+      box-shadow: 0 0 0 2px var(--icon-button-inverted-ring);
     }
 
     &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
         :active
       ):not(.icon-button--toggled):not(.icon-button--active) {
-      background-color: rgba(var(--sidebar-text-rgb), 0.08);
-      --icon-button-fg: var(--sidebar-text);
-      color: var(--sidebar-text);
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.08);
+      --icon-button-fg: var(--icon-button-inverted-color);
+      color: var(--icon-button-inverted-color);
     }
     &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
-      background-color: rgba(var(--sidebar-text-rgb), 0.16);
-      --icon-button-fg: var(--sidebar-text);
-      color: var(--sidebar-text);
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.16);
+      --icon-button-fg: var(--icon-button-inverted-color);
+      color: var(--icon-button-inverted-color);
     }
 
     &.icon-button--active:not(:disabled, .icon-button--disabled) {
-      background-color: rgba(var(--sidebar-text-rgb), 0.16);
-      --icon-button-fg: var(--sidebar-text);
-      color: var(--sidebar-text);
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.16);
+      --icon-button-fg: var(--icon-button-inverted-color);
+      color: var(--icon-button-inverted-color);
 
       &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
           :active
         ) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.2);
-        --icon-button-fg: var(--sidebar-text);
-        color: var(--sidebar-text);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.2);
+        --icon-button-fg: var(--icon-button-inverted-color);
+        color: var(--icon-button-inverted-color);
       }
 
       &:active:not(:disabled, .icon-button--disabled) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.24);
-        --icon-button-fg: var(--sidebar-text);
-        color: var(--sidebar-text);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.24);
+        --icon-button-fg: var(--icon-button-inverted-color);
+        color: var(--icon-button-inverted-color);
       }
     }
     &.icon-button--toggled {
-      background-color: var(--sidebar-text);
-      --icon-button-fg: var(--sidebar-bg);
-      color: var(--sidebar-bg);
+      background-color: var(--icon-button-inverted-color);
+      --icon-button-fg: var(--icon-button-inverted-on-color);
+      color: var(--icon-button-inverted-on-color);
 
       &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
           :active
         ) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.92);
-        --icon-button-fg: var(--sidebar-bg);
-        color: var(--sidebar-bg);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.92);
+        --icon-button-fg: var(--icon-button-inverted-on-color);
+        color: var(--icon-button-inverted-on-color);
       }
 
       &:active:not(:disabled, .icon-button--disabled) {
-        background-color: rgba(var(--sidebar-text-rgb), 0.88);
-        --icon-button-fg: var(--sidebar-bg);
-        color: var(--sidebar-bg);
+        background-color: rgba(var(--icon-button-inverted-color-rgb), 0.88);
+        --icon-button-fg: var(--icon-button-inverted-on-color);
+        color: var(--icon-button-inverted-on-color);
       }
 
       .icon-button__unread-badge {
-        box-shadow: 0 0 0 2px var(--sidebar-text);
+        box-shadow: 0 0 0 2px var(--icon-button-inverted-color);
       }
     }
 
@@ -351,6 +391,153 @@
       );
       --icon-button-fg: var(--error-text, var(--color-danger));
       color: var(--error-text, var(--color-danger));
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Tone (danger | success | warning): solid fill with a white icon. A host can
+  // retheme a tone by setting `--icon-button-tone-bg`, `-fg`, `-hover-bg` and
+  // `-active-bg` on the button or an ancestor. Declared last so it wins over the
+  // default, inverted and destructive states at equal specificity.
+  // ---------------------------------------------------------------------------
+  &--tone-danger {
+    --icon-button-tone-base: var(--error-text, var(--color-danger));
+  }
+  &--tone-success {
+    --icon-button-tone-base: var(--color-success-solid);
+  }
+  // Yellow: white fails contrast, so the icon is dark.
+  &--tone-warning {
+    --icon-button-tone-base: var(--color-warning-solid);
+    --icon-button-tone-default-fg: var(--color-neutral-1050);
+    // Yellow on a light page is about 1.7:1; the ring needs 3:1.
+    --icon-button-tone-ring: var(--color-warning-text);
+    // Yellow is brighter, so the same black mix reads about 1.4x stronger.
+    --icon-button-tone-hover-keep: 94%;
+    --icon-button-tone-press-keep: 89%;
+  }
+
+  &--tone {
+    --focus-ring-color: var(
+      --icon-button-tone-ring,
+      var(--icon-button-tone-base)
+    );
+    --icon-button-tone-fill: var(
+      --icon-button-tone-bg,
+      var(--icon-button-tone-base)
+    );
+    --icon-button-tone-hover-fill: var(
+      --icon-button-tone-hover-bg,
+      color-mix(
+        in srgb,
+        var(--icon-button-tone-fill) var(--icon-button-tone-hover-keep, 92%),
+        black
+      )
+    );
+    --icon-button-tone-press-fill: var(
+      --icon-button-tone-active-bg,
+      color-mix(
+        in srgb,
+        var(--icon-button-tone-fill) var(--icon-button-tone-press-keep, 84%),
+        black
+      )
+    );
+    --icon-button-tone-label: var(
+      --icon-button-tone-fg,
+      var(--icon-button-tone-default-fg, var(--color-neutral-0))
+    );
+    --icon-button-fg: var(--icon-button-tone-label);
+
+    background-color: var(--icon-button-tone-fill);
+    color: var(--icon-button-fg);
+
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-hover-fill);
+      color: var(--icon-button-fg);
+    }
+    &:active:not(:disabled, .icon-button--disabled):not(.icon-button--toggled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-press-fill);
+      color: var(--icon-button-fg);
+    }
+
+    // A tone looks the same whether or not the button is `toggled` or `active`.
+    // Those states set their own (brand-blue) fills at higher specificity, so
+    // the tone fills are restated here for them.
+    &.icon-button--active:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-fill);
+      color: var(--icon-button-fg);
+    }
+    &.icon-button--active:is(:hover, :focus-visible):not(
+        :disabled,
+        .icon-button--disabled
+      ):not(:active) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-hover-fill);
+      color: var(--icon-button-fg);
+    }
+    &.icon-button--active:active:not(:disabled, .icon-button--disabled),
+    &.icon-button--toggled:active:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-press-fill);
+      color: var(--icon-button-fg);
+    }
+
+    // Loading drops the tone: the default icon colour on a faint neutral fill
+    // (the disabled 50% opacity still applies, and the spinner follows the icon
+    // colour). A toned `Button` gets the same neutral fill from its disabled
+    // look.
+    &.icon-button--loading {
+      --icon-button-fg: rgba(var(--center-channel-color-rgb), 0.64);
+
+      background-color: rgba(var(--center-channel-color-rgb), 0.08);
+      color: var(--icon-button-fg);
+    }
+
+    // On an inverted (dark) surface the loading colours come from the inverted
+    // hooks instead (the sidebar text colour unless a surface sets
+    // `--inverted-color-rgb`), as for an untoned inverted loading button.
+    &.icon-button--style-inverted.icon-button--loading {
+      --icon-button-fg: rgba(var(--icon-button-inverted-color-rgb), 0.64);
+
+      background-color: rgba(var(--icon-button-inverted-color-rgb), 0.08);
+    }
+  }
+
+  // `tone` looks the same on any surface. The inverted rules have higher
+  // specificity than the tone rules above for hover, press and the toggled and
+  // active states, so this copy (repeated classes for extra specificity) restates
+  // the tone fills for an inverted button. Disabled and loading buttons are left
+  // to their own rules (an inverted loading button keeps the inverted colours).
+  &--tone.icon-button--tone.icon-button--style-inverted.icon-button--style-inverted {
+    &:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-fill);
+      color: var(--icon-button-fg);
+    }
+    &:is(:hover, :focus-visible):not(:disabled, .icon-button--disabled):not(
+        :active
+      ) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-hover-fill);
+      color: var(--icon-button-fg);
+    }
+    &:active:not(:disabled, .icon-button--disabled) {
+      --icon-button-fg: var(--icon-button-tone-label);
+
+      background-color: var(--icon-button-tone-press-fill);
+      color: var(--icon-button-fg);
     }
   }
 }
