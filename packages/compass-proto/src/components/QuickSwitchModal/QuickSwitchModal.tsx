@@ -1,5 +1,4 @@
 import {
-  Fragment,
   useEffect,
   useId,
   useMemo,
@@ -43,7 +42,8 @@ export interface QuickSwitchItem {
   /**
    * Section this item belongs to (e.g. "Unread", "Recent"). A heading shows
    * wherever the group changes between consecutive results, so keep items of
-   * a group together. Ungrouped items render with no heading.
+   * a group together. Ungrouped items render with no heading. Groups only
+   * show while the query is empty; searching flattens them into one ranked list.
    */
   group?: string;
   /** Rendered as the group heading instead of `group` (e.g. a translated node). */
@@ -68,7 +68,9 @@ export interface QuickSwitchModalProps {
   onSelect: (item: QuickSwitchItem) => void;
   /**
    * Custom match. Default: every whitespace-separated term of the query is a
-   * case-insensitive substring of the name, secondary label or keywords.
+   * case-insensitive substring of the name, secondary label or keywords, and
+   * results are ranked by closeness (name prefix first). A custom `filter`
+   * keeps the original order.
    */
   filter?: (item: QuickSwitchItem, query: string) => boolean;
   /** Called as the query changes (e.g. to fetch more results). */
@@ -98,6 +100,8 @@ export interface QuickSwitchModalProps {
   emptyLabel?: ReactNode;
   /** Accessible name for the close button. Default: "Close". */
   closeLabel?: string;
+  /** Accessible name for the search field's clear button. Default: "Clear search". */
+  clearLabel?: string;
   className?: string;
 }
 
@@ -127,6 +131,7 @@ export default function QuickSwitchModal({
   listLabel = 'Results',
   emptyLabel = 'No results found',
   closeLabel = 'Close',
+  clearLabel = 'Clear search',
   className,
 }: QuickSwitchModalProps) {
   return (
@@ -150,6 +155,7 @@ export default function QuickSwitchModal({
         listLabel={listLabel}
         emptyLabel={emptyLabel}
         closeLabel={closeLabel}
+        clearLabel={clearLabel}
         className={className}
       />
     </ModalOverlay>
@@ -170,6 +176,7 @@ type PanelProps = Required<
     | 'listLabel'
     | 'emptyLabel'
     | 'closeLabel'
+    | 'clearLabel'
   >
 > &
   Pick<QuickSwitchModalProps, 'filter' | 'onQueryChange' | 'className'>;
@@ -188,6 +195,7 @@ function QuickSwitchPanel({
   listLabel,
   emptyLabel,
   closeLabel,
+  clearLabel,
   className,
 }: PanelProps) {
   const baseId = useId();
@@ -203,6 +211,33 @@ function QuickSwitchPanel({
     return query.trim() === '' ? items : items.filter((i) => filter(i, query));
   }, [items, query, filter]);
 
+  // Consecutive results with the same `group` form one section.
+  // While searching, groups flatten into one list ranked by match closeness.
+  const searching = query.trim() !== '';
+  const sections = useMemo(() => {
+    const out: {
+      group?: string;
+      groupLabel?: ReactNode;
+      start: number;
+      items: QuickSwitchItem[];
+    }[] = [];
+    results.forEach((item, index) => {
+      const last = out[out.length - 1];
+      const group = searching ? undefined : item.group;
+      if (last && last.group === group) {
+        last.items.push(item);
+      } else {
+        out.push({
+          group,
+          groupLabel: searching ? undefined : item.groupLabel,
+          start: index,
+          items: [item],
+        });
+      }
+    });
+    return out;
+  }, [results, searching]);
+
   const count = results.length;
   const active = count === 0 ? -1 : Math.min(activeIndex, count - 1);
 
@@ -213,7 +248,7 @@ function QuickSwitchPanel({
       ?.scrollIntoView?.({ block: 'nearest' });
     // optionId is derived from baseId, which is stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
+  }, [active, results]);
 
   function updateQuery(next: string) {
     setQuery(next);
@@ -224,6 +259,12 @@ function QuickSwitchPanel({
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.nativeEvent.isComposing) return;
     switch (event.key) {
+      case 'Escape':
+        // SearchInput would clear a non-empty query on Escape and mark it
+        // handled, which stops Modal closing; the hint promises dismiss.
+        event.preventDefault();
+        onClose();
+        break;
       case 'ArrowDown':
         event.preventDefault();
         if (count > 0) setActiveIndex((active + 1) % count);
@@ -286,6 +327,7 @@ function QuickSwitchPanel({
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             updateQuery(e.target.value)
           }
+          clearLabel={clearLabel}
           onClear={() => updateQuery('')}
           onKeyDown={handleKeyDown}
         />
@@ -303,42 +345,58 @@ function QuickSwitchPanel({
           role="listbox"
           aria-label={listLabel}
         >
-          {results.map((item, index) => (
-            <Fragment key={item.id}>
-              {item.group != null &&
-                item.group !== results[index - 1]?.group && (
-                  <li role="presentation">
-                    {index > 0 && <PopoverMenuDivider />}
-                    <MenuGroupHeading
-                      className={styles['quick-switch-modal__heading']}
-                      label={item.groupLabel ?? item.group}
-                    />
-                  </li>
+          {sections.map((section, sectionIndex) => {
+            const headingId = `${baseId}-group-${sectionIndex}`;
+            const grouped = section.group != null;
+            return (
+              <li key={sectionIndex} role="presentation">
+                {sectionIndex > 0 && <PopoverMenuDivider />}
+                {grouped && (
+                  <MenuGroupHeading
+                    id={headingId}
+                    className={styles['quick-switch-modal__heading']}
+                    label={section.groupLabel ?? section.group}
+                  />
                 )}
-              <li
-                role="presentation"
-                onMouseMove={() => index !== active && setActiveIndex(index)}
-              >
-                <MenuItem
-                  id={optionId(index)}
-                  role="option"
-                  tabIndex={-1}
-                  aria-selected={index === active}
-                  label={item.label ?? item.name}
-                  className={styles['quick-switch-modal__option']}
-                  secondaryLabel={item.secondaryLabel}
-                  secondaryLabelPosition="inline"
-                  leadingVisual={
-                    item.leadingVisual ?? <Icon glyph={<GlobeIcon />} />
-                  }
-                  active={index === active}
-                  // Focus stays in the input (aria-activedescendant).
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => onSelect(item)}
-                />
+                <ul
+                  className={styles['quick-switch-modal__group']}
+                  role={grouped ? 'group' : 'presentation'}
+                  aria-labelledby={grouped ? headingId : undefined}
+                >
+                  {section.items.map((item, offset) => {
+                    const index = section.start + offset;
+                    return (
+                      <li
+                        key={item.id}
+                        role="presentation"
+                        onMouseMove={() =>
+                          index !== active && setActiveIndex(index)
+                        }
+                      >
+                        <MenuItem
+                          id={optionId(index)}
+                          role="option"
+                          tabIndex={-1}
+                          aria-selected={index === active}
+                          label={item.label ?? item.name}
+                          className={styles['quick-switch-modal__option']}
+                          secondaryLabel={item.secondaryLabel}
+                          secondaryLabelPosition="inline"
+                          leadingVisual={
+                            item.leadingVisual ?? <Icon glyph={<GlobeIcon />} />
+                          }
+                          active={index === active}
+                          // Focus stays in the input (aria-activedescendant).
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => onSelect(item)}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
               </li>
-            </Fragment>
-          ))}
+            );
+          })}
         </ul>
       )}
     </Modal>

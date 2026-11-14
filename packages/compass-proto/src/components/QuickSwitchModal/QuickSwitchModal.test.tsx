@@ -141,15 +141,8 @@ describe('QuickSwitchModal', () => {
 
   it('shows a heading where the group changes', () => {
     mount();
-    const headings = Array.from(
-      document.body.querySelectorAll('[role="presentation"]'),
-    )
-      .map((el) => el.textContent)
-      .filter(Boolean);
-    expect(headings.filter((t) => t === 'Unread' || t === 'Recent')).toEqual([
-      'Unread',
-      'Recent',
-    ]);
+    expect(document.body.textContent).toContain('Unread');
+    expect(document.body.textContent).toContain('Recent');
     expect(document.body.querySelectorAll('[role="separator"]')).toHaveLength(
       1,
     );
@@ -222,6 +215,70 @@ describe('QuickSwitchModal', () => {
   it('hides the subtitle when null', () => {
     mount({ subtitle: null });
     expect(document.body.textContent).not.toContain('Type to find');
+  });
+
+  it('flattens groups and ranks results by closeness while searching', () => {
+    mount({
+      items: [
+        { id: 'a', name: 'Webapp bugs', group: 'Recent' },
+        { id: 'b', name: 'Bugs', group: 'Unread' },
+        { id: 'c', name: 'Prebugs', group: 'Recent' },
+        {
+          id: 'd',
+          name: 'QA',
+          secondaryLabel: '~bugs-triage',
+          group: 'Unread',
+        },
+      ],
+    });
+    expect(document.body.querySelectorAll('[role="group"]')).toHaveLength(4);
+    type('bugs');
+    expect(options().map((o) => o.id)).toHaveLength(4);
+    expect(options().map((o) => o.textContent)).toEqual([
+      'Bugs',
+      'Webapp bugs',
+      'Prebugs',
+      'QA~bugs-triage',
+    ]);
+    expect(document.body.querySelectorAll('[role="group"]')).toHaveLength(0);
+    expect(document.body.querySelectorAll('[role="separator"]')).toHaveLength(
+      0,
+    );
+    type('');
+    expect(document.body.querySelectorAll('[role="group"]')).toHaveLength(4);
+  });
+
+  it('closes on Escape from the search field even with a query typed', () => {
+    const { onClose } = mount();
+    type('bug');
+    key('Escape');
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('names each group for assistive tech', () => {
+    mount();
+    const groups = Array.from(
+      document.body.querySelectorAll<HTMLElement>('[role="group"]'),
+    );
+    expect(groups).toHaveLength(2);
+    expect(
+      document.getElementById(groups[0].getAttribute('aria-labelledby')!)
+        ?.textContent,
+    ).toBe('Unread');
+  });
+
+  it('forwards clearLabel to the clear button', () => {
+    mount({ clearLabel: 'Borrar' });
+    type('bug');
+    expect(document.body.querySelector('[aria-label="Borrar"]')).not.toBeNull();
+  });
+
+  it('scrolls the highlighted option into view when results change', () => {
+    mount();
+    const spy = vi.fn();
+    HTMLElement.prototype.scrollIntoView = spy;
+    type('e');
+    expect(spy).toHaveBeenCalled();
   });
 
   it('renders nothing when closed', () => {

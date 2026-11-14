@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@mattermost/compass-ui/components/button';
 import {
   QuickSwitchModal,
   type QuickSwitchItem,
@@ -50,6 +51,7 @@ const quickSwitchItems: QuickSwitchItem[] = [
 export function QuickSwitchModalCanvas() {
   const [stage, setStage] = useState<HTMLDivElement | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [open, setOpen] = useState(true);
   return (
     <div style={{ width: '100%' }}>
       <div
@@ -61,18 +63,23 @@ export function QuickSwitchModalCanvas() {
       >
         {stage && (
           <QuickSwitchModal
-            open
+            open={open}
             overlayProps={{
               container: stage,
               lockScroll: false,
               style: { position: 'absolute' },
             }}
             items={quickSwitchItems}
-            onClose={() => undefined}
+            onClose={() => setOpen(false)}
             onSelect={(item) => setSelected(item.name)}
           />
         )}
       </div>
+      {!open && (
+        <Button emphasis="tertiary" onClick={() => setOpen(true)}>
+          Reopen quick switcher
+        </Button>
+      )}
       <p className={styles['patterns__variant-label']}>
         {selected ? `Selected: ${selected}` : 'Press Enter or click a row'}
       </p>

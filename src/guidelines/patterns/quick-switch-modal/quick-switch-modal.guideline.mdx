@@ -36,9 +36,10 @@ surface and is not yet published to `@mattermost/compass-ui`.
 
 - **Default** — every destination in the host's order, grouped (for example
   Unread, then Recent), with the first row highlighted.
-- **Filtered** — rows narrow as the user types. Every word must match the name,
-  handle, or a keyword. Headings appear only above groups that still have
-  results, and the highlight returns to the first row.
+- **Filtered** — once the user types, the groups flatten into a single list
+  with no headings or dividers, ordered by how closely each row matches
+  (names that start with the query first). Every word must match the name,
+  handle, or a keyword. The highlight returns to the first row.
 - **Empty** — a centered "No results found" message replaces the list.
 
 ## Keyboard
