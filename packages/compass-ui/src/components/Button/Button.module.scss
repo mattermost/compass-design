@@ -282,8 +282,8 @@
     );
   }
   &--tone-success {
-    --button-tone-base: var(--color-success);
-    --button-tone-base-rgb: var(--color-success-rgb);
+    --button-tone-base: var(--color-success-solid);
+    --button-tone-base-rgb: var(--color-success-solid-rgb);
   }
   &--tone-info {
     --button-tone-base: var(--color-info);

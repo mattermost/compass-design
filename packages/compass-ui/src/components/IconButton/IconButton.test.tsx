@@ -164,18 +164,13 @@ describe('IconButton tone', () => {
     );
   });
 
-  it.each([
-    ['danger', true],
-    ['success', true],
-    ['info', true],
-    ['warning', false],
-  ] as const)('tone=%s loading spinner inverted=%s', (tone, inverted) => {
+  it('the loading spinner is not given a fixed palette (it follows the icon colour)', () => {
     const { container } = render(
-      <IconButton aria-label="Save" tone={tone} icon={null} loading />,
+      <IconButton aria-label="Save" tone="danger" icon={null} loading />,
     );
     const spinner = container.querySelector('[class*="spinner"]');
     expect(spinner).not.toBeNull();
-    expect(/spinner--inverted/.test(spinner!.className)).toBe(inverted);
+    expect(/spinner--inverted/.test(spinner!.className)).toBe(false);
   });
 
   it('adds no tone classes by default', () => {
@@ -195,6 +190,47 @@ describe('IconButton data-active', () => {
     );
     expect(container.querySelector('button')!.getAttribute('data-active')).toBe(
       expected,
+    );
+  });
+});
+
+describe('IconButton appearance', () => {
+  it('appearance="inverted" adds the inverted class', () => {
+    const { container } = render(
+      <IconButton aria-label="A" icon={null} appearance="inverted" />,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--style-inverted/,
+    );
+  });
+
+  it('the deprecated style="inverted" still works', () => {
+    const { container } = render(
+      <IconButton aria-label="A" icon={null} style="inverted" />,
+    );
+    expect(container.querySelector('button')!.className).toMatch(
+      /icon-button--style-inverted/,
+    );
+  });
+
+  it('appearance wins over style when both are set', () => {
+    const { container } = render(
+      <IconButton
+        aria-label="A"
+        icon={null}
+        appearance="default"
+        style="inverted"
+      />,
+    );
+    expect(container.querySelector('button')!.className).not.toMatch(
+      /icon-button--style-inverted/,
+    );
+  });
+
+  it('is not inverted by default', () => {
+    const { container } = render(<IconButton aria-label="A" icon={null} />);
+    expect(container.querySelector('button')!.className).not.toMatch(
+      /icon-button--style-inverted/,
     );
   });
 });

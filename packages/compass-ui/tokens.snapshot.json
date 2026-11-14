@@ -284,6 +284,8 @@
       "--color-warning": "rgb(var(--color-warning-rgb))",
       "--color-danger-rgb": "var(--semantic-color-danger)",
       "--color-danger": "rgb(var(--color-danger-rgb))",
+      "--color-success-solid-rgb": "var(--color-green-600-rgb)",
+      "--color-success-solid": "rgb(var(--color-success-solid-rgb))",
       "--color-warning-solid-rgb": "var(--color-yellow-400-rgb)",
       "--color-warning-solid": "rgb(var(--color-warning-solid-rgb))",
       "--color-warning-text": "var(--color-yellow-700)",

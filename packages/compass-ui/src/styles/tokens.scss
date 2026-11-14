@@ -377,6 +377,13 @@
     --color-danger-rgb: var(--semantic-color-danger);
     --color-danger: rgb(var(--color-danger-rgb));
 
+    // Success for solid fills. `--color-success` follows `--semantic-color-success`,
+    // which the webapp sets to a lighter green (61, 184, 135) that white labels
+    // read poorly on. Button and IconButton `tone="success"` use this
+    // compass-owned token so a host cannot lighten the fill.
+    --color-success-solid-rgb: var(--color-green-600-rgb);
+    --color-success-solid: rgb(var(--color-success-solid-rgb));
+
     // Warning for solid fills and text. `--color-warning` is a dark mustard that
     // reads poorly as a button fill; these give a true yellow fill (dark label,
     // about 9:1) and an amber for warning text on light surfaces.

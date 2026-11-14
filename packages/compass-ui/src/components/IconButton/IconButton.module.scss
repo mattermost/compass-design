@@ -78,6 +78,16 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+
+    // The loading spinner follows the icon colour in every state, tone and
+    // appearance: a tail fading to transparent that ends in the icon colour.
+    // It replaces the Spinner's own fixed colours.
+    [role='status'] {
+      background: conic-gradient(
+        color-mix(in srgb, var(--icon-button-fg) 0%, transparent),
+        var(--icon-button-fg)
+      );
+    }
   }
 
   &__unread-badge {
@@ -394,7 +404,7 @@
     --icon-button-tone-base: var(--error-text, var(--color-danger));
   }
   &--tone-success {
-    --icon-button-tone-base: var(--color-success);
+    --icon-button-tone-base: var(--color-success-solid);
   }
   &--tone-info {
     --icon-button-tone-base: var(--color-info);

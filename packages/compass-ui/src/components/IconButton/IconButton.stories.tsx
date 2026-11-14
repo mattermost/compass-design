@@ -17,7 +17,7 @@ import IconButton, {
   type IconButtonPadding,
   type IconButtonProps,
   type IconButtonSize,
-  type IconButtonStyle,
+  type IconButtonAppearance,
 } from './IconButton';
 import Icon from '../Icon/Icon';
 import { iconSelectArgType, resolveStoryIcon } from '../../storybook/icons';
@@ -43,7 +43,11 @@ const meta = {
   component: IconButton,
   tags: ['autodocs'],
   argTypes: {
-    style: { control: 'select', options: ['default', 'inverted'] },
+    appearance: { control: 'select', options: ['default', 'inverted'] },
+    style: {
+      control: false,
+      description: 'Deprecated: use `appearance`.',
+    },
     size: { control: 'select', options: SIZES },
     loading: { control: 'boolean' },
     padding: { control: 'select', options: ['default', 'compact'] },
@@ -86,7 +90,7 @@ export const Default: Story = {
   args: {
     'aria-label': 'Open menu',
     size: 'medium',
-    style: 'default',
+    appearance: 'default',
   },
 };
 
@@ -102,7 +106,7 @@ export const Inverted: Story = {
   args: {
     'aria-label': 'Open menu',
     size: 'medium',
-    style: 'inverted',
+    appearance: 'inverted',
   },
   decorators: [
     (Story) => (
@@ -161,14 +165,14 @@ export const InvertedOnCallSurface: Story = {
       <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
         <IconButton
           size="small"
-          style="inverted"
+          appearance="inverted"
           aria-label="Close call info"
           toggled
           icon={<Icon size="16" glyph={<InformationOutlineIcon />} />}
         />
         <IconButton
           size="small"
-          style="inverted"
+          appearance="inverted"
           aria-label="Collapse call"
           icon={<Icon size="16" glyph={<ArrowCollapseIcon />} />}
         />
@@ -179,7 +183,7 @@ export const InvertedOnCallSurface: Story = {
       >
         <IconButton
           size="medium"
-          style="inverted"
+          appearance="inverted"
           aria-label="Participants (4)"
           toggled
           count={4}
@@ -187,37 +191,37 @@ export const InvertedOnCallSurface: Story = {
         />
         <IconButton
           size="medium"
-          style="inverted"
+          appearance="inverted"
           aria-label="Unmute"
           icon={<Icon size="20" glyph={<MicrophoneOffIcon />} />}
         />
         <IconButton
           size="medium"
-          style="inverted"
+          appearance="inverted"
           aria-label="Share screen"
           icon={<Icon size="20" glyph={<MonitorOffIcon />} />}
         />
         <IconButton
           size="medium"
-          style="inverted"
+          appearance="inverted"
           aria-label="Record"
           icon={<Icon size="20" glyph={<RecordCircleOutlineIcon />} />}
         />
         <IconButton
           size="medium"
-          style="inverted"
+          appearance="inverted"
           aria-label="Reactions"
           icon={<Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />}
         />
         <IconButton
           size="medium"
-          style="inverted"
+          appearance="inverted"
           aria-label="Chat"
           icon={<Icon size="20" glyph={<MessageTextOutlineIcon />} />}
         />
         <IconButton
           size="medium"
-          style="inverted"
+          appearance="inverted"
           aria-label="More"
           icon={<Icon size="20" glyph={<DotsHorizontalIcon />} />}
         />
@@ -266,12 +270,12 @@ function Row({
 }
 
 function PermutationGrid({
-  style,
+  appearance,
   destructive,
   disabled,
   labelColor = 'var(--center-channel-color)',
 }: {
-  style: IconButtonStyle;
+  appearance: IconButtonAppearance;
   destructive: boolean;
   disabled: boolean;
   labelColor?: string;
@@ -323,7 +327,7 @@ function PermutationGrid({
             <IconButton
               key={size}
               aria-label={`${row.label}, ${size}`}
-              style={style}
+              appearance={appearance}
               destructive={destructive}
               disabled={disabled}
               size={size}
@@ -363,15 +367,19 @@ export const AllVariants: Story = {
     <div style={{ display: 'grid', gap: 32 }}>
       <section>
         <h3 style={{ marginBottom: 12 }}>Default</h3>
-        <PermutationGrid style="default" destructive={false} disabled={false} />
+        <PermutationGrid
+          appearance="default"
+          destructive={false}
+          disabled={false}
+        />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Destructive</h3>
-        <PermutationGrid style="default" destructive disabled={false} />
+        <PermutationGrid appearance="default" destructive disabled={false} />
       </section>
       <section>
         <h3 style={{ marginBottom: 12 }}>Disabled</h3>
-        <PermutationGrid style="default" destructive={false} disabled />
+        <PermutationGrid appearance="default" destructive={false} disabled />
       </section>
       <section
         style={{
@@ -384,7 +392,7 @@ export const AllVariants: Story = {
           Inverted
         </h3>
         <PermutationGrid
-          style="inverted"
+          appearance="inverted"
           destructive={false}
           disabled={false}
           labelColor="var(--sidebar-text)"
