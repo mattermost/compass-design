@@ -13,6 +13,7 @@ import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MenuGroupHeading } from '@mattermost/compass-ui/components/menu-group-heading';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import { PopoverMenuDivider } from '@mattermost/compass-ui/components/popover-menu';
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 import type { ModalOverlayProps } from '@mattermost/compass-ui/components/modal';
 import { SearchInput } from '@mattermost/compass-ui/components/search-input';
@@ -307,6 +308,7 @@ function QuickSwitchPanel({
               {item.group != null &&
                 item.group !== results[index - 1]?.group && (
                   <li role="presentation">
+                    {index > 0 && <PopoverMenuDivider />}
                     <MenuGroupHeading
                       className={styles['quick-switch-modal__heading']}
                       label={item.groupLabel ?? item.group}

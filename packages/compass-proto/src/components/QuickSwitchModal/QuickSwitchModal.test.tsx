@@ -150,8 +150,14 @@ describe('QuickSwitchModal', () => {
       'Unread',
       'Recent',
     ]);
+    expect(document.body.querySelectorAll('[role="separator"]')).toHaveLength(
+      1,
+    );
     type('bug');
     expect(document.body.textContent).not.toContain('Recent');
+    expect(document.body.querySelectorAll('[role="separator"]')).toHaveLength(
+      0,
+    );
   });
 
   it('resets the highlight to the first result when the query changes', () => {
