@@ -12,18 +12,19 @@ import { filterQuickSwitchItems } from './filterQuickSwitchItems';
 ).IS_REACT_ACT_ENVIRONMENT = true;
 
 const items: QuickSwitchItem[] = [
-  { id: 'town', name: 'Town Square', breadcrumb: ['Mattermost'] },
   {
-    id: 'design',
-    name: 'Design',
-    leadingVisual: 'private',
-    breadcrumb: ['Product'],
+    id: 'ask',
+    name: 'Ask Anything',
+    secondaryLabel: '~announcements',
+    group: 'Unread',
   },
+  { id: 'bugs', name: 'Bugs', secondaryLabel: '~bugs', group: 'Unread' },
   {
-    id: 'aiko',
-    name: 'Aiko Tan',
-    leadingVisual: 'direct-message',
-    keywords: ['@aiko'],
+    id: 'dev',
+    name: 'Developers: Webapp',
+    secondaryLabel: '~developers-web-app',
+    group: 'Recent',
+    keywords: ['frontend'],
   },
 ];
 
@@ -90,13 +91,14 @@ describe('filterQuickSwitchItems', () => {
   it('returns everything for an empty query', () => {
     expect(filterQuickSwitchItems(items, '  ')).toBe(items);
   });
-  it('matches name, breadcrumb and keywords, all terms required', () => {
-    expect(
-      filterQuickSwitchItems(items, 'design prod').map((i) => i.id),
-    ).toEqual(['design']);
-    expect(filterQuickSwitchItems(items, '@aiko').map((i) => i.id)).toEqual([
-      'aiko',
+  it('matches name, secondary label and keywords, all terms required', () => {
+    expect(filterQuickSwitchItems(items, 'dev ~dev').map((i) => i.id)).toEqual([
+      'dev',
     ]);
+    expect(filterQuickSwitchItems(items, 'frontend').map((i) => i.id)).toEqual([
+      'dev',
+    ]);
+    expect(filterQuickSwitchItems(items, 'bugs announcements')).toEqual([]);
     expect(filterQuickSwitchItems(items, 'zzz')).toEqual([]);
   });
 });
@@ -115,7 +117,7 @@ describe('QuickSwitchModal', () => {
 
   it('filters as you type and shows the empty state', () => {
     mount();
-    type('des');
+    type('bug');
     expect(options()).toHaveLength(1);
     type('nope');
     expect(options()).toHaveLength(0);
@@ -135,6 +137,21 @@ describe('QuickSwitchModal', () => {
     key('End');
     key('Enter');
     expect(onSelect).toHaveBeenCalledWith(items[2]);
+  });
+
+  it('shows a heading where the group changes', () => {
+    mount();
+    const headings = Array.from(
+      document.body.querySelectorAll('[role="presentation"]'),
+    )
+      .map((el) => el.textContent)
+      .filter(Boolean);
+    expect(headings.filter((t) => t === 'Unread' || t === 'Recent')).toEqual([
+      'Unread',
+      'Recent',
+    ]);
+    type('bug');
+    expect(document.body.textContent).not.toContain('Recent');
   });
 
   it('resets the highlight to the first result when the query changes', () => {
@@ -183,8 +200,8 @@ describe('QuickSwitchModal', () => {
         .querySelector('[role="listbox"]')!
         .getAttribute('aria-label'),
     ).toBe('Resultados');
-    type('aiko');
-    expect(options().map((o) => o.textContent)).toEqual(['Aiko Tan']);
+    type('bugs');
+    expect(options().map((o) => o.textContent)).toEqual(['Bugs~bugs']);
     type('x');
     expect(document.body.textContent).toContain('Sin resultados');
   });

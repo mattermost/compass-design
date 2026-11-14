@@ -10,7 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
-- **2026-11-13 · `QuickSwitchModal`:** keyboard-first channel / DM / group-message switcher (Ctrl/Cmd+K dialog) built from `ModalOverlay`, `Modal`, `SearchInput` and `ChannelSidebarItem`. Takes `items` and `onSelect` (plus `open`, `onClose`, optional `filter`, `onQueryChange`, and label props with English defaults); also exports `filterQuickSwitchItems` and the `QuickSwitchItem` type. Part of #263.
+- **2026-11-13 · `QuickSwitchModal`:** keyboard-first "Find channels" switcher (Ctrl/Cmd+K dialog) matching the Patterns — Modals Figma: titled `Modal` with a `SearchInput` in the header, grouped `MenuItem` rows (`MenuGroupHeading` for Unread / Recent) with an inline `~handle`. Takes `items` and `onSelect` (plus `open`, `onClose`, optional `filter`, `onQueryChange`, `overlayProps`, and label props with English defaults); also exports `filterQuickSwitchItems` and the `QuickSwitchItem` type. Part of #263.
 
 ### Changed
 

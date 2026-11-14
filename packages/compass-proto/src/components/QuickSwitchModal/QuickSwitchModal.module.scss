@@ -1,9 +1,5 @@
 .quick-switch-modal {
-  // ChannelSidebarItem is styled for the sidebar theme; retarget its theme
-  // roles to the center channel so rows read correctly on the modal surface.
-  --sidebar-text: var(--center-channel-color);
-  --sidebar-text-rgb: var(--center-channel-color-rgb);
-  --sidebar-text-active-border: var(--button-bg);
+  height: 520px;
 
   &__search {
     width: 100%;
@@ -13,38 +9,20 @@
     margin: 0;
     padding: var(--spacing-s) var(--spacing-m);
     list-style: none;
+
+    > li {
+      margin: 0;
+      padding: 0;
+    }
   }
 
-  &__option {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-s);
-    margin: 0;
-    padding: 0 var(--spacing-m) 0 0;
-    border-radius: var(--radius-s);
-    cursor: pointer;
-  }
-
-  // Highlight follows aria-selected on the whole option (row + breadcrumb), so
-  // keyboard and pointer share one state; the row keeps only its edge marker.
-  &__option[aria-selected='true'] {
+  // Figma: highlighted row is a neutral 8% fill, not the accent tint.
+  &__list &__option[aria-selected='true'] {
     background: rgba(var(--center-channel-color-rgb), 0.08);
   }
 
-  &__option &__row {
-    flex: 1 1 auto;
-    min-width: 0;
-    background: transparent;
-  }
-
-  &__crumbs {
-    flex: 0 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: var(--font-size-75);
-    color: rgba(var(--center-channel-color-rgb), 0.72);
+  &__heading {
+    padding-inline: var(--spacing-xl);
   }
 
   &__empty {
@@ -52,11 +30,6 @@
     padding: var(--spacing-xxxl) var(--spacing-xl);
     text-align: center;
     font-size: var(--font-size-100);
-    color: rgba(var(--center-channel-color-rgb), 0.72);
-  }
-
-  &__hint {
-    font-size: var(--font-size-75);
     color: rgba(var(--center-channel-color-rgb), 0.72);
   }
 }

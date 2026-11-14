@@ -1,6 +1,6 @@
 import { QuickSwitchModalCanvas } from './quick-switch-modal.specimen';
 
-The Quick Switch Modal is the keyboard-first way to jump to a channel, direct
+The Quick Switch Modal ("Find channels") is the keyboard-first way to jump to a channel, direct
 message, or group message. Users open it with a shortcut, type a few letters,
 and press Enter. It lives in `@mattermost/compass-proto` as a prototyping
 surface and is not yet published to `@mattermost/compass-ui`.
@@ -18,22 +18,24 @@ surface and is not yet published to `@mattermost/compass-ui`.
   <QuickSwitchModalCanvas />
 </AnatomyStage>
 
-- <Num>1</Num> **Search field** — a large search input in the header. It keeps
-  focus the whole time; the arrow keys move the highlight without leaving it.
-- <Num>2</Num> **Results** — the same row used in the channel sidebar, so
-  channel type, unread state, and mentions read the same way in both places. A
-  muted breadcrumb after the name says where the destination lives.
-- <Num>3</Num> **Keyboard hint** — a footer line that lists the keys.
+- <Num>1</Num> **Header** — the "Find channels" title and a close button.
+- <Num>2</Num> **Search field** — a medium search input under the title. It
+  keeps focus the whole time; the arrow keys move the highlight without leaving
+  it.
+- <Num>3</Num> **Results** — menu items with a channel glyph, the name, and a
+  muted handle after it. The highlighted row has a soft fill.
+- <Num>4</Num> **Group headings** — small all-caps labels such as Unread and
+  Recent that title consecutive results.
 
 <Divider />
 
 ## States
 
-- **Default** — every destination in the host's order (typically recents
-  first), with the first row highlighted.
+- **Default** — every destination in the host's order, grouped (for example
+  Unread, then Recent), with the first row highlighted.
 - **Filtered** — rows narrow as the user types. Every word must match the name,
-  breadcrumb, or a keyword such as a username. The highlight returns to the
-  first row.
+  handle, or a keyword. Headings appear only above groups that still have
+  results, and the highlight returns to the first row.
 - **Empty** — a centered "No results found" message replaces the list.
 
 ## Keyboard

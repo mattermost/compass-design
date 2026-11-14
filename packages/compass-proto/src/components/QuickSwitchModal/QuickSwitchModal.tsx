@@ -1,4 +1,5 @@
 import {
+  Fragment,
   useEffect,
   useId,
   useMemo,
@@ -8,18 +9,17 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
-import { ChannelSidebarItem } from '@mattermost/compass-ui/components/channel-sidebar-item';
-import type {
-  ChannelSidebarItemLeadingVisual,
-  ChannelSidebarItemStatus,
-} from '@mattermost/compass-ui/components/channel-sidebar-item';
+import GlobeIcon from '@mattermost/compass-icons/components/globe';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { MenuGroupHeading } from '@mattermost/compass-ui/components/menu-group-heading';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 import type { ModalOverlayProps } from '@mattermost/compass-ui/components/modal';
 import { SearchInput } from '@mattermost/compass-ui/components/search-input';
 import { filterQuickSwitchItems } from './filterQuickSwitchItems';
 import styles from './QuickSwitchModal.module.scss';
 
-/** One destination in the switcher: a channel, DM, or group message. */
+/** One destination in the switcher (a channel, DM, or group message). */
 export interface QuickSwitchItem {
   /** Stable key; also used to build the option `id`. */
   id: string;
@@ -27,26 +27,27 @@ export interface QuickSwitchItem {
    * Display name. A string because it is also the text matched against the
    * query; use `label` to render something richer.
    */
-  name: string;
-  /** Rendered in place of `name` when set (e.g. a translated node). Matching still uses `name`. */
   label?: ReactNode;
-  /** Row glyph, forwarded to `ChannelSidebarItem`. Default: `'public'`. */
-  leadingVisual?: ChannelSidebarItemLeadingVisual | ReactNode;
-  /** Avatar URL for `leadingVisual='direct-message'`. */
-  avatarSrc?: string;
-  /** Member count for `leadingVisual='group-message'`. */
-  memberCount?: number;
-  /** Read / unread / mention state shown on the row. */
-  status?: ChannelSidebarItemStatus;
-  mentionCount?: number;
-  muted?: boolean;
-  sharedChannel?: boolean;
+  name: string;
   /**
-   * Where the destination lives, shown after the name (e.g. `['Design', 'Product']`
-   * for team › category). Strings, because they are also matched against the query.
+   * Muted text after the name, e.g. the channel handle `~bugs`. A string
+   * because it is also matched against the query.
    */
-  breadcrumb?: string[];
-  /** Extra lowercase-insensitive search terms (handle, full name, purpose). */
+  secondaryLabel?: string;
+  /**
+   * Leading visual. Pass `<Icon glyph={<SomeIcon />} />` (the row provides the
+   * size) or a 16–24px node such as an avatar. Default: a globe icon.
+   */
+  leadingVisual?: ReactNode;
+  /**
+   * Section this item belongs to (e.g. "Unread", "Recent"). A heading shows
+   * wherever the group changes between consecutive results, so keep items of
+   * a group together. Ungrouped items render with no heading.
+   */
+  group?: string;
+  /** Rendered as the group heading instead of `group` (e.g. a translated node). */
+  groupLabel?: ReactNode;
+  /** Extra search terms (handle, full name, purpose). */
   keywords?: string[];
 }
 
@@ -66,7 +67,7 @@ export interface QuickSwitchModalProps {
   onSelect: (item: QuickSwitchItem) => void;
   /**
    * Custom match. Default: every whitespace-separated term of the query is a
-   * case-insensitive substring of the name, breadcrumb or keywords.
+   * case-insensitive substring of the name, secondary label or keywords.
    */
   filter?: (item: QuickSwitchItem, query: string) => boolean;
   /** Called as the query changes (e.g. to fetch more results). */
@@ -79,24 +80,20 @@ export interface QuickSwitchModalProps {
     ModalOverlayProps,
     'open' | 'onClose' | 'onExited' | 'children'
   >;
-  /** Dialog name (visually hidden). Default: "Switch channels". */
+  /** Dialog heading. Default: "Find channels". */
   title?: ReactNode;
-  /** Search input placeholder. Default: "Find or jump to…". */
+  /** Search input placeholder. Default: "Search". */
   placeholder?: string;
-  /** Accessible name of the search input. Default: "Find or jump to a channel or person". */
+  /** Accessible name of the search input. Default: "Search channels". */
   searchLabel?: string;
   /** Accessible name of the results list. Default: "Results". */
   listLabel?: string;
   /** Shown when nothing matches. Default: "No results found". */
   emptyLabel?: ReactNode;
-  /** Footer keyboard hints. Default: "↑↓ to navigate · Enter to select · Esc to dismiss". */
-  hintLabel?: ReactNode;
   /** Accessible name for the close button. Default: "Close". */
   closeLabel?: string;
   className?: string;
 }
-
-const DEFAULT_HINT = '↑↓ to navigate · Enter to select · Esc to dismiss';
 
 /**
  * Quick switcher: a search field over a keyboard-navigable list of channels, DMs
@@ -114,12 +111,11 @@ export default function QuickSwitchModal({
   filter,
   onQueryChange,
   overlayProps,
-  title = 'Switch channels',
-  placeholder = 'Find or jump to…',
-  searchLabel = 'Find or jump to a channel or person',
+  title = 'Find channels',
+  placeholder = 'Search',
+  searchLabel = 'Search channels',
   listLabel = 'Results',
   emptyLabel = 'No results found',
-  hintLabel = DEFAULT_HINT,
   closeLabel = 'Close',
   className,
 }: QuickSwitchModalProps) {
@@ -142,7 +138,6 @@ export default function QuickSwitchModal({
         searchLabel={searchLabel}
         listLabel={listLabel}
         emptyLabel={emptyLabel}
-        hintLabel={hintLabel}
         closeLabel={closeLabel}
         className={className}
       />
@@ -162,7 +157,6 @@ type PanelProps = Required<
     | 'searchLabel'
     | 'listLabel'
     | 'emptyLabel'
-    | 'hintLabel'
     | 'closeLabel'
   >
 > &
@@ -180,7 +174,6 @@ function QuickSwitchPanel({
   searchLabel,
   listLabel,
   emptyLabel,
-  hintLabel,
   closeLabel,
   className,
 }: PanelProps) {
@@ -255,16 +248,15 @@ function QuickSwitchPanel({
       open={open}
       size="small"
       title={title}
-      hideTitle
       onClose={onClose}
       closeLabel={closeLabel}
       initialFocusRef={inputRef}
       bodyPadding="none"
-      headerLeading={
+      headerSlot={
         <SearchInput
           ref={inputRef}
           className={styles['quick-switch-modal__search']}
-          size="large"
+          size="medium"
           placeholder={placeholder}
           aria-label={searchLabel}
           role="combobox"
@@ -284,10 +276,6 @@ function QuickSwitchPanel({
           onKeyDown={handleKeyDown}
         />
       }
-      footerType="pagination"
-      footerLeading={
-        <span className={styles['quick-switch-modal__hint']}>{hintLabel}</span>
-      }
     >
       {count === 0 ? (
         <p className={styles['quick-switch-modal__empty']} role="status">
@@ -302,38 +290,39 @@ function QuickSwitchPanel({
           aria-label={listLabel}
         >
           {results.map((item, index) => (
-            // Focus stays in the input (aria-activedescendant); the pointer
-            // handlers only mirror what the keys do.
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            <li
-              key={item.id}
-              id={optionId(index)}
-              role="option"
-              aria-selected={index === active}
-              className={styles['quick-switch-modal__option']}
-              onMouseMove={() => index !== active && setActiveIndex(index)}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => onSelect(item)}
-            >
-              <ChannelSidebarItem
-                className={styles['quick-switch-modal__row']}
-                name={item.label ?? item.name}
-                leadingVisual={item.leadingVisual}
-                avatarSrc={item.avatarSrc}
-                memberCount={item.memberCount}
-                status={item.status}
-                mentionCount={item.mentionCount}
-                muted={item.muted}
-                sharedChannel={item.sharedChannel}
-                active={index === active}
-                hideMenu
-              />
-              {item.breadcrumb && item.breadcrumb.length > 0 && (
-                <span className={styles['quick-switch-modal__crumbs']}>
-                  {item.breadcrumb.join(' › ')}
-                </span>
-              )}
-            </li>
+            <Fragment key={item.id}>
+              {item.group != null &&
+                item.group !== results[index - 1]?.group && (
+                  <li role="presentation">
+                    <MenuGroupHeading
+                      className={styles['quick-switch-modal__heading']}
+                      label={item.groupLabel ?? item.group}
+                    />
+                  </li>
+                )}
+              <li
+                role="presentation"
+                onMouseMove={() => index !== active && setActiveIndex(index)}
+              >
+                <MenuItem
+                  id={optionId(index)}
+                  role="option"
+                  tabIndex={-1}
+                  aria-selected={index === active}
+                  label={item.label ?? item.name}
+                  className={styles['quick-switch-modal__option']}
+                  secondaryLabel={item.secondaryLabel}
+                  secondaryLabelPosition="inline"
+                  leadingVisual={
+                    item.leadingVisual ?? <Icon glyph={<GlobeIcon />} />
+                  }
+                  active={index === active}
+                  // Focus stays in the input (aria-activedescendant).
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => onSelect(item)}
+                />
+              </li>
+            </Fragment>
           ))}
         </ul>
       )}

@@ -1,6 +1,6 @@
 import type { QuickSwitchItem } from './QuickSwitchModal';
 
-/** Default matcher: all query terms must appear in the name, breadcrumb or keywords. */
+/** Default matcher: all query terms must appear in the name, secondary label or keywords. */
 export function filterQuickSwitchItems(
   items: QuickSwitchItem[],
   query: string,
@@ -13,7 +13,7 @@ export function filterQuickSwitchItems(
 function matchesTerms(item: QuickSwitchItem, terms: string[]): boolean {
   const haystack = [
     item.name,
-    ...(item.breadcrumb ?? []),
+    item.secondaryLabel ?? '',
     ...(item.keywords ?? []),
   ]
     .join(' ')
