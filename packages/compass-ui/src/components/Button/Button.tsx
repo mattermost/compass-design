@@ -52,7 +52,10 @@ interface ButtonOwnProps {
    * only horizontal padding tightens. For dense toolbars. Default: false.
    */
   compact?: boolean;
-  /** When true, uses destructive (danger) styling. */
+  /**
+   * When true, uses destructive (danger) styling. Shorthand for
+   * `tone="danger"` (the same rules apply); `tone` wins when both are set.
+   */
   destructive?: boolean;
   /** Visual emphasis. Default: primary. */
   emphasis?: ButtonEmphasis;

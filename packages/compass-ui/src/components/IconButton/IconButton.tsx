@@ -33,7 +33,11 @@ interface IconButtonOwnProps {
   className?: string;
   /** Numeric count shown inline after the icon. Figma: Count. */
   count?: number;
-  /** When true, uses destructive (danger) styling. Figma: Destructive. */
+  /**
+   * When true, uses destructive (danger) styling: a danger-coloured icon on a
+   * transparent button. Figma: Destructive. This is not `tone="danger"`, which
+   * gives a solid red fill.
+   */
   destructive?: boolean;
   /**
    * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success`, `warning` or `info`.
