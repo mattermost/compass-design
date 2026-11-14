@@ -157,8 +157,10 @@
     color: var(--sidebar-text);
   }
 
+  // Selecting a tile that is still hovered must snap, not continue the hover fade.
   &--selected &__icon,
   &--selected:hover &__icon {
     background: rgba(var(--sidebar-text-rgb), var(--opacity-16));
+    transition: none;
   }
 }
