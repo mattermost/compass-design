@@ -166,6 +166,12 @@
   }
 
   // ── Team Sidebar demo ───────────────────────────────────────
+  &__product-rail-demo {
+    display: inline-flex;
+    align-items: stretch;
+    height: 360px;
+  }
+
   &__team-sidebar-demo {
     display: inline-flex;
     align-items: stretch;

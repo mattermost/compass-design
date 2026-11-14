@@ -1,0 +1,58 @@
+The Product Rail is an unpublished prototyping composite in
+`@mattermost/compass-proto`. It is a labeled vertical strip for moving between
+Mattermost products such as Channels, Playbooks, and Boards. Each product is a
+tile with an icon and a visible label beneath it, so the destination is clear
+without a tooltip.
+
+The rail uses the same dark sidebar background as the rest of the shell chrome.
+It is not the App Bar, which holds third-party apps and plugins on the right
+edge of the shell.
+
+<Divider />
+
+## Anatomy
+
+The Product Rail is a navigation landmark containing a list of product tiles,
+with optional header and footer areas.
+
+- **Header** — Optional area pinned above the tiles, for example a
+  product switcher trigger.
+- **Product tile** — An icon over a short label. One tile per
+  product.
+- **Badges** — A mention count, or an unread dot when there are
+  unreads without mentions. When both apply, only the mention count shows.
+- **Footer** — Optional area pinned to the bottom, for example
+  settings or help.
+
+<Divider />
+
+## States
+
+- **Default** — Icon and label in the sidebar text color. Hover adds a subtle
+  tint.
+- **Selected** — A filled tile and an accent bar on the leading edge mark the
+  current product. The tile is exposed to assistive technology as the current
+  page.
+- **Focus** — Keyboard focus shows a visible outline around the tile.
+
+Badge counts are included in each tile's accessible name, for example "Boards,
+3 mentions". Hosts can translate the navigation label and the badge phrases.
+
+<Divider />
+
+## Behavior
+
+Selecting a tile should switch the product shown in the main area. Wire it
+through `onSelect` and your routing or store, and keep `activeId` in sync with
+the current product.
+
+Labels should be one word where possible, because the rail is narrow and long
+labels are truncated with an ellipsis.
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for a live, selectable rail. `ProductRail` takes an
+`items` array and `activeId`; `ProductRailItem` is also exported for custom
+layouts. The rail is not yet a slot on `ChannelShell`.
