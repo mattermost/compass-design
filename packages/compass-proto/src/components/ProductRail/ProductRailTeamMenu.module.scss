@@ -32,6 +32,19 @@
     }
   }
 
+  // Hover follows the webapp, not Team Avatar: the avatar lifts with a soft ring and a deeper
+  // shadow, so Team Avatar's own hover outline and inner border are switched off.
+  &:hover &__avatar {
+    outline-color: transparent;
+    box-shadow:
+      0 0 0 2px rgba(var(--sidebar-text-rgb), 0.32),
+      0 2px 4px rgba(0, 0, 0, 0.32);
+
+    > div:first-child::after {
+      border-width: 0;
+    }
+  }
+
   // The current team on cards that peek out below it, hinting at the other teams.
   &__stack {
     position: relative;
