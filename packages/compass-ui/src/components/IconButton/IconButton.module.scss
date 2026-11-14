@@ -495,11 +495,17 @@
       color: var(--icon-button-fg);
     }
 
-    // Loading: a 64% tint of the tone instead of the solid fill, so the white
-    // spinner (dark on `warning`) stays visible. `loading` also
-    // disables the button, whose 50% opacity would fade the spinner too, so it
-    // is reset here.
+    // Loading: a 64% tint of the tone instead of the solid fill. A default
+    // loading button ends up with its icon and spinner at 32% (64% colour under
+    // the 50% disabled opacity); the opacity is reset here and the tone's
+    // foreground is set to the same 32% so the spinner matches.
     &.icon-button--loading {
+      --icon-button-fg: color-mix(
+        in srgb,
+        var(--icon-button-tone-label) 32%,
+        transparent
+      );
+
       opacity: 1;
       background-color: color-mix(
         in srgb,
