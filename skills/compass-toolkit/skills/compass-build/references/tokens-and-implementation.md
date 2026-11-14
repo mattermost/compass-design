@@ -24,7 +24,7 @@ Source: `.claude/rules/styling.md`, `packages/compass-ui/AGENTS.md`, `/foundatio
 | Motion      | `--duration-quick` 150ms, `--duration-moderate` 300ms, `--ease-transition`, `--ease-entrance`, `--ease-exit`                  |
 | Stacking    | `--z-sidebar` 100, `--z-modal` 1050, `--z-confirm-modal` 1060, `--z-menu` 1100, `--z-popover` 1200, `--z-tooltip` 1350        |
 
-- Nearest token, or `calc()` of tokens, beats raw px. Allowed raw: 1px hairlines, visually-hidden, one-off layout widths with no token, breakpoints.
+- Nearest token, or `calc()` of tokens, beats raw px. Allowed raw: border widths (1px hairlines, a 2px or 4px accent bar), visually-hidden, one-off layout widths with no token, breakpoints. **Spacing tokens are for gaps, padding and margins, never border widths**: a `border-left: 4px solid` stays 4px, don't write `var(--spacing-xxxs)` there.
 - No tokenizable spacing or font in inline `style={{}}`. Use a CSS module.
 - Tokens are additive-only. Never rename, remove or revalue one. Add a new one.
 

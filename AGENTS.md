@@ -38,7 +38,7 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 
 ## Component usage (short)
 
-- **Primary button:** `emphasis="primary"` at most once per view. Prefer `secondary` / `tertiary` / `quaternary` otherwise.
+- **Primary button:** `emphasis="primary"` at most once per view. Every other `Button` sets `emphasis` explicitly, because it defaults to `primary`: `tertiary` is the usual choice (Cancel, back, alternatives); use `quaternary`, `dim` or `link` for lighter actions, and avoid `secondary` unless a design calls for it.
 - **EmptyState actions:** omit `size` on the action `Button` unless Figma requires otherwise (default Medium).
 - **Admin True/False radios:** lay out horizontally in a flex row (e.g. `admin-console-layout__radio-row`); override Radio `width: 100%` so both stay on one row; match label `padding-top: var(--spacing-xxs)`.
 - **Avatars:** pass a real image from `src/assets/avatars/` when the component supports `src` / equivalent. Initials-only only when documenting fallback or unnamed users.

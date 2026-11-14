@@ -1,6 +1,6 @@
 {
   "name": "mattermost-compass-toolkit",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "author": { "name": "Mattermost" },
   "description": "Agent skills for building, reviewing and productionizing Mattermost UI with Compass: compass-build, compass-review, compass-migrate and prototype-to-production.",
   "license": "Apache-2.0",

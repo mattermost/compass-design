@@ -25,7 +25,7 @@ skills/
 | [`compass-build`](compass-toolkit/skills/compass-build/SKILL.md)                     | Build, restyle or retrofit Mattermost UI to the Compass rules. **Owns the shared rules** in `references/`.                                                             |
 | [`compass-review`](compass-toolkit/skills/compass-review/SKILL.md)                   | Read-only audit of existing UI code against the same rules. Reads `../compass-build/references/`.                                                                      |
 | [`compass-migrate`](compass-toolkit/skills/compass-migrate/SKILL.md)                 | Migrate a shipped plugin or webapp from react-bootstrap, react-select and custom UI to Compass: inventory first, patterns, gotchas by version, tests, required checks. |
-| [`prototype-to-production`](compass-toolkit/skills/prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin. Moved from mattermost-proto-playground#76.                                          |
+| [`prototype-to-production`](compass-toolkit/skills/prototype-to-production/SKILL.md) | Translate a Compass playground prototype into the webapp, desktop app or a plugin.                                                                                     |
 
 How they depend on each other:
 
@@ -100,4 +100,4 @@ When a component API change affects a rule or reference, update the skill in the
 
 ## Releasing the plugin
 
-The plugin pins `version` in `skills/compass-toolkit/.claude-plugin/plugin.json`, so installed copies only update when it changes. CI (`.github/workflows/plugin-version.yml`) fails a PR that changes files under `skills/compass-toolkit/skills/` without changing that `version`. Bump it in the PR, or add the `skip-plugin-version` label when installed copies need no update. Then run `claude plugin validate .` (checks the marketplace) and `claude plugin validate skills/compass-toolkit` (checks the plugin).
+The plugin pins `version` in `skills/compass-toolkit/.claude-plugin/plugin.json`, so installed copies only update when it changes. CI (`.github/workflows/plugin-version.yml`) fails a PR that changes files under `skills/compass-toolkit/skills/` without changing that `version`. Bump it in the PR, or add the `skip-plugin-version` label when installed copies need no update. Keep `version` in `skills/compass-toolkit/.cursor-plugin/plugin.json` equal to it; CI does not check that file. Then run `claude plugin validate .` (checks the marketplace) and `claude plugin validate skills/compass-toolkit` (checks the plugin).

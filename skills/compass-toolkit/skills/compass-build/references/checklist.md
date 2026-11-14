@@ -19,7 +19,7 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 ## Components and tokens
 
 - [ ] Used existing Compass components and patterns instead of custom markup. `[manual]`
-- [ ] No raw px, hex, font-size, radius, shadow, duration or easing. `[lint]`
+- [ ] No raw px, hex, font-size, radius, shadow, duration or easing. `[lint]` Border widths are raw by design: don't swap them for spacing tokens.
 - [ ] Subpath, named imports only; variant props are kebab-case strings.
 - [ ] Picked components with `references/components.md` (e.g. single date = `DateRangePicker mode="date"`).
 - [ ] Every `TextInput` has the type that matches its data (`email`, `tel`, `url`, `number`; `text` only when nothing more specific fits).
