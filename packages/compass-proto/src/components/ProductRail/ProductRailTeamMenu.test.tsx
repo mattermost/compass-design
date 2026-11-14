@@ -101,4 +101,17 @@ describe('ProductRailTeamMenu', () => {
     act(() => row.click());
     expect(onShow).toHaveBeenCalled();
   });
+
+  it('renders nothing while a controlled `open` is false', () => {
+    const c = render(<ProductRailTeamMenu teams={teams} open={false} />);
+    expect(c.querySelector('[role="menu"]')).toBeNull();
+  });
+
+  it('renders a labeled menu when `open` is true', () => {
+    const c = render(<ProductRailTeamMenu teams={teams} open />);
+    expect(c.querySelector('[role="menu"]')?.getAttribute('aria-label')).toBe(
+      'Teams',
+    );
+    expect(c.querySelectorAll('[role="menuitem"]')).toHaveLength(3);
+  });
 });

@@ -1,5 +1,6 @@
 import type { MouseEvent, ReactNode } from 'react';
 import DockLeftIcon from '@mattermost/compass-icons/components/dock-left';
+import CheckIcon from '@mattermost/compass-icons/components/check';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import {
@@ -7,7 +8,6 @@ import {
   PopoverMenuDivider,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
-import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './ProductRailTeamMenu.module.scss';
 
@@ -22,6 +22,34 @@ export interface ProductRailTeam {
   unread?: boolean;
   /** Unread mention count. */
   mentions?: number;
+  /** Styles the mention count as urgent. */
+  urgent?: boolean;
+}
+
+/** Initials as the webapp builds them: the name without spaces, first two characters. */
+const initialsOf = (team: ProductRailTeam) =>
+  (team.initials ?? team.name.replace(/\s/g, '').substring(0, 2)).toUpperCase();
+
+/** A team's image, or its initials, in a rounded square: `lg` for the rail, `md` for menu rows. */
+function TeamGlyph({
+  team,
+  size,
+}: {
+  team: ProductRailTeam;
+  size: 'md' | 'lg';
+}) {
+  const cls = `${styles['product-rail-team-avatar']} ${styles[`product-rail-team-avatar--${size}`]}`;
+  return team.src ? (
+    <span
+      className={cls}
+      style={{ backgroundImage: `url('${team.src}')` }}
+      aria-hidden
+    />
+  ) : (
+    <span className={cls} aria-hidden>
+      {initialsOf(team)}
+    </span>
+  );
 }
 
 export interface ProductRailTeamButtonProps {
@@ -77,14 +105,7 @@ export function ProductRailTeamButton({
           {teams.length > 1 && (
             <span className={styles['product-rail-team-button__card']} />
           )}
-          <TeamAvatar
-            className={styles['product-rail-team-button__avatar']}
-            src={current.src}
-            alt=""
-            initials={current.initials}
-            size="40"
-            state="default"
-          />
+          <TeamGlyph team={current} size="lg" />
           {otherUnread && (
             <span className={styles['product-rail-team-button__dot']} />
           )}
@@ -104,12 +125,20 @@ export interface ProductRailTeamMenuProps {
   showTeamSidebarLabel?: ReactNode;
   /** Accessible name of the menu. Default: "Teams". */
   menuLabel?: string;
+  /**
+   * Controlled visibility with the Compass popover transition (scale + fade in,
+   * reverse on close); the menu unmounts after the exit. Omit to always render.
+   */
+  open?: boolean;
+  /** Called after the exit transition finishes and the menu unmounts. */
+  onExited?: () => void;
   className?: string;
 }
 
 /**
  * Menu of the user's teams, opened from `ProductRailTeamButton`. Visual chrome
- * only: the host positions it and handles open/close.
+ * only: the host positions it and owns `open`. Keep it mounted until
+ * `onExited` so the close animation can play.
  */
 export function ProductRailTeamMenu({
   teams,
@@ -118,10 +147,15 @@ export function ProductRailTeamMenu({
   onShowTeamSidebar,
   showTeamSidebarLabel = 'Show team sidebar',
   menuLabel = 'Teams',
+  open,
+  onExited,
   className = '',
 }: ProductRailTeamMenuProps) {
   return (
     <PopoverMenu
+      role="menu"
+      open={open}
+      onExited={onExited}
       aria-label={menuLabel}
       className={[styles['product-rail-team-menu'], className]
         .filter(Boolean)
@@ -132,28 +166,36 @@ export function ProductRailTeamMenu({
           const active = team.id === activeTeamId;
           const mentions = active ? 0 : (team.mentions ?? 0);
           return (
-            <MenuItem
+            <button
               key={team.id}
-              label={team.name}
-              leadingVisual={
-                <TeamAvatar
-                  src={team.src}
-                  alt=""
-                  initials={team.initials}
-                  size="32"
-                  variant="menu"
-                />
-              }
-              trailingElement={active || (mentions === 0 && !!team.unread)}
-              // Omitted for the current team, which gets MenuItem's default check.
-              trailingVisual={
-                !active && mentions === 0 && team.unread ? (
-                  <span className={styles['product-rail-team-menu__dot']} />
-                ) : undefined
-              }
-              mentionCount={mentions > 0 ? mentions : undefined}
+              type="button"
+              role="menuitem"
+              className={styles['product-rail-team-menu__row']}
               onClick={() => onSelectTeam?.(team.id)}
-            />
+            >
+              <TeamGlyph team={team} size="md" />
+              <span className={styles['product-rail-team-menu__label']}>
+                {team.name}
+              </span>
+              {active ? (
+                <Icon glyph={<CheckIcon />} size="16" />
+              ) : mentions > 0 ? (
+                <span
+                  className={[
+                    styles['product-rail-team-menu__badge'],
+                    team.urgent
+                      ? styles['product-rail-team-menu__badge--urgent']
+                      : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {mentions > 99 ? '99+' : mentions}
+                </span>
+              ) : team.unread ? (
+                <span className={styles['product-rail-team-menu__dot']} />
+              ) : null}
+            </button>
           );
         })}
       </PopoverMenuGroup>

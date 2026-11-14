@@ -32,20 +32,27 @@ const TEAMS: ProductRailTeam[] = [
 /** Host-owned wiring: the button opens the team menu beside it. */
 function TeamSwitcher() {
   const [activeTeamId, setActiveTeamId] = useState('contributors');
+  // `anchor` keeps the menu mounted until its exit animation ends; `open` drives it.
   const [anchor, setAnchor] = useState<DOMRect | null>(null);
+  const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  useOutsideClose(wrapRef, anchor != null, () => setAnchor(null), menuRef);
+  useOutsideClose(wrapRef, open, () => setOpen(false), menuRef);
 
   return (
     <div ref={wrapRef}>
       <ProductRailTeamButton
         teams={TEAMS}
         activeTeamId={activeTeamId}
-        open={anchor != null}
-        onClick={(e) =>
-          setAnchor(anchor ? null : e.currentTarget.getBoundingClientRect())
-        }
+        open={open}
+        onClick={(e) => {
+          if (open) {
+            setOpen(false);
+          } else {
+            setAnchor(e.currentTarget.getBoundingClientRect());
+            setOpen(true);
+          }
+        }}
       />
       {anchor &&
         createPortal(
@@ -61,9 +68,11 @@ function TeamSwitcher() {
             <ProductRailTeamMenu
               teams={TEAMS}
               activeTeamId={activeTeamId}
+              open={open}
+              onExited={() => setAnchor(null)}
               onSelectTeam={(id) => {
                 setActiveTeamId(id);
-                setAnchor(null);
+                setOpen(false);
               }}
             />
           </div>,
