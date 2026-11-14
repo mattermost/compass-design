@@ -47,7 +47,7 @@ const meta = {
     emphasis: { control: 'select', options: EMPHASES },
     tone: {
       control: 'select',
-      options: [undefined, 'danger', 'success', 'warning', 'info'],
+      options: [undefined, 'danger', 'success', 'warning'],
       description:
         'Semantic color applied to the chosen emphasis. Leave unset for the neutral/brand button. `destructive` is the same as `danger`.',
     },
@@ -273,9 +273,9 @@ function PermutationGrid({
   );
 }
 
-const TONES: ButtonTone[] = ['danger', 'success', 'warning', 'info'];
+const TONES: ButtonTone[] = ['danger', 'success', 'warning'];
 
-/** `tone` colors each emphasis red (`danger`), green (`success`), yellow (`warning`) or blue (`info`). */
+/** `tone` colors each emphasis red (`danger`), green (`success`) or yellow (`warning`). */
 export const Tones: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 12 }}>

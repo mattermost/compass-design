@@ -27,8 +27,8 @@ export type ButtonSize = 'x-small' | 'small' | 'medium' | 'large';
 
 export type ButtonAppearance = 'default' | 'inverted';
 
-/** Semantic color: `danger` (red), `success` (green), `warning` (yellow) or `info` (blue). */
-export type ButtonTone = 'danger' | 'success' | 'warning' | 'info';
+/** Semantic color: `danger` (red), `success` (green) or `warning` (yellow). */
+export type ButtonTone = 'danger' | 'success' | 'warning';
 
 /** True when the slot should render (icons, badges, or other JSX). */
 function hasSlotContent(node: ReactNode): boolean {
@@ -70,8 +70,8 @@ interface ButtonOwnProps {
   /** Size variant. Default: medium. */
   size?: ButtonSize;
   /**
-   * Semantic color applied to the chosen `emphasis`: `danger`, `success`,
-   * `warning` or `info`. `destructive` is the same as `tone="danger"`; when both are set,
+   * Semantic color applied to the chosen `emphasis`: `danger`, `success`
+   * or `warning`. `destructive` is the same as `tone="danger"`; when both are set,
    * `tone` wins. A host can retheme a tone by setting `--button-tone-color` and
    * `--button-tone-color-rgb` on the button or an ancestor. Not supported with
    * `appearance="inverted"`. Unset, the button keeps its neutral/brand colors.

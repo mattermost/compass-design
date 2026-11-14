@@ -21,8 +21,8 @@ export type IconButtonAppearance = 'default' | 'inverted';
 /** @deprecated Use {@link IconButtonAppearance}. Same values. */
 export type IconButtonStyle = IconButtonAppearance;
 
-/** Semantic color: `danger` (red), `success` (green), `warning` (yellow) or `info` (blue). */
-export type IconButtonTone = 'danger' | 'success' | 'warning' | 'info';
+/** Semantic color: `danger` (red), `success` (green) or `warning` (yellow). */
+export type IconButtonTone = 'danger' | 'success' | 'warning';
 
 export type IconButtonPadding = 'default' | 'compact';
 
@@ -40,7 +40,7 @@ interface IconButtonOwnProps {
    */
   destructive?: boolean;
   /**
-   * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success`, `warning` or `info`.
+   * Solid semantic fill with a white icon (dark on `warning`, where white fails contrast): `danger`, `success` or `warning`.
    * `tone` looks the same whether or not the button is `toggled` or `active`, and is not
    * supported with `appearance="inverted"`.
    * Unlike `destructive` (a transparent button with a danger icon), `tone`

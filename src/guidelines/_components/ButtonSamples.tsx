@@ -112,12 +112,11 @@ export function ButtonTones() {
       <Button tone="danger">Remove</Button>
       <Button tone="success">Approve</Button>
       <Button tone="warning">Review</Button>
-      <Button tone="info">Publish</Button>
       <Button tone="success" emphasis="secondary">
         Approve
       </Button>
-      <Button tone="info" emphasis="tertiary">
-        Publish
+      <Button tone="warning" emphasis="tertiary">
+        Review
       </Button>
     </div>
   );

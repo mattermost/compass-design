@@ -262,7 +262,7 @@
   // Destructive + emphasis
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  // Tone (danger | success | info) and Destructive. `destructive` is the
+  // Tone (danger | success | warning) and Destructive. `destructive` is the
   // `danger` tone, so both share these rules, one set per emphasis. A host can
   // retheme a tone by setting `--button-tone-color` and `--button-tone-color-rgb`
   // on an ancestor or the button.
@@ -284,10 +284,6 @@
   &--tone-success {
     --button-tone-base: var(--color-success-solid);
     --button-tone-base-rgb: var(--color-success-solid-rgb);
-  }
-  &--tone-info {
-    --button-tone-base: var(--color-info);
-    --button-tone-base-rgb: var(--color-info-rgb);
   }
 
   &--destructive,

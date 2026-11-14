@@ -53,7 +53,7 @@ const meta = {
     padding: { control: 'select', options: ['default', 'compact'] },
     tone: {
       control: 'select',
-      options: [undefined, 'danger', 'success', 'warning', 'info'],
+      options: [undefined, 'danger', 'success', 'warning'],
       description: 'Solid semantic fill. Leave unset for the neutral button.',
     },
     toggled: {
@@ -343,13 +343,13 @@ function PermutationGrid({
 }
 
 /**
- * `tone` fills the button red (`danger`), green (`success`), yellow (`warning`)
- * or blue (`info`). Use the controls on Default to try other combinations.
+ * `tone` fills the button red (`danger`), green (`success`) or yellow
+ * (`warning`). Use the controls on Default to try other combinations.
  */
 export const Tones: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 12 }}>
-      {(['danger', 'success', 'warning', 'info'] as const).map((tone) => (
+      {(['danger', 'success', 'warning'] as const).map((tone) => (
         <IconButton
           key={tone}
           tone={tone}

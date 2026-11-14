@@ -240,22 +240,24 @@ describe('Button tone', () => {
 
   it('adds tone classes on asChild', () => {
     const { container } = render(
-      <Button asChild tone="info">
+      <Button asChild tone="success">
         <a href="/x">Go</a>
       </Button>,
     );
     expect(container.querySelector('a')!.className).toMatch(
-      /button--tone-info/,
+      /button--tone-success/,
     );
   });
 
   it('adds a loading class only while loading', () => {
-    const { container, rerender } = render(<Button tone="info">Save</Button>);
+    const { container, rerender } = render(
+      <Button tone="success">Save</Button>,
+    );
     expect(container.querySelector('button')!.className).not.toMatch(
       /button--loading/,
     );
     rerender(
-      <Button tone="info" loading>
+      <Button tone="success" loading>
         Save
       </Button>,
     );

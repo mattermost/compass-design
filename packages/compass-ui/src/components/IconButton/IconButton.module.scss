@@ -395,7 +395,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Tone (danger | success | info): solid fill with a white icon. A host can
+  // Tone (danger | success | warning): solid fill with a white icon. A host can
   // retheme a tone by setting `--icon-button-tone-bg`, `-fg`, `-hover-bg` and
   // `-active-bg` on the button or an ancestor. Declared last so it wins over the
   // default, inverted and destructive states at equal specificity.
@@ -405,9 +405,6 @@
   }
   &--tone-success {
     --icon-button-tone-base: var(--color-success-solid);
-  }
-  &--tone-info {
-    --icon-button-tone-base: var(--color-info);
   }
   // Yellow: white fails contrast, so the icon is dark.
   &--tone-warning {

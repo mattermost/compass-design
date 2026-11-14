@@ -153,12 +153,14 @@ describe('IconButton tone', () => {
 
   it('adds a loading class only while loading', () => {
     const { container, rerender } = render(
-      <IconButton aria-label="Save" tone="info" icon={null} />,
+      <IconButton aria-label="Save" tone="success" icon={null} />,
     );
     expect(container.querySelector('button')!.className).not.toMatch(
       /icon-button--loading/,
     );
-    rerender(<IconButton aria-label="Save" tone="info" icon={null} loading />);
+    rerender(
+      <IconButton aria-label="Save" tone="success" icon={null} loading />,
+    );
     expect(container.querySelector('button')!.className).toMatch(
       /icon-button--loading/,
     );
