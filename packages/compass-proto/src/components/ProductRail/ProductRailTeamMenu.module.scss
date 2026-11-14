@@ -1,0 +1,83 @@
+// Team button and menu for the Product Rail. Ported from the webapp's
+// ProductRailTeamMenu (webapp/channels/src/components/product_rail/product_rail.scss).
+.product-rail-team-button {
+  position: relative;
+  display: flex;
+  margin: 0 0 var(--spacing-xxxs);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-m);
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
+    outline: none;
+  }
+
+  // The current team on cards that peek out below it, hinting at the other teams.
+  &__stack {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    // Sets the team apart from the items below.
+    margin-bottom: var(--spacing-xs);
+  }
+
+  &__avatar {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__card {
+    position: absolute;
+    z-index: 0;
+    top: var(--spacing-xxxs);
+    right: 3px;
+    bottom: calc(-1 * var(--spacing-xxxs));
+    left: 3px;
+    border-radius: var(--radius-m);
+    background: color-mix(
+      in srgb,
+      var(--sidebar-header-bg) 80%,
+      var(--sidebar-text)
+    );
+    box-shadow: var(--elevation-1);
+
+    &--back {
+      top: var(--spacing-xs);
+      right: var(--spacing-xxs);
+      bottom: calc(-1 * var(--spacing-xs));
+      left: var(--spacing-xxs);
+      background: color-mix(
+        in srgb,
+        var(--sidebar-header-bg) 88%,
+        var(--sidebar-text)
+      );
+    }
+  }
+
+  &__dot {
+    position: absolute;
+    z-index: 2;
+    top: -3px;
+    right: -3px;
+    width: var(--spacing-xs);
+    height: var(--spacing-xs);
+    border-radius: var(--radius-pill);
+    background: var(--sidebar-text);
+    box-shadow: 0 0 0 2px var(--sidebar-header-bg);
+  }
+}
+
+.product-rail-team-menu {
+  width: 264px;
+
+  &__dot {
+    width: var(--spacing-xs);
+    height: var(--spacing-xs);
+    border-radius: var(--radius-pill);
+    background: var(--center-channel-color);
+  }
+}

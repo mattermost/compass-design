@@ -2,7 +2,11 @@ import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
 import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
 import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
 import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
-import { ProductRail, WithTooltip } from '@mattermost/compass-proto';
+import {
+  ProductRail,
+  ProductRailTeamButton,
+  WithTooltip,
+} from '@mattermost/compass-proto';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
@@ -16,6 +20,16 @@ export function ProductRailAnatomyStage() {
     <AnatomyStage>
       <div className={patternsStyles['patterns__product-rail-demo']}>
         <ProductRail
+          header={
+            <ProductRailTeamButton
+              activeTeamId="contributors"
+              teams={[
+                { id: 'contributors', name: 'Contributors', initials: 'Co' },
+                { id: 'design', name: 'Design', initials: 'De', unread: true },
+                { id: 'acme', name: 'Acme', initials: 'Ac' },
+              ]}
+            />
+          }
           activeId="channels"
           items={[
             {

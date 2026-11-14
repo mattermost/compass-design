@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
 import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
@@ -8,16 +9,70 @@ import {
   Message,
   MessageInput,
   ProductRail,
+  ProductRailTeamButton,
+  ProductRailTeamMenu,
+  type ProductRailTeam,
   ProductShell,
   shellStyles,
 } from '@mattermost/compass-proto';
 import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
+import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
 
 type ProductId = 'channels' | 'playbooks' | 'boards';
+
+const TEAMS: ProductRailTeam[] = [
+  { id: 'contributors', name: 'Contributors', initials: 'Co' },
+  { id: 'design', name: 'Design', initials: 'De', unread: true },
+  { id: 'acme', name: 'Acme', initials: 'Ac', mentions: 3 },
+];
+
+/** Host-owned wiring: the button opens the team menu beside it. */
+function TeamSwitcher() {
+  const [activeTeamId, setActiveTeamId] = useState('contributors');
+  const [anchor, setAnchor] = useState<DOMRect | null>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useOutsideClose(wrapRef, anchor != null, () => setAnchor(null), menuRef);
+
+  return (
+    <div ref={wrapRef}>
+      <ProductRailTeamButton
+        teams={TEAMS}
+        activeTeamId={activeTeamId}
+        open={anchor != null}
+        onClick={(e) =>
+          setAnchor(anchor ? null : e.currentTarget.getBoundingClientRect())
+        }
+      />
+      {anchor &&
+        createPortal(
+          <div
+            ref={menuRef}
+            style={{
+              position: 'fixed',
+              top: anchor.top,
+              left: anchor.right + 4,
+              zIndex: 'var(--z-popover, 1000)' as unknown as number,
+            }}
+          >
+            <ProductRailTeamMenu
+              teams={TEAMS}
+              activeTeamId={activeTeamId}
+              onSelectTeam={(id) => {
+                setActiveTeamId(id);
+                setAnchor(null);
+              }}
+            />
+          </div>,
+          document.body,
+        )}
+    </div>
+  );
+}
 
 export default function ProductLayout() {
   const [product, setProduct] = useState<ProductId>('channels');
@@ -27,6 +82,7 @@ export default function ProductLayout() {
       product={product}
       productRail={
         <ProductRail
+          header={<TeamSwitcher />}
           activeId={product}
           onSelect={(id) => setProduct(id as ProductId)}
           items={[

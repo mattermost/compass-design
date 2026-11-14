@@ -13,12 +13,14 @@ edge of the shell.
 ## Anatomy
 
 The Product Rail is a navigation landmark containing a list of product tiles,
-with optional header and footer areas.
+with optional header (the team button) and footer areas.
 
 <ProductRailAnatomyStage />
 
-- <Num>1</Num> **Header** — Optional area pinned above the tiles, for example a
-  product switcher trigger.
+- <Num>1</Num> **Team button** — Optional, in the header area above the tiles.
+  Shows the current team on cards that peek out below it when there are more
+  teams, and a dot when another team has unread activity. It opens the team
+  menu, so the rail can stand in for the Team Sidebar.
 - <Num>2</Num> **Product tile** — An icon over a short label. One tile per
   product.
 - <Num>3</Num> **Badges** — A mention count, or an unread dot when there are
@@ -26,14 +28,19 @@ with optional header and footer areas.
 - <Num>4</Num> **Footer** — Optional area pinned to the bottom, for example
   settings or help (shown in the figure).
 
+The team menu opens beside the team button: one row per team with its
+avatar, a check on the current team, and a mention count or unread dot on the
+others. An optional last row brings the Team Sidebar back. The host positions
+the menu and handles open and close.
+
 <Divider />
 
 ## States
 
-- **Default** — Icon and label in the sidebar text color. Hover adds a subtle
-  tint.
-- **Selected** — A filled tile and an accent bar on the leading edge mark the
-  current product. The tile is exposed to assistive technology as the current
+- **Default** — Icon and label in a softened sidebar text color. Hover adds a
+  subtle tint behind the icon.
+- **Selected** — A filled icon chip and full-strength label mark the current
+  product. The tile is exposed to assistive technology as the current
   page.
 - **Focus** — Keyboard focus shows a visible outline around the tile.
 
