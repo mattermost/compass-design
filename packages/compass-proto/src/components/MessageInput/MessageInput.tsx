@@ -1,4 +1,13 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  type HTMLAttributes,
+  type KeyboardEvent,
+  type TextareaHTMLAttributes,
+  type ReactNode,
+} from 'react';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import ChevronUpIcon from '@mattermost/compass-icons/components/chevron-up';
@@ -27,7 +36,10 @@ import styles from './MessageInput.module.scss';
 
 export type MessageInputWidth = 'wide' | 'narrow';
 
-export interface MessageInputProps {
+export interface MessageInputProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'placeholder' | 'defaultValue'
+> {
   className?: string;
   placeholder?: string;
   showPriorityIndicator?: boolean;
@@ -38,6 +50,32 @@ export interface MessageInputProps {
   inputRef?: React.RefObject<HTMLTextAreaElement | null>;
   /** `narrow` matches the Figma Message Input “Narrow” / right-sidebar layout. */
   width?: MessageInputWidth;
+  /**
+   * Called with the trimmed text when the user sends: the Send button, or
+   * Enter (without Shift, Ctrl, Cmd or Alt) in the text area. Without `onSend`,
+   * the Send button does nothing and Enter keeps inserting a new line. Uncontrolled inputs clear after sending;
+   * controlled inputs (`value`) leave clearing to the host.
+   */
+  onSend?: (value: string) => void;
+  /**
+   * Suggestions shown above the input box (e.g. an autocomplete list or
+   * suggestion chips). The host owns their content, open state and keyboard
+   * handling; nothing extra renders when this is omitted.
+   */
+  suggestions?: ReactNode;
+  /**
+   * Extra attributes for the text area (`aria-*`, `role`, `onKeyDown`, ...), for
+   * example the `inputProps` and `onKeyDown` from `useSuggestionList` so a
+   * suggestion list in `suggestions` gets combobox semantics and arrow/Enter keys.
+   * `onKeyDown`, `onSelect`, `onKeyUp`, `onClick` and `onInput` run before the
+   * component's own handling; the host's `onKeyDown` runs before Enter-to-send, so
+   * calling `preventDefault()` there keeps the draft. `className` is merged;
+   * `value`, `onChange`, `placeholder` and `rows` are owned by `MessageInput`.
+   */
+  textareaProps?: Omit<
+    TextareaHTMLAttributes<HTMLTextAreaElement>,
+    'value' | 'defaultValue' | 'onChange' | 'placeholder' | 'rows'
+  >;
 }
 
 export default function MessageInput({
@@ -50,6 +88,11 @@ export default function MessageInput({
   onSelectionChange,
   inputRef,
   width = 'wide',
+  onSend,
+  suggestions,
+  textareaProps,
+  onKeyDown: hostOnKeyDown,
+  ...rest
 }: MessageInputProps) {
   const [internalText, setInternalText] = useState('');
   const isControlled = value !== undefined;
@@ -81,6 +124,36 @@ export default function MessageInput({
   }, [text, handleInput]);
 
   const hasSendValue = text.trim().length > 0;
+
+  const send = () => {
+    if (!onSend || !hasSendValue) return;
+    onSend(text.trim());
+    if (!isControlled) setInternalText('');
+  };
+
+  // Runs on the root, after the host's `onKeyDown` (bubbling order), so a host
+  // that calls `preventDefault()` on Enter (e.g. to pick a suggestion) keeps
+  // the draft.
+  const handleRootKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    hostOnKeyDown?.(e);
+    if (
+      !onSend ||
+      e.target !== internalRef.current ||
+      e.defaultPrevented ||
+      e.key !== 'Enter' ||
+      e.shiftKey ||
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey ||
+      // keyCode 229 covers older Safari, which doesn't set isComposing
+      e.nativeEvent.isComposing ||
+      e.keyCode === 229
+    ) {
+      return;
+    }
+    e.preventDefault();
+    send();
+  };
 
   const cls = (base: string, mod?: string) =>
     [styles[base], mod ? styles[mod] : ''].filter(Boolean).join(' ');
@@ -143,6 +216,7 @@ export default function MessageInput({
           className={styles['message-input__send-main']}
           aria-label="Send message"
           disabled={!hasSendValue}
+          onClick={send}
         >
           <Icon glyph={<SendIcon />} size="16" />
         </button>
@@ -167,7 +241,15 @@ export default function MessageInput({
     .join(' ');
 
   return (
-    <div className={rootClass}>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Enter-to-send for the text area inside; runs after the host's onKeyDown
+    <div {...rest} onKeyDown={handleRootKeyDown} className={rootClass}>
+      {suggestions != null &&
+        typeof suggestions !== 'boolean' &&
+        suggestions !== '' && (
+          <div className={styles['message-input__suggestions']}>
+            {suggestions}
+          </div>
+        )}
       <div
         className={cls(
           'message-input__container',
@@ -208,15 +290,33 @@ export default function MessageInput({
             </div>
           )}
           <textarea
+            {...textareaProps}
             ref={setTextareaRef}
-            className={styles['message-input__textarea']}
+            className={[
+              styles['message-input__textarea'],
+              textareaProps?.className,
+            ]
+              .filter(Boolean)
+              .join(' ')}
             placeholder={placeholder}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            onInput={handleInput}
-            onSelect={onSelectionChange}
-            onKeyUp={onSelectionChange}
-            onClick={onSelectionChange}
+            onInput={(e) => {
+              textareaProps?.onInput?.(e);
+              handleInput();
+            }}
+            onSelect={(e) => {
+              textareaProps?.onSelect?.(e);
+              onSelectionChange?.();
+            }}
+            onKeyUp={(e) => {
+              textareaProps?.onKeyUp?.(e);
+              onSelectionChange?.();
+            }}
+            onClick={(e) => {
+              textareaProps?.onClick?.(e);
+              onSelectionChange?.();
+            }}
             rows={1}
           />
         </div>
