@@ -38,6 +38,13 @@ export interface AnchoredPopupProps extends Omit<
   open?: boolean;
   /** Side of the anchor, left edges aligned. Flips when there is no room. Default: `top-start`. */
   placement?: AnchoredPopupPlacement;
+  /**
+   * Flip to the other side of the anchor when the preferred side has no room.
+   * Turn off for a surface that must stay on one side, such as a suggestion
+   * list above the composer: it then never moves off its side as the page
+   * scrolls. Default: true.
+   */
+  flip?: boolean;
   /** Space between anchor and popup, in px. Default: 4. */
   gap?: number;
   /** Make the popup as wide as the anchor. Default: true (false with `getAnchorRect`). */
@@ -61,6 +68,7 @@ export default function AnchoredPopup({
   getAnchorRect,
   open = true,
   placement = 'top-start',
+  flip = true,
   gap = 4,
   matchAnchorWidth = getAnchorRect === undefined,
   zIndex = 'var(--z-popover)',
@@ -88,8 +96,10 @@ export default function AnchoredPopup({
       const roomAbove = rect.top - gap - VIEWPORT_MARGIN;
       const roomBelow =
         window.innerHeight - rect.bottom - gap - VIEWPORT_MARGIN;
-      const above =
-        placement === 'top-start'
+      const preferAbove = placement === 'top-start';
+      const above = !flip
+        ? preferAbove
+        : preferAbove
           ? height <= roomAbove || roomAbove >= roomBelow
           : !(height <= roomBelow || roomBelow < roomAbove);
       const next: CSSProperties = {
@@ -132,7 +142,7 @@ export default function AnchoredPopup({
       window.removeEventListener('scroll', place, true);
       observer?.disconnect();
     };
-  }, [open, anchorRef, getAnchorRect, placement, gap, matchAnchorWidth]);
+  }, [open, anchorRef, getAnchorRect, placement, flip, gap, matchAnchorWidth]);
 
   // Re-place after every render: the anchor can move (the trigger character
   // shifts as text is typed) without the anchor element or the popup resizing.

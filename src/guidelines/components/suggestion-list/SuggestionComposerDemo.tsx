@@ -235,6 +235,8 @@ export default function SuggestionComposerDemo({
       </div>
       <AnchoredPopup
         getAnchorRect={getAnchorRect}
+        // Always above the input, never flipping to fit.
+        flip={false}
         // Overlaps the input's top edge by 4px.
         gap={-4}
         style={{ width: POPUP_WIDTH }}

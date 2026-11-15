@@ -88,6 +88,21 @@ describe('AnchoredPopup', () => {
     expect(pop.style.top).toBe('74px'); // bottom 70 + 4 gap
   });
 
+  it('stays above when flip is off, even with no room', () => {
+    const ref = anchor({ left: 0, top: 20, width: 300, bottom: 70 });
+    render(
+      <AnchoredPopup anchorRef={ref} flip={false} data-testid="pop">
+        content
+      </AnchoredPopup>,
+    );
+    const pop = document.querySelector('[data-testid="pop"]') as HTMLElement;
+    Object.defineProperty(pop, 'offsetHeight', { value: 200 });
+    act(() => {
+      window.dispatchEvent(new Event('resize'));
+    });
+    expect(pop.style.top).toBe('-184px'); // 20 - 4 gap - 200 height, off screen
+  });
+
   it('renders nothing when closed', () => {
     const { container } = render(
       <AnchoredPopup anchorRef={createRef()} open={false}>
