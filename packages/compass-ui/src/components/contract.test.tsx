@@ -15,6 +15,7 @@ import ModalHeader from './ModalHeader/ModalHeader';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import ProgressBar from './ProgressBar/ProgressBar';
 import PasswordInput from './PasswordInput/PasswordInput';
+import FileUpload from './FileUpload/FileUpload';
 import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
 import SearchInput from './SearchInput/SearchInput';
 import SectionNotice from './SectionNotice/SectionNotice';
@@ -51,6 +52,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
   ErrorMessage: (a) => <ErrorMessage message="Required" {...a} />,
   FieldMessage: (a) => <FieldMessage message="Required" {...a} />,
   ProgressBar: (a) => <ProgressBar value={40} {...a} />,
+  FileUpload: (a) => <FileUpload {...a} />,
   Tabs: (a) => (
     <Tabs
       tabs={[{ key: 'a', label: 'A' }]}

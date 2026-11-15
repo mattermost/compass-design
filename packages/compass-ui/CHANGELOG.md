@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`FileUpload` component ([#241](https://github.com/mattermost/compass-design/issues/241)):** a file picker with two `variant`s, `drop-zone` (dashed target that takes dropped files and opens the picker from the keyboard) and `button`. Supports `accept`, `multiple`, `maxSize`, `maxFiles`, `disabled`, `loading`, `invalid`, `message` / `messageTone`, `description`, text props `label` / `browseLabel` / `dragActiveLabel` (all `ReactNode` with English defaults), `inputProps` for the file input, and `ref` to the focusable control. It reports `onFilesSelected(files)` and `onFilesRejected(rejections)` (`file-type`, `file-size`, `too-many-files`) and never uploads anything itself. New export; no existing markup changes.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

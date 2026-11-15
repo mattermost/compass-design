@@ -57,6 +57,7 @@ export * from './components/Radio/index';
 export * from './components/RightSidebarHeader/index';
 export * from './components/Scrollbar/index';
 export * from './components/PasswordInput/index';
+export * from './components/FileUpload/index';
 export * from './components/SearchInput/index';
 export * from './components/SearchTipBanner/index';
 export * from './components/ShortcutTag/index';

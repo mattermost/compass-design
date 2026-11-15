@@ -177,6 +177,9 @@
       "components/field-message": [
         "./dist/components/field-message/index.d.ts"
       ],
+      "components/file-upload": [
+        "./dist/components/file-upload/index.d.ts"
+      ],
       "components/global-banner": [
         "./dist/components/global-banner/index.d.ts"
       ],
