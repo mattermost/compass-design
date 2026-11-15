@@ -222,4 +222,28 @@ describe('Popover open', () => {
     expect(document.activeElement).toBe(trigger);
     trigger.remove();
   });
+
+  it('refocuses when reopened during the exit', () => {
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
+    const { rerender } = render(
+      <Popover open data-testid="p">
+        x
+      </Popover>,
+    );
+    rerender(
+      <Popover open={false} data-testid="p">
+        x
+      </Popover>,
+    );
+    expect(document.activeElement).toBe(trigger);
+    rerender(
+      <Popover open data-testid="p">
+        x
+      </Popover>,
+    );
+    expect(document.activeElement).toBe(q('p'));
+    trigger.remove();
+  });
 });

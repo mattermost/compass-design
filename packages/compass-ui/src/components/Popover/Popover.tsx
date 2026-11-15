@@ -42,7 +42,7 @@ export interface PopoverProps extends Omit<
   /**
    * Controlled visibility with the Compass popover transition (scale + fade in,
    * reverse on close); the popover unmounts after the exit, and focus is
-   * restored then. Omit to always render without transition. The host owns the
+   * restored when `open` turns false. Omit to always render without transition. The host owns the
    * state, the anchor, positioning, the portal and outside-click dismissal.
    */
   open?: boolean;
@@ -104,8 +104,10 @@ export default function Popover({
   initialFocusRefRef.current = initialFocusRef;
 
   const shown = !transitioned || mounted;
+  // Follows `open` (not `mounted`) so reopening during the exit refocuses.
+  const active = !transitioned || open === true;
   useEffect(() => {
-    if (!shown || !manageFocusRef.current) return;
+    if (!active || !manageFocusRef.current) return;
     const previous = document.activeElement as HTMLElement | null;
     const root = rootRef.current;
     const target = initialFocusRefRef.current?.current;
@@ -122,7 +124,7 @@ export default function Popover({
         previous.focus();
       }
     };
-  }, [shown]);
+  }, [active]);
 
   if (!shown) return null;
 
