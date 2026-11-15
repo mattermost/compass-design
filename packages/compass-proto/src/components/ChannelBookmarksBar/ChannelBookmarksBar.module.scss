@@ -205,6 +205,8 @@
     &--borderless {
       border-color: transparent;
       border-radius: var(--radius-s);
+      // Matches the bookmark buttons' 6px side padding on the plus-icon side.
+      padding-inline-start: var(--spacing-xxs);
     }
   }
 
