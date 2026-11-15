@@ -54,22 +54,3 @@ focus from the field.
 
 The host owns open state, the query, and where the list sits, usually directly
 above the composer at its width. Hide the list when there are no suggestions.
-
-<Divider />
-
-## Implementation
-
-```tsx
-import {
-  SuggestionList,
-  useSuggestionList,
-} from '@mattermost/compass-ui/components/suggestion-list';
-
-const s = useSuggestionList({ options, open, onSelect, onClose });
-
-<SuggestionList {...s.listProps} options={options} />
-<textarea {...s.inputProps} onKeyDown={s.onKeyDown} />
-```
-
-For copy-ready examples, see the
-[Suggestion List specimen page](/components/suggestion-list/specimen).
