@@ -82,15 +82,14 @@
     }
   }
 
+  // Ring wrapper around the shared Unread Badge, so the dot reads against the stacked cards.
   &__dot {
     position: absolute;
     z-index: 2;
     top: -3px;
     right: -3px;
-    width: var(--spacing-xs);
-    height: var(--spacing-xs);
+    display: flex;
     border-radius: var(--radius-pill);
-    background: var(--sidebar-text);
     box-shadow: 0 0 0 2px var(--sidebar-header-bg);
   }
 }
@@ -98,79 +97,11 @@
 .product-rail-team-menu {
   width: 264px;
 
-  // Teams lead the menu, so their rows are taller and their names bolder than the action below.
-  &__row {
+  // MenuItem right-aligns its trailing slot, so a dot narrower than the 16px check would sit off
+  // the check's centre. A check-sized, centred box puts both in one column.
+  &__unread {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-m);
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 48px;
-    padding: var(--spacing-xxs) var(--spacing-l);
-    border: none;
-    background: var(--center-channel-bg);
-    color: var(--center-channel-color);
-    font-family: inherit;
-    text-align: left;
-    cursor: pointer;
-
-    &:hover {
-      background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
-    }
-  }
-
-  // The check, mention badge and unread dot sit in one fixed-width slot, centred, so they line
-  // up in a single column whatever their own width.
-  &__trailing {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
     justify-content: center;
-    min-width: 28px;
-  }
-
-  &__label {
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-100);
-    line-height: var(--line-height-100);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__sr-only {
-    @include visually-hidden;
-  }
-
-  &__badge {
-    min-width: 20px;
-    height: 18px;
-    padding: 0 5px;
-    border-radius: var(--radius-pill);
-    background: var(--mention-bg);
-    color: var(--mention-color);
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-50);
-    line-height: 18px;
-    text-align: center;
-
-    &--urgent {
-      background: var(--dnd-indicator);
-      color: var(--button-color);
-    }
-  }
-
-  &__dot {
-    width: var(--spacing-xs);
-    height: var(--spacing-xs);
-    border-radius: var(--radius-pill);
-    background: var(--center-channel-color);
+    width: var(--icon-size-16);
   }
 }

@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { UnreadBadge } from '@mattermost/compass-ui/components/unread-badge';
 import styles from './ProductRail.module.scss';
 
 export interface ProductRailItemProps extends Omit<
@@ -81,10 +82,10 @@ export default function ProductRailItem({
           </span>
         )}
         {showUnread && (
-          <span
-            className={styles['product-rail-item__unread-dot']}
-            aria-hidden
-          />
+          // Decorative: the item's accessible name already carries the unread status.
+          <span className={styles['product-rail-item__unread-dot']} aria-hidden>
+            <UnreadBadge />
+          </span>
         )}
       </span>
       <span className={styles['product-rail-item__label']}>{label}</span>

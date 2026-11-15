@@ -132,14 +132,13 @@
     text-align: center;
   }
 
+  // Ring wrapper around the shared Unread Badge.
   &__unread-dot {
     position: absolute;
     top: -1px;
     right: -1px;
-    width: var(--spacing-xs);
-    height: var(--spacing-xs);
+    display: flex;
     border-radius: var(--radius-pill);
-    background: var(--sidebar-text);
     box-shadow: 0 0 0 2px var(--product-rail-bg);
   }
 

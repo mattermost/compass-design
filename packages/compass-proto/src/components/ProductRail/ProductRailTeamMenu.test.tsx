@@ -132,7 +132,7 @@ describe('ProductRailTeamMenu', () => {
     expect(c.querySelectorAll('[role="menuitemradio"]')).toHaveLength(3);
   });
 
-  it('marks the current team checked and speaks unread teams', () => {
+  it('marks the current team checked and gives unread teams a labelled Unread Badge', () => {
     const c = render(
       <ProductRailTeamMenu
         teams={teams}
@@ -147,8 +147,12 @@ describe('ProductRailTeamMenu', () => {
       'false',
       'false',
     ]);
-    expect(rows[1].textContent).toContain('non lu');
-    expect(rows[0].textContent).not.toContain('non lu');
+    const badge = rows[1].querySelector('[role="status"]');
+    expect(badge?.getAttribute('aria-label')).toBe('non lu');
+    expect(rows[0].querySelector('[role="status"]')).toBeNull();
+    // A team with mentions shows the count instead of the dot.
+    expect(rows[2].querySelector('[role="status"]')).toBeNull();
+    expect(rows[2].textContent).toContain('3');
   });
 
   describe('keyboard', () => {

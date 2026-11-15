@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import DockLeftIcon from '@mattermost/compass-icons/components/dock-left';
-import CheckIcon from '@mattermost/compass-icons/components/check';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import {
@@ -10,6 +9,7 @@ import {
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
 import { TeamAvatar } from '@mattermost/compass-ui/components/team-avatar';
+import { UnreadBadge } from '@mattermost/compass-ui/components/unread-badge';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './ProductRailTeamMenu.module.scss';
 
@@ -24,8 +24,6 @@ export interface ProductRailTeam {
   unread?: boolean;
   /** Unread mention count. */
   mentions?: number;
-  /** Styles the mention count as urgent. */
-  urgent?: boolean;
 }
 
 /** Initials fallback: the name without spaces, first two characters. */
@@ -97,7 +95,13 @@ export function ProductRailTeamButton({
             state="default"
           />
           {otherUnread && (
-            <span className={styles['product-rail-team-button__dot']} />
+            // The button's accessible name already says other teams are unread.
+            <span
+              className={styles['product-rail-team-button__dot']}
+              aria-hidden
+            >
+              <UnreadBadge />
+            </span>
           )}
         </span>
       </button>
@@ -214,53 +218,39 @@ export function ProductRailTeamMenu({
         {teams.map((team, index) => {
           const active = team.id === activeTeamId;
           const mentions = active ? 0 : (team.mentions ?? 0);
+          const showUnreadDot = !active && mentions === 0 && !!team.unread;
           return (
-            <button
+            <MenuItem
               key={team.id}
               ref={index === focusIndex ? attachFocusRow : undefined}
-              type="button"
               role="menuitemradio"
               aria-checked={active}
-              className={styles['product-rail-team-menu__row']}
-              onClick={() => onSelectTeam?.(team.id)}
-            >
-              <TeamAvatar
-                src={team.src}
-                alt=""
-                initials={initialsOf(team)}
-                size="32"
-                variant="menu"
-              />
-              <span className={styles['product-rail-team-menu__label']}>
-                {team.name}
-              </span>
-              {!active && mentions === 0 && team.unread && (
-                <span className={styles['product-rail-team-menu__sr-only']}>
-                  {`, ${unreadLabel}`}
-                </span>
-              )}
-              {/* Fixed-width, centred slot so the check, badge and dot share one column. */}
-              <span className={styles['product-rail-team-menu__trailing']}>
-                {active ? (
-                  <Icon glyph={<CheckIcon />} size="16" />
-                ) : mentions > 0 ? (
-                  <span
-                    className={[
-                      styles['product-rail-team-menu__badge'],
-                      team.urgent
-                        ? styles['product-rail-team-menu__badge--urgent']
-                        : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                  >
-                    {mentions > 99 ? '99+' : mentions}
+              label={team.name}
+              leadingVisual={
+                <TeamAvatar
+                  src={team.src}
+                  alt=""
+                  initials={initialsOf(team)}
+                  size="24"
+                  variant="menu"
+                />
+              }
+              // The current team gets MenuItem's default check; an unread team gets the dot.
+              trailingElement={active || showUnreadDot}
+              trailingVisual={
+                showUnreadDot ? (
+                  // Centred in a check-sized box so the dot lines up with the check above it.
+                  <span className={styles['product-rail-team-menu__unread']}>
+                    <UnreadBadge
+                      context="icon-button"
+                      aria-label={unreadLabel}
+                    />
                   </span>
-                ) : team.unread ? (
-                  <span className={styles['product-rail-team-menu__dot']} />
-                ) : null}
-              </span>
-            </button>
+                ) : undefined
+              }
+              mentionCount={mentions > 0 ? mentions : undefined}
+              onClick={() => onSelectTeam?.(team.id)}
+            />
           );
         })}
       </PopoverMenuGroup>
