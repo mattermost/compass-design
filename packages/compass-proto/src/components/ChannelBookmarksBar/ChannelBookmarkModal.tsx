@@ -237,6 +237,8 @@ export default function ChannelBookmarkModal({
         open={open}
         title={heading}
         onClose={onClose}
+        headerDivider={false}
+        footerDivider={false}
         initialFocusRef={isFile ? undefined : firstFieldRef}
         footer={
           <>
