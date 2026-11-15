@@ -11,6 +11,7 @@ import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import { ChannelHeader } from '@mattermost/compass-proto';
+import ChannelBookmarksDemo from '@/guidelines/_components/ChannelBookmarksDemo';
 import { ChannelShell } from '@mattermost/compass-proto';
 import { MessageInput } from '@mattermost/compass-proto';
 import { Message } from '@mattermost/compass-proto';
@@ -24,15 +25,18 @@ export default function ChannelLayout() {
     <ChannelShell
       channelsSidebarModel={defaultChannelsSidebarDemoModel}
       channelHeader={
-        <ChannelHeader
-          type="channel"
-          name="Town Square"
-          description="Company-wide announcements and general discussion."
-          memberCount={124}
-          pinnedCount={2}
-          onInfoClick={() => setRightSidebarOpen((o) => !o)}
-          infoToggled={rightSidebarOpen}
-        />
+        <>
+          <ChannelHeader
+            type="channel"
+            name="Town Square"
+            description="Company-wide announcements and general discussion."
+            memberCount={124}
+            pinnedCount={2}
+            onInfoClick={() => setRightSidebarOpen((o) => !o)}
+            infoToggled={rightSidebarOpen}
+          />
+          <ChannelBookmarksDemo />
+        </>
       }
       trailing={
         rightSidebarOpen ? (

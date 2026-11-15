@@ -8,14 +8,14 @@ Mobile*, Call*, `ChannelShell`, `Message`, `MessageInput`, `ChannelHeader`, `Cha
 
 ## Adding a topic
 
-Every docs entry is a **topic** in `src/manifests/topics.ts` (prose + optional specimen) at `/<category>/<slug>`.
+Every docs entry is a **topic** in `src/manifests/topics.ts` (guidelines prose + specimen) at `/<category>/<slug>`.
 
 Procedure (step-by-step): use the skill [skills/internal/add-docs-topic/SKILL.md](../../skills/internal/add-docs-topic/SKILL.md).
 
 Invariants:
 
 - Category is one of Foundations / Components / Patterns / Layouts.
-- Every topic needs MDX guidelines; specimen is optional.
+- Every foundation, component, and pattern topic **must** have both MDX guidelines **and** a specimen page. Neither is optional. Published `@mattermost/compass-ui` components also need a Storybook story (see [packages/compass-ui/AGENTS.md](../../packages/compass-ui/AGENTS.md)).
 - Sidebar grouping lives in `src/manifests/sections.ts`; Foundations bento placement is separate (`FoundationsBento.tsx`).
 
 ## Foundation specimen token rows
@@ -33,6 +33,10 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 - MDX prose: wrap with `.doc-page__prose` (`DocPage.module.scss`). Rules use `:not([class])` so classed components are safe.
 - Live UI in docs: wrap in `compass-doc-embed` via `DocUiEmbed`, `AnatomyStage`, or `Preview`.
 - Components must never render bare `<h2>`, `<p>`, `<li>`, etc. without a CSS-module className.
+
+## Popovers in specimens
+
+Specimens, `<Preview>` blocks, and layouts that open a popover (`EmojiPopover`, `TourPoint`, `PopoverMenu`, `ProfilePopover`, `PopoverNotice`, tooltips) must **portal it out of the trigger's container** — never render it in the flow of the demo container. See [Popovers always portal](../../AGENTS.md#popovers-always-portal). Static always-open previews that document the popover's own surface (anatomy/states) may render in place, since there is no trigger.
 
 ## Specimens and MDX code samples
 

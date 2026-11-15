@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`MessageActions` `jumpButtonProps`:** extra attributes for the Jump button in the `search-results` toolbar (typically `onClick` to open the message in its channel, or `data-testid`); `className` is merged and `aria-label` / `type` still win. Default markup is unchanged. Part of #264.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

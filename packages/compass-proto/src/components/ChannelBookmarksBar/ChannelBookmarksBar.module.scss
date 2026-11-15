@@ -1,0 +1,229 @@
+.channel-bookmarks-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: calc(var(--spacing-xxxl) - var(--spacing-xs));
+  padding: var(--spacing-xxs);
+  background-color: var(--center-channel-bg, var(--color-neutral-0));
+  border-bottom: 1px solid
+    rgba(var(--center-channel-color-rgb), var(--opacity-8));
+
+  &__row {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    gap: var(--spacing-xxxs);
+    min-width: 0;
+  }
+
+  &__item {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    max-width: calc(var(--spacing-xxxxxl) * 5);
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    min-width: 0;
+    box-sizing: border-box;
+    height: var(--icon-size-24);
+    padding: 0 var(--spacing-xxs);
+    border: 0;
+    border-radius: var(--radius-s);
+    background: transparent;
+    color: var(--center-channel-color);
+    font: inherit;
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-100);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+      transition: background-color var(--duration-quick) var(--ease-transition);
+    }
+
+    @include focus-ring;
+  }
+
+  // The actions button is a sibling of the link, so hovering it (or having
+  // its menu open) must keep the link's hover state.
+  &__item:hover &__link,
+  &__item--active &__link {
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+  }
+
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+  }
+
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__more {
+    position: absolute;
+    top: 50%;
+    // Item is 24px tall and this button 20px, so a 2px inset is equal on the top, end, and bottom edges.
+    inset-inline-end: var(--spacing-xxxxs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: var(--icon-size-20);
+    height: var(--icon-size-20);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-s);
+    // Opaque so the label never shows through, tinted with the same 8% as the
+    // hovered bookmark so it blends in until it is hovered itself.
+    background-color: var(--center-channel-bg, var(--color-neutral-0));
+    background-image: linear-gradient(
+      rgba(var(--center-channel-color-rgb), var(--opacity-8)),
+      rgba(var(--center-channel-color-rgb), var(--opacity-8))
+    );
+    color: var(--center-channel-color);
+    cursor: pointer;
+    opacity: 0;
+    // Invisible at rest: must not steal clicks from the bookmark underneath.
+    pointer-events: none;
+    transform: translateY(-50%);
+
+    &:hover,
+    &:active {
+      background-image: linear-gradient(
+        rgba(var(--center-channel-color-rgb), var(--opacity-12)),
+        rgba(var(--center-channel-color-rgb), var(--opacity-12))
+      );
+    }
+
+    @include focus-ring;
+  }
+
+  &__item:hover &__more,
+  &__item:focus-within &__more,
+  &__more[aria-expanded='true'] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &__trailing {
+    position: relative;
+    flex: 0 0 auto;
+
+    // Beat IconButton's own size so the plus matches the bookmark buttons.
+    .channel-bookmarks-bar__add {
+      width: var(--icon-size-24);
+      height: var(--icon-size-24);
+      min-width: 0;
+      min-height: 0;
+    }
+  }
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    box-sizing: border-box;
+    height: var(--icon-size-24);
+    padding: 0 var(--spacing-s);
+    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-16));
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--center-channel-color);
+    font: inherit;
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-100);
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover,
+    &:active,
+    &[aria-expanded='true'] {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    }
+
+    @include focus-ring;
+
+    // Empty-state "Add bookmark": no outline, like the bookmark buttons.
+    &--borderless {
+      border-color: transparent;
+      border-radius: var(--radius-s);
+    }
+  }
+
+  // Overflow menu rows: the bookmark plus Edit / Delete, revealed on hover or
+  // focus so hidden bookmarks stay manageable without resizing.
+  &__overflow-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xxxs);
+    padding-inline-end: var(--spacing-xxs);
+
+    > :first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  &__overflow-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--spacing-xxxxs);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__overflow-row:hover &__overflow-actions,
+  &__overflow-row:focus-within &__overflow-actions {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Zero-size anchor at the parent's bottom edge; the portaled menu measures it.
+  &__menu-slot {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+
+    &--end {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  // Portaled to document.body; top/left are set inline from the anchor.
+  &__menu-layer {
+    position: fixed;
+    z-index: var(--z-menu, 1100);
+  }
+
+  &__measure {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    display: flex;
+    gap: var(--spacing-xxxs);
+    height: 0;
+    overflow: hidden;
+
+    .channel-bookmarks-bar__link {
+      max-width: calc(var(--spacing-xxxxxl) * 5);
+    }
+  }
+}

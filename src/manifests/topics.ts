@@ -1064,6 +1064,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-header/channel-header.specimen'),
   },
   {
+    slug: 'channel-bookmarks-bar',
+    name: 'Channel Bookmarks Bar',
+    category: 'patterns',
+    description:
+      'Quick links under the channel header, with overflow handling, an actions menu, and a create modal.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.specimen'),
+  },
+  {
     slug: 'mobile-navigation-bar',
     name: 'Mobile Navigation Bar',
     category: 'patterns',
