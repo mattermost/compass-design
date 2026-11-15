@@ -5,6 +5,7 @@ import {
   useCallback,
   type HTMLAttributes,
   type KeyboardEvent,
+  type TextareaHTMLAttributes,
   type ReactNode,
 } from 'react';
 import AlertCircleOutlineIcon from '@mattermost/compass-icons/components/alert-circle-outline';
@@ -62,6 +63,19 @@ export interface MessageInputProps extends Omit<
    * handling; nothing extra renders when this is omitted.
    */
   suggestions?: ReactNode;
+  /**
+   * Extra attributes for the text area (`aria-*`, `role`, `onKeyDown`, ...), for
+   * example the `inputProps` and `onKeyDown` from `useSuggestionList` so a
+   * suggestion list in `suggestions` gets combobox semantics and arrow/Enter keys.
+   * `onKeyDown`, `onSelect`, `onKeyUp`, `onClick` and `onInput` run before the
+   * component's own handling; the host's `onKeyDown` runs before Enter-to-send, so
+   * calling `preventDefault()` there keeps the draft. `value`, `onChange`,
+   * `placeholder` and `rows` are owned by `MessageInput`.
+   */
+  textareaProps?: Omit<
+    TextareaHTMLAttributes<HTMLTextAreaElement>,
+    'value' | 'defaultValue' | 'onChange' | 'placeholder' | 'rows'
+  >;
 }
 
 export default function MessageInput({
@@ -76,6 +90,7 @@ export default function MessageInput({
   width = 'wide',
   onSend,
   suggestions,
+  textareaProps,
   onKeyDown: hostOnKeyDown,
   ...rest
 }: MessageInputProps) {
@@ -272,15 +287,28 @@ export default function MessageInput({
             </div>
           )}
           <textarea
+            {...textareaProps}
             ref={setTextareaRef}
             className={styles['message-input__textarea']}
             placeholder={placeholder}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            onInput={handleInput}
-            onSelect={onSelectionChange}
-            onKeyUp={onSelectionChange}
-            onClick={onSelectionChange}
+            onInput={(e) => {
+              textareaProps?.onInput?.(e);
+              handleInput();
+            }}
+            onSelect={(e) => {
+              textareaProps?.onSelect?.(e);
+              onSelectionChange?.();
+            }}
+            onKeyUp={(e) => {
+              textareaProps?.onKeyUp?.(e);
+              onSelectionChange?.();
+            }}
+            onClick={(e) => {
+              textareaProps?.onClick?.(e);
+              onSelectionChange?.();
+            }}
             rows={1}
           />
         </div>

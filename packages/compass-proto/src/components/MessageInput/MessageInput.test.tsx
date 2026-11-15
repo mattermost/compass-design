@@ -185,4 +185,31 @@ describe('MessageInput', () => {
     rerender(<MessageInput suggestions="" />);
     expect(root.children).toHaveLength(1);
   });
+
+  it('applies textareaProps and lets its onKeyDown keep the draft', () => {
+    const onSend = vi.fn();
+    const onSelectionChange = vi.fn();
+    const { container } = render(
+      <MessageInput
+        onSend={onSend}
+        onSelectionChange={onSelectionChange}
+        textareaProps={{
+          role: 'combobox',
+          'aria-expanded': true,
+          onKeyDown: (e) => {
+            if (e.key === 'Enter') e.preventDefault();
+          },
+        }}
+      />,
+    );
+    const textarea = container.querySelector('textarea')!;
+    expect(textarea.getAttribute('role')).toBe('combobox');
+    expect(textarea.getAttribute('aria-expanded')).toBe('true');
+    type(textarea, '@al');
+    pressEnter(textarea);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(textarea.value).toBe('@al');
+    act(() => textarea.click());
+    expect(onSelectionChange).toHaveBeenCalled();
+  });
 });
