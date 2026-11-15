@@ -1,86 +1,60 @@
 import { useCallback, useState } from 'react';
 import {
   GlobalHeader,
+  RightSidebar,
+  RightSidebarSearchResults,
   SearchModal,
-  type SearchModalRecent,
+  type SearchMode,
+  type SearchModalData,
+  type SearchModalSubmission,
 } from '@mattermost/compass-proto';
 import { Button } from '@mattermost/compass-ui/components/button';
-import { SegmentedControl } from '@mattermost/compass-ui/components/segmented-control';
-import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
+import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarEmma from '@/assets/avatars/Emma Novak.png';
-import avatarArjun from '@/assets/avatars/Arjun Patel.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
-
-const MODES = [
-  { key: 'all', label: 'All' },
-  { key: 'channels', label: 'Channels' },
-  { key: 'messages', label: 'Messages' },
-  { key: 'files', label: 'Files' },
-  { key: 'people', label: 'People' },
-  { key: 'agents', label: 'Agents' },
-];
-
-const HINTS = [
-  { id: 'from', modifier: 'From:', description: 'a specific user' },
-  { id: 'in', modifier: 'In:', description: 'a specific channel' },
-  { id: 'on', modifier: 'On:', description: 'a specific date' },
-];
-
-const PEOPLE = [
-  { id: 'emma', handle: 'emma.novak', name: 'Emma Novak', src: avatarEmma },
-  { id: 'arjun', handle: 'arjun.patel', name: 'Arjun Patel', src: avatarArjun },
-];
-
-const INITIAL_RECENT: SearchModalRecent[] = [
-  { id: '1', query: 'Welcome in:town-square' },
-  { id: '2', query: 'Figma' },
-  { id: '3', query: 'RC Test from:emma.novak' },
-];
+import {
+  MESSAGE_HITS,
+  SEARCH_MODAL_DATA,
+  SEARCH_MODAL_TEAMS,
+} from './searchModalFixtures';
 
 /**
  * Stages the real dialog inside the canvas frame instead of the page, hanging
- * from a Global Header's Search field. Only Messages has content; the other
- * modes are placeholders for the planned universal search. Recent
- * searches and modifier hints show while the field is empty; typing `from:`
- * switches to people suggestions; Enter records the search.
+ * from a Global Header's Search field. Every mode has content; Enter in
+ * Messages closes the dialog and shows the results panel, and Enter in Agents
+ * reports the agent it was sent to. Removing a recent search sticks while open.
  */
-export function SearchModalCanvas() {
+export function SearchModalCanvas({
+  initialMode = 'all',
+}: {
+  initialMode?: SearchMode;
+}) {
   const [stage, setStage] = useState<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(true);
-  const [query, setQuery] = useState('');
-  const [recent, setRecent] = useState(INITIAL_RECENT);
-  const [searched, setSearched] = useState<string | null>(null);
-  const [mode, setMode] = useState('messages');
+  const [mode, setMode] = useState<SearchMode>(initialMode);
+  const [data, setData] = useState<SearchModalData>(SEARCH_MODAL_DATA);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [results, setResults] = useState<SearchModalSubmission | null>(null);
+  const [note, setNote] = useState<string | null>(null);
   // The dialog hangs from the header's search field box.
   const headerRef = useCallback((el: HTMLDivElement | null) => {
     setAnchor(el?.querySelector('input[type="search"]')?.parentElement ?? null);
   }, []);
 
-  const fromMatch = /(?:^|\s)from:(\S*)$/.exec(query);
-  const suggestions = fromMatch
-    ? PEOPLE.filter((p) => p.handle.startsWith(fromMatch[1].toLowerCase())).map(
-        (p) => ({
-          id: p.id,
-          label: p.handle,
-          secondaryLabel: p.name,
-          leadingVisual: <UserAvatar src={p.src} alt="" size="24" />,
-        }),
-      )
-    : undefined;
-  const needle = query.trim().toLowerCase();
-
-  const run = (text: string) => {
-    if (text.trim() === '') return;
-    setSearched(text);
-    setRecent((prev) => [
-      { id: String(Date.now()), query: text },
-      ...prev.filter((r) => r.query !== text),
-    ]);
-    setQuery('');
-    setOpen(false);
+  const reopen = (next?: SearchMode) => {
+    if (next) setMode(next);
+    setResults(null);
+    setOpen(true);
   };
+
+  const terms = results ? results.query.split(/\s+/).filter(Boolean) : [];
+  const hits = results
+    ? MESSAGE_HITS.filter(
+        (hit) =>
+          terms.length === 0 ||
+          terms.some((t) => hit.body.toLowerCase().includes(t.toLowerCase())),
+      )
+    : [];
 
   return (
     <div style={{ width: '100%' }}>
@@ -98,64 +72,87 @@ export function SearchModalCanvas() {
             userAvatarAlt="Leonard Riley"
             onSearchClick={(event) => {
               setAnchor(event.currentTarget.parentElement);
-              setOpen(true);
+              reopen();
             }}
           />
         </div>
+        {results && results.mode === 'messages' && (
+          <div className={styles['patterns__search-modal-rhs']}>
+            <RightSidebar
+              header={
+                <RightSidebarHeader
+                  title="Search results"
+                  onClose={() => setResults(null)}
+                />
+              }
+            >
+              <RightSidebarSearchResults results={hits} terms={terms} />
+            </RightSidebar>
+          </div>
+        )}
         {stage && (
           <SearchModal
             open={open}
             anchor={anchor}
-            headerLeading={
-              <SegmentedControl
-                aria-label="Search modes"
-                options={MODES}
-                value={mode}
-                onChange={setMode}
-              />
-            }
+            data={data}
+            initialMode={mode}
+            onModeChange={setMode}
+            teams={SEARCH_MODAL_TEAMS}
             overlayProps={{
               container: stage,
               lockScroll: false,
               style: { position: 'absolute' },
             }}
             onClose={() => setOpen(false)}
-            query={query}
-            onQueryChange={setQuery}
-            onSubmit={run}
-            hints={fromMatch ? undefined : HINTS}
-            recent={
-              fromMatch
-                ? undefined
-                : recent.filter((r) => r.query.toLowerCase().includes(needle))
-            }
-            suggestions={suggestions}
-            onRemoveRecent={(item) =>
-              setRecent((prev) => prev.filter((r) => r.id !== item.id))
+            onRemoveRecent={(recentMode, item) =>
+              setData((current) =>
+                recentMode === 'files'
+                  ? {
+                      ...current,
+                      recentFileSearches: current.recentFileSearches?.filter(
+                        (r) => r.id !== item.id,
+                      ),
+                    }
+                  : {
+                      ...current,
+                      recentMessageSearches:
+                        current.recentMessageSearches?.filter(
+                          (r) => r.id !== item.id,
+                        ),
+                    },
+              )
             }
             onSelect={(selection) => {
-              if (selection.kind === 'hint') {
-                setQuery(String(selection.item.modifier).toLowerCase());
-              } else if (selection.kind === 'suggestion') {
-                setQuery((q) =>
-                  q.replace(/from:\S*$/, `from:${selection.item.label} `),
+              setNote(
+                selection.kind === 'recent'
+                  ? `Searched for “${selection.item.query}”`
+                  : `Opened ${selection.item.name}`,
+              );
+              setOpen(false);
+            }}
+            onSubmit={(submission) => {
+              if (submission.mode === 'agents') {
+                setNote(
+                  `Sent “${submission.query}” to ${
+                    data.agents?.find((a) => a.id === submission.agentId)?.name
+                  }`,
                 );
               } else {
-                run(selection.item.query);
+                setResults(submission);
+                setNote(null);
               }
+              setOpen(false);
             }}
           />
         )}
       </div>
       {!open && (
-        <Button emphasis="tertiary" onClick={() => setOpen(true)}>
+        <Button emphasis="tertiary" onClick={() => reopen()}>
           Reopen search
         </Button>
       )}
       <p className={styles['patterns__variant-label']}>
-        {searched
-          ? `Searched for “${searched}”`
-          : 'Try the arrow keys, Enter, Esc, or type from:'}
+        {note ?? 'Switch modes, type, use the arrow keys, Enter and Esc'}
       </p>
     </div>
   );

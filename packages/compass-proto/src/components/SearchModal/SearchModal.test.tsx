@@ -1,8 +1,8 @@
-import { act, useState } from 'react';
+import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { SearchModal } from '../../index';
-import type { SearchModalProps, SearchModalSelection } from './index';
+import type { SearchModalData, SearchModalProps } from './index';
 
 (
   globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
@@ -22,17 +22,54 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const hints = [
-  { id: 'from', modifier: 'From:', description: 'a specific user' },
-  { id: 'in', modifier: 'In:', description: 'a specific channel' },
-];
-const recent = [
-  { id: 'r1', query: 'Welcome in:town-square' },
-  { id: 'r2', query: 'Figma' },
-];
+const sofia = { id: 'sofia', name: 'Sofia Bauer', username: '@sofia' };
+const marco = { id: 'marco', name: 'Marco Rinaldi', username: '@marco' };
+const leonard = { id: 'leonard', name: 'Leonard Riley' };
+const emma = { id: 'emma', name: 'Emma Novak' };
+
+const data: SearchModalData = {
+  unreadChannels: [
+    { id: 'ux', name: 'ux-design', mentionCount: 3 },
+    { id: 'sec', name: 'security', kind: 'private' },
+  ],
+  recentChannels: [
+    { id: 'town', name: 'town-square' },
+    { id: 'crit', name: 'design-crit', kind: 'private' },
+  ],
+  frequentPeople: [sofia, marco, leonard],
+  recentPeople: [emma],
+  recentFiles: [
+    {
+      id: 'f1',
+      name: 'Brand_Guidelines.pdf',
+      description: 'ux-design · Mon',
+      kind: 'pdf',
+    },
+    { id: 'f2', name: 'Roadmap.docx', kind: 'word' },
+  ],
+  recentMessageSearches: [
+    { id: 'm1', query: 'launch checklist' },
+    { id: 'm2', query: 'from:sofia Figma' },
+  ],
+  recentFileSearches: [{ id: 'fs1', query: 'brand guidelines' }],
+  messageModifiers: ['From:', 'In:', 'On:'],
+  fileModifiers: ['From:', 'Ext:'],
+  agents: [
+    { id: 'aiko', name: 'Aiko' },
+    { id: 'arjun', name: 'Arjun' },
+  ],
+};
 
 const input = () => document.querySelector('input')!;
 const options = () => Array.from(document.querySelectorAll('[role="option"]'));
+const headings = () =>
+  Array.from(document.querySelectorAll('[role="group"]')).map(
+    (g) => g.textContent ?? '',
+  );
+const tabs = () =>
+  Array.from(document.querySelectorAll('[role="tab"], [role="radio"]'));
+const mode = (label: string) =>
+  tabs().find((t) => t.textContent === label) as HTMLElement;
 
 function press(el: Element, key: string, init: KeyboardEventInit = {}) {
   const event = new KeyboardEvent('keydown', {
@@ -47,62 +84,75 @@ function press(el: Element, key: string, init: KeyboardEventInit = {}) {
   return event;
 }
 
-function Harness({
-  initialQuery = '',
-  onSelect = () => {},
-  onSubmit = () => {},
-  onClose = () => {},
-  onRemoveRecent = () => {},
-  ...rest
-}: Partial<SearchModalProps> & { initialQuery?: string }) {
-  const [query, setQuery] = useState(initialQuery);
-  return (
-    <SearchModal
-      open
-      onClose={onClose}
-      query={query}
-      onQueryChange={setQuery}
-      hints={hints}
-      recent={recent}
-      onSelect={(s: SearchModalSelection) => onSelect(s)}
-      onSubmit={onSubmit}
-      onRemoveRecent={onRemoveRecent}
-      {...rest}
-    />
-  );
+function type(text: string) {
+  const setValue = Object.getOwnPropertyDescriptor(
+    HTMLInputElement.prototype,
+    'value',
+  )!.set!;
+  act(() => {
+    setValue.call(input(), text);
+    input().dispatchEvent(new Event('input', { bubbles: true }));
+  });
 }
 
-describe('SearchModal', () => {
-  it('is a dialog whose field is a combobox controlling one named listbox', () => {
-    render(<Harness />);
-    expect(document.querySelector('[role="dialog"]')).not.toBeNull();
+const open = (props: Partial<SearchModalProps> = {}) =>
+  render(<SearchModal open onClose={() => {}} data={data} {...props} />);
+
+describe('SearchModal shell', () => {
+  it('is a dialog with a mode control, a combobox and a named listbox', () => {
+    open();
+    const dialog = document.querySelector('[role="dialog"]')!;
+    expect(dialog).not.toBeNull();
     const box = document.querySelector('[role="listbox"]')!;
-    expect(box.getAttribute('aria-label')).toBe('Search suggestions');
+    expect(box.getAttribute('aria-label')).toBe('Search results');
     expect(input().getAttribute('role')).toBe('combobox');
     expect(input().getAttribute('aria-expanded')).toBe('true');
     expect(input().getAttribute('aria-controls')).toBe(box.id);
-    expect(input().getAttribute('aria-activedescendant')).toBeNull();
-    expect(options()).toHaveLength(4);
-    expect(
-      Array.from(document.querySelectorAll('[role="group"]')).map(
-        (g) => g.textContent,
-      ),
-    ).toEqual([
-      expect.stringContaining('Search options'),
-      expect.stringContaining('Recent searches'),
+    expect(tabs().map((t) => t.textContent)).toEqual([
+      'All',
+      'Channels',
+      'Messages',
+      'Files',
+      'People',
+      'Agents',
     ]);
   });
 
-  it('names the dialog with the hidden title', () => {
-    render(<Harness title="Recherche" />);
-    const dialog = document.querySelector('[role="dialog"]')!;
-    const name = document.getElementById(
-      dialog.getAttribute('aria-labelledby')!,
-    )!;
-    expect(name.textContent).toBe('Recherche');
+  it('renders nothing while closed', () => {
+    open({ open: false });
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
   });
 
-  it('hangs from the anchor: transparent scrim, 8px below its top, centered on it', () => {
+  it('names the dialog with the hidden title', () => {
+    open({ labels: { title: 'Recherche' } });
+    const dialog = document.querySelector('[role="dialog"]')!;
+    expect(
+      document.getElementById(dialog.getAttribute('aria-labelledby')!)!
+        .textContent,
+    ).toBe('Recherche');
+  });
+
+  it('offers only the modes it is given and starts on initialMode', () => {
+    open({ modes: ['messages', 'files'], initialMode: 'messages' });
+    expect(tabs().map((t) => t.textContent)).toEqual(['Messages', 'Files']);
+    expect(input().getAttribute('placeholder')).toBe('Search messages');
+  });
+
+  it('takes translated mode names, placeholders and headings', () => {
+    open({
+      initialMode: 'channels',
+      labels: {
+        modeLabels: { channels: 'Canaux' },
+        placeholders: { channels: 'Chercher des canaux' },
+        headings: { unreads: 'Non lus' },
+      },
+    });
+    expect(mode('Canaux')).toBeTruthy();
+    expect(input().getAttribute('placeholder')).toBe('Chercher des canaux');
+    expect(headings()[0]).toContain('Non lus');
+  });
+
+  it('hangs from the anchor over a transparent scrim that still closes', () => {
     const anchor = document.createElement('div');
     anchor.getBoundingClientRect = () =>
       ({ top: 4, left: 400, width: 200, height: 28 }) as DOMRect;
@@ -111,184 +161,416 @@ describe('SearchModal', () => {
       value: 1200,
       configurable: true,
     });
-    render(<Harness anchor={anchor} />);
+    const onClose = vi.fn();
+    open({ anchor, onClose });
     const scrim = document.querySelector('[role="dialog"]')!
       .parentElement as HTMLElement;
     expect(scrim.style.backgroundColor).toBe('transparent');
-    // top 4 + 8; left = center 500 - 352
     expect(scrim.style.padding).toBe('12px 0px 0px 148px');
-  });
-
-  it('still closes when the transparent scrim is pressed', () => {
-    const onClose = vi.fn();
-    render(<Harness onClose={onClose} />);
-    const scrim = document.querySelector('[role="dialog"]')!
-      .parentElement as HTMLElement;
     act(() => scrim.click());
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+});
 
-  it('renders nothing while closed', () => {
-    render(<Harness open={false} />);
-    expect(document.querySelector('[role="dialog"]')).toBeNull();
+describe('modes: before typing', () => {
+  it('All: unread channels, frequent people, recent files and searches', () => {
+    open();
+    expect(headings().map((h) => h.split(/[A-Z][a-z]/)[0])).toBeTruthy();
+    const text = document.body.textContent!;
+    for (const s of [
+      'ux-design',
+      'Sofia Bauer',
+      'Brand_Guidelines.pdf',
+      'launch checklist',
+    ]) {
+      expect(text).toContain(s);
+    }
+    expect(text).not.toContain('town-square');
   });
 
-  it('takes translated copy', () => {
-    render(
-      <Harness
-        title="Recherche"
-        placeholder="Rechercher"
-        searchLabel="Rechercher des messages"
-        hintsLabel="Options"
-        recentLabel="Récentes"
-        listboxLabel="Suggestions de recherche"
-        tipLabel="Astuce :"
-        removeRecentLabel="Retirer"
-      />,
+  it('Channels: Unreads then Recent', () => {
+    open({ initialMode: 'channels' });
+    expect(headings()).toEqual([
+      expect.stringContaining('Unreads'),
+      expect.stringContaining('Recent'),
+    ]);
+    expect(options()).toHaveLength(4);
+  });
+
+  it('Messages: recent searches only, with modifier tips in the footer', () => {
+    open({ initialMode: 'messages' });
+    expect(headings()).toEqual([expect.stringContaining('Recent searches')]);
+    expect(document.body.textContent).toContain('Tip: Try');
+    expect(document.body.textContent).toContain('In:');
+  });
+
+  it('Files: recent searches then recently added files', () => {
+    open({ initialMode: 'files' });
+    expect(headings()).toEqual([
+      expect.stringContaining('Recent searches'),
+      expect.stringContaining('Recently added files'),
+    ]);
+  });
+
+  it('People: most-chatted then recent; hides most-chatted under 3 people', () => {
+    open({ initialMode: 'people' });
+    expect(headings()[0]).toContain('People you chat with most');
+    act(() => root!.unmount());
+    container!.remove();
+    open({
+      initialMode: 'people',
+      data: { ...data, frequentPeople: [sofia, marco] },
+    });
+    expect(headings()).toEqual([expect.stringContaining('Recent')]);
+  });
+
+  it('People: falls back to an alphabetical directory with no DM activity', () => {
+    open({
+      initialMode: 'people',
+      data: { directory: [marco, emma, sofia] },
+    });
+    expect(options().map((o) => o.textContent)).toEqual([
+      expect.stringContaining('Emma Novak'),
+      expect.stringContaining('Marco Rinaldi'),
+      expect.stringContaining('Sofia Bauer'),
+    ]);
+  });
+
+  it('Agents: no list, a footer note and an agent picker', () => {
+    open({ initialMode: 'agents' });
+    expect(document.querySelector('[role="listbox"]')).toBeNull();
+    expect(input().getAttribute('placeholder')).toBe('Search');
+    expect(document.body.textContent).toContain(
+      'Agents searches only content you have access to',
     );
-    expect(input().getAttribute('placeholder')).toBe('Rechercher');
-    expect(input().getAttribute('aria-label')).toBe('Rechercher des messages');
-    expect(document.body.textContent).toContain('Récentes');
-    expect(document.body.textContent).toContain('Astuce :');
-    expect(
-      document.querySelector('[data-search-remove]')!.getAttribute('title'),
-    ).toBe('Retirer');
-    expect(
-      document.querySelector('[role="listbox"]')!.getAttribute('aria-label'),
-    ).toBe('Suggestions de recherche');
+    expect(document.body.textContent).toContain('Aiko');
+  });
+});
+
+describe('modes: while typing', () => {
+  it('All: narrows channels, files and people; empty state when nothing matches', () => {
+    open();
+    type('design');
+    expect(document.body.textContent).toContain('ux-design');
+    expect(document.body.textContent).toContain('design-crit');
+    type('zzzz');
+    expect(document.body.textContent).toContain('No results found');
+    expect(options()).toHaveLength(0);
   });
 
-  it('renders a header leading slot for future search modes', () => {
-    render(<Harness headerLeading={<div id="modes">Modes</div>} />);
-    expect(document.querySelector('#modes')).not.toBeNull();
+  it('Channels: flattens into one list of matches', () => {
+    open({ initialMode: 'channels' });
+    type('crit');
+    expect(headings()).toEqual([expect.stringContaining('Channels')]);
+    expect(options()).toHaveLength(1);
   });
 
-  it('shows modifier tips in the footer and reports a picked modifier', () => {
-    const onSelect = vi.fn();
-    render(<Harness onSelect={onSelect} />);
-    const tip = Array.from(document.querySelectorAll('button')).find(
+  it('Messages: only narrows recent searches, and an unmatched query is not "no results"', () => {
+    open({ initialMode: 'messages' });
+    type('launch');
+    expect(options()).toHaveLength(1);
+    type('nothing like it');
+    expect(document.body.textContent).not.toContain('No results found');
+    expect(document.body.textContent).toContain('Enter to search');
+  });
+
+  it('Messages: from: lists people and choosing one adds a chip and clears the field', () => {
+    open({ initialMode: 'messages' });
+    type('from:');
+    expect(headings()).toEqual([expect.stringContaining('From')]);
+    expect(options().length).toBeGreaterThan(0);
+    type('from:mar');
+    expect(options()).toHaveLength(1);
+    act(() => (options()[0] as HTMLElement).click());
+    expect(input().value).toBe('');
+    expect(document.body.textContent).toContain('From: Marco Rinaldi');
+    expect(document.body.textContent).toContain('Enter to search');
+  });
+
+  it('Messages: a modifier tip inserts it into the field', () => {
+    open({ initialMode: 'messages' });
+    const from = Array.from(document.querySelectorAll('button')).find(
       (b) => b.textContent === 'From:',
     )!;
-    act(() => tip.click());
-    expect(onSelect).toHaveBeenCalledWith({ kind: 'hint', item: hints[0] });
+    act(() => from.click());
+    expect(input().value).toBe('from:');
+    expect(headings()).toEqual([expect.stringContaining('From')]);
   });
 
-  it('swaps the tip for "Enter to search" once there is a query', () => {
-    render(<Harness initialQuery="design" />);
-    expect(document.body.textContent).toContain('Enter to search');
-    expect(document.body.textContent).not.toContain('Tip: Try');
+  it('Files: narrows searches and files', () => {
+    open({ initialMode: 'files' });
+    type('roadmap');
+    expect(headings()).toEqual([expect.stringContaining('Files')]);
+    expect(options()).toHaveLength(1);
   });
 
-  it('reports a click on a row with its kind and item', () => {
+  it('People: one flat list of matches by name or username', () => {
+    open({ initialMode: 'people' });
+    type('@emm');
+    expect(options()).toHaveLength(0);
+    type('emma');
+    expect(options()).toHaveLength(1);
+  });
+});
+
+describe('switching modes', () => {
+  it('swaps the content, the placeholder and the footer, and clears the field', () => {
+    const onModeChange = vi.fn();
+    open({ onModeChange });
+    type('design');
+    act(() => mode('Files').click());
+    expect(input().value).toBe('');
+    expect(input().getAttribute('placeholder')).toBe('Search files');
+    expect(headings()[0]).toContain('Recent searches');
+    expect(onModeChange).toHaveBeenCalledWith('files');
+    act(() => mode('People').click());
+    expect(document.body.textContent).toContain('Use ⌘-Shift-K to');
+    act(() => mode('Channels').click());
+    expect(document.body.textContent).toContain('Browse channels');
+  });
+
+  it('keeps focus in the field', () => {
+    open();
+    act(() => mode('Messages').click());
+    expect(document.activeElement).toBe(input());
+  });
+});
+
+describe('keyboard and selection', () => {
+  it('Channels: the first row is highlighted and Enter opens it', () => {
     const onSelect = vi.fn();
-    render(<Harness onSelect={onSelect} />);
-    act(() => (options()[3] as HTMLElement).click());
-    expect(onSelect).toHaveBeenCalledWith({ kind: 'recent', item: recent[1] });
-  });
-
-  it('removes a recent search from its control without selecting the row', () => {
-    const onSelect = vi.fn();
-    const onRemoveRecent = vi.fn();
-    render(<Harness onSelect={onSelect} onRemoveRecent={onRemoveRecent} />);
-    act(() =>
-      (document.querySelector('[data-search-remove]') as HTMLElement).click(),
-    );
-    expect(onRemoveRecent).toHaveBeenCalledWith(recent[0]);
-    expect(onSelect).not.toHaveBeenCalled();
-  });
-
-  it('searches on Enter until the user arrows into the list', () => {
-    const onSubmit = vi.fn();
-    const onSelect = vi.fn();
-    render(
-      <Harness initialQuery="design" onSubmit={onSubmit} onSelect={onSelect} />,
-    );
-    const event = press(input(), 'Enter');
-    expect(event.defaultPrevented).toBe(true);
-    expect(onSubmit).toHaveBeenCalledWith('design');
-    expect(onSelect).not.toHaveBeenCalled();
-  });
-
-  it('moves the highlight with arrows and picks it with Enter', () => {
-    const onSelect = vi.fn();
-    render(<Harness onSelect={onSelect} />);
-    press(input(), 'ArrowDown');
-    expect(input().getAttribute('aria-activedescendant')).toBe(options()[0].id);
+    open({ initialMode: 'channels', onSelect });
     expect(options()[0].getAttribute('aria-selected')).toBe('true');
+    expect(input().getAttribute('aria-activedescendant')).toBe(options()[0].id);
     press(input(), 'ArrowDown');
     press(input(), 'Enter');
-    expect(onSelect).toHaveBeenCalledWith({ kind: 'hint', item: hints[1] });
+    expect(onSelect).toHaveBeenCalledWith({
+      kind: 'channel',
+      item: data.unreadChannels![1],
+    });
   });
 
-  it('highlights the last row on the first ArrowUp', () => {
-    render(<Harness />);
+  it('People: Enter on a typed query opens the top match', () => {
+    const onSelect = vi.fn();
+    open({ initialMode: 'people', onSelect });
+    type('leon');
+    press(input(), 'Enter');
+    expect(onSelect).toHaveBeenCalledWith({ kind: 'person', item: leonard });
+  });
+
+  it('Messages: no row is highlighted until an arrow key; Enter searches', () => {
+    const onSubmit = vi.fn();
+    const onSelect = vi.fn();
+    open({ initialMode: 'messages', onSubmit, onSelect });
+    expect(
+      options().every((o) => o.getAttribute('aria-selected') !== 'true'),
+    ).toBe(true);
+    type('design');
+    const event = press(input(), 'Enter');
+    expect(event.defaultPrevented).toBe(true);
+    expect(onSubmit).toHaveBeenCalledWith({
+      mode: 'messages',
+      query: 'design',
+      chips: [],
+      agentId: undefined,
+    });
+    expect(onSelect).not.toHaveBeenCalled();
+  });
+
+  it('Messages: searches with chips only, and ignores an empty field', () => {
+    const onSubmit = vi.fn();
+    open({ initialMode: 'messages', onSubmit });
+    press(input(), 'Enter');
+    expect(onSubmit).not.toHaveBeenCalled();
+    type('from:sof');
+    act(() => (options()[0] as HTMLElement).click());
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ chips: ['From: Sofia Bauer'], query: '' }),
+    );
+  });
+
+  it('Messages: first ArrowUp highlights the last row; arrows with no rows keep Enter searching', () => {
+    const onSubmit = vi.fn();
+    open({ initialMode: 'messages', onSubmit });
     press(input(), 'ArrowUp');
     const all = options();
     expect(input().getAttribute('aria-activedescendant')).toBe(
       all[all.length - 1].id,
     );
+    type('from:zzzz');
+    press(input(), 'ArrowDown');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalled();
   });
 
-  it('calls onClose on Escape and prevents the default', () => {
+  it('Messages: a chosen recent search is reported', () => {
+    const onSelect = vi.fn();
+    open({ initialMode: 'messages', onSelect });
+    act(() => (options()[1] as HTMLElement).click());
+    expect(onSelect).toHaveBeenCalledWith({
+      kind: 'recent',
+      mode: 'messages',
+      item: data.recentMessageSearches![1],
+    });
+  });
+
+  it('removes a recent search from its control without selecting it, and with Shift+Delete', () => {
+    const onSelect = vi.fn();
+    const onRemoveRecent = vi.fn();
+    open({ initialMode: 'messages', onSelect, onRemoveRecent });
+    act(() =>
+      (document.querySelector('[data-search-remove]') as HTMLElement).click(),
+    );
+    expect(onRemoveRecent).toHaveBeenCalledWith(
+      'messages',
+      data.recentMessageSearches![0],
+    );
+    expect(onSelect).not.toHaveBeenCalled();
+    press(input(), 'Delete', { shiftKey: true });
+    expect(onRemoveRecent).toHaveBeenCalledTimes(1); // nothing highlighted yet
+    press(input(), 'ArrowDown');
+    press(input(), 'Delete');
+    expect(onRemoveRecent).toHaveBeenCalledTimes(1);
+    press(input(), 'Delete', { shiftKey: true });
+    expect(onRemoveRecent).toHaveBeenCalledTimes(2);
+  });
+
+  it('closes on Escape and prevents the default', () => {
     const onClose = vi.fn();
-    render(<Harness onClose={onClose} />);
+    open({ onClose });
     const event = press(input(), 'Escape');
     expect(event.defaultPrevented).toBe(true);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('removes the highlighted recent search with Shift+Delete only', () => {
-    const onRemoveRecent = vi.fn();
-    render(<Harness onRemoveRecent={onRemoveRecent} />);
-    press(input(), 'Delete', { shiftKey: true });
-    expect(onRemoveRecent).not.toHaveBeenCalled(); // nothing highlighted yet
-    for (let i = 0; i < 3; i++) press(input(), 'ArrowDown');
-    press(input(), 'Delete');
-    expect(onRemoveRecent).not.toHaveBeenCalled();
-    press(input(), 'Delete', { shiftKey: true });
-    expect(onRemoveRecent).toHaveBeenCalledWith(recent[0]);
-  });
-
-  it('keeps Enter searching when an arrow key finds no rows', () => {
+  it('Agents: Enter sends the query with the chosen agent', () => {
     const onSubmit = vi.fn();
-    render(
-      <Harness
-        initialQuery="from:zz"
-        hints={undefined}
-        recent={undefined}
-        suggestions={[]}
-        onSubmit={onSubmit}
-      />,
-    );
-    press(input(), 'ArrowDown');
+    open({ initialMode: 'agents', onSubmit });
     press(input(), 'Enter');
-    expect(onSubmit).toHaveBeenCalledWith('from:zz');
-  });
-
-  it('drops the highlight when the text changes', () => {
-    render(<Harness />);
-    press(input(), 'ArrowDown');
-    expect(input().getAttribute('aria-activedescendant')).not.toBeNull();
-    const setValue = Object.getOwnPropertyDescriptor(
-      HTMLInputElement.prototype,
-      'value',
-    )!.set!;
-    act(() => {
-      setValue.call(input(), 'a');
-      input().dispatchEvent(new Event('input', { bubbles: true }));
+    expect(onSubmit).not.toHaveBeenCalled();
+    type('what shipped?');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith({
+      mode: 'agents',
+      query: 'what shipped?',
+      chips: [],
+      agentId: 'aiko',
     });
-    expect(input().getAttribute('aria-activedescendant')).toBeNull();
+  });
+});
+
+describe('footer controls', () => {
+  it('Agents: the picker lists agents and choosing one changes the target', () => {
+    const onSubmit = vi.fn();
+    open({ initialMode: 'agents', onSubmit });
+    const picker = document.querySelector(
+      '[aria-haspopup="menu"]',
+    ) as HTMLElement;
+    expect(picker.getAttribute('aria-expanded')).toBe('false');
+    act(() => picker.click());
+    expect(picker.getAttribute('aria-expanded')).toBe('true');
+    const menu = document.querySelector('[role="menu"]')!;
+    expect(menu.getAttribute('aria-label')).toBe('Choose an Agent');
+    const arjun = Array.from(menu.querySelectorAll('button')).find((b) =>
+      b.textContent?.includes('Arjun'),
+    ) as HTMLElement;
+    act(() => arjun.click());
+    expect(document.querySelector('[role="menu"]')).toBeNull();
+    type('hello');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ agentId: 'arjun' }),
+    );
   });
 
-  it('shows suggestions with their own heading', () => {
-    render(
-      <Harness
-        hints={undefined}
-        recent={undefined}
-        suggestions={[{ id: 'amy', label: 'amy.blais' }]}
-      />,
+  it('Escape in the picker closes only the menu', () => {
+    const onClose = vi.fn();
+    open({ initialMode: 'agents', onClose });
+    act(() =>
+      (document.querySelector('[aria-haspopup="menu"]') as HTMLElement).click(),
     );
-    expect(document.body.textContent).toContain('Suggestions');
-    expect(options()).toHaveLength(1);
+    const menu = document.querySelector('[role="menu"]')!.parentElement!;
+    press(menu, 'Escape');
+    expect(document.querySelector('[role="menu"]')).toBeNull();
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('Channels and People footers call their handlers', () => {
+    const onBrowseChannels = vi.fn();
+    const onBrowseTeammates = vi.fn();
+    const onStartGroupMessage = vi.fn();
+    open({
+      initialMode: 'channels',
+      onBrowseChannels,
+      onBrowseTeammates,
+      onStartGroupMessage,
+    });
+    act(() =>
+      (
+        Array.from(document.querySelectorAll('button')).find(
+          (b) => b.textContent === 'Browse channels',
+        ) as HTMLElement
+      ).click(),
+    );
+    expect(onBrowseChannels).toHaveBeenCalled();
+    act(() => mode('People').click());
+    act(() =>
+      (
+        Array.from(document.querySelectorAll('button')).find(
+          (b) => b.textContent === 'browse for teammates',
+        ) as HTMLElement
+      ).click(),
+    );
+    act(() =>
+      (
+        Array.from(document.querySelectorAll('button')).find(
+          (b) => b.textContent === 'start a group message',
+        ) as HTMLElement
+      ).click(),
+    );
+    expect(onBrowseTeammates).toHaveBeenCalled();
+    expect(onStartGroupMessage).toHaveBeenCalled();
+  });
+});
+
+describe('team selector', () => {
+  const teams = [
+    { id: 'a', name: 'Alpha' },
+    { id: 'b', name: 'Beta' },
+  ];
+
+  it('is left out without teams', () => {
+    open();
+    expect(document.body.textContent).not.toContain('All teams');
+  });
+
+  it('shows All teams, opens a menu of teams and reports the choice', () => {
+    const onTeamChange = vi.fn();
+    open({ teams, onTeamChange });
+    const trigger = Array.from(document.querySelectorAll('button')).find(
+      (b) => b.textContent === 'All teams',
+    ) as HTMLElement;
+    act(() => trigger.click());
+    const menu = document.querySelector('[role="menu"]')!;
+    expect(
+      Array.from(menu.querySelectorAll('[role="menuitemradio"]')).map(
+        (i) => i.textContent,
+      ),
+    ).toEqual(['All teams', 'Alpha', 'Beta']);
+    act(() =>
+      (
+        Array.from(menu.querySelectorAll('button')).find(
+          (b) => b.textContent === 'Beta',
+        ) as HTMLElement
+      ).click(),
+    );
+    expect(onTeamChange).toHaveBeenCalledWith('b');
+    expect(document.querySelector('[role="menu"]')).toBeNull();
+    expect(
+      Array.from(document.querySelectorAll('button')).some(
+        (b) => b.textContent === 'Beta',
+      ),
+    ).toBe(true);
   });
 });

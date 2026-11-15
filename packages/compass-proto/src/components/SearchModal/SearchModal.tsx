@@ -1,43 +1,71 @@
-import { useMemo, useRef, type ChangeEvent, type ReactNode } from 'react';
-import KeyboardReturnIcon from '@mattermost/compass-icons/components/keyboard-return';
-import LightbulbOutlineIcon from '@mattermost/compass-icons/components/lightbulb-outline';
-import { Button } from '@mattermost/compass-ui/components/button';
-import { Icon } from '@mattermost/compass-ui/components/icon';
+import { useMemo, useRef, useState, type ChangeEvent } from 'react';
+import { Chip } from '@mattermost/compass-ui/components/chip';
+import { Dropdown } from '@mattermost/compass-ui/components/dropdown';
+import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 import type { ModalOverlayProps } from '@mattermost/compass-ui/components/modal';
 import { SearchInput } from '@mattermost/compass-ui/components/search-input';
+import { SegmentedControl } from '@mattermost/compass-ui/components/segmented-control';
 import { SuggestionList } from '@mattermost/compass-ui/components/suggestion-list';
+import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
+import SearchPortalMenu from './SearchPortalMenu';
+import SearchTip, { type SearchTipConfig } from './SearchTip';
+import { buildModeContent } from './searchSections';
 import {
-  buildSearchSections,
-  resolveSelection,
+  DEFAULT_MODE_LABELS,
+  DEFAULT_PLACEHOLDERS,
+  SEARCH_MODES,
+  type SearchMode,
   type SearchModalData,
-  type SearchModalHint,
   type SearchModalLabels,
   type SearchModalSelection,
-} from './searchSections';
+  type SearchModalSubmission,
+  type SearchRecent,
+  type SearchTeam,
+} from './searchTypes';
 import { useSearchModal } from './useSearchModal';
 import styles from './SearchModal.module.scss';
 
-export interface SearchModalProps extends SearchModalData, SearchModalLabels {
-  /** Whether the dialog is shown. The host owns this state (and the shortcut / header entry point). */
+export interface SearchModalProps {
+  /** Whether the dialog is shown. The host owns this state (and the shortcuts / header entry point). */
   open: boolean;
-  /** Called on Escape, the scrim and the close button. */
+  /** Called on Escape and on a click outside the dialog. */
   onClose: () => void;
   /** Called after the exit motion finishes and the dialog unmounts. */
   onExited?: () => void;
-  /** Text in the field. Controlled, so the host can insert a modifier or a suggestion. */
-  query: string;
-  onQueryChange: (query: string) => void;
-  /** Enter with no row highlighted: run the search for `query`. */
-  onSubmit?: (query: string) => void;
-  /** A row (or a tip modifier) was chosen. The host applies it, usually by editing `query`. */
+  /** What each mode lists. The host owns the data and any filtering by team. */
+  data?: SearchModalData;
+  /** Mode shown when the dialog opens. State resets on every open. Default: `all`. */
+  initialMode?: SearchMode;
+  /** Modes to offer, in order. Default: all six. */
+  modes?: readonly SearchMode[];
+  /** Called when the user switches mode. */
+  onModeChange?: (mode: SearchMode) => void;
+  /** Teams to search across. Pass them to show the team selector ("All teams" + each team). */
+  teams?: SearchTeam[];
+  /** Selected team id; `null` is all teams. Omit to let the dialog keep it while open. */
+  teamId?: string | null;
+  onTeamChange?: (teamId: string | null) => void;
+  /** A row was chosen with Enter or a click. The host navigates. */
   onSelect?: (selection: SearchModalSelection) => void;
   /**
-   * Header content in the title position: a `SegmentedControl` of search modes
-   * (All, Channels, Messages, Files, People, Agents). The dialog shows no
-   * visible title and no close button; `title` only names it for assistive tech.
+   * Enter with no row highlighted. In Messages this runs the search (with any
+   * modifier chips); in Agents it sends the query to the chosen agent. The host
+   * closes the dialog and shows the results.
    */
-  headerLeading?: ReactNode;
+  onSubmit?: (submission: SearchModalSubmission) => void;
+  /** A recent search's remove control (or Shift+Delete) was used. */
+  onRemoveRecent?: (
+    mode: 'all' | 'messages' | 'files',
+    item: SearchRecent,
+  ) => void;
+  /** "Browse channels" in the Channels footer. */
+  onBrowseChannels?: () => void;
+  /** "browse for teammates" in the People footer. */
+  onBrowseTeammates?: () => void;
+  /** "start a group message" in the People footer. */
+  onStartGroupMessage?: () => void;
   /**
    * Element the dialog hangs from: the global header's Search field. The dialog
    * opens centered on it, 8px below its top edge, over a transparent scrim that
@@ -51,21 +79,26 @@ export interface SearchModalProps extends SearchModalData, SearchModalLabels {
     ModalOverlayProps,
     'open' | 'onClose' | 'onExited' | 'children'
   >;
+  /** Translatable copy. Every string has an English default. */
+  labels?: SearchModalLabels;
   className?: string;
 }
 
-/**
- * Search dialog opened from the global header's Search field: a large search
- * field over a keyboard-navigable list of recent searches, search modifiers
- * (`From:`, `In:`, …) and completions, with a footer tip. Messages do not search
- * while typing; Enter runs the search. Composes `ModalOverlay`, `Modal`,
- * `SearchInput` and `SuggestionList`. Focus stays in the field; arrow keys move
- * the highlight (`aria-activedescendant`). The host owns `open` and `query`.
- */
 const DIALOG_WIDTH = 704; // Modal size "medium"
 const ANCHOR_OFFSET = 8;
 const VIEWPORT_MARGIN = 8;
 
+/**
+ * Universal search: the dialog behind the global header's Search field. A mode
+ * control (All, Channels, Messages, Files, People, Agents) sits where a title
+ * would, over a large search field and a keyboard-navigable list that changes
+ * with the mode and with what the user has typed. There is no visible title or
+ * close button; the dialog hangs from the Search field over a transparent scrim.
+ * Composes `ModalOverlay`, `Modal`, `SegmentedControl`, `SearchInput` and
+ * `SuggestionList`. Focus stays in the field; arrow keys move the highlight
+ * (`aria-activedescendant`). The host owns `open`, the data, and what choosing a
+ * row or submitting does.
+ */
 export default function SearchModal({
   open,
   onClose,
@@ -115,56 +148,147 @@ export default function SearchModal({
   );
 }
 
+type PanelProps = Omit<
+  SearchModalProps,
+  'overlayProps' | 'onExited' | 'anchor'
+>;
+
 function SearchModalPanel({
   open,
   onClose,
-  query,
-  onQueryChange,
-  onSubmit,
+  data = {},
+  initialMode = 'all',
+  modes = SEARCH_MODES,
+  onModeChange,
+  teams,
+  teamId,
+  onTeamChange,
   onSelect,
-  headerLeading,
-  hints,
-  suggestions,
-  recent,
+  onSubmit,
   onRemoveRecent,
-  hintsLabel,
-  suggestionsLabel,
-  recentLabel,
-  removeRecentLabel,
-  listboxLabel = 'Search suggestions',
-  title = 'Search',
-  placeholder = 'Search',
-  searchLabel = 'Search',
-  clearLabel = 'Clear search',
-  tipLabel = 'Tip: Try',
-  enterToSearchLabel = 'Enter to search',
+  onBrowseChannels,
+  onBrowseTeammates,
+  onStartGroupMessage,
+  labels = {},
   className,
-}: Omit<SearchModalProps, 'overlayProps' | 'onExited'>) {
+}: PanelProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const data = { hints, suggestions, recent, onRemoveRecent };
-  const labels = {
-    hintsLabel,
-    suggestionsLabel,
-    recentLabel,
-    removeRecentLabel,
+  const teamRef = useRef<HTMLSpanElement>(null);
+  const [mode, setMode] = useState<SearchMode>(initialMode);
+  const [query, setQuery] = useState('');
+  const [chips, setChips] = useState<string[]>([]);
+  const [agentId, setAgentId] = useState(data.agents?.[0]?.id);
+  const [teamMenuOpen, setTeamMenuOpen] = useState(false);
+  const [localTeam, setLocalTeam] = useState<string | null>(null);
+  const activeTeam = teamId !== undefined ? teamId : localTeam;
+
+  const content = useMemo(
+    () => buildModeContent({ mode, query, data, labels, onRemoveRecent }),
+    [mode, query, data, labels, onRemoveRecent],
+  );
+
+  const hasInput = query.trim() !== '' || chips.length > 0;
+  const submittable =
+    mode === 'messages' ? hasInput : mode === 'agents' && query.trim() !== '';
+
+  const handleSubmit = () => {
+    if (!submittable) return;
+    onSubmit?.({
+      mode,
+      query: query.trim(),
+      chips,
+      agentId: mode === 'agents' ? agentId : undefined,
+    });
   };
+
+  const choose = (value: string) => {
+    const action = content.actions.get(value);
+    if (!action) return;
+    if (action.type === 'from') {
+      setChips((c) => [...c, `From: ${action.person.name}`]);
+      setQuery('');
+      inputRef.current?.focus();
+      return;
+    }
+    onSelect?.(action.selection);
+  };
+
   const search = useSearchModal({
+    sections: content.sections,
     query,
     open,
-    ...data,
-    ...labels,
-    listboxLabel,
-    onSelect,
-    onSubmit,
+    // Messages and Agents search on Enter; the other modes open the first row.
+    autoHighlight: mode !== 'messages' && mode !== 'agents',
+    onChoose: choose,
+    onSubmit: handleSubmit,
     onClose,
+    removers: content.removers,
   });
-  const sections = buildSearchSections(data, labels);
-  const showTip = hints != null && hints.length > 0;
-  const hasQuery = query.trim() !== '';
 
-  const pickHint = (hint: SearchModalHint) => {
-    onSelect?.({ kind: 'hint', item: hint });
+  const changeMode = (next: SearchMode) => {
+    if (next === mode) return;
+    setMode(next);
+    setQuery('');
+    setChips([]);
+    onModeChange?.(next);
     inputRef.current?.focus();
+  };
+
+  const modifierTip = (modifiers: readonly string[]): SearchTipConfig => ({
+    kind: 'modifiers',
+    modifiers,
+    onModifierClick: (modifier) => {
+      setQuery(
+        (q) => `${q.trim() ? `${q.trim()} ` : ''}${modifier.toLowerCase()}`,
+      );
+      inputRef.current?.focus();
+    },
+  });
+
+  let tip: SearchTipConfig;
+  switch (mode) {
+    case 'all':
+      tip = {
+        kind: 'note',
+        text: labels.tips?.allNote ?? 'Results update as you type',
+      };
+      break;
+    case 'channels':
+      tip = { kind: 'browse-channels', onBrowse: onBrowseChannels };
+      break;
+    case 'messages':
+      tip = hasInput
+        ? { kind: 'enter-search' }
+        : modifierTip(data.messageModifiers ?? []);
+      break;
+    case 'files':
+      tip = modifierTip(data.fileModifiers ?? []);
+      break;
+    case 'people':
+      tip = {
+        kind: 'people',
+        onBrowse: onBrowseTeammates,
+        onGroupMessage: onStartGroupMessage,
+      };
+      break;
+    default:
+      tip = {
+        kind: 'agents',
+        agents: data.agents ?? [],
+        selectedId: agentId,
+        onSelect: setAgentId,
+      };
+  }
+
+  const placeholder = labels.placeholders?.[mode] ?? DEFAULT_PLACEHOLDERS[mode];
+  const activeTeamName =
+    teams?.find((t) => t.id === activeTeam)?.name ??
+    labels.allTeamsLabel ??
+    'All teams';
+  const chooseTeam = (id: string | null) => {
+    setLocalTeam(id);
+    onTeamChange?.(id);
+    setTeamMenuOpen(false);
   };
 
   return (
@@ -172,83 +296,133 @@ function SearchModalPanel({
       className={[styles['search-modal'], className].filter(Boolean).join(' ')}
       open={open}
       size="medium"
-      title={title}
+      title={labels.title ?? 'Search'}
       hideTitle
       bodyPadding="menu"
       headerDivider={false}
       onClose={onClose}
       initialFocusRef={inputRef}
-      headerLeading={headerLeading}
-      headerSlot={
-        <div className={styles['search-modal__field']}>
-          <SearchInput
-            ref={inputRef}
-            size="large"
-            placeholder={placeholder}
-            aria-label={searchLabel}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
-            {...search.inputProps}
-            value={query}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              onQueryChange(e.target.value)
-            }
-            clearLabel={clearLabel}
-            onClear={() => onQueryChange('')}
-            onKeyDown={search.onKeyDown}
-          />
-        </div>
+      headerLeading={
+        <SegmentedControl
+          aria-label={labels.modesLabel ?? 'Search modes'}
+          options={modes.map((key) => ({
+            key,
+            label: labels.modeLabels?.[key] ?? DEFAULT_MODE_LABELS[key],
+          }))}
+          value={mode}
+          onChange={(key) => changeMode(key as SearchMode)}
+        />
       }
-      footerLeading={
-        hasQuery ? (
-          <div className={styles['search-modal__tip']}>
-            <span className={styles['search-modal__enter-key']} aria-hidden>
-              <Icon glyph={<KeyboardReturnIcon />} size="12" />
-            </span>
-            <p className={styles['search-modal__tip-text']}>
-              {enterToSearchLabel}
-            </p>
-          </div>
-        ) : showTip ? (
-          <div className={styles['search-modal__tip']}>
-            <Icon
-              className={styles['search-modal__tip-icon']}
-              glyph={<LightbulbOutlineIcon />}
-              size="16"
-            />
-            <p className={styles['search-modal__tip-text']}>{tipLabel}</p>
-            <div className={styles['search-modal__modifiers']}>
-              {hints!.map((hint) => (
-                <Button
-                  key={hint.id}
-                  compact
-                  emphasis="dim"
-                  size="x-small"
-                  type="button"
-                  onClick={() => pickHint(hint)}
-                >
-                  {hint.modifier}
-                </Button>
+      headerAction={
+        teams && teams.length > 0 ? (
+          <span ref={teamRef} className={styles['search-modal__team']}>
+            <Dropdown
+              size="small"
+              isOpen={teamMenuOpen}
+              aria-label={labels.teamLabel ?? 'Search team'}
+              aria-haspopup="menu"
+              onClick={() => setTeamMenuOpen((o) => !o)}
+            >
+              {activeTeamName}
+            </Dropdown>
+            <SearchPortalMenu
+              open={teamMenuOpen}
+              anchorRef={teamRef}
+              align="end"
+              label={labels.teamLabel ?? 'Search team'}
+              onClose={() => setTeamMenuOpen(false)}
+            >
+              <MenuItem
+                role="menuitemradio"
+                aria-checked={activeTeam == null}
+                leadingElement={false}
+                label={labels.allTeamsLabel ?? 'All teams'}
+                trailingElement={activeTeam == null}
+                onClick={() => chooseTeam(null)}
+              />
+              {teams.map((team) => (
+                <MenuItem
+                  key={team.id}
+                  role="menuitemradio"
+                  aria-checked={team.id === activeTeam}
+                  leadingElement={false}
+                  label={team.name}
+                  trailingElement={team.id === activeTeam}
+                  onClick={() => chooseTeam(team.id)}
+                />
               ))}
-            </div>
-          </div>
+            </SearchPortalMenu>
+          </span>
         ) : undefined
       }
+      headerSlot={
+        <div className={styles['search-modal__header']}>
+          {chips.length > 0 && (
+            <div className={styles['search-modal__chips']}>
+              {chips.map((chip, index) => (
+                <Chip
+                  key={`${chip}-${index}`}
+                  size="small"
+                  onRemove={() =>
+                    setChips((all) => all.filter((_, i) => i !== index))
+                  }
+                >
+                  {chip}
+                </Chip>
+              ))}
+            </div>
+          )}
+          <div className={styles['search-modal__field']}>
+            <SearchInput
+              ref={inputRef}
+              size="large"
+              placeholder={placeholder}
+              aria-label={placeholder}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              {...search.inputProps}
+              value={query}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setQuery(e.target.value)
+              }
+              clearLabel={labels.clearLabel ?? 'Clear search'}
+              onClear={() => setQuery('')}
+              onKeyDown={search.onKeyDown}
+            />
+          </div>
+        </div>
+      }
+      footerLeading={<SearchTip tip={tip} tips={labels.tips} />}
       footerType="pagination"
       footerDivider
     >
-      {sections.length > 0 && (
-        <SuggestionList
-          className={styles['search-modal__list']}
-          sections={sections}
-          maxHeight="none"
-          {...search.listProps}
-          onSelect={(option) => {
-            const selection = resolveSelection(option.value, data);
-            if (selection) onSelect?.(selection);
+      {content.noResults ? (
+        <EmptyState
+          title={labels.emptyTitle ?? 'No results found'}
+          titleLevel={3}
+          description={
+            labels.emptyDescription ??
+            "Try adjusting your search or filters to find what you're looking for."
+          }
+          illustration={{
+            'aria-label': 'Search',
+            width: '120px',
+            height: '80px',
+            children: <SearchIllustration />,
           }}
         />
+      ) : (
+        content.sections.length > 0 && (
+          <SuggestionList
+            className={styles['search-modal__list']}
+            sections={content.sections}
+            maxHeight="none"
+            listboxLabel={labels.listboxLabel ?? 'Search results'}
+            {...search.listProps}
+            onSelect={(option) => choose(option.value)}
+          />
+        )
       )}
     </Modal>
   );

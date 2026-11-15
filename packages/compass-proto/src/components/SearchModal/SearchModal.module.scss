@@ -26,7 +26,6 @@
     // Header slot insets by spacing-xxxl. Grow back to the dialog edges.
     width: calc(100% + (var(--spacing-xxxl) * 2));
     margin-inline: calc(var(--spacing-xxxl) * -1);
-    margin-bottom: calc(-1 * var(--spacing-xxl));
 
     // SearchInput has no underline variant: flatten the box to a bottom hairline.
     :global([class*='search-input'] [class*='search-input__wrapper']) {
@@ -136,5 +135,83 @@
     border-radius: var(--radius-s);
     background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
     color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    width: 100%;
+    min-width: 0;
+    // The header slot pads its bottom; the field carries its own inset.
+    margin-bottom: calc(-1 * var(--spacing-xxl));
+  }
+
+  &__chips {
+    display: flex;
+    padding-top: var(--spacing-xs);
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  &__team {
+    display: inline-flex;
+  }
+
+  &__menu-layer {
+    position: fixed;
+    z-index: var(--z-menu);
+  }
+
+  &__tip--spread {
+    justify-content: space-between;
+  }
+
+  &__tip-hint {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s);
+    min-width: 0;
+  }
+
+  &__search-with {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--spacing-s);
+  }
+
+  &__search-with-label {
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-75);
+    text-transform: uppercase;
+  }
+
+  &__agent {
+    display: inline-flex;
+    align-items: center;
+    max-width: 128px;
+    padding: var(--spacing-xxxxs) var(--spacing-xxxs) var(--spacing-xxxxs)
+      var(--spacing-xxs);
+    border: 0;
+    border-radius: var(--radius-s);
+    background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    color: var(--center-channel-color);
+    font: inherit;
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-75);
+    cursor: pointer;
+
+    @include focus-ring;
+  }
+
+  &__agent-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
 }

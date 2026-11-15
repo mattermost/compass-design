@@ -1,18 +1,17 @@
 import { SearchModalCanvas } from './search-modal.specimen';
 
-The Search Modal is where the global Search field leads. Clicking the field opens
-a dialog with a large search input over what the user can search with: their
-recent searches, search modifiers, and completions for the term they are typing.
-It follows the Messages mode of the Universal Search design. It lives in
-`@mattermost/compass-proto` as a prototyping surface and is not yet published to
-`@mattermost/compass-ui`.
+The Search Modal is universal search: where the global Search field leads. Clicking
+the field opens a dialog with one large search input over everything a user can
+look for. A mode control switches between **All**, **Channels**, **Messages**,
+**Files**, **People**, and **Agents**, and each mode lists what suits it before the
+user types and narrows as they do. It replaces both the old global search and the
+Find channels switcher. It lives in `@mattermost/compass-proto` as a prototyping
+surface and is not yet published to `@mattermost/compass-ui`.
 
 Unlike a regular modal it has no visible title and no close button, and it hangs
-from the Search field instead of floating in the middle of the screen. A mode
-control sits where the title would be. Only the Messages mode is designed here;
-the others (All, Channels, Files, People, Agents) are planned for the universal
-search and have no content yet. For jumping straight to a channel or direct
-message, see the Quick Switch Modal.
+from the Search field instead of floating in the middle of the screen. For jumping
+straight to a channel or direct message with a shortcut, see the Quick Switch
+Modal.
 
 <Divider />
 
@@ -32,19 +31,21 @@ message, see the Quick Switch Modal.
 - <Num>1</Num> **Mode control** — a segmented control in the header, in the
   place of a title (the dialog is still named for assistive technology). There
   is no close button: Escape or a click outside dismisses it.
-- <Num>2</Num> **Search field** — a large search input that keeps focus the
+- <Num>2</Num> **Team selector** — "All teams" with a menu of teams, to the
+  right of the mode control. It shows when the user belongs to more than one
+  team.
+- <Num>3</Num> **Modifier chips** — in Messages, a chosen modifier such as
+  `From: Sofia Bauer` sits above the field as a removable chip.
+- <Num>4</Num> **Search field** — a large search input that keeps focus the
   whole time. The arrow keys move the highlight without leaving it, and a clear
   button appears once there is text.
-- <Num>3</Num> **Search options** — modifiers the user can add, with the
-  modifier in bold followed by what it does (`From:` a specific user).
-- <Num>4</Num> **Recent searches** — past searches with a clock icon. Hovering a
-  row shows an × to remove it.
-- <Num>5</Num> **Suggestions** — completions for the term being typed, such as
-  people with an avatar and their full name. They replace the other groups while
-  they apply.
-- <Num>6</Num> **Footer tip** — modifier buttons ("Tip: Try From: In: On:") that
-  add that modifier to the field. Once there is a query it reads "Enter to
-  search".
+- <Num>5</Num> **Results** — grouped rows under small headings. Rows carry a
+  channel glyph (with a mention count when there is one), an avatar with
+  presence, a file-type icon, or a magnifier for a recent search. Hovering a
+  recent search shows an × to remove it.
+- <Num>6</Num> **Footer tip** — one line that changes with the mode and the
+  field: a note, a link, modifier buttons, "Enter to search", or the agent
+  picker.
 
 <Divider />
 
@@ -58,45 +59,92 @@ fully on screen.
 
 <Divider />
 
-## States
+## Modes
 
-- **Default** — search options, then recent searches, with nothing highlighted.
-  Recent searches narrow as the user types.
-- **Typing** — messages are not searched while typing; searching on every
-  keystroke is too expensive. The user presses Enter to search.
-- **Modifier** — typing a modifier such as `from:` replaces the body with
-  suggestions for it. Choosing one fills it into the field, ready to search or
-  to add more terms.
-- **Highlighted** — after the first arrow key, one row has a soft fill and the
-  field announces it to assistive technology.
-- **Empty** — when there is nothing to offer, the list is left out and the dialog
-  shrinks to the field and footer.
+Switching mode clears the field and any chips and keeps focus in the field. Every
+mode has a before-typing state and a typing state.
 
-The dialog grows with its results up to a maximum height, then the list scrolls.
+### All
+
+- **Before typing** — a short mix of what can be searched: unread channels, the
+  people the user chats with most, recent files, and recent searches.
+- **Typing** — channels, files, and people narrow as the user types, in that order.
+  Messages do not appear here: they are searched from Messages.
+- **Footer** — "Results update as you type".
+
+### Channels
+
+- **Before typing** — unread channels (with mention counts), then recently visited
+  channels. This is the Find channels switcher.
+- **Typing** — the groups flatten into one list of matching channels.
+- **Footer** — a link to browse more channels.
+
+### Messages
+
+- **Before typing** — recent searches, each removable.
+- **Typing** — only recent searches narrow. Message results are not searched on
+  every keystroke; the user presses Enter, and the host shows the results (for
+  example in the right sidebar).
+- **Modifiers** — typing `from:` swaps the list for people to choose from.
+  Choosing one adds a chip and clears the field, ready to search or to add more.
+- **Footer** — modifier buttons (`From:`, `In:`, `On:`, `Before:`, `After:`, `-`,
+  `""`) that add the modifier to the field. Once there is a query or a chip it
+  reads "Enter to search".
+
+### Files
+
+- **Before typing** — recent file searches, then recently added files.
+- **Typing** — both narrow, and the files group is titled Files.
+- **Footer** — modifier buttons, including `Ext:` for a file extension.
+
+### People
+
+- **Before typing** — the people the user chats with most, then recent people.
+  With fewer than three frequent people the first group is hidden, and with no
+  direct message activity at all the list is everyone, alphabetically.
+- **Typing** — one list of people matching a name or username.
+- **Footer** — the keyboard shortcut for browsing teammates, with links to browse
+  for teammates or start a group message.
+
+### Agents
+
+- **Before typing and typing** — nothing is listed; an agent can't suggest as the
+  user types. The placeholder is just "Search".
+- **Footer** — "Agents searches only content you have access to", and **Search
+  with**, a picker that chooses the agent ("Choose an Agent").
+- **Enter** — sends the query to that agent, and the host opens the conversation.
+
+When nothing matches in a mode that lists results, a centered "No results found"
+message replaces the list.
+
+<Divider />
 
 ## Keyboard
 
-| Key            | Action                                              |
-| -------------- | --------------------------------------------------- |
-| Down / Up      | Highlight the first / last row, then move, wrapping |
-| Enter          | Open the highlighted row, or search when none is    |
-| Escape         | Close                                               |
-| Shift + Delete | Remove the highlighted recent search                |
+| Key            | Action                                                   |
+| -------------- | -------------------------------------------------------- |
+| Down / Up      | Move the highlight, wrapping at the ends                 |
+| Enter          | Open the highlighted row; in Messages and Agents, search |
+| Escape         | Close (or close an open menu first)                      |
+| Shift + Delete | Remove the highlighted recent search                     |
 
-Typing clears the highlight, so Enter always searches typed text unless the user
-has just arrowed into the list. The × on a recent search is a pointer shortcut
-and is hidden from assistive technology; Shift + Delete is the keyboard
-equivalent.
+In All, Channels, Files, and People the first row is highlighted from the start,
+so Enter opens it. In Messages and Agents no row is highlighted until an arrow key
+is pressed, so Enter on typed text still searches; typing clears the highlight.
+The × on a recent search is a pointer shortcut hidden from assistive technology;
+Shift + Delete is the keyboard equivalent.
 
 <Divider />
 
 ## Implementation
 
-The host owns open state, the shortcut or header click that opens it, the query
-text, and what choosing a row does. `onSelect` receives `{ kind, item }`; usually
-it edits `query`, then the user presses Enter and `onSubmit` runs the search.
-Headings, placeholder, tip, and accessible names take strings or nodes, so they
-can be translated. See the Specimen tab for a live example.
+The host owns open state, the shortcuts and header click that open it, all of the
+data, and what choosing a row or submitting does. Pass `data` for what each mode
+lists, `onSelect` for a chosen row (`{ kind, item }`), and `onSubmit` for a search
+(`{ mode, query, chips, agentId }`). The dialog keeps the mode, field, and chips
+while open and starts fresh each time it opens. Labels, headings, placeholders,
+and footer copy are translatable through `labels`. See the Specimen tab for a live
+example.
 
 ```tsx
 import { GlobalHeader, SearchModal } from '@mattermost/compass-proto';
@@ -110,20 +158,18 @@ import { GlobalHeader, SearchModal } from '@mattermost/compass-proto';
 
 <SearchModal
   open={open}
-  anchor={anchor}
-  headerLeading={<SegmentedControl options={modes} value={mode} onChange={setMode} />}
   onClose={() => setOpen(false)}
-  query={query}
-  onQueryChange={setQuery}
+  anchor={anchor}
+  initialMode="all"
+  data={searchData}
+  teams={teams}
+  onTeamChange={setTeamId}
+  onSelect={openSelection}
   onSubmit={runSearch}
-  hints={hints}
-  recent={recent}
-  suggestions={suggestions}
   onRemoveRecent={removeRecent}
-  onSelect={applySelection}
 />;
 ```
 
-Pass the `SegmentedControl` of modes as `headerLeading`, and the header's search
-field box as `anchor` (from `onSearchClick`, `event.currentTarget.parentElement`)
-so the dialog hangs from it. `title` names the dialog but is never shown.
+Open it on `all` from the header and on `channels` from Find channels. Pass
+`modes` to offer fewer modes, and `teamId` / `onTeamChange` to filter the data by
+team yourself.

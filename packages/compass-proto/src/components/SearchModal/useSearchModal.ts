@@ -1,77 +1,63 @@
 import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
-import { useSuggestionList } from '@mattermost/compass-ui/components/suggestion-list';
 import {
-  buildSearchSections,
-  isRecentValue,
-  resolveSelection,
-  type SearchModalData,
-  type SearchModalLabels,
-  type SearchModalSelection,
-} from './searchSections';
+  useSuggestionList,
+  type SuggestionSection,
+} from '@mattermost/compass-ui/components/suggestion-list';
 
-export interface UseSearchModalOptions
-  extends SearchModalData, SearchModalLabels {
-  /** Current text in the field. A change drops the highlight, so Enter searches again. */
+export interface UseSearchModalOptions {
+  sections: SuggestionSection[];
+  /** Current text in the field. A change drops the highlight (unless `autoHighlight`). */
   query: string;
   /** Whether the modal is open. Keys are left alone while it is closed. */
   open: boolean;
-  /** A row was chosen (Enter on a highlighted row, or a click). The host applies it. */
-  onSelect?: (selection: SearchModalSelection) => void;
-  /** Enter with no row highlighted: run the search for `query`. */
+  /**
+   * Highlight the first row from the start, so Enter opens it (Channels, People,
+   * Files, All). When false, no row is highlighted until an arrow key is pressed,
+   * so Enter on typed text searches (Messages).
+   */
+  autoHighlight?: boolean;
+  /** A row was chosen with Enter or a click. */
+  onChoose?: (value: string) => void;
+  /** Enter with no row highlighted. */
   onSubmit?: (query: string) => void;
-  /** Escape. The host closes the modal. */
+  /** Escape. */
   onClose?: () => void;
+  /** Shift+Delete on the highlighted row, when it has a remover. */
+  removers?: Map<string, () => void>;
 }
 
 /**
- * Field-side wiring for {@link SearchModal}. Focus stays in the input; no row
- * is highlighted until the user presses an arrow key, so Enter on typed text
- * still searches. Arrows move (wrapping), Enter picks the highlighted row,
- * Escape calls `onClose`, and Shift+Delete removes the highlighted recent search.
+ * Field-side wiring for the search modal's results. Focus stays in the input.
+ * Arrows move the highlight (wrapping), Enter picks the highlighted row (or
+ * submits when none is), Escape calls `onClose`, Shift+Delete removes the
+ * highlighted recent search.
  */
 export function useSearchModal({
+  sections,
   query,
   open,
-  hints,
-  suggestions,
-  recent,
-  onRemoveRecent,
-  hintsLabel,
-  suggestionsLabel,
-  recentLabel,
-  removeRecentLabel,
-  listboxLabel,
-  onSelect,
+  autoHighlight = false,
+  onChoose,
   onSubmit,
   onClose,
+  removers,
 }: UseSearchModalOptions) {
-  const data = { hints, suggestions, recent, onRemoveRecent };
-  const labels = {
-    hintsLabel,
-    suggestionsLabel,
-    recentLabel,
-    removeRecentLabel,
-  };
-  const sections = buildSearchSections(data, labels);
-  const select = (value: string) => {
-    const selection = resolveSelection(value, data);
-    if (selection) onSelect?.(selection);
-  };
-
   const list = useSuggestionList({
     sections,
     open,
     selectKeys: ['Enter'],
-    onSelect: (option) => select(option.value),
+    onSelect: (option) => onChoose?.(option.value),
     onClose,
   });
 
-  // The highlight is only "engaged" once the user arrows into the list; typing
-  // or reopening resets it (state is tied to the key it was set under).
+  // Without `autoHighlight`, the highlight is only "engaged" once the user
+  // arrows into the list; typing or reopening resets it (state is tied to the
+  // key it was set under).
   const engageKey = `${open}\u0000${query}`;
   const [engagedKey, setEngagedKey] = useState<string>();
-  const engaged = engagedKey === engageKey;
+  const hasRows = sections.some((s) => s.options.length > 0);
+  const engaged = hasRows && (autoHighlight || engagedKey === engageKey);
 
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (!open || event.defaultPrevented || event.nativeEvent.isComposing)
@@ -79,7 +65,7 @@ export function useSearchModal({
     if (event.key === 'Escape') return list.onKeyDown(event);
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       // With no rows there is nothing to highlight; keep Enter searching.
-      if (sections.length === 0) return;
+      if (!hasRows) return;
       // The first press turns the highlight on: ArrowDown lands on the first
       // row, ArrowUp wraps to the last (the list starts on the first row).
       if (!engaged) {
@@ -95,11 +81,11 @@ export function useSearchModal({
       event.key === 'Delete' &&
       event.shiftKey &&
       engaged &&
-      isRecentValue(list.activeValue)
+      list.activeValue &&
+      removers?.has(list.activeValue)
     ) {
       event.preventDefault();
-      const selection = resolveSelection(list.activeValue!, data);
-      if (selection?.kind === 'recent') onRemoveRecent?.(selection.item);
+      removers.get(list.activeValue)!();
       return;
     }
     if (event.key === 'Enter' && !engaged) {
@@ -109,7 +95,7 @@ export function useSearchModal({
         !event.metaKey &&
         !event.shiftKey
       ) {
-        // Handled here, so the header doesn't also fire its Search click.
+        // Handled here, so a host form or key handler doesn't act on it too.
         event.preventDefault();
         onSubmit?.(query);
       }
@@ -118,8 +104,7 @@ export function useSearchModal({
     list.onKeyDown(event);
   };
 
-  const showing = open && sections.length > 0;
-  const activeValue = engaged ? list.activeValue : undefined;
+  const showing = open && hasRows;
   return {
     onKeyDown,
     /** Spread on the search input. */
@@ -132,19 +117,12 @@ export function useSearchModal({
     },
     /** Spread on the results list. */
     listProps: {
-      hints,
-      suggestions,
-      recent,
-      onRemoveRecent,
-      ...labels,
-      listboxLabel,
       listboxId: list.listboxId,
-      activeValue,
+      activeValue: engaged ? list.activeValue : undefined,
       onActiveValueChange: (value: string) => {
         setEngagedKey(engageKey);
         list.setActiveValue(value);
       },
-      onSelect: (selection: SearchModalSelection) => onSelect?.(selection),
     },
   };
 }

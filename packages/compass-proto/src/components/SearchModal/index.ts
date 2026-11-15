@@ -1,9 +1,16 @@
 export { default as SearchModal } from './SearchModal';
 export type { SearchModalProps } from './SearchModal';
+export { SEARCH_MODES } from './searchTypes';
 export type {
-  SearchModalHint,
+  SearchAgent,
+  SearchChannel,
+  SearchFile,
+  SearchMode,
+  SearchModalData,
   SearchModalLabels,
-  SearchModalRecent,
   SearchModalSelection,
-  SearchModalSuggestion,
-} from './searchSections';
+  SearchModalSubmission,
+  SearchPerson,
+  SearchRecent,
+  SearchTeam,
+} from './searchTypes';
