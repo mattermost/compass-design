@@ -4,7 +4,7 @@ import {
   BullseyeArrowIcon,
   ClipboardTextOutlineIcon,
   MessageProcessingOutlineIcon,
-  NoteTextOutlineIcon,
+  BookOpenVariantOutlineIcon,
   type GlobalHeaderProduct,
   type ProductRailItemData,
 } from '@mattermost/compass-proto';
@@ -41,7 +41,7 @@ export const productRailDemoItems: (ProductRailItemData & {
   {
     id: 'docs',
     label: 'Docs',
-    icon: <NoteTextOutlineIcon size={20} />,
+    icon: <BookOpenVariantOutlineIcon size={20} />,
   },
   {
     id: 'automation',
