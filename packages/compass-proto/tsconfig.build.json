@@ -20,5 +20,10 @@
     "noUnusedParameters": false
   },
   "include": ["src"],
-  "exclude": ["**/*.stories.tsx", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": [
+    "**/*.stories.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "src/test-utils"
+  ]
 }

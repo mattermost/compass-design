@@ -8,6 +8,7 @@ import BookmarkOutlineIcon from '@mattermost/compass-icons/components/bookmark-o
 import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
 import AppsIcon from '@mattermost/compass-icons/components/apps';
 import ReplyOutlineIcon from '@mattermost/compass-icons/components/reply-outline';
+import { mergeClassNames, type BuiltInButtonProps } from '@/utils/props';
 import styles from './MessageActions.module.scss';
 
 export type MessageActionsType = 'center-channel' | 'rhs' | 'search-results';
@@ -47,6 +48,8 @@ export interface MessageActionsProps extends HTMLAttributes<HTMLDivElement> {
   jumpLabel?: ReactNode;
   /** Accessible name for the Jump button. Default: "Jump to message". */
   jumpAriaLabel?: string;
+  /** Extra attributes for the Jump button (`search-results` only), e.g. `onClick` to open the message or `data-testid`. Its `aria-label` and `type` take precedence; `className` is merged. */
+  jumpButtonProps?: BuiltInButtonProps;
 }
 
 /**
@@ -72,6 +75,7 @@ export default function MessageActions({
   replyLabel = 'Reply in thread',
   jumpLabel = 'Jump',
   jumpAriaLabel = 'Jump to message',
+  jumpButtonProps,
   ...rest
 }: MessageActionsProps) {
   if (!visible) return null;
@@ -198,8 +202,12 @@ export default function MessageActions({
             icon={<Icon size="16" glyph={<ReplyOutlineIcon />} />}
           />
           <button
+            {...jumpButtonProps}
             type="button"
-            className={styles['message-actions__jump']}
+            className={mergeClassNames(
+              styles['message-actions__jump'],
+              jumpButtonProps?.className,
+            )}
             aria-label={jumpAriaLabel}
           >
             {jumpLabel}

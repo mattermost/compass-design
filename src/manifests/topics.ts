@@ -597,6 +597,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/menu-group-heading/menu-group-heading.specimen'),
   },
   {
+    slug: 'suggestion-list',
+    name: 'Suggestion List',
+    category: 'components',
+    description:
+      'Autocomplete listbox for a composer: @mention, ~channel, :emoji: and /slash rows with avatar, status and grouped headings.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/components/suggestion-list/suggestion-list.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/suggestion-list/suggestion-list.specimen'),
+  },
+  {
     slug: 'menu-item',
     name: 'Menu Item',
     category: 'components',
@@ -1062,6 +1074,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-header/channel-header.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/patterns/channel-header/channel-header.specimen'),
+  },
+  {
+    slug: 'channel-bookmarks-bar',
+    name: 'Channel Bookmarks Bar',
+    category: 'patterns',
+    description:
+      'Quick links under the channel header, with overflow handling, an actions menu, and a create modal.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.specimen'),
   },
   {
     slug: 'mobile-navigation-bar',

@@ -32,7 +32,7 @@ jobs:
       - name: Build compass-ui
         run: npm run build --workspace=@mattermost/compass-ui
 
-      # Proto imports compass-ui from dist, so this must follow its build.
+      # Runs after the compass-ui build: proto imports compass-ui from dist.
       - name: Test compass-proto
         run: npm test --workspace=@mattermost/compass-proto
 

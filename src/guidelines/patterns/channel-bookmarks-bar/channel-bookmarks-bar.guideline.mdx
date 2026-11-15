@@ -1,0 +1,159 @@
+import { ChannelBookmarksBar } from '@mattermost/compass-proto';
+import {
+  BookmarkModalExample,
+  BookmarksEmptyChannelExample,
+  BookmarksHeaderMenuExample,
+  BookmarksOverflowExample,
+} from '../../_components/ChannelBookmarksExamples';
+
+The Channel Bookmarks Bar is a single row of quick links that sits directly
+under the Channel Header. It lets members keep the links and files a channel
+depends on one click away without pinning or searching.
+
+<Divider />
+
+## Anatomy
+
+<Preview caption="Channel bookmarks bar">
+  <div style={{ width: '100%' }}>
+    <ChannelBookmarksBar
+      bookmarks={[
+        {
+          id: 'wiki',
+          label: 'Team wiki',
+          labelText: 'Team wiki',
+          href: 'https://example.com/wiki',
+        },
+        {
+          id: 'roadmap',
+          label: 'Q4 roadmap',
+          labelText: 'Q4 roadmap',
+          href: 'https://example.com/roadmap',
+        },
+        {
+          id: 'handbook',
+          label: 'Employee handbook',
+          labelText: 'Employee handbook',
+          type: 'file',
+          href: 'https://example.com/handbook.pdf',
+        },
+      ]}
+    />
+  </div>
+</Preview>
+
+- <Num>1</Num> **Bookmark** — Emoji (or a book / file icon when none is set) and
+  name. Link bookmarks open in a new tab.
+- <Num>2</Num> **Bookmark actions** — A small `•••` button that appears on hover
+  or keyboard focus. Offers Edit, Copy link, and Delete. Hovering it keeps the
+  bookmark's hover state.
+- <Num>3</Num> **Add button** — A plus button inline after the last bookmark.
+  Opens a menu to add a link or attach a file.
+- <Num>4</Num> **Overflow button** — When some bookmarks don't fit, the add
+  button and the overflow control become one: a plus button with the number of
+  hidden bookmarks beside it. Its menu lists the hidden bookmarks in order, then
+  a divider, then the add options.
+
+<Divider />
+
+## Empty state
+
+With no bookmarks the bar is hidden: the channel header sits directly above the
+messages. The bar appears once the first bookmark is added, which members do
+from the **Bookmarks bar** submenu in the channel header menu.
+
+<Preview caption="Empty channel: no bookmarks bar">
+  <BookmarksEmptyChannelExample />
+</Preview>
+
+### Adding the first bookmark
+
+The channel header menu has a **Bookmarks bar** row with a chevron. It opens a
+submenu with **Add a link** and **Attach a file**, the same choices as the plus
+button. The submenu opens beside the row on hover, click, or the Right Arrow
+key, and Left Arrow or Escape returns to the parent menu.
+
+<Preview caption="Channel header menu with the Bookmarks bar submenu">
+  <BookmarksHeaderMenuExample />
+</Preview>
+
+## Overflow
+
+The bar never wraps or scrolls. Bookmarks are shown in order, followed by the
+plus button. When the next bookmark would not fit, the rest collapse and the
+plus button becomes a combined overflow button: a plus with the hidden count,
+for example `+ 2`. The split recalculates when the channel column is resized or
+bookmarks change, so narrowing the window moves bookmarks into the menu one at a
+time.
+
+<Preview caption="Narrow channel: the last bookmarks collapse into the overflow button">
+  <BookmarksOverflowExample />
+</Preview>
+
+## Add and edit
+
+The plus button opens a menu with **Add a link** and **Attach a file**. The
+choice decides the modal.
+
+### Link bookmark
+
+A link field and a title. An empty title defaults to the link's host; a missing
+or invalid link shows an inline error and keeps the modal open.
+
+<Preview caption="Add a link">
+  <BookmarkModalExample type="link" height={380} />
+</Preview>
+
+### File bookmark
+
+Choosing **Attach a file** opens the operating system's file dialog first. Once a
+file is chosen the modal opens with it as an attachment card, which shows the
+upload while it runs. The card's close button cancels the upload and removes the
+file, and **Edit** reopens the dialog to pick a different one. The title is
+filled in with the file name until it is edited, and **Add bookmark** stays
+disabled until the upload finishes.
+
+<Preview caption="Attach a file: uploading">
+  <BookmarkModalExample
+    type="file"
+    height={460}
+    fileName="Q4 launch plan.pdf"
+    uploadProgress={25}
+  />
+</Preview>
+
+### Editing
+
+Editing reuses the modal for the bookmark's type with its values filled in and a
+Save button. The emoji button sits inside the title field; the chosen emoji
+replaces the default icon in the bar, and a **Remove emoji** link takes it off
+again.
+
+<Preview caption="Edit a link bookmark with an emoji">
+  <BookmarkModalExample
+    type="link"
+    height={400}
+    initialValues={{
+      title: 'Team wiki',
+      url: 'https://example.com/wiki',
+      emoji: '📚',
+    }}
+  />
+</Preview>
+
+## Reordering
+
+Drag a bookmark onto another: a bar marks where it will land and the dragged
+bookmark dims. From the keyboard, focus a bookmark and press Alt with the Left
+or Right Arrow key to move it one place; the move is announced to screen readers
+and focus stays on the bookmark. Bookmarks in the overflow menu can't be
+dragged. To bring one into view, focus the last visible bookmark and press Alt
+with the Arrow key that points toward the overflow button: it moves past the
+first hidden bookmark, which moves into view.
+
+## Behavior
+
+- Opening one menu closes any other. Escape and clicking outside close it, and focus moves into the menu on open and back to its trigger on close.
+- Long names truncate with an ellipsis; the full name remains the accessible
+  name.
+- The bar is a toolbar with a translatable label.
