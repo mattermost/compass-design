@@ -28,6 +28,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
+- **2026-11-15 · `ChannelHeaderMenu` Bookmarks bar submenu motion:** the submenu slides 8px toward the side it opens to while fading in, and plays the same motion in reverse on close (it stays mounted through the exit), per the Popover Menu guideline.
 - **2026-11-15 · Bookmark default icons:** links show a book icon and attachments a file icon (as in the webapp) when no emoji is set — in `ChannelBookmarksBar` items and in the `ChannelBookmarkModal` emoji button (previously a link icon and a smiley).
 - **2026-11-15 · `ChannelHeaderMenu` Bookmarks bar submenu geometry:** the submenu overlaps its parent by 8px and its first item aligns with the row (the submenu recipe), instead of sitting 4px beside it.
 - **2026-11-15 · `ChannelBookmarksBar` overflow count size:** the count in the combined overflow button now matches the bookmark name text size.

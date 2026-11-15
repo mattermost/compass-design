@@ -17,6 +17,8 @@ import {
   PopoverMenu,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
+import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
+import styles from './BookmarksBarSubmenu.module.scss';
 
 export type BookmarksBarSubmenuChoice = 'link' | 'file';
 
@@ -45,6 +47,10 @@ export default function BookmarksBarSubmenu({
   // Opened by click / keyboard: stays open until closed, ignoring hover leave.
   const [pinned, setPinned] = useState(false);
   const [style, setStyle] = useState<CSSProperties>({ visibility: 'hidden' });
+  // Which side of the row it opens to (decides the slide direction).
+  const [side, setSide] = useState<'right' | 'left'>('right');
+  // Stay mounted through the exit transition (the reverse of the entrance).
+  const { mounted, visible } = usePopoverTransition(open);
 
   const clearTimer = () => {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
@@ -64,7 +70,8 @@ export default function BookmarksBarSubmenu({
   };
 
   useLayoutEffect(() => {
-    if (!open) return undefined;
+    // The layer mounts a render after `open` (and stays through the exit).
+    if (!mounted) return undefined;
     const place = () => {
       const row = rowRef.current;
       const layer = layerRef.current;
@@ -89,6 +96,7 @@ export default function BookmarksBarSubmenu({
         Math.max(margin, window.innerHeight - height - margin),
       );
       setStyle({ top, left });
+      setSide(toRight ? 'right' : 'left');
     };
     place();
     const ro = new ResizeObserver(place);
@@ -100,7 +108,7 @@ export default function BookmarksBarSubmenu({
       window.removeEventListener('resize', place);
       window.removeEventListener('scroll', place, true);
     };
-  }, [open]);
+  }, [mounted]);
 
   // Keyboard open: move focus into the submenu.
   useEffect(() => {
@@ -179,7 +187,7 @@ export default function BookmarksBarSubmenu({
         }}
         onMouseLeave={scheduleClose}
       />
-      {open &&
+      {mounted &&
         createPortal(
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keyboard and hover handling for the submenu surface inside this layer
           <div
@@ -188,26 +196,44 @@ export default function BookmarksBarSubmenu({
             style={{
               position: 'fixed',
               zIndex: 'var(--z-menu, 1100)',
+              // Not interactive while it fades out.
+              pointerEvents: open ? undefined : 'none',
               ...style,
             }}
             onKeyDown={onLayerKeyDown}
             onMouseEnter={clearTimer}
             onMouseLeave={scheduleClose}
           >
-            <PopoverMenu variant="child" role="menu" aria-label="Bookmarks bar">
-              <PopoverMenuGroup>
-                <MenuItem
-                  label="Add a link"
-                  leadingVisual={<Icon glyph={<LinkVariantIcon />} size="16" />}
-                  onClick={() => choose('link')}
-                />
-                <MenuItem
-                  label="Attach a file"
-                  leadingVisual={<Icon glyph={<PaperclipIcon />} size="16" />}
-                  onClick={() => choose('file')}
-                />
-              </PopoverMenuGroup>
-            </PopoverMenu>
+            <div
+              className={[
+                styles['bookmarks-bar-submenu'],
+                styles[`bookmarks-bar-submenu--${side}`],
+                visible && styles['bookmarks-bar-submenu--open'],
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <PopoverMenu
+                variant="child"
+                role="menu"
+                aria-label="Bookmarks bar"
+              >
+                <PopoverMenuGroup>
+                  <MenuItem
+                    label="Add a link"
+                    leadingVisual={
+                      <Icon glyph={<LinkVariantIcon />} size="16" />
+                    }
+                    onClick={() => choose('link')}
+                  />
+                  <MenuItem
+                    label="Attach a file"
+                    leadingVisual={<Icon glyph={<PaperclipIcon />} size="16" />}
+                    onClick={() => choose('file')}
+                  />
+                </PopoverMenuGroup>
+              </PopoverMenu>
+            </div>
           </div>,
           document.body,
         )}
