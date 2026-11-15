@@ -79,6 +79,10 @@
     outline: none;
   }
 
+  // Shared centre for the mention badge and unread dot, relative to the 36px icon chip.
+  --product-rail-badge-center-x: calc(100% - 3px);
+  --product-rail-badge-center-y: 3px;
+
   &__icon {
     position: relative;
     display: flex;
@@ -115,10 +119,13 @@
     @include visually-hidden;
   }
 
+  // The mention badge and the unread dot share one centre point (top-right of the icon chip), so
+  // they line up whatever the badge's width: both are positioned by their centre.
   &__mention-badge {
     position: absolute;
-    top: calc(-1 * var(--spacing-xxxs));
-    right: calc(-1 * var(--spacing-xs));
+    top: var(--product-rail-badge-center-y);
+    left: var(--product-rail-badge-center-x);
+    transform: translate(-50%, -50%);
     min-width: 18px;
     height: 16px;
     padding: 0 var(--spacing-xxxs);
@@ -135,8 +142,9 @@
   // Ring wrapper around the shared Unread Badge.
   &__unread-dot {
     position: absolute;
-    top: -1px;
-    right: -1px;
+    top: var(--product-rail-badge-center-y);
+    left: var(--product-rail-badge-center-x);
+    transform: translate(-50%, -50%);
     display: flex;
     border-radius: var(--radius-pill);
     box-shadow: 0 0 0 2px var(--product-rail-bg);
