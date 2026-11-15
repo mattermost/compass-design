@@ -84,11 +84,14 @@ export function useSearchPopover({
       return;
     if (event.key === 'Escape') return list.onKeyDown(event);
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      // The first arrow press only reveals the highlight on the first/last row.
+      // The first press turns the highlight on: ArrowDown lands on the first
+      // row, ArrowUp wraps to the last (the list starts on the first row).
       if (!engaged) {
-        event.preventDefault();
         setEngagedKey(engageKey);
-        return;
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          return;
+        }
       }
       return list.onKeyDown(event);
     }
@@ -110,6 +113,8 @@ export function useSearchPopover({
         !event.metaKey &&
         !event.shiftKey
       ) {
+        // Handled here, so the header doesn't also fire its Search click.
+        event.preventDefault();
         onSubmit?.(query);
       }
       return;

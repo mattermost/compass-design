@@ -176,7 +176,8 @@ describe('useSearchPopover with GlobalHeader', () => {
     const onSelect = vi.fn();
     const c = render(<Harness onSubmit={onSubmit} onSelect={onSelect} />);
     const input = c.querySelector('input')!;
-    press(input, 'Enter');
+    const event = press(input, 'Enter');
+    expect(event.defaultPrevented).toBe(true);
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSelect).not.toHaveBeenCalled();
   });
@@ -194,10 +195,9 @@ describe('useSearchPopover with GlobalHeader', () => {
     expect(onSelect).toHaveBeenCalledWith({ kind: 'hint', item: hints[1] });
   });
 
-  it('wraps from the first row to the last with ArrowUp', () => {
+  it('highlights the last row on the first ArrowUp', () => {
     const c = render(<Harness />);
     const input = c.querySelector('input')!;
-    press(input, 'ArrowDown');
     press(input, 'ArrowUp');
     const options = c.querySelectorAll('[role="option"]');
     expect(input.getAttribute('aria-activedescendant')).toBe(
