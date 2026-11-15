@@ -86,6 +86,16 @@ export interface ChannelBookmarkModalProps {
   container?: HTMLElement | null;
   /** Lock body scroll while open. Default: true. */
   lockScroll?: boolean;
+  /**
+   * Extra style on the scrim. Pair with `container` and `position: 'absolute'`
+   * to stage the modal inside a frame (docs previews).
+   */
+  overlayStyle?: CSSProperties;
+  /**
+   * Initial focus, Tab trap and focus restore (see `Modal`). Turn off for
+   * static docs previews so they don't steal focus. Default: true.
+   */
+  manageFocus?: boolean;
   labels?: ChannelBookmarkModalLabels;
 }
 
@@ -102,6 +112,8 @@ export default function ChannelBookmarkModal({
   onClose,
   container,
   lockScroll,
+  overlayStyle,
+  manageFocus = true,
   labels,
 }: ChannelBookmarkModalProps) {
   const l = { ...DEFAULT_LABELS, ...labels };
@@ -240,6 +252,7 @@ export default function ChannelBookmarkModal({
       onClose={onClose}
       container={container}
       lockScroll={lockScroll}
+      style={overlayStyle}
     >
       <Modal
         open={open}
@@ -247,6 +260,7 @@ export default function ChannelBookmarkModal({
         onClose={onClose}
         headerDivider={false}
         footerDivider={false}
+        manageFocus={manageFocus}
         initialFocusRef={isFile ? undefined : firstFieldRef}
         footer={
           <>

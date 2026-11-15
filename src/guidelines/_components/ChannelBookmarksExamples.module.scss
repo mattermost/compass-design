@@ -1,0 +1,32 @@
+.examples {
+  &__full {
+    width: 100%;
+  }
+
+  // Overflow example: narrow enough that the sample bookmarks don't all fit.
+  &__narrow {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  // Header menu with its Bookmarks bar submenu beside it.
+  &__menus {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xxxs);
+  }
+
+  // Lines the submenu up with the "Bookmarks bar" row (5th row of the menu).
+  &__submenu {
+    margin-top: 144px;
+  }
+
+  // Frame for a static modal: the scrim and dialog are staged inside it.
+  &__stage {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-m);
+    background-color: var(--center-channel-bg, var(--color-neutral-0));
+  }
+}

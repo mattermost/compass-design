@@ -1,6 +1,10 @@
 import { ChannelBookmarksBar } from '@mattermost/compass-proto';
-
-`ChannelBookmarksBar` and `ChannelBookmarkModal` live in `@mattermost/compass-proto` for prototyping until a published API is ready.
+import {
+  BookmarkModalExample,
+  BookmarksEmptyChannelExample,
+  BookmarksHeaderMenuExample,
+  BookmarksOverflowExample,
+} from '../../_components/ChannelBookmarksExamples';
 
 The Channel Bookmarks Bar is a single row of quick links that sits directly
 under the Channel Header. It lets members keep the links and files a channel
@@ -44,104 +48,101 @@ depends on one click away without pinning or searching.
   or keyboard focus. Offers Edit, Copy link, and Delete. Hovering it keeps the
   bookmark's hover state.
 - <Num>3</Num> **Add button** — A plus button inline after the last bookmark.
-  Opens a menu to add a link or attach a file. Hidden for members who can't
-  manage bookmarks.
+  Opens a menu to add a link or attach a file.
 - <Num>4</Num> **Overflow button** — When some bookmarks don't fit, the add
   button and the overflow control become one: a plus button with the number of
   hidden bookmarks beside it. Its menu lists the hidden bookmarks in order, then
-  a divider, then the add options. For members who can't manage bookmarks it
-  shows a more icon with the count and lists only the hidden bookmarks.
+  a divider, then the add options.
 
 <Divider />
 
 ## Empty state
 
-With no bookmarks the bar is hidden. It appears once the first bookmark is
-added, which members do from the **Bookmarks bar** submenu in the channel
-header menu (see below).
+With no bookmarks the bar is hidden: the channel header sits directly above the
+messages. The bar appears once the first bookmark is added, which members do
+from the **Bookmarks bar** submenu in the channel header menu.
+
+<Preview caption="Empty channel: no bookmarks bar">
+  <BookmarksEmptyChannelExample />
+</Preview>
+
+### Adding the first bookmark
+
+The channel header menu has a **Bookmarks bar** row with a chevron. It opens a
+submenu with **Add a link** and **Attach a file**, the same choices as the plus
+button. The submenu opens beside the row on hover, click, or the Right Arrow
+key, and Left Arrow or Escape returns to the parent menu.
+
+<Preview caption="Channel header menu with the Bookmarks bar submenu">
+  <BookmarksHeaderMenuExample />
+</Preview>
 
 ## Overflow
 
 The bar never wraps or scrolls. Bookmarks are shown in order, followed by the
-plus button; when the next bookmark would not fit, the rest collapse and the
-plus button becomes the combined overflow button (a plus with the hidden count,
-for example `+ 2`), so there is never a separate overflow button beside it. The
-split recalculates when the channel column is resized or bookmarks change, so
-narrowing the window moves bookmarks into the menu one at a time.
+plus button. When the next bookmark would not fit, the rest collapse and the
+plus button becomes a combined overflow button: a plus with the hidden count,
+for example `+ 2`. The split recalculates when the channel column is resized or
+bookmarks change, so narrowing the window moves bookmarks into the menu one at a
+time.
+
+<Preview caption="Narrow channel: the last bookmarks collapse into the overflow button">
+  <BookmarksOverflowExample />
+</Preview>
 
 ## Add and edit
 
 The plus button opens a menu with **Add a link** and **Attach a file**. The
-choice decides the modal:
+choice decides the modal.
 
-- **Link** — a link field and a title. An empty title defaults to the link's
-  host; a missing or invalid link shows an inline error and keeps the modal
-  open.
-- **Attachment** — a file picker and a title. An empty title defaults to the
-  file name; submitting without a file shows an error.
+### Link bookmark
 
-Both include an emoji button beside the title that opens the emoji picker; the
-chosen emoji replaces the default icon in the bar, and can be removed again.
-Editing reuses the modal for the bookmark's type with its values filled in and
-a Save button.
+A link field and a title. An empty title defaults to the link's host; a missing
+or invalid link shows an inline error and keeps the modal open.
+
+<Preview caption="Add a link">
+  <BookmarkModalExample type="link" height={380} />
+</Preview>
+
+### File bookmark
+
+A file picker and a title. An empty title defaults to the file name; submitting
+without a file shows an error.
+
+<Preview caption="Attach a file">
+  <BookmarkModalExample type="file" height={340} />
+</Preview>
+
+### Editing
+
+Editing reuses the modal for the bookmark's type with its values filled in and a
+Save button. The emoji button sits inside the title field; the chosen emoji
+replaces the default icon in the bar, and a **Remove emoji** link takes it off
+again.
+
+<Preview caption="Edit a link bookmark with an emoji">
+  <BookmarkModalExample
+    type="link"
+    height={400}
+    initialValues={{
+      title: 'Team wiki',
+      url: 'https://example.com/wiki',
+      emoji: '📚',
+    }}
+  />
+</Preview>
 
 ## Reordering
 
-Members who can manage bookmarks can reorder the bookmarks shown in the bar.
 Drag a bookmark onto another: a bar marks where it will land and the dragged
-bookmark dims. From the keyboard, focus a bookmark and press Alt with the
-Left or Right Arrow key to move it one place; the move is announced to screen
-readers and focus stays on the bookmark. Bookmarks in the overflow menu can't
-be dragged, so move one into view by reordering the others, and reordering by
-touch is left to the mobile version.
-
-## Channel header menu
-
-The channel header menu has a **Bookmarks bar** row with a chevron. It opens a
-submenu with **Add a link** and **Attach a file**, the same choices as the add
-button, so a channel's first bookmark can be added while the bar is hidden. The
-submenu opens beside the row on hover, click, or the Right Arrow key, and Left
-Arrow or Escape returns to the parent menu.
-
-## Permissions
-
-Members without permission to manage bookmarks still see the bar, open
-bookmarks, and copy links. Add, Edit, and Delete are removed for them.
+bookmark dims. From the keyboard, focus a bookmark and press Alt with the Left
+or Right Arrow key to move it one place; the move is announced to screen readers
+and focus stays on the bookmark. Bookmarks in the overflow menu can't be
+dragged, so move one into view by reordering the others.
 
 ## Behavior
 
 - Opening one menu closes any other. Escape and clicking outside close it, and focus moves into the menu on open and back to its trigger on close.
 - Long names truncate with an ellipsis; the full name remains the accessible
   name.
-- The bar is a toolbar with a translatable label, and every visible string can
-  be overridden through `labels`.
-
-<Divider />
-
-## Implementation
-
-See the Specimen tab for the interactive bar and modal. The host owns the
-bookmark data and the modal's open state: pass `bookmarks` plus `onAdd`,
-`onEdit`, `onCopyLink`, and `onDelete`, and render `ChannelBookmarkModal`
-beside it with the `type` that `onAdd` reported.
-
-```tsx
-import {
-  ChannelBookmarkModal,
-  ChannelBookmarksBar,
-} from '@mattermost/compass-proto';
-
-<ChannelBookmarksBar
-  bookmarks={bookmarks}
-  onAdd={(type) => openModal(type)}
-  onEdit={openEditor}
-  onDelete={removeBookmark}
-  onCopyLink={copyLink}
-/>
-<ChannelBookmarkModal
-  open={modalOpen}
-  type={addType}
-  onClose={() => setModalOpen(false)}
-  onSubmit={saveBookmark}
-/>
-```
+- The bar is a toolbar with a translatable label.
