@@ -1,8 +1,12 @@
-import type { ReactNode } from 'react';
+import { useCallback, useRef, type ReactNode } from 'react';
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
-import { MessageInput } from '@mattermost/compass-proto';
+import {
+  AnchoredPopup,
+  MessageInput,
+  getTextareaCharRect,
+} from '@mattermost/compass-proto';
 import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import {
@@ -24,9 +28,16 @@ const avatar = (
 
 const DEMOS: Record<
   SuggestionDemoKind,
-  { text: string; active: string; sections: SuggestionSection[] }
+  {
+    text: string;
+    /** The character that opened the list; the popup sits at its position. */
+    trigger: string;
+    active: string;
+    sections: SuggestionSection[];
+  }
 > = {
   mention: {
+    trigger: '@',
     text: 'Thanks @e',
     active: 'emma',
     sections: [
@@ -70,6 +81,7 @@ const DEMOS: Record<
     ],
   },
   channel: {
+    trigger: '~',
     text: 'Moved to ~de',
     active: 'design',
     sections: [
@@ -106,6 +118,7 @@ const DEMOS: Record<
     ],
   },
   command: {
+    trigger: '/',
     text: '/a',
     active: 'away',
     sections: [
@@ -132,6 +145,7 @@ const DEMOS: Record<
     ],
   },
   emoji: {
+    trigger: ':',
     text: 'Ship it :ro',
     active: 'rocket',
     sections: [
@@ -159,10 +173,18 @@ const DEMOS: Record<
   },
 };
 
+/** Popup width: the list's 480px max, less the viewport margins. */
+const POPUP_WIDTH = 'min(480px, calc(100vw - 16px))';
+
 /**
  * A suggestion list open above the proto Message Input, as it sits in a
- * channel. Static: the typed text and highlighted row are fixed so the
- * specimen shows the state, and the field is not wired to the list.
+ * channel. The list portals to the body and floats on top of the page,
+ * positioned horizontally at the trigger character (`@`, `~`, `:` or `/`) that
+ * opened it and 4px above the input box (`AnchoredPopup` with
+ * `getTextareaCharRect`), so the demo
+ * reserves empty space above the input for it. Static: the typed text and
+ * highlighted row are fixed to show the state, and the field is not wired to
+ * the list.
  */
 export default function SuggestionComposerDemo({
   kind,
@@ -172,18 +194,50 @@ export default function SuggestionComposerDemo({
   children?: ReactNode;
 }) {
   const demo = DEMOS[kind];
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  // Horizontally at the trigger character, vertically against the input box
+  // (not the text line, which sits inside the box's border and padding).
+  const getAnchorRect = useCallback(() => {
+    const textarea = inputRef.current;
+    const box = boxRef.current?.getBoundingClientRect();
+    if (!textarea || !box) return null;
+    const char = getTextareaCharRect(
+      textarea,
+      demo.text.lastIndexOf(demo.trigger),
+    );
+    return { left: char.left, top: box.top, bottom: box.bottom, width: 0 };
+  }, [demo]);
   return (
-    <div style={{ display: 'grid', gap: 'var(--spacing-xs)', width: '100%' }}>
-      <SuggestionList
-        sections={demo.sections}
-        activeValue={demo.active}
-        listboxLabel="Suggestions"
-      />
-      <MessageInput
-        value={demo.text}
-        onChange={() => {}}
-        placeholder="Message #ux-design…"
-      />
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        // Room for the floating list above the input.
+        minHeight: 360,
+        width: '100%',
+      }}
+    >
+      <div ref={boxRef}>
+        <MessageInput
+          inputRef={inputRef}
+          value={demo.text}
+          onChange={() => {}}
+          placeholder="Message #ux-design…"
+        />
+      </div>
+      <AnchoredPopup
+        getAnchorRect={getAnchorRect}
+        style={{ width: POPUP_WIDTH }}
+        data-testid={`suggestions-${kind}`}
+      >
+        <SuggestionList
+          sections={demo.sections}
+          activeValue={demo.active}
+          listboxLabel="Suggestions"
+        />
+      </AnchoredPopup>
       {children}
     </div>
   );
