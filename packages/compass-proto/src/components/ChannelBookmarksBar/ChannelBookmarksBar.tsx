@@ -1,10 +1,12 @@
 import {
   useCallback,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
   type HTMLAttributes,
+  type KeyboardEvent,
   type ReactNode,
   type RefObject,
 } from 'react';
@@ -112,6 +114,8 @@ interface AnchoredMenuProps {
   align?: 'start' | 'end';
   /** Set on the open menu's layer so outside-press treats it as inside. */
   portalRef: RefObject<HTMLDivElement | null>;
+  /** Called when the menu asks to close from the keyboard (Escape, Tab). */
+  onClose: () => void;
   children: ReactNode;
 }
 
@@ -124,6 +128,7 @@ function AnchoredMenu({
   open,
   align = 'start',
   portalRef,
+  onClose,
   children,
 }: AnchoredMenuProps) {
   const slotRef = useRef<HTMLSpanElement>(null);
@@ -166,6 +171,44 @@ function AnchoredMenu({
     };
   }, [open, align]);
 
+  // Portaled out of the toolbar, so move focus into the menu on open.
+  useEffect(() => {
+    if (!open) return undefined;
+    const frame = requestAnimationFrame(() => {
+      layerRef.current?.querySelector<HTMLElement>('button')?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
+
+  const closeToTrigger = () => {
+    onClose();
+    slotRef.current?.parentElement
+      ?.querySelector<HTMLElement>('[aria-haspopup="menu"]')
+      ?.focus();
+  };
+
+  const onLayerKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape' || e.key === 'Tab') {
+      // Menu pattern: Escape / Tab close and return focus to the trigger.
+      e.preventDefault();
+      e.stopPropagation();
+      closeToTrigger();
+      return;
+    }
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    const items = Array.from(
+      layerRef.current?.querySelectorAll<HTMLElement>('button') ?? [],
+    );
+    if (items.length === 0) return;
+    e.preventDefault();
+    const index = items.indexOf(document.activeElement as HTMLElement);
+    const next =
+      e.key === 'ArrowDown'
+        ? items[(index + 1) % items.length]
+        : items[(index - 1 + items.length) % items.length];
+    next.focus();
+  };
+
   return (
     <>
       <span
@@ -179,6 +222,7 @@ function AnchoredMenu({
           .join(' ')}
       />
       {createPortal(
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keyboard handler for the role="menu" surface inside this layer
         <div
           ref={(node) => {
             layerRef.current = node;
@@ -186,6 +230,7 @@ function AnchoredMenu({
           }}
           className={styles['channel-bookmarks-bar__menu-layer']}
           style={style}
+          onKeyDown={onLayerKeyDown}
         >
           <PopoverMenu open={open} role="menu">
             {children}
@@ -290,7 +335,11 @@ export default function ChannelBookmarksBar({
     b.labelText ?? (typeof b.label === 'string' ? b.label : '');
 
   const addMenu = (
-    <AnchoredMenu open={openMenu === 'add'} portalRef={menuLayerRef}>
+    <AnchoredMenu
+      open={openMenu === 'add'}
+      portalRef={menuLayerRef}
+      onClose={closeMenu}
+    >
       <PopoverMenuGroup>
         <MenuItem
           label={l.addLink}
@@ -373,7 +422,11 @@ export default function ChannelBookmarksBar({
             >
               <Icon glyph={<DotsHorizontalIcon />} size="12" />
             </button>
-            <AnchoredMenu open={openMenu === b.id} portalRef={menuLayerRef}>
+            <AnchoredMenu
+              open={openMenu === b.id}
+              portalRef={menuLayerRef}
+              onClose={closeMenu}
+            >
               <PopoverMenuGroup>
                 {canManage && (
                   <MenuItem
@@ -430,6 +483,7 @@ export default function ChannelBookmarksBar({
               open={openMenu === 'overflow'}
               align="end"
               portalRef={menuLayerRef}
+              onClose={closeMenu}
             >
               <PopoverMenuGroup>
                 {hidden.map((b) => (

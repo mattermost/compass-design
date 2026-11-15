@@ -131,6 +131,7 @@ export default function ChannelBookmarkModal({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const emojiAnchorRef = useRef<HTMLDivElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
+  const restoreFocusRef = useRef(false);
   const [pickerStyle, setPickerStyle] = useState<CSSProperties>({
     visibility: 'hidden',
   });
@@ -176,7 +177,12 @@ export default function ChannelBookmarkModal({
     });
     return () => {
       cancelAnimationFrame(frame);
-      anchor?.querySelector<HTMLElement>('button')?.focus();
+      // Only hand focus back for keyboard / selection closes; an outside press
+      // keeps whatever the user clicked.
+      if (restoreFocusRef.current) {
+        restoreFocusRef.current = false;
+        anchor?.querySelector<HTMLElement>('button')?.focus();
+      }
     };
   }, [pickerOpen]);
 
@@ -194,6 +200,8 @@ export default function ChannelBookmarkModal({
       setEmoji(initialValues?.emoji);
       setFile(undefined);
       setError(null);
+      setPickerOpen(false);
+    } else {
       setPickerOpen(false);
     }
     // Reset only when the modal (re)opens.
@@ -273,6 +281,7 @@ export default function ChannelBookmarkModal({
             // Escape closes just the open picker; the modal honors defaultPrevented.
             if (e.key === 'Escape' && pickerOpen) {
               e.preventDefault();
+              restoreFocusRef.current = true;
               setPickerOpen(false);
             }
           }}
@@ -363,7 +372,8 @@ export default function ChannelBookmarkModal({
               </Button>
             </div>
           )}
-          {pickerOpen &&
+          {open &&
+            pickerOpen &&
             createPortal(
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Escape closes only the picker and Tab stays inside it
               <div
@@ -375,6 +385,7 @@ export default function ChannelBookmarkModal({
                 onKeyDown={(e) => {
                   if (e.key === 'Escape') {
                     e.preventDefault();
+                    restoreFocusRef.current = true;
                     setPickerOpen(false);
                     return;
                   }
@@ -402,6 +413,7 @@ export default function ChannelBookmarkModal({
                 <EmojiPopover
                   onEmojiSelect={(next) => {
                     setEmoji(next);
+                    restoreFocusRef.current = true;
                     setPickerOpen(false);
                   }}
                 />
