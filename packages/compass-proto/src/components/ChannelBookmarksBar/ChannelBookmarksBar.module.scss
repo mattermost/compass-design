@@ -86,7 +86,13 @@
     padding: 0;
     border: 0;
     border-radius: var(--radius-s);
+    // Opaque so the label never shows through, tinted with the same 8% as the
+    // hovered bookmark so it blends in until it is hovered itself.
     background-color: var(--center-channel-bg, var(--color-neutral-0));
+    background-image: linear-gradient(
+      rgba(var(--center-channel-color-rgb), var(--opacity-8)),
+      rgba(var(--center-channel-color-rgb), var(--opacity-8))
+    );
     color: var(--center-channel-color);
     cursor: pointer;
     opacity: 0;
@@ -94,7 +100,10 @@
 
     &:hover,
     &:active {
-      color: var(--button-bg);
+      background-image: linear-gradient(
+        rgba(var(--center-channel-color-rgb), var(--opacity-12)),
+        rgba(var(--center-channel-color-rgb), var(--opacity-12))
+      );
     }
 
     @include focus-ring;
