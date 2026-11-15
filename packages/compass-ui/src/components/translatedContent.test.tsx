@@ -11,6 +11,7 @@ import FeatureDiscoveryPanel from './FeatureDiscoveryPanel/FeatureDiscoveryPanel
 import GlobalBanner from './GlobalBanner/GlobalBanner';
 import MenuGroupHeading from './MenuGroupHeading/MenuGroupHeading';
 import MenuItem from './MenuItem/MenuItem';
+import Popover from './Popover/Popover';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import SectionNotice from './SectionNotice/SectionNotice';
 import SegmentedControl from './SegmentedControl/SegmentedControl';
@@ -131,6 +132,15 @@ describe('text props accept translated nodes', () => {
     expect(messages(container)).toEqual(['Saved', 'Undo']);
     click(getByRole('button', 'Undo'));
     expect(onAction).toHaveBeenCalledTimes(1);
+  });
+
+  it('Popover title and footer', () => {
+    const { container } = render(
+      <Popover title={<Msg>Filter</Msg>} footer={<Msg>Apply</Msg>}>
+        Body
+      </Popover>,
+    );
+    expect(messages(container)).toEqual(['Filter', 'Apply']);
   });
 
   it('PopoverNotice title and action labels', () => {

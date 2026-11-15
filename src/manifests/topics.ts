@@ -731,6 +731,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/permalink-preview/permalink-preview.specimen'),
   },
   {
+    slug: 'popover',
+    name: 'Popover',
+    category: 'components',
+    description:
+      'A general surface for a small panel of arbitrary content, anchored to a trigger by the host.',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/popover/popover.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/popover/popover.specimen'),
+  },
+  {
     slug: 'popover-notice',
     name: 'Popover Notice',
     category: 'components',

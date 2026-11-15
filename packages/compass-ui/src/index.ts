@@ -48,6 +48,7 @@ export * from './components/NewMessageBanner/index';
 export * from './components/PaginationDots/index';
 export * from './components/PermalinkPreview/index';
 export * from './components/PinnedSavedIndicators/index';
+export * from './components/Popover/index';
 export * from './components/PopoverMenu/index';
 export * from './components/PopoverNotice/index';
 export { default as ProfilePopover } from './components/ProfilePopover/ProfilePopover';
