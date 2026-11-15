@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
-import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
+import MentionsEmptyIllustration from '@mattermost/compass-ui/illustrations/mentions-empty';
+import MessageSearchEmptyIllustration from '@mattermost/compass-ui/illustrations/message-search-empty';
+import PinnedEmptyIllustration from '@mattermost/compass-ui/illustrations/pinned-empty';
+import SavedEmptyIllustration from '@mattermost/compass-ui/illustrations/saved-empty';
 import SearchResultMessage, {
   type SearchResultMessageData,
 } from './SearchResultMessage';
@@ -58,6 +61,16 @@ const EMPTY_COPY: Record<
   },
 };
 
+const EMPTY_ILLUSTRATION: Record<
+  RightSidebarSearchResultsKind,
+  () => ReactNode
+> = {
+  search: () => <MessageSearchEmptyIllustration />,
+  mentions: () => <MentionsEmptyIllustration />,
+  saved: () => <SavedEmptyIllustration />,
+  pinned: () => <PinnedEmptyIllustration />,
+};
+
 const defaultCount = (count: number) =>
   `${count} ${count === 1 ? 'result' : 'results'}`;
 
@@ -88,7 +101,7 @@ export default function RightSidebarSearchResults({
       <div className={rootClass}>
         <EmptyState
           className={styles['right-sidebar-search-results__empty']}
-          illustration={{ children: <SearchIllustration /> }}
+          illustration={{ children: EMPTY_ILLUSTRATION[kind]() }}
           title={emptyTitle ?? copy.title}
           titleLevel={3}
           description={emptyDescription ?? copy.description}

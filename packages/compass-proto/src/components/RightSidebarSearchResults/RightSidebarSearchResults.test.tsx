@@ -122,6 +122,23 @@ describe('RightSidebarSearchResults', () => {
     expect(el2.textContent).toContain('Nothing here');
   });
 
+  it('uses a different illustration for each kind', () => {
+    const markup = (['search', 'mentions', 'saved', 'pinned'] as const).map(
+      (kind) => {
+        const el = mount(
+          <RightSidebarSearchResults results={[]} kind={kind} />,
+        );
+        const svg = el.querySelector('svg');
+        expect(svg).not.toBeNull();
+        const html = svg!.outerHTML;
+        act(() => root!.unmount());
+        host!.remove();
+        return html;
+      },
+    );
+    expect(new Set(markup).size).toBe(4);
+  });
+
   it('singularizes the default count and accepts a custom countLabel', () => {
     const el = mount(<RightSidebarSearchResults results={[results[0]]} />);
     expect(el.querySelector('[role="status"]')?.textContent).toBe('1 result');
