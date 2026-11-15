@@ -1,10 +1,10 @@
-import BookOutlineIcon from '@mattermost/compass-icons/components/book-outline';
 import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
 import LightningBoltOutlineIcon from '@mattermost/compass-icons/components/lightning-bolt-outline';
-import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
 import {
   BullseyeArrowIcon,
   ClipboardTextOutlineIcon,
+  MessageProcessingOutlineIcon,
+  NoteTextOutlineIcon,
   type GlobalHeaderProduct,
   type ProductRailItemData,
 } from '@mattermost/compass-proto';
@@ -19,7 +19,7 @@ export const productRailDemoItems: (ProductRailItemData & {
   {
     id: 'channels',
     label: 'Channels',
-    icon: <ProductChannelsIcon size={20} />,
+    icon: <MessageProcessingOutlineIcon size={20} />,
     unreadBadge: true,
   },
   {
@@ -41,7 +41,7 @@ export const productRailDemoItems: (ProductRailItemData & {
   {
     id: 'docs',
     label: 'Docs',
-    icon: <BookOutlineIcon size={20} />,
+    icon: <NoteTextOutlineIcon size={20} />,
   },
   {
     id: 'automation',

@@ -3,6 +3,8 @@ import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it } from 'vitest';
 import BullseyeArrowIcon from './BullseyeArrowIcon';
 import ClipboardTextOutlineIcon from './ClipboardTextOutlineIcon';
+import MessageProcessingOutlineIcon from './MessageProcessingOutlineIcon';
+import NoteTextOutlineIcon from './NoteTextOutlineIcon';
 
 (
   globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
@@ -18,6 +20,8 @@ afterEach(() => {
 describe.each([
   ['BullseyeArrowIcon', BullseyeArrowIcon],
   ['ClipboardTextOutlineIcon', ClipboardTextOutlineIcon],
+  ['MessageProcessingOutlineIcon', MessageProcessingOutlineIcon],
+  ['NoteTextOutlineIcon', NoteTextOutlineIcon],
 ])('%s', (_name, Icon) => {
   function render(props: React.ComponentProps<typeof Icon> = {}) {
     container = document.createElement('div');

@@ -64,3 +64,5 @@ export { default as OutboundCallIcon } from './icons/OutboundCallIcon';
 export { default as PhoneLockIcon } from './icons/PhoneLockIcon';
 export { default as ClipboardTextOutlineIcon } from './icons/ClipboardTextOutlineIcon';
 export { default as BullseyeArrowIcon } from './icons/BullseyeArrowIcon';
+export { default as MessageProcessingOutlineIcon } from './icons/MessageProcessingOutlineIcon';
+export { default as NoteTextOutlineIcon } from './icons/NoteTextOutlineIcon';
