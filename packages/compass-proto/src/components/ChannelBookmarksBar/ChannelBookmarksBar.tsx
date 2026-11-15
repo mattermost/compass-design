@@ -295,6 +295,7 @@ export default function ChannelBookmarksBar({
   const rowRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const plusRef = useRef<HTMLDivElement>(null);
+  const overflowChipRef = useRef<HTMLButtonElement>(null);
   const [visibleCount, setVisibleCount] = useState(bookmarks.length);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
@@ -337,20 +338,25 @@ export default function ChannelBookmarksBar({
   const empty = bookmarks.length === 0;
 
   // After a delete the trigger (the bookmark's own actions button, or the
-  // overflow chip) can unmount, so park focus on a control that stays: the add
-  // button, else the first remaining control in the bar.
-  const parkFocus = () =>
-    requestAnimationFrame(() => {
-      const target =
-        plusRef.current?.querySelector<HTMLElement>('button') ??
-        rootRef.current?.querySelector<HTMLElement>('a, button');
-      target?.focus();
-    });
+  // overflow chip) can unmount, so park focus on a control that stays: the
+  // overflow chip when deleting from it and it still exists once the bar has
+  // re-measured, else the add button, else the first control in the bar.
+  const parkFocus = (preferChip: boolean) =>
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const chip = overflowChipRef.current;
+        const target =
+          (preferChip && chip?.isConnected ? chip : null) ??
+          plusRef.current?.querySelector<HTMLElement>('button') ??
+          rootRef.current?.querySelector<HTMLElement>('a, button');
+        target?.focus();
+      }),
+    );
 
-  const removeBookmark = (b: ChannelBookmark) => {
+  const removeBookmark = (b: ChannelBookmark, fromOverflow = false) => {
     setOpenMenu(null);
     onDelete?.(b);
-    parkFocus();
+    parkFocus(fromOverflow);
   };
 
   const activate = (b: ChannelBookmark) => {
@@ -503,6 +509,7 @@ export default function ChannelBookmarksBar({
         {hidden.length > 0 && (
           <div className={styles['channel-bookmarks-bar__trailing']}>
             <button
+              ref={overflowChipRef}
               type="button"
               className={styles['channel-bookmarks-bar__chip']}
               aria-label={`${l.overflow}, ${hidden.length}`}
@@ -559,7 +566,7 @@ export default function ChannelBookmarksBar({
                             destructive
                             aria-label={`${l.delete} ${nameOf(b)}`.trim()}
                             icon={<Icon glyph={<TrashCanOutlineIcon />} />}
-                            onClick={() => removeBookmark(b)}
+                            onClick={() => removeBookmark(b, true)}
                           />
                         </WithTooltip>
                       </div>
