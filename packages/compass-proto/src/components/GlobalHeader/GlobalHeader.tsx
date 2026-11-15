@@ -1,7 +1,6 @@
 import ProductsIcon from '@mattermost/compass-icons/components/products';
-import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
+import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
+import LightningBoltOutlineIcon from '@mattermost/compass-icons/components/lightning-bolt-outline';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import ArrowRightIcon from '@mattermost/compass-icons/components/arrow-right';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
@@ -21,10 +20,20 @@ import type {
   ReactNode,
   SyntheticEvent,
 } from 'react';
+import BookOpenVariantOutlineIcon from '../../icons/BookOpenVariantOutlineIcon';
+import BullseyeArrowIcon from '../../icons/BullseyeArrowIcon';
+import ClipboardTextOutlineIcon from '../../icons/ClipboardTextOutlineIcon';
+import MessageProcessingOutlineIcon from '../../icons/MessageProcessingOutlineIcon';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
-export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
+export type GlobalHeaderProduct =
+  | 'channels'
+  | 'playbooks'
+  | 'boards'
+  | 'agents'
+  | 'docs'
+  | 'automation';
 
 /**
  * Click handler for Global Header controls. Receives the click event so hosts can
@@ -61,6 +70,11 @@ export interface GlobalHeaderProps {
   product?: GlobalHeaderProduct;
   /** When true and product is Channels, shows the Channels product icon + label. */
   showChannelsBranding?: boolean;
+  /**
+   * When false, hides the product icon + name for every product (use when a Product Rail already
+   * shows the active product). Default: true.
+   */
+  showProductBranding?: boolean;
   /** When true, shows the Upgrade button in the right controls. */
   showUpgradeButton?: boolean;
   /** URL for the signed-in user avatar. Omit for initials fallback. */
@@ -107,15 +121,21 @@ const PRODUCT_ICON: Record<
   GlobalHeaderProduct,
   ComponentType<{ size?: number }>
 > = {
-  channels: ProductChannelsIcon,
-  playbooks: ProductPlaybooksIcon,
-  boards: ProductBoardsIcon,
+  channels: MessageProcessingOutlineIcon,
+  playbooks: ClipboardTextOutlineIcon,
+  boards: BullseyeArrowIcon,
+  agents: CreationOutlineIcon,
+  docs: BookOpenVariantOutlineIcon,
+  automation: LightningBoltOutlineIcon,
 };
 
 const PRODUCT_LABEL: Record<GlobalHeaderProduct, string> = {
   channels: 'Channels',
   playbooks: 'Playbooks',
   boards: 'Boards',
+  agents: 'Agents',
+  docs: 'Docs',
+  automation: 'Automation',
 };
 
 function InvertedIconButton({
@@ -200,6 +220,7 @@ export default function GlobalHeader({
   className = '',
   product = 'channels',
   showChannelsBranding = true,
+  showProductBranding = true,
   showUpgradeButton = false,
   userAvatarSrc,
   userAvatarAlt = 'User',
@@ -222,7 +243,8 @@ export default function GlobalHeader({
   accountActive = false,
 }: GlobalHeaderProps) {
   const isChannels = product === 'channels';
-  const showBrand = isChannels ? showChannelsBranding : true;
+  const showBrand =
+    showProductBranding && (isChannels ? showChannelsBranding : true);
 
   const rootClass = [
     styles['global-header'],
