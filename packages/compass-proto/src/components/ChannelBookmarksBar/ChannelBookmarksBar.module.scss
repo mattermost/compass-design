@@ -4,8 +4,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   min-height: calc(var(--spacing-xxxl) - var(--spacing-xs));
-  padding: var(--spacing-xs) var(--spacing-l) var(--spacing-xs)
-    var(--spacing-xxs);
+  padding: var(--spacing-xxs);
   background-color: var(--center-channel-bg, var(--color-neutral-0));
   border-bottom: 1px solid
     rgba(var(--center-channel-color-rgb), var(--opacity-8));
