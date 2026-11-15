@@ -4,7 +4,7 @@ import type { FixturePresence, FixtureUser } from './types';
  * Sample people. Ids are the avatar registry keys; display names match the
  * files in the docs app's `src/assets/avatars/`.
  */
-export const fixtureUsers = [
+const USERS = [
   {
     id: 'aiko-tan',
     username: 'aiko.tan',
@@ -88,7 +88,11 @@ export const fixtureUsers = [
   },
 ] as const satisfies readonly FixtureUser[];
 
-export type FixtureUserId = (typeof fixtureUsers)[number]['id'];
+export type FixtureUserId = (typeof USERS)[number]['id'];
+
+/** Typed as `FixtureUser` so optional fields (e.g. `customStatusText`) are readable on every element; `id` stays the literal union. */
+export const fixtureUsers: readonly (FixtureUser & { id: FixtureUserId })[] =
+  USERS;
 
 /** The signed-in user in prototypes. */
 export const fixtureCurrentUserId: FixtureUserId = 'leonard-riley';

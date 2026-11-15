@@ -83,3 +83,16 @@ describe('buildDefaultChannelsSidebarModel', () => {
     );
   });
 });
+
+describe('fixture element types', () => {
+  it('exposes optional fields on every user and team element', () => {
+    const statuses: (string | undefined)[] = fixtureUsers.map(
+      (u) => u.customStatusText,
+    );
+    const mentions: (number | undefined)[] = fixtureTeams.map(
+      (t) => t.mentions,
+    );
+    expect(statuses).toHaveLength(fixtureUsers.length);
+    expect(mentions).toHaveLength(fixtureTeams.length);
+  });
+});
