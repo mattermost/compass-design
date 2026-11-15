@@ -28,6 +28,8 @@ export interface RightSidebarSearchResultsProps {
   /** Accessible name for the results list. Default: "Search results". */
   listLabel?: string;
   jumpLabel?: string;
+  /** Accessible name for each Jump button. Default: "Jump to message". */
+  jumpAriaLabel?: string;
   /** Empty-state title. Defaults per `kind`. */
   emptyTitle?: ReactNode;
   /** Empty-state description. Defaults per `kind`. */
@@ -87,6 +89,7 @@ export default function RightSidebarSearchResults({
   countLabel = defaultCount,
   listLabel = 'Search results',
   jumpLabel,
+  jumpAriaLabel,
   emptyTitle,
   emptyDescription,
   className = '',
@@ -129,6 +132,7 @@ export default function RightSidebarSearchResults({
             terms={terms}
             onJump={onJump}
             jumpLabel={jumpLabel}
+            jumpAriaLabel={jumpAriaLabel}
           />
         ))}
       </ul>

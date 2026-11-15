@@ -92,13 +92,16 @@ describe('RightSidebarSearchResults', () => {
         results={results}
         onJump={onJump}
         jumpLabel="Go to message"
+        jumpAriaLabel="Open message in channel"
       />,
     );
     const buttons = Array.from(
       el.querySelectorAll('[role="toolbar"] button'),
     ).filter((b) => b.textContent === 'Go to message');
     expect(buttons).toHaveLength(2);
-    expect(buttons[0].getAttribute('aria-label')).toBe('Jump to message');
+    expect(buttons[0].getAttribute('aria-label')).toBe(
+      'Open message in channel',
+    );
     act(() => buttons[1].click());
     expect(onJump).toHaveBeenCalledWith(results[1]);
   });
