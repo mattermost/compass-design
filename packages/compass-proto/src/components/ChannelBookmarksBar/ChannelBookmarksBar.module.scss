@@ -4,7 +4,8 @@
   align-items: center;
   gap: var(--spacing-xs);
   min-height: calc(var(--spacing-xxxl) - var(--spacing-xs));
-  padding: var(--spacing-xs) var(--spacing-l);
+  padding: var(--spacing-xs) var(--spacing-l) var(--spacing-xs)
+    var(--spacing-xxs);
   background-color: var(--center-channel-bg, var(--color-neutral-0));
   border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
 
@@ -12,7 +13,7 @@
     display: flex;
     flex: 1 1 0;
     align-items: center;
-    gap: var(--spacing-xxs);
+    gap: var(--spacing-xxxxs);
     min-width: 0;
   }
 
@@ -29,7 +30,7 @@
     align-items: center;
     gap: var(--spacing-xxs);
     min-width: 0;
-    padding: var(--spacing-xxs) var(--spacing-s);
+    padding: var(--spacing-xxxxs) var(--spacing-s);
     border: 0;
     border-radius: var(--radius-s);
     background: transparent;
@@ -51,6 +52,13 @@
     @include focus-ring;
   }
 
+  // The actions button is a sibling of the link, so hovering it (or having
+  // its menu open) must keep the link's hover state.
+  &__item:hover &__link,
+  &__item--active &__link {
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+  }
+
   &__icon {
     display: inline-flex;
     flex-shrink: 0;
@@ -60,10 +68,6 @@
   &__label {
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  &__item-actions {
-    display: contents;
   }
 
   &__more {
@@ -96,14 +100,34 @@
     opacity: 1;
   }
 
-  &__overflow {
+  &__trailing {
     position: relative;
     flex: 0 0 auto;
+  }
 
-    .channel-bookmarks-bar__menu {
-      left: auto;
-      inset-inline-end: 0;
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    padding: var(--spacing-xxs) var(--spacing-s);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--center-channel-color);
+    font: inherit;
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-100);
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover,
+    &:active,
+    &[aria-expanded='true'] {
+      background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
+
+    @include focus-ring;
   }
 
   &__menu {
@@ -119,8 +143,12 @@
     visibility: hidden;
     pointer-events: none;
     display: flex;
-    gap: var(--spacing-xxs);
+    gap: var(--spacing-xxxxs);
     height: 0;
     overflow: hidden;
+
+    .channel-bookmarks-bar__link {
+      max-width: calc(var(--spacing-xxxxxl) * 5);
+    }
   }
 }

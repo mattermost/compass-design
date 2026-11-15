@@ -10,7 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
-- **2026-11-13 · `ChannelBookmarksBar` and `ChannelBookmarkModal`:** channel bookmarks bar for under the channel header, with overflow handling (bookmarks that don't fit collapse into a "More bookmarks" menu), a per-bookmark actions menu (edit, copy link, delete), an add button, and a create / edit modal for link bookmarks. Controlled by the host through callbacks; user-visible strings are overridable via `labels`. Shown in the Channel layout specimen.
+- **2026-11-13 · `ChannelBookmarksBar` and `ChannelBookmarkModal`:** channel bookmarks bar for under the channel header. Bookmarks can carry an emoji; those that don't fit collapse into a `+N` overflow chip; each bookmark has an actions menu (edit, copy link, delete); an inline plus button opens an add menu (link or attachment) and `ChannelBookmarkModal` renders the matching form (link or file, plus an emoji picker). With no bookmarks the plus button becomes an "Add bookmark" chip. Controlled by the host through callbacks (`onAdd(type)`); strings are overridable via `labels`. Shown in the Channel layout specimen and the Channel Bookmarks Bar docs topic.
 
 ### Changed
 

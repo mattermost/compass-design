@@ -38,30 +38,49 @@ depends on one click away without pinning or searching.
   </div>
 </Preview>
 
-- <Num>1</Num> **Bookmark** — Icon and name. Link bookmarks open in a new tab.
-  The icon is a link or file glyph by default and can be replaced.
-- <Num>2</Num> **Bookmark actions** — A small menu button that appears on hover
-  or keyboard focus. Offers Edit, Copy link, and Delete.
-- <Num>3</Num> **Overflow button** — Appears only when some bookmarks don't fit.
-  Opens a menu listing the hidden bookmarks in order.
-- <Num>4</Num> **Add button** — Opens the create modal. Hidden for members who
-  can't manage bookmarks.
+- <Num>1</Num> **Bookmark** — Emoji (or a link / file icon when none is set) and
+  name. Link bookmarks open in a new tab.
+- <Num>2</Num> **Bookmark actions** — A small `•••` button that appears on hover
+  or keyboard focus. Offers Edit, Copy link, and Delete. Hovering it keeps the
+  bookmark's hover state.
+- <Num>3</Num> **Add button** — A plus button inline after the last bookmark.
+  Opens a menu to add a link or attach a file. Hidden for members who can't
+  manage bookmarks.
+- <Num>4</Num> **Overflow button** — A `+N` chip that appears only when some
+  bookmarks don't fit, where N is how many are hidden. Opens a menu listing the
+  hidden bookmarks in order.
 
 <Divider />
 
+## Empty state
+
+With no bookmarks, the plus button is replaced by an **Add bookmark** chip on
+the left of the bar. It opens the same add menu. Members who can't manage
+bookmarks see no bar at all.
+
 ## Overflow
 
-The bar never wraps or scrolls. Bookmarks are shown in order until the next one
-would not fit alongside the overflow button; the rest move into the overflow
-menu. The split recalculates when the channel column is resized or bookmarks
-change, so narrowing the window moves bookmarks into the menu one at a time.
+The bar never wraps or scrolls. Bookmarks are shown in order, followed by the
+plus button; when the next bookmark would not fit, the rest collapse into a
+`+N` chip (for example `+2`) that sits before the plus button. The split
+recalculates when the channel column is resized or bookmarks change, so
+narrowing the window moves bookmarks into the menu one at a time.
 
-## Create and edit
+## Add and edit
 
-The modal asks for a link and an optional title. When the title is left empty
-it defaults to the link's host. A missing or invalid link shows an inline error
-and keeps the modal open. Editing reuses the same modal with the existing
-values filled in and a Save button.
+The plus button opens a menu with **Add a link** and **Attach a file**. The
+choice decides the modal:
+
+- **Link** — a link field and a title. An empty title defaults to the link's
+  host; a missing or invalid link shows an inline error and keeps the modal
+  open.
+- **Attachment** — a file picker and a title. An empty title defaults to the
+  file name; submitting without a file shows an error.
+
+Both include an emoji button beside the title that opens the emoji picker; the
+chosen emoji replaces the default icon in the bar, and can be removed again.
+Editing reuses the modal for the bookmark's type with its values filled in and
+a Save button.
 
 ## Permissions
 
@@ -83,7 +102,7 @@ bookmarks, and copy links. Add, Edit, and Delete are removed for them.
 See the Specimen tab for the interactive bar and modal. The host owns the
 bookmark data and the modal's open state: pass `bookmarks` plus `onAdd`,
 `onEdit`, `onCopyLink`, and `onDelete`, and render `ChannelBookmarkModal`
-beside it.
+beside it with the `type` that `onAdd` reported.
 
 ```tsx
 import {
@@ -93,13 +112,14 @@ import {
 
 <ChannelBookmarksBar
   bookmarks={bookmarks}
-  onAdd={() => setModalOpen(true)}
+  onAdd={(type) => openModal(type)}
   onEdit={openEditor}
   onDelete={removeBookmark}
   onCopyLink={copyLink}
 />
 <ChannelBookmarkModal
   open={modalOpen}
+  type={addType}
   onClose={() => setModalOpen(false)}
   onSubmit={saveBookmark}
 />

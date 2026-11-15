@@ -11,8 +11,10 @@ import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizo
 import FileGenericOutlineIcon from '@mattermost/compass-icons/components/file-generic-outline';
 import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
+import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
+import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
@@ -35,15 +37,25 @@ export interface ChannelBookmark {
   type?: 'link' | 'file';
   /** Destination for link bookmarks. Rendered as an `<a>` when set. */
   href?: string;
+  /** Emoji chosen for the bookmark. Replaces the default link / file icon. */
+  emoji?: string;
   /** Overrides the default leading icon (pass `<Icon glyph={...} />`). */
   leadingIcon?: ReactNode;
 }
 
+export type ChannelBookmarkAddType = 'link' | 'file';
+
 export interface ChannelBookmarksBarLabels {
   /** Accessible name of the bar (`role="toolbar"`). Default: "Channel bookmarks". */
   bar?: string;
-  /** Add-bookmark button label and tooltip. Default: "Add a bookmark". */
+  /** Plus button label and tooltip. Default: "Add a bookmark". */
   add?: string;
+  /** Empty-state chip label. Default: "Add bookmark". */
+  addBookmark?: string;
+  /** Add menu: link row. Default: "Add a link". */
+  addLink?: string;
+  /** Add menu: file row. Default: "Attach a file". */
+  addFile?: string;
   /** Overflow button label and tooltip. Default: "More bookmarks". */
   overflow?: string;
   /** Per-item actions button. Gets the bookmark name appended. Default: "Bookmark actions for". */
@@ -56,6 +68,9 @@ export interface ChannelBookmarksBarLabels {
 const DEFAULT_LABELS: Required<ChannelBookmarksBarLabels> = {
   bar: 'Channel bookmarks',
   add: 'Add a bookmark',
+  addBookmark: 'Add bookmark',
+  addLink: 'Add a link',
+  addFile: 'Attach a file',
   overflow: 'More bookmarks',
   itemActions: 'Bookmark actions for',
   edit: 'Edit',
@@ -72,8 +87,11 @@ export interface ChannelBookmarksBarProps extends Omit<
   canManage?: boolean;
   /** Called when a bookmark is activated (link bookmarks with `href` also navigate natively). */
   onBookmarkClick?: (bookmark: ChannelBookmark) => void;
-  /** Host opens its create modal (e.g. `ChannelBookmarkModal`). */
-  onAdd?: () => void;
+  /**
+   * The user chose what to add from the plus menu. The host opens its create
+   * modal for that type (e.g. `ChannelBookmarkModal`).
+   */
+  onAdd?: (type: ChannelBookmarkAddType) => void;
   onEdit?: (bookmark: ChannelBookmark) => void;
   onCopyLink?: (bookmark: ChannelBookmark) => void;
   onDelete?: (bookmark: ChannelBookmark) => void;
@@ -82,11 +100,12 @@ export interface ChannelBookmarksBarProps extends Omit<
   className?: string;
 }
 
-/** Share of the row that stays free for the overflow + add controls. */
+/** Used until the real controls have been measured. */
 const CONTROL_WIDTH_FALLBACK = 40;
 
 function defaultIcon(b: ChannelBookmark): ReactNode {
   if (b.leadingIcon) return b.leadingIcon;
+  if (b.emoji) return <Emoji emoji={b.emoji} size="16" />;
   return (
     <Icon
       glyph={
@@ -117,7 +136,7 @@ export default function ChannelBookmarksBar({
   const l = { ...DEFAULT_LABELS, ...labels };
   const rowRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
-  const overflowBtnRef = useRef<HTMLDivElement>(null);
+  const plusRef = useRef<HTMLDivElement>(null);
   const [visibleCount, setVisibleCount] = useState(bookmarks.length);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
@@ -126,21 +145,29 @@ export default function ChannelBookmarksBar({
     const measure = measureRef.current;
     if (!row || !measure) return;
     const update = () => {
-      const widths = Array.from(measure.children).map(
-        (el) => (el as HTMLElement).offsetWidth,
-      );
+      const kids = Array.from(measure.children) as HTMLElement[];
+      // Last child is the widest possible `+N` chip; the rest are items.
+      const chip = kids.pop();
+      const widths = kids.map((el) => el.offsetWidth);
       const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
-      const overflowWidth =
-        overflowBtnRef.current?.offsetWidth || CONTROL_WIDTH_FALLBACK;
+      const trailing = canManage
+        ? plusRef.current?.offsetWidth || CONTROL_WIDTH_FALLBACK
+        : 0;
       setVisibleCount(
-        computeVisibleCount(widths, row.clientWidth, gap, overflowWidth),
+        computeVisibleCount(
+          widths,
+          row.clientWidth,
+          gap,
+          chip?.offsetWidth || CONTROL_WIDTH_FALLBACK,
+          trailing,
+        ),
       );
     };
     update();
     const ro = new ResizeObserver(update);
     ro.observe(row);
     return () => ro.disconnect();
-  }, [bookmarks]);
+  }, [bookmarks, canManage]);
 
   const closeMenu = useCallback(() => setOpenMenu(null), []);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -148,6 +175,7 @@ export default function ChannelBookmarksBar({
 
   const visible = bookmarks.slice(0, visibleCount);
   const hidden = bookmarks.slice(visibleCount);
+  const empty = bookmarks.length === 0;
 
   const activate = (b: ChannelBookmark) => {
     setOpenMenu(null);
@@ -165,6 +193,37 @@ export default function ChannelBookmarksBar({
 
   const nameOf = (b: ChannelBookmark) =>
     b.labelText ?? (typeof b.label === 'string' ? b.label : '');
+
+  const addMenu = (
+    <PopoverMenu
+      open={openMenu === 'add'}
+      className={styles['channel-bookmarks-bar__menu']}
+      role="menu"
+    >
+      <PopoverMenuGroup>
+        <MenuItem
+          label={l.addLink}
+          leadingVisual={<Icon glyph={<LinkVariantIcon />} size="16" />}
+          onClick={() => {
+            setOpenMenu(null);
+            onAdd?.('link');
+          }}
+        />
+        <MenuItem
+          label={l.addFile}
+          leadingVisual={<Icon glyph={<PaperclipIcon />} size="16" />}
+          onClick={() => {
+            setOpenMenu(null);
+            onAdd?.('file');
+          }}
+        />
+      </PopoverMenuGroup>
+    </PopoverMenu>
+  );
+
+  const toggleAdd = () => setOpenMenu(openMenu === 'add' ? null : 'add');
+
+  if (empty && !canManage) return null;
 
   return (
     <div
@@ -184,7 +243,16 @@ export default function ChannelBookmarksBar({
     >
       <div ref={rowRef} className={styles['channel-bookmarks-bar__row']}>
         {visible.map((b) => (
-          <div key={b.id} className={styles['channel-bookmarks-bar__item']}>
+          <div
+            key={b.id}
+            className={[
+              styles['channel-bookmarks-bar__item'],
+              openMenu === b.id &&
+                styles['channel-bookmarks-bar__item--active'],
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
             {b.href ? (
               <a
                 className={styles['channel-bookmarks-bar__link']}
@@ -204,80 +272,73 @@ export default function ChannelBookmarksBar({
                 {content(b)}
               </button>
             )}
-            <div className={styles['channel-bookmarks-bar__item-actions']}>
-              <button
-                type="button"
-                className={styles['channel-bookmarks-bar__more']}
-                aria-label={`${l.itemActions} ${nameOf(b)}`.trim()}
-                aria-haspopup="menu"
-                aria-expanded={openMenu === b.id}
-                onClick={() => setOpenMenu(openMenu === b.id ? null : b.id)}
-              >
-                <Icon glyph={<DotsHorizontalIcon />} size="12" />
-              </button>
-              <PopoverMenu
-                open={openMenu === b.id}
-                className={styles['channel-bookmarks-bar__menu']}
-                role="menu"
-              >
-                <PopoverMenuGroup>
-                  {canManage && (
-                    <MenuItem
-                      label={l.edit}
-                      leadingVisual={
-                        <Icon glyph={<PencilOutlineIcon />} size="16" />
-                      }
-                      onClick={() => {
-                        setOpenMenu(null);
-                        onEdit?.(b);
-                      }}
-                    />
-                  )}
+            <button
+              type="button"
+              className={styles['channel-bookmarks-bar__more']}
+              aria-label={`${l.itemActions} ${nameOf(b)}`.trim()}
+              aria-haspopup="menu"
+              aria-expanded={openMenu === b.id}
+              onClick={() => setOpenMenu(openMenu === b.id ? null : b.id)}
+            >
+              <Icon glyph={<DotsHorizontalIcon />} size="12" />
+            </button>
+            <PopoverMenu
+              open={openMenu === b.id}
+              className={styles['channel-bookmarks-bar__menu']}
+              role="menu"
+            >
+              <PopoverMenuGroup>
+                {canManage && (
                   <MenuItem
-                    label={l.copyLink}
+                    label={l.edit}
                     leadingVisual={
-                      <Icon glyph={<ContentCopyIcon />} size="16" />
+                      <Icon glyph={<PencilOutlineIcon />} size="16" />
                     }
                     onClick={() => {
                       setOpenMenu(null);
-                      onCopyLink?.(b);
+                      onEdit?.(b);
                     }}
                   />
-                  {canManage && (
-                    <MenuItem
-                      label={l.delete}
-                      destructive
-                      leadingVisual={
-                        <Icon glyph={<TrashCanOutlineIcon />} size="16" />
-                      }
-                      onClick={() => {
-                        setOpenMenu(null);
-                        onDelete?.(b);
-                      }}
-                    />
-                  )}
-                </PopoverMenuGroup>
-              </PopoverMenu>
-            </div>
+                )}
+                <MenuItem
+                  label={l.copyLink}
+                  leadingVisual={<Icon glyph={<ContentCopyIcon />} size="16" />}
+                  onClick={() => {
+                    setOpenMenu(null);
+                    onCopyLink?.(b);
+                  }}
+                />
+                {canManage && (
+                  <MenuItem
+                    label={l.delete}
+                    destructive
+                    leadingVisual={
+                      <Icon glyph={<TrashCanOutlineIcon />} size="16" />
+                    }
+                    onClick={() => {
+                      setOpenMenu(null);
+                      onDelete?.(b);
+                    }}
+                  />
+                )}
+              </PopoverMenuGroup>
+            </PopoverMenu>
           </div>
         ))}
         {hidden.length > 0 && (
-          <div
-            ref={overflowBtnRef}
-            className={styles['channel-bookmarks-bar__overflow']}
-          >
-            <WithTooltip label={l.overflow}>
-              <IconButton
-                size="small"
-                padding="compact"
-                aria-haspopup="menu"
-                aria-expanded={openMenu === 'overflow'}
-                icon={<Icon glyph={<DotsHorizontalIcon />} />}
-                onClick={() =>
-                  setOpenMenu(openMenu === 'overflow' ? null : 'overflow')
-                }
-              />
-            </WithTooltip>
+          <div className={styles['channel-bookmarks-bar__trailing']}>
+            <button
+              type="button"
+              className={styles['channel-bookmarks-bar__chip']}
+              aria-label={`${l.overflow}, ${hidden.length}`}
+              aria-haspopup="menu"
+              aria-expanded={openMenu === 'overflow'}
+              onClick={() =>
+                setOpenMenu(openMenu === 'overflow' ? null : 'overflow')
+              }
+            >
+              +{hidden.length}
+            </button>
             <PopoverMenu
               open={openMenu === 'overflow'}
               className={styles['channel-bookmarks-bar__menu']}
@@ -299,18 +360,41 @@ export default function ChannelBookmarksBar({
             </PopoverMenu>
           </div>
         )}
+        {canManage && empty && (
+          <div className={styles['channel-bookmarks-bar__trailing']}>
+            <button
+              type="button"
+              className={styles['channel-bookmarks-bar__chip']}
+              aria-haspopup="menu"
+              aria-expanded={openMenu === 'add'}
+              onClick={toggleAdd}
+            >
+              <Icon glyph={<PlusIcon />} size="12" />
+              {l.addBookmark}
+            </button>
+            {addMenu}
+          </div>
+        )}
+        {canManage && !empty && (
+          <div
+            ref={plusRef}
+            className={styles['channel-bookmarks-bar__trailing']}
+          >
+            <WithTooltip label={l.add}>
+              <IconButton
+                size="small"
+                padding="compact"
+                aria-haspopup="menu"
+                aria-expanded={openMenu === 'add'}
+                icon={<Icon glyph={<PlusIcon />} />}
+                onClick={toggleAdd}
+              />
+            </WithTooltip>
+            {addMenu}
+          </div>
+        )}
       </div>
-      {canManage && (
-        <WithTooltip label={l.add}>
-          <IconButton
-            size="small"
-            padding="compact"
-            icon={<Icon glyph={<PlusIcon />} />}
-            onClick={onAdd}
-          />
-        </WithTooltip>
-      )}
-      {/* Off-screen copy used only to measure natural item widths. */}
+      {/* Off-screen copy used only to measure natural widths. */}
       <div
         ref={measureRef}
         aria-hidden="true"
@@ -321,6 +405,9 @@ export default function ChannelBookmarksBar({
             {content(b)}
           </div>
         ))}
+        <div className={styles['channel-bookmarks-bar__chip']}>
+          +{bookmarks.length}
+        </div>
       </div>
     </div>
   );
