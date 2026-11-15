@@ -142,6 +142,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'reaction-button',
         'reactions-row',
         'message-separator',
+        'suggestion-list',
         'thread-footer',
         'thread-list-item',
       ],

@@ -17,13 +17,29 @@ import {
   PopoverMenuDivider,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
+import BookmarksBarSubmenu from './BookmarksBarSubmenu';
+import type { BookmarksBarSubmenuChoice } from './BookmarksBarSubmenu';
 
-export type ChannelHeaderMenuProps = HTMLAttributes<HTMLDivElement>;
+export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Makes the "Bookmarks bar" row open a submenu (Add a link / Attach a file),
+   * as in the webapp; called with the choice. Without it the row is the static
+   * submenu-style row. The submenu is portaled and positioned against the row.
+   */
+  onAddBookmark?: (type: BookmarksBarSubmenuChoice) => void;
+  /**
+   * Shows the static "Bookmarks bar" row in its active (submenu open) state.
+   * Only for static previews; ignored when `onAddBookmark` is set.
+   */
+  bookmarksBarActive?: boolean;
+}
 
 /**
  * Channel header overflow menu — settings, members, more actions, and archive.
  */
 export default function ChannelHeaderMenu({
+  onAddBookmark,
+  bookmarksBarActive = false,
   className = '',
   ...rest
 }: ChannelHeaderMenuProps) {
@@ -48,12 +64,17 @@ export default function ChannelHeaderMenu({
           trailingElement
           trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
         />
-        <MenuItem
-          label="Bookmarks bar"
-          leadingVisual={<Icon glyph={<BookmarkOutlineIcon />} size="16" />}
-          trailingElement
-          trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
-        />
+        {onAddBookmark ? (
+          <BookmarksBarSubmenu onAddBookmark={onAddBookmark} />
+        ) : (
+          <MenuItem
+            label="Bookmarks bar"
+            active={bookmarksBarActive}
+            leadingVisual={<Icon glyph={<BookmarkOutlineIcon />} size="16" />}
+            trailingElement
+            trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
+          />
+        )}
       </PopoverMenuGroup>
       <PopoverMenuDivider />
       <PopoverMenuGroup>

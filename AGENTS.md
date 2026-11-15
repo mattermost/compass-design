@@ -50,11 +50,20 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 Every popover-style surface — `EmojiPopover`, `TourPoint`, `PopoverMenu`, `ProfilePopover`, `PopoverNotice`, tooltips, and any menu or picker a trigger opens — must be **portaled out of its trigger's container** and positioned against the trigger (viewport-fixed, flipping when there's no room). It must never sit in the normal flow of, or inside the DOM of, the trigger's container. In-flow popovers change the height of their parent (a modal grows when a picker opens), get clipped by `overflow`, and break stacking.
 
 - **Where this applies:** every place a popover is _used_ — hosts, `compass-proto` composites, docs specimens, layouts, and Storybook stories. The host owns the portal (this follows "Host-owned" below); do not add portals or positioning to the chrome primitives themselves.
-- **How:** portal to `document.body` (or the host's designated container), `position: fixed` from the trigger's `getBoundingClientRect()`, `z-index: var(--z-popover)` (or `--z-menu` for menus), update on resize and capture-phase scroll, and close on outside press (`useOutsideClose` with the portaled surface as the second root) and Escape. `WithTooltip` is the model for tooltips; `AnchoredMenu` in the bookmarks bar (compass-proto) shows the menu pattern. The `use-anchored-popup-portal` hook is internal to compass-ui form widgets, not a general overlay API.
+- **How:** portal to `document.body` (or the host's designated container), `position: fixed` from the trigger's `getBoundingClientRect()`, `z-index: var(--z-popover)` (or `--z-menu` for menus), update on resize and capture-phase scroll, and close on outside press (`useOutsideClose` with the portaled surface as the second root) and Escape. `WithTooltip` is the model for tooltips; `AnchoredMenu` in the bookmarks bar (compass-proto) shows the menu pattern. The `use-anchored-popup-portal` hook belongs to the compass-ui form widgets and is not a general overlay API. Until the shared `Popover.Positioner` from #111 ships, a host or docs specimen with no other option may use it as an interim positioner (it takes an element or a virtual anchor, and `side="above"` / `"below"` stops it flipping), for example the Suggestion List demos. Don't build new components on it; #111 replaces it.
 - **Escape inside a modal:** an Escape that dismisses a portaled popover must `preventDefault()` so the surrounding `Modal` stays open.
 - **Not acceptable:** rendering the popover as a sibling in the trigger's flex/grid container, `position: absolute` inside the trigger's wrapper, or expanding a container to hold it.
 
 **Exceptions:** form widgets with menu/popover surfaces (`Combobox`, `Select`, `DateRangePicker`, etc.) own widget-level open/close, keyboard behavior, and may **portal + position** their own menus (viewport flip, escape overflow clipping). That portal logic is scoped to those widgets — do not reuse it as a general overlay positioning API for chrome primitives. Proto/mobile presentation components (`MobileBottomSheet`, `MobileModalStage`, etc.) may bundle backdrop and animation for prototyping — keep those in `compass-proto` or playground presenters, not published overlay primitives. Prototype tooltip hosting (`WithTooltip`) also lives in `compass-proto`, not in `Tooltip` or `IconButton`.
+
+### Submenu recipe
+
+Every submenu (a `PopoverMenu` opened from a menu row with a chevron) follows the Popover Menu guideline:
+
+- **Overlap the parent by 8px** — the child's edge sits 8px inside the parent menu's edge, on the side it opens toward (flip to the left when there's no room).
+- **Align the first item with the parent row** — the child's surface reaches above the row by its own padding so its first item sits level with the row that opened it.
+- **The parent row is active** (`MenuItem active`) while the submenu is open.
+- Static docs previews of a submenu render the same geometry (see `BookmarksHeaderMenuExample`); the live one is portaled like any popover.
 
 ## Component usage (short)
 
