@@ -43,11 +43,23 @@ export default function SearchPortalMenu({
 }: SearchPortalMenuProps) {
   const layerRef = useRef<HTMLDivElement>(null);
   const [style, setStyle] = useState<CSSProperties>({ visibility: 'hidden' });
+  // Stays mounted through the close motion, so the menu can fade out.
+  const [present, setPresent] = useState(open);
+  if (open && !present) setPresent(true);
+
+  // The anchor may wrap the trigger (a span around a Dropdown): focus the button.
+  const focusTrigger = () => {
+    const anchor = anchorRef.current;
+    const target = anchor?.matches('button')
+      ? anchor
+      : anchor?.querySelector<HTMLElement>('button');
+    target?.focus();
+  };
 
   useOutsideClose(anchorRef, open, onClose, layerRef);
 
   useLayoutEffect(() => {
-    if (!open) return undefined;
+    if (!present) return undefined;
     const place = () => {
       const anchor = anchorRef.current;
       const layer = layerRef.current;
@@ -76,24 +88,25 @@ export default function SearchPortalMenu({
       window.removeEventListener('resize', place);
       window.removeEventListener('scroll', place, true);
     };
-  }, [open, anchorRef, align, above]);
+  }, [present, anchorRef, align, above]);
 
   // Portaled out of the dialog: move focus into the menu on open, and hand it
   // back to the trigger if it closes with focus still inside.
   useEffect(() => {
     if (!open) return undefined;
     const layer = layerRef.current;
-    const anchor = anchorRef.current;
     const frame = requestAnimationFrame(() => {
       layer?.querySelector<HTMLElement>('button')?.focus();
     });
     return () => {
       cancelAnimationFrame(frame);
-      if (layer?.contains(document.activeElement)) anchor?.focus();
+      if (layer?.contains(document.activeElement)) focusTrigger();
     };
+    // focusTrigger only reads anchorRef.current
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, anchorRef]);
 
-  if (!open) return null;
+  if (!present) return null;
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape' || e.key === 'Tab') {
@@ -101,7 +114,7 @@ export default function SearchPortalMenu({
       e.preventDefault();
       e.stopPropagation();
       onClose();
-      anchorRef.current?.focus();
+      focusTrigger();
       return;
     }
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
@@ -126,7 +139,12 @@ export default function SearchPortalMenu({
       style={style}
       onKeyDown={onKeyDown}
     >
-      <PopoverMenu role="menu" aria-label={label}>
+      <PopoverMenu
+        role="menu"
+        aria-label={label}
+        open={open}
+        onExited={() => setPresent(false)}
+      >
         {children}
       </PopoverMenu>
     </div>,

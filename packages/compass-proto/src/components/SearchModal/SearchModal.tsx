@@ -177,7 +177,9 @@ function SearchModalPanel({
   const [mode, setMode] = useState<SearchMode>(initialMode);
   const [query, setQuery] = useState('');
   const [chips, setChips] = useState<string[]>([]);
-  const [agentId, setAgentId] = useState(data.agents?.[0]?.id);
+  const [pickedAgent, setPickedAgent] = useState<string>();
+  // The first agent until one is picked, even if `data.agents` arrives later.
+  const agentId = pickedAgent ?? data.agents?.[0]?.id;
   const [teamMenuOpen, setTeamMenuOpen] = useState(false);
   const [localTeam, setLocalTeam] = useState<string | null>(null);
   const activeTeam = teamId !== undefined ? teamId : localTeam;
@@ -276,7 +278,7 @@ function SearchModalPanel({
         kind: 'agents',
         agents: data.agents ?? [],
         selectedId: agentId,
-        onSelect: setAgentId,
+        onSelect: setPickedAgent,
       };
   }
 
@@ -363,6 +365,7 @@ function SearchModalPanel({
                 <Chip
                   key={`${chip}-${index}`}
                   size="small"
+                  aria-label={labels.removeChipLabel?.(chip)}
                   onRemove={() =>
                     setChips((all) => all.filter((_, i) => i !== index))
                   }

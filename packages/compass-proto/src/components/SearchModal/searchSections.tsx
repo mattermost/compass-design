@@ -111,7 +111,7 @@ export function buildModeContent({
           src={p.avatarSrc}
           alt=""
           size="24"
-          status={p.status === 'online'}
+          status={p.status === 'dnd' ? 'do-not-disturb' : p.status}
         />
       ),
     };
@@ -277,7 +277,8 @@ export function buildModeContent({
           sections,
           actions,
           removers,
-          noResults: typing && options.length === 0,
+          // Enter still searches with this text, so no "No results" here.
+          noResults: false,
         };
       }
       const shown = typing

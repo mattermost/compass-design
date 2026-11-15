@@ -95,6 +95,12 @@ function type(text: string) {
   });
 }
 
+/** Lets a closing menu finish its exit motion. */
+const settle = () =>
+  act(async () => {
+    await new Promise((r) => setTimeout(r, 400));
+  });
+
 const open = (props: Partial<SearchModalProps> = {}) =>
   render(<SearchModal open onClose={() => {}} data={data} {...props} />);
 
@@ -461,7 +467,7 @@ describe('keyboard and selection', () => {
 });
 
 describe('footer controls', () => {
-  it('Agents: the picker lists agents and choosing one changes the target', () => {
+  it('Agents: the picker lists agents and choosing one changes the target', async () => {
     const onSubmit = vi.fn();
     open({ initialMode: 'agents', onSubmit });
     const picker = document.querySelector(
@@ -476,6 +482,7 @@ describe('footer controls', () => {
       b.textContent?.includes('Arjun'),
     ) as HTMLElement;
     act(() => arjun.click());
+    await settle();
     expect(document.querySelector('[role="menu"]')).toBeNull();
     type('hello');
     press(input(), 'Enter');
@@ -484,7 +491,7 @@ describe('footer controls', () => {
     );
   });
 
-  it('Escape in the picker closes only the menu', () => {
+  it('Escape in the picker closes only the menu and returns focus to it', async () => {
     const onClose = vi.fn();
     open({ initialMode: 'agents', onClose });
     act(() =>
@@ -492,8 +499,12 @@ describe('footer controls', () => {
     );
     const menu = document.querySelector('[role="menu"]')!.parentElement!;
     press(menu, 'Escape');
+    await settle();
     expect(document.querySelector('[role="menu"]')).toBeNull();
     expect(onClose).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(
+      document.querySelector('[aria-haspopup="menu"]'),
+    );
   });
 
   it('Channels and People footers call their handlers', () => {
@@ -534,6 +545,74 @@ describe('footer controls', () => {
   });
 });
 
+describe('review regressions', () => {
+  it('Agents: submits the first agent when agents arrive after mount', () => {
+    const onSubmit = vi.fn();
+    render(
+      <SearchModal
+        open
+        onClose={() => {}}
+        initialMode="agents"
+        onSubmit={onSubmit}
+      />,
+    );
+    act(() =>
+      root!.render(
+        <SearchModal
+          open
+          onClose={() => {}}
+          initialMode="agents"
+          data={data}
+          onSubmit={onSubmit}
+        />,
+      ),
+    );
+    type('hello');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ agentId: 'aiko' }),
+    );
+  });
+
+  it('Messages: from: with no matching people still searches on Enter and shows no empty state', () => {
+    const onSubmit = vi.fn();
+    open({ initialMode: 'messages', onSubmit });
+    type('from:zzzz');
+    expect(document.body.textContent).not.toContain('No results found');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalled();
+  });
+
+  it('People rows keep away, do-not-disturb and offline badges', () => {
+    open({
+      initialMode: 'people',
+      data: {
+        recentPeople: [
+          { id: 'a', name: 'Away Person', status: 'away' },
+          { id: 'd', name: 'Busy Person', status: 'dnd' },
+          { id: 'o', name: 'Offline Person', status: 'offline' },
+        ],
+      },
+    });
+    const badges = Array.from(document.querySelectorAll('[role="option"]')).map(
+      (row) => row.querySelector('[class*="status"]') !== null,
+    );
+    expect(badges).toEqual([true, true, true]);
+  });
+
+  it('names a modifier chip with the translated remove label', () => {
+    open({
+      initialMode: 'messages',
+      labels: { removeChipLabel: (label) => `Retirer ${label}` },
+    });
+    type('from:sof');
+    act(() => (options()[0] as HTMLElement).click());
+    expect(
+      document.querySelector('[aria-label="Retirer From: Sofia Bauer"]'),
+    ).not.toBeNull();
+  });
+});
+
 describe('team selector', () => {
   const teams = [
     { id: 'a', name: 'Alpha' },
@@ -545,7 +624,7 @@ describe('team selector', () => {
     expect(document.body.textContent).not.toContain('All teams');
   });
 
-  it('shows All teams, opens a menu of teams and reports the choice', () => {
+  it('shows All teams, opens a menu of teams and reports the choice', async () => {
     const onTeamChange = vi.fn();
     open({ teams, onTeamChange });
     const trigger = Array.from(document.querySelectorAll('button')).find(
@@ -566,6 +645,7 @@ describe('team selector', () => {
       ).click(),
     );
     expect(onTeamChange).toHaveBeenCalledWith('b');
+    await settle();
     expect(document.querySelector('[role="menu"]')).toBeNull();
     expect(
       Array.from(document.querySelectorAll('button')).some(
