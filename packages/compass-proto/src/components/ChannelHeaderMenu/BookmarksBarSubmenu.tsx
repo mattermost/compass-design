@@ -72,14 +72,20 @@ export default function BookmarksBarSubmenu({
       const rect = row.getBoundingClientRect();
       const { offsetWidth: width, offsetHeight: height } = layer;
       const margin = 8;
-      const gap = 4;
+      // Submenu recipe: overlap the parent by 8px, first item level with the row.
+      const overlap = 8;
+      const first = layer.querySelector<HTMLElement>('button');
+      const inset = first
+        ? first.getBoundingClientRect().top - layer.getBoundingClientRect().top
+        : 0;
       const rtl = getComputedStyle(row).direction === 'rtl';
-      const fitsRight = rect.right + gap + width <= window.innerWidth - margin;
-      const fitsLeft = rect.left - gap - width >= margin;
+      const fitsRight =
+        rect.right - overlap + width <= window.innerWidth - margin;
+      const fitsLeft = rect.left + overlap - width >= margin;
       const toRight = rtl ? !fitsLeft : fitsRight || !fitsLeft;
-      const left = toRight ? rect.right + gap : rect.left - gap - width;
+      const left = toRight ? rect.right - overlap : rect.left + overlap - width;
       const top = Math.min(
-        Math.max(margin, rect.top),
+        Math.max(margin, rect.top - inset),
         Math.max(margin, window.innerHeight - height - margin),
       );
       setStyle({ top, left });
