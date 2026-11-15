@@ -160,61 +160,61 @@ not depend on the tooltip wrapper.
 
 <Divider />
 
-## Search popover
+## Search modal
 
-Focusing the Search field opens a panel under it. While the field is empty it
-lists **search options** (modifiers such as `From:`, `In:`, `On:`) and **recent
-searches**; as the user types a modifier it switches to **suggestions** (people,
-channels). It is one `role="listbox"` of Compass `MenuItem` rows built on
-`SuggestionList`, so it reads as the same family as the composer's autocomplete.
+Clicking the Search field (or pressing Enter in it) is meant to open the search
+modal. A large search field leads the dialog; below it sit **recent searches**
+and **search modifiers** (`From:`, `In:`, `On:`) while the field is empty, and
+**suggestions** (people, channels) once the user types a modifier. The footer
+shows a modifier tip, then **Enter to search** once there is a query. Messages
+are not searched while typing; Enter runs the search. It is one `role="listbox"`
+of Compass `MenuItem` rows built on `SuggestionList`, in `Modal`.
 
-<Preview caption="Search popover — click the field, then try ↑ ↓, Enter, Esc, or type from:">
-  <div style={{ width: '100%', minHeight: 320 }}>
+This follows the Messages mode of the Universal Search prototype. Mode tabs (All,
+Channels, Files, People, Agents) are not built yet: pass them as `headerLeading`
+when they land.
+
+<Preview caption="Search modal — click the field, then try ↑ ↓, Enter, Esc, or type from:">
+  <div style={{ width: '100%' }}>
     <GlobalHeaderSearchDemo />
   </div>
 </Preview>
 
-Wire it with three pieces from `@mattermost/compass-proto`: `useSearchPopover`
-(field keyboard and combobox ARIA), `SearchPopover` (the panel) and the
-`GlobalHeader` search props.
+`SearchModal` comes from `@mattermost/compass-proto`; `GlobalHeader` only needs
+`onSearchClick` to open it.
 
 ```tsx
-const search = useSearchPopover({
-  query,
-  open,
-  hints,
-  recent,
-  suggestions,
-  onSelect,
-  onSubmit,
-  onClose,
-  onRemoveRecent,
-});
+<GlobalHeader onSearchClick={() => setOpen(true)} />
 
-<GlobalHeader
-  searchValue={query}
-  onSearchChange={setQuery}
-  searchInputProps={{ ...search.inputProps, onKeyDown: search.onKeyDown }}
-  searchAnchorRef={anchorRef}
-  searchPopoverOpen={open}
-  searchPopover={<SearchPopover {...search.popoverProps} />}
+<SearchModal
+  open={open}
+  onClose={() => setOpen(false)}
+  query={query}
+  onQueryChange={setQuery}
+  onSubmit={runSearch}
+  hints={hints}
+  recent={recent}
+  suggestions={suggestions}
+  onRemoveRecent={removeRecent}
+  onSelect={applySelection}
 />;
 ```
 
-- **Host-owned:** open state, outside click (use `useOutsideClose` on
-  `searchAnchorRef`), focus return and the text of the query. `GlobalHeader` only
-  anchors the panel under the field at the field's width.
+- **Host-owned:** open state, the shortcut, the query text and what choosing a
+  row does (`onSelect` receives `{ kind, item }`; usually it edits `query`), plus
+  portal and stacking through `overlayProps`.
 - **Keyboard:** focus stays in the field. No row is highlighted until an arrow key
-  is pressed, so Enter on typed text still searches (`onSubmit`). Arrows move
-  through rows and wrap, Enter picks the highlighted row, Escape calls `onClose`,
-  and Shift+Delete removes the highlighted recent search. Changing the text clears
-  the highlight.
+  is pressed, so Enter on typed text still searches (`onSubmit`). The first
+  ArrowDown highlights the first row and the first ArrowUp the last. Arrows wrap,
+  Enter picks the highlighted row, Escape closes, and Shift+Delete removes the
+  highlighted recent search. Changing the text clears the highlight.
 - **Screen readers:** the field is a `combobox` with `aria-expanded`,
   `aria-controls` and `aria-activedescendant`; groups are named by their headings.
-  The hover "×" on a recent row is a pointer shortcut and hidden from assistive
-  tech; Shift+Delete is the keyboard equivalent.
-- **Translatable:** headings and the listbox name take `hintsLabel`,
-  `suggestionsLabel`, `recentLabel` and `listboxLabel`; hint copy is a node.
+  The hover "×" on a recent row is a pointer shortcut hidden from assistive tech;
+  Shift+Delete is the keyboard equivalent.
+- **Translatable:** `title`, `placeholder`, `searchLabel`, `hintsLabel`,
+  `suggestionsLabel`, `recentLabel`, `listboxLabel`, `tipLabel`,
+  `enterToSearchLabel` and more take strings or nodes; hint copy is a node.
 
 <Divider />
 

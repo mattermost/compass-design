@@ -5,38 +5,32 @@ import {
   buildSearchSections,
   isRecentValue,
   resolveSelection,
-  type SearchPopoverData,
-  type SearchPopoverLabels,
-  type SearchPopoverSelection,
+  type SearchModalData,
+  type SearchModalLabels,
+  type SearchModalSelection,
 } from './searchSections';
 
-export interface UseSearchPopoverOptions
-  extends SearchPopoverData, SearchPopoverLabels {
+export interface UseSearchModalOptions
+  extends SearchModalData, SearchModalLabels {
   /** Current text in the field. A change drops the highlight, so Enter searches again. */
   query: string;
-  /** Whether the popover is showing. Keys are left alone while it is closed. */
+  /** Whether the modal is open. Keys are left alone while it is closed. */
   open: boolean;
   /** A row was chosen (Enter on a highlighted row, or a click). The host applies it. */
-  onSelect?: (selection: SearchPopoverSelection) => void;
+  onSelect?: (selection: SearchModalSelection) => void;
   /** Enter with no row highlighted: run the search for `query`. */
   onSubmit?: (query: string) => void;
-  /** Escape. The host closes the popover. */
+  /** Escape. The host closes the modal. */
   onClose?: () => void;
 }
 
 /**
- * Field-side wiring for {@link SearchPopover}. Focus stays in the input; no row
+ * Field-side wiring for {@link SearchModal}. Focus stays in the input; no row
  * is highlighted until the user presses an arrow key, so Enter on typed text
  * still searches. Arrows move (wrapping), Enter picks the highlighted row,
  * Escape calls `onClose`, and Shift+Delete removes the highlighted recent search.
- *
- * ```tsx
- * const search = useSearchPopover({ query, open, hints, recent, onSelect, onClose });
- * <input {...search.inputProps} onKeyDown={search.onKeyDown} />
- * {open && <SearchPopover {...search.popoverProps} />}
- * ```
  */
-export function useSearchPopover({
+export function useSearchModal({
   query,
   open,
   hints,
@@ -51,7 +45,7 @@ export function useSearchPopover({
   onSelect,
   onSubmit,
   onClose,
-}: UseSearchPopoverOptions) {
+}: UseSearchModalOptions) {
   const data = { hints, suggestions, recent, onRemoveRecent };
   const labels = {
     hintsLabel,
@@ -134,8 +128,8 @@ export function useSearchPopover({
         : undefined,
       'aria-expanded': showing,
     },
-    /** Spread on `SearchPopover`. */
-    popoverProps: {
+    /** Spread on the results list. */
+    listProps: {
       hints,
       suggestions,
       recent,
@@ -148,7 +142,7 @@ export function useSearchPopover({
         setEngagedKey(engageKey);
         list.setActiveValue(value);
       },
-      onSelect: (selection: SearchPopoverSelection) => onSelect?.(selection),
+      onSelect: (selection: SearchModalSelection) => onSelect?.(selection),
     },
   };
 }

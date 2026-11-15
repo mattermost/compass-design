@@ -1,0 +1,140 @@
+.search-modal {
+  // Width stays on Modal size medium. Height follows the results and stops at
+  // 480px; the body scrolls after that.
+  &#{&} {
+    height: auto;
+    max-height: 480px;
+  }
+
+  // Menu body inset is 16px; 12px lines row icons up with the search icon.
+  :global([class*='modal__body-inner']) {
+    padding-inline: var(--spacing-m);
+  }
+
+  // The field sits flush under the header, and the dialog dismisses with
+  // Escape or the scrim, so the close button is hidden.
+  &#{&} :global([class*='modal-header__slot']) {
+    padding-top: 0;
+  }
+
+  &#{&} :global([class*='modal-header__close']) {
+    display: none;
+  }
+
+  &__field {
+    position: relative;
+    // Header slot insets by spacing-xxxl. Grow back to the dialog edges.
+    width: calc(100% + (var(--spacing-xxxl) * 2));
+    margin-inline: calc(var(--spacing-xxxl) * -1);
+    margin-bottom: calc(-1 * var(--spacing-xxl));
+
+    // SearchInput has no underline variant: flatten the box to a bottom hairline.
+    :global([class*='search-input'] [class*='search-input__wrapper']) {
+      min-height: 0;
+      background: transparent;
+      border-radius: 0;
+      border-bottom: 1px solid
+        rgba(var(--center-channel-color-rgb), var(--opacity-16));
+      box-shadow: none;
+    }
+
+    &#{&}#{&}#{&}
+      :global(
+        [class*='search-input']:hover:not(:focus-within)
+          [class*='search-input__wrapper']
+      ),
+    &#{&}#{&}#{&}
+      :global(
+        [class*='search-input']:focus-within [class*='search-input__wrapper']
+      ) {
+      box-shadow: none;
+    }
+
+    :global([class*='search-input'] [class*='search-input__inner']) {
+      padding: var(--spacing-xl) calc(var(--spacing-xxl) + var(--spacing-xxxs));
+    }
+
+    :global([class*='search-input'] [class*='search-input__input']) {
+      font-family: var(--font-family-heading);
+      font-size: var(--font-size-400);
+      line-height: var(--line-height-400);
+
+      &::placeholder {
+        font-family: var(--font-family-heading);
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+      }
+    }
+  }
+
+  // The list sits directly on the modal body: no surface, border or shadow.
+  &__list#{&}__list {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  &__modifier {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  // Pointer-only remove control at the end of a recent-search row.
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xxxs);
+    border-radius: var(--radius-s);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+      color: var(--center-channel-color);
+    }
+  }
+
+  &__tip {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    width: 100%;
+    min-width: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+  }
+
+  &__tip-icon {
+    flex-shrink: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+  }
+
+  &__tip-text {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  &__modifiers {
+    display: flex;
+    gap: var(--spacing-xxs);
+    min-width: 0;
+
+    // Dim buttons are flat at rest; these chips need a visible fill.
+    &#{&} > :global(button) {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    }
+  }
+
+  &__enter-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: var(--spacing-xxxxs);
+    border-radius: var(--radius-s);
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+  }
+}

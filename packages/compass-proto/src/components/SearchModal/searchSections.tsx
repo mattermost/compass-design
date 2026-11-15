@@ -7,10 +7,10 @@ import type {
   SuggestionOption,
   SuggestionSection,
 } from '@mattermost/compass-ui/components/suggestion-list';
-import styles from './SearchPopover.module.scss';
+import styles from './SearchModal.module.scss';
 
 /** A search modifier the user can add, e.g. `From:` + "a specific user". */
-export interface SearchPopoverHint {
+export interface SearchModalHint {
   id: string;
   /** The modifier itself, shown bold, e.g. `From:`. Accepts translated nodes. */
   modifier: ReactNode;
@@ -19,7 +19,7 @@ export interface SearchPopoverHint {
 }
 
 /** A completion for the term being typed (a user, a channel). */
-export interface SearchPopoverSuggestion {
+export interface SearchModalSuggestion {
   id: string;
   label: ReactNode;
   secondaryLabel?: ReactNode;
@@ -29,18 +29,18 @@ export interface SearchPopoverSuggestion {
 }
 
 /** A past search. `query` is the text put back in the field when chosen. */
-export interface SearchPopoverRecent {
+export interface SearchModalRecent {
   id: string;
   query: string;
 }
 
-export type SearchPopoverSelection =
-  | { kind: 'hint'; item: SearchPopoverHint }
-  | { kind: 'suggestion'; item: SearchPopoverSuggestion }
-  | { kind: 'recent'; item: SearchPopoverRecent };
+export type SearchModalSelection =
+  | { kind: 'hint'; item: SearchModalHint }
+  | { kind: 'suggestion'; item: SearchModalSuggestion }
+  | { kind: 'recent'; item: SearchModalRecent };
 
 /** Translatable copy. Every string has an English default. */
-export interface SearchPopoverLabels {
+export interface SearchModalLabels {
   /** Heading above the modifiers. Default: "Search options". */
   hintsLabel?: ReactNode;
   /** Heading above completions. Default: "Suggestions". */
@@ -51,14 +51,28 @@ export interface SearchPopoverLabels {
   removeRecentLabel?: string;
   /** Accessible name of the listbox. Default: "Search suggestions". */
   listboxLabel?: string;
+  /** Dialog title (visually the field leads). Default: "Search". */
+  title?: ReactNode;
+  /** Field placeholder. Default: "Search". */
+  placeholder?: string;
+  /** Accessible name of the field. Default: "Search". */
+  searchLabel?: string;
+  /** Accessible name of the field's clear button. Default: "Clear search". */
+  clearLabel?: string;
+  /** Accessible name of the close button. Default: "Close". */
+  closeLabel?: string;
+  /** Footer lead-in before the modifier buttons. Default: "Tip: Try". */
+  tipLabel?: ReactNode;
+  /** Footer text once there is a query. Default: "Enter to search". */
+  enterToSearchLabel?: ReactNode;
 }
 
-export interface SearchPopoverData {
-  hints?: SearchPopoverHint[];
-  suggestions?: SearchPopoverSuggestion[];
-  recent?: SearchPopoverRecent[];
+export interface SearchModalData {
+  hints?: SearchModalHint[];
+  suggestions?: SearchModalSuggestion[];
+  recent?: SearchModalRecent[];
   /** Called when a recent row's remove control is pressed. */
-  onRemoveRecent?: (item: SearchPopoverRecent) => void;
+  onRemoveRecent?: (item: SearchModalRecent) => void;
 }
 
 const HINT = 'hint:';
@@ -66,13 +80,13 @@ const SUGGESTION = 'suggestion:';
 const RECENT = 'recent:';
 
 export function buildSearchSections(
-  { hints, suggestions, recent, onRemoveRecent }: SearchPopoverData,
+  { hints, suggestions, recent, onRemoveRecent }: SearchModalData,
   {
     hintsLabel = 'Search options',
     suggestionsLabel = 'Suggestions',
     recentLabel = 'Recent searches',
     removeRecentLabel = 'Remove recent search',
-  }: SearchPopoverLabels = {},
+  }: SearchModalLabels = {},
 ): SuggestionSection[] {
   const sections: SuggestionSection[] = [];
   if (suggestions?.length) {
@@ -99,7 +113,7 @@ export function buildSearchSections(
           value: HINT + h.id,
           label: (
             <>
-              <span className={styles['search-popover__modifier']}>
+              <span className={styles['search-modal__modifier']}>
                 {h.modifier}
               </span>{' '}
               {h.description}
@@ -127,7 +141,7 @@ export function buildSearchSections(
               aria-hidden
               data-search-remove
               title={removeRecentLabel}
-              className={styles['search-popover__remove']}
+              className={styles['search-modal__remove']}
               onMouseDown={(e) => e.preventDefault()}
               onClick={(e) => {
                 e.stopPropagation();
@@ -146,8 +160,8 @@ export function buildSearchSections(
 
 export function resolveSelection(
   value: string,
-  { hints, suggestions, recent }: SearchPopoverData,
-): SearchPopoverSelection | undefined {
+  { hints, suggestions, recent }: SearchModalData,
+): SearchModalSelection | undefined {
   if (value.startsWith(HINT)) {
     const item = hints?.find((h) => HINT + h.id === value);
     return item && { kind: 'hint', item };
