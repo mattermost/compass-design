@@ -34,7 +34,10 @@
     min-width: 0;
   }
 
+  // Portaled to document.body; top/left are set inline from the emoji button.
   &__picker {
+    position: fixed;
+    z-index: var(--z-popover, 1200);
     display: flex;
     flex-direction: column;
     align-items: flex-start;

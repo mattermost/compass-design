@@ -157,6 +157,7 @@
     // Empty-state "Add bookmark": no outline, like the bookmark buttons.
     &--borderless {
       border-color: transparent;
+      border-radius: var(--radius-s);
     }
   }
 

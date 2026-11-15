@@ -1,17 +1,22 @@
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type ChangeEvent,
+  type CSSProperties,
   type FormEvent,
 } from 'react';
+import { createPortal } from 'react-dom';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
+import CloseIcon from '@mattermost/compass-icons/components/close';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
+import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import { EmojiPopover } from '../EmojiPopover';
 import type { ChannelBookmarkAddType } from './ChannelBookmarksBar';
@@ -125,6 +130,49 @@ export default function ChannelBookmarkModal({
   const [pickerOpen, setPickerOpen] = useState(false);
   const firstFieldRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const emojiAnchorRef = useRef<HTMLDivElement>(null);
+  const pickerRef = useRef<HTMLDivElement>(null);
+  const [pickerStyle, setPickerStyle] = useState<CSSProperties>({
+    visibility: 'hidden',
+  });
+
+  // The picker is portaled so it never changes the modal's height; place it
+  // under the emoji button (flipping above when there's no room).
+  useLayoutEffect(() => {
+    if (!pickerOpen) return undefined;
+    const place = () => {
+      const anchor = emojiAnchorRef.current;
+      if (!anchor) return;
+      const rect = anchor.getBoundingClientRect();
+      const height = pickerRef.current?.offsetHeight ?? 0;
+      const width = pickerRef.current?.offsetWidth ?? 0;
+      const margin = 8;
+      const below = rect.bottom + margin;
+      const fitsBelow = below + height <= window.innerHeight - margin;
+      const top = fitsBelow
+        ? below
+        : Math.max(margin, rect.top - margin - height);
+      const left = Math.min(
+        Math.max(margin, rect.left),
+        Math.max(margin, window.innerWidth - width - margin),
+      );
+      setPickerStyle({ top, left });
+    };
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => {
+      window.removeEventListener('resize', place);
+      window.removeEventListener('scroll', place, true);
+    };
+  }, [pickerOpen]);
+
+  useOutsideClose(
+    emojiAnchorRef,
+    pickerOpen,
+    () => setPickerOpen(false),
+    pickerRef,
+  );
 
   useEffect(() => {
     if (open) {
@@ -202,7 +250,18 @@ export default function ChannelBookmarkModal({
           </>
         }
       >
-        <form className={styles['channel-bookmark-modal']} onSubmit={submit}>
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Escape closes only the picker; the modal honors defaultPrevented */}
+        <form
+          className={styles['channel-bookmark-modal']}
+          onSubmit={submit}
+          onKeyDown={(e) => {
+            // Escape closes just the open picker; the modal honors defaultPrevented.
+            if (e.key === 'Escape' && pickerOpen) {
+              e.preventDefault();
+              setPickerOpen(false);
+            }
+          }}
+        >
           {isFile ? (
             <div className={styles['channel-bookmark-modal__file']}>
               <input
@@ -244,20 +303,31 @@ export default function ChannelBookmarkModal({
             />
           )}
           <div className={styles['channel-bookmark-modal__title-row']}>
-            {emoji ? (
-              <EmojiButton
-                emoji={emoji}
-                size="medium"
-                aria-label={l.emoji}
-                toggled={pickerOpen}
-                onClick={() => setPickerOpen((o) => !o)}
-              />
-            ) : (
+            <div ref={emojiAnchorRef}>
+              {emoji ? (
+                <EmojiButton
+                  emoji={emoji}
+                  size="medium"
+                  aria-label={l.emoji}
+                  toggled={pickerOpen}
+                  onClick={() => setPickerOpen((o) => !o)}
+                />
+              ) : (
+                <IconButton
+                  aria-label={l.emoji}
+                  icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
+                  toggled={pickerOpen}
+                  onClick={() => setPickerOpen((o) => !o)}
+                />
+              )}
+            </div>
+            {emoji && (
               <IconButton
-                aria-label={l.emoji}
-                icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
-                toggled={pickerOpen}
-                onClick={() => setPickerOpen((o) => !o)}
+                size="small"
+                padding="compact"
+                aria-label={l.removeEmoji}
+                icon={<Icon glyph={<CloseIcon />} />}
+                onClick={() => setEmoji(undefined)}
               />
             )}
             <div className={styles['channel-bookmark-modal__title-field']}>
@@ -268,28 +338,29 @@ export default function ChannelBookmarkModal({
               />
             </div>
           </div>
-          {pickerOpen && (
-            <div className={styles['channel-bookmark-modal__picker']}>
-              <EmojiPopover
-                onEmojiSelect={(next) => {
-                  setEmoji(next);
-                  setPickerOpen(false);
+          {pickerOpen &&
+            createPortal(
+              // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Escape closes only the picker, not the modal
+              <div
+                ref={pickerRef}
+                className={styles['channel-bookmark-modal__picker']}
+                style={pickerStyle}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    e.preventDefault();
+                    setPickerOpen(false);
+                  }
                 }}
-              />
-              {emoji && (
-                <Button
-                  emphasis="tertiary"
-                  size="small"
-                  onClick={() => {
-                    setEmoji(undefined);
+              >
+                <EmojiPopover
+                  onEmojiSelect={(next) => {
+                    setEmoji(next);
                     setPickerOpen(false);
                   }}
-                >
-                  {l.removeEmoji}
-                </Button>
-              )}
-            </div>
-          )}
+                />
+              </div>,
+              document.body,
+            )}
           {/* Enter submits from either field. */}
           <button type="submit" hidden />
         </form>
