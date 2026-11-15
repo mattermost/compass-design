@@ -82,6 +82,23 @@ describe('MessageInput', () => {
     expect(onSend).not.toHaveBeenCalled();
   });
 
+  it('does not send when the host already prevented Enter', () => {
+    const onSend = vi.fn();
+    const { container } = render(
+      <MessageInput
+        onSend={onSend}
+        onKeyDownCapture={(e) => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
+      />,
+    );
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, '@al');
+    pressEnter(textarea);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(textarea.value).toBe('@al');
+  });
+
   it('does not send empty text', () => {
     const onSend = vi.fn();
     const { container } = render(<MessageInput onSend={onSend} />);

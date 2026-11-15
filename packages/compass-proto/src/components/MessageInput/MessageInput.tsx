@@ -118,6 +118,8 @@ export default function MessageInput({
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (
       !onSend ||
+      // The host may have claimed Enter (e.g. to pick a suggestion).
+      e.defaultPrevented ||
       e.key !== 'Enter' ||
       e.shiftKey ||
       // keyCode 229 covers older Safari, which doesn't set isComposing
