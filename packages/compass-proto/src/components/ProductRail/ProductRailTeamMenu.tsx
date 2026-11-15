@@ -239,24 +239,27 @@ export function ProductRailTeamMenu({
                   {`, ${unreadLabel}`}
                 </span>
               )}
-              {active ? (
-                <Icon glyph={<CheckIcon />} size="16" />
-              ) : mentions > 0 ? (
-                <span
-                  className={[
-                    styles['product-rail-team-menu__badge'],
-                    team.urgent
-                      ? styles['product-rail-team-menu__badge--urgent']
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                >
-                  {mentions > 99 ? '99+' : mentions}
-                </span>
-              ) : team.unread ? (
-                <span className={styles['product-rail-team-menu__dot']} />
-              ) : null}
+              {/* Fixed-width, centred slot so the check, badge and dot share one column. */}
+              <span className={styles['product-rail-team-menu__trailing']}>
+                {active ? (
+                  <Icon glyph={<CheckIcon />} size="16" />
+                ) : mentions > 0 ? (
+                  <span
+                    className={[
+                      styles['product-rail-team-menu__badge'],
+                      team.urgent
+                        ? styles['product-rail-team-menu__badge--urgent']
+                        : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    {mentions > 99 ? '99+' : mentions}
+                  </span>
+                ) : team.unread ? (
+                  <span className={styles['product-rail-team-menu__dot']} />
+                ) : null}
+              </span>
             </button>
           );
         })}
