@@ -24,6 +24,15 @@ describe('normalizeUrl', () => {
     expect(normalizeUrl('localhost')).toBe('https://localhost/');
   });
 
+  it('accepts a port followed directly by a query or fragment', () => {
+    expect(normalizeUrl('localhost:8065?tab=1')).toBe(
+      'https://localhost:8065/?tab=1',
+    );
+    expect(normalizeUrl('localhost:8065#top')).toBe(
+      'https://localhost:8065/#top',
+    );
+  });
+
   it('rejects a bare word with no scheme', () => {
     expect(normalizeUrl('nope')).toBeNull();
   });

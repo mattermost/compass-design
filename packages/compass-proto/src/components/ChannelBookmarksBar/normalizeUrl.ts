@@ -1,6 +1,6 @@
 // A scheme is `name:` not followed by a port, so `localhost:8065` is a host and
 // port, while `mailto:a@b.c` and `javascript:…` are schemes.
-const SCHEME = /^[a-z][a-z0-9+.-]*:(?!\d+(\/|$))/i;
+const SCHEME = /^[a-z][a-z0-9+.-]*:(?!\d+(?:[/?#]|$))/i;
 
 /**
  * Normalizes a typed bookmark link to an absolute http(s) URL, or returns
