@@ -4,6 +4,7 @@ export * from './components/CallInfoPanel/index';
 export * from './components/CallParticipantAvatar/index';
 export * from './components/CallPopout/index';
 export * from './components/CallWidget/index';
+export * from './components/ChannelBookmarksBar/index';
 export * from './components/ChannelCategoryMenu/index';
 export * from './components/ChannelHeader/index';
 export * from './components/ChannelHeaderMenu/index';
