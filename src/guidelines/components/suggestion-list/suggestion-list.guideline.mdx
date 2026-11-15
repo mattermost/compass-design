@@ -5,6 +5,8 @@ channels, `:` for emoji, `/` for slash commands.
 Use it for suggestions tied to a text field that keeps focus. For a form field
 that picks a value, use [Combobox](/components/combobox) instead.
 
+import SuggestionComposerDemo from './SuggestionComposerDemo';
+
 <Divider />
 
 ## Anatomy
@@ -12,12 +14,20 @@ that picks a value, use [Combobox](/components/combobox) instead.
 - <Num>1</Num> **Heading** — optional all-caps group label, such as "Channel
   members" or "Not in channel".
 - <Num>2</Num> **Leading visual** — a 24px User Avatar with presence status, a
-  Team Avatar, or an icon (for example the group icon on `@here`).
+  Team Avatar, or an icon (for example the group icon on `@everyone`).
 - <Num>3</Num> **Label** — the text that gets inserted, such as the username.
 - <Num>4</Num> **Secondary label** — muted text beside the label, such as the
   full name.
 - <Num>5</Num> **Trailing label** — muted text at the right edge, such as "Not
   in channel".
+
+<AnatomyStage style={{ maxWidth: '640px', margin: '0 auto var(--spacing-m)' }}>
+  <SuggestionComposerDemo kind="mention" />
+</AnatomyStage>
+
+The list opens directly above the Message Input at its width. The specimen
+shows it in context for each trigger: [mentions](/components/suggestion-list/specimen)
+(with groups and "Not in channel"), channels, slash commands and emoji.
 
 <Divider />
 
