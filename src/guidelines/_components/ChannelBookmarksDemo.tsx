@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ChannelBookmarkModal,
   ChannelBookmarksBar,
@@ -78,6 +78,25 @@ export default function ChannelBookmarksDemo({
 }: ChannelBookmarksDemoProps) {
   const [bookmarks, setBookmarks] = useState(initial);
   const [modal, setModal] = useState<ModalState>({ open: false, type: 'link' });
+  // Object URLs for attached files, by bookmark id. Revoked when a file is
+  // replaced or its bookmark deleted, and on unmount.
+  const objectUrls = useRef(new Map<string, string>());
+
+  useEffect(() => {
+    const urls = objectUrls.current;
+    return () => {
+      urls.forEach((url) => URL.revokeObjectURL(url));
+      urls.clear();
+    };
+  }, []);
+
+  const releaseUrl = (id: string) => {
+    const url = objectUrls.current.get(id);
+    if (url) {
+      URL.revokeObjectURL(url);
+      objectUrls.current.delete(id);
+    }
+  };
 
   return (
     <>
@@ -110,19 +129,21 @@ export default function ChannelBookmarksDemo({
             : undefined
         }
         onClose={() => setModal((m) => ({ ...m, open: false }))}
-        onSubmit={({ title, url, emoji, type }) => {
+        onSubmit={({ title, url, file, emoji, type }) => {
           const editing = modal.editing;
-          const next = {
-            label: title,
-            labelText: title,
-            emoji,
-            type,
-            href: url ?? editing?.href ?? 'https://example.com/file',
-          };
+          const id = editing?.id ?? `bm-${Date.now()}`;
+          let href = url ?? editing?.href ?? '';
+          if (file) {
+            // A new or replacement file: point the bookmark at it.
+            releaseUrl(id);
+            href = URL.createObjectURL(file);
+            objectUrls.current.set(id, href);
+          }
+          const next = { label: title, labelText: title, emoji, type, href };
           setBookmarks((all) =>
             editing
-              ? all.map((b) => (b.id === editing.id ? { ...b, ...next } : b))
-              : [...all, { id: `bm-${Date.now()}`, ...next }],
+              ? all.map((b) => (b.id === id ? { ...b, ...next } : b))
+              : [...all, { id, ...next }],
           );
           setModal((m) => ({ ...m, open: false }));
         }}
