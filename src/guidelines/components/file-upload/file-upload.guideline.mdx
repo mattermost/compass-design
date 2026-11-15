@@ -1,0 +1,99 @@
+import { FileUpload } from '@mattermost/compass-ui/components/file-upload';
+
+File Upload lets people choose files from their device for an import, an icon
+or logo, or an attachment on a form. It comes as a dashed drop zone or a plain
+picker button, and it works fully from the keyboard.
+
+File Upload only reports the files people select. Sending them, showing
+progress, and listing what was chosen stay with the screen that uses it. For a
+chosen-file row, reach for [Attachment Card](/components/attachment-card).
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage style={{ flexDirection: 'column', gap: '0.75rem' }}>
+  <div style={{ width: '100%', maxWidth: '420px' }}>
+    <FileUpload
+      multiple
+      description="PNG or JPG, up to 5 MB each"
+      accept="image/*"
+    />
+  </div>
+</AnatomyStage>
+
+- <Num>1</Num> **Icon** — an upload glyph, or a spinner while `loading`.
+- <Num>2</Num> **Label** — what the zone is for. Swaps to the drag label while
+  files are dragged over it.
+- <Num>3</Num> **Browse text** — opens the file dialog. This is also the
+  accessible name of the file input.
+- <Num>4</Num> **Description** — optional hint for accepted types and limits.
+- <Num>5</Num> **Field message** — optional validation or status line below.
+
+<Divider />
+
+## Variants
+
+The drop zone suits a screen where the file is the main task. The button suits
+a form row or toolbar where space is tight; it does not accept drops.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    padding: '1rem 0',
+    maxWidth: '420px',
+  }}
+>
+  <FileUpload variant="drop-zone" description="One file, up to 5 MB" />
+  <FileUpload variant="button" browseLabel="Upload logo" />
+</div>
+
+<Divider />
+
+## States
+
+Default, hover, dragging over, focus, invalid, loading, and disabled. Focus
+shows a ring around the whole zone when the hidden input is focused.
+
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    padding: '1rem 0',
+    maxWidth: '420px',
+  }}
+>
+  <FileUpload />
+  <FileUpload invalid message="Only PDF files are accepted." />
+  <FileUpload loading />
+  <FileUpload disabled />
+</div>
+
+<Divider />
+
+## Validation
+
+Pass `accept`, `maxSize` (bytes) and `maxFiles`. Dropped files are checked
+against `accept` too, which the native attribute does not do. Files that fail
+are not passed to `onFilesSelected`; they arrive in `onFilesRejected` with a
+reason of `file-type`, `file-size` or `too-many-files`. Turn those into your own
+translated `message`. Single-file mode (the default) accepts one file per
+selection.
+
+<Divider />
+
+## Keyboard and screen readers
+
+Tab focuses the zone; Enter or Space opens the file dialog. The picker never
+depends on drag and drop. The description and message are linked to the
+input automatically, and an error-tone `message` marks the input invalid.
+
+<Divider />
+
+## Implementation
+
+For props and copy-ready examples, see the
+[File Upload specimen page](/components/file-upload/specimen).

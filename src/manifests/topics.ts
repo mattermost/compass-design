@@ -495,6 +495,16 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/field-message/field-message.specimen'),
   },
   {
+    slug: 'file-upload',
+    name: 'File Upload',
+    category: 'components',
+    status: 'stable',
+    guidelinePage: () =>
+      import('@/guidelines/components/file-upload/file-upload.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/file-upload/file-upload.specimen'),
+  },
+  {
     slug: 'global-banner',
     name: 'Global Banner',
     category: 'components',

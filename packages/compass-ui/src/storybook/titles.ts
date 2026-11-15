@@ -27,6 +27,7 @@ export const TITLE_FEEDBACK_TOAST = 'Components/Feedback and Notices/Toast';
 export const TITLE_FEEDBACK_TOOLTIP = 'Components/Feedback and Notices/Tooltip';
 
 export const TITLE_FORMS_CHECKBOX = 'Components/Forms and Input/Checkbox';
+export const TITLE_FORMS_FILE_UPLOAD = 'Components/Forms and Input/File Upload';
 export const TITLE_FORMS_RADIO = 'Components/Forms and Input/Radio';
 export const TITLE_FORMS_SWITCH = 'Components/Forms and Input/Switch';
 export const TITLE_FORMS_SELECT = 'Components/Forms and Input/Select';
