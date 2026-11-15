@@ -37,7 +37,10 @@ export * from './components/MobileTabBar/index';
 export * from './components/MobileTabScreen/index';
 export * from './components/MobileTeamSidebar/index';
 export * from './components/ParticipantsPanel/index';
+export * from './components/ProductRail/index';
+export * from './components/ProductShell/index';
 export * from './components/PlusMenu/index';
+export * from './components/QuickSwitchModal/index';
 export * from './components/ProductSwitcherMenu/index';
 export * from './components/UserAccountMenu/index';
 export * from './components/CallNotice/index';
@@ -60,3 +63,7 @@ export { default as messageStyles } from './components/Message/Message.module.sc
 export { default as mobileMessageStyles } from './components/MobileMessage/MobileMessage.module.scss';
 export { default as OutboundCallIcon } from './icons/OutboundCallIcon';
 export { default as PhoneLockIcon } from './icons/PhoneLockIcon';
+export { default as ClipboardTextOutlineIcon } from './icons/ClipboardTextOutlineIcon';
+export { default as BullseyeArrowIcon } from './icons/BullseyeArrowIcon';
+export { default as MessageProcessingOutlineIcon } from './icons/MessageProcessingOutlineIcon';
+export { default as BookOpenVariantOutlineIcon } from './icons/BookOpenVariantOutlineIcon';

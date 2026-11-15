@@ -9,7 +9,7 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 - Mobile\* shells and patterns
 - `ChannelShell`
 - Call\* composites (`CallWidget`, `CallPopout`, `CallParticipantAvatar`, `CallNotice`, `RecordingIndicator`, panels)
-- Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `TeamSidebar`, `RightSidebar` (shell), `AppBarItem`
+- Desktop composites not ready for publish: `Message`, `MessageInput`, `ChannelHeader`, `ChannelsSidebar`, `AdminConsoleSidebar`, `GlobalHeader`, `TeamSidebar`, `RightSidebar` (shell), `AppBarItem`, `ProductRail`, `ProductShell`
 - Hardcoded menu recipes: `PlusMenu`, `HelpMenu`, `ChannelMenu`, `TeamMenu`, `ChannelCategoryMenu`, `ChannelHeaderMenu`, `ThreadActionsMenu`, `MessageMoreOptionsMenu`, `ProductSwitcherMenu`, `UserAccountMenu`
 - Demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`) and sidebar fixture helpers
 - `WithTooltip` (prototype tooltip host)
@@ -27,6 +27,10 @@ Proto composites that are patterns or layouts still need a docs **guidelines pag
 ## Changelog
 
 Record proto changes (renamed props, new variants, etc.) in [CHANGELOG.md](./CHANGELOG.md), under `[Unreleased]` with the date they land (`YYYY-MM-DD`, newest first). `compass-proto` is unpublished, so it has no release sections. Do not put proto changes in `packages/compass-ui/CHANGELOG.md`, which covers the published `@mattermost/compass-ui` package only. The `Changelog` workflow only checks published compass-ui source, not this file.
+
+## Tests
+
+`npm test` in `packages/compass-proto` runs vitest (happy-dom). Proto imports `@mattermost/compass-ui` through its built `dist`, so build compass-ui first (`npm run build` in `packages/compass-ui`) on a fresh checkout.
 
 ## Icon Buttons: Icon glyph + WithTooltip
 
