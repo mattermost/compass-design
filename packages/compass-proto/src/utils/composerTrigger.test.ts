@@ -77,7 +77,7 @@ describe('applyComposerSuggestion', () => {
     expect(applyComposerSuggestion('hi @al there', match, 6, '@alice')).toEqual(
       {
         text: 'hi @alice there',
-        caret: 9,
+        caret: 10,
       },
     );
   });

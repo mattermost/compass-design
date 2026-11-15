@@ -180,7 +180,9 @@ describe('MessageInputWithSuggestions', () => {
     press('ArrowDown');
     press('Enter');
     expect(textarea().value).toBe('hey @alina there');
-    expect(textarea().selectionStart).toBe('hey @alina'.length);
+    expect(textarea().selectionStart).toBe('hey @alina '.length);
+    // The caret left the trigger, so the list is closed.
+    expect(document.querySelector('[role="listbox"]')).toBeNull();
   });
 
   it('formats emoji and slash rows and honors getInsertText', () => {
@@ -399,6 +401,24 @@ describe('MessageInputWithSuggestions', () => {
       const second = surface();
       expect(second).not.toBe(first);
       expect(second!.style.bottom).not.toBe('');
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it('caps the list height to the room above the input', () => {
+    const spy = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(() => new DOMRect(10, 150, 300, 40));
+    try {
+      render(<Controlled />);
+      type('@a');
+      const scroller = document
+        .querySelector('[role="listbox"]')!
+        .closest('[style*="max-height"]') as HTMLElement;
+      // 150px above the box (plus the 4px overlap), less the border.
+      expect(parseInt(scroller.style.maxHeight, 10)).toBeLessThan(320);
+      expect(parseInt(scroller.style.maxHeight, 10)).toBeGreaterThanOrEqual(96);
     } finally {
       spy.mockRestore();
     }

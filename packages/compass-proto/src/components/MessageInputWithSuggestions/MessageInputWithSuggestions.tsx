@@ -97,7 +97,8 @@ interface PopupProps {
   boxRef: RefObject<HTMLDivElement | null>;
   match: ComposerTriggerMatch;
   surfaceRef: MutableRefObject<HTMLDivElement | null>;
-  children: ReactNode;
+  /** Receives the room above the input, so the list can scroll instead of running off the screen. */
+  children: (maxHeight: number) => ReactNode;
 }
 
 /**
@@ -128,7 +129,7 @@ function SuggestionsPopup({
       return new DOMRect(left, box.top, 0, box.height);
     },
   });
-  const { style, portalRef, renderPortal } = useAnchoredPopupPortal(
+  const { style, portalRef, renderPortal, maxHeight } = useAnchoredPopupPortal(
     anchorRef,
     true,
     {
@@ -147,7 +148,7 @@ function SuggestionsPopup({
       }}
       style={{ ...style, width: popupWidth() }}
     >
-      {children}
+      {children(maxHeight)}
     </div>,
   );
 }
@@ -359,14 +360,18 @@ export default function MessageInputWithSuggestions({
           match={match}
           surfaceRef={surfaceRef}
         >
-          <SuggestionList
-            {...list.listProps}
-            sections={result.sections}
-            loading={result.loading}
-            listboxLabel={suggestionsLabel}
-            {...(emptyLabel !== undefined && { emptyLabel })}
-            {...(loadingLabel !== undefined && { loadingLabel })}
-          />
+          {(room) => (
+            <SuggestionList
+              {...list.listProps}
+              // Room above the input, less the list's border; never below ~3 rows.
+              maxHeight={Math.max(96, Math.min(320, room - 2))}
+              sections={result.sections}
+              loading={result.loading}
+              listboxLabel={suggestionsLabel}
+              {...(emptyLabel !== undefined && { emptyLabel })}
+              {...(loadingLabel !== undefined && { loadingLabel })}
+            />
+          )}
         </SuggestionsPopup>
       )}
     </div>
