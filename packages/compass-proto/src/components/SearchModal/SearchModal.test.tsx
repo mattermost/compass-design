@@ -249,6 +249,22 @@ describe('SearchModal', () => {
     expect(onRemoveRecent).toHaveBeenCalledWith(recent[0]);
   });
 
+  it('keeps Enter searching when an arrow key finds no rows', () => {
+    const onSubmit = vi.fn();
+    render(
+      <Harness
+        initialQuery="from:zz"
+        hints={undefined}
+        recent={undefined}
+        suggestions={[]}
+        onSubmit={onSubmit}
+      />,
+    );
+    press(input(), 'ArrowDown');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith('from:zz');
+  });
+
   it('drops the highlight when the text changes', () => {
     render(<Harness />);
     press(input(), 'ArrowDown');

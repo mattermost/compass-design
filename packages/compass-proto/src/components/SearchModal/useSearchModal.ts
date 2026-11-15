@@ -78,6 +78,8 @@ export function useSearchModal({
       return;
     if (event.key === 'Escape') return list.onKeyDown(event);
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      // With no rows there is nothing to highlight; keep Enter searching.
+      if (sections.length === 0) return;
       // The first press turns the highlight on: ArrowDown lands on the first
       // row, ArrowUp wraps to the last (the list starts on the first row).
       if (!engaged) {

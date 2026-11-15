@@ -75,9 +75,10 @@ export default function SearchModal({
   ...rest
 }: SearchModalProps) {
   const container = overlayProps?.container;
-  // Read once per open, not on every keystroke re-render.
+  // Measured when `open` changes, not on every keystroke. It also applies while
+  // closing, so the exit fade plays over the field instead of snapping back.
   const placement = useMemo(() => {
-    if (!open || typeof window === 'undefined') return undefined;
+    if (typeof window === 'undefined') return undefined;
     // A staged scrim (docs frame) is positioned inside its container, so
     // measure from the container instead of the viewport.
     const frame = container?.getBoundingClientRect();
@@ -97,6 +98,8 @@ export default function SearchModal({
       padding: `${top + ANCHOR_OFFSET}px 0 0 ${left}px`,
       backgroundColor: 'transparent',
     } as const;
+    // `open` is a trigger, not an input: re-measure each time the dialog opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, anchor, container]);
 
   return (
