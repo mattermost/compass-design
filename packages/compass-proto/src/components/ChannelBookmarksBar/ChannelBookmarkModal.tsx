@@ -291,7 +291,8 @@ export default function ChannelBookmarkModal({
           ) : (
             <TextInput
               ref={firstFieldRef}
-              label={l.url}
+              aria-label={l.url}
+              placeholder={l.url}
               value={url}
               invalid={Boolean(error)}
               message={error ?? undefined}
@@ -302,7 +303,8 @@ export default function ChannelBookmarkModal({
             />
           )}
           <TextInput
-            label={l.name}
+            aria-label={l.name}
+            placeholder={l.name}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             leadingIcon={
@@ -313,16 +315,18 @@ export default function ChannelBookmarkModal({
                 {emoji ? (
                   <EmojiButton
                     emoji={emoji}
-                    size="x-small"
+                    size="small"
                     padding="compact"
+                    className={styles['channel-bookmark-modal__emoji-button']}
                     aria-label={l.emoji}
                     toggled={pickerOpen}
                     onClick={() => setPickerOpen((o) => !o)}
                   />
                 ) : (
                   <IconButton
-                    size="x-small"
+                    size="small"
                     padding="compact"
+                    className={styles['channel-bookmark-modal__emoji-button']}
                     aria-label={l.emoji}
                     icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
                     toggled={pickerOpen}
