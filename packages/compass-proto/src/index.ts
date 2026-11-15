@@ -48,6 +48,7 @@ export * from './components/RecordingIndicator/index';
 export * from './components/RightSidebar/index';
 export * from './components/RightSidebarChannelInfo/index';
 export * from './components/RightSidebarChannelMembers/index';
+export * from './components/RightSidebarSearchResults/index';
 export * from './components/RightSidebarThread/index';
 export * from './components/TeamMenu/index';
 export * from './components/TeamSidebar/index';
