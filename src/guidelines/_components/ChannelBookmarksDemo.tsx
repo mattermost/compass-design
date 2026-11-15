@@ -107,9 +107,10 @@ export default function ChannelBookmarksDemo({
         onEdit={(b) =>
           setModal({ open: true, type: b.type ?? 'link', editing: b })
         }
-        onDelete={(b) =>
-          setBookmarks((all) => all.filter((x) => x.id !== b.id))
-        }
+        onDelete={(b) => {
+          releaseUrl(b.id);
+          setBookmarks((all) => all.filter((x) => x.id !== b.id));
+        }}
         onCopyLink={(b) => void navigator.clipboard?.writeText(b.href ?? '')}
       />
       <ChannelBookmarkModal
