@@ -6,7 +6,10 @@ import {
 } from '@mattermost/compass-proto';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
-import { productRailDemoItems } from '@/fixtures/productRailDemo';
+import {
+  productRailDemoItems,
+  productRailDemoTeams,
+} from '@/fixtures/productRailDemo';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import patternsStyles from '@/styles/library-demo/patterns.module.scss';
 
@@ -21,11 +24,7 @@ export function ProductRailAnatomyStage() {
           header={
             <ProductRailTeamButton
               activeTeamId="contributors"
-              teams={[
-                { id: 'contributors', name: 'Contributors', initials: 'Co' },
-                { id: 'design', name: 'Design', initials: 'De', unread: true },
-                { id: 'acme', name: 'Acme', initials: 'Ac' },
-              ]}
+              teams={productRailDemoTeams}
             />
           }
           activeId="channels"

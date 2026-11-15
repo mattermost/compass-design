@@ -7,7 +7,9 @@ import {
   BookOpenVariantOutlineIcon,
   type GlobalHeaderProduct,
   type ProductRailItemData,
+  type ProductRailTeam,
 } from '@mattermost/compass-proto';
+import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
 
 /** Demo ids are the Global Header's products, so the specimen can pass them straight to `ProductShell`. */
 export type ProductRailDemoId = GlobalHeaderProduct;
@@ -48,4 +50,14 @@ export const productRailDemoItems: (ProductRailItemData & {
     label: 'Automation',
     icon: <LightningBoltOutlineIcon size={24} />,
   },
+];
+
+/**
+ * Teams for the Product Rail team button and menu. The current team has an image; the others keep
+ * their initials fallback.
+ */
+export const productRailDemoTeams: ProductRailTeam[] = [
+  { id: 'contributors', name: 'Contributors', src: avatarStaffTeam },
+  { id: 'design', name: 'Design', initials: 'De', unread: true },
+  { id: 'acme', name: 'Acme', initials: 'Ac', mentions: 3 },
 ];

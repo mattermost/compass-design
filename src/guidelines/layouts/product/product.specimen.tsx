@@ -8,7 +8,6 @@ import {
   ProductRail,
   ProductRailTeamButton,
   ProductRailTeamMenu,
-  type ProductRailTeam,
   ProductShell,
   shellStyles,
 } from '@mattermost/compass-proto';
@@ -18,16 +17,11 @@ import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close'
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import {
   productRailDemoItems,
+  productRailDemoTeams,
   type ProductRailDemoId,
 } from '@/fixtures/productRailDemo';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
-
-const TEAMS: ProductRailTeam[] = [
-  { id: 'contributors', name: 'Contributors', initials: 'Co' },
-  { id: 'design', name: 'Design', initials: 'De', unread: true },
-  { id: 'acme', name: 'Acme', initials: 'Ac', mentions: 3 },
-];
 
 /** Host-owned wiring: the button opens the team menu beside it. */
 function TeamSwitcher() {
@@ -42,7 +36,7 @@ function TeamSwitcher() {
   return (
     <div ref={wrapRef}>
       <ProductRailTeamButton
-        teams={TEAMS}
+        teams={productRailDemoTeams}
         activeTeamId={activeTeamId}
         open={open}
         onClick={(e) => {
@@ -66,7 +60,7 @@ function TeamSwitcher() {
             }}
           >
             <ProductRailTeamMenu
-              teams={TEAMS}
+              teams={productRailDemoTeams}
               activeTeamId={activeTeamId}
               open={open}
               onExited={() => setAnchor(null)}
