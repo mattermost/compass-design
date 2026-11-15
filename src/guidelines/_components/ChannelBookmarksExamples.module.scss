@@ -21,7 +21,7 @@
     position: relative;
     z-index: 1;
     margin-top: 144px;
-    margin-inline-start: -8px;
+    margin-inline-start: calc(-1 * var(--spacing-xs));
   }
 
   // Frame for a static modal: the scrim and dialog are staged inside it.

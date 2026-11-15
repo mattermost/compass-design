@@ -66,7 +66,7 @@
   // Drag-to-reorder: the dragged item dims; a bar on the near side of the item
   // under the pointer shows where it will land (logical sides, so RTL flips).
   &__item--dragging {
-    opacity: var(--opacity-48);
+    opacity: var(--opacity-72);
   }
 
   &__item--drop-before::before,

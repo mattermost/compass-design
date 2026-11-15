@@ -57,7 +57,7 @@ export function BookmarksHeaderMenuExample() {
 export function BookmarksOverflowExample() {
   return (
     <div className={styles['examples__narrow']}>
-      <ChannelBookmarksDemo />
+      <ChannelBookmarksDemo addWhenEmpty />
     </div>
   );
 }

@@ -52,6 +52,8 @@ export default function ChannelLayout() {
           >
             <ChannelHeaderMenu
               onAddBookmark={(type) => {
+                // Hand focus back to the trigger first so the modal can restore it.
+                menuAnchor?.focus();
                 setMenuAnchor(null);
                 bookmarksRef.current?.openAdd(type);
               }}

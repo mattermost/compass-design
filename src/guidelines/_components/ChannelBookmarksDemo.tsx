@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { Button } from '@mattermost/compass-ui/components/button';
 import {
   ChannelBookmarkModal,
   ChannelBookmarksBar,
@@ -78,6 +79,11 @@ export interface ChannelBookmarksDemoProps extends Pick<
   'canManage'
 > {
   initial?: ChannelBookmark[];
+  /**
+   * The bar is hidden when empty, and a standalone demo has no header menu to
+   * add from. Shows add buttons in its place so the demo can be refilled.
+   */
+  addWhenEmpty?: boolean;
 }
 
 /** Lets a host open the add modal from outside the bar (e.g. a header menu). */
@@ -90,7 +96,7 @@ const ChannelBookmarksDemo = forwardRef<
   ChannelBookmarksDemoHandle,
   ChannelBookmarksDemoProps
 >(function ChannelBookmarksDemo(
-  { initial = SAMPLE_BOOKMARKS, canManage },
+  { initial = SAMPLE_BOOKMARKS, canManage, addWhenEmpty = false },
   ref,
 ) {
   const [bookmarks, setBookmarks] = useState(initial);
@@ -152,6 +158,24 @@ const ChannelBookmarksDemo = forwardRef<
 
   return (
     <>
+      {addWhenEmpty && bookmarks.length === 0 && (
+        <div style={{ display: 'flex', gap: 'var(--spacing-s)' }}>
+          <Button
+            emphasis="tertiary"
+            size="small"
+            onClick={() => startAdd('link')}
+          >
+            Add a link
+          </Button>
+          <Button
+            emphasis="tertiary"
+            size="small"
+            onClick={() => startAdd('file')}
+          >
+            Attach a file
+          </Button>
+        </div>
+      )}
       <ChannelBookmarksBar
         bookmarks={bookmarks}
         canManage={canManage}

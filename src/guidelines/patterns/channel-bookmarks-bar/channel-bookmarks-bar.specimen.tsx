@@ -13,11 +13,14 @@ export default function ChannelBookmarksBarLibrary() {
         <p className={styles['patterns__variant-label']}>
           Interactive — resize the window to see the combined overflow button
         </p>
-        <ChannelBookmarksDemo />
+        <ChannelBookmarksDemo addWhenEmpty />
       </div>
       <div style={section}>
         <p className={styles['patterns__variant-label']}>Few bookmarks</p>
-        <ChannelBookmarksDemo initial={SAMPLE_BOOKMARKS.slice(0, 2)} />
+        <ChannelBookmarksDemo
+          initial={SAMPLE_BOOKMARKS.slice(0, 2)}
+          addWhenEmpty
+        />
       </div>
       <div style={section}>
         <p className={styles['patterns__variant-label']}>
