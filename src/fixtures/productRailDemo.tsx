@@ -19,33 +19,33 @@ export const productRailDemoItems: (ProductRailItemData & {
   {
     id: 'channels',
     label: 'Channels',
-    icon: <MessageProcessingOutlineIcon size={20} />,
+    icon: <MessageProcessingOutlineIcon size={24} />,
     unreadBadge: true,
   },
   {
     id: 'boards',
     label: 'Boards',
-    icon: <BullseyeArrowIcon size={20} />,
+    icon: <BullseyeArrowIcon size={24} />,
   },
   {
     id: 'playbooks',
     label: 'Playbooks',
-    icon: <ClipboardTextOutlineIcon size={20} />,
+    icon: <ClipboardTextOutlineIcon size={24} />,
     mentionBadge: 3,
   },
   {
     id: 'agents',
     label: 'Agents',
-    icon: <CreationOutlineIcon size={20} />,
+    icon: <CreationOutlineIcon size={24} />,
   },
   {
     id: 'docs',
     label: 'Docs',
-    icon: <BookOpenVariantOutlineIcon size={20} />,
+    icon: <BookOpenVariantOutlineIcon size={24} />,
   },
   {
     id: 'automation',
     label: 'Automation',
-    icon: <LightningBoltOutlineIcon size={20} />,
+    icon: <LightningBoltOutlineIcon size={24} />,
   },
 ];

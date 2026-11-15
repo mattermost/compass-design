@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef } from 'react';
 import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import DockLeftIcon from '@mattermost/compass-icons/components/dock-left';
 import CheckIcon from '@mattermost/compass-icons/components/check';
@@ -181,11 +182,23 @@ export function ProductRailTeamMenu({
   onClose,
   className = '',
 }: ProductRailTeamMenuProps) {
-  // When the host opens the menu, focus lands on the current team (or the first row).
+  // When the host opens the menu, focus lands on the current team (or the first row). A
+  // callback ref covers rows that mount while `open`; the effect covers reopening while the
+  // rows are still mounted from an exit that had not finished.
   const focusIndex = Math.max(
     0,
     teams.findIndex((t) => t.id === activeTeamId),
   );
+  const openRef = useRef(open);
+  openRef.current = open;
+  const focusRowRef = useRef<HTMLElement | null>(null);
+  const attachFocusRow = useCallback((el: HTMLElement | null) => {
+    focusRowRef.current = el;
+    if (el && openRef.current === true) el.focus();
+  }, []);
+  useEffect(() => {
+    if (open === true) focusRowRef.current?.focus();
+  }, [open]);
   return (
     <PopoverMenu
       role="menu"
@@ -204,8 +217,7 @@ export function ProductRailTeamMenu({
           return (
             <button
               key={team.id}
-              // eslint-disable-next-line jsx-a11y/no-autofocus -- moves focus into the menu the host just opened
-              autoFocus={open === true && index === focusIndex}
+              ref={index === focusIndex ? attachFocusRow : undefined}
               type="button"
               role="menuitemradio"
               aria-checked={active}

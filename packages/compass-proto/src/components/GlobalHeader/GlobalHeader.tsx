@@ -1,9 +1,5 @@
 import ProductsIcon from '@mattermost/compass-icons/components/products';
-import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
-import BookOutlineIcon from '@mattermost/compass-icons/components/book-outline';
 import LightningBoltOutlineIcon from '@mattermost/compass-icons/components/lightning-bolt-outline';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import ArrowRightIcon from '@mattermost/compass-icons/components/arrow-right';
@@ -24,6 +20,10 @@ import type {
   ReactNode,
   SyntheticEvent,
 } from 'react';
+import BookOpenVariantOutlineIcon from '../../icons/BookOpenVariantOutlineIcon';
+import BullseyeArrowIcon from '../../icons/BullseyeArrowIcon';
+import ClipboardTextOutlineIcon from '../../icons/ClipboardTextOutlineIcon';
+import MessageProcessingOutlineIcon from '../../icons/MessageProcessingOutlineIcon';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
@@ -121,11 +121,11 @@ const PRODUCT_ICON: Record<
   GlobalHeaderProduct,
   ComponentType<{ size?: number }>
 > = {
-  channels: ProductChannelsIcon,
-  playbooks: ProductPlaybooksIcon,
-  boards: ProductBoardsIcon,
+  channels: MessageProcessingOutlineIcon,
+  playbooks: ClipboardTextOutlineIcon,
+  boards: BullseyeArrowIcon,
   agents: CreationOutlineIcon,
-  docs: BookOutlineIcon,
+  docs: BookOpenVariantOutlineIcon,
   automation: LightningBoltOutlineIcon,
 };
 

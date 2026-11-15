@@ -171,6 +171,34 @@ describe('ProductRailTeamMenu', () => {
       expect(document.activeElement).toBe(rows[1]);
     });
 
+    it('refocuses the current row when reopened before the exit finishes', () => {
+      const c = render(
+        <ProductRailTeamMenu teams={teams} activeTeamId="b" open />,
+      );
+      const outside = document.createElement('button');
+      document.body.appendChild(outside);
+      const rows = () =>
+        Array.from(c.querySelectorAll('[role="menuitemradio"]'));
+      expect(document.activeElement).toBe(rows()[1]);
+      // Focus returns to the trigger and the menu starts closing...
+      outside.focus();
+      act(() =>
+        root!.render(
+          <ProductRailTeamMenu teams={teams} activeTeamId="b" open={false} />,
+        ),
+      );
+      expect(document.activeElement).toBe(outside);
+      // ...then reopens while the rows are still mounted.
+      act(() =>
+        root!.render(
+          <ProductRailTeamMenu teams={teams} activeTeamId="b" open />,
+        ),
+      );
+      expect(rows()).toHaveLength(3);
+      expect(document.activeElement).toBe(rows()[1]);
+      outside.remove();
+    });
+
     it('does not steal focus when `open` is not controlled', () => {
       render(<ProductRailTeamMenu teams={teams} activeTeamId="b" />);
       expect(document.activeElement).toBe(document.body);

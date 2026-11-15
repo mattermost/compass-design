@@ -77,6 +77,7 @@ function TeamSwitcher() {
               onSelectTeam={(id) => {
                 setActiveTeamId(id);
                 setOpen(false);
+                wrapRef.current?.querySelector('button')?.focus();
               }}
             />
           </div>,
