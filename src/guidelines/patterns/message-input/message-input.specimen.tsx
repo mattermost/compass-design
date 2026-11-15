@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import {
   MessageInput,
-  SuggestionList,
-  useSuggestionList,
-  type SuggestionOption,
+  MessageInputWithSuggestions,
+  type MessageInputWithSuggestionsProps,
 } from '@mattermost/compass-proto';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { Button } from '@mattermost/compass-ui/components/button';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
@@ -14,50 +15,82 @@ const SUGGESTIONS = [
   'Find action items',
 ];
 
-const MENTIONS: SuggestionOption[] = [
-  { value: 'alex', label: 'alex', secondaryLabel: 'Alex Kim' },
-  { value: 'alina', label: 'alina', secondaryLabel: 'Alina Rossi' },
-  { value: 'alvaro', label: 'alvaro', secondaryLabel: 'Álvaro Gil' },
+const MEMBERS = [
+  ['alex', 'Alex Kim'],
+  ['alina', 'Alina Rossi'],
+  ['alvaro', 'Álvaro Gil'],
+  ['bea', 'Bea Lindholm'],
+];
+const CHANNELS = [
+  ['design', 'Design'],
+  ['developers', 'Developers'],
+  ['town-square', 'Town Square'],
+];
+const EMOJI = ['rocket', 'rose', 'raised_hands', 'tada'];
+const COMMANDS = [
+  ['away', 'Set your status to away'],
+  ['archive', 'Archive the current channel'],
+  ['announce', 'Post an announcement'],
 ];
 
-/** Live mention autocomplete: `useSuggestionList` wires the keys and combobox ARIA. */
-function MentionSuggestionsDemo() {
-  const [text, setText] = useState('');
-  const query = /(?:^|\s)@(\w*)$/.exec(text)?.[1];
-  const [dismissed, setDismissed] = useState(false);
-  const options =
-    query === undefined
-      ? []
-      : MENTIONS.filter((o) => o.value.startsWith(query.toLowerCase()));
-  const open = query !== undefined && !dismissed && options.length > 0;
-  const list = useSuggestionList({
-    options,
-    open,
-    onSelect: (option) => {
-      setText((t) => t.replace(/@\w*$/, `@${option.value} `));
-      setDismissed(false);
+const match = (q: string, value: string) => value.startsWith(q.toLowerCase());
+
+/** Rows per trigger. A real host would query the server; `@` fakes a pending search. */
+const SOURCES: MessageInputWithSuggestionsProps['sources'] = {
+  '@': (q) => [
+    {
+      key: 'members',
+      heading: 'Channel members',
+      options: MEMBERS.filter(([u]) => match(q, u)).map(([u, name]) => ({
+        value: u,
+        label: u,
+        secondaryLabel: name,
+        leadingVisual: <UserAvatar size="24" name={name} alt="" />,
+      })),
     },
-    onClose: () => setDismissed(true),
-  });
+  ],
+  '~': (q) => [
+    {
+      key: 'channels',
+      options: CHANNELS.filter(([c]) => match(q, c)).map(([c, name]) => ({
+        value: c,
+        label: name,
+        secondaryLabel: `~${c}`,
+        leadingVisual: <Icon glyph={<GlobeIcon />} />,
+      })),
+    },
+  ],
+  ':': (q) => [
+    {
+      key: 'emoji',
+      options: EMOJI.filter((e) => match(q, e)).map((e) => ({
+        value: e,
+        label: `:${e}:`,
+      })),
+    },
+  ],
+  '/': (q) => [
+    {
+      key: 'commands',
+      options: COMMANDS.filter(([c]) => match(q, c)).map(([c, hint]) => ({
+        value: c,
+        label: `/${c}`,
+        secondaryLabel: hint,
+      })),
+    },
+  ],
+};
+
+/**
+ * Live autocomplete: `@` people, `~` channels, `:` emoji (two characters), `/`
+ * commands (at the start). Arrow keys move, Enter or Tab insert, Escape closes.
+ */
+function AutocompleteDemo() {
   return (
-    <MessageInput
-      placeholder="Type @al to see suggestions…"
-      value={text}
-      onChange={(next) => {
-        setText(next);
-        setDismissed(false);
-      }}
-      onSend={() => setText('')}
-      textareaProps={{ ...list.inputProps, onKeyDown: list.onKeyDown }}
-      suggestions={
-        open ? (
-          <SuggestionList
-            {...list.listProps}
-            options={options}
-            listboxLabel="Mentions"
-          />
-        ) : undefined
-      }
+    <MessageInputWithSuggestions
+      placeholder="Type @al, ~de, :ro or /a…"
+      sources={SOURCES}
+      onSend={() => {}}
     />
   );
 }
@@ -101,9 +134,9 @@ export default function MessageInputLibrary() {
         }
       />
       <p className={styles['patterns__variant-label']}>
-        With suggestion list (type @al)
+        With autocomplete (type @al, ~de, :ro or /a)
       </p>
-      <MentionSuggestionsDemo />
+      <AutocompleteDemo />
     </div>
   );
 }

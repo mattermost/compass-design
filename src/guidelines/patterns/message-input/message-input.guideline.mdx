@@ -164,6 +164,19 @@ maximum, then scrolls inside the field.
 - **Center channel:** maximum height is **50vh − 40px**.
 - **Right sidebar:** maximum height is **50vh − 80px**.
 
+### Autocomplete
+
+Typing a trigger character opens the [Suggestion List](/components/suggestion-list)
+above the input, at the trigger, filtered by what follows it: `@` for people and
+groups, `~` for channels, `:` for emoji (after two characters) and `/` for slash
+commands (only at the start of the message). Arrow keys move through the rows,
+Enter or Tab insert the highlighted row at the caret, and Escape closes the list
+until the trigger is typed again. Accepting a row never sends the message.
+
+The list stays closed when the character is inside a word (an email address or a
+link), while text is selected, and while an input method is composing. It closes
+when the caret moves away from the trigger.
+
 ### Keyboard shortcuts
 
 These shortcuts apply for text formatting whether the formatting bar is open or
