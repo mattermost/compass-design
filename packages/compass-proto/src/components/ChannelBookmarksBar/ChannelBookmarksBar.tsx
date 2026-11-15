@@ -364,7 +364,10 @@ export default function ChannelBookmarksBar({
           <div className={styles['channel-bookmarks-bar__trailing']}>
             <button
               type="button"
-              className={styles['channel-bookmarks-bar__chip']}
+              className={[
+                styles['channel-bookmarks-bar__chip'],
+                styles['channel-bookmarks-bar__chip--borderless'],
+              ].join(' ')}
               aria-haspopup="menu"
               aria-expanded={openMenu === 'add'}
               onClick={toggleAdd}
