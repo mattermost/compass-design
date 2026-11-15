@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100%;
+  /* Fills a `RightSidebar alignBody="stretch"` body (so the empty state can
+     center) but never shrinks below its content. */
+  flex: 1 0 auto;
   background: var(--center-channel-bg);
 
   &__count {

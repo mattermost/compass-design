@@ -125,6 +125,7 @@ function SearchResultsDemo() {
         style={{ marginTop: 'var(--spacing-xl)' }}
       >
         <RightSidebar
+          alignBody="stretch"
           header={
             <RightSidebarHeader
               title={title}

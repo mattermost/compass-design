@@ -64,7 +64,7 @@ const defaultCount = (count: number) =>
 /**
  * RHS body for search results, mentions, saved and pinned messages: a count
  * line, then one {@link SearchResultMessage} per result, or an empty state.
- * Pair with `RightSidebar` + `RightSidebarHeader` (title per kind).
+ * Pair with `RightSidebar alignBody="stretch"` + `RightSidebarHeader` (title per kind); stretch lets the empty state center vertically.
  */
 export default function RightSidebarSearchResults({
   kind = 'search',
