@@ -336,6 +336,23 @@ export default function ChannelBookmarksBar({
   const hidden = bookmarks.slice(visibleCount);
   const empty = bookmarks.length === 0;
 
+  // After a delete the trigger (the bookmark's own actions button, or the
+  // overflow chip) can unmount, so park focus on a control that stays: the add
+  // button, else the first remaining control in the bar.
+  const parkFocus = () =>
+    requestAnimationFrame(() => {
+      const target =
+        plusRef.current?.querySelector<HTMLElement>('button') ??
+        rootRef.current?.querySelector<HTMLElement>('a, button');
+      target?.focus();
+    });
+
+  const removeBookmark = (b: ChannelBookmark) => {
+    setOpenMenu(null);
+    onDelete?.(b);
+    parkFocus();
+  };
+
   const activate = (b: ChannelBookmark) => {
     setOpenMenu(null);
     onBookmarkClick?.(b);
@@ -476,10 +493,7 @@ export default function ChannelBookmarksBar({
                     leadingVisual={
                       <Icon glyph={<TrashCanOutlineIcon />} size="16" />
                     }
-                    onClick={() => {
-                      setOpenMenu(null);
-                      onDelete?.(b);
-                    }}
+                    onClick={() => removeBookmark(b)}
                   />
                 )}
               </PopoverMenuGroup>
@@ -545,10 +559,7 @@ export default function ChannelBookmarksBar({
                             destructive
                             aria-label={`${l.delete} ${nameOf(b)}`.trim()}
                             icon={<Icon glyph={<TrashCanOutlineIcon />} />}
-                            onClick={() => {
-                              setOpenMenu(null);
-                              onDelete?.(b);
-                            }}
+                            onClick={() => removeBookmark(b)}
                           />
                         </WithTooltip>
                       </div>
