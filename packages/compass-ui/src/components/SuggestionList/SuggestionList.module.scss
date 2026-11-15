@@ -1,0 +1,22 @@
+.suggestion-list {
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--center-channel-bg);
+  border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+  border-radius: var(--radius-m);
+  box-shadow: var(--elevation-4);
+  color: var(--center-channel-color);
+
+  &__listbox {
+    padding: var(--spacing-xs) 0;
+  }
+
+  &__trailing-label {
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    white-space: nowrap;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+  }
+}

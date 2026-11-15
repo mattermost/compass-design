@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`SuggestionList` and `useSuggestionList` ([#258](https://github.com/mattermost/compass-design/issues/258)):** the autocomplete surface for a composer (`@mention`, `~channel`, `:emoji:`, `/slash`). `SuggestionList` is a `role="listbox"` of `MenuItem` rows: each `SuggestionOption` takes `value`, `label` and `secondaryLabel` (translated nodes), a `leadingVisual` (a 24px `UserAvatar` with `status`, a `TeamAvatar` or an `Icon`), a `trailingLabel` such as "Not in channel", `disabled` and `menuItemProps`. Pass `options`, or `sections` with an optional `heading` per group. `activeValue` highlights a row and `onSelect` fires on click; the pointer moves the highlight through `onActiveValueChange`. `listboxLabel` (default "Suggestions") names the listbox, `maxHeight` caps the scroll region, and rest props and a `ref` go on the root. Focus never leaves the text field: `useSuggestionList` returns `inputProps` (`role="combobox"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`), an `onKeyDown` and `listProps`. Arrow keys move through enabled rows (wrapping unless `loop={false}`), Enter and Tab accept (`selectKeys`), and Escape calls `onClose` and `preventDefault()`. Keys are left alone while closed, with a modifier (so Shift+Enter still adds a line), during IME composition, or when `defaultPrevented`. The first enabled row is active whenever the options change. Open state, the query and positioning stay with the host. Nothing changes for existing components.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

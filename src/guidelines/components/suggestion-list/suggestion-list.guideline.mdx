@@ -1,0 +1,65 @@
+Suggestion List is the autocomplete surface that opens above a message
+composer while someone types a trigger: `@` for people and groups, `~` for
+channels, `:` for emoji, `/` for slash commands.
+
+Use it for suggestions tied to a text field that keeps focus. For a form field
+that picks a value, use [Combobox](/components/combobox) instead.
+
+<Divider />
+
+## Anatomy
+
+- <Num>1</Num> **Heading** — optional all-caps group label, such as "Channel
+  members" or "Not in channel".
+- <Num>2</Num> **Leading visual** — a 24px User Avatar with presence status, a
+  Team Avatar, or an icon (for example the group icon on `@here`).
+- <Num>3</Num> **Label** — the text that gets inserted, such as the username.
+- <Num>4</Num> **Secondary label** — muted text beside the label, such as the
+  full name.
+- <Num>5</Num> **Trailing label** — muted text at the right edge, such as "Not
+  in channel".
+
+<Divider />
+
+## Behavior
+
+Focus stays in the text field. The list is a `listbox` and the field points at
+the highlighted row with `aria-activedescendant`, so screen readers announce
+the row while the caret stays put. `useSuggestionList` wires this up:
+
+| Key              | Action                                                          |
+| ---------------- | --------------------------------------------------------------- |
+| Arrow Down / Up  | Move through enabled rows and wrap at the ends.                 |
+| Enter or Tab     | Accept the highlighted row (`selectKeys` narrows this).         |
+| Escape           | Close the list. Skipped when something already handled the key. |
+| Shift+Enter, IME | Left to the field: a new line, or confirming a composition.     |
+
+The first enabled row is highlighted whenever the list of options changes.
+Moving the pointer over a row highlights it; clicking accepts it without taking
+focus from the field.
+
+<Divider />
+
+## Placement
+
+The host owns open state, the query, and where the list sits, usually directly
+above the composer at its width. Hide the list when there are no suggestions.
+
+<Divider />
+
+## Implementation
+
+```tsx
+import {
+  SuggestionList,
+  useSuggestionList,
+} from '@mattermost/compass-ui/components/suggestion-list';
+
+const s = useSuggestionList({ options, open, onSelect, onClose });
+
+<SuggestionList {...s.listProps} options={options} />
+<textarea {...s.inputProps} onKeyDown={s.onKeyDown} />
+```
+
+For copy-ready examples, see the
+[Suggestion List specimen page](/components/suggestion-list/specimen).
