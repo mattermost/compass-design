@@ -85,7 +85,7 @@ describe('RightSidebarSearchResults', () => {
     expect(el.textContent).toContain('Compass');
   });
 
-  it('calls onJump with the result and honors jumpLabel', () => {
+  it('puts Jump in each message toolbar, calls onJump and honors jumpLabel', () => {
     const onJump = vi.fn();
     const el = mount(
       <RightSidebarSearchResults
@@ -94,10 +94,11 @@ describe('RightSidebarSearchResults', () => {
         jumpLabel="Go to message"
       />,
     );
-    const buttons = Array.from(el.querySelectorAll('button')).filter(
-      (b) => b.textContent === 'Go to message',
-    );
+    const buttons = Array.from(
+      el.querySelectorAll('[role="toolbar"] button'),
+    ).filter((b) => b.textContent === 'Go to message');
     expect(buttons).toHaveLength(2);
+    expect(buttons[0].getAttribute('aria-label')).toBe('Jump to message');
     act(() => buttons[1].click());
     expect(onJump).toHaveBeenCalledWith(results[1]);
   });

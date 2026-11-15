@@ -18,7 +18,7 @@ export interface RightSidebarSearchResultsProps {
   results: SearchResultMessageData[];
   /** Terms to highlight in each result. For `search`, the query words. */
   terms?: readonly string[];
-  /** Called when a result's jump link is pressed. */
+  /** Called when a result's Jump button is pressed. */
   onJump?: (result: SearchResultMessageData) => void;
   /** Replaces the count line ("3 results"). Receives the number of results. */
   countLabel?: (count: number) => ReactNode;

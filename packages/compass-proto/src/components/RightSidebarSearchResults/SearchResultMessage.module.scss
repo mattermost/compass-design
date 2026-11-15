@@ -30,23 +30,4 @@
     white-space: nowrap;
     color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
   }
-
-  &__jump {
-    margin-inline-start: auto;
-    flex: 0 0 auto;
-    opacity: 0;
-    transition: opacity var(--duration-quick) var(--ease-transition);
-
-    .search-result:hover &,
-    .search-result:focus-within &,
-    &:focus-visible {
-      opacity: 1;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    &__jump {
-      transition: none;
-    }
-  }
 }

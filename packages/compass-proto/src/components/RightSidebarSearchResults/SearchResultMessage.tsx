@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { Button } from '@mattermost/compass-ui/components/button';
 import { Message, messageStyles } from '@/components/Message';
 import SearchHighlight from './SearchHighlight';
 import styles from './SearchResultMessage.module.scss';
@@ -25,23 +24,27 @@ export interface SearchResultMessageProps {
   result: SearchResultMessageData;
   /** Terms to highlight in a string `body`. */
   terms?: readonly string[];
-  /** Called when the jump link is pressed. */
+  /** Called when the Jump button in the message toolbar is pressed. */
   onJump?: (result: SearchResultMessageData) => void;
-  /** Visible and accessible jump link text. Default: "Jump". */
+  /** Visible Jump text. Default: "Jump". */
   jumpLabel?: string;
+  /** Accessible name for the Jump button. Default: "Jump to message". */
+  jumpAriaLabel?: string;
   className?: string;
 }
 
 /**
- * One RHS search result: channel context line with a jump link, then the
+ * One RHS search result: channel context line, then the
  * message with search terms highlighted. Shared by search, mentions, saved,
- * pinned. The jump link shows on hover or focus and stays reachable by keyboard.
+ * pinned. Jump lives in the message's hover toolbar (`search-results` Message
+ * Actions), which also shows on keyboard focus.
  */
 export default function SearchResultMessage({
   result,
   terms = [],
   onJump,
   jumpLabel = 'Jump',
+  jumpAriaLabel = 'Jump to message',
   className = '',
 }: SearchResultMessageProps) {
   const { body } = result;
@@ -59,21 +62,18 @@ export default function SearchResultMessage({
             {result.teamLabel}
           </span>
         )}
-        <Button
-          emphasis="tertiary"
-          size="x-small"
-          className={styles['search-result__jump']}
-          onClick={() => onJump?.(result)}
-        >
-          {jumpLabel}
-        </Button>
       </div>
       <Message
         avatarSrc={result.avatarSrc}
         avatarAlt={result.avatarAlt}
         username={result.username}
         timestamp={result.timestamp}
-        showMessageActions={false}
+        messageActionsType="search-results"
+        messageActionsProps={{
+          jumpAriaLabel: jumpAriaLabel,
+          jumpLabel,
+          jumpButtonProps: { onClick: () => onJump?.(result) },
+        }}
         showPinnedSavedIndicators={Boolean(result.pinned || result.saved)}
       >
         {typeof body === 'string' ? (
