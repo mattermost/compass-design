@@ -1,7 +1,9 @@
 /** Returns a copy of `items` with the item at `from` moved to index `to`. */
 export function moveItem<T>(items: T[], from: number, to: number): T[] {
-  if (from === to || from < 0 || from >= items.length) return items;
+  if (from < 0 || from >= items.length) return items;
   const clamped = Math.min(Math.max(to, 0), items.length - 1);
+  // Nothing moves (including a keyboard move past either end): same array.
+  if (clamped === from) return items;
   const next = items.slice();
   const [moved] = next.splice(from, 1);
   next.splice(clamped, 0, moved);

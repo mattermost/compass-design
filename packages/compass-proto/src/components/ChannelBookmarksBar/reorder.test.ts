@@ -14,6 +14,12 @@ describe('moveItem', () => {
     expect(moveItem(list, 9, 0)).toBe(list);
   });
 
+  it('returns the same list when a move past either end clamps back', () => {
+    // Alt + Arrow on the first / last item asks for index -1 / length.
+    expect(moveItem(list, 0, -1)).toBe(list);
+    expect(moveItem(list, 3, 4)).toBe(list);
+  });
+
   it('clamps the destination and does not mutate the input', () => {
     expect(moveItem(list, 0, 99)).toEqual(['b', 'c', 'd', 'a']);
     expect(moveItem(list, 3, -5)).toEqual(['d', 'a', 'b', 'c']);

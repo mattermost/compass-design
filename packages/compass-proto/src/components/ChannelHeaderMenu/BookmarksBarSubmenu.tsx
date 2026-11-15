@@ -112,12 +112,13 @@ export default function BookmarksBarSubmenu({
 
   // Keyboard open: move focus into the submenu.
   useEffect(() => {
-    if (!open || !pinned) return undefined;
+    // Wait for the layer: it mounts a render after `open`.
+    if (!open || !pinned || !mounted) return undefined;
     const frame = requestAnimationFrame(() => {
       layerRef.current?.querySelector<HTMLElement>('button')?.focus();
     });
     return () => cancelAnimationFrame(frame);
-  }, [open, pinned]);
+  }, [open, pinned, mounted]);
 
   const openPinned = () => {
     clearTimer();

@@ -222,7 +222,9 @@ export default function ChannelBookmarkModal({
     pickerRef,
   );
 
-  useEffect(() => {
+  // Layout effect: reset before paint so a reopened modal never flashes the
+  // previous file or fields for a frame.
+  useLayoutEffect(() => {
     if (open) {
       setUrl(initialValues?.url ?? '');
       setTitle(initialValues?.title ?? fileProp?.name ?? '');
