@@ -52,5 +52,8 @@ focus from the field.
 
 ## Placement
 
-The host owns open state, the query, and where the list sits, usually directly
-above the composer at its width. Hide the list when there are no suggestions.
+The host owns open state, the query, and where the list sits. It floats above
+the Message Input, placed horizontally at the trigger character (`@`, `~`, `:`
+or `/`) and overlapping the top edge of the input by 4px. It stays above the
+input as the page scrolls and never flips to fit. The list is at most 480px
+wide. Hide it when there are no suggestions.

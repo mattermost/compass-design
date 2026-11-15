@@ -80,7 +80,13 @@ function usesViewportFixedCoords(mount: HTMLElement): boolean {
  * Positions a popup in a portal with viewport-aware above/below flip (or a fixed
  * `side`). Used by the form widgets (`Select`, `Combobox`, `DateRangePicker`) and
  * by hosts that portal a popup against an element or a virtual anchor. The
- * shared `Popover.Positioner` planned in #111 replaces it.
+ * shared `Popover.Positioner` planned in #111 replaces it; hosts use this one only
+ * as an interim positioner.
+ *
+ * The anchor's rect is re-read when the popup opens, on resize, on scroll (any
+ * ancestor) and when the portaled popup changes size, not when the host
+ * re-renders. A virtual anchor that moves on its own (a trigger character in a
+ * textarea as text wraps) is not followed until one of those happens.
  */
 export function useAnchoredPopupPortal(
   anchorRef: RefObject<AnchoredPopupAnchor | null>,
