@@ -1,0 +1,61 @@
+import { ColorPicker } from '@mattermost/compass-ui/components/color-picker';
+
+A ColorPicker lets someone choose one color from a short, fixed palette, with
+an optional hex field for a color outside it. Use it where a person labels or
+themes something: a channel label color, a board option color, an accent.
+
+Two good fits for a ColorPicker:
+
+1. **A named palette** — a handful of colors the product has vetted for
+   contrast, such as label or category colors.
+2. **A palette plus a custom color** — turn on the hex field when people need
+   a brand color the palette can't cover.
+
+If the choice is one of a few labeled options rather than colors, use a
+[Radio](/components/radio) group or [Select](/components/select) instead.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <ColorPicker aria-label="Label color" defaultValue="#7F57D6" showHexInput />
+</AnatomyStage>
+
+- <Num>1</Num> **Swatch** — one palette color. Each has a name (for example
+  "Blue") that screen readers announce, and it also shows as a tooltip.
+- <Num>2</Num> **Selection mark** — a check on the chosen swatch, drawn in white
+  or dark by WCAG contrast so it reads on any color.
+- <Num>3</Num> **Hex field** — optional. Accepts `#RRGGBB` or `#RGB`.
+
+<Divider />
+
+## Sizes
+
+<div style={{ display: 'grid', gap: '1rem', padding: '1rem 0' }}>
+  <ColorPicker aria-label="Small" size="small" defaultValue="#1C58D9" />
+  <ColorPicker aria-label="Medium" size="medium" defaultValue="#1C58D9" />
+  <ColorPicker aria-label="Large" size="large" defaultValue="#1C58D9" />
+</div>
+
+<Divider />
+
+## Behavior
+
+- **Keyboard.** The swatches form one radio group. Tab moves into and out of
+  it; Arrow keys move between swatches and select, as with any radio group.
+- **Naming.** Name the group with `aria-label` or `aria-labelledby`, and give
+  every palette color a `label`. Color alone never carries the meaning.
+- **Custom colors.** A value outside the palette leaves every swatch
+  unselected and shows in the hex field. A 6-digit hex applies as you type; a
+  3-digit shorthand applies when the field loses focus. Invalid input shows a
+  message and keeps what you typed.
+- **Disabled.** Disable the whole group, or a single swatch with
+  `disabled` on its option.
+
+<Divider />
+
+## Implementation
+
+For props, variants, and copy-ready examples, see the
+[ColorPicker specimen page](/components/color-picker/specimen).
