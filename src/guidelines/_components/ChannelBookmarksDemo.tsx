@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import {
   ChannelBookmarkModal,
   ChannelBookmarksBar,
@@ -69,18 +75,26 @@ export interface ChannelBookmarksDemoProps extends Pick<
   'canManage'
 > {
   initial?: ChannelBookmark[];
-  /** Hides the bar (state is kept). Default: true. */
-  visible?: boolean;
+}
+
+/** Lets a host open the add modal from outside the bar (e.g. a header menu). */
+export interface ChannelBookmarksDemoHandle {
+  openAdd: (type: ChannelBookmarkAddType) => void;
 }
 
 /** Stateful bar + modal for docs specimens: add (link / file), edit, delete, reorder. */
-export default function ChannelBookmarksDemo({
-  initial = SAMPLE_BOOKMARKS,
-  canManage,
-  visible = true,
-}: ChannelBookmarksDemoProps) {
+const ChannelBookmarksDemo = forwardRef<
+  ChannelBookmarksDemoHandle,
+  ChannelBookmarksDemoProps
+>(function ChannelBookmarksDemo(
+  { initial = SAMPLE_BOOKMARKS, canManage },
+  ref,
+) {
   const [bookmarks, setBookmarks] = useState(initial);
   const [modal, setModal] = useState<ModalState>({ open: false, type: 'link' });
+  useImperativeHandle(ref, () => ({
+    openAdd: (type) => setModal({ open: true, type }),
+  }));
   // Object URLs for attached files, by bookmark id. Revoked when a file is
   // replaced or its bookmark deleted, and on unmount.
   const objectUrls = useRef(new Map<string, string>());
@@ -106,8 +120,6 @@ export default function ChannelBookmarksDemo({
     (typeof modal.editing?.label === 'string'
       ? modal.editing.label
       : undefined);
-
-  if (!visible) return null;
 
   return (
     <>
@@ -164,4 +176,6 @@ export default function ChannelBookmarksDemo({
       />
     </>
   );
-}
+});
+
+export default ChannelBookmarksDemo;

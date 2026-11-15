@@ -57,8 +57,6 @@ export interface ChannelBookmarksBarLabels {
   bar?: string;
   /** Plus button label and tooltip. Default: "Add a bookmark". */
   add?: string;
-  /** Empty-state chip label. Default: "Add bookmark". */
-  addBookmark?: string;
   /** Add menu: link row. Default: "Add a link". */
   addLink?: string;
   /** Add menu: file row. Default: "Attach a file". */
@@ -82,7 +80,6 @@ const DEFAULT_LABELS: Required<ChannelBookmarksBarLabels> = {
     `${name}, moved to position ${position} of ${total}`,
   bar: 'Channel bookmarks',
   add: 'Add a bookmark',
-  addBookmark: 'Add bookmark',
   addLink: 'Add a link',
   addFile: 'Attach a file',
   overflow: 'More bookmarks',
@@ -460,7 +457,9 @@ export default function ChannelBookmarksBar({
 
   const toggleAdd = () => setOpenMenu(openMenu === ADD_MENU ? null : ADD_MENU);
 
-  if (empty && !canManage) return null;
+  // No bookmarks, no bar (as in the webapp). The first one is added from the
+  // channel header menu's "Bookmarks bar" submenu, and the bar appears then.
+  if (empty) return null;
 
   return (
     <div
@@ -697,25 +696,7 @@ export default function ChannelBookmarksBar({
             </AnchoredMenu>
           </div>
         )}
-        {canManage && empty && (
-          <div className={styles['channel-bookmarks-bar__trailing']}>
-            <button
-              type="button"
-              className={[
-                styles['channel-bookmarks-bar__chip'],
-                styles['channel-bookmarks-bar__chip--borderless'],
-              ].join(' ')}
-              aria-haspopup="menu"
-              aria-expanded={openMenu === ADD_MENU}
-              onClick={toggleAdd}
-            >
-              <Icon glyph={<PlusIcon />} size="12" />
-              {l.addBookmark}
-            </button>
-            {addMenu}
-          </div>
-        )}
-        {canManage && !empty && hidden.length === 0 && (
+        {canManage && hidden.length === 0 && (
           <div
             ref={plusRef}
             className={styles['channel-bookmarks-bar__trailing']}

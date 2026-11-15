@@ -17,26 +17,23 @@ import {
   PopoverMenuDivider,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
+import BookmarksBarSubmenu from './BookmarksBarSubmenu';
+import type { BookmarksBarSubmenuChoice } from './BookmarksBarSubmenu';
 
 export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * Whether the channel bookmarks bar is shown. Only used with
-   * `onBookmarksBarToggle`; shows a check on the "Bookmarks bar" row when true.
+   * Makes the "Bookmarks bar" row open a submenu (Add a link / Attach a file),
+   * as in the webapp; called with the choice. Without it the row is the static
+   * submenu-style row. The submenu is portaled and positioned against the row.
    */
-  bookmarksBarVisible?: boolean;
-  /**
-   * Makes the "Bookmarks bar" row a show/hide toggle (a checkable menu item)
-   * instead of the static submenu-style row. Default: static row.
-   */
-  onBookmarksBarToggle?: () => void;
+  onAddBookmark?: (type: BookmarksBarSubmenuChoice) => void;
 }
 
 /**
  * Channel header overflow menu — settings, members, more actions, and archive.
  */
 export default function ChannelHeaderMenu({
-  bookmarksBarVisible = false,
-  onBookmarksBarToggle,
+  onAddBookmark,
   className = '',
   ...rest
 }: ChannelHeaderMenuProps) {
@@ -61,15 +58,8 @@ export default function ChannelHeaderMenu({
           trailingElement
           trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
         />
-        {onBookmarksBarToggle ? (
-          <MenuItem
-            role="menuitemcheckbox"
-            aria-checked={bookmarksBarVisible}
-            label="Bookmarks bar"
-            leadingVisual={<Icon glyph={<BookmarkOutlineIcon />} size="16" />}
-            trailingElement={bookmarksBarVisible}
-            onClick={onBookmarksBarToggle}
-          />
+        {onAddBookmark ? (
+          <BookmarksBarSubmenu onAddBookmark={onAddBookmark} />
         ) : (
           <MenuItem
             label="Bookmarks bar"

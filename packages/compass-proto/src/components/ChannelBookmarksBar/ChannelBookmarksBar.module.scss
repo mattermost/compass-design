@@ -187,45 +187,6 @@
     min-height: 0;
   }
 
-  &__chip {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xxs);
-    box-sizing: border-box;
-    height: var(--icon-size-24);
-    padding: 0 var(--spacing-s);
-    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-16));
-    border-radius: var(--radius-pill);
-    background: transparent;
-    color: var(--center-channel-color);
-    font: inherit;
-    font-size: var(--font-size-75);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-100);
-    white-space: nowrap;
-    cursor: pointer;
-
-    &:hover,
-    &:active,
-    &[aria-expanded='true'] {
-      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
-    }
-
-    @include focus-ring;
-
-    // Empty-state "Add bookmark" and the `+N` chip: no outline, like the
-    // bookmark buttons. The border keeps its width so measuring is unchanged.
-    &--borderless {
-      border-color: transparent;
-      border-radius: var(--radius-s);
-    }
-
-    // Leading plus icon: matches the bookmark buttons' 6px side padding.
-    &--icon-start {
-      padding-inline-start: var(--spacing-xxs);
-    }
-  }
-
   // Overflow menu rows: the bookmark plus Edit / Delete, revealed on hover or
   // focus so hidden bookmarks stay manageable without resizing.
   &__overflow-row {

@@ -8,7 +8,6 @@ import {
   type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 
 export interface AnchoredMenuHostProps {
   /** Trigger element (e.g. `event.currentTarget` from the click). Null = closed. */
@@ -73,7 +72,21 @@ export default function AnchoredMenuHost({
     return () => cancelAnimationFrame(frame);
   }, [anchor]);
 
-  useOutsideClose(anchorRef as never, open, onClose, layerRef);
+  // Outside press closes the menu, except on the trigger, the menu itself, or
+  // a submenu it opened (portaled elsewhere, marked `data-popover-submenu`).
+  useEffect(() => {
+    if (!open) return undefined;
+    const onDown = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (!target) return;
+      if (layerRef.current?.contains(target)) return;
+      if (anchorRef.current?.contains(target)) return;
+      if (target.closest('[data-popover-submenu]')) return;
+      onClose();
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [open, onClose]);
 
   if (typeof document === 'undefined') return null;
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
 import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
@@ -13,7 +13,9 @@ import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import { ChannelHeader } from '@mattermost/compass-proto';
 import { ChannelHeaderMenu } from '@mattermost/compass-proto';
 import AnchoredMenuHost from '@/guidelines/_components/AnchoredMenuHost';
-import ChannelBookmarksDemo from '@/guidelines/_components/ChannelBookmarksDemo';
+import ChannelBookmarksDemo, {
+  type ChannelBookmarksDemoHandle,
+} from '@/guidelines/_components/ChannelBookmarksDemo';
 import { ChannelShell } from '@mattermost/compass-proto';
 import { MessageInput } from '@mattermost/compass-proto';
 import { Message } from '@mattermost/compass-proto';
@@ -22,7 +24,7 @@ import { shellStyles } from '@mattermost/compass-proto';
 
 export default function ChannelLayout() {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
-  const [bookmarksVisible, setBookmarksVisible] = useState(true);
+  const bookmarksRef = useRef<ChannelBookmarksDemoHandle>(null);
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 
   return (
@@ -43,16 +45,15 @@ export default function ChannelLayout() {
             onInfoClick={() => setRightSidebarOpen((o) => !o)}
             infoToggled={rightSidebarOpen}
           />
-          <ChannelBookmarksDemo visible={bookmarksVisible} />
+          <ChannelBookmarksDemo ref={bookmarksRef} />
           <AnchoredMenuHost
             anchor={menuAnchor}
             onClose={() => setMenuAnchor(null)}
           >
             <ChannelHeaderMenu
-              bookmarksBarVisible={bookmarksVisible}
-              onBookmarksBarToggle={() => {
-                setBookmarksVisible((v) => !v);
+              onAddBookmark={(type) => {
                 setMenuAnchor(null);
+                bookmarksRef.current?.openAdd(type);
               }}
             />
           </AnchoredMenuHost>
