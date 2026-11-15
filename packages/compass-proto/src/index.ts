@@ -4,7 +4,6 @@ export * from './components/CallInfoPanel/index';
 export * from './components/CallParticipantAvatar/index';
 export * from './components/CallPopout/index';
 export * from './components/CallWidget/index';
-export * from './components/AnchoredPopup/index';
 export * from './components/ChannelBookmarksBar/index';
 export * from './components/ChannelCategoryMenu/index';
 export * from './components/ChannelHeader/index';
@@ -69,3 +68,5 @@ export { default as ClipboardTextOutlineIcon } from './icons/ClipboardTextOutlin
 export { default as BullseyeArrowIcon } from './icons/BullseyeArrowIcon';
 export { default as MessageProcessingOutlineIcon } from './icons/MessageProcessingOutlineIcon';
 export { default as BookOpenVariantOutlineIcon } from './icons/BookOpenVariantOutlineIcon';
+export { getTextareaCharRect } from './utils/textareaCharRect';
+export type { CharRect } from './utils/textareaCharRect';

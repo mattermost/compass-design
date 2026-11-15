@@ -1,12 +1,12 @@
-import { useCallback, useRef, type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
+import { MessageInput, getTextareaCharRect } from '@mattermost/compass-proto';
 import {
-  AnchoredPopup,
-  MessageInput,
-  getTextareaCharRect,
-} from '@mattermost/compass-proto';
+  useAnchoredPopupPortal,
+  type AnchoredPopupAnchor,
+} from '@mattermost/compass-ui/hooks/use-anchored-popup-portal';
 import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import {
@@ -173,18 +173,18 @@ const DEMOS: Record<
   },
 };
 
-/** Popup width: the list's 480px max, less the viewport margins. */
-const POPUP_WIDTH = 'min(480px, calc(100vw - 16px))';
+/** The list's 480px max, less the viewport margins. */
+const popupWidth = () => Math.min(480, window.innerWidth - 16);
 
 /**
  * A suggestion list open above the proto Message Input, as it sits in a
- * channel. The list portals to the body and floats on top of the page,
- * positioned horizontally at the trigger character (`@`, `~`, `:` or `/`) that
- * opened it, overlapping the input box's top edge by 4px (`AnchoredPopup` with
- * `getTextareaCharRect`), so the demo
- * reserves empty space above the input for it. Static: the typed text and
- * highlighted row are fixed to show the state, and the field is not wired to
- * the list.
+ * channel. `useAnchoredPopupPortal` portals it to the body and floats it on
+ * top of the page, always above (`side="above"`, never flipping), overlapping
+ * the input box's top edge by 4px (`gap={-4}`) and placed horizontally at the
+ * trigger character (`@`, `~`, `:` or `/`) that opened it. The anchor is a
+ * virtual box built from `getTextareaCharRect` and the input box. The demo
+ * reserves empty space above the input. Static: the typed text and highlighted
+ * row are fixed to show the state, and the field is not wired to the list.
  */
 export default function SuggestionComposerDemo({
   kind,
@@ -196,24 +196,36 @@ export default function SuggestionComposerDemo({
   const demo = DEMOS[kind];
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  // Horizontally at the trigger character, vertically against the input box
-  // (not the text line, which sits inside the box's border and padding).
-  const getAnchorRect = useCallback(() => {
-    const textarea = inputRef.current;
-    const box = boxRef.current?.getBoundingClientRect();
-    if (!textarea || !box) return null;
-    const char = getTextareaCharRect(
-      textarea,
-      demo.text.lastIndexOf(demo.trigger),
-    );
-    // At least 4px in from the input's left edge.
-    return {
-      left: Math.max(char.left, box.left + 4),
-      top: box.top,
-      bottom: box.bottom,
-      width: 0,
-    };
-  }, [demo]);
+  // Horizontally at the trigger character (at least 4px in from the input's
+  // left edge, and on screen), vertically against the input box rather than the
+  // text line, which sits inside the box's border and padding.
+  const anchorRef = useRef<AnchoredPopupAnchor>({
+    getBoundingClientRect: () => {
+      const textarea = inputRef.current;
+      const box = boxRef.current?.getBoundingClientRect();
+      if (!textarea || !box) return new DOMRect();
+      const char = getTextareaCharRect(
+        textarea,
+        demo.text.lastIndexOf(demo.trigger),
+      );
+      const left = Math.max(
+        box.left + 4,
+        Math.min(char.left, window.innerWidth - popupWidth() - 8),
+      );
+      return new DOMRect(left, box.top, 0, box.height);
+    },
+  });
+  const { style, portalRef, renderPortal } = useAnchoredPopupPortal(
+    anchorRef,
+    true,
+    {
+      preferredHeight: 320,
+      side: 'above',
+      gap: -4,
+      matchWidth: false,
+      zIndex: 'var(--z-popover)',
+    },
+  );
   return (
     <div
       style={{
@@ -233,21 +245,19 @@ export default function SuggestionComposerDemo({
           placeholder="Message #ux-design…"
         />
       </div>
-      <AnchoredPopup
-        getAnchorRect={getAnchorRect}
-        // Always above the input, never flipping to fit.
-        flip={false}
-        // Overlaps the input's top edge by 4px.
-        gap={-4}
-        style={{ width: POPUP_WIDTH }}
-        data-testid={`suggestions-${kind}`}
-      >
-        <SuggestionList
-          sections={demo.sections}
-          activeValue={demo.active}
-          listboxLabel="Suggestions"
-        />
-      </AnchoredPopup>
+      {renderPortal(
+        <div
+          ref={portalRef}
+          style={{ ...style, width: popupWidth() }}
+          data-testid={`suggestions-${kind}`}
+        >
+          <SuggestionList
+            sections={demo.sections}
+            activeValue={demo.active}
+            listboxLabel="Suggestions"
+          />
+        </div>,
+      )}
       {children}
     </div>
   );
