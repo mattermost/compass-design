@@ -70,6 +70,11 @@ export interface GlobalHeaderProps {
   product?: GlobalHeaderProduct;
   /** When true and product is Channels, shows the Channels product icon + label. */
   showChannelsBranding?: boolean;
+  /**
+   * When false, hides the product icon + name for every product (use when a Product Rail already
+   * shows the active product). Default: true.
+   */
+  showProductBranding?: boolean;
   /** When true, shows the Upgrade button in the right controls. */
   showUpgradeButton?: boolean;
   /** URL for the signed-in user avatar. Omit for initials fallback. */
@@ -215,6 +220,7 @@ export default function GlobalHeader({
   className = '',
   product = 'channels',
   showChannelsBranding = true,
+  showProductBranding = true,
   showUpgradeButton = false,
   userAvatarSrc,
   userAvatarAlt = 'User',
@@ -237,7 +243,8 @@ export default function GlobalHeader({
   accountActive = false,
 }: GlobalHeaderProps) {
   const isChannels = product === 'channels';
-  const showBrand = isChannels ? showChannelsBranding : true;
+  const showBrand =
+    showProductBranding && (isChannels ? showChannelsBranding : true);
 
   const rootClass = [
     styles['global-header'],

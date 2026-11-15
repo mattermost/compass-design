@@ -48,4 +48,18 @@ describe('ProductShell', () => {
     const c = render(<ProductShell productRail={rail} />);
     expect(c.querySelector('[class*="channels-sidebar"]')).toBeNull();
   });
+
+  it('hides the Global Header product name, unless asked to show it', () => {
+    const hidden = render(<ProductShell productRail={rail} product="boards" />);
+    expect(hidden.querySelector('header')!.textContent).not.toContain('Boards');
+    act(() => root?.unmount());
+    const shown = render(
+      <ProductShell
+        productRail={rail}
+        product="boards"
+        globalHeaderProps={{ showProductBranding: true }}
+      />,
+    );
+    expect(shown.querySelector('header')!.textContent).toContain('Boards');
+  });
 });

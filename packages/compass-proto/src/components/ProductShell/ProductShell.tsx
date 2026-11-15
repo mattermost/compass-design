@@ -34,7 +34,9 @@ export interface ProductShellProps {
 /**
  * Product layout: the desktop shell with the Product Rail in place of the Team
  * Sidebar. Product-agnostic — pass the rail, the product's own sidebar, and its
- * main content. Shares its frame styling with `ChannelShell`.
+ * main content. The Global Header hides its product name (the rail shows it);
+ * pass `globalHeaderProps={{ showProductBranding: true }}` to bring it back.
+ * Shares its frame styling with `ChannelShell`.
  */
 export default function ProductShell({
   product = 'channels',
@@ -60,6 +62,8 @@ export default function ProductShell({
           product={product}
           userAvatarSrc={userAvatarSrc}
           userAvatarAlt={userAvatarAlt}
+          // The Product Rail already shows the active product, so the header drops its name.
+          showProductBranding={false}
           {...globalHeaderProps}
         />
       </div>
