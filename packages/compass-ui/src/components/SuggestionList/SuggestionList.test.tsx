@@ -181,6 +181,29 @@ describe('SuggestionList', () => {
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
+<<<<<<< HEAD
+=======
+  it('marks handled keys with defaultPrevented so a parent handler can skip them', () => {
+    const seen: Array<[string, boolean]> = [];
+    render(
+      <div
+        role="presentation"
+        onKeyDown={(e) => {
+          seen.push([e.key, e.defaultPrevented]);
+        }}
+      >
+        <Composer />
+      </div>,
+    );
+    key(field(), 'Enter');
+    key(field(), 'Enter', { shiftKey: true });
+    expect(seen).toEqual([
+      ['Enter', true],
+      ['Enter', false],
+    ]);
+  });
+
+>>>>>>> origin/main
   it('closes on Escape and marks it handled', () => {
     const onClose = vi.fn();
     render(<Composer onClose={onClose} />);

@@ -5,6 +5,11 @@ channels, `:` for emoji, `/` for slash commands.
 Use it for suggestions tied to a text field that keeps focus. For a form field
 that picks a value, use [Combobox](/components/combobox) instead.
 
+<<<<<<< HEAD
+=======
+import SuggestionComposerDemo from './SuggestionComposerDemo';
+
+>>>>>>> origin/main
 <Divider />
 
 ## Anatomy
@@ -12,13 +17,28 @@ that picks a value, use [Combobox](/components/combobox) instead.
 - <Num>1</Num> **Heading** — optional all-caps group label, such as "Channel
   members" or "Not in channel".
 - <Num>2</Num> **Leading visual** — a 24px User Avatar with presence status, a
+<<<<<<< HEAD
   Team Avatar, or an icon (for example the group icon on `@here`).
+=======
+  Team Avatar, or an icon (for example the group icon on `@everyone`).
+>>>>>>> origin/main
 - <Num>3</Num> **Label** — the text that gets inserted, such as the username.
 - <Num>4</Num> **Secondary label** — muted text beside the label, such as the
   full name.
 - <Num>5</Num> **Trailing label** — muted text at the right edge, such as "Not
   in channel".
 
+<<<<<<< HEAD
+=======
+<AnatomyStage style={{ maxWidth: '640px', margin: '0 auto var(--spacing-m)' }}>
+  <SuggestionComposerDemo kind="mention" />
+</AnatomyStage>
+
+The list opens directly above the Message Input at its width. The specimen
+shows it in context for each trigger: [mentions](/components/suggestion-list/specimen)
+(with groups and "Not in channel"), channels, slash commands and emoji.
+
+>>>>>>> origin/main
 <Divider />
 
 ## Behavior
@@ -42,6 +62,7 @@ focus from the field.
 
 ## Placement
 
+<<<<<<< HEAD
 The host owns open state, the query, and where the list sits, usually directly
 above the composer at its width. Hide the list when there are no suggestions.
 
@@ -63,3 +84,10 @@ const s = useSuggestionList({ options, open, onSelect, onClose });
 
 For copy-ready examples, see the
 [Suggestion List specimen page](/components/suggestion-list/specimen).
+=======
+The host owns open state, the query, and where the list sits. It floats above
+the Message Input, placed horizontally at the trigger character (`@`, `~`, `:`
+or `/`) and overlapping the top edge of the input by 4px. It stays above the
+input as the page scrolls and never flips to fit. The list is at most 480px
+wide. Hide it when there are no suggestions.
+>>>>>>> origin/main

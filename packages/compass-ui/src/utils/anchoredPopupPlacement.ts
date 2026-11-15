@@ -21,6 +21,11 @@ export interface AnchoredPopupPlacementOptions {
   maxHeightCap?: number;
   /** Floor so short viewports still show a scrollable list. Default: 120. */
   minHeight?: number;
+  /**
+   * Always use this side instead of flipping to fit. `maxHeight` is then the
+   * room on that side. Default: choose automatically.
+   */
+  forcePlacement?: PopupPlacement;
 }
 
 export interface AnchoredPopupPlacementResult {
@@ -60,7 +65,10 @@ export function computeAnchoredPopupPlacement(
   );
 
   const placement: PopupPlacement =
-    spaceBelow < preferredHeight && spaceAbove > spaceBelow ? 'above' : 'below';
+    options.forcePlacement ??
+    (spaceBelow < preferredHeight && spaceAbove > spaceBelow
+      ? 'above'
+      : 'below');
 
   const available = placement === 'below' ? spaceBelow : spaceAbove;
   const capped =

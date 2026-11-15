@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { SuggestionList } from '@mattermost/compass-ui/components/suggestion-list';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';
@@ -10,10 +11,24 @@ const avatar = (
   name: string,
   status: 'online' | 'away' | 'offline',
 ) => <UserAvatar size="24" src={src} alt="" name={name} status={status} />;
+=======
+import SuggestionComposerDemo, {
+  type SuggestionDemoKind,
+} from './SuggestionComposerDemo';
+import styles from '@/styles/library-demo/components.module.scss';
+
+const EXAMPLES: Array<{ kind: SuggestionDemoKind; label: string }> = [
+  { kind: 'mention', label: 'Mentions (@): members, groups, not in channel' },
+  { kind: 'channel', label: 'Channels (~): public and private' },
+  { kind: 'command', label: 'Slash commands (/)' },
+  { kind: 'emoji', label: 'Emoji (:)' },
+];
+>>>>>>> origin/main
 
 export default function SuggestionListLibrary() {
   return (
     <div className={styles['components__button-block']}>
+<<<<<<< HEAD
       <div className={styles['components__button-row']}>
         <span className={styles['components__instance-label']}>Mentions</span>
         <div style={{ width: 400 }}>
@@ -77,6 +92,16 @@ export default function SuggestionListLibrary() {
           />
         </div>
       </div>
+=======
+      {EXAMPLES.map(({ kind, label }) => (
+        <div key={kind} className={styles['components__button-row']}>
+          <span className={styles['components__instance-label']}>{label}</span>
+          <div style={{ maxWidth: 640, width: '100%' }}>
+            <SuggestionComposerDemo kind={kind} />
+          </div>
+        </div>
+      ))}
+>>>>>>> origin/main
     </div>
   );
 }

@@ -69,3 +69,5 @@ export { default as ClipboardTextOutlineIcon } from './icons/ClipboardTextOutlin
 export { default as BullseyeArrowIcon } from './icons/BullseyeArrowIcon';
 export { default as MessageProcessingOutlineIcon } from './icons/MessageProcessingOutlineIcon';
 export { default as BookOpenVariantOutlineIcon } from './icons/BookOpenVariantOutlineIcon';
+export { getTextareaCharRect } from './utils/textareaCharRect';
+export type { CharRect } from './utils/textareaCharRect';

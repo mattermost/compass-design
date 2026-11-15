@@ -39,7 +39,12 @@ export interface SuggestionListProps extends Omit<
  * text and a trailing label, optionally in headed groups. It is a listbox that
  * never takes focus; the text field keeps focus and drives it through
  * `aria-activedescendant` (see `useSuggestionList`). The host owns open state,
+<<<<<<< HEAD
  * the text query, and where the list sits (typically above the composer).
+=======
+ * the text query, and where the list sits (typically above the composer, next
+ * to the trigger character). The list fills its container up to 480px wide.
+>>>>>>> origin/main
  */
 const SuggestionList = forwardRef<HTMLDivElement, SuggestionListProps>(
   function SuggestionList(

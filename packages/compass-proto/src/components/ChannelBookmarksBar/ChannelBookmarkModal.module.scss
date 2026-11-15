@@ -1,12 +1,32 @@
 .channel-bookmark-modal {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-l);
+  gap: var(--spacing-xxl);
 
   &__file {
+    min-width: 0;
+  }
+
+  &__no-file {
     display: flex;
     align-items: center;
     gap: var(--spacing-m);
+    min-width: 0;
+  }
+
+  // The attachment card sits in a tinted tray with its Edit button beside it.
+  &__attachment {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    min-width: 0;
+    padding: var(--spacing-m);
+    border-radius: var(--radius-m);
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+  }
+
+  &__card {
+    flex: 1 1 auto;
     min-width: 0;
   }
 
@@ -23,10 +43,11 @@
     }
   }
 
-  // Sits under the title field, tucked closer than the form's field gap.
+  // Sits under the title field, tucked to 6px below it (the form's field gap
+  // is larger).
   &__remove-emoji {
     display: flex;
-    margin-top: calc(-1 * var(--spacing-s));
+    margin-top: calc(var(--spacing-xxs) - var(--spacing-xxl));
   }
 
   // Square control inside the title field: equal 4px inset from the top, left,
