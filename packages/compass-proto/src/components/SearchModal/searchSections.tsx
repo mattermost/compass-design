@@ -356,6 +356,7 @@ export function buildModeContent({
     sections,
     actions,
     removers,
-    noResults: typing && sections.length === 0,
+    // Agents has no local results, and Messages searches on Enter.
+    noResults: typing && sections.length === 0 && mode !== 'agents',
   };
 }

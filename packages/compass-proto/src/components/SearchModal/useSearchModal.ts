@@ -52,12 +52,16 @@ export function useSearchModal({
   });
 
   // Without `autoHighlight`, the highlight is only "engaged" once the user
-  // arrows into the list; typing or reopening resets it (state is tied to the
-  // key it was set under).
+  // arrows into the list. Any change to the text (or to open) resets it, even
+  // if the text later returns to an earlier value.
   const engageKey = `${open}\u0000${query}`;
-  const [engagedKey, setEngagedKey] = useState<string>();
+  const [engagement, setEngagement] = useState({ key: engageKey, on: false });
+  if (engagement.key !== engageKey) {
+    setEngagement({ key: engageKey, on: false });
+  }
+  const engagedByUser = engagement.key === engageKey && engagement.on;
   const hasRows = sections.some((s) => s.options.length > 0);
-  const engaged = hasRows && (autoHighlight || engagedKey === engageKey);
+  const engaged = hasRows && (autoHighlight || engagedByUser);
 
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (!open || event.defaultPrevented || event.nativeEvent.isComposing)
@@ -69,7 +73,7 @@ export function useSearchModal({
       // The first press turns the highlight on: ArrowDown lands on the first
       // row, ArrowUp wraps to the last (the list starts on the first row).
       if (!engaged) {
-        setEngagedKey(engageKey);
+        setEngagement({ key: engageKey, on: true });
         if (event.key === 'ArrowDown') {
           event.preventDefault();
           return;
@@ -120,7 +124,7 @@ export function useSearchModal({
       listboxId: list.listboxId,
       activeValue: engaged ? list.activeValue : undefined,
       onActiveValueChange: (value: string) => {
-        setEngagedKey(engageKey);
+        setEngagement({ key: engageKey, on: true });
         list.setActiveValue(value);
       },
     },

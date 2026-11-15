@@ -613,6 +613,71 @@ describe('review regressions', () => {
   });
 });
 
+describe('coderabbit review', () => {
+  it('starts on an offered mode when initialMode is not offered', () => {
+    open({ modes: ['messages', 'files'] });
+    expect(input().getAttribute('placeholder')).toBe('Search messages');
+  });
+
+  it('Agents: typing shows no "No results found"', () => {
+    open({ initialMode: 'agents' });
+    type('hello');
+    expect(document.body.textContent).not.toContain('No results found');
+  });
+
+  it('Agents: submits the displayed agent when the picked one disappears', () => {
+    const onSubmit = vi.fn();
+    render(
+      <SearchModal
+        open
+        onClose={() => {}}
+        initialMode="agents"
+        data={data}
+        onSubmit={onSubmit}
+      />,
+    );
+    act(() =>
+      (document.querySelector('[aria-haspopup="menu"]') as HTMLElement).click(),
+    );
+    act(() =>
+      (
+        Array.from(document.querySelectorAll('[role="menu"] button')).find(
+          (b) => b.textContent?.includes('Arjun'),
+        ) as HTMLElement
+      ).click(),
+    );
+    act(() =>
+      root!.render(
+        <SearchModal
+          open
+          onClose={() => {}}
+          initialMode="agents"
+          data={{ ...data, agents: [data.agents![0]] }}
+          onSubmit={onSubmit}
+        />,
+      ),
+    );
+    type('hi');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ agentId: 'aiko' }),
+    );
+  });
+
+  it('Messages: returning to an earlier query does not restore the highlight', () => {
+    const onSubmit = vi.fn();
+    open({ initialMode: 'messages', onSubmit });
+    type('launch');
+    press(input(), 'ArrowDown');
+    expect(input().getAttribute('aria-activedescendant')).not.toBeNull();
+    type('la');
+    type('launch');
+    expect(input().getAttribute('aria-activedescendant')).toBeNull();
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalled();
+  });
+});
+
 describe('team selector', () => {
   const teams = [
     { id: 'a', name: 'Alpha' },

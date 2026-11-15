@@ -174,12 +174,16 @@ function SearchModalPanel({
 }: PanelProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const teamRef = useRef<HTMLSpanElement>(null);
-  const [mode, setMode] = useState<SearchMode>(initialMode);
+  // Start on an offered mode, even if `initialMode` isn't one of them.
+  const [mode, setMode] = useState<SearchMode>(
+    modes.includes(initialMode) ? initialMode : (modes[0] ?? initialMode),
+  );
   const [query, setQuery] = useState('');
   const [chips, setChips] = useState<string[]>([]);
   const [pickedAgent, setPickedAgent] = useState<string>();
   // The first agent until one is picked, even if `data.agents` arrives later.
-  const agentId = pickedAgent ?? data.agents?.[0]?.id;
+  const agentId =
+    data.agents?.find((a) => a.id === pickedAgent)?.id ?? data.agents?.[0]?.id;
   const [teamMenuOpen, setTeamMenuOpen] = useState(false);
   const [localTeam, setLocalTeam] = useState<string | null>(null);
   const activeTeam = teamId !== undefined ? teamId : localTeam;
