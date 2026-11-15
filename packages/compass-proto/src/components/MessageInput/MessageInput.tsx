@@ -123,7 +123,7 @@ export default function MessageInput({
     hostOnKeyDown?.(e);
     if (
       !onSend ||
-      !(e.target instanceof HTMLTextAreaElement) ||
+      e.target !== internalRef.current ||
       e.defaultPrevented ||
       e.key !== 'Enter' ||
       e.shiftKey ||

@@ -116,6 +116,28 @@ describe('MessageInput', () => {
     expect(textarea.value).toBe('@al');
   });
 
+  it('ignores Enter in another textarea rendered inside suggestions', () => {
+    const onSend = vi.fn();
+    const { container } = render(
+      <MessageInput
+        onSend={onSend}
+        suggestions={<textarea aria-label="Suggestion note" />}
+      />,
+    );
+    const composer = container.querySelector(
+      'textarea:not([aria-label="Suggestion note"])',
+    ) as HTMLTextAreaElement;
+    const other = container.querySelector(
+      'textarea[aria-label="Suggestion note"]',
+    ) as HTMLTextAreaElement;
+    type(composer, 'Hello');
+    pressEnter(other);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(composer.value).toBe('Hello');
+    pressEnter(composer);
+    expect(onSend).toHaveBeenCalledWith('Hello');
+  });
+
   it('does not send empty text', () => {
     const onSend = vi.fn();
     const { container } = render(<MessageInput onSend={onSend} />);
