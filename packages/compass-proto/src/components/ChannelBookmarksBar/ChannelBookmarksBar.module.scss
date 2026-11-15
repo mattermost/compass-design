@@ -79,7 +79,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-xxs);
+    box-sizing: border-box;
+    width: var(--icon-size-20);
+    height: var(--icon-size-20);
+    padding: 0;
     border: 0;
     border-radius: var(--radius-s);
     background-color: var(--center-channel-bg, var(--color-neutral-0));
