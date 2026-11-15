@@ -115,6 +115,8 @@ Published overlay primitives (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover
 - **Proto/mobile** shells with backdrop or sheet animation belong in `compass-proto` or playground presenters, not `compass-ui`. Prototype tooltip hosting is `WithTooltip` in `compass-proto` — do not add hover, delay, or portals to published `Tooltip` or `IconButton`.
 - Storybook stories may fake backdrops, anchors, or open state in canvas decorators for preview; that behavior must not leak into the component.
 
+**Required:** every new published compass-ui component (and foundation with published tokens/styles) ships with a Storybook story **plus** a docs guidelines page and specimen page (see the root [AGENTS.md](../../AGENTS.md#required-docs-for-every-new-foundation-component-or-pattern)). A component PR without them is incomplete.
+
 When adding or editing `packages/compass-ui/**/*.stories.tsx`:
 
 - Story `title`s mirror the guidelines sidebar: `Components/{section}/{name}` and `Foundations/Style/{name}`. Keep `packages/compass-ui/src/storybook/titles.ts` aligned with `src/manifests/sections.ts`; use the same string literal in `meta.title`.

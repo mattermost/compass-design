@@ -42,5 +42,5 @@ Rules live in [packages/compass-ui/AGENTS.md → Component API contract](../../.
 2. `englishLiterals.test.ts` passes without growing `ALLOWLIST`.
 3. Behavior tests for each new prop (rendered content, ARIA, callbacks), plus a `translatedContent.test.tsx` case for widened text props.
 4. Default markup unchanged: `markup.test.tsx` snapshots untouched, or add one for the component.
-5. Story and guideline specimen for each new visible state; CHANGELOG `[Unreleased]` entry.
+5. Storybook story, guideline page, and guideline specimen page all exist (required for every new component) and cover each new visible state; CHANGELOG `[Unreleased]` entry.
 6. Run from the repo root: `npm run lint`, `npm run format:check`, `npm run build:ui`, `npm run typecheck --workspace=@mattermost/compass-ui`, `npm test --workspace=@mattermost/compass-ui`, `npm run smoke-test:packages`, `npm run build-storybook`.

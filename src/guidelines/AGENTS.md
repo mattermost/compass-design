@@ -8,14 +8,14 @@ Mobile*, Call*, `ChannelShell`, `Message`, `MessageInput`, `ChannelHeader`, `Cha
 
 ## Adding a topic
 
-Every docs entry is a **topic** in `src/manifests/topics.ts` (prose + optional specimen) at `/<category>/<slug>`.
+Every docs entry is a **topic** in `src/manifests/topics.ts` (guidelines prose + specimen) at `/<category>/<slug>`.
 
 Procedure (step-by-step): use the skill [skills/internal/add-docs-topic/SKILL.md](../../skills/internal/add-docs-topic/SKILL.md).
 
 Invariants:
 
 - Category is one of Foundations / Components / Patterns / Layouts.
-- Every topic needs MDX guidelines; specimen is optional.
+- Every foundation, component, and pattern topic **must** have both MDX guidelines **and** a specimen page. Neither is optional. Published `@mattermost/compass-ui` components also need a Storybook story (see [packages/compass-ui/AGENTS.md](../../packages/compass-ui/AGENTS.md)).
 - Sidebar grouping lives in `src/manifests/sections.ts`; Foundations bento placement is separate (`FoundationsBento.tsx`).
 
 ## Foundation specimen token rows

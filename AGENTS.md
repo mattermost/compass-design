@@ -11,6 +11,17 @@ Package split (in-repo):
 - **`@mattermost/compass-ui`** — [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md)
 - **`@mattermost/compass-proto`** — [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md)
 
+## Required docs for every new foundation, component, or pattern
+
+This is a **must**, not a nice-to-have. Adding (or promoting) a foundation, component, or pattern is not done until all of these exist:
+
+1. **Guidelines page** — `src/guidelines/<category>/<slug>/<slug>.guideline.mdx`.
+2. **Specimen page** — `src/guidelines/<category>/<slug>/<slug>.specimen.tsx`, showing the real states and variants.
+3. **Topic registration** — a `Topic` in `src/manifests/topics.ts` (with `guidelinePage` **and** `specimenPage`) and, where a sidebar group fits, a slug in `src/manifests/sections.ts`.
+4. **Storybook story — if it is part of `@mattermost/compass-ui`** (published components, and foundations with published tokens/styles): `*.stories.tsx` next to the source, title per `titles.ts` / `sections.ts`. Proto-only (`@mattermost/compass-proto`) additions do not get Storybook (see [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md)), but they still need 1–3.
+
+Procedure: [skills/internal/add-docs-topic/SKILL.md](skills/internal/add-docs-topic/SKILL.md). Do not open a PR that adds one of these without the pages (and story, where required); if the PR is a partial slice, say what is missing and why in the PR body.
+
 ## Building new components
 
 Before writing new UI, audit `src/components/` (and Compass UI). Reuse an existing component when it already covers the need — especially when the name matches Figma. Only build a new sub-component when nothing suitable exists.

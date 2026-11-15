@@ -16,6 +16,10 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 
 Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `ChannelSidebarItem`, `TourPoint`, `PopoverMenu` / `MenuItem`, etc.
 
+## Docs
+
+Proto composites that are patterns or layouts still need a docs **guidelines page and specimen page** registered in `src/manifests/topics.ts` (see the root [AGENTS.md](../../AGENTS.md#required-docs-for-every-new-foundation-component-or-pattern)). Proto does not get Storybook — Storybook documents published `@mattermost/compass-ui` only.
+
 ## Changelog
 
 Record proto changes (renamed props, new variants, etc.) in [CHANGELOG.md](./CHANGELOG.md), under `[Unreleased]` with the date they land (`YYYY-MM-DD`, newest first). `compass-proto` is unpublished, so it has no release sections. Do not put proto changes in `packages/compass-ui/CHANGELOG.md`, which covers the published `@mattermost/compass-ui` package only. The `Changelog` workflow only checks published compass-ui source, not this file.
