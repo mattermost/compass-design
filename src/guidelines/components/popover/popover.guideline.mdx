@@ -1,0 +1,91 @@
+import { Popover } from '@mattermost/compass-ui/components/popover';
+
+Popover is a general surface for a small panel of arbitrary content — a
+filter panel, a quick-edit form, a help card — that sits next to the control
+that opened it. It is chrome: border, fill, elevation, an optional header and
+footer, and the open and close motion. The host decides where it goes and when
+it is open.
+
+<Divider />
+
+## Anatomy
+
+- <Num>1</Num> **Title** — optional heading. Sentence case, a few words. It
+  names the dialog for assistive tech.
+- <Num>2</Num> **Close** — optional `×` Icon Button, shown when `onClose` is
+  passed.
+- <Num>3</Num> **Body** — any content. Compose with form fields, text, or lists.
+- <Num>4</Num> **Footer** — optional row of Buttons, right-aligned.
+
+<AnatomyStage>
+  <Popover
+    title="Filter results"
+    onClose={() => {}}
+    manageFocus={false}
+    footer={<span>Footer actions</span>}
+  >
+    Body content goes here.
+  </Popover>
+</AnatomyStage>
+
+<Divider />
+
+## Sizes
+
+| Size   | Width | Use when                                 |
+| ------ | ----- | ---------------------------------------- |
+| Small  | 240px | A short list or a single control.        |
+| Medium | 320px | Default — a small form or a help card.   |
+| Large  | 400px | A denser panel with two-column controls. |
+
+<Divider />
+
+## Which surface
+
+- Rows of choices: [Popover Menu](/patterns/popover-menu).
+- A short, dismissable message: [Popover Notice](/components/popover-notice).
+- A user profile card: [Profile Popover](/patterns/profile-popover).
+- Anything else that is a small anchored panel: Popover.
+
+Popover is not a modal. If the task needs a scrim, a focus trap or
+confirmation, use [Modal](/patterns/modal).
+
+<Divider />
+
+## Behavior
+
+Popover follows the Compass overlay split. It owns what belongs to the
+surface itself and leaves the rest to the host.
+
+**Popover owns** (each opt-out):
+
+- **Role and name** — `role="dialog"`, labelled by the title. Pass
+  `aria-label` when there is no title.
+- **Initial focus** — focus moves into the popover on open: the root, or
+  `initialFocusRef`. Opt out with `manageFocus={false}`.
+- **Escape** — calls `onClose`, skipped when an inner widget already handled
+  it. Opt out with `closeOnEscape={false}`.
+- **Focus restore** — focus returns to the trigger when the popover closes,
+  unless the user has already moved focus somewhere else.
+- **Motion** — with the controlled `open` prop, scale 90% → 100% with fade in,
+  the reverse on exit; it stays mounted through the exit, then calls
+  `onExited`.
+
+**The host owns:**
+
+- Open and close state.
+- The anchor, placement and viewport flip.
+- The portal and stacking.
+- Outside-click and scroll behavior.
+- Hover or click on the trigger, and the trigger's `aria-expanded` and
+  `aria-controls`.
+
+There is no focus trap: the popover is non-modal, and Tab can leave it. The
+host closes it on outside-click or focus leaving, as the product needs.
+
+<Divider />
+
+## Implementation
+
+For props and copy-ready examples, see the
+[Popover specimen page](/components/popover/specimen).

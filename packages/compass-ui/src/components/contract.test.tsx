@@ -12,6 +12,7 @@ import GlobalBanner from './GlobalBanner/GlobalBanner';
 import Modal from './Modal/Modal';
 import ModalOverlay from './Modal/ModalOverlay';
 import ModalHeader from './ModalHeader/ModalHeader';
+import Popover from './Popover/Popover';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import ProgressBar from './ProgressBar/ProgressBar';
 import PasswordInput from './PasswordInput/PasswordInput';
@@ -73,6 +74,11 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
     <AdminPanelFooter leftActions={<span>Action</span>} {...a} />
   ),
   Toast: (a) => <Toast message="Saved" {...a} />,
+  Popover: (a) => (
+    <Popover title="Filter" {...a}>
+      Body
+    </Popover>
+  ),
   PopoverNotice: (a) => (
     <PopoverNotice title="New" {...a}>
       Body
@@ -176,6 +182,14 @@ const BUTTON_CASES: Record<
       <TourPoint title="Tip" onClose={on} closeButtonProps={p}>
         Body
       </TourPoint>
+    ),
+  },
+  'Popover closeButtonProps': {
+    label: 'Close',
+    render: (p, on) => (
+      <Popover title="Filter" onClose={on} closeButtonProps={p}>
+        Body
+      </Popover>
     ),
   },
   'PopoverNotice closeButtonProps': {

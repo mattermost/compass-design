@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`Popover` component ([#243](https://github.com/mattermost/compass-design/issues/243)):** a general content surface for a small panel anchored to a trigger (filter panel, quick-edit form, help card), exported from `@mattermost/compass-ui/components/popover`. Props: `title`, `size` (`'small' | 'medium' | 'large'`, default `'medium'`), `footer`, `onClose` (shows the close button; `closeLabel`, default "Close", and `closeButtonProps`), controlled `open` + `onExited` with the popover transition, `closeOnEscape`, `manageFocus` and `initialFocusRef`. Renders a non-modal `role="dialog"` named by `title`. Chrome and surface a11y only: the host owns the anchor, positioning, portal, stacking and outside-click. No focus trap. New component, no change to existing markup.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

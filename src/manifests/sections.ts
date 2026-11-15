@@ -131,7 +131,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Layout and Containers',
-      slugs: ['divider', 'empty-state', 'scrollbar', 'tabs'],
+      slugs: ['divider', 'empty-state', 'popover', 'scrollbar', 'tabs'],
     },
     {
       label: 'Messaging',

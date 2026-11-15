@@ -28,6 +28,7 @@ import NewMessageBanner from './NewMessageBanner/NewMessageBanner';
 import PaginationDots from './PaginationDots/PaginationDots';
 import PermalinkPreview from './PermalinkPreview/PermalinkPreview';
 import PinnedSavedIndicators from './PinnedSavedIndicators/PinnedSavedIndicators';
+import Popover from './Popover/Popover';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import ProfilePopover from './ProfilePopover/ProfilePopover';
 import ReactionsRow from './ReactionsRow/ReactionsRow';
@@ -82,6 +83,15 @@ const BUTTON_NAME_CASES: Array<{
       <TourPoint title="T" onClose={noop} closeLabel={l}>
         Body
       </TourPoint>
+    ),
+  },
+  {
+    name: 'Popover closeLabel',
+    english: 'Close',
+    render: (l) => (
+      <Popover title="P" onClose={noop} closeLabel={l}>
+        Body
+      </Popover>
     ),
   },
   {
