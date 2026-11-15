@@ -119,12 +119,12 @@
     @include visually-hidden;
   }
 
-  // The mention badge and the unread dot share one centre point (top-right of the icon chip), so
-  // they line up whatever the badge's width: both are positioned by their centre.
+  // Both are positioned by their centre, so the badge stays put whatever its width. The unread dot
+  // sits on the anchor; the mention badge's centre is 2px down and 2px left of it.
   &__mention-badge {
     position: absolute;
-    top: var(--product-rail-badge-center-y);
-    left: var(--product-rail-badge-center-x);
+    top: calc(var(--product-rail-badge-center-y) + 2px);
+    left: calc(var(--product-rail-badge-center-x) - 2px);
     transform: translate(-50%, -50%);
     min-width: 18px;
     height: 16px;

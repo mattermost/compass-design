@@ -21,7 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
-- **2026-11-15 · Product Rail mention badge and unread dot share one centre:** both are positioned by their centre at the top-right of the icon chip, so they line up whatever the badge's width (the badge moved about 2px left and 1px up). Part of #273.
+- **2026-11-15 · Product Rail mention badge position:** the mention badge is positioned by its centre (so it stays put whatever its width), 2px down and 2px left of the unread dot's centre at the top-right of the icon chip. Part of #273.
 - **2026-11-15 · `GlobalHeader` `showProductBranding`; `ProductShell` hides the header product name:** new `showProductBranding` prop (default `true`, so existing uses are unchanged) hides the product icon and name for any product. `ProductShell` sets it to `false` because the Product Rail already shows the active product; pass `globalHeaderProps={{ showProductBranding: true }}` to restore it. Part of #273.
 - **2026-11-14 · `GlobalHeader` `product` accepts `'agents'`, `'docs'`, `'automation'`:** adds branding (sparkle `creation-outline`, `book-outline`, `lightning-bolt-outline` icons) for the new Product Rail products. Existing values are unchanged. Part of #273.
 - **2026-11-12 · `MobileMessageInput` `variant` values are now lowercase kebab-case (breaking for hosts that passed the old values):** `variant` takes `'root'` and `'reply'` instead of `'Root'` and `'Reply'`, matching the public variant-value convention. Update any `variant="Root"` / `variant="Reply"` usage to the lowercase values; the default is still `'root'`. Nothing else in the component's API changes.
