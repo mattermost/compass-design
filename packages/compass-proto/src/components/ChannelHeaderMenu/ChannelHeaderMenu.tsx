@@ -27,6 +27,11 @@ export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {
    * submenu-style row. The submenu is portaled and positioned against the row.
    */
   onAddBookmark?: (type: BookmarksBarSubmenuChoice) => void;
+  /**
+   * Shows the static "Bookmarks bar" row in its active (submenu open) state.
+   * Only for static previews; ignored when `onAddBookmark` is set.
+   */
+  bookmarksBarActive?: boolean;
 }
 
 /**
@@ -34,6 +39,7 @@ export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {
  */
 export default function ChannelHeaderMenu({
   onAddBookmark,
+  bookmarksBarActive = false,
   className = '',
   ...rest
 }: ChannelHeaderMenuProps) {
@@ -63,6 +69,7 @@ export default function ChannelHeaderMenu({
         ) : (
           <MenuItem
             label="Bookmarks bar"
+            active={bookmarksBarActive}
             leadingVisual={<Icon glyph={<BookmarkOutlineIcon />} size="16" />}
             trailingElement
             trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}

@@ -36,7 +36,7 @@ export function BookmarksEmptyChannelExample() {
 export function BookmarksHeaderMenuExample() {
   return (
     <div className={styles['examples__menus']}>
-      <ChannelHeaderMenu />
+      <ChannelHeaderMenu bookmarksBarActive />
       <PopoverMenu variant="child" className={styles['examples__submenu']}>
         <PopoverMenuGroup>
           <MenuItem

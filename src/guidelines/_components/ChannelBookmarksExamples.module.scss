@@ -13,12 +13,15 @@
   &__menus {
     display: flex;
     align-items: flex-start;
-    gap: var(--spacing-xxxs);
   }
 
   // Lines the submenu up with the "Bookmarks bar" row (5th row of the menu).
   &__submenu {
+    // Overlaps the parent menu by 8px, like the live submenu.
+    position: relative;
+    z-index: 1;
     margin-top: 144px;
+    margin-inline-start: -8px;
   }
 
   // Frame for a static modal: the scrim and dialog are staged inside it.
