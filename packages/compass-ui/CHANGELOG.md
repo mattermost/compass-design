@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`TypingIndicator` ([#265](https://github.com/mattermost/compass-design/issues/265)):** new presentational primitive, three bouncing dots with an optional visible `label` (e.g. "Alice is typing") and a `typingLabel` screen-reader fallback (default "Typing"), exported from the root barrel and `@mattermost/compass-ui/components/typing-indicator`. Renders `role="status"`, passes root attributes through, and stops animating under `prefers-reduced-motion`. The host decides who is typing and when to show it. No existing markup changes.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

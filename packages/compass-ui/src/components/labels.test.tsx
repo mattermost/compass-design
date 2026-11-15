@@ -38,6 +38,7 @@ import SearchTipBanner from './SearchTipBanner/SearchTipBanner';
 import SectionNotice from './SectionNotice/SectionNotice';
 import Select from './Select/Select';
 import Spinner from './Spinner/Spinner';
+import TypingIndicator from './TypingIndicator/TypingIndicator';
 import Tabs from './Tabs/Tabs';
 import TextInput from './TextInput/TextInput';
 import ThreadFooter from './ThreadFooter/ThreadFooter';
@@ -260,6 +261,13 @@ describe('built-in accessible names are overridable', () => {
 });
 
 describe('other overridable messages', () => {
+  it('TypingIndicator typingLabel replaces the "Typing" fallback', () => {
+    const { rerender } = render(<TypingIndicator />);
+    expect(getByRole('status').textContent).toBe('Typing');
+    rerender(<TypingIndicator typingLabel="Schreibt" />);
+    expect(getByRole('status').textContent).toBe('Schreibt');
+  });
+
   it('Spinner keeps aria-label as its override', () => {
     const { rerender } = render(<Spinner />);
     expect(getByRole('status').getAttribute('aria-label')).toBe('Loading');

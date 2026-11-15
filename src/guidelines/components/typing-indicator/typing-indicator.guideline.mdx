@@ -1,0 +1,44 @@
+import { TypingIndicator } from '@mattermost/compass-ui/components/typing-indicator';
+
+A Typing Indicator tells people in a conversation that someone is composing a
+message. It is quiet, lightweight, and disappears as soon as the message sends
+or the person stops typing.
+
+The component only draws the indicator. Your product decides who is typing,
+when to show it, and when to hide it.
+
+<Divider />
+
+## Anatomy
+
+Three dots that bounce in sequence, followed by an optional text label.
+
+<AnatomyStage style={{ gap: '1.5rem', flexWrap: 'wrap' }}>
+  <TypingIndicator label="Alice is typing" />
+  <TypingIndicator />
+</AnatomyStage>
+
+Pass a `label` to name who is typing. Without one, only the dots appear and a
+visually hidden "Typing" is announced to screen readers; override it with
+`typingLabel`.
+
+<Divider />
+
+## Usage
+
+- Place it just above the message input, outside the message list, so the
+  list doesn't shift when it appears.
+- Write the label as a full sentence you can translate ("Alice and Bob are
+  typing"). The component does not build names or plurals for you.
+- Show it for as long as typing events keep arriving, and remove it when the
+  message sends.
+
+<Divider />
+
+## Accessibility
+
+- It renders `role="status"`, a polite live region, so the label is announced
+  when it appears.
+- The dots are decorative and hidden from assistive technology.
+- Under `prefers-reduced-motion`, the dots stop bouncing and stay at a steady
+  opacity.

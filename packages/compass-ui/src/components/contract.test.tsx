@@ -26,6 +26,7 @@ import TextInput from './TextInput/TextInput';
 import TileButton from './TileButton/TileButton';
 import Toast from './Toast/Toast';
 import TourPoint from './TourPoint/TourPoint';
+import TypingIndicator from './TypingIndicator/TypingIndicator';
 
 /**
  * Published composites must put host attributes (`data-*`, `id`, `aria-*`) on
@@ -73,6 +74,7 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
     <AdminPanelFooter leftActions={<span>Action</span>} {...a} />
   ),
   Toast: (a) => <Toast message="Saved" {...a} />,
+  TypingIndicator: (a) => <TypingIndicator label="Alice is typing" {...a} />,
   PopoverNotice: (a) => (
     <PopoverNotice title="New" {...a}>
       Body

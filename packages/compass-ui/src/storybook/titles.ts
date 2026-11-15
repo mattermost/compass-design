@@ -68,6 +68,8 @@ export const TITLE_PROGRESS_PAGINATION_DOTS =
 export const TITLE_PROGRESS_PROGRESS_BAR =
   'Components/Progress Indicators/Progress Bar';
 export const TITLE_PROGRESS_SPINNER = 'Components/Progress Indicators/Spinner';
+export const TITLE_PROGRESS_TYPING_INDICATOR =
+  'Components/Progress Indicators/Typing Indicator';
 
 export const TITLE_STATUS_TAG = 'Components/Status Indicators/Tag';
 export const TITLE_STATUS_SHORTCUT_TAG =

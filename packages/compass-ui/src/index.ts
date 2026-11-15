@@ -65,6 +65,7 @@ export * from './components/SegmentedControl/index';
 export * from './components/Select/index';
 export { default as Spinner } from './components/Spinner/Spinner';
 export type * from './components/Spinner/Spinner';
+export * from './components/TypingIndicator/index';
 export * from './components/StatusBadge/index';
 export * from './components/Switch/index';
 export * from './components/Tabs/index';
