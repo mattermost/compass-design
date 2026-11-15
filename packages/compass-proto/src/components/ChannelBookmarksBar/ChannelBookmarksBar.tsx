@@ -384,6 +384,7 @@ export default function ChannelBookmarksBar({
               <IconButton
                 size="small"
                 padding="compact"
+                className={styles['channel-bookmarks-bar__add']}
                 aria-haspopup="menu"
                 aria-expanded={openMenu === 'add'}
                 icon={<Icon glyph={<PlusIcon />} />}

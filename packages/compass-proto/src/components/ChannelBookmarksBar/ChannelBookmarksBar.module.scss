@@ -30,7 +30,9 @@
     align-items: center;
     gap: var(--spacing-xxs);
     min-width: 0;
-    padding: var(--spacing-xxxxs) var(--spacing-s);
+    box-sizing: border-box;
+    height: var(--icon-size-24);
+    padding: 0 var(--spacing-s);
     border: 0;
     border-radius: var(--radius-s);
     background: transparent;
@@ -103,13 +105,23 @@
   &__trailing {
     position: relative;
     flex: 0 0 auto;
+
+    // Beat IconButton's own size so the plus matches the bookmark buttons.
+    .channel-bookmarks-bar__add {
+      width: var(--icon-size-24);
+      height: var(--icon-size-24);
+      min-width: 0;
+      min-height: 0;
+    }
   }
 
   &__chip {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xxs);
-    padding: var(--spacing-xxs) var(--spacing-s);
+    box-sizing: border-box;
+    height: var(--icon-size-24);
+    padding: 0 var(--spacing-s);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: var(--radius-pill);
     background: transparent;
