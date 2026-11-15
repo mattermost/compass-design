@@ -1267,6 +1267,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/right-sidebar/right-sidebar.specimen'),
   },
   {
+    slug: 'product-rail',
+    name: 'Product Rail',
+    category: 'patterns',
+    description:
+      'Labeled vertical rail for switching between products such as Channels, Playbooks, and Boards.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/product-rail/product-rail.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/product-rail/product-rail.specimen'),
+  },
+  {
     slug: 'team-sidebar',
     name: 'Team Sidebar',
     category: 'patterns',
@@ -1294,6 +1306,16 @@ export const TOPICS: Topic[] = [
   // ===========================================================================
   // Layouts
   // ===========================================================================
+  {
+    slug: 'product',
+    name: 'Product',
+    category: 'layouts',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/layouts/product/product.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/layouts/product/product.specimen'),
+    fullBleedSpecimen: true,
+  },
   {
     slug: 'channel',
     name: 'Channel',

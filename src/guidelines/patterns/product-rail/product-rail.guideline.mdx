@@ -1,0 +1,67 @@
+The Product Rail is an unpublished prototyping composite in
+`@mattermost/compass-proto`. It is a labeled vertical strip for moving between
+Mattermost products such as Channels, Playbooks, and Boards. Each product is a
+tile with an icon and a visible label beneath it, so the destination is clear
+without a tooltip.
+
+The rail uses the same dark sidebar background as the rest of the shell chrome.
+It is not the App Bar, which holds third-party apps and plugins on the right
+edge of the shell.
+
+<Divider />
+
+## Anatomy
+
+The Product Rail is a navigation landmark containing a list of product tiles,
+with optional header (the team button) and footer areas.
+
+<ProductRailAnatomyStage />
+
+- <Num>1</Num> **Team button** — Optional, in the header area above the tiles.
+  Shows the current team on cards that peek out below it when there are more
+  teams, and a dot when another team has unread activity. It opens the team
+  menu, so the rail can stand in for the Team Sidebar.
+- <Num>2</Num> **Product tile** — An icon over a short label. One tile per
+  product.
+- <Num>3</Num> **Badges** — A mention count, or an unread dot when there are
+  unreads without mentions. When both apply, only the mention count shows.
+- <Num>4</Num> **Footer** — Optional area pinned to the bottom, for example
+  settings or help (shown in the figure).
+
+The team menu opens beside the team button: one row per team with its
+avatar, a check on the current team, and a mention count or unread dot on the
+others. An optional last row brings the Team Sidebar back. The host positions
+the menu and handles open and close.
+
+<Divider />
+
+## States
+
+- **Default** — Icon and label in a softened sidebar text color. Hover adds a
+  subtle tint behind the icon.
+- **Selected** — A filled icon chip and full-strength label mark the current
+  product. The tile is exposed to assistive technology as the current
+  page.
+- **Focus** — Keyboard focus shows a visible outline around the tile.
+
+Badge counts are included in each tile's accessible name, for example "Boards,
+3 mentions". Hosts can translate the navigation label and the badge phrases.
+
+<Divider />
+
+## Behavior
+
+Selecting a tile should switch the product shown in the main area. Wire it
+through `onSelect` and your routing or store, and keep `activeId` in sync with
+the current product.
+
+Labels should be one word where possible, because the rail is narrow and long
+labels are truncated with an ellipsis.
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for a live, selectable rail. `ProductRail` takes an
+`items` array and `activeId`; `ProductRailItem` is also exported for custom
+layouts. The rail is not yet a slot on `ChannelShell`.
