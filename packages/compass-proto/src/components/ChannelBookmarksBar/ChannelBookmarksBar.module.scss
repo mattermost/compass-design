@@ -161,6 +161,10 @@
   &__trailing {
     position: relative;
     flex: 0 0 auto;
+    // Flex, not a block holding an inline button: a block adds a text line box,
+    // so the bar's height would depend on the host's inherited line-height.
+    display: flex;
+    align-items: center;
 
     // Beat IconButton's own size so the plus matches the bookmark buttons.
     .channel-bookmarks-bar__add {
