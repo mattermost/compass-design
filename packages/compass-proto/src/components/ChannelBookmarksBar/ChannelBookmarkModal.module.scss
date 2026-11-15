@@ -23,15 +23,14 @@
     }
   }
 
-  &__title-row {
+  // Sits under the title field, tucked closer than the form's field gap.
+  &__remove-emoji {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-s);
+    margin-top: calc(-1 * var(--spacing-s));
   }
 
-  &__title-field {
-    flex: 1 1 auto;
-    min-width: 0;
+  &__emoji {
+    display: inline-flex;
   }
 
   // Portaled to document.body; top/left are set inline from the emoji button.

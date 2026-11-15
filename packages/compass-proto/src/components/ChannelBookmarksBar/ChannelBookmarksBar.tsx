@@ -3,9 +3,12 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
+  type RefObject,
 } from 'react';
+import { createPortal } from 'react-dom';
 import ContentCopyIcon from '@mattermost/compass-icons/components/content-copy';
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
 import FileGenericOutlineIcon from '@mattermost/compass-icons/components/file-generic-outline';
@@ -103,6 +106,94 @@ export interface ChannelBookmarksBarProps extends Omit<
 /** Used until the real controls have been measured. */
 const CONTROL_WIDTH_FALLBACK = 40;
 
+interface AnchoredMenuProps {
+  open: boolean;
+  /** Which edge of the trigger the menu lines up with. Default: `start`. */
+  align?: 'start' | 'end';
+  /** Set on the open menu's layer so outside-press treats it as inside. */
+  portalRef: RefObject<HTMLDivElement | null>;
+  children: ReactNode;
+}
+
+/**
+ * Popover menu portaled to `document.body` and positioned against its
+ * trigger, so it is never clipped by or part of the bar's layout. The parent
+ * must be `position: relative`; a zero-size slot at its bottom edge is the anchor.
+ */
+function AnchoredMenu({
+  open,
+  align = 'start',
+  portalRef,
+  children,
+}: AnchoredMenuProps) {
+  const slotRef = useRef<HTMLSpanElement>(null);
+  const layerRef = useRef<HTMLDivElement>(null);
+  const [style, setStyle] = useState<CSSProperties>({ visibility: 'hidden' });
+
+  useLayoutEffect(() => {
+    if (!open) return undefined;
+    const place = () => {
+      const slot = slotRef.current;
+      const layer = layerRef.current;
+      if (!slot || !layer) return;
+      const rect = slot.getBoundingClientRect();
+      const { offsetWidth: width, offsetHeight: height } = layer;
+      const margin = 8;
+      const gap = 4;
+      const fitsBelow = rect.top + gap + height <= window.innerHeight - margin;
+      const top = fitsBelow
+        ? rect.top + gap
+        : Math.max(margin, rect.top - gap - height - rect.height);
+      const anchorLeft = align === 'end' ? rect.left - width : rect.left;
+      const left = Math.min(
+        Math.max(margin, anchorLeft),
+        Math.max(margin, window.innerWidth - width - margin),
+      );
+      setStyle({ top, left });
+    };
+    place();
+    const ro = new ResizeObserver(place);
+    if (layerRef.current) ro.observe(layerRef.current);
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', place);
+      window.removeEventListener('scroll', place, true);
+    };
+  }, [open, align]);
+
+  return (
+    <>
+      <span
+        ref={slotRef}
+        aria-hidden="true"
+        className={[
+          styles['channel-bookmarks-bar__menu-slot'],
+          align === 'end' && styles['channel-bookmarks-bar__menu-slot--end'],
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      />
+      {createPortal(
+        <div
+          ref={(node) => {
+            layerRef.current = node;
+            if (open) portalRef.current = node;
+          }}
+          className={styles['channel-bookmarks-bar__menu-layer']}
+          style={style}
+        >
+          <PopoverMenu open={open} role="menu">
+            {children}
+          </PopoverMenu>
+        </div>,
+        document.body,
+      )}
+    </>
+  );
+}
+
 function defaultIcon(b: ChannelBookmark): ReactNode {
   if (b.leadingIcon) return b.leadingIcon;
   if (b.emoji) return <Emoji emoji={b.emoji} size="16" />;
@@ -171,7 +262,8 @@ export default function ChannelBookmarksBar({
 
   const closeMenu = useCallback(() => setOpenMenu(null), []);
   const rootRef = useRef<HTMLDivElement>(null);
-  useOutsideClose(rootRef, openMenu !== null, closeMenu);
+  const menuLayerRef = useRef<HTMLDivElement>(null);
+  useOutsideClose(rootRef, openMenu !== null, closeMenu, menuLayerRef);
 
   const visible = bookmarks.slice(0, visibleCount);
   const hidden = bookmarks.slice(visibleCount);
@@ -195,11 +287,7 @@ export default function ChannelBookmarksBar({
     b.labelText ?? (typeof b.label === 'string' ? b.label : '');
 
   const addMenu = (
-    <PopoverMenu
-      open={openMenu === 'add'}
-      className={styles['channel-bookmarks-bar__menu']}
-      role="menu"
-    >
+    <AnchoredMenu open={openMenu === 'add'} portalRef={menuLayerRef}>
       <PopoverMenuGroup>
         <MenuItem
           label={l.addLink}
@@ -218,7 +306,7 @@ export default function ChannelBookmarksBar({
           }}
         />
       </PopoverMenuGroup>
-    </PopoverMenu>
+    </AnchoredMenu>
   );
 
   const toggleAdd = () => setOpenMenu(openMenu === 'add' ? null : 'add');
@@ -282,11 +370,7 @@ export default function ChannelBookmarksBar({
             >
               <Icon glyph={<DotsHorizontalIcon />} size="12" />
             </button>
-            <PopoverMenu
-              open={openMenu === b.id}
-              className={styles['channel-bookmarks-bar__menu']}
-              role="menu"
-            >
+            <AnchoredMenu open={openMenu === b.id} portalRef={menuLayerRef}>
               <PopoverMenuGroup>
                 {canManage && (
                   <MenuItem
@@ -322,7 +406,7 @@ export default function ChannelBookmarksBar({
                   />
                 )}
               </PopoverMenuGroup>
-            </PopoverMenu>
+            </AnchoredMenu>
           </div>
         ))}
         {hidden.length > 0 && (
@@ -339,10 +423,10 @@ export default function ChannelBookmarksBar({
             >
               +{hidden.length}
             </button>
-            <PopoverMenu
+            <AnchoredMenu
               open={openMenu === 'overflow'}
-              className={styles['channel-bookmarks-bar__menu']}
-              role="menu"
+              align="end"
+              portalRef={menuLayerRef}
             >
               <PopoverMenuGroup>
                 {hidden.map((b) => (
@@ -357,7 +441,7 @@ export default function ChannelBookmarksBar({
                   />
                 ))}
               </PopoverMenuGroup>
-            </PopoverMenu>
+            </AnchoredMenu>
           </div>
         )}
         {canManage && empty && (

@@ -9,7 +9,6 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
-import CloseIcon from '@mattermost/compass-icons/components/close';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
@@ -302,42 +301,48 @@ export default function ChannelBookmarkModal({
               }}
             />
           )}
-          <div className={styles['channel-bookmark-modal__title-row']}>
-            <div ref={emojiAnchorRef}>
-              {emoji ? (
-                <EmojiButton
-                  emoji={emoji}
-                  size="medium"
-                  aria-label={l.emoji}
-                  toggled={pickerOpen}
-                  onClick={() => setPickerOpen((o) => !o)}
-                />
-              ) : (
-                <IconButton
-                  aria-label={l.emoji}
-                  icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
-                  toggled={pickerOpen}
-                  onClick={() => setPickerOpen((o) => !o)}
-                />
-              )}
-            </div>
-            {emoji && (
-              <IconButton
-                size="small"
-                padding="compact"
-                aria-label={l.removeEmoji}
-                icon={<Icon glyph={<CloseIcon />} />}
+          <TextInput
+            label={l.name}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            leadingIcon={
+              <span
+                ref={emojiAnchorRef}
+                className={styles['channel-bookmark-modal__emoji']}
+              >
+                {emoji ? (
+                  <EmojiButton
+                    emoji={emoji}
+                    size="x-small"
+                    padding="compact"
+                    aria-label={l.emoji}
+                    toggled={pickerOpen}
+                    onClick={() => setPickerOpen((o) => !o)}
+                  />
+                ) : (
+                  <IconButton
+                    size="x-small"
+                    padding="compact"
+                    aria-label={l.emoji}
+                    icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
+                    toggled={pickerOpen}
+                    onClick={() => setPickerOpen((o) => !o)}
+                  />
+                )}
+              </span>
+            }
+          />
+          {emoji && (
+            <div className={styles['channel-bookmark-modal__remove-emoji']}>
+              <Button
+                emphasis="link"
+                size="x-small"
                 onClick={() => setEmoji(undefined)}
-              />
-            )}
-            <div className={styles['channel-bookmark-modal__title-field']}>
-              <TextInput
-                label={l.name}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
+              >
+                {l.removeEmoji}
+              </Button>
             </div>
-          </div>
+          )}
           {pickerOpen &&
             createPortal(
               // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Escape closes only the picker, not the modal

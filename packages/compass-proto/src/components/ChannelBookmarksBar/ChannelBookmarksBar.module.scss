@@ -161,12 +161,25 @@
     }
   }
 
-  &__menu {
+  // Zero-size anchor at the parent's bottom edge; the portaled menu measures it.
+  &__menu-slot {
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: var(--z-popover, 1000);
-    margin-top: var(--spacing-xxs);
+    width: 0;
+    height: 0;
+    pointer-events: none;
+
+    &--end {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  // Portaled to document.body; top/left are set inline from the anchor.
+  &__menu-layer {
+    position: fixed;
+    z-index: var(--z-menu, 1100);
   }
 
   &__measure {
