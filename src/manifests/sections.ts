@@ -105,6 +105,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'card-button',
         'checkbox',
         'chip',
+        'color-picker',
         'combobox',
         'date-range-picker',
         'dropdown',

@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`ColorPicker` component ([#242](https://github.com/mattermost/compass-design/issues/242)):** pick a color from a swatch palette, with an optional hex field (`showHexInput`) for custom colors. Swatches are native radios in a `radiogroup` (Arrow-key navigation); each has an accessible name, the selected one shows a check drawn in white or dark by WCAG contrast. Props: `colors` (`{ value, label, disabled? }`, default `COLOR_PICKER_DEFAULT_COLORS`), `value` / `defaultValue` / `onChange(hex)`, `size` (`small` | `medium` | `large`), `disabled`, `hexInputLabel` and `invalidHexMessage` (`ReactNode`, English defaults), `name`. Ref goes to the group root. New component, so no existing markup changes. Exported from `@mattermost/compass-ui/components/color-picker`.
+
 ## [0.1.0-alpha.32] - 2026-11-13
 
 ### Fixed

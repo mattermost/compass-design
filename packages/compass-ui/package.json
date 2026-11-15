@@ -144,6 +144,9 @@
       "components/chip": [
         "./dist/components/chip/index.d.ts"
       ],
+      "components/color-picker": [
+        "./dist/components/color-picker/index.d.ts"
+      ],
       "components/combobox": [
         "./dist/components/combobox/index.d.ts"
       ],

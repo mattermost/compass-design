@@ -406,6 +406,16 @@ export const TOPICS: Topic[] = [
     specimenPage: () => import('@/guidelines/components/chip/chip.specimen'),
   },
   {
+    slug: 'color-picker',
+    name: 'Color Picker',
+    category: 'components',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/components/color-picker/color-picker.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/color-picker/color-picker.specimen'),
+  },
+  {
     slug: 'combobox',
     name: 'Combobox',
     category: 'components',
