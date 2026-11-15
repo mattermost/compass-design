@@ -18,12 +18,25 @@ import {
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
 
-export type ChannelHeaderMenuProps = HTMLAttributes<HTMLDivElement>;
+export interface ChannelHeaderMenuProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Whether the channel bookmarks bar is shown. Only used with
+   * `onBookmarksBarToggle`; shows a check on the "Bookmarks bar" row when true.
+   */
+  bookmarksBarVisible?: boolean;
+  /**
+   * Makes the "Bookmarks bar" row a show/hide toggle (a checkable menu item)
+   * instead of the static submenu-style row. Default: static row.
+   */
+  onBookmarksBarToggle?: () => void;
+}
 
 /**
  * Channel header overflow menu — settings, members, more actions, and archive.
  */
 export default function ChannelHeaderMenu({
+  bookmarksBarVisible = false,
+  onBookmarksBarToggle,
   className = '',
   ...rest
 }: ChannelHeaderMenuProps) {
@@ -48,12 +61,23 @@ export default function ChannelHeaderMenu({
           trailingElement
           trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
         />
-        <MenuItem
-          label="Bookmarks bar"
-          leadingVisual={<Icon glyph={<BookmarkOutlineIcon />} size="16" />}
-          trailingElement
-          trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
-        />
+        {onBookmarksBarToggle ? (
+          <MenuItem
+            role="menuitemcheckbox"
+            aria-checked={bookmarksBarVisible}
+            label="Bookmarks bar"
+            leadingVisual={<Icon glyph={<BookmarkOutlineIcon />} size="16" />}
+            trailingElement={bookmarksBarVisible}
+            onClick={onBookmarksBarToggle}
+          />
+        ) : (
+          <MenuItem
+            label="Bookmarks bar"
+            leadingVisual={<Icon glyph={<BookmarkOutlineIcon />} size="16" />}
+            trailingElement
+            trailingVisual={<Icon glyph={<ChevronRightIcon />} size="16" />}
+          />
+        )}
       </PopoverMenuGroup>
       <PopoverMenuDivider />
       <PopoverMenuGroup>

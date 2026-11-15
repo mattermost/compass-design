@@ -61,6 +61,44 @@
     background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
   }
 
+  // Drag-to-reorder: the dragged item dims; a bar on the near side of the item
+  // under the pointer shows where it will land (logical sides, so RTL flips).
+  &__item--dragging {
+    opacity: var(--opacity-48);
+  }
+
+  &__item--drop-before::before,
+  &__item--drop-after::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--spacing-xxxxs);
+    border-radius: var(--radius-pill);
+    background-color: var(--button-bg);
+    pointer-events: none;
+  }
+
+  &__item--drop-before::before {
+    inset-inline-start: calc(-1 * var(--spacing-xxxs));
+  }
+
+  &__item--drop-after::after {
+    inset-inline-end: calc(-1 * var(--spacing-xxxs));
+  }
+
+  // Screen-reader-only announcements (reorder results).
+  &__live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   &__icon {
     display: inline-flex;
     flex-shrink: 0;

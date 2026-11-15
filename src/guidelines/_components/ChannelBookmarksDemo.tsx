@@ -69,12 +69,15 @@ export interface ChannelBookmarksDemoProps extends Pick<
   'canManage'
 > {
   initial?: ChannelBookmark[];
+  /** Hides the bar (state is kept). Default: true. */
+  visible?: boolean;
 }
 
-/** Stateful bar + modal for docs specimens: add (link / file), edit, delete. */
+/** Stateful bar + modal for docs specimens: add (link / file), edit, delete, reorder. */
 export default function ChannelBookmarksDemo({
   initial = SAMPLE_BOOKMARKS,
   canManage,
+  visible = true,
 }: ChannelBookmarksDemoProps) {
   const [bookmarks, setBookmarks] = useState(initial);
   const [modal, setModal] = useState<ModalState>({ open: false, type: 'link' });
@@ -104,12 +107,15 @@ export default function ChannelBookmarksDemo({
       ? modal.editing.label
       : undefined);
 
+  if (!visible) return null;
+
   return (
     <>
       <ChannelBookmarksBar
         bookmarks={bookmarks}
         canManage={canManage}
         onAdd={(type) => setModal({ open: true, type })}
+        onReorder={setBookmarks}
         onEdit={(b) =>
           setModal({ open: true, type: b.type ?? 'link', editing: b })
         }

@@ -30,6 +30,7 @@ import {
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import { WithTooltip } from '../WithTooltip';
 import { computeVisibleCount } from './computeVisibleCount';
+import { dropIndex, moveItem } from './reorder';
 import styles from './ChannelBookmarksBar.module.scss';
 
 export interface ChannelBookmark {
@@ -68,9 +69,16 @@ export interface ChannelBookmarksBarLabels {
   edit?: string;
   copyLink?: string;
   delete?: string;
+  /**
+   * Screen-reader announcement after a bookmark is reordered (position is
+   * 1-based). Default: "{name}, moved to position {n} of {total}".
+   */
+  reordered?: (name: string, position: number, total: number) => string;
 }
 
 const DEFAULT_LABELS: Required<ChannelBookmarksBarLabels> = {
+  reordered: (name, position, total) =>
+    `${name}, moved to position ${position} of ${total}`,
   bar: 'Channel bookmarks',
   add: 'Add a bookmark',
   addBookmark: 'Add bookmark',
@@ -100,6 +108,12 @@ export interface ChannelBookmarksBarProps extends Omit<
   onEdit?: (bookmark: ChannelBookmark) => void;
   onCopyLink?: (bookmark: ChannelBookmark) => void;
   onDelete?: (bookmark: ChannelBookmark) => void;
+  /**
+   * Makes the visible bookmarks reorderable (when `canManage`): drag one onto
+   * another, or press Alt + Arrow Left / Right on a focused bookmark. Called with
+   * the full list in its new order.
+   */
+  onReorder?: (bookmarks: ChannelBookmark[]) => void;
   /** Overrides English defaults (pass translated strings). */
   labels?: ChannelBookmarksBarLabels;
   className?: string;
@@ -287,6 +301,7 @@ export default function ChannelBookmarksBar({
   onEdit,
   onCopyLink,
   onDelete,
+  onReorder,
   labels,
   className = '',
   ...rest
@@ -298,6 +313,11 @@ export default function ChannelBookmarksBar({
   const overflowChipRef = useRef<HTMLButtonElement>(null);
   const [visibleCount, setVisibleCount] = useState(bookmarks.length);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [dropAt, setDropAt] = useState<{ id: string; after: boolean } | null>(
+    null,
+  );
+  const [announcement, setAnnouncement] = useState('');
 
   useLayoutEffect(() => {
     const row = rowRef.current;
@@ -357,6 +377,35 @@ export default function ChannelBookmarksBar({
     setOpenMenu(null);
     onDelete?.(b);
     parkFocus(fromOverflow);
+  };
+
+  const canReorder = canManage && Boolean(onReorder);
+  const isRtl = () =>
+    rowRef.current
+      ? getComputedStyle(rowRef.current).direction === 'rtl'
+      : false;
+
+  const reorderTo = (id: string, to: number) => {
+    const from = bookmarks.findIndex((x) => x.id === id);
+    if (from < 0 || from === to) return;
+    const next = moveItem(bookmarks, from, to);
+    if (next === bookmarks) return;
+    const landed = next.findIndex((x) => x.id === id);
+    onReorder?.(next);
+    const moved = bookmarks[from];
+    const name =
+      moved.labelText ?? (typeof moved.label === 'string' ? moved.label : '');
+    setAnnouncement(l.reordered(name, landed + 1, next.length));
+    // Re-inserting DOM nodes drops focus; hand it back to the moved bookmark,
+    // or to the overflow chip if it moved out of view.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const moved = rootRef.current?.querySelector<HTMLElement>(
+          `[data-bookmark-id="${CSS.escape(id)}"] a, [data-bookmark-id="${CSS.escape(id)}"] > button`,
+        );
+        (moved ?? overflowChipRef.current)?.focus();
+      }),
+    );
   };
 
   const activate = (b: ChannelBookmark) => {
@@ -425,19 +474,70 @@ export default function ChannelBookmarksBar({
     >
       <div ref={rowRef} className={styles['channel-bookmarks-bar__row']}>
         {visible.map((b) => (
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- drag handlers on the wrapper; the focusable controls inside carry the semantics, and Alt+Arrow reorders from them
           <div
             key={b.id}
+            data-bookmark-id={b.id}
+            draggable={canReorder}
             className={[
               styles['channel-bookmarks-bar__item'],
               openMenu === itemMenu(b.id) &&
                 styles['channel-bookmarks-bar__item--active'],
+              dragId === b.id &&
+                styles['channel-bookmarks-bar__item--dragging'],
+              dropAt?.id === b.id &&
+                styles[
+                  `channel-bookmarks-bar__item--drop-${dropAt.after ? 'after' : 'before'}`
+                ],
             ]
               .filter(Boolean)
               .join(' ')}
+            onDragStart={(e) => {
+              if (!canReorder) return;
+              e.dataTransfer.effectAllowed = 'move';
+              // Firefox only starts a drag when data is set.
+              e.dataTransfer.setData('text/plain', b.id);
+              setOpenMenu(null);
+              setDragId(b.id);
+            }}
+            onDragOver={(e) => {
+              if (!dragId || dragId === b.id) return;
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+              const rect = e.currentTarget.getBoundingClientRect();
+              const pastMiddle = e.clientX > rect.left + rect.width / 2;
+              const after = isRtl() ? !pastMiddle : pastMiddle;
+              if (dropAt?.id !== b.id || dropAt.after !== after) {
+                setDropAt({ id: b.id, after });
+              }
+            }}
+            onDrop={(e) => {
+              if (!dragId || dragId === b.id) return;
+              e.preventDefault();
+              const from = bookmarks.findIndex((x) => x.id === dragId);
+              const target = bookmarks.findIndex((x) => x.id === b.id);
+              const after = dropAt?.id === b.id ? dropAt.after : false;
+              reorderTo(dragId, dropIndex(from, target, after));
+              setDragId(null);
+              setDropAt(null);
+            }}
+            onDragEnd={() => {
+              setDragId(null);
+              setDropAt(null);
+            }}
+            onKeyDown={(e) => {
+              if (!canReorder || !e.altKey) return;
+              if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+              e.preventDefault();
+              const forward = (e.key === 'ArrowRight') !== isRtl();
+              const from = bookmarks.findIndex((x) => x.id === b.id);
+              reorderTo(b.id, from + (forward ? 1 : -1));
+            }}
           >
             {b.href ? (
               <a
                 className={styles['channel-bookmarks-bar__link']}
+                draggable={false}
                 href={b.href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -614,6 +714,13 @@ export default function ChannelBookmarksBar({
             {addMenu}
           </div>
         )}
+      </div>
+      <div
+        role="status"
+        aria-live="polite"
+        className={styles['channel-bookmarks-bar__live']}
+      >
+        {announcement}
       </div>
       {/* Off-screen copy used only to measure natural widths. */}
       <div

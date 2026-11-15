@@ -82,6 +82,22 @@ chosen emoji replaces the default icon in the bar, and can be removed again.
 Editing reuses the modal for the bookmark's type with its values filled in and
 a Save button.
 
+## Reordering
+
+Members who can manage bookmarks can reorder the bookmarks shown in the bar.
+Drag a bookmark onto another: a bar marks where it will land and the dragged
+bookmark dims. From the keyboard, focus a bookmark and press Alt with the
+Left or Right Arrow key to move it one place; the move is announced to screen
+readers and focus stays on the bookmark. Bookmarks in the overflow menu can't
+be dragged, so move one into view by reordering the others, and reordering by
+touch is left to the mobile version.
+
+## Show or hide the bar
+
+The channel header menu has a **Bookmarks bar** row that shows or hides the bar
+for the channel. It is a checkable row: a check means the bar is shown. Hiding
+the bar doesn't remove any bookmarks.
+
 ## Permissions
 
 Members without permission to manage bookmarks still see the bar, open
@@ -89,7 +105,7 @@ bookmarks, and copy links. Add, Edit, and Delete are removed for them.
 
 ## Behavior
 
-- Opening one menu closes any other. Escape and clicking outside close it.
+- Opening one menu closes any other. Escape and clicking outside close it, and focus moves into the menu on open and back to its trigger on close.
 - Long names truncate with an ellipsis; the full name remains the accessible
   name.
 - The bar is a toolbar with a translatable label, and every visible string can
