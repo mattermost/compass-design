@@ -117,6 +117,8 @@ Published overlay primitives (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopover
 
 **Required:** every new published compass-ui component (and foundation with published tokens/styles) ships with a Storybook story **plus** a docs guidelines page and specimen page (see the root [AGENTS.md](../../AGENTS.md#required-docs-for-every-new-foundation-component-or-pattern)). A component PR without them is incomplete.
 
+**Popovers portal in stories too.** Stories that open `EmojiPopover`, `TourPoint`, `PopoverMenu`, `ProfilePopover`, or `PopoverNotice` from a trigger must portal the popover and position it against the trigger, not render it in the story container's flow (see [Popovers always portal](../../AGENTS.md#popovers-always-portal)). The component stays chrome-only; the story plays the host. Static always-open anatomy stories with no trigger may render in place.
+
 When adding or editing `packages/compass-ui/**/*.stories.tsx`:
 
 - Story `title`s mirror the guidelines sidebar: `Components/{section}/{name}` and `Foundations/Style/{name}`. Keep `packages/compass-ui/src/storybook/titles.ts` aligned with `src/manifests/sections.ts`; use the same string literal in `meta.title`.

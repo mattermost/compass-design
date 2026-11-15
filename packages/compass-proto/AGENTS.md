@@ -16,6 +16,10 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 
 Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `ChannelSidebarItem`, `TourPoint`, `PopoverMenu` / `MenuItem`, etc.
 
+## Popovers portal
+
+Any popover, menu, or picker a proto composite opens (`EmojiPopover`, `PopoverMenu`, `ProfilePopover`, `TourPoint`, `PopoverNotice`, …) portals out of the trigger's container and is positioned against the trigger — never in flow or inside the trigger's wrapper. See [Popovers always portal](../../AGENTS.md#popovers-always-portal).
+
 ## Docs
 
 Proto composites that are patterns or layouts still need a docs **guidelines page and specimen page** registered in `src/manifests/topics.ts` (see the root [AGENTS.md](../../AGENTS.md#required-docs-for-every-new-foundation-component-or-pattern)). Proto does not get Storybook — Storybook documents published `@mattermost/compass-ui` only.

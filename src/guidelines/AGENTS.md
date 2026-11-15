@@ -34,6 +34,10 @@ Shared chrome: `.foundations` in `src/styles/library-demo/foundations.module.scs
 - Live UI in docs: wrap in `compass-doc-embed` via `DocUiEmbed`, `AnatomyStage`, or `Preview`.
 - Components must never render bare `<h2>`, `<p>`, `<li>`, etc. without a CSS-module className.
 
+## Popovers in specimens
+
+Specimens, `<Preview>` blocks, and layouts that open a popover (`EmojiPopover`, `TourPoint`, `PopoverMenu`, `ProfilePopover`, `PopoverNotice`, tooltips) must **portal it out of the trigger's container** — never render it in the flow of the demo container. See [Popovers always portal](../../AGENTS.md#popovers-always-portal). Static always-open previews that document the popover's own surface (anatomy/states) may render in place, since there is no trigger.
+
 ## Specimens and MDX code samples
 
 - **Import convention:** always use subpath imports from `@mattermost/compass-ui` — never the root barrel. Map PascalCase component names to kebab-case segments: `Button` → `@mattermost/compass-ui/components/button`, `useExitAnimation` → `@mattermost/compass-ui/hooks/use-exit-animation`. Style sub-exports (`btnStyles`) come from the owning component subpath (e.g. `@mattermost/compass-ui/components/button`). Proto pieces (`ChannelsSidebar`, `channelsSidebarStyles`, menu recipes, etc.) import from `@mattermost/compass-proto` (root barrel only). Split multi-component imports into separate lines. All compass-ui subpath `index.ts` files use **named** re-exports (`export { default as Foo }`), so always use named imports — `import { Divider } from '…/divider'`, never `import Divider from '…/divider'`.
