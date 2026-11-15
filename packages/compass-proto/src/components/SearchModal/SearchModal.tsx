@@ -1,4 +1,4 @@
-import { useRef, type ChangeEvent, type ReactNode } from 'react';
+import { useMemo, useRef, type ChangeEvent, type ReactNode } from 'react';
 import KeyboardReturnIcon from '@mattermost/compass-icons/components/keyboard-return';
 import LightbulbOutlineIcon from '@mattermost/compass-icons/components/lightbulb-outline';
 import { Button } from '@mattermost/compass-ui/components/button';
@@ -33,10 +33,19 @@ export interface SearchModalProps extends SearchModalData, SearchModalLabels {
   /** A row (or a tip modifier) was chosen. The host applies it, usually by editing `query`. */
   onSelect?: (selection: SearchModalSelection) => void;
   /**
-   * Leading header content above the field, such as a `SegmentedControl` of
-   * search modes (All / Messages / Files …) once those exist.
+   * Header content in the title position: a `SegmentedControl` of search modes
+   * (All, Channels, Messages, Files, People, Agents). The dialog shows no
+   * visible title and no close button; `title` only names it for assistive tech.
    */
   headerLeading?: ReactNode;
+  /**
+   * Element the dialog hangs from: the global header's Search field. The dialog
+   * opens centered on it, 8px below its top edge, over a transparent scrim that
+   * still closes on a click. For `GlobalHeader`, pass
+   * `event.currentTarget.parentElement` from `onSearchClick` (the field box).
+   * Without it the dialog sits at the top center of the viewport.
+   */
+  anchor?: HTMLElement | null;
   /** Passed to the `ModalOverlay` scrim (`container`, `zIndex`, …). The host owns the portal node and stacking. */
   overlayProps?: Omit<
     ModalOverlayProps,
@@ -53,16 +62,47 @@ export interface SearchModalProps extends SearchModalData, SearchModalLabels {
  * `SearchInput` and `SuggestionList`. Focus stays in the field; arrow keys move
  * the highlight (`aria-activedescendant`). The host owns `open` and `query`.
  */
+const DIALOG_WIDTH = 704; // Modal size "medium"
+const ANCHOR_OFFSET = 8;
+const VIEWPORT_MARGIN = 8;
+
 export default function SearchModal({
   open,
   onClose,
   onExited,
+  anchor,
   overlayProps,
   ...rest
 }: SearchModalProps) {
+  const container = overlayProps?.container;
+  // Read once per open, not on every keystroke re-render.
+  const placement = useMemo(() => {
+    if (!open || typeof window === 'undefined') return undefined;
+    // A staged scrim (docs frame) is positioned inside its container, so
+    // measure from the container instead of the viewport.
+    const frame = container?.getBoundingClientRect();
+    const originX = frame?.left ?? 0;
+    const originY = frame?.top ?? 0;
+    const width = frame?.width ?? window.innerWidth;
+    const rect = anchor?.getBoundingClientRect();
+    const centerX = rect ? rect.left - originX + rect.width / 2 : width / 2;
+    const left = Math.min(
+      Math.max(centerX - DIALOG_WIDTH / 2, VIEWPORT_MARGIN),
+      Math.max(width - DIALOG_WIDTH - VIEWPORT_MARGIN, VIEWPORT_MARGIN),
+    );
+    const top = rect ? rect.top - originY : 0;
+    return {
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      padding: `${top + ANCHOR_OFFSET}px 0 0 ${left}px`,
+      backgroundColor: 'transparent',
+    } as const;
+  }, [open, anchor, container]);
+
   return (
     <ModalOverlay
       {...overlayProps}
+      style={{ ...placement, ...overlayProps?.style }}
       open={open}
       onClose={onClose}
       onExited={onExited}
@@ -93,7 +133,6 @@ function SearchModalPanel({
   placeholder = 'Search',
   searchLabel = 'Search',
   clearLabel = 'Clear search',
-  closeLabel = 'Close',
   tipLabel = 'Tip: Try',
   enterToSearchLabel = 'Enter to search',
   className,
@@ -131,7 +170,7 @@ function SearchModalPanel({
       open={open}
       size="medium"
       title={title}
-      closeLabel={closeLabel}
+      hideTitle
       bodyPadding="menu"
       headerDivider={false}
       onClose={onClose}

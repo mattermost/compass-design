@@ -93,6 +93,41 @@ describe('SearchModal', () => {
     ]);
   });
 
+  it('names the dialog with the hidden title', () => {
+    render(<Harness title="Recherche" />);
+    const dialog = document.querySelector('[role="dialog"]')!;
+    const name = document.getElementById(
+      dialog.getAttribute('aria-labelledby')!,
+    )!;
+    expect(name.textContent).toBe('Recherche');
+  });
+
+  it('hangs from the anchor: transparent scrim, 8px below its top, centered on it', () => {
+    const anchor = document.createElement('div');
+    anchor.getBoundingClientRect = () =>
+      ({ top: 4, left: 400, width: 200, height: 28 }) as DOMRect;
+    document.body.appendChild(anchor);
+    Object.defineProperty(window, 'innerWidth', {
+      value: 1200,
+      configurable: true,
+    });
+    render(<Harness anchor={anchor} />);
+    const scrim = document.querySelector('[role="dialog"]')!
+      .parentElement as HTMLElement;
+    expect(scrim.style.backgroundColor).toBe('transparent');
+    // top 4 + 8; left = center 500 - 352
+    expect(scrim.style.padding).toBe('12px 0px 0px 148px');
+  });
+
+  it('still closes when the transparent scrim is pressed', () => {
+    const onClose = vi.fn();
+    render(<Harness onClose={onClose} />);
+    const scrim = document.querySelector('[role="dialog"]')!
+      .parentElement as HTMLElement;
+    act(() => scrim.click());
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
   it('renders nothing while closed', () => {
     render(<Harness open={false} />);
     expect(document.querySelector('[role="dialog"]')).toBeNull();

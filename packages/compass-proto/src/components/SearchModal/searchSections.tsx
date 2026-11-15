@@ -51,7 +51,7 @@ export interface SearchModalLabels {
   removeRecentLabel?: string;
   /** Accessible name of the listbox. Default: "Search suggestions". */
   listboxLabel?: string;
-  /** Dialog title (visually the field leads). Default: "Search". */
+  /** Accessible name of the dialog; it is not shown. Default: "Search". */
   title?: ReactNode;
   /** Field placeholder. Default: "Search". */
   placeholder?: string;
@@ -59,8 +59,6 @@ export interface SearchModalLabels {
   searchLabel?: string;
   /** Accessible name of the field's clear button. Default: "Clear search". */
   clearLabel?: string;
-  /** Accessible name of the close button. Default: "Close". */
-  closeLabel?: string;
   /** Footer lead-in before the modifier buttons. Default: "Tip: Try". */
   tipLabel?: ReactNode;
   /** Footer text once there is a query. Default: "Enter to search". */

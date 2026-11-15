@@ -7,9 +7,12 @@ It follows the Messages mode of the Universal Search design. It lives in
 `@mattermost/compass-proto` as a prototyping surface and is not yet published to
 `@mattermost/compass-ui`.
 
-Mode tabs (All, Channels, Files, People, Agents) are planned but not built. The
-header has a slot for them. For jumping straight to a channel or direct message,
-see the Quick Switch Modal.
+Unlike a regular modal it has no visible title and no close button, and it hangs
+from the Search field instead of floating in the middle of the screen. A mode
+control sits where the title would be. Only the Messages mode is designed here;
+the others (All, Channels, Files, People, Agents) are planned for the universal
+search and have no content yet. For jumping straight to a channel or direct
+message, see the Quick Switch Modal.
 
 <Divider />
 
@@ -26,19 +29,32 @@ see the Quick Switch Modal.
   <SearchModalCanvas />
 </AnatomyStage>
 
-- <Num>1</Num> **Search field** — a large search input that keeps focus the
+- <Num>1</Num> **Mode control** — a segmented control in the header, in the
+  place of a title (the dialog is still named for assistive technology). There
+  is no close button: Escape or a click outside dismisses it.
+- <Num>2</Num> **Search field** — a large search input that keeps focus the
   whole time. The arrow keys move the highlight without leaving it, and a clear
   button appears once there is text.
-- <Num>2</Num> **Search options** — modifiers the user can add, with the
+- <Num>3</Num> **Search options** — modifiers the user can add, with the
   modifier in bold followed by what it does (`From:` a specific user).
-- <Num>3</Num> **Recent searches** — past searches with a clock icon. Hovering a
+- <Num>4</Num> **Recent searches** — past searches with a clock icon. Hovering a
   row shows an × to remove it.
-- <Num>4</Num> **Suggestions** — completions for the term being typed, such as
+- <Num>5</Num> **Suggestions** — completions for the term being typed, such as
   people with an avatar and their full name. They replace the other groups while
   they apply.
-- <Num>5</Num> **Footer tip** — modifier buttons ("Tip: Try From: In: On:") that
+- <Num>6</Num> **Footer tip** — modifier buttons ("Tip: Try From: In: On:") that
   add that modifier to the field. Once there is a query it reads "Enter to
   search".
+
+<Divider />
+
+## Placement
+
+The dialog is anchored to the Search field in the Global Header: it opens centered
+on the field, 8px below the field's top edge, so its own search input lands over
+the header's. The scrim behind it is transparent, so the page stays visible, but
+clicking anywhere outside still closes it. Near a screen edge it shifts to stay
+fully on screen.
 
 <Divider />
 
@@ -85,10 +101,17 @@ can be translated. See the Specimen tab for a live example.
 ```tsx
 import { GlobalHeader, SearchModal } from '@mattermost/compass-proto';
 
-<GlobalHeader onSearchClick={() => setOpen(true)} />
+<GlobalHeader
+  onSearchClick={(event) => {
+    setAnchor(event.currentTarget.parentElement);
+    setOpen(true);
+  }}
+/>
 
 <SearchModal
   open={open}
+  anchor={anchor}
+  headerLeading={<SegmentedControl options={modes} value={mode} onChange={setMode} />}
   onClose={() => setOpen(false)}
   query={query}
   onQueryChange={setQuery}
@@ -101,4 +124,6 @@ import { GlobalHeader, SearchModal } from '@mattermost/compass-proto';
 />;
 ```
 
-Pass a `SegmentedControl` of modes as `headerLeading` once more modes exist.
+Pass the `SegmentedControl` of modes as `headerLeading`, and the header's search
+field box as `anchor` (from `onSearchClick`, `event.currentTarget.parentElement`)
+so the dialog hangs from it. `title` names the dialog but is never shown.
