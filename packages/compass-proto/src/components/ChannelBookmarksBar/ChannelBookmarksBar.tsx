@@ -171,20 +171,28 @@ function AnchoredMenu({
     };
   }, [open, align]);
 
-  // Portaled out of the toolbar, so move focus into the menu on open.
+  const focusTrigger = () =>
+    slotRef.current?.parentElement
+      ?.querySelector<HTMLElement>('[aria-haspopup="menu"]')
+      ?.focus();
+
+  // Portaled out of the toolbar, so move focus into the menu on open, and hand
+  // it back to the trigger when the menu closes with focus still inside it
+  // (item chosen, outside press) so it isn't lost when the rows unmount.
   useEffect(() => {
     if (!open) return undefined;
     const frame = requestAnimationFrame(() => {
       layerRef.current?.querySelector<HTMLElement>('button')?.focus();
     });
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      if (layerRef.current?.contains(document.activeElement)) focusTrigger();
+    };
   }, [open]);
 
   const closeToTrigger = () => {
     onClose();
-    slotRef.current?.parentElement
-      ?.querySelector<HTMLElement>('[aria-haspopup="menu"]')
-      ?.focus();
+    focusTrigger();
   };
 
   const onLayerKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -231,6 +239,11 @@ function AnchoredMenu({
           className={styles['channel-bookmarks-bar__menu-layer']}
           style={style}
           onKeyDown={onLayerKeyDown}
+          onClickCapture={(e) => {
+            // Choosing an item: give focus back to the trigger before the item's
+            // own handler runs (it may open a modal that restores focus here).
+            if ((e.target as HTMLElement).closest('button')) focusTrigger();
+          }}
         >
           <PopoverMenu open={open} role="menu">
             {children}

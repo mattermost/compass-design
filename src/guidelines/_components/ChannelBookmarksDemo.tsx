@@ -111,7 +111,10 @@ export default function ChannelBookmarksDemo({
           releaseUrl(b.id);
           setBookmarks((all) => all.filter((x) => x.id !== b.id));
         }}
-        onCopyLink={(b) => void navigator.clipboard?.writeText(b.href ?? '')}
+        onCopyLink={(b) =>
+          // Clipboard access can be denied (permissions, insecure context).
+          void navigator.clipboard?.writeText(b.href ?? '').catch(() => {})
+        }
       />
       <ChannelBookmarkModal
         open={modal.open}
