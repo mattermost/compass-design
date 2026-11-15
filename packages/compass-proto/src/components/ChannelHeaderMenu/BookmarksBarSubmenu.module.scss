@@ -1,0 +1,31 @@
+// Submenu motion (Popover Menu guideline): slide 8px toward the side it opens
+// to while fading, entrance easing in and exit easing out (the exit is the
+// entrance in reverse).
+.bookmarks-bar-submenu {
+  opacity: 0;
+  transition:
+    opacity var(--duration-quick) var(--ease-exit),
+    transform var(--duration-quick) var(--ease-exit);
+
+  // Closed: sitting 8px back toward the parent menu.
+  &--right {
+    transform: translateX(calc(-1 * var(--spacing-xs)));
+  }
+
+  &--left {
+    transform: translateX(var(--spacing-xs));
+  }
+
+  &--open {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-quick) var(--ease-entrance),
+      transform var(--duration-quick) var(--ease-entrance);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+    transition: none;
+  }
+}

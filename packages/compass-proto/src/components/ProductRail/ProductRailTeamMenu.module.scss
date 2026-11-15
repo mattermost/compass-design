@@ -1,0 +1,107 @@
+// Team button and menu for the Product Rail. Ported from the webapp's
+// ProductRailTeamMenu (webapp/channels/src/components/product_rail/product_rail.scss).
+.product-rail-team-button {
+  position: relative;
+  display: flex;
+  margin: 0 0 var(--spacing-xxxs);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-m);
+  background: none;
+  cursor: pointer;
+
+  // Shared focus ring, in the sidebar's accent for contrast on the dark rail.
+  @include focus-ring(var(--sidebar-text-active-border));
+
+  // The webapp's customizations to Team Avatar's background so it reads on the rail: a tint mixed
+  // from the sidebar colors behind initials, and a shadow lifting it off the stacked cards. Team
+  // Avatar exposes no hook for either, so this reaches its inner fallback by structure.
+  &__avatar {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.32);
+
+    > div:first-child > div {
+      background: color-mix(
+        in srgb,
+        var(--sidebar-header-bg) 70%,
+        var(--sidebar-text)
+      );
+    }
+  }
+
+  // Hover follows the webapp, not Team Avatar: the avatar lifts with a ring in the sidebar header
+  // color (cutting a gap to the cards behind it) and a deeper shadow. Team Avatar's own hover
+  // outline and inner border are switched off.
+  &:hover &__avatar {
+    outline-color: transparent;
+    box-shadow:
+      0 0 0 2px var(--sidebar-header-bg),
+      0 2px 4px rgba(0, 0, 0, 0.32);
+
+    > div:first-child::after {
+      border-width: 0;
+    }
+  }
+
+  // The current team on cards that peek out below it, hinting at the other teams.
+  &__stack {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    // Sets the team apart from the items below.
+    margin-bottom: var(--spacing-l);
+  }
+
+  &__card {
+    position: absolute;
+    z-index: 0;
+    top: var(--spacing-xxxs);
+    right: 3px;
+    bottom: calc(-1 * var(--spacing-xxxs));
+    left: 3px;
+    border-radius: var(--radius-m);
+    background: color-mix(
+      in srgb,
+      var(--sidebar-header-bg) 80%,
+      var(--sidebar-text)
+    );
+    box-shadow: var(--elevation-1);
+
+    &--back {
+      top: var(--spacing-xs);
+      right: var(--spacing-xxs);
+      bottom: calc(-1 * var(--spacing-xs));
+      left: var(--spacing-xxs);
+      background: color-mix(
+        in srgb,
+        var(--sidebar-header-bg) 88%,
+        var(--sidebar-text)
+      );
+    }
+  }
+
+  // Ring wrapper around the shared Unread Badge, so the dot reads against the stacked cards.
+  &__dot {
+    position: absolute;
+    z-index: 2;
+    top: -3px;
+    right: -3px;
+    display: flex;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 0 0 2px var(--sidebar-header-bg);
+  }
+}
+
+.product-rail-team-menu {
+  width: 264px;
+
+  // MenuItem right-aligns its trailing slot, so a dot narrower than the 16px check would sit off
+  // the check's centre. A check-sized, centred box puts both in one column.
+  &__unread {
+    display: flex;
+    justify-content: center;
+    width: var(--icon-size-16);
+  }
+}

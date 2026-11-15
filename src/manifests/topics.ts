@@ -1040,6 +1040,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/emoji-popover/emoji-popover.specimen'),
   },
   {
+    slug: 'quick-switch-modal',
+    name: 'Quick Switch Modal',
+    category: 'patterns',
+    description:
+      'Keyboard-first dialog for jumping to a channel, direct message, or group message.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.specimen'),
+  },
+  {
     slug: 'channel-header',
     name: 'Channel Header',
     category: 'patterns',
@@ -1050,6 +1062,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-header/channel-header.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/patterns/channel-header/channel-header.specimen'),
+  },
+  {
+    slug: 'channel-bookmarks-bar',
+    name: 'Channel Bookmarks Bar',
+    category: 'patterns',
+    description:
+      'Quick links under the channel header, with overflow handling, an actions menu, and a create modal.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.specimen'),
   },
   {
     slug: 'mobile-navigation-bar',
@@ -1255,6 +1279,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/right-sidebar/right-sidebar.specimen'),
   },
   {
+    slug: 'product-rail',
+    name: 'Product Rail',
+    category: 'patterns',
+    description:
+      'Labeled vertical rail for switching between products such as Channels, Playbooks, and Boards.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/product-rail/product-rail.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/product-rail/product-rail.specimen'),
+  },
+  {
     slug: 'team-sidebar',
     name: 'Team Sidebar',
     category: 'patterns',
@@ -1282,6 +1318,16 @@ export const TOPICS: Topic[] = [
   // ===========================================================================
   // Layouts
   // ===========================================================================
+  {
+    slug: 'product',
+    name: 'Product',
+    category: 'layouts',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/layouts/product/product.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/layouts/product/product.specimen'),
+    fullBleedSpecimen: true,
+  },
   {
     slug: 'channel',
     name: 'Channel',

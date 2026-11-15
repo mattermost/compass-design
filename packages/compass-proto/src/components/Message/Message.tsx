@@ -4,6 +4,7 @@ import { MessageHeader } from '@mattermost/compass-ui/components/message-header'
 import WithTooltip from '../WithTooltip/WithTooltip';
 import {
   MessageActions,
+  type MessageActionsProps,
   type MessageActionsType,
 } from '@mattermost/compass-ui/components/message-actions';
 import { PinnedSavedIndicators } from '@mattermost/compass-ui/components/pinned-saved-indicators';
@@ -20,6 +21,8 @@ type MessageProps = {
   botLabel?: string;
   /** Hover toolbar context. Default: Center Channel. */
   messageActionsType?: MessageActionsType;
+  /** Extra props for the hover toolbar (e.g. `jumpButtonProps` with `type="search-results"`). `type` is set by `messageActionsType`. */
+  messageActionsProps?: Omit<MessageActionsProps, 'type'>;
   /** When false, the hover Message Actions toolbar is omitted. Default: true. */
   showMessageActions?: boolean;
   /** When true, Pinned + Saved row appears at the top of the message container. */
@@ -55,6 +58,7 @@ export default function Message({
   isBot = false,
   botLabel,
   messageActionsType = 'center-channel',
+  messageActionsProps,
   showMessageActions = true,
   showPinnedSavedIndicators = false,
   className = '',
@@ -109,7 +113,10 @@ export default function Message({
             </div>
             {showMessageActions && (
               <div className={styles['message__actions-slot']}>
-                <MessageActions type={messageActionsType} />
+                <MessageActions
+                  {...messageActionsProps}
+                  type={messageActionsType}
+                />
               </div>
             )}
           </div>

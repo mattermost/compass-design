@@ -26,6 +26,7 @@ export default function StatusBadgeLibrary() {
           <StatusBadge size="small" status="online" />
           <StatusBadge size="medium" status="online" />
           <StatusBadge size="large" status="online" />
+          <StatusBadge size="x-large" status="online" />
         </div>
       </div>
     </>

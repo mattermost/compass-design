@@ -62,6 +62,7 @@ import { ModalAnatomy } from '@/guidelines/_components/ModalSamples';
 import PopoverMenuMotion from '@/guidelines/_components/PopoverMenuMotion';
 import { ChannelHeaderAnatomyStage } from '@/guidelines/_components/ChannelHeaderGuidelineAnatomy';
 import { GlobalHeaderAnatomyStage } from '@/guidelines/_components/GlobalHeaderGuidelineAnatomy';
+import { ProductRailAnatomyStage } from '@/guidelines/_components/ProductRailGuidelineAnatomy';
 import { TeamSidebarAnatomyStage } from '@/guidelines/_components/TeamSidebarGuidelineAnatomy';
 import { ChannelSidebarAnatomyStage } from '@/guidelines/_components/ChannelSidebarGuidelineAnatomy';
 import { AdminConsoleSidebarAnatomyStage } from '@/guidelines/_components/AdminConsoleSidebarGuidelineAnatomy';
@@ -132,6 +133,7 @@ const MDX_COMPONENTS = {
   PopoverMenuMotion,
   ChannelHeaderAnatomyStage,
   GlobalHeaderAnatomyStage,
+  ProductRailAnatomyStage,
   TeamSidebarAnatomyStage,
   ChannelSidebarAnatomyStage,
   AdminConsoleSidebarAnatomyStage,

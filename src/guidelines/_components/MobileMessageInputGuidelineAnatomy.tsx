@@ -19,7 +19,7 @@ export function MobileMessageInputAnatomyStage() {
     >
       <div className={styles['mobile-message-input-anatomy__frame']}>
         <MobileMessageInput
-          variant="Root"
+          variant="root"
           placeholder="Write to UX Design…"
           value={value}
           onChange={setValue}

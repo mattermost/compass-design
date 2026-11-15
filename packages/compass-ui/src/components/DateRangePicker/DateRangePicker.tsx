@@ -613,6 +613,7 @@ export default function DateRangePicker({
       {/* Calendar popover */}
       {popoverMounted &&
         renderPortal(
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- WAI-ARIA dialog pattern: Escape closes the calendar
           <div
             ref={portalRef}
             id={popoverId}
@@ -631,6 +632,14 @@ export default function DateRangePicker({
             role="dialog"
             aria-modal="false"
             aria-label={dialogLabel}
+            onKeyDown={(e) => {
+              // Consume Escape here (React bubbling) so a parent Modal sees it
+              // as handled; the document listener only runs after the Modal.
+              if (e.key === 'Escape' && !e.defaultPrevented) {
+                e.preventDefault();
+                close(true);
+              }
+            }}
           >
             {/* Header */}
             <div className={styles['date-range-picker__header']}>

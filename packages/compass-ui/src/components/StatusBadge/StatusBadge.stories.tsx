@@ -9,6 +9,7 @@ const SIZES: StatusBadgeSize[] = [
   'small',
   'medium',
   'large',
+  'x-large',
 ];
 const STATUSES: StatusBadgeStatus[] = [
   'online',
@@ -66,6 +67,55 @@ export const DoNotDisturb: Story = {
     size: 'small',
     status: 'do-not-disturb',
   },
+};
+
+/** Set `--status-badge-bg` and `--status-badge-offline-color` on the surface. */
+export const OnColoredSurface: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        gap: 16,
+        alignItems: 'center',
+        padding: 16,
+        background: 'var(--sidebar-bg)',
+        ['--status-badge-bg' as string]: 'var(--sidebar-bg)',
+        ['--status-badge-offline-color' as string]:
+          'rgba(var(--sidebar-text-rgb), 0.32)',
+      }}
+    >
+      {STATUSES.map((status) => (
+        <StatusBadge key={status} status={status} />
+      ))}
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div
+      style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'end' }}
+    >
+      {SIZES.map((size) => (
+        <div
+          key={size}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 8,
+            color: 'var(--center-channel-color)',
+            fontSize: 12,
+          }}
+        >
+          <StatusBadge size={size} status="online" />
+          <span>{size}</span>
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 export const AllVariants: Story = {
