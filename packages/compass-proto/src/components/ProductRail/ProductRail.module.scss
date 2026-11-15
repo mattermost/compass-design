@@ -120,11 +120,11 @@
   }
 
   // Both are positioned by their centre, so the badge stays put whatever its width. The unread dot
-  // sits on the anchor; the mention badge's centre is 2px down and 2px left of it.
+  // sits on the anchor; the mention badge's centre is one `--spacing-xxxxs` (2px) down and left of it.
   &__mention-badge {
     position: absolute;
-    top: calc(var(--product-rail-badge-center-y) + 2px);
-    left: calc(var(--product-rail-badge-center-x) - 2px);
+    top: calc(var(--product-rail-badge-center-y) + var(--spacing-xxxxs));
+    left: calc(var(--product-rail-badge-center-x) - var(--spacing-xxxxs));
     transform: translate(-50%, -50%);
     min-width: 18px;
     height: 16px;
