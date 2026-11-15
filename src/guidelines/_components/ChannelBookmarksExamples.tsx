@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -85,6 +85,10 @@ export interface BookmarkModalExampleProps {
   initialValues?: ChannelBookmarkModalProps['initialValues'];
   /** Stage height in px. */
   height?: number;
+  /** Name of the picked file (file type, new bookmark): shown as an attachment card. */
+  fileName?: string;
+  /** Upload progress for the picked file, 0–100. */
+  uploadProgress?: number;
 }
 
 /** The add / attach / edit modal, staged in a frame instead of full-screen. */
@@ -92,7 +96,14 @@ export function BookmarkModalExample({
   type = 'link',
   initialValues,
   height = 400,
+  fileName,
+  uploadProgress,
 }: BookmarkModalExampleProps) {
+  const file = useMemo(
+    () =>
+      fileName ? new File([new Uint8Array(3_400_000)], fileName) : undefined,
+    [fileName],
+  );
   return (
     <ModalStage height={height}>
       {(container) => (
@@ -100,6 +111,8 @@ export function BookmarkModalExample({
           open
           type={type}
           initialValues={initialValues}
+          file={file}
+          uploadProgress={uploadProgress}
           container={container}
           lockScroll={false}
           manageFocus={false}

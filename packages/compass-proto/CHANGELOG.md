@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 
+- **2026-11-15 · Attach a file opens the OS dialog first; `ChannelBookmarkModal` shows an attachment card:** new `pickBookmarkFile()` opens the file dialog (call it from the "Attach a file" click) and the modal takes the picked `file`, `uploadProgress` (uploading state; submit disabled below 100) and `onFileChange` (card Edit replaces the file, close removes it). The title follows the file name until edited. The empty "Choose file" button remains for a modal opened without a file.
 - **2026-11-15 · `ChannelHeaderMenu` `bookmarksBarActive`:** shows the static "Bookmarks bar" row in its active state, for previews of the open submenu.
 - **2026-11-15 · `ChannelBookmarkModal` `overlayStyle` and `manageFocus`:** `overlayStyle` styles the scrim (pair with `container` and `position: 'absolute'` to stage the modal in a frame); `manageFocus` (default `true`) turns off initial focus, trap and restore for static docs previews.
 - **2026-11-15 · `ChannelBookmarksBar` `onReorder` (drag-to-reorder):** visible bookmarks can be reordered by dragging one onto another, with a drop marker and a dimmed source, or with Alt + Arrow Left / Right on a focused bookmark (announced through a live region; new `labels.reordered`). Only active when `canManage` and `onReorder` is set. Called with the full list in its new order. New helpers `moveItem` / `dropIndex` are covered by tests.

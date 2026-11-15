@@ -8,6 +8,7 @@ import {
 import {
   ChannelBookmarkModal,
   ChannelBookmarksBar,
+  pickBookmarkFile,
   type ChannelBookmark,
   type ChannelBookmarkAddType,
   type ChannelBookmarksBarProps,
@@ -68,6 +69,8 @@ type ModalState = {
   open: boolean;
   type: ChannelBookmarkAddType;
   editing?: ChannelBookmark;
+  /** File picked from the OS dialog (file bookmarks), being "uploaded". */
+  file?: File;
 };
 
 export interface ChannelBookmarksDemoProps extends Pick<
@@ -92,9 +95,35 @@ const ChannelBookmarksDemo = forwardRef<
 ) {
   const [bookmarks, setBookmarks] = useState(initial);
   const [modal, setModal] = useState<ModalState>({ open: false, type: 'link' });
-  useImperativeHandle(ref, () => ({
-    openAdd: (type) => setModal({ open: true, type }),
-  }));
+  // Simulated upload progress for the picked file (docs only: nothing is sent).
+  const [progress, setProgress] = useState(100);
+
+  // "Attach a file" opens the OS dialog first; the modal opens once a file is
+  // chosen. Link bookmarks open the modal straight away.
+  const startAdd = (type: ChannelBookmarkAddType) => {
+    if (type === 'link') {
+      setModal({ open: true, type });
+      return;
+    }
+    void pickBookmarkFile().then((file) => {
+      if (!file) return;
+      setProgress(0);
+      setModal({ open: true, type, file });
+    });
+  };
+  useImperativeHandle(ref, () => ({ openAdd: startAdd }));
+
+  useEffect(() => {
+    if (!modal.open || !modal.file) return undefined;
+    const timer = setInterval(() => {
+      setProgress((p) => {
+        const next = Math.min(100, p + 8 + Math.round(Math.random() * 8));
+        if (next >= 100) clearInterval(timer);
+        return next;
+      });
+    }, 250);
+    return () => clearInterval(timer);
+  }, [modal.open, modal.file]);
   // Object URLs for attached files, by bookmark id. Revoked when a file is
   // replaced or its bookmark deleted, and on unmount.
   const objectUrls = useRef(new Map<string, string>());
@@ -126,7 +155,7 @@ const ChannelBookmarksDemo = forwardRef<
       <ChannelBookmarksBar
         bookmarks={bookmarks}
         canManage={canManage}
-        onAdd={(type) => setModal({ open: true, type })}
+        onAdd={startAdd}
         onReorder={setBookmarks}
         onEdit={(b) =>
           setModal({ open: true, type: b.type ?? 'link', editing: b })
@@ -154,6 +183,14 @@ const ChannelBookmarksDemo = forwardRef<
               }
             : undefined
         }
+        file={modal.file}
+        uploadProgress={progress}
+        onFileChange={(file) => {
+          // A replacement restarts the simulated upload; removing cancels it.
+
+          setProgress(0);
+          setModal((m) => ({ ...m, file: file ?? undefined }));
+        }}
         onClose={() => setModal((m) => ({ ...m, open: false }))}
         onSubmit={({ title, url, file, emoji, type }) => {
           const editing = modal.editing;

@@ -106,11 +106,20 @@ or invalid link shows an inline error and keeps the modal open.
 
 ### File bookmark
 
-A file picker and a title. An empty title defaults to the file name; submitting
-without a file shows an error.
+Choosing **Attach a file** opens the operating system's file dialog first. Once a
+file is chosen the modal opens with it as an attachment card, which shows the
+upload while it runs. The card's close button cancels the upload and removes the
+file, and **Edit** reopens the dialog to pick a different one. The title is
+filled in with the file name until it is edited, and **Add bookmark** stays
+disabled until the upload finishes.
 
-<Preview caption="Attach a file">
-  <BookmarkModalExample type="file" height={340} />
+<Preview caption="Attach a file: uploading">
+  <BookmarkModalExample
+    type="file"
+    height={460}
+    fileName="641689853-877f6b5f-da1c-4025-a2fb-e5f03f0ec692.mov"
+    uploadProgress={25}
+  />
 </Preview>
 
 ### Editing

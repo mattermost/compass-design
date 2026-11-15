@@ -11,6 +11,8 @@ import { createPortal } from 'react-dom';
 import BookOutlineIcon from '@mattermost/compass-icons/components/book-outline';
 import FileGenericOutlineIcon from '@mattermost/compass-icons/components/file-generic-outline';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
+import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
+import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-card';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -21,6 +23,7 @@ import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import { EmojiPopover } from '../EmojiPopover';
 import { WithTooltip } from '../WithTooltip';
 import type { ChannelBookmarkAddType } from './ChannelBookmarksBar';
+import { attachmentFileType, attachmentMeta } from './fileKind';
 import { normalizeUrl } from './normalizeUrl';
 import styles from './ChannelBookmarkModal.module.scss';
 
@@ -43,6 +46,7 @@ export interface ChannelBookmarkModalLabels {
   name?: string;
   chooseFile?: string;
   replaceFile?: string;
+  editFile?: string;
   noFile?: string;
   emoji?: string;
   removeEmoji?: string;
@@ -62,6 +66,7 @@ const DEFAULT_LABELS: Required<ChannelBookmarkModalLabels> = {
   name: 'Title',
   chooseFile: 'Choose file',
   replaceFile: 'Replace file',
+  editFile: 'Edit',
   noFile: 'No file selected',
   emoji: 'Choose an emoji',
   removeEmoji: 'Remove emoji',
@@ -97,6 +102,24 @@ export interface ChannelBookmarkModalProps {
    * static docs previews so they don't steal focus. Default: true.
    */
   manageFocus?: boolean;
+  /**
+   * File bookmarks: the file the member picked from the operating system's
+   * dialog before the modal opened (see `pickBookmarkFile`). Shown as an
+   * attachment card.
+   */
+  file?: File;
+  /**
+   * Upload progress for `file`, 0–100. Below 100 the card shows the uploading
+   * state and the submit button is disabled; undefined or 100 means uploaded.
+   * The host owns the upload.
+   */
+  uploadProgress?: number;
+  /**
+   * The member replaced the file (card Edit button, which reopens the file
+   * dialog) or removed it (the card's close button, `null`). The host should
+   * restart or cancel the upload.
+   */
+  onFileChange?: (file: File | null) => void;
   labels?: ChannelBookmarkModalLabels;
 }
 
@@ -115,6 +138,9 @@ export default function ChannelBookmarkModal({
   lockScroll,
   overlayStyle,
   manageFocus = true,
+  file: fileProp,
+  uploadProgress,
+  onFileChange,
   labels,
 }: ChannelBookmarkModalProps) {
   const l = { ...DEFAULT_LABELS, ...labels };
@@ -123,7 +149,11 @@ export default function ChannelBookmarkModal({
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
   const [emoji, setEmoji] = useState<string | undefined>();
-  const [file, setFile] = useState<File | undefined>();
+  const [file, setFile] = useState<File | undefined>(fileProp);
+  // The existing file of a bookmark being edited was removed from the card.
+  const [existingRemoved, setExistingRemoved] = useState(false);
+  // A typed title wins over the file name; until then it follows the file.
+  const titleEdited = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const firstFieldRef = useRef<HTMLInputElement>(null);
@@ -195,9 +225,11 @@ export default function ChannelBookmarkModal({
   useEffect(() => {
     if (open) {
       setUrl(initialValues?.url ?? '');
-      setTitle(initialValues?.title ?? '');
+      setTitle(initialValues?.title ?? fileProp?.name ?? '');
+      titleEdited.current = Boolean(initialValues?.title);
+      setExistingRemoved(false);
       setEmoji(initialValues?.emoji);
-      setFile(undefined);
+      setFile(fileProp);
       setError(null);
       setPickerOpen(false);
     } else {
@@ -207,11 +239,19 @@ export default function ChannelBookmarkModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const existingFileName = initialValues?.fileName;
+  const existingFileName = existingRemoved
+    ? undefined
+    : initialValues?.fileName;
   const fileName = file?.name ?? existingFileName;
+  const uploading =
+    isFile &&
+    Boolean(file) &&
+    uploadProgress !== undefined &&
+    uploadProgress < 100;
 
   const submit = (e?: FormEvent) => {
     e?.preventDefault();
+    if (uploading) return;
     if (isFile) {
       if (!fileName) return setError(l.fileRequired);
       return onSubmit({
@@ -233,12 +273,24 @@ export default function ChannelBookmarkModal({
     });
   };
 
-  const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onFileInput = (e: ChangeEvent<HTMLInputElement>) => {
     const picked = e.target.files?.[0];
     if (picked) {
       setFile(picked);
+      setExistingRemoved(false);
       setError(null);
+      if (!titleEdited.current) setTitle(picked.name);
+      onFileChange?.(picked);
     }
+    // Let the same file be chosen again after removing it.
+    e.target.value = '';
+  };
+
+  const removeFile = () => {
+    setFile(undefined);
+    setExistingRemoved(true);
+    if (!titleEdited.current) setTitle('');
+    onFileChange?.(null);
   };
 
   const heading = editing
@@ -268,7 +320,11 @@ export default function ChannelBookmarkModal({
             <Button emphasis="tertiary" onClick={onClose}>
               {l.cancel}
             </Button>
-            <Button emphasis="primary" onClick={() => submit()}>
+            <Button
+              emphasis="primary"
+              disabled={uploading}
+              onClick={() => submit()}
+            >
               {editing ? l.save : l.create}
             </Button>
           </>
@@ -294,25 +350,50 @@ export default function ChannelBookmarkModal({
                 type="file"
                 hidden
                 data-testid="bookmark-file-input"
-                onChange={onFileChange}
+                onChange={onFileInput}
               />
-              <Button
-                emphasis="secondary"
-                onClick={() => fileInputRef.current?.click()}
-                leadingIcon={<Icon glyph={<PaperclipIcon />} />}
-              >
-                {fileName ? l.replaceFile : l.chooseFile}
-              </Button>
-              <span
-                className={[
-                  styles['channel-bookmark-modal__file-name'],
-                  error && styles['channel-bookmark-modal__file-name--error'],
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                {error ?? fileName ?? l.noFile}
-              </span>
+              {fileName ? (
+                <div className={styles['channel-bookmark-modal__attachment']}>
+                  <AttachmentCard
+                    className={styles['channel-bookmark-modal__card']}
+                    fileName={fileName}
+                    fileType={attachmentFileType(fileName)}
+                    fileMeta={file ? attachmentMeta(file) : undefined}
+                    state={uploading ? 'uploading' : 'uploaded'}
+                    progress={uploadProgress}
+                    onRemove={removeFile}
+                  />
+                  <Button
+                    emphasis="tertiary"
+                    size="small"
+                    leadingIcon={<Icon glyph={<PencilOutlineIcon />} />}
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    {l.editFile}
+                  </Button>
+                </div>
+              ) : (
+                <div className={styles['channel-bookmark-modal__no-file']}>
+                  <Button
+                    emphasis="secondary"
+                    onClick={() => fileInputRef.current?.click()}
+                    leadingIcon={<Icon glyph={<PaperclipIcon />} />}
+                  >
+                    {l.chooseFile}
+                  </Button>
+                  <span
+                    className={[
+                      styles['channel-bookmark-modal__file-name'],
+                      error &&
+                        styles['channel-bookmark-modal__file-name--error'],
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    {error ?? l.noFile}
+                  </span>
+                </div>
+              )}
             </div>
           ) : (
             <TextInput
@@ -332,7 +413,10 @@ export default function ChannelBookmarkModal({
             aria-label={l.name}
             placeholder={l.name}
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              titleEdited.current = true;
+              setTitle(e.target.value);
+            }}
             leadingIcon={
               <span
                 ref={emojiAnchorRef}

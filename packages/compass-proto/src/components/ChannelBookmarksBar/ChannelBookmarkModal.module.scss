@@ -4,9 +4,29 @@
   gap: var(--spacing-xxl);
 
   &__file {
+    min-width: 0;
+  }
+
+  &__no-file {
     display: flex;
     align-items: center;
     gap: var(--spacing-m);
+    min-width: 0;
+  }
+
+  // The attachment card sits in a tinted tray with its Edit button beside it.
+  &__attachment {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    min-width: 0;
+    padding: var(--spacing-m);
+    border-radius: var(--radius-m);
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+  }
+
+  &__card {
+    flex: 1 1 auto;
     min-width: 0;
   }
 
