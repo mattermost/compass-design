@@ -15,8 +15,11 @@ import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import type {
+  ChangeEvent,
   ComponentType,
+  InputHTMLAttributes,
   MouseEvent,
+  Ref,
   ReactNode,
   SyntheticEvent,
 } from 'react';
@@ -103,6 +106,30 @@ export interface GlobalHeaderProps {
   helpActive?: boolean;
   /** When set, the Search field calls this on click and on Enter. Channels product only. */
   onSearchClick?: GlobalHeaderSearchHandler;
+  /** Controlled text of the Search field. Omit for an uncontrolled field. Channels product only. */
+  searchValue?: string;
+  /** Called with the new text as the Search field changes. */
+  onSearchChange?: (value: string) => void;
+  /**
+   * Extra props for the Search `<input>`, e.g. the combobox attributes and key
+   * handler from `useSearchPopover`. `onKeyDown`, `onClick` and `onChange` run
+   * alongside the header's own handlers; `type` and `className` are fixed.
+   */
+  searchInputProps?: Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    'type' | 'className' | 'value' | 'defaultValue'
+  >;
+  /** Ref for the Search `<input>`, e.g. to return focus to it. */
+  searchInputRef?: Ref<HTMLInputElement>;
+  /** Ref for the element that wraps the Search field and its popover (for outside-click detection). */
+  searchAnchorRef?: Ref<HTMLDivElement>;
+  /**
+   * Panel anchored under the Search field, usually a `SearchPopover`. Shown while
+   * `searchPopoverOpen` is true; the host owns open state, focus and outside click.
+   */
+  searchPopover?: ReactNode;
+  /** Whether `searchPopover` is showing. Default: false. */
+  searchPopoverOpen?: boolean;
   /** When set, Saved messages calls this on click. Channels product only. */
   onSavedMessagesClick?: GlobalHeaderClickHandler;
   /** When true, Saved messages shows as toggled/selected. */
@@ -235,6 +262,13 @@ export default function GlobalHeader({
   onHelpClick,
   helpActive = false,
   onSearchClick,
+  searchValue,
+  onSearchChange,
+  searchInputProps,
+  searchAnchorRef,
+  searchInputRef,
+  searchPopover,
+  searchPopoverOpen = false,
   onSavedMessagesClick,
   savedMessagesActive = false,
   onSettingsClick,
@@ -272,22 +306,50 @@ export default function GlobalHeader({
 
       {isChannels && (
         <div className={styles['global-header__center']}>
-          <div className={styles['global-header__search']}>
-            <span className={styles['global-header__search-icon']} aria-hidden>
-              <Icon size="12" glyph={<MagnifyIcon />} />
-            </span>
-            <input
-              type="search"
-              className={styles['global-header__search-input']}
-              placeholder="Search"
-              aria-label="Search"
-              onClick={onSearchClick}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
+          <div
+            ref={searchAnchorRef}
+            className={styles['global-header__search-anchor']}
+          >
+            <div className={styles['global-header__search']}>
+              <span
+                className={styles['global-header__search-icon']}
+                aria-hidden
+              >
+                <Icon size="12" glyph={<MagnifyIcon />} />
+              </span>
+              <input
+                placeholder="Search"
+                aria-label="Search"
+                {...searchInputProps}
+                ref={searchInputRef}
+                type="search"
+                className={styles['global-header__search-input']}
+                {...(searchValue !== undefined ? { value: searchValue } : {})}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  searchInputProps?.onChange?.(event);
+                  onSearchChange?.(event.target.value);
+                }}
+                onClick={(event) => {
+                  searchInputProps?.onClick?.(event);
                   onSearchClick?.(event);
-                }
-              }}
-            />
+                }}
+                onKeyDown={(event) => {
+                  searchInputProps?.onKeyDown?.(event);
+                  if (
+                    event.key === 'Enter' &&
+                    !event.defaultPrevented &&
+                    !event.nativeEvent.isComposing
+                  ) {
+                    onSearchClick?.(event);
+                  }
+                }}
+              />
+            </div>
+            {searchPopoverOpen && searchPopover && (
+              <div className={styles['global-header__search-popover']}>
+                {searchPopover}
+              </div>
+            )}
           </div>
           <InvertedIconButton
             ariaLabel="Help"

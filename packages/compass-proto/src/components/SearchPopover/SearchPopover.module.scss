@@ -1,0 +1,24 @@
+.search-popover {
+  &__modifier {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  // Pointer-only remove control at the end of a recent-search row.
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xxxs);
+    border: 0;
+    border-radius: var(--radius-s);
+    background: transparent;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+    cursor: pointer;
+    transition: background-color var(--duration-quick) var(--ease-transition);
+
+    &:hover {
+      background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+      color: var(--center-channel-color);
+    }
+  }
+}
