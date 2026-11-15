@@ -7,7 +7,8 @@
   padding: var(--spacing-xs) var(--spacing-l) var(--spacing-xs)
     var(--spacing-xxs);
   background-color: var(--center-channel-bg, var(--color-neutral-0));
-  border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+  border-bottom: 1px solid
+    rgba(var(--center-channel-color-rgb), var(--opacity-8));
 
   &__row {
     display: flex;
@@ -47,7 +48,7 @@
 
     &:hover,
     &:active {
-      background-color: rgba(var(--center-channel-color-rgb), 0.08);
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
       transition: background-color var(--duration-quick) var(--ease-transition);
     }
 
@@ -58,13 +59,13 @@
   // its menu open) must keep the link's hover state.
   &__item:hover &__link,
   &__item--active &__link {
-    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
   }
 
   &__icon {
     display: inline-flex;
     flex-shrink: 0;
-    color: rgba(var(--center-channel-color-rgb), 0.72);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
   }
 
   &__label {
@@ -96,6 +97,8 @@
     color: var(--center-channel-color);
     cursor: pointer;
     opacity: 0;
+    // Invisible at rest: must not steal clicks from the bookmark underneath.
+    pointer-events: none;
     transform: translateY(-50%);
 
     &:hover,
@@ -113,6 +116,7 @@
   &__item:focus-within &__more,
   &__more[aria-expanded='true'] {
     opacity: 1;
+    pointer-events: auto;
   }
 
   &__trailing {
@@ -135,7 +139,7 @@
     box-sizing: border-box;
     height: var(--icon-size-24);
     padding: 0 var(--spacing-s);
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-16));
     border-radius: var(--radius-pill);
     background: transparent;
     color: var(--center-channel-color);
@@ -149,7 +153,7 @@
     &:hover,
     &:active,
     &[aria-expanded='true'] {
-      background-color: rgba(var(--center-channel-color-rgb), 0.08);
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
     }
 
     @include focus-ring;

@@ -141,9 +141,12 @@ function AnchoredMenu({
       const margin = 8;
       const gap = 4;
       const fitsBelow = rect.top + gap + height <= window.innerHeight - margin;
+      // The slot has no height; flip above the trigger (the slot's parent).
+      const triggerTop =
+        slot.parentElement?.getBoundingClientRect().top ?? rect.top;
       const top = fitsBelow
         ? rect.top + gap
-        : Math.max(margin, rect.top - gap - height - rect.height);
+        : Math.max(margin, triggerTop - gap - height);
       const anchorLeft = align === 'end' ? rect.left - width : rect.left;
       const left = Math.min(
         Math.max(margin, anchorLeft),

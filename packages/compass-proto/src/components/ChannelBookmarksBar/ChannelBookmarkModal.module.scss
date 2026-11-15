@@ -13,7 +13,7 @@
   &__file-name {
     min-width: 0;
     overflow: hidden;
-    color: rgba(var(--center-channel-color-rgb), 0.72);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     font-size: var(--font-size-100);
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -166,6 +166,20 @@ export default function ChannelBookmarkModal({
     };
   }, [pickerOpen]);
 
+  // The picker lives outside the dialog's DOM (portaled), so move focus into it
+  // on open and hand it back to the emoji button on close.
+  useEffect(() => {
+    if (!pickerOpen) return undefined;
+    const anchor = emojiAnchorRef.current;
+    const frame = requestAnimationFrame(() => {
+      pickerRef.current?.querySelector<HTMLElement>('input')?.focus();
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      anchor?.querySelector<HTMLElement>('button')?.focus();
+    };
+  }, [pickerOpen]);
+
   useOutsideClose(
     emojiAnchorRef,
     pickerOpen,
@@ -351,15 +365,37 @@ export default function ChannelBookmarkModal({
           )}
           {pickerOpen &&
             createPortal(
-              // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Escape closes only the picker, not the modal
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Escape closes only the picker and Tab stays inside it
               <div
                 ref={pickerRef}
                 className={styles['channel-bookmark-modal__picker']}
                 style={pickerStyle}
+                role="dialog"
+                aria-label={l.emoji}
                 onKeyDown={(e) => {
                   if (e.key === 'Escape') {
                     e.preventDefault();
                     setPickerOpen(false);
+                    return;
+                  }
+                  if (e.key !== 'Tab') return;
+                  // Keep Tab inside the picker; the modal's own trap would
+                  // otherwise pull focus back into the dialog.
+                  e.nativeEvent.stopPropagation();
+                  const items = Array.from(
+                    pickerRef.current?.querySelectorAll<HTMLElement>(
+                      'button, input, [tabindex]:not([tabindex="-1"])',
+                    ) ?? [],
+                  ).filter((el) => !el.hasAttribute('disabled'));
+                  if (items.length === 0) return;
+                  const first = items[0];
+                  const last = items[items.length - 1];
+                  if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                  } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
                   }
                 }}
               >
