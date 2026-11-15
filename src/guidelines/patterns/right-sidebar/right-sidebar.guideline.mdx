@@ -83,7 +83,46 @@ Bodies often combine **Tile Button** rows, descriptive copy, identifiers, and
 [Menu Item](/components/menu-item) lists for settings, members, pins, and files —
 matching the flexible body shown in the Specimen tab.
 
-### Search and other secondary views
+### Search results, mentions, saved and pinned
+
+One recipe serves every list of messages: search results, recent mentions, saved
+messages and pinned messages. The body opens with a count ("3 results"), then
+one row per result. Each row has a **context line** — the channel (or direct
+message) in bold and the team in a muted tone — with a **Jump** link at the end
+that opens the message in its channel. The Jump link appears on hover or focus
+and stays reachable by keyboard. Below it sits the usual
+[Message](/patterns/message) layout without the hover toolbar; a Pinned and
+Saved row appears above it when the message is pinned or saved.
+
+In search, every match of a search term in the body gets a yellow highlight.
+Mentions, saved and pinned lists pass no terms, so nothing is highlighted. When
+a list is empty, a centered illustration, title and one-line hint replace it,
+with copy that fits the list (no results, no mentions, nothing saved, nothing
+pinned). The Specimen tab lets you switch between the lists and the empty state.
+
+The components live in `@mattermost/compass-proto` (`RightSidebarSearchResults`,
+`SearchResultMessage`, `SearchHighlight`). The host owns fetching, ordering and
+what Jump does.
+
+```tsx
+import {
+  RightSidebar,
+  RightSidebarSearchResults,
+} from '@mattermost/compass-proto';
+import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
+
+<RightSidebar
+  header={<RightSidebarHeader title="Search results" onClose={close} />}
+>
+  <RightSidebarSearchResults
+    results={results}
+    terms={['sidebar']}
+    onJump={(result) => navigateToPost(result.id)}
+  />
+</RightSidebar>;
+```
+
+### Other secondary views
 
 Any narrow, scrollable workflow can occupy the body as long as it respects the
 shell’s scrolling model and supplies its own internal spacing.

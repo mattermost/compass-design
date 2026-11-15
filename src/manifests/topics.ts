@@ -1052,18 +1052,6 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.specimen'),
   },
   {
-    slug: 'right-sidebar-search-results',
-    name: 'Right Sidebar Search Results',
-    category: 'patterns',
-    description:
-      'Message results in the right sidebar for search, mentions, saved and pinned messages, with search highlight and a jump link.',
-    status: 'beta',
-    guidelinePage: () =>
-      import('@/guidelines/patterns/right-sidebar-search-results/right-sidebar-search-results.guideline.mdx'),
-    specimenPage: () =>
-      import('@/guidelines/patterns/right-sidebar-search-results/right-sidebar-search-results.specimen'),
-  },
-  {
     slug: 'channel-header',
     name: 'Channel Header',
     category: 'patterns',
