@@ -5,16 +5,12 @@ import ProductChannelsIcon from '@mattermost/compass-icons/components/product-ch
 import {
   BullseyeArrowIcon,
   ClipboardTextOutlineIcon,
+  type GlobalHeaderProduct,
   type ProductRailItemData,
 } from '@mattermost/compass-proto';
 
-export type ProductRailDemoId =
-  | 'channels'
-  | 'boards'
-  | 'playbooks'
-  | 'agents'
-  | 'docs'
-  | 'automation';
+/** Demo ids are the Global Header's products, so the specimen can pass them straight to `ProductShell`. */
+export type ProductRailDemoId = GlobalHeaderProduct;
 
 /** Product Rail items shared by the docs anatomy stage, specimen, and Product layout. */
 export const productRailDemoItems: (ProductRailItemData & {

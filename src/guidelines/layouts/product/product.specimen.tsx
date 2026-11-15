@@ -70,6 +70,10 @@ function TeamSwitcher() {
               activeTeamId={activeTeamId}
               open={open}
               onExited={() => setAnchor(null)}
+              onClose={() => {
+                setOpen(false);
+                wrapRef.current?.querySelector('button')?.focus();
+              }}
               onSelectTeam={(id) => {
                 setActiveTeamId(id);
                 setOpen(false);

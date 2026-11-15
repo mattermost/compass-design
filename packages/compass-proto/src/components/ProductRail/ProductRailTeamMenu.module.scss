@@ -10,10 +10,8 @@
   background: none;
   cursor: pointer;
 
-  &:focus-visible {
-    box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
-    outline: none;
-  }
+  // Shared focus ring, in the sidebar's accent for contrast on the dark rail.
+  @include focus-ring(var(--sidebar-text-active-border));
 
   // The webapp's customizations to Team Avatar's background so it reads on the rail: a tint mixed
   // from the sidebar colors behind initials, and a shadow lifting it off the stacked cards. Team

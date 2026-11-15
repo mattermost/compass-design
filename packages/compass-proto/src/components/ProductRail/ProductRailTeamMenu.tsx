@@ -1,4 +1,4 @@
-import type { MouseEvent, ReactNode } from 'react';
+import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import DockLeftIcon from '@mattermost/compass-icons/components/dock-left';
 import CheckIcon from '@mattermost/compass-icons/components/check';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -123,7 +123,44 @@ export interface ProductRailTeamMenuProps {
   open?: boolean;
   /** Called after the exit transition finishes and the menu unmounts. */
   onExited?: () => void;
+  /**
+   * Called when the user presses Escape inside the menu (unless an inner handler already
+   * prevented it). The host owns open state, so close the menu here and return focus to the
+   * trigger.
+   */
+  onClose?: () => void;
   className?: string;
+}
+
+const ITEM_SELECTOR = '[role^="menuitem"]';
+
+/** Arrow keys, Home and End move focus between rows; Escape asks the host to close. */
+function handleMenuKeyDown(
+  event: KeyboardEvent<HTMLDivElement>,
+  onClose?: () => void,
+) {
+  if (event.defaultPrevented) return;
+  if (event.key === 'Escape') {
+    if (onClose) {
+      event.preventDefault();
+      onClose();
+    }
+    return;
+  }
+  const items = Array.from(
+    event.currentTarget.querySelectorAll<HTMLElement>(ITEM_SELECTOR),
+  );
+  if (items.length === 0) return;
+  const current = items.indexOf(document.activeElement as HTMLElement);
+  let next: number | null = null;
+  if (event.key === 'ArrowDown') next = (current + 1) % items.length;
+  else if (event.key === 'ArrowUp')
+    next = (current <= 0 ? items.length : current) - 1;
+  else if (event.key === 'Home') next = 0;
+  else if (event.key === 'End') next = items.length - 1;
+  if (next == null) return;
+  event.preventDefault();
+  items[next].focus();
 }
 
 /**
@@ -141,25 +178,34 @@ export function ProductRailTeamMenu({
   unreadLabel = 'unread',
   open,
   onExited,
+  onClose,
   className = '',
 }: ProductRailTeamMenuProps) {
+  // When the host opens the menu, focus lands on the current team (or the first row).
+  const focusIndex = Math.max(
+    0,
+    teams.findIndex((t) => t.id === activeTeamId),
+  );
   return (
     <PopoverMenu
       role="menu"
       open={open}
       onExited={onExited}
+      onKeyDown={(event) => handleMenuKeyDown(event, onClose)}
       aria-label={menuLabel}
       className={[styles['product-rail-team-menu'], className]
         .filter(Boolean)
         .join(' ')}
     >
       <PopoverMenuGroup>
-        {teams.map((team) => {
+        {teams.map((team, index) => {
           const active = team.id === activeTeamId;
           const mentions = active ? 0 : (team.mentions ?? 0);
           return (
             <button
               key={team.id}
+              // eslint-disable-next-line jsx-a11y/no-autofocus -- moves focus into the menu the host just opened
+              autoFocus={open === true && index === focusIndex}
               type="button"
               role="menuitemradio"
               aria-checked={active}

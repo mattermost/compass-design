@@ -150,4 +150,70 @@ describe('ProductRailTeamMenu', () => {
     expect(rows[1].textContent).toContain('non lu');
     expect(rows[0].textContent).not.toContain('non lu');
   });
+
+  describe('keyboard', () => {
+    const press = (el: Element, key: string) =>
+      act(() => {
+        el.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            key,
+            bubbles: true,
+            cancelable: true,
+          }),
+        );
+      });
+
+    it('moves focus into the menu on the current team when opened', () => {
+      const c = render(
+        <ProductRailTeamMenu teams={teams} activeTeamId="b" open />,
+      );
+      const rows = Array.from(c.querySelectorAll('[role="menuitemradio"]'));
+      expect(document.activeElement).toBe(rows[1]);
+    });
+
+    it('does not steal focus when `open` is not controlled', () => {
+      render(<ProductRailTeamMenu teams={teams} activeTeamId="b" />);
+      expect(document.activeElement).toBe(document.body);
+    });
+
+    it('arrow keys, Home and End move focus between rows', () => {
+      const c = render(
+        <ProductRailTeamMenu teams={teams} activeTeamId="a" open />,
+      );
+      const rows = Array.from(
+        c.querySelectorAll<HTMLElement>('[role="menuitemradio"]'),
+      );
+      const menu = c.querySelector('[role="menu"]')!;
+      expect(document.activeElement).toBe(rows[0]);
+      press(rows[0], 'ArrowDown');
+      expect(document.activeElement).toBe(rows[1]);
+      press(rows[1], 'End');
+      expect(document.activeElement).toBe(rows[2]);
+      press(rows[2], 'ArrowDown');
+      expect(document.activeElement).toBe(rows[0]);
+      press(rows[0], 'ArrowUp');
+      expect(document.activeElement).toBe(rows[2]);
+      press(rows[2], 'Home');
+      expect(document.activeElement).toBe(rows[0]);
+      expect(menu).not.toBeNull();
+    });
+
+    it('Escape calls onClose, and is left alone when already handled', () => {
+      const onClose = vi.fn();
+      const c = render(
+        <ProductRailTeamMenu
+          teams={teams}
+          activeTeamId="a"
+          open
+          onClose={onClose}
+        />,
+      );
+      const row = c.querySelector('[role="menuitemradio"]')!;
+      press(row, 'Escape');
+      expect(onClose).toHaveBeenCalledTimes(1);
+      row.addEventListener('keydown', (e) => e.preventDefault(), true);
+      press(row, 'Escape');
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+  });
 });
