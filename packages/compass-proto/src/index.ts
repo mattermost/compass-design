@@ -62,3 +62,5 @@ export { default as messageStyles } from './components/Message/Message.module.sc
 export { default as mobileMessageStyles } from './components/MobileMessage/MobileMessage.module.scss';
 export { default as OutboundCallIcon } from './icons/OutboundCallIcon';
 export { default as PhoneLockIcon } from './icons/PhoneLockIcon';
+export { default as ClipboardTextOutlineIcon } from './icons/ClipboardTextOutlineIcon';
+export { default as BullseyeArrowIcon } from './icons/BullseyeArrowIcon';

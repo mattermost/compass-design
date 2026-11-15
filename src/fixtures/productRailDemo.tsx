@@ -1,10 +1,12 @@
 import BookOutlineIcon from '@mattermost/compass-icons/components/book-outline';
 import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
 import LightningBoltOutlineIcon from '@mattermost/compass-icons/components/lightning-bolt-outline';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
-import type { ProductRailItemData } from '@mattermost/compass-proto';
+import {
+  BullseyeArrowIcon,
+  ClipboardTextOutlineIcon,
+  type ProductRailItemData,
+} from '@mattermost/compass-proto';
 
 export type ProductRailDemoId =
   | 'channels'
@@ -27,12 +29,12 @@ export const productRailDemoItems: (ProductRailItemData & {
   {
     id: 'boards',
     label: 'Boards',
-    icon: <ProductBoardsIcon size={20} />,
+    icon: <BullseyeArrowIcon size={20} />,
   },
   {
     id: 'playbooks',
     label: 'Playbooks',
-    icon: <ProductPlaybooksIcon size={20} />,
+    icon: <ClipboardTextOutlineIcon size={20} />,
     mentionBadge: 3,
   },
   {

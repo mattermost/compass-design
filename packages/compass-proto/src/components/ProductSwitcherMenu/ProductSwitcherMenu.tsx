@@ -3,9 +3,7 @@ import ApplicationCogIcon from '@mattermost/compass-icons/components/application
 import AppsIcon from '@mattermost/compass-icons/components/apps';
 import DownloadOutlineIcon from '@mattermost/compass-icons/components/download-outline';
 import InformationOutlineIcon from '@mattermost/compass-icons/components/information-outline';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
 import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
 import WebhookIcon from '@mattermost/compass-icons/components/webhook';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
@@ -14,6 +12,8 @@ import {
   PopoverMenuDivider,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
+import BullseyeArrowIcon from '../../icons/BullseyeArrowIcon';
+import ClipboardTextOutlineIcon from '../../icons/ClipboardTextOutlineIcon';
 import styles from './ProductSwitcherMenu.module.scss';
 
 /** Built-in products shipped with the switcher. */
@@ -65,12 +65,12 @@ export const DEFAULT_PRODUCT_SWITCHER_PRODUCTS: ProductSwitcherProductItem[] = [
   {
     id: 'boards',
     label: 'Boards',
-    icon: <ProductBoardsIcon />,
+    icon: <BullseyeArrowIcon />,
   },
   {
     id: 'playbooks',
     label: 'Playbooks',
-    icon: <ProductPlaybooksIcon />,
+    icon: <ClipboardTextOutlineIcon />,
   },
 ];
 
