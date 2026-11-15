@@ -9,6 +9,7 @@ import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FieldMessage from './FieldMessage/FieldMessage';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
+import MessageActions from './MessageActions/MessageActions';
 import Modal from './Modal/Modal';
 import ModalOverlay from './Modal/ModalOverlay';
 import ModalHeader from './ModalHeader/ModalHeader';
@@ -204,6 +205,15 @@ const BUTTON_CASES: Record<
         showBackButton
         onBack={on}
         backButtonProps={p}
+      />
+    ),
+  },
+  'MessageActions jumpButtonProps': {
+    label: 'Jump to message',
+    render: (p, on) => (
+      <MessageActions
+        type="search-results"
+        jumpButtonProps={{ ...p, onClick: on }}
       />
     ),
   },
