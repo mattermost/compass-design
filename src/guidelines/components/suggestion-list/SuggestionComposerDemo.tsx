@@ -180,7 +180,7 @@ const POPUP_WIDTH = 'min(480px, calc(100vw - 16px))';
  * A suggestion list open above the proto Message Input, as it sits in a
  * channel. The list portals to the body and floats on top of the page,
  * positioned horizontally at the trigger character (`@`, `~`, `:` or `/`) that
- * opened it and 4px above the input box (`AnchoredPopup` with
+ * opened it, overlapping the input box's top edge by 4px (`AnchoredPopup` with
  * `getTextareaCharRect`), so the demo
  * reserves empty space above the input for it. Static: the typed text and
  * highlighted row are fixed to show the state, and the field is not wired to
@@ -206,7 +206,13 @@ export default function SuggestionComposerDemo({
       textarea,
       demo.text.lastIndexOf(demo.trigger),
     );
-    return { left: char.left, top: box.top, bottom: box.bottom, width: 0 };
+    // At least 4px in from the input's left edge.
+    return {
+      left: Math.max(char.left, box.left + 4),
+      top: box.top,
+      bottom: box.bottom,
+      width: 0,
+    };
   }, [demo]);
   return (
     <div
@@ -229,6 +235,8 @@ export default function SuggestionComposerDemo({
       </div>
       <AnchoredPopup
         getAnchorRect={getAnchorRect}
+        // Overlaps the input's top edge by 4px.
+        gap={-4}
         style={{ width: POPUP_WIDTH }}
         data-testid={`suggestions-${kind}`}
       >
