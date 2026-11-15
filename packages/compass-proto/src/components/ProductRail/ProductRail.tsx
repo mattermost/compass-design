@@ -66,7 +66,7 @@ export default function ProductRail({
       )}
       <ul className={styles['product-rail__items']}>
         {items.map((item) => (
-          <li key={item.id} className={styles['product-rail__entry']}>
+          <li key={item.id} className={styles['product-rail__item']}>
             <ProductRailItem
               icon={item.icon}
               label={item.label}
