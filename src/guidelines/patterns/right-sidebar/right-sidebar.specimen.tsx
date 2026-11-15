@@ -64,25 +64,62 @@ function SearchResultsDemo() {
   const title = KINDS.find((k) => k.kind === kind)?.title;
   return (
     <>
-      <p className={styles['patterns__variant-label']}>Kind</p>
-      <SegmentedControl
-        role="radiogroup"
-        aria-label="Kind"
-        value={kind}
-        onChange={(value) => setKind(value as RightSidebarSearchResultsKind)}
-        options={KINDS.map((k) => ({ key: k.kind, label: k.kind }))}
-      />
-      <p className={styles['patterns__variant-label']}>State</p>
-      <SegmentedControl
-        role="radiogroup"
-        aria-label="State"
-        value={empty ? 'empty' : 'results'}
-        onChange={(value) => setEmpty(value === 'empty')}
-        options={[
-          { key: 'results', label: 'results' },
-          { key: 'empty', label: 'empty' },
-        ]}
-      />
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: 'var(--spacing-xl)',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--spacing-s)',
+          }}
+        >
+          <span
+            className={styles['patterns__variant-label']}
+            style={{ marginBottom: 0 }}
+          >
+            Kind
+          </span>
+          <SegmentedControl
+            role="radiogroup"
+            aria-label="Kind"
+            value={kind}
+            onChange={(value) =>
+              setKind(value as RightSidebarSearchResultsKind)
+            }
+            options={KINDS.map((k) => ({ key: k.kind, label: k.kind }))}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--spacing-s)',
+          }}
+        >
+          <span
+            className={styles['patterns__variant-label']}
+            style={{ marginBottom: 0 }}
+          >
+            State
+          </span>
+          <SegmentedControl
+            role="radiogroup"
+            aria-label="State"
+            value={empty ? 'empty' : 'results'}
+            onChange={(value) => setEmpty(value === 'empty')}
+            options={[
+              { key: 'results', label: 'results' },
+              { key: 'empty', label: 'empty' },
+            ]}
+          />
+        </div>
+      </div>
       <div
         className={styles['patterns__rsb-shell']}
         style={{ marginTop: 'var(--spacing-xl)' }}
