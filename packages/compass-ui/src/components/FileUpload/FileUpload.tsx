@@ -171,6 +171,8 @@ const FileUpload = forwardRef<HTMLElement, FileUploadProps>(function FileUpload(
   const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
     if (!hasFiles(e)) return;
     e.preventDefault();
+    // The zone is the drop target: keep a parent drop overlay from reacting too.
+    e.stopPropagation();
     dragDepth.current += 1;
     if (!inactive) setIsDragging(true);
   };
@@ -178,17 +180,26 @@ const FileUpload = forwardRef<HTMLElement, FileUploadProps>(function FileUpload(
     if (!hasFiles(e)) return;
     // Required for the element to be a valid drop target.
     e.preventDefault();
+    e.stopPropagation();
     if (e.dataTransfer) e.dataTransfer.dropEffect = inactive ? 'none' : 'copy';
   };
   const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
     if (!hasFiles(e)) return;
+    e.stopPropagation();
     dragDepth.current = Math.max(0, dragDepth.current - 1);
     if (dragDepth.current === 0) setIsDragging(false);
+  };
+  // Button variant takes no drops, but must not let the browser navigate to a dropped file.
+  const rejectDrag = (e: DragEvent<HTMLDivElement>) => {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'none';
   };
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     if (!hasFiles(e)) return;
     // Always stop the browser from navigating to a dropped file.
     e.preventDefault();
+    e.stopPropagation();
     resetDrag();
     if (inactive) return;
     handleFiles(Array.from(e.dataTransfer?.files ?? []));
@@ -257,9 +268,9 @@ const FileUpload = forwardRef<HTMLElement, FileUploadProps>(function FileUpload(
       className={rootClass}
       aria-busy={loading || undefined}
       onDragEnter={isButton ? undefined : handleDragEnter}
-      onDragOver={isButton ? undefined : handleDragOver}
+      onDragOver={isButton ? rejectDrag : handleDragOver}
       onDragLeave={isButton ? undefined : handleDragLeave}
-      onDrop={isButton ? undefined : handleDrop}
+      onDrop={isButton ? rejectDrag : handleDrop}
     >
       {input}
       {isButton ? (
@@ -272,6 +283,7 @@ const FileUpload = forwardRef<HTMLElement, FileUploadProps>(function FileUpload(
             loading={loading}
             disabled={disabled}
             aria-describedby={describedBy}
+            aria-invalid={showInvalid ? true : undefined}
             onClick={() => inputRef.current?.click()}
           >
             {resolvedBrowse}

@@ -206,6 +206,32 @@ describe('FileUpload drop zone', () => {
   });
 });
 
+describe('FileUpload drag events', () => {
+  it('stops dropped files from reaching a parent drop target', () => {
+    const parentDrop = vi.fn();
+    const { container } = render(
+      <div onDrop={parentDrop} onDragEnter={parentDrop}>
+        <FileUpload />
+      </div>,
+    );
+    const root = container.querySelector('label')!.parentElement!;
+    drag(root, 'dragenter');
+    drag(root, 'drop');
+    expect(parentDrop).not.toHaveBeenCalled();
+  });
+
+  it('button variant cancels the browser default for dropped files', () => {
+    const onFilesSelected = vi.fn();
+    const { container } = render(
+      <FileUpload variant="button" onFilesSelected={onFilesSelected} />,
+    );
+    const root = container.firstElementChild!;
+    expect(drag(root, 'dragover').event.defaultPrevented).toBe(true);
+    expect(drag(root, 'drop').event.defaultPrevented).toBe(true);
+    expect(onFilesSelected).not.toHaveBeenCalled();
+  });
+});
+
 describe('FileUpload message', () => {
   it('error message sets aria-invalid and links the alert', () => {
     const { container } = render(<FileUpload message="Too large" />);
@@ -245,6 +271,11 @@ describe('FileUpload button variant', () => {
     expect(el.tabIndex).toBe(-1);
     chooseFiles(el, [file('a.png')]);
     expect(onFilesSelected).toHaveBeenCalledTimes(1);
+  });
+
+  it('marks the Button invalid for an error message', () => {
+    render(<FileUpload variant="button" message="Too large" />);
+    expect(getByRole('button').getAttribute('aria-invalid')).toBe('true');
   });
 
   it('disables the Button and does not take drops', () => {
