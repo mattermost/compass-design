@@ -16,7 +16,7 @@ export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Replaces the default 32px `UserAvatar`. Use it to make the avatar
    * interactive, e.g. wrap a `UserAvatar` in a `<button>` that opens a
-   * profile popover. When set, `avatarSrc` and `avatarAlt` are ignored.
+   * profile popover. A falsy value (`false`, `null`) falls back to the default. When set, `avatarSrc` and `avatarAlt` are ignored.
    */
   avatar?: ReactNode;
   /**
@@ -99,7 +99,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(function Message(
       )}
       <div className={styles['message__layout']}>
         <div className={styles['message__avatar-col']}>
-          {avatar ?? <UserAvatar src={avatarSrc} alt={avatarAlt} size="32" />}
+          {avatar || <UserAvatar src={avatarSrc} alt={avatarAlt} size="32" />}
         </div>
         <div className={styles['message__content']}>
           <div className={styles['message__header-row']}>

@@ -76,4 +76,14 @@ describe('Message', () => {
       container.querySelector('[role="img"]')?.getAttribute('aria-label'),
     ).toBe('Sofia Bauer');
   });
+
+  it('falls back to the default avatar when avatar is falsy', () => {
+    const { container } = render(
+      <Message {...base} avatar={false}>
+        Hello
+      </Message>,
+    );
+    const col = container.querySelector('[class*="avatar-col"]')!;
+    expect(col.children.length).toBeGreaterThan(0);
+  });
 });

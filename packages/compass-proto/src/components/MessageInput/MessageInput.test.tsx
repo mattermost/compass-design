@@ -212,4 +212,35 @@ describe('MessageInput', () => {
     act(() => textarea.click());
     expect(onSelectionChange).toHaveBeenCalled();
   });
+
+  it('sends trimmed text', () => {
+    const onSend = vi.fn();
+    const { container } = render(<MessageInput onSend={onSend} />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, '  hello \n');
+    pressEnter(textarea);
+    expect(onSend).toHaveBeenCalledWith('hello');
+  });
+
+  it.each(['ctrlKey', 'metaKey', 'altKey'])(
+    'does not send on Enter with %s',
+    (modifier) => {
+      const onSend = vi.fn();
+      const { container } = render(<MessageInput onSend={onSend} />);
+      const textarea = container.querySelector('textarea')!;
+      type(textarea, 'Hello');
+      act(() => {
+        textarea.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            key: 'Enter',
+            keyCode: 13,
+            [modifier]: true,
+            bubbles: true,
+            cancelable: true,
+          }),
+        );
+      });
+      expect(onSend).not.toHaveBeenCalled();
+    },
+  );
 });

@@ -51,9 +51,9 @@ export interface MessageInputProps extends Omit<
   /** `narrow` matches the Figma Message Input “Narrow” / right-sidebar layout. */
   width?: MessageInputWidth;
   /**
-   * Called with the current text when the user sends: the Send button, or
-   * Enter without Shift in the text area. Enter keeps inserting a new line
-   * when `onSend` is not set. Uncontrolled inputs clear after sending;
+   * Called with the trimmed text when the user sends: the Send button, or
+   * Enter (without Shift, Ctrl, Cmd or Alt) in the text area. Without `onSend`,
+   * the Send button does nothing and Enter keeps inserting a new line. Uncontrolled inputs clear after sending;
    * controlled inputs (`value`) leave clearing to the host.
    */
   onSend?: (value: string) => void;
@@ -127,7 +127,7 @@ export default function MessageInput({
 
   const send = () => {
     if (!onSend || !hasSendValue) return;
-    onSend(text);
+    onSend(text.trim());
     if (!isControlled) setInternalText('');
   };
 
@@ -142,6 +142,9 @@ export default function MessageInput({
       e.defaultPrevented ||
       e.key !== 'Enter' ||
       e.shiftKey ||
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey ||
       // keyCode 229 covers older Safari, which doesn't set isComposing
       e.nativeEvent.isComposing ||
       e.keyCode === 229
