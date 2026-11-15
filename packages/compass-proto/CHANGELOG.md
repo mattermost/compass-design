@@ -26,6 +26,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
+- **2026-11-15 · Bookmark default icons:** links show a book icon and attachments a file icon (as in the webapp) when no emoji is set — in `ChannelBookmarksBar` items and in the `ChannelBookmarkModal` emoji button (previously a link icon and a smiley).
 - **2026-11-15 · `ChannelHeaderMenu` Bookmarks bar submenu geometry:** the submenu overlaps its parent by 8px and its first item aligns with the row (the submenu recipe), instead of sitting 4px beside it.
 - **2026-11-15 · `ChannelBookmarksBar` overflow count size:** the count in the combined overflow button now matches the bookmark name text size.
 - **2026-11-15 · `ChannelBookmarksBar` overflow and add are one control (matching the webapp):** when bookmarks overflow, the separate `+N` chip and plus button are replaced by a single plus button with the hidden count (`IconButton` `count`; a more icon when `canManage` is false). Its menu lists the hidden bookmarks, then a divider, then Add a link / Attach a file. With no overflow the plus button is unchanged. **Empty bar:** with no bookmarks the bar renders nothing (as in the webapp) until the first is added, so the empty-state "Add bookmark" chip and `labels.addBookmark` are removed.

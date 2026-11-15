@@ -8,7 +8,8 @@ import {
   type FormEvent,
 } from 'react';
 import { createPortal } from 'react-dom';
-import EmoticonHappyOutlineIcon from '@mattermost/compass-icons/components/emoticon-happy-outline';
+import BookOutlineIcon from '@mattermost/compass-icons/components/book-outline';
+import FileGenericOutlineIcon from '@mattermost/compass-icons/components/file-generic-outline';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { EmojiButton } from '@mattermost/compass-ui/components/emoji-button';
@@ -354,7 +355,17 @@ export default function ChannelBookmarkModal({
                       padding="compact"
                       className={styles['channel-bookmark-modal__emoji-button']}
                       aria-label={l.emoji}
-                      icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
+                      icon={
+                        <Icon
+                          glyph={
+                            isFile ? (
+                              <FileGenericOutlineIcon />
+                            ) : (
+                              <BookOutlineIcon />
+                            )
+                          }
+                        />
+                      }
                       toggled={pickerOpen}
                       onClick={() => setPickerOpen((o) => !o)}
                     />

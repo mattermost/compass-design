@@ -14,6 +14,7 @@ import { createPortal } from 'react-dom';
 import ContentCopyIcon from '@mattermost/compass-icons/components/content-copy';
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
 import FileGenericOutlineIcon from '@mattermost/compass-icons/components/file-generic-outline';
+import BookOutlineIcon from '@mattermost/compass-icons/components/book-outline';
 import LinkVariantIcon from '@mattermost/compass-icons/components/link-variant';
 import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
 import PaperclipIcon from '@mattermost/compass-icons/components/paperclip';
@@ -279,7 +280,7 @@ function defaultIcon(b: ChannelBookmark): ReactNode {
   return (
     <Icon
       glyph={
-        b.type === 'file' ? <FileGenericOutlineIcon /> : <LinkVariantIcon />
+        b.type === 'file' ? <FileGenericOutlineIcon /> : <BookOutlineIcon />
       }
       size="12"
     />
