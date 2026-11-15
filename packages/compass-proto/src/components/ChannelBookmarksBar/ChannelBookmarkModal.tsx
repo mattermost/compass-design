@@ -20,6 +20,7 @@ import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import { EmojiPopover } from '../EmojiPopover';
 import { WithTooltip } from '../WithTooltip';
 import type { ChannelBookmarkAddType } from './ChannelBookmarksBar';
+import { normalizeUrl } from './normalizeUrl';
 import styles from './ChannelBookmarkModal.module.scss';
 
 export interface ChannelBookmarkModalValues {
@@ -86,23 +87,6 @@ export interface ChannelBookmarkModalProps {
   /** Lock body scroll while open. Default: true. */
   lockScroll?: boolean;
   labels?: ChannelBookmarkModalLabels;
-}
-
-function normalizeUrl(raw: string): string | null {
-  const value = raw.trim();
-  if (!value) return null;
-  const hasScheme = /^[a-z][a-z0-9+.-]*:/i.test(value);
-  try {
-    const u = new URL(hasScheme ? value : `https://${value}`);
-    if (!/^https?:$/.test(u.protocol)) return null;
-    // Single-label hosts (`http://intranet/…`, `localhost:8065`) are valid, but
-    // a bare word with no scheme (`nope`) is almost certainly a typo.
-    const singleLabel = !u.hostname.includes('.');
-    if (singleLabel && !hasScheme && u.hostname !== 'localhost') return null;
-    return u.toString();
-  } catch {
-    return null;
-  }
 }
 
 /**
