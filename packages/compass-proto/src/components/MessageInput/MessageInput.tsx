@@ -76,6 +76,7 @@ export default function MessageInput({
   width = 'wide',
   onSend,
   suggestions,
+  onKeyDown: hostOnKeyDown,
   ...rest
 }: MessageInputProps) {
   const [internalText, setInternalText] = useState('');
@@ -115,10 +116,14 @@ export default function MessageInput({
     if (!isControlled) setInternalText('');
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  // Runs on the root, after the host's `onKeyDown` (bubbling order), so a host
+  // that calls `preventDefault()` on Enter (e.g. to pick a suggestion) keeps
+  // the draft.
+  const handleRootKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    hostOnKeyDown?.(e);
     if (
       !onSend ||
-      // The host may have claimed Enter (e.g. to pick a suggestion).
+      !(e.target instanceof HTMLTextAreaElement) ||
       e.defaultPrevented ||
       e.key !== 'Enter' ||
       e.shiftKey ||
@@ -218,7 +223,8 @@ export default function MessageInput({
     .join(' ');
 
   return (
-    <div {...rest} className={rootClass}>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Enter-to-send for the text area inside; runs after the host's onKeyDown
+    <div {...rest} onKeyDown={handleRootKeyDown} className={rootClass}>
       {suggestions != null && (
         <div className={styles['message-input__suggestions']}>
           {suggestions}
@@ -269,7 +275,6 @@ export default function MessageInput({
             placeholder={placeholder}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            onKeyDown={handleKeyDown}
             onInput={handleInput}
             onSelect={onSelectionChange}
             onKeyUp={onSelectionChange}
