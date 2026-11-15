@@ -1,5 +1,4 @@
 import { GlobalHeader } from '@mattermost/compass-proto';
-import { GlobalHeaderSearchDemo } from './global-header.specimen';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 
 The Global Header is the full-width bar at the very top of the application. It
@@ -160,61 +159,13 @@ not depend on the tooltip wrapper.
 
 <Divider />
 
-## Search modal
+## Search
 
-Clicking the Search field (or pressing Enter in it) is meant to open the search
-modal. A large search field leads the dialog; below it sit **recent searches**
-and **search modifiers** (`From:`, `In:`, `On:`) while the field is empty, and
-**suggestions** (people, channels) once the user types a modifier. The footer
-shows a modifier tip, then **Enter to search** once there is a query. Messages
-are not searched while typing; Enter runs the search. It is one `role="listbox"`
-of Compass `MenuItem` rows built on `SuggestionList`, in `Modal`.
-
-This follows the Messages mode of the Universal Search prototype. Mode tabs (All,
-Channels, Files, People, Agents) are not built yet: pass them as `headerLeading`
-when they land.
-
-<Preview caption="Search modal — click the field, then try ↑ ↓, Enter, Esc, or type from:">
-  <div style={{ width: '100%' }}>
-    <GlobalHeaderSearchDemo />
-  </div>
-</Preview>
-
-`SearchModal` comes from `@mattermost/compass-proto`; `GlobalHeader` only needs
-`onSearchClick` to open it.
-
-```tsx
-<GlobalHeader onSearchClick={() => setOpen(true)} />
-
-<SearchModal
-  open={open}
-  onClose={() => setOpen(false)}
-  query={query}
-  onQueryChange={setQuery}
-  onSubmit={runSearch}
-  hints={hints}
-  recent={recent}
-  suggestions={suggestions}
-  onRemoveRecent={removeRecent}
-  onSelect={applySelection}
-/>;
-```
-
-- **Host-owned:** open state, the shortcut, the query text and what choosing a
-  row does (`onSelect` receives `{ kind, item }`; usually it edits `query`), plus
-  portal and stacking through `overlayProps`.
-- **Keyboard:** focus stays in the field. No row is highlighted until an arrow key
-  is pressed, so Enter on typed text still searches (`onSubmit`). The first
-  ArrowDown highlights the first row and the first ArrowUp the last. Arrows wrap,
-  Enter picks the highlighted row, Escape closes, and Shift+Delete removes the
-  highlighted recent search. Changing the text clears the highlight.
-- **Screen readers:** the field is a `combobox` with `aria-expanded`,
-  `aria-controls` and `aria-activedescendant`; groups are named by their headings.
-  The hover "×" on a recent row is a pointer shortcut hidden from assistive tech;
-  Shift+Delete is the keyboard equivalent.
-- **Translatable:** `title`, `placeholder`, `searchLabel`, `hintsLabel`,
-  `suggestionsLabel`, `recentLabel`, `listboxLabel`, `tipLabel`,
-  `enterToSearchLabel` and more take strings or nodes; hint copy is a node.
+Clicking the Search field (or pressing Enter in it) is meant to open the Search
+Modal, the dialog with recent searches, search modifiers and suggestions. The
+header only reports the click through `onSearchClick`; the host owns the modal's
+open state. See the Search Modal pattern for anatomy, keyboard behavior and
+usage.
 
 <Divider />
 

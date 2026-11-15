@@ -1,0 +1,104 @@
+import { SearchModalCanvas } from './search-modal.specimen';
+
+The Search Modal is where the global Search field leads. Clicking the field opens
+a dialog with a large search input over what the user can search with: their
+recent searches, search modifiers, and completions for the term they are typing.
+It follows the Messages mode of the Universal Search design. It lives in
+`@mattermost/compass-proto` as a prototyping surface and is not yet published to
+`@mattermost/compass-ui`.
+
+Mode tabs (All, Channels, Files, People, Agents) are planned but not built. The
+header has a slot for them. For jumping straight to a channel or direct message,
+see the Quick Switch Modal.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage
+  style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    backgroundColor: 'transparent',
+  }}
+>
+  <SearchModalCanvas />
+</AnatomyStage>
+
+- <Num>1</Num> **Search field** — a large search input that keeps focus the
+  whole time. The arrow keys move the highlight without leaving it, and a clear
+  button appears once there is text.
+- <Num>2</Num> **Search options** — modifiers the user can add, with the
+  modifier in bold followed by what it does (`From:` a specific user).
+- <Num>3</Num> **Recent searches** — past searches with a clock icon. Hovering a
+  row shows an × to remove it.
+- <Num>4</Num> **Suggestions** — completions for the term being typed, such as
+  people with an avatar and their full name. They replace the other groups while
+  they apply.
+- <Num>5</Num> **Footer tip** — modifier buttons ("Tip: Try From: In: On:") that
+  add that modifier to the field. Once there is a query it reads "Enter to
+  search".
+
+<Divider />
+
+## States
+
+- **Default** — search options, then recent searches, with nothing highlighted.
+  Recent searches narrow as the user types.
+- **Typing** — messages are not searched while typing; searching on every
+  keystroke is too expensive. The user presses Enter to search.
+- **Modifier** — typing a modifier such as `from:` replaces the body with
+  suggestions for it. Choosing one fills it into the field, ready to search or
+  to add more terms.
+- **Highlighted** — after the first arrow key, one row has a soft fill and the
+  field announces it to assistive technology.
+- **Empty** — when there is nothing to offer, the list is left out and the dialog
+  shrinks to the field and footer.
+
+The dialog grows with its results up to a maximum height, then the list scrolls.
+
+## Keyboard
+
+| Key            | Action                                              |
+| -------------- | --------------------------------------------------- |
+| Down / Up      | Highlight the first / last row, then move, wrapping |
+| Enter          | Open the highlighted row, or search when none is    |
+| Escape         | Close                                               |
+| Shift + Delete | Remove the highlighted recent search                |
+
+Typing clears the highlight, so Enter always searches typed text unless the user
+has just arrowed into the list. The × on a recent search is a pointer shortcut
+and is hidden from assistive technology; Shift + Delete is the keyboard
+equivalent.
+
+<Divider />
+
+## Implementation
+
+The host owns open state, the shortcut or header click that opens it, the query
+text, and what choosing a row does. `onSelect` receives `{ kind, item }`; usually
+it edits `query`, then the user presses Enter and `onSubmit` runs the search.
+Headings, placeholder, tip, and accessible names take strings or nodes, so they
+can be translated. See the Specimen tab for a live example.
+
+```tsx
+import { GlobalHeader, SearchModal } from '@mattermost/compass-proto';
+
+<GlobalHeader onSearchClick={() => setOpen(true)} />
+
+<SearchModal
+  open={open}
+  onClose={() => setOpen(false)}
+  query={query}
+  onQueryChange={setQuery}
+  onSubmit={runSearch}
+  hints={hints}
+  recent={recent}
+  suggestions={suggestions}
+  onRemoveRecent={removeRecent}
+  onSelect={applySelection}
+/>;
+```
+
+Pass a `SegmentedControl` of modes as `headerLeading` once more modes exist.
