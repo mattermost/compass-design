@@ -175,4 +175,14 @@ describe('MessageInput', () => {
     expect(slot.querySelector('[data-testid="suggestions"]')).not.toBeNull();
     expect(slot.nextElementSibling?.querySelector('textarea')).not.toBeNull();
   });
+
+  it('renders no suggestions wrapper for a closed slot (false, empty string)', () => {
+    const { container, rerender } = render(
+      <MessageInput suggestions={false} />,
+    );
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.children).toHaveLength(1);
+    rerender(<MessageInput suggestions="" />);
+    expect(root.children).toHaveLength(1);
+  });
 });

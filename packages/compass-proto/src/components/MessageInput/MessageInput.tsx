@@ -225,11 +225,13 @@ export default function MessageInput({
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Enter-to-send for the text area inside; runs after the host's onKeyDown
     <div {...rest} onKeyDown={handleRootKeyDown} className={rootClass}>
-      {suggestions != null && (
-        <div className={styles['message-input__suggestions']}>
-          {suggestions}
-        </div>
-      )}
+      {suggestions != null &&
+        typeof suggestions !== 'boolean' &&
+        suggestions !== '' && (
+          <div className={styles['message-input__suggestions']}>
+            {suggestions}
+          </div>
+        )}
       <div
         className={cls(
           'message-input__container',
