@@ -222,6 +222,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       label: 'Webapp',
       slugs: [
         'channel',
+        'product',
         'channel-thread',
         'channel-info',
         'modal',
