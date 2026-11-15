@@ -25,6 +25,7 @@ import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import {
   PopoverMenu,
+  PopoverMenuDivider,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
@@ -325,20 +326,19 @@ export default function ChannelBookmarksBar({
     if (!row || !measure) return;
     const update = () => {
       const kids = Array.from(measure.children) as HTMLElement[];
-      // Last child is the widest possible `+N` chip; the rest are items.
-      const chip = kids.pop();
+      // Trailing clones: the add button (when managing), then the widest
+      // possible combined overflow control; the rest are items.
+      const plus = canManage ? kids.pop() : undefined;
+      const combined = kids.pop();
       const widths = kids.map((el) => el.offsetWidth);
       const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
-      const trailing = canManage
-        ? plusRef.current?.offsetWidth || CONTROL_WIDTH_FALLBACK
-        : 0;
       setVisibleCount(
         computeVisibleCount(
           widths,
           row.clientWidth,
           gap,
-          chip?.offsetWidth || CONTROL_WIDTH_FALLBACK,
-          trailing,
+          combined?.offsetWidth || CONTROL_WIDTH_FALLBACK,
+          canManage ? plus?.offsetWidth || CONTROL_WIDTH_FALLBACK : 0,
         ),
       );
     };
@@ -425,30 +425,36 @@ export default function ChannelBookmarksBar({
   const nameOf = (b: ChannelBookmark) =>
     b.labelText ?? (typeof b.label === 'string' ? b.label : '');
 
+  // "Add a link" / "Attach a file", shared by the add menu and the combined
+  // overflow menu.
+  const addItems = (
+    <PopoverMenuGroup>
+      <MenuItem
+        label={l.addLink}
+        leadingVisual={<Icon glyph={<LinkVariantIcon />} size="16" />}
+        onClick={() => {
+          setOpenMenu(null);
+          onAdd?.('link');
+        }}
+      />
+      <MenuItem
+        label={l.addFile}
+        leadingVisual={<Icon glyph={<PaperclipIcon />} size="16" />}
+        onClick={() => {
+          setOpenMenu(null);
+          onAdd?.('file');
+        }}
+      />
+    </PopoverMenuGroup>
+  );
+
   const addMenu = (
     <AnchoredMenu
       open={openMenu === ADD_MENU}
       portalRef={menuLayerRef}
       onClose={closeMenu}
     >
-      <PopoverMenuGroup>
-        <MenuItem
-          label={l.addLink}
-          leadingVisual={<Icon glyph={<LinkVariantIcon />} size="16" />}
-          onClick={() => {
-            setOpenMenu(null);
-            onAdd?.('link');
-          }}
-        />
-        <MenuItem
-          label={l.addFile}
-          leadingVisual={<Icon glyph={<PaperclipIcon />} size="16" />}
-          onClick={() => {
-            setOpenMenu(null);
-            onAdd?.('file');
-          }}
-        />
-      </PopoverMenuGroup>
+      {addItems}
     </AnchoredMenu>
   );
 
@@ -608,19 +614,27 @@ export default function ChannelBookmarksBar({
         ))}
         {hidden.length > 0 && (
           <div className={styles['channel-bookmarks-bar__trailing']}>
-            <button
-              ref={overflowChipRef}
-              type="button"
-              className={styles['channel-bookmarks-bar__chip']}
-              aria-label={`${l.overflow}, ${hidden.length}`}
-              aria-haspopup="menu"
-              aria-expanded={openMenu === OVERFLOW_MENU}
-              onClick={() =>
-                setOpenMenu(openMenu === OVERFLOW_MENU ? null : OVERFLOW_MENU)
-              }
-            >
-              +{hidden.length}
-            </button>
+            {/* One control, like the webapp: add button + overflow count. */}
+            <WithTooltip label={`${hidden.length} ${l.overflow}`}>
+              <IconButton
+                ref={overflowChipRef}
+                size="small"
+                padding="compact"
+                count={hidden.length}
+                className={styles['channel-bookmarks-bar__combined']}
+                aria-label={`${l.overflow}, ${hidden.length}`}
+                aria-haspopup="menu"
+                aria-expanded={openMenu === OVERFLOW_MENU}
+                icon={
+                  <Icon
+                    glyph={canManage ? <PlusIcon /> : <DotsHorizontalIcon />}
+                  />
+                }
+                onClick={() =>
+                  setOpenMenu(openMenu === OVERFLOW_MENU ? null : OVERFLOW_MENU)
+                }
+              />
+            </WithTooltip>
             <AnchoredMenu
               open={openMenu === OVERFLOW_MENU}
               align="end"
@@ -674,6 +688,12 @@ export default function ChannelBookmarksBar({
                   </div>
                 ))}
               </PopoverMenuGroup>
+              {canManage && (
+                <>
+                  <PopoverMenuDivider />
+                  {addItems}
+                </>
+              )}
             </AnchoredMenu>
           </div>
         )}
@@ -695,7 +715,7 @@ export default function ChannelBookmarksBar({
             {addMenu}
           </div>
         )}
-        {canManage && !empty && (
+        {canManage && !empty && hidden.length === 0 && (
           <div
             ref={plusRef}
             className={styles['channel-bookmarks-bar__trailing']}
@@ -733,9 +753,23 @@ export default function ChannelBookmarksBar({
             {content(b)}
           </div>
         ))}
-        <div className={styles['channel-bookmarks-bar__chip']}>
-          +{bookmarks.length}
-        </div>
+        <IconButton
+          size="small"
+          padding="compact"
+          tabIndex={-1}
+          count={bookmarks.length}
+          className={styles['channel-bookmarks-bar__combined']}
+          icon={<Icon glyph={<PlusIcon />} />}
+        />
+        {canManage && (
+          <IconButton
+            size="small"
+            padding="compact"
+            tabIndex={-1}
+            className={styles['channel-bookmarks-bar__add']}
+            icon={<Icon glyph={<PlusIcon />} />}
+          />
+        )}
       </div>
     </div>
   );

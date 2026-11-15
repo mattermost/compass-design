@@ -1,8 +1,10 @@
 /**
  * Number of leading items that fit in `available` px.
  *
- * `trailingWidth` (e.g. the add button) is always reserved. When not every
- * item fits, room for the `+N` overflow control is reserved as well.
+ * When every item fits, room for the always-present trailing control (the add
+ * button, `trailingWidth`) is reserved. When not every item fits, the add
+ * button and the overflow control are one combined control (`overflowWidth`),
+ * so only that is reserved.
  */
 export function computeVisibleCount(
   widths: number[],
@@ -17,6 +19,6 @@ export function computeVisibleCount(
   const trailing = trailingWidth > 0 ? gap + trailingWidth : 0;
   if (items(widths.length) + trailing <= available) return widths.length;
   let n = widths.length;
-  while (n > 0 && items(n) + gap + overflowWidth + trailing > available) n -= 1;
+  while (n > 0 && items(n) + gap + overflowWidth > available) n -= 1;
   return n;
 }

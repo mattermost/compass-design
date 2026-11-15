@@ -24,6 +24,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 
+- **2026-11-15 · `ChannelBookmarksBar` overflow and add are one control (matching the webapp):** when bookmarks overflow, the separate `+N` chip and plus button are replaced by a single plus button with the hidden count (`IconButton` `count`; a more icon when `canManage` is false). Its menu lists the hidden bookmarks, then a divider, then Add a link / Attach a file. With no overflow the plus button is unchanged.
 - **2026-11-15 · `ChannelBookmarkModal` field spacing:** the link and title fields are 24px apart (was 16px), matching other Compass modal forms.
 - **2026-11-15 · Product Rail mention badge position:** the mention badge is positioned by its centre (so it stays put whatever its width), 2px down and 2px left of the unread dot's centre at the top-right of the icon chip. Part of #273.
 - **2026-11-15 · `GlobalHeader` `showProductBranding`; `ProductShell` hides the header product name:** new `showProductBranding` prop (default `true`, so existing uses are unchanged) hides the product icon and name for any product. `ProductShell` sets it to `false` because the Product Rail already shows the active product; pass `globalHeaderProps={{ showProductBranding: true }}` to restore it. Part of #273.

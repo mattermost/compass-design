@@ -46,9 +46,11 @@ depends on one click away without pinning or searching.
 - <Num>3</Num> **Add button** — A plus button inline after the last bookmark.
   Opens a menu to add a link or attach a file. Hidden for members who can't
   manage bookmarks.
-- <Num>4</Num> **Overflow button** — A `+N` chip that appears only when some
-  bookmarks don't fit, where N is how many are hidden. Opens a menu listing the
-  hidden bookmarks in order.
+- <Num>4</Num> **Overflow button** — When some bookmarks don't fit, the add
+  button and the overflow control become one: a plus button with the number of
+  hidden bookmarks beside it. Its menu lists the hidden bookmarks in order, then
+  a divider, then the add options. For members who can't manage bookmarks it
+  shows a more icon with the count and lists only the hidden bookmarks.
 
 <Divider />
 
@@ -61,9 +63,10 @@ bookmarks see no bar at all.
 ## Overflow
 
 The bar never wraps or scrolls. Bookmarks are shown in order, followed by the
-plus button; when the next bookmark would not fit, the rest collapse into a
-`+N` chip (for example `+2`) that sits before the plus button. The split
-recalculates when the channel column is resized or bookmarks change, so
+plus button; when the next bookmark would not fit, the rest collapse and the
+plus button becomes the combined overflow button (a plus with the hidden count,
+for example `+ 2`), so there is never a separate overflow button beside it. The
+split recalculates when the channel column is resized or bookmarks change, so
 narrowing the window moves bookmarks into the menu one at a time.
 
 ## Add and edit
