@@ -56,6 +56,15 @@ Every popover-style surface — `EmojiPopover`, `TourPoint`, `PopoverMenu`, `Pro
 
 **Exceptions:** form widgets with menu/popover surfaces (`Combobox`, `Select`, `DateRangePicker`, etc.) own widget-level open/close, keyboard behavior, and may **portal + position** their own menus (viewport flip, escape overflow clipping). That portal logic is scoped to those widgets — do not reuse it as a general overlay positioning API for chrome primitives. Proto/mobile presentation components (`MobileBottomSheet`, `MobileModalStage`, etc.) may bundle backdrop and animation for prototyping — keep those in `compass-proto` or playground presenters, not published overlay primitives. Prototype tooltip hosting (`WithTooltip`) also lives in `compass-proto`, not in `Tooltip` or `IconButton`.
 
+### Submenu recipe
+
+Every submenu (a `PopoverMenu` opened from a menu row with a chevron) follows the Popover Menu guideline:
+
+- **Overlap the parent by 8px** — the child's edge sits 8px inside the parent menu's edge, on the side it opens toward (flip to the left when there's no room).
+- **Align the first item with the parent row** — the child's surface reaches above the row by its own padding so its first item sits level with the row that opened it.
+- **The parent row is active** (`MenuItem active`) while the submenu is open.
+- Static docs previews of a submenu render the same geometry (see `BookmarksHeaderMenuExample`); the live one is portaled like any popover.
+
 ## Component usage (short)
 
 - **Primary button:** `emphasis="primary"` at most once per view. Prefer `secondary` / `tertiary` / `quaternary` otherwise.

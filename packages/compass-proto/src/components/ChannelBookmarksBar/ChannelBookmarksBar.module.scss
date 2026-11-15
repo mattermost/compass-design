@@ -4,6 +4,8 @@
   align-items: center;
   gap: var(--spacing-xs);
   min-height: calc(var(--spacing-xxxl) - var(--spacing-xs));
+  // Never squeezed by a flex parent (e.g. the channel's center column).
+  flex: 0 0 auto;
   padding: var(--spacing-xxs);
   background-color: var(--center-channel-bg, var(--color-neutral-0));
   border-bottom: 1px solid
@@ -59,6 +61,44 @@
   &__item:hover &__link,
   &__item--active &__link {
     background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+  }
+
+  // Drag-to-reorder: the dragged item dims; a bar on the near side of the item
+  // under the pointer shows where it will land (logical sides, so RTL flips).
+  &__item--dragging {
+    opacity: var(--opacity-80);
+  }
+
+  &__item--drop-before::before,
+  &__item--drop-after::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--spacing-xxxxs);
+    border-radius: var(--radius-pill);
+    background-color: var(--button-bg);
+    pointer-events: none;
+  }
+
+  &__item--drop-before::before {
+    inset-inline-start: calc(-1 * var(--spacing-xxxs));
+  }
+
+  &__item--drop-after::after {
+    inset-inline-end: calc(-1 * var(--spacing-xxxs));
+  }
+
+  // Screen-reader-only announcements (reorder results).
+  &__live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   &__icon {
@@ -121,46 +161,35 @@
   &__trailing {
     position: relative;
     flex: 0 0 auto;
-
-    // Beat IconButton's own size so the plus matches the bookmark buttons.
-    .channel-bookmarks-bar__add {
-      width: var(--icon-size-24);
-      height: var(--icon-size-24);
-      min-width: 0;
-      min-height: 0;
-    }
+    // Flex, not a block holding an inline button: a block adds a text line box,
+    // so the bar's height would depend on the host's inherited line-height.
+    display: flex;
+    align-items: center;
   }
 
-  &__chip {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xxs);
-    box-sizing: border-box;
+  // Beat IconButton's own size so the add button matches the bookmark buttons.
+  // Also applied to the hidden measuring copies, so they measure what renders.
+  &__trailing &__add,
+  &__measure &__add {
+    width: var(--icon-size-24);
     height: var(--icon-size-24);
-    padding: 0 var(--spacing-s);
-    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-16));
-    border-radius: var(--radius-pill);
-    background: transparent;
-    color: var(--center-channel-color);
-    font: inherit;
-    font-size: var(--font-size-75);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-100);
-    white-space: nowrap;
-    cursor: pointer;
+    min-width: 0;
+    min-height: 0;
+  }
 
-    &:hover,
-    &:active,
-    &[aria-expanded='true'] {
-      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
-    }
+  // Add button + overflow count in one control: same 24px height, grows with
+  // the count.
+  &__trailing &__combined,
+  &__measure &__combined {
+    width: auto;
+    min-width: var(--icon-size-24);
+    height: var(--icon-size-24);
+    min-height: 0;
 
-    @include focus-ring;
-
-    // Empty-state "Add bookmark": no outline, like the bookmark buttons.
-    &--borderless {
-      border-color: transparent;
-      border-radius: var(--radius-s);
+    // The count reads at the same size as the bookmark names.
+    :global([class*='icon-button__count']) {
+      font-size: var(--font-size-75);
+      line-height: var(--line-height-100);
     }
   }
 
