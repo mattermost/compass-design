@@ -89,15 +89,12 @@ const DEFAULT_SELECT_KEYS: SuggestionSelectKey[] = ['Enter', 'Tab'];
  * Focus stays in the field: spread `inputProps` on it, call `onKeyDown` from its
  * key handler and spread `listProps` on the list. The first enabled option is
  * active whenever the option list changes.
-<<<<<<< HEAD
-=======
  *
  * A key the list handles (arrows, a select key, Escape) gets `preventDefault()`
  * and keeps bubbling, like `Modal` Escape. A host handler that also reacts to
  * Enter (send) or Escape (close something) must skip events with
  * `defaultPrevented`, or run after `onKeyDown` and check it, so accepting a
  * suggestion doesn't also send the draft.
->>>>>>> origin/main
  */
 export function useSuggestionList({
   sections,

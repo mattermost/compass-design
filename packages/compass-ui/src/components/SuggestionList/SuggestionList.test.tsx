@@ -181,8 +181,6 @@ describe('SuggestionList', () => {
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
-<<<<<<< HEAD
-=======
   it('marks handled keys with defaultPrevented so a parent handler can skip them', () => {
     const seen: Array<[string, boolean]> = [];
     render(
@@ -203,7 +201,6 @@ describe('SuggestionList', () => {
     ]);
   });
 
->>>>>>> origin/main
   it('closes on Escape and marks it handled', () => {
     const onClose = vi.fn();
     render(<Composer onClose={onClose} />);
