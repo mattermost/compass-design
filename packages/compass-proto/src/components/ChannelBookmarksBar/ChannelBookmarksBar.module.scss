@@ -75,7 +75,8 @@
   &__more {
     position: absolute;
     top: 50%;
-    inset-inline-end: var(--spacing-xxs);
+    // Item is 24px tall and this button 20px, so a 2px inset is equal on the top, end, and bottom edges.
+    inset-inline-end: var(--spacing-xxxxs);
     display: inline-flex;
     align-items: center;
     justify-content: center;
