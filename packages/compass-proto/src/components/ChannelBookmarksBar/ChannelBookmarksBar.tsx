@@ -105,6 +105,12 @@ export interface ChannelBookmarksBarProps extends Omit<
   className?: string;
 }
 
+// Open-menu keys. Bookmark ids are caller-owned, so they are namespaced and can
+// never collide with the bar's own `add` / `overflow` menus.
+const ADD_MENU = 'menu:add';
+const OVERFLOW_MENU = 'menu:overflow';
+const itemMenu = (id: string) => `item:${id}`;
+
 /** Used until the real controls have been measured. */
 const CONTROL_WIDTH_FALLBACK = 40;
 
@@ -349,7 +355,7 @@ export default function ChannelBookmarksBar({
 
   const addMenu = (
     <AnchoredMenu
-      open={openMenu === 'add'}
+      open={openMenu === ADD_MENU}
       portalRef={menuLayerRef}
       onClose={closeMenu}
     >
@@ -374,7 +380,7 @@ export default function ChannelBookmarksBar({
     </AnchoredMenu>
   );
 
-  const toggleAdd = () => setOpenMenu(openMenu === 'add' ? null : 'add');
+  const toggleAdd = () => setOpenMenu(openMenu === ADD_MENU ? null : ADD_MENU);
 
   if (empty && !canManage) return null;
 
@@ -400,7 +406,7 @@ export default function ChannelBookmarksBar({
             key={b.id}
             className={[
               styles['channel-bookmarks-bar__item'],
-              openMenu === b.id &&
+              openMenu === itemMenu(b.id) &&
                 styles['channel-bookmarks-bar__item--active'],
             ]
               .filter(Boolean)
@@ -430,13 +436,15 @@ export default function ChannelBookmarksBar({
               className={styles['channel-bookmarks-bar__more']}
               aria-label={`${l.itemActions} ${nameOf(b)}`.trim()}
               aria-haspopup="menu"
-              aria-expanded={openMenu === b.id}
-              onClick={() => setOpenMenu(openMenu === b.id ? null : b.id)}
+              aria-expanded={openMenu === itemMenu(b.id)}
+              onClick={() =>
+                setOpenMenu(openMenu === itemMenu(b.id) ? null : itemMenu(b.id))
+              }
             >
               <Icon glyph={<DotsHorizontalIcon />} size="12" />
             </button>
             <AnchoredMenu
-              open={openMenu === b.id}
+              open={openMenu === itemMenu(b.id)}
               portalRef={menuLayerRef}
               onClose={closeMenu}
             >
@@ -485,30 +493,67 @@ export default function ChannelBookmarksBar({
               className={styles['channel-bookmarks-bar__chip']}
               aria-label={`${l.overflow}, ${hidden.length}`}
               aria-haspopup="menu"
-              aria-expanded={openMenu === 'overflow'}
+              aria-expanded={openMenu === OVERFLOW_MENU}
               onClick={() =>
-                setOpenMenu(openMenu === 'overflow' ? null : 'overflow')
+                setOpenMenu(openMenu === OVERFLOW_MENU ? null : OVERFLOW_MENU)
               }
             >
               +{hidden.length}
             </button>
             <AnchoredMenu
-              open={openMenu === 'overflow'}
+              open={openMenu === OVERFLOW_MENU}
               align="end"
               portalRef={menuLayerRef}
               onClose={closeMenu}
             >
               <PopoverMenuGroup>
                 {hidden.map((b) => (
-                  <MenuItem
+                  <div
                     key={b.id}
-                    label={b.label}
-                    leadingVisual={defaultIcon(b)}
-                    onClick={() => {
-                      activate(b);
-                      if (b.href) window.open(b.href, '_blank', 'noopener');
-                    }}
-                  />
+                    className={styles['channel-bookmarks-bar__overflow-row']}
+                  >
+                    <MenuItem
+                      label={b.label}
+                      leadingVisual={defaultIcon(b)}
+                      onClick={() => {
+                        activate(b);
+                        if (b.href) window.open(b.href, '_blank', 'noopener');
+                      }}
+                    />
+                    {canManage && (
+                      <div
+                        className={
+                          styles['channel-bookmarks-bar__overflow-actions']
+                        }
+                      >
+                        <WithTooltip label={l.edit}>
+                          <IconButton
+                            size="x-small"
+                            padding="compact"
+                            aria-label={`${l.edit} ${nameOf(b)}`.trim()}
+                            icon={<Icon glyph={<PencilOutlineIcon />} />}
+                            onClick={() => {
+                              setOpenMenu(null);
+                              onEdit?.(b);
+                            }}
+                          />
+                        </WithTooltip>
+                        <WithTooltip label={l.delete}>
+                          <IconButton
+                            size="x-small"
+                            padding="compact"
+                            destructive
+                            aria-label={`${l.delete} ${nameOf(b)}`.trim()}
+                            icon={<Icon glyph={<TrashCanOutlineIcon />} />}
+                            onClick={() => {
+                              setOpenMenu(null);
+                              onDelete?.(b);
+                            }}
+                          />
+                        </WithTooltip>
+                      </div>
+                    )}
+                  </div>
                 ))}
               </PopoverMenuGroup>
             </AnchoredMenu>
@@ -523,7 +568,7 @@ export default function ChannelBookmarksBar({
                 styles['channel-bookmarks-bar__chip--borderless'],
               ].join(' ')}
               aria-haspopup="menu"
-              aria-expanded={openMenu === 'add'}
+              aria-expanded={openMenu === ADD_MENU}
               onClick={toggleAdd}
             >
               <Icon glyph={<PlusIcon />} size="12" />
@@ -543,7 +588,7 @@ export default function ChannelBookmarksBar({
                 padding="compact"
                 className={styles['channel-bookmarks-bar__add']}
                 aria-haspopup="menu"
-                aria-expanded={openMenu === 'add'}
+                aria-expanded={openMenu === ADD_MENU}
                 icon={<Icon glyph={<PlusIcon />} />}
                 onClick={toggleAdd}
               />

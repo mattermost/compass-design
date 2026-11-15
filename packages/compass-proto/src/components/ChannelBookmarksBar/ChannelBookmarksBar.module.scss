@@ -164,6 +164,34 @@
     }
   }
 
+  // Overflow menu rows: the bookmark plus Edit / Delete, revealed on hover or
+  // focus so hidden bookmarks stay manageable without resizing.
+  &__overflow-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xxxs);
+    padding-inline-end: var(--spacing-xxs);
+
+    > :first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  &__overflow-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--spacing-xxxxs);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__overflow-row:hover &__overflow-actions,
+  &__overflow-row:focus-within &__overflow-actions {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   // Zero-size anchor at the parent's bottom edge; the portaled menu measures it.
   &__menu-slot {
     position: absolute;

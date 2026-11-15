@@ -18,6 +18,7 @@ import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import { EmojiPopover } from '../EmojiPopover';
+import { WithTooltip } from '../WithTooltip';
 import type { ChannelBookmarkAddType } from './ChannelBookmarksBar';
 import styles from './ChannelBookmarkModal.module.scss';
 
@@ -90,14 +91,15 @@ export interface ChannelBookmarkModalProps {
 function normalizeUrl(raw: string): string | null {
   const value = raw.trim();
   if (!value) return null;
-  const withScheme = /^[a-z][a-z0-9+.-]*:/i.test(value)
-    ? value
-    : `https://${value}`;
+  const hasScheme = /^[a-z][a-z0-9+.-]*:/i.test(value);
   try {
-    const u = new URL(withScheme);
-    return /^https?:$/.test(u.protocol) && u.hostname.includes('.')
-      ? u.toString()
-      : null;
+    const u = new URL(hasScheme ? value : `https://${value}`);
+    if (!/^https?:$/.test(u.protocol)) return null;
+    // Single-label hosts (`http://intranet/…`, `localhost:8065`) are valid, but
+    // a bare word with no scheme (`nope`) is almost certainly a typo.
+    const singleLabel = !u.hostname.includes('.');
+    if (singleLabel && !hasScheme && u.hostname !== 'localhost') return null;
+    return u.toString();
   } catch {
     return null;
   }
@@ -337,27 +339,29 @@ export default function ChannelBookmarkModal({
                 ref={emojiAnchorRef}
                 className={styles['channel-bookmark-modal__emoji']}
               >
-                {emoji ? (
-                  <EmojiButton
-                    emoji={emoji}
-                    size="small"
-                    padding="compact"
-                    className={styles['channel-bookmark-modal__emoji-button']}
-                    aria-label={l.emoji}
-                    toggled={pickerOpen}
-                    onClick={() => setPickerOpen((o) => !o)}
-                  />
-                ) : (
-                  <IconButton
-                    size="small"
-                    padding="compact"
-                    className={styles['channel-bookmark-modal__emoji-button']}
-                    aria-label={l.emoji}
-                    icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
-                    toggled={pickerOpen}
-                    onClick={() => setPickerOpen((o) => !o)}
-                  />
-                )}
+                <WithTooltip label={l.emoji}>
+                  {emoji ? (
+                    <EmojiButton
+                      emoji={emoji}
+                      size="small"
+                      padding="compact"
+                      className={styles['channel-bookmark-modal__emoji-button']}
+                      aria-label={l.emoji}
+                      toggled={pickerOpen}
+                      onClick={() => setPickerOpen((o) => !o)}
+                    />
+                  ) : (
+                    <IconButton
+                      size="small"
+                      padding="compact"
+                      className={styles['channel-bookmark-modal__emoji-button']}
+                      aria-label={l.emoji}
+                      icon={<Icon glyph={<EmoticonHappyOutlineIcon />} />}
+                      toggled={pickerOpen}
+                      onClick={() => setPickerOpen((o) => !o)}
+                    />
+                  )}
+                </WithTooltip>
               </span>
             }
           />

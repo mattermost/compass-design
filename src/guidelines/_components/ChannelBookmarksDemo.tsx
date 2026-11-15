@@ -98,6 +98,12 @@ export default function ChannelBookmarksDemo({
     }
   };
 
+  const editingName =
+    modal.editing?.labelText ??
+    (typeof modal.editing?.label === 'string'
+      ? modal.editing.label
+      : undefined);
+
   return (
     <>
       <ChannelBookmarksBar
@@ -122,12 +128,10 @@ export default function ChannelBookmarksDemo({
         initialValues={
           modal.editing
             ? {
-                title: modal.editing.labelText,
+                title: editingName,
                 url: modal.editing.href,
                 fileName:
-                  modal.editing.type === 'file'
-                    ? modal.editing.labelText
-                    : undefined,
+                  modal.editing.type === 'file' ? editingName : undefined,
                 emoji: modal.editing.emoji,
               }
             : undefined
