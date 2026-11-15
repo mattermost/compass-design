@@ -195,6 +195,7 @@ describe('MessageInput', () => {
         onSelectionChange={onSelectionChange}
         textareaProps={{
           role: 'combobox',
+          className: 'host-field',
           'aria-expanded': true,
           onKeyDown: (e) => {
             if (e.key === 'Enter') e.preventDefault();
@@ -203,6 +204,8 @@ describe('MessageInput', () => {
       />,
     );
     const textarea = container.querySelector('textarea')!;
+    expect(textarea.className).toContain('host-field');
+    expect(textarea.className).toContain('message-input__textarea');
     expect(textarea.getAttribute('role')).toBe('combobox');
     expect(textarea.getAttribute('aria-expanded')).toBe('true');
     type(textarea, '@al');

@@ -69,8 +69,8 @@ export interface MessageInputProps extends Omit<
    * suggestion list in `suggestions` gets combobox semantics and arrow/Enter keys.
    * `onKeyDown`, `onSelect`, `onKeyUp`, `onClick` and `onInput` run before the
    * component's own handling; the host's `onKeyDown` runs before Enter-to-send, so
-   * calling `preventDefault()` there keeps the draft. `value`, `onChange`,
-   * `placeholder` and `rows` are owned by `MessageInput`.
+   * calling `preventDefault()` there keeps the draft. `className` is merged;
+   * `value`, `onChange`, `placeholder` and `rows` are owned by `MessageInput`.
    */
   textareaProps?: Omit<
     TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -292,7 +292,12 @@ export default function MessageInput({
           <textarea
             {...textareaProps}
             ref={setTextareaRef}
-            className={styles['message-input__textarea']}
+            className={[
+              styles['message-input__textarea'],
+              textareaProps?.className,
+            ]
+              .filter(Boolean)
+              .join(' ')}
             placeholder={placeholder}
             value={text}
             onChange={(e) => setText(e.target.value)}
