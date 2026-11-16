@@ -44,6 +44,7 @@ export * from './components/QuickSwitchModal/index';
 export * from './components/ProductSwitcherMenu/index';
 export * from './components/UserAccountMenu/index';
 export * from './components/CallNotice/index';
+export * from './components/CallCard/index';
 export * from './components/RecordingIndicator/index';
 export * from './components/RightSidebar/index';
 export * from './components/RightSidebarChannelInfo/index';

@@ -101,7 +101,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     edited: true,
     reactions: [
       {
-        emoji: '+1',
+        emoji: '👍',
         userIds: ['ataylor'],
       },
     ],
@@ -282,7 +282,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     rootId: 'inc-1281-credential-comp-22',
     reactions: [
       {
-        emoji: '+1',
+        emoji: '👍',
         userIds: ['admin'],
       },
     ],
@@ -304,7 +304,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     rootId: 'inc-1281-credential-comp-22',
     reactions: [
       {
-        emoji: 'white_check_mark',
+        emoji: '✅',
         userIds: ['admin'],
       },
     ],
@@ -345,11 +345,11 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     edited: true,
     reactions: [
       {
-        emoji: '+1',
+        emoji: '👍',
         userIds: ['jthomas', 'admin'],
       },
       {
-        emoji: 'thank-you',
+        emoji: '🙏',
         userIds: ['amccall'],
       },
     ],
@@ -705,7 +705,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     rootId: 'security-alerts-4',
     reactions: [
       {
-        emoji: 'thank-you',
+        emoji: '🙏',
         userIds: ['jthomas'],
       },
     ],
@@ -750,7 +750,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     ],
     reactions: [
       {
-        emoji: 'eye',
+        emoji: '👁️',
         userIds: ['areid', 'admin', 'ataylor'],
       },
     ],
@@ -765,7 +765,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     rootId: 'security-alerts-6',
     reactions: [
       {
-        emoji: '+1',
+        emoji: '👍',
         userIds: ['jthomas'],
       },
     ],
@@ -817,7 +817,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     priority: 'important',
     reactions: [
       {
-        emoji: 'large_green_circle',
+        emoji: '🟢',
         userIds: ['areid'],
       },
     ],
@@ -869,7 +869,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     priority: 'urgent',
     reactions: [
       {
-        emoji: 'large_yellow_circle',
+        emoji: '🟡',
         userIds: ['admin'],
       },
     ],
@@ -925,11 +925,11 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     priority: 'urgent',
     reactions: [
       {
-        emoji: 'eyes',
+        emoji: '👀',
         userIds: ['ataylor'],
       },
       {
-        emoji: 'thank-you',
+        emoji: '🙏',
         userIds: ['admin'],
       },
     ],
@@ -1208,7 +1208,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     timestamp: 'May 8 at 2:01 PM',
     reactions: [
       {
-        emoji: 'partying_face',
+        emoji: '🥳',
         userIds: ['ataylor'],
       },
     ],
@@ -1279,7 +1279,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     timestamp: 'May 8 at 2:20 PM',
     reactions: [
       {
-        emoji: 'thank-you',
+        emoji: '🙏',
         userIds: ['ataylor'],
       },
     ],

@@ -1040,6 +1040,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/call-widget/call-widget.specimen'),
   },
   {
+    slug: 'call-card',
+    name: 'Call Card',
+    category: 'patterns',
+    description:
+      'The post a call leaves in a channel: Join call while it is live, then its duration and recordings once it ends.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/call-card/call-card.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/call-card/call-card.specimen'),
+  },
+  {
     slug: 'emoji-popover',
     name: 'Emoji Popover',
     category: 'patterns',

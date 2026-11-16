@@ -8,7 +8,7 @@ export interface FixtureUser {
   displayName: string;
   presence: FixturePresence;
   /** Optional plain custom status emoji. */
-  /** A glyph (`🌴`) or a Mattermost emoji name (`toolbox`). */
+  /** Emoji glyph, e.g. `🌴`. */
   customStatusEmoji?: string;
   customStatusText?: string;
   /** Job title, when the sample data has one. */
@@ -100,7 +100,7 @@ export interface FixtureAcknowledgement {
 }
 
 export interface FixtureReaction {
-  /** Emoji name without colons, e.g. `eyes`. May name a custom emoji. */
+  /** Emoji glyph, e.g. `👀`. */
   emoji: string;
   userIds: string[];
 }

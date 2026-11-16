@@ -1,0 +1,76 @@
+import { CallCard } from '@mattermost/compass-proto';
+
+The Call Card is an unpublished prototyping composite in
+`@mattermost/compass-proto`. It is the post a call leaves in a channel or
+thread: it announces that a call started, lets people join it, and becomes a
+record of the call once it ends.
+
+Reach for it whenever a call shows up in the message list. It is not the Call
+Widget, which holds the controls while you are in a call.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <CallCard
+    state="active"
+    title="Call started"
+    meta="3 minutes ago by Aiko Tan"
+    participants={[
+      { key: 'a', name: 'Aiko Tan' },
+      { key: 'b', name: 'Arjun Patel' },
+      { key: 'c', name: 'Danielle Okoro' },
+      { key: 'd', name: 'Darius Cole' },
+    ]}
+    onJoin={() => {}}
+  />
+</AnatomyStage>
+
+- <Num>1</Num> **Call icon** — A phone in a colored disc. Green while the call
+  is live, grey once it has ended.
+- <Num>2</Num> **Title** — What happened, for example "Call started" or "Call
+  ended".
+- <Num>3</Num> **Meta line** — When and by whom, for example "3 minutes ago by
+  Aiko Tan". For an ended call, the duration.
+- <Num>4</Num> **Participants** — A stack of avatars. The first few show and the
+  rest collapse into a "+N" count.
+- <Num>5</Num> **Action** — Join call, Leave, or Cancel, depending on the state.
+  Omitted when the host passes no handler.
+
+<Divider />
+
+## States
+
+- **Calling** — You are ringing someone in a one-to-one call. The icon pulses,
+  and Cancel stops the ring.
+- **Active** — A call is in progress and you are not in it. Join call enters
+  it.
+- **Joined** — You are in the call. Leave hangs up.
+- **Ended** — The call is over. The card shows the duration and, when there is
+  one, how many recordings it produced. A missed call can put a "Call back"
+  button in place of the recording.
+
+The card sits on the channel background with a thin outline and lifts slightly
+on hover.
+
+<Divider />
+
+## Behavior
+
+The card is presentational. The host owns the call state and passes the join,
+leave, and cancel handlers; the card only decides which one to show.
+
+Below roughly 480px of its own width the card stacks: the header on top, then a
+divider with the avatars and the action beneath. It responds to its container,
+not the viewport, so it also stacks in a narrow thread panel.
+
+All visible text is a prop, including the button labels, so hosts can translate
+it.
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for every state, including the narrow layout. Import
+`CallCard` from `@mattermost/compass-proto`.
