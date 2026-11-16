@@ -1,6 +1,6 @@
 import { useCallback, useId, useMemo, useState } from 'react';
 import type { KeyboardEvent, ReactNode } from 'react';
-import type { MenuItemPassthroughProps } from '@/components/MenuItem/MenuItem';
+import type { MenuItemPassthroughProps } from '@mattermost/compass-ui/components/menu-item';
 
 /** `MenuItem` props `SuggestionList` sets itself on a row. */
 export type SuggestionOwnedMenuItemProps =

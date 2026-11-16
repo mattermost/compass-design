@@ -1,16 +1,27 @@
 import { forwardRef, useEffect } from 'react';
 import type { HTMLAttributes } from 'react';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import MenuGroupHeading from '@/components/MenuGroupHeading/MenuGroupHeading';
-import Scrollbar from '@/components/Scrollbar/Scrollbar';
-import { mergeMenuItemProps } from '@/utils/menuItemProps';
-import { mergeClassNames } from '@/utils/props';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import { MenuGroupHeading } from '@mattermost/compass-ui/components/menu-group-heading';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import {
   toSuggestionSections,
   type SuggestionOption,
   type SuggestionSection,
 } from './useSuggestionList';
 import styles from './SuggestionList.module.scss';
+
+const mergeClassNames = (...names: Array<string | undefined>) =>
+  names.filter(Boolean).join(' ') || undefined;
+
+/** Later sources win; `className` is merged. */
+function mergeMenuItemProps<T extends { className?: string }>(
+  ...sources: Array<T | undefined>
+): T {
+  const merged = Object.assign({}, ...sources.filter(Boolean)) as T;
+  const className = mergeClassNames(...sources.map((s) => s?.className));
+  if (className) merged.className = className;
+  return merged;
+}
 
 export interface SuggestionListProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
