@@ -16,7 +16,6 @@ text for conversation, and the Attachment Card for a shared file.
 <AnatomyStage>
   <MessageAttachment
     color="warning"
-    authorName="Microsoft Sentinel"
     title="Multiple failed login attempts"
     text="Five failed sign-ins for the same account within two minutes."
     fields={[
@@ -31,14 +30,15 @@ text for conversation, and the Attachment Card for a shared file.
 - <Num>1</Num> **Color bar** — A 3px bar on the left edge. Green, yellow, red
   and blue are the semantic colors for good, warning, danger and info; any CSS
   color also works. Without a color the bar is neutral.
-- <Num>2</Num> **Author** — Optional small name, with an icon, above the title.
-- <Num>3</Num> **Title** — The headline. It can link out.
-- <Num>4</Num> **Text** — Supporting detail.
-- <Num>5</Num> **Fields** — Label and value pairs. Short fields sit two to a
+- <Num>2</Num> **Title** — The headline. It can link out.
+- <Num>3</Num> **Text** — Supporting detail.
+- <Num>4</Num> **Fields** — Label and value pairs. Short fields sit two to a
   row; the others take a full row. Fields keep their order.
-- <Num>6</Num> **Actions** — Buttons for what to do next. A button with a link
+- <Num>5</Num> **Actions** — Buttons for what to do next. A button with a link
   opens it in a new tab.
-- <Num>7</Num> **Footer** — Where the alert came from, with an optional icon.
+- <Num>6</Num> **Footer** — Optional. Where the alert came from, with an
+  optional icon. Leave it out when the author or integration name above the post
+  already says so.
 
 An optional line of text, the pretext, sits above the card. An image can sit
 under the fields, and a small thumbnail can sit at the top right.

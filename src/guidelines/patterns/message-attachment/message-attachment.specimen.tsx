@@ -59,8 +59,6 @@ export default function MessageAttachmentLibrary() {
       <MessageAttachment
         color="warning"
         pretext="Heads up, new alert from the SIEM:"
-        authorName="Microsoft Sentinel"
-        authorIconSrc={integrationIcons.sentinel}
         title="Multiple failed login attempts"
         titleHref="https://example.com/alerts/1"
         text="Five failed sign-ins for the same account within two minutes."

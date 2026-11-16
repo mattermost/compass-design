@@ -10,9 +10,6 @@ export function toMessageAttachmentProps(
   return {
     color: a.color,
     pretext: a.pretext,
-    authorName: a.authorName,
-    authorIconSrc: a.authorIcon,
-    authorHref: a.authorLink,
     title: a.title,
     titleHref: a.titleLink,
     text: a.text,

@@ -58,20 +58,6 @@
     border-left: 3px solid var(--message-attachment-color);
   }
 
-  &__author {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    font-size: var(--font-size-75);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-75);
-
-    a {
-      color: inherit;
-    }
-  }
-
-  &__author-icon,
   &__footer-icon {
     width: var(--icon-size-16, 16px);
     height: var(--icon-size-16, 16px);

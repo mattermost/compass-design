@@ -40,10 +40,6 @@ export interface MessageAttachmentProps extends Omit<
   color?: MessageAttachmentColor;
   /** Text above the card, outside it. */
   pretext?: ReactNode;
-  authorName?: ReactNode;
-  /** Small image before the author name. */
-  authorIconSrc?: string;
-  authorHref?: string;
   title?: ReactNode;
   /** Makes the title a link that opens in a new tab. */
   titleHref?: string;
@@ -68,7 +64,7 @@ const SEMANTIC: readonly string[] = ['good', 'warning', 'danger', 'info'];
 
 /**
  * Message attachment: the card an integration (webhook, bot) posts under a
- * message. A colored bar on the left edge, then optional author, title, body
+ * message. A colored bar on the left edge, then optional title, body
  * text, a grid of fields, an image, action buttons and a footer. Mirrors the
  * Mattermost / Slack attachment format, so hosts can map `attachments` from a
  * post straight onto these props. Presentational: the host owns what the
@@ -77,9 +73,6 @@ const SEMANTIC: readonly string[] = ['good', 'warning', 'danger', 'info'];
 export default function MessageAttachment({
   color,
   pretext,
-  authorName,
-  authorIconSrc,
-  authorHref,
   title,
   titleHref,
   text,
@@ -101,25 +94,6 @@ export default function MessageAttachment({
       ? ({ '--message-attachment-color': color } as CSSProperties)
       : undefined;
   const name = ariaLabel ?? (typeof title === 'string' ? title : undefined);
-
-  const author = authorName ? (
-    <span className={styles['message-attachment__author']}>
-      {authorIconSrc && (
-        <img
-          className={styles['message-attachment__author-icon']}
-          src={authorIconSrc}
-          alt=""
-        />
-      )}
-      {authorHref ? (
-        <a href={authorHref} target="_blank" rel="noopener noreferrer">
-          {authorName}
-        </a>
-      ) : (
-        authorName
-      )}
-    </span>
-  ) : null;
 
   return (
     <div
@@ -143,7 +117,6 @@ export default function MessageAttachment({
         aria-label={name}
       >
         <div className={styles['message-attachment__inner']}>
-          {author}
           {(title || thumbSrc) && (
             <div className={styles['message-attachment__top']}>
               {title && (
