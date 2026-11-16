@@ -7,9 +7,9 @@ import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
 import type { ModalOverlayProps } from '@mattermost/compass-ui/components/modal';
 import { SearchInput } from '@mattermost/compass-ui/components/search-input';
 import { SegmentedControl } from '@mattermost/compass-ui/components/segmented-control';
-import { SuggestionList } from '@mattermost/compass-ui/components/suggestion-list';
 import SearchIllustration from '@mattermost/compass-ui/illustrations/search';
 import SearchPortalMenu from './SearchPortalMenu';
+import SearchResultsList from './SearchResultsList';
 import SearchTip, { type SearchTipConfig } from './SearchTip';
 import { buildModeContent } from './searchSections';
 import {
@@ -421,11 +421,9 @@ function SearchModalPanel({
         />
       ) : (
         content.sections.length > 0 && (
-          <SuggestionList
-            className={styles['search-modal__list']}
+          <SearchResultsList
             sections={content.sections}
-            maxHeight="none"
-            listboxLabel={labels.listboxLabel ?? 'Search results'}
+            label={labels.listboxLabel ?? 'Search results'}
             {...search.listProps}
             onSelect={(option) => choose(option.value)}
           />

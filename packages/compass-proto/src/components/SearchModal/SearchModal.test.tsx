@@ -613,6 +613,30 @@ describe('review regressions', () => {
   });
 });
 
+describe('people cards', () => {
+  it('lays out the most-chatted people as cards in the listbox, in keyboard order', () => {
+    const onSelect = vi.fn();
+    open({ initialMode: 'people', onSelect });
+    const cards = Array.from(
+      document.querySelectorAll('[role="listbox"] [class*="__cards"] button'),
+    );
+    expect(
+      cards.map((c) => c.querySelector('[class*="card-name"]')!.textContent),
+    ).toEqual(['Sofia Bauer', 'Marco Rinaldi', 'Leonard Riley']);
+    expect(cards.every((c) => c.getAttribute('role') === 'option')).toBe(true);
+    expect(cards[0].getAttribute('aria-selected')).toBe('true');
+    press(input(), 'ArrowDown');
+    expect(input().getAttribute('aria-activedescendant')).toBe(cards[1].id);
+    press(input(), 'Enter');
+    expect(onSelect).toHaveBeenCalledWith({ kind: 'person', item: marco });
+    act(() => (cards[2] as HTMLElement).click());
+    expect(onSelect).toHaveBeenLastCalledWith({
+      kind: 'person',
+      item: leonard,
+    });
+  });
+});
+
 describe('coderabbit review', () => {
   it('starts on an offered mode when initialMode is not offered', () => {
     open({ modes: ['messages', 'files'] });

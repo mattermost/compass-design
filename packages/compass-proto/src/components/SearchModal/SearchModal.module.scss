@@ -65,12 +65,49 @@
     }
   }
 
-  // The list sits directly on the modal body: no surface, border or shadow.
-  &__list#{&}__list {
-    background: transparent;
+  // The list sits directly on the modal body.
+  &__list {
+    padding: var(--spacing-xs) 0;
+  }
+
+  // "People you chat with most": a row of person cards.
+  &__cards {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--spacing-xxxs) var(--spacing-l);
+  }
+
+  &__card {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    min-width: 0;
+    margin: 0;
     border: 0;
-    border-radius: 0;
-    box-shadow: none;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-s);
+    background-color: transparent;
+    color: var(--center-channel-color);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-75);
+    text-align: center;
+    cursor: pointer;
+
+    &--selected {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    }
+  }
+
+  &__card-name {
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__modifier {

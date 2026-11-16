@@ -24,13 +24,27 @@ import type {
 } from './searchTypes';
 import styles from './SearchModal.module.scss';
 
+/** A person shown as a card (avatar over name) instead of a row. */
+export interface PersonCardData {
+  name: string;
+  avatarSrc?: string;
+  status?: 'online' | 'away' | 'do-not-disturb' | 'offline';
+}
+
+export type SearchOptionData = SuggestionOption & { card?: PersonCardData };
+export type SearchSectionData = Omit<SuggestionSection, 'options'> & {
+  options: SearchOptionData[];
+  /** `cards` lays the options out as a row of person cards. Default: rows. */
+  layout?: 'rows' | 'cards';
+};
+
 /** What a row does when chosen: a selection for the host, or a field edit. */
 export type RowAction =
   | { type: 'select'; selection: SearchModalSelection }
   | { type: 'from'; person: SearchPerson };
 
 export interface ModeContent {
-  sections: SuggestionSection[];
+  sections: SearchSectionData[];
   /** Action per option value. */
   actions: Map<string, RowAction>;
   /** Shift+Delete handlers (recent searches). */
@@ -76,7 +90,7 @@ export function buildModeContent({
 }: BuildArgs): ModeContent {
   const actions = new Map<string, RowAction>();
   const removers = new Map<string, () => void>();
-  const sections: SuggestionSection[] = [];
+  const sections: SearchSectionData[] = [];
   const h = labels.headings ?? {};
   const typing = query.trim() !== '';
 
@@ -172,9 +186,10 @@ export function buildModeContent({
   const add = (
     key: string,
     heading: ReactNode,
-    options: SuggestionOption[],
+    options: SearchOptionData[],
+    layout?: 'rows' | 'cards',
   ) => {
-    if (options.length > 0) sections.push({ key, heading, options });
+    if (options.length > 0) sections.push({ key, heading, options, layout });
   };
 
   const unread = data.unreadChannels ?? [];
@@ -329,7 +344,17 @@ export function buildModeContent({
             add(
               'frequent',
               h.peopleFrequent ?? 'People you chat with most',
-              frequent.map((p) => personOption('f', p)),
+              frequent.map(
+                (p): SearchOptionData => ({
+                  ...personOption('f', p),
+                  card: {
+                    name: p.name,
+                    avatarSrc: p.avatarSrc,
+                    status: p.status === 'dnd' ? 'do-not-disturb' : p.status,
+                  },
+                }),
+              ),
+              'cards',
             );
           }
           add(
