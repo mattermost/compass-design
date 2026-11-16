@@ -25,6 +25,7 @@ Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, 
 5. **Less is the default.** If an element, border, label or sentence can go without losing meaning, remove it.
 6. **Keyboard and screen reader first.** Every control is focusable, labelled and shows a focus ring.
 7. **Sentence case, short.** Buttons are 4 words or fewer and start with a verb.
+8. **Small controls by default.** `medium` (40px IconButton, Button) is the exception. Use `small` + compact in rows and `small` in toolbars and headers; see the sizing table in `references/components.md`.
 
 ## Workflow
 
@@ -73,6 +74,7 @@ Reasoning and visuals live in the Compass guidelines (`/foundations/*`). These r
 - Use more than one primary Button in a view (zero is fine for a view with no main action), or make every action primary "so it stands out".
 - Style a Compass component from outside with deep selectors, `!important` or inline `style`.
 - Pass a raw compass-icons glyph to `IconButton`, or (preferably) set `size` on an `Icon` inside a Compass slot; the host component sizes it, and an explicit size is allowed only for a deliberate override.
+- Leave `IconButton` or `Button` at the default `medium` in a table row, list row or dense toolbar.
 - Add hover, tooltips or portals to published `IconButton`/`Tooltip` (use `WithTooltip` from `compass-proto` in prototypes only).
 - Rely on color alone, placeholder-only labels, or `outline: none` without a replacement focus ring.
 - Animate purely for decoration, snap an expand/collapse, or ignore `prefers-reduced-motion`.

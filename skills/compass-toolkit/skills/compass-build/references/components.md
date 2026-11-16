@@ -82,6 +82,19 @@ Identifiers that only look numeric (postal codes, account or ID numbers) stay `t
 | Switch between views of the same content | `Tabs`                            |
 | Pagination                               | `PaginationDots`                  |
 
+### Button and IconButton size
+
+`medium` is the default prop value, not the default choice: it is too large for most product surfaces. Set the size by place.
+
+| Place                                                         | `IconButton`                      | `Button`                |
+| ------------------------------------------------------------- | --------------------------------- | ----------------------- |
+| Table and list rows, tree rows, repeating items               | `size='small' padding='compact'` (28px) | `size='small' compact` (28px) |
+| Toolbars, panel and page headers, RHS and modal headers, filter bars | `size='small'` (32px)      | `size='small'` (32px)   |
+| Modal footers and forms                                       | `small` or `medium`, matched to the neighbouring inputs | `small` or `medium`, matched to the neighbouring inputs |
+| Empty-state or hero CTAs                                      | `medium` (40px) is fine           | `medium` (40px) is fine |
+
+`IconButton` sizes are `x-small` 24px, `small` 32px, `medium` 40px; `padding='compact'` gives 20, 28 and 36px. `Button` `compact` takes `small` from 32px to 28px. Use `x-small` only inside a control that is already tight (a chip, a tag).
+
 ## Feedback and status
 
 | Need                          | Use                                                                                                                                                                                                                                                          |
