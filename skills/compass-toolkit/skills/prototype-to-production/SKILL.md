@@ -16,7 +16,7 @@ Turn a **mattermost-proto-playground** prototype into product code in a consumer
 
 ## Non-negotiables
 
-These are the rules that were skipped or missed when this skill was tested on a real prototype. They are repeated here so you can't miss them by not opening another file. The details live in the steps and references.
+These rules are repeated here so they are read even if no other file is opened. The details live in the steps and references.
 
 1. **Use your task list.** Before starting, create these eleven items, with exactly these titles, and don't write your own list or merge items: "Required reads", "1. Consumer and scope", "2. Source and versions", "3. Imports", "4. Variants and spec", "5. UI pieces", "6. Decisions", "7. Implement", "8. Audit with compass-review", "9. Validation checklist", "10. Run in the app and report". Don't mark an item done until its output exists: the version comparison, the variants table, the decisions you confirmed, the audit result, the report. A step you didn't do is reported as skipped with the reason; it is never silently dropped.
 2. **Read the files in "Required reads"** at the point each one says.
