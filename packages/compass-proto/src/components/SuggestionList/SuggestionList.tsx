@@ -90,8 +90,11 @@ const SuggestionList = forwardRef<HTMLDivElement, SuggestionListProps>(
     },
     ref,
   ) {
-    const resolved = toSuggestionSections(sections, options);
-    const isEmpty = resolved.every((section) => section.options.length === 0);
+    // A section with no rows (a filtered-out group) renders nothing, heading included.
+    const resolved = toSuggestionSections(sections, options).filter(
+      (section) => section.options.length > 0,
+    );
+    const isEmpty = resolved.length === 0;
     const idPrefix = listboxId ?? 'suggestion-list';
     const optionId = (value: string) => `${idPrefix}-option-${value}`;
 
