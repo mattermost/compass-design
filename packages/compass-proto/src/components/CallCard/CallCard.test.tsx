@@ -69,4 +69,24 @@ describe('CallCard', () => {
     );
     expect(buttons(container)).toEqual(['Call back']);
   });
+
+  it('forwards the avatar group formatters so hosts can translate it', () => {
+    const { container } = render(
+      <CallCard
+        participants={[
+          { key: 'a', name: 'A One' },
+          { key: 'b', name: 'B Two' },
+          { key: 'c', name: 'C Three' },
+          { key: 'd', name: 'D Four' },
+        ]}
+        max={2}
+        formatGroupLabel={(n) => `${n} personnes`}
+        formatOverflowLabel={(n) => `${n} autres`}
+      />,
+    );
+    expect(
+      container.querySelector('[aria-label="4 personnes"]'),
+    ).not.toBeNull();
+    expect(container.querySelector('[aria-label="2 autres"]')).not.toBeNull();
+  });
 });

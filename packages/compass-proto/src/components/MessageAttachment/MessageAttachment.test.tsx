@@ -91,4 +91,17 @@ describe('MessageAttachment', () => {
     expect(root.getAttribute('data-testid')).toBe('att-1');
     expect(root.className).toContain('host');
   });
+
+  it('runs onClick on a link action that also has an href', () => {
+    const onClick = vi.fn();
+    const { container } = render(
+      <MessageAttachment
+        actions={[{ label: 'View', href: 'https://example.com/a', onClick }]}
+      />,
+    );
+    const a = container.querySelector('a') as HTMLAnchorElement;
+    a.addEventListener('click', (e) => e.preventDefault());
+    act(() => a.click());
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
 });

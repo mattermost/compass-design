@@ -99,7 +99,7 @@
 
   &__variant-label {
     font-size: var(--font-size-75);
-    color: rgba(var(--center-channel-color-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     margin-bottom: var(--spacing-xs);
   }
 

@@ -7,6 +7,7 @@ import { Icon } from '@mattermost/compass-ui/components/icon';
 import {
   UserAvatarGroup,
   type UserAvatarGroupItem,
+  type UserAvatarGroupProps,
 } from '@mattermost/compass-ui/components/user-avatar-group';
 import styles from './CallCard.module.scss';
 
@@ -16,7 +17,10 @@ import styles from './CallCard.module.scss';
  */
 export type CallCardState = 'calling' | 'active' | 'joined' | 'ended';
 
-export interface CallCardProps {
+export interface CallCardProps extends Pick<
+  UserAvatarGroupProps,
+  'formatGroupLabel' | 'formatOverflowLabel' | 'formatOverflowNames'
+> {
   /** Which step of the call the card shows. Default `active`. */
   state?: CallCardState;
   /** Heading, e.g. "Call started" / "Call ended". */
@@ -66,6 +70,9 @@ export default function CallCard({
   cancelLabel = 'Cancel',
   recordingLabel,
   trailing,
+  formatGroupLabel,
+  formatOverflowLabel,
+  formatOverflowNames,
   ariaLabel,
   className,
 }: CallCardProps) {
@@ -145,7 +152,14 @@ export default function CallCard({
         {(hasAvatars || right) && (
           <div className={styles['call-card__right']}>
             {hasAvatars && (
-              <UserAvatarGroup avatars={participants} max={max} size="28" />
+              <UserAvatarGroup
+                avatars={participants}
+                max={max}
+                size="28"
+                formatGroupLabel={formatGroupLabel}
+                formatOverflowLabel={formatOverflowLabel}
+                formatOverflowNames={formatOverflowNames}
+              />
             )}
             {right}
           </div>

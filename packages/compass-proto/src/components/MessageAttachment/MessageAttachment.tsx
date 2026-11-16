@@ -192,7 +192,12 @@ export default function MessageAttachment({
               {actions.map((a, i) =>
                 a.href ? (
                   <Button key={i} asChild emphasis="tertiary" size="small">
-                    <a href={a.href} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={a.onClick}
+                    >
                       {a.label}
                     </a>
                   </Button>
