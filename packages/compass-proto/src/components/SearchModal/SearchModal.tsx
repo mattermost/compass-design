@@ -229,7 +229,12 @@ function SearchModalPanel({
       inputRef.current?.focus();
       return;
     }
-    onSelect?.(action.selection);
+    const { selection } = action;
+    // A question chosen in Agents mode goes to the agent selected in the footer.
+    const isAgentQuestion =
+      selection.kind === 'suggestion' ||
+      (selection.kind === 'recent' && selection.mode === 'agents');
+    onSelect?.(isAgentQuestion ? { ...selection, agentId } : selection);
   };
 
   const search = useSearchModal({

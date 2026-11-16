@@ -96,9 +96,11 @@ export type SearchModalSelection =
       kind: 'recent';
       mode: 'all' | 'messages' | 'files' | 'agents';
       item: SearchRecent;
+      /** In Agents mode, the agent selected in the footer when the question was chosen. */
+      agentId?: string;
     }
   /** A suggested question in Agents mode. The host usually sends it like Enter would. */
-  | { kind: 'suggestion'; item: SearchRecent };
+  | { kind: 'suggestion'; item: SearchRecent; agentId?: string };
 
 export interface SearchModalSubmission {
   mode: SearchMode;

@@ -137,7 +137,10 @@ export function SearchModalCanvas({
                 (selection.kind === 'recent' && selection.mode === 'agents')
               ) {
                 // A suggested or recent question goes to the agent like Enter.
-                setNote(`Sent “${selection.item.query}” to the agent`);
+                const agent = data.agents?.find(
+                  (a) => a.id === selection.agentId,
+                );
+                setNote(`Sent “${selection.item.query}” to ${agent?.name}`);
               } else {
                 setNote(
                   selection.kind === 'recent'

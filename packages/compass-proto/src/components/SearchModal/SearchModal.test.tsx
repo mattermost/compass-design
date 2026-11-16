@@ -677,6 +677,7 @@ describe('agents suggestions', () => {
     expect(onSelect).toHaveBeenCalledWith({
       kind: 'suggestion',
       item: data.agentSuggestions![1],
+      agentId: 'matty',
     });
   });
 
@@ -705,6 +706,7 @@ describe('agents suggestions', () => {
       kind: 'recent',
       mode: 'agents',
       item: data.recentAgentSearches![1],
+      agentId: 'matty',
     });
     act(() =>
       (document.querySelector('[data-search-remove]') as HTMLElement).click(),
@@ -739,6 +741,42 @@ describe('default agent', () => {
   it('falls back to the first agent when defaultAgentId is not offered', () => {
     open({ initialMode: 'agents', defaultAgentId: 'nobody' });
     expect(picker().textContent).toContain('Matty');
+  });
+});
+
+describe('agent questions carry the selected agent', () => {
+  it('includes the agent picked in the footer when a suggestion or recent question is chosen', () => {
+    const onSelect = vi.fn();
+    open({ initialMode: 'agents', onSelect });
+    act(() =>
+      (document.querySelector('[aria-haspopup="menu"]') as HTMLElement).click(),
+    );
+    act(() =>
+      (
+        Array.from(document.querySelectorAll('[role="menu"] button')).find(
+          (b) => b.textContent?.includes('Code'),
+        ) as HTMLElement
+      ).click(),
+    );
+    act(() => (options()[3] as HTMLElement).click());
+    expect(onSelect).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'suggestion', agentId: 'code' }),
+    );
+    act(() => (options()[0] as HTMLElement).click());
+    expect(onSelect).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        kind: 'recent',
+        mode: 'agents',
+        agentId: 'code',
+      }),
+    );
+  });
+
+  it('does not add an agent to other selections', () => {
+    const onSelect = vi.fn();
+    open({ initialMode: 'messages', onSelect });
+    act(() => (options()[0] as HTMLElement).click());
+    expect(onSelect.mock.calls[0][0]).not.toHaveProperty('agentId');
   });
 });
 

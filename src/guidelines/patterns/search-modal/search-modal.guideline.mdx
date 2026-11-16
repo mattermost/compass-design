@@ -123,7 +123,8 @@ turn the slide off. Every mode has a before-typing state and a typing state.
   host's default agent (Matty in the specimen), otherwise the first.
 - **Enter** — opens the highlighted suggestion or recent question, or sends the
   typed question to the chosen agent. The host sends it to that agent's
-  conversation and opens it. With no recent questions or suggestions the empty
+  conversation and opens it. A chosen suggestion or recent question reports the
+  selected `agentId` with it, as a submission does. With no recent questions or suggestions the empty
   body is dropped, so the dialog is just the field and the footer.
 
 When nothing matches in a mode that lists results, a centered "No results found"
