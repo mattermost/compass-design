@@ -104,9 +104,9 @@ return (
 );
 ```
 
-If the consumer has a local modal wrapper, give it `size`, `headerDivider` and `footerDivider` (or one `dividers` prop) and make callers pass them, chosen from the body height in its tallest state (off only for a body that never scrolls or grows, as in `spacing-and-hierarchy.md`). Don't default them off by `size`: a small modal can hold a body that scrolls or grows. Setting them once, inside the confirm dialog, leaves every other modal on the Compass default of dividers on.
+If the consumer has a local modal wrapper, give it `size`, `headerDivider` and `footerDivider` (or one `dividers` prop) and make callers pass them, chosen from the body height in its tallest state (off only for a body that never scrolls or grows, as in `spacing-and-hierarchy.md`; a modal with tabs in `headerSlot` keeps the header divider off whatever the body does, and only its footer divider follows body height). Don't default them off by `size`: a small modal can hold a body that scrolls or grows. Setting them once, inside the confirm dialog, leaves every other modal on the Compass default of dividers on.
 
-Icons follow the same rule in every Compass control: `<Icon glyph={<PlusIcon />} />` with no `size`, in `leadingIcon`, `trailingIcon` or `icon`, never a bare icon component and never as a child of `Button`. If you convert old `<button>`s by script, convert their icon children too.
+Icons follow the same rule in every Compass control: `<Icon glyph={<PlusIcon />} />` with no `size`, in `leadingIcon`, `trailingIcon` or `icon`. On menu items, pass the leading icon in `leadingVisual`, because `MenuItem` has no `leadingIcon` prop. Never use a bare icon component, and never pass an icon as a child of `Button`. If you convert old `<button>`s by script, convert their icon children too.
 
 Checks before you move on: the modal fades in and out like the confirm dialog; Escape and a backdrop click both close it; `size` was chosen on purpose; the title says what it is (`New Jira Subscription`, `Edit Jira Subscription`) with no filler subtitle; icon-only buttons in the header and in rows have tooltips; and Cancel, Back, Escape and the backdrop open a discard confirm only when the form is dirty.
 
