@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockIcon from '@mattermost/compass-icons/components/lock';
+import ClockOutlineIcon from '@mattermost/compass-icons/components/clock-outline';
+import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import FileGenericOutlineIcon from '@mattermost/compass-icons/components/file-generic-outline';
@@ -76,7 +78,7 @@ export interface BuildArgs {
   data: SearchModalData;
   labels: SearchModalLabels;
   onRemoveRecent?: (
-    mode: 'messages' | 'files' | 'all',
+    mode: 'messages' | 'files' | 'all' | 'agents',
     item: SearchRecent,
   ) => void;
 }
@@ -148,7 +150,7 @@ export function buildModeContent({
 
   const recentOptions = (
     group: string,
-    recentMode: 'all' | 'messages' | 'files',
+    recentMode: 'all' | 'messages' | 'files' | 'agents',
     items: SearchRecent[],
   ): SuggestionOption[] =>
     items.map((r) => {
@@ -162,7 +164,13 @@ export function buildModeContent({
       return {
         value,
         label: r.query,
-        leadingVisual: <Icon glyph={<MagnifyIcon />} />,
+        leadingVisual: (
+          <Icon
+            glyph={
+              recentMode === 'agents' ? <ClockOutlineIcon /> : <MagnifyIcon />
+            }
+          />
+        ),
         // A pointer shortcut only: keyboard users remove the highlighted row
         // with Shift+Delete, so this stays out of the a11y tree.
         trailingLabel: (
@@ -374,14 +382,40 @@ export function buildModeContent({
       }
       break;
     }
-    case 'agents':
-      break;
+    case 'agents': {
+      const recents = data.recentAgentSearches ?? [];
+      const prompts = data.agentSuggestions ?? [];
+      const suggestionOptions = (
+        typing ? prompts.filter((r) => matches(query, [r.query])) : prompts
+      ).map((r): SuggestionOption => {
+        const value = `s:suggestion:${r.id}`;
+        actions.set(value, {
+          type: 'select',
+          selection: { kind: 'suggestion', item: r },
+        });
+        return {
+          value,
+          label: r.query,
+          leadingVisual: <Icon glyph={<CreationOutlineIcon />} />,
+        };
+      });
+      // Recent questions only before typing; suggestions follow the text.
+      if (!typing) {
+        add(
+          'recent',
+          h.recent ?? 'Recent',
+          recentOptions('r', 'agents', recents),
+        );
+      }
+      add('suggestions', h.suggestions ?? 'Suggestions', suggestionOptions);
+      // Enter sends the typed question, so an empty list is not "no results".
+      return { sections, actions, removers, noResults: false };
+    }
   }
   return {
     sections,
     actions,
     removers,
-    // Agents has no local results, and Messages searches on Enter.
-    noResults: typing && sections.length === 0 && mode !== 'agents',
+    noResults: typing && sections.length === 0,
   };
 }

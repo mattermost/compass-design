@@ -74,7 +74,6 @@ export default function SearchResultsList({
         leadingVisual={option.leadingVisual}
         trailingElement={option.trailingLabel != null}
         trailingVisual={option.trailingLabel}
-        active={active}
         // Keep the caret in the field when a row is pressed.
         onMouseDown={(e) => e.preventDefault()}
         onMouseMove={() => {

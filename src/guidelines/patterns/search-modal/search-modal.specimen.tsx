@@ -113,21 +113,37 @@ export function SearchModalCanvas({
                         (r) => r.id !== item.id,
                       ),
                     }
-                  : {
-                      ...current,
-                      recentMessageSearches:
-                        current.recentMessageSearches?.filter(
-                          (r) => r.id !== item.id,
-                        ),
-                    },
+                  : recentMode === 'agents'
+                    ? {
+                        ...current,
+                        recentAgentSearches:
+                          current.recentAgentSearches?.filter(
+                            (r) => r.id !== item.id,
+                          ),
+                      }
+                    : {
+                        ...current,
+                        recentMessageSearches:
+                          current.recentMessageSearches?.filter(
+                            (r) => r.id !== item.id,
+                          ),
+                      },
               )
             }
             onSelect={(selection) => {
-              setNote(
-                selection.kind === 'recent'
-                  ? `Searched for “${selection.item.query}”`
-                  : `Opened ${selection.item.name}`,
-              );
+              if (
+                selection.kind === 'suggestion' ||
+                (selection.kind === 'recent' && selection.mode === 'agents')
+              ) {
+                // A suggested or recent question goes to the agent like Enter.
+                setNote(`Sent “${selection.item.query}” to the agent`);
+              } else {
+                setNote(
+                  selection.kind === 'recent'
+                    ? `Searched for “${selection.item.query}”`
+                    : `Opened ${selection.item.name}`,
+                );
+              }
               setOpen(false);
             }}
             onSubmit={(submission) => {

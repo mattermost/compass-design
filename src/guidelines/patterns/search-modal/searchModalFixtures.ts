@@ -114,6 +114,18 @@ export const SEARCH_MODAL_DATA: SearchModalData = {
   ],
   messageModifiers: ['From:', 'In:', 'On:', 'Before:', 'After:', '-', '""'],
   fileModifiers: ['From:', 'In:', 'Ext:', 'After:', 'Before:'],
+  recentAgentSearches: [
+    { id: 'ra1', query: 'Summarize what I missed in ux-design' },
+    { id: 'ra2', query: 'When is the next release?' },
+  ],
+  agentSuggestions: [
+    { id: 'as1', query: 'What are my open action items?' },
+    { id: 'as2', query: 'What messages are pending my feedback?' },
+    { id: 'as3', query: 'Which channels have been most active this week?' },
+    { id: 'as4', query: 'Who worked on the onboarding flow?' },
+    { id: 'as5', query: 'What decisions were made in the last design review?' },
+    { id: 'as6', query: 'What did the team ship last week?' },
+  ],
   agents: [
     { id: 'aiko', name: 'Aiko', avatarSrc: avatarAiko },
     { id: 'arjun', name: 'Arjun', avatarSrc: avatarArjun },

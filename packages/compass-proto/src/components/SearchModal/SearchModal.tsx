@@ -1,6 +1,8 @@
 import { useMemo, useRef, useState, type ChangeEvent } from 'react';
+import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
 import { Chip } from '@mattermost/compass-ui/components/chip';
 import { Dropdown } from '@mattermost/compass-ui/components/dropdown';
+import { Icon } from '@mattermost/compass-ui/components/icon';
 import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import { Modal, ModalOverlay } from '@mattermost/compass-ui/components/modal';
@@ -57,7 +59,7 @@ export interface SearchModalProps {
   onSubmit?: (submission: SearchModalSubmission) => void;
   /** A recent search's remove control (or Shift+Delete) was used. */
   onRemoveRecent?: (
-    mode: 'all' | 'messages' | 'files',
+    mode: 'all' | 'messages' | 'files' | 'agents',
     item: SearchRecent,
   ) => void;
   /** "Browse channels" in the Channels footer. */
@@ -225,8 +227,9 @@ function SearchModalPanel({
     sections: content.sections,
     query,
     open,
-    // Messages and Agents search on Enter; the other modes open the first row.
-    autoHighlight: mode !== 'messages' && mode !== 'agents',
+    // Only Messages searches on Enter; the other modes open the first row (in
+    // Agents, a question with no matching suggestion is sent instead).
+    autoHighlight: mode !== 'messages',
     onChoose: choose,
     onSubmit: handleSubmit,
     onClose,
@@ -304,7 +307,16 @@ function SearchModalPanel({
 
   return (
     <Modal
-      className={[styles['search-modal'], className].filter(Boolean).join(' ')}
+      className={[
+        styles['search-modal'],
+        // Nothing to list: drop the empty body so the field meets the footer.
+        !content.noResults &&
+          content.sections.length === 0 &&
+          styles['search-modal--empty'],
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       open={open}
       size="medium"
       title={labels.title ?? 'Search'}
@@ -319,6 +331,10 @@ function SearchModalPanel({
           options={modes.map((key) => ({
             key,
             label: labels.modeLabels?.[key] ?? DEFAULT_MODE_LABELS[key],
+            icon:
+              key === 'agents' ? (
+                <Icon glyph={<CreationOutlineIcon />} size="12" />
+              ) : undefined,
           }))}
           value={mode}
           onChange={(key) => changeMode(key as SearchMode)}

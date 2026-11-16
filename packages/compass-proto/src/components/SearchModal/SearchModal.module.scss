@@ -20,6 +20,10 @@
     max-height: 480px;
   }
 
+  &--empty :global([class*='modal__body']) {
+    display: none;
+  }
+
   // Menu body inset is 16px; 12px lines row icons up with the search icon.
   :global([class*='modal__body-inner']) {
     padding-inline: var(--spacing-m);
@@ -112,6 +116,11 @@
   // The list sits directly on the modal body.
   &__list {
     padding: var(--spacing-xs) 0;
+  }
+
+  // The keyboard highlight is a neutral fill, not the accent tint of an active row.
+  &__list [role='option'][aria-selected='true'] {
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
   }
 
   // "People you chat with most": a row of person cards.

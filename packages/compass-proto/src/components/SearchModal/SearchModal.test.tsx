@@ -54,6 +54,15 @@ const data: SearchModalData = {
   recentFileSearches: [{ id: 'fs1', query: 'brand guidelines' }],
   messageModifiers: ['From:', 'In:', 'On:'],
   fileModifiers: ['From:', 'Ext:'],
+  recentAgentSearches: [
+    { id: 'ra1', query: 'When is the next launch window?' },
+    { id: 'ra2', query: 'Who is on call today?' },
+  ],
+  agentSuggestions: [
+    { id: 'as1', query: 'What problems have recent launches had?' },
+    { id: 'as2', query: 'What messages are pending my feedback?' },
+    { id: 'as3', query: 'How many channels am I in?' },
+  ],
   agents: [
     { id: 'aiko', name: 'Aiko' },
     { id: 'arjun', name: 'Arjun' },
@@ -242,14 +251,32 @@ describe('modes: before typing', () => {
     ]);
   });
 
-  it('Agents: no list, a footer note and an agent picker', () => {
+  it('Agents: recent questions then suggestions, a footer note and an agent picker', () => {
     open({ initialMode: 'agents' });
-    expect(document.querySelector('[role="listbox"]')).toBeNull();
-    expect(input().getAttribute('placeholder')).toBe('Search');
+    expect(headings()).toEqual([
+      expect.stringContaining('Recent'),
+      expect.stringContaining('Suggestions'),
+    ]);
+    expect(options()).toHaveLength(5);
+    expect(options()[0].getAttribute('aria-selected')).toBe('true');
+    expect(input().getAttribute('placeholder')).toBe(
+      'Search by topic or ask AI a question',
+    );
     expect(document.body.textContent).toContain(
       'Agents searches only content you have access to',
     );
     expect(document.body.textContent).toContain('Aiko');
+  });
+
+  it('Agents: with nothing to list the body is dropped', () => {
+    open({
+      initialMode: 'agents',
+      data: { agents: data.agents },
+    });
+    expect(document.querySelector('[role="listbox"]')).toBeNull();
+    expect(
+      document.querySelector('[class*="search-modal--empty"]'),
+    ).not.toBeNull();
   });
 });
 
@@ -636,6 +663,61 @@ describe('review regressions', () => {
     expect(
       document.querySelector('[aria-label="Retirer From: Sofia Bauer"]'),
     ).not.toBeNull();
+  });
+});
+
+describe('agents suggestions', () => {
+  it('typing narrows to suggestions only and Enter opens the highlighted one', () => {
+    const onSelect = vi.fn();
+    open({ initialMode: 'agents', onSelect });
+    type('what m');
+    expect(headings()).toEqual([expect.stringContaining('Suggestions')]);
+    expect(options()).toHaveLength(1);
+    press(input(), 'Enter');
+    expect(onSelect).toHaveBeenCalledWith({
+      kind: 'suggestion',
+      item: data.agentSuggestions![1],
+    });
+  });
+
+  it('a question with no matching suggestion is sent with Enter', () => {
+    const onSubmit = vi.fn();
+    open({ initialMode: 'agents', onSubmit });
+    type('zzz unrelated');
+    expect(options()).toHaveLength(0);
+    expect(document.body.textContent).not.toContain('No results found');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        mode: 'agents',
+        query: 'zzz unrelated',
+        agentId: 'aiko',
+      }),
+    );
+  });
+
+  it('a recent question is reported with its mode and can be removed', () => {
+    const onSelect = vi.fn();
+    const onRemoveRecent = vi.fn();
+    open({ initialMode: 'agents', onSelect, onRemoveRecent });
+    act(() => (options()[1] as HTMLElement).click());
+    expect(onSelect).toHaveBeenCalledWith({
+      kind: 'recent',
+      mode: 'agents',
+      item: data.recentAgentSearches![1],
+    });
+    act(() =>
+      (document.querySelector('[data-search-remove]') as HTMLElement).click(),
+    );
+    expect(onRemoveRecent).toHaveBeenCalledWith(
+      'agents',
+      data.recentAgentSearches![0],
+    );
+  });
+
+  it('shows the sparkle icon on the Agents tab', () => {
+    open();
+    expect(mode('Agents').querySelector('svg')).not.toBeNull();
   });
 });
 

@@ -82,13 +82,23 @@ export interface SearchModalData {
   fileModifiers?: string[];
   /** Search with these agents in Agents mode. */
   agents?: SearchAgent[];
+  /** Agents: questions the user asked before. Shown before typing, removable. */
+  recentAgentSearches?: SearchRecent[];
+  /** Agents: suggested questions. Shown before typing, and narrowed to the text while typing. */
+  agentSuggestions?: SearchRecent[];
 }
 
 export type SearchModalSelection =
   | { kind: 'channel'; item: SearchChannel }
   | { kind: 'person'; item: SearchPerson }
   | { kind: 'file'; item: SearchFile }
-  | { kind: 'recent'; mode: 'all' | 'messages' | 'files'; item: SearchRecent };
+  | {
+      kind: 'recent';
+      mode: 'all' | 'messages' | 'files' | 'agents';
+      item: SearchRecent;
+    }
+  /** A suggested question in Agents mode. The host usually sends it like Enter would. */
+  | { kind: 'suggestion'; item: SearchRecent };
 
 export interface SearchModalSubmission {
   mode: SearchMode;
@@ -131,6 +141,7 @@ export interface SearchModalLabels {
     recentFiles?: ReactNode;
     recentSearches?: ReactNode;
     from?: ReactNode;
+    suggestions?: ReactNode;
   };
   emptyTitle?: ReactNode;
   emptyDescription?: ReactNode;
@@ -157,7 +168,7 @@ export const DEFAULT_PLACEHOLDERS: Record<SearchMode, string> = {
   messages: 'Search messages',
   files: 'Search files',
   people: 'Search people',
-  agents: 'Search',
+  agents: 'Search by topic or ask AI a question',
 };
 
 export const DEFAULT_MODE_LABELS: Record<SearchMode, string> = {

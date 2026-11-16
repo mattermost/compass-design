@@ -112,11 +112,18 @@ turn the slide off. Every mode has a before-typing state and a typing state.
 
 ### Agents
 
-- **Before typing and typing** — nothing is listed; an agent can't suggest as the
-  user types. The placeholder is just "Search".
+- **Before typing** — recent questions (a clock icon, each removable), then
+  suggested questions (a sparkle icon). The first row is highlighted. The
+  placeholder is "Search by topic or ask AI a question".
+- **Typing** — only suggestions remain, narrowed to the text, with the first one
+  highlighted. A question that matches no suggestion has nothing to open, so Enter
+  sends it.
 - **Footer** — "Agents searches only content you have access to", and **Search
   with**, a picker that chooses the agent ("Choose an Agent").
-- **Enter** — sends the query to that agent, and the host opens the conversation.
+- **Enter** — opens the highlighted suggestion or recent question, or sends the
+  typed question to the chosen agent. The host sends it to that agent's
+  conversation and opens it. With no recent questions or suggestions the empty
+  body is dropped, so the dialog is just the field and the footer.
 
 When nothing matches in a mode that lists results, a centered "No results found"
 message replaces the list.
@@ -125,16 +132,16 @@ message replaces the list.
 
 ## Keyboard
 
-| Key            | Action                                                   |
-| -------------- | -------------------------------------------------------- |
-| Down / Up      | Move the highlight, wrapping at the ends                 |
-| Enter          | Open the highlighted row; in Messages and Agents, search |
-| Escape         | Close (or close an open menu first)                      |
-| Shift + Delete | Remove the highlighted recent search                     |
+| Key            | Action                                                                  |
+| -------------- | ----------------------------------------------------------------------- |
+| Down / Up      | Move the highlight, wrapping at the ends                                |
+| Enter          | Open the highlighted row; in Messages (or Agents with no match), search |
+| Escape         | Close (or close an open menu first)                                     |
+| Shift + Delete | Remove the highlighted recent search                                    |
 
-In All, Channels, Files, and People the first row is highlighted from the start,
-so Enter opens it. In Messages and Agents no row is highlighted until an arrow key
-is pressed, so Enter on typed text still searches; typing clears the highlight.
+In All, Channels, Files, People, and Agents the first row is highlighted from the
+start, so Enter opens it. In Messages no row is highlighted until an arrow key is
+pressed, so Enter on typed text still searches; typing clears the highlight.
 The × on a recent search is a pointer shortcut hidden from assistive technology;
 Shift + Delete is the keyboard equivalent.
 
