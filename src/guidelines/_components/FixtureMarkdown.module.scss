@@ -75,7 +75,7 @@
     border-radius: var(--radius-xs);
     background: rgba(var(--center-channel-color-rgb), 0.08);
     font-family: var(--font-family-mono, monospace);
-    font-size: 0.9em;
+    font-size: var(--font-size-75);
   }
 
   &__link {
