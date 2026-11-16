@@ -9,3 +9,4 @@ export * from './teams';
 export * from './channels';
 export * from './posts';
 export * from './avatars';
+export * from './cyber-defense';
