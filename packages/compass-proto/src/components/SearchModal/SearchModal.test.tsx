@@ -64,8 +64,8 @@ const data: SearchModalData = {
     { id: 'as3', query: 'How many channels am I in?' },
   ],
   agents: [
-    { id: 'aiko', name: 'Aiko' },
-    { id: 'arjun', name: 'Arjun' },
+    { id: 'matty', name: 'Matty' },
+    { id: 'code', name: 'Code' },
   ],
 };
 
@@ -265,7 +265,7 @@ describe('modes: before typing', () => {
     expect(document.body.textContent).toContain(
       'Agents searches only content you have access to',
     );
-    expect(document.body.textContent).toContain('Aiko');
+    expect(document.body.textContent).toContain('Matty');
   });
 
   it('Agents: with nothing to list the body is dropped', () => {
@@ -514,7 +514,7 @@ describe('keyboard and selection', () => {
       mode: 'agents',
       query: 'what shipped?',
       chips: [],
-      agentId: 'aiko',
+      agentId: 'matty',
     });
   });
 });
@@ -532,7 +532,7 @@ describe('footer controls', () => {
     const menu = document.querySelector('[role="menu"]')!;
     expect(menu.getAttribute('aria-label')).toBe('Choose an Agent');
     const arjun = Array.from(menu.querySelectorAll('button')).find((b) =>
-      b.textContent?.includes('Arjun'),
+      b.textContent?.includes('Code'),
     ) as HTMLElement;
     act(() => arjun.click());
     await settle();
@@ -540,7 +540,7 @@ describe('footer controls', () => {
     type('hello');
     press(input(), 'Enter');
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ agentId: 'arjun' }),
+      expect.objectContaining({ agentId: 'code' }),
     );
   });
 
@@ -623,7 +623,7 @@ describe('review regressions', () => {
     type('hello');
     press(input(), 'Enter');
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ agentId: 'aiko' }),
+      expect.objectContaining({ agentId: 'matty' }),
     );
   });
 
@@ -691,7 +691,7 @@ describe('agents suggestions', () => {
       expect.objectContaining({
         mode: 'agents',
         query: 'zzz unrelated',
-        agentId: 'aiko',
+        agentId: 'matty',
       }),
     );
   });
@@ -727,18 +727,42 @@ describe('default agent', () => {
 
   it('selects defaultAgentId in the footer and submits it', () => {
     const onSubmit = vi.fn();
-    open({ initialMode: 'agents', defaultAgentId: 'arjun', onSubmit });
-    expect(picker().textContent).toContain('Arjun');
+    open({ initialMode: 'agents', defaultAgentId: 'code', onSubmit });
+    expect(picker().textContent).toContain('Code');
     type('hello');
     press(input(), 'Enter');
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ agentId: 'arjun' }),
+      expect.objectContaining({ agentId: 'code' }),
     );
   });
 
   it('falls back to the first agent when defaultAgentId is not offered', () => {
     open({ initialMode: 'agents', defaultAgentId: 'nobody' });
-    expect(picker().textContent).toContain('Aiko');
+    expect(picker().textContent).toContain('Matty');
+  });
+});
+
+describe('agent picker avatars', () => {
+  it('shows a fallback avatar (initials) for agents without artwork', () => {
+    open({
+      initialMode: 'agents',
+      data: {
+        agents: [
+          { id: 'code', name: 'Code' },
+          { id: 'writer', name: 'Writer' },
+        ],
+      },
+    });
+    act(() =>
+      (document.querySelector('[aria-haspopup="menu"]') as HTMLElement).click(),
+    );
+    const rows = Array.from(document.querySelectorAll('[role="menu"] button'));
+    expect(rows.map((r) => r.textContent)).toEqual([
+      expect.stringContaining('Code'),
+      expect.stringContaining('Writer'),
+    ]);
+    expect(rows.every((r) => r.querySelector('img') === null)).toBe(true);
+    expect(rows[1].textContent).toContain('W');
   });
 });
 
@@ -795,7 +819,7 @@ describe('coderabbit review', () => {
     act(() =>
       (
         Array.from(document.querySelectorAll('[role="menu"] button')).find(
-          (b) => b.textContent?.includes('Arjun'),
+          (b) => b.textContent?.includes('Code'),
         ) as HTMLElement
       ).click(),
     );
@@ -813,7 +837,7 @@ describe('coderabbit review', () => {
     type('hi');
     press(input(), 'Enter');
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ agentId: 'aiko' }),
+      expect.objectContaining({ agentId: 'matty' }),
     );
   });
 

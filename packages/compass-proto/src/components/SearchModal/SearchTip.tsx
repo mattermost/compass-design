@@ -183,7 +183,12 @@ export default function SearchTip({
                     aria-checked={agent.id === selected.id}
                     label={agent.name}
                     leadingVisual={
-                      <UserAvatar src={agent.avatarSrc} alt="" size="24" />
+                      <UserAvatar
+                        src={agent.avatarSrc}
+                        alt=""
+                        name={agent.name}
+                        size="24"
+                      />
                     }
                     trailingElement={agent.id === selected.id}
                     onClick={() => {

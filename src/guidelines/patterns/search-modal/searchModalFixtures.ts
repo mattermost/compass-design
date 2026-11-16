@@ -1,5 +1,4 @@
 import type { SearchModalData, SearchPerson } from '@mattermost/compass-proto';
-import avatarAiko from '@/assets/avatars/Aiko Tan.png';
 import avatarArjun from '@/assets/avatars/Arjun Patel.png';
 import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
 import avatarDarius from '@/assets/avatars/Darius Cole.png';
@@ -127,11 +126,12 @@ export const SEARCH_MODAL_DATA: SearchModalData = {
     { id: 'as5', query: 'What decisions were made in the last design review?' },
     { id: 'as6', query: 'What did the team ship last week?' },
   ],
+  // Agents, not people: only Matty has artwork, the rest use the avatar fallback.
   agents: [
     { id: 'matty', name: 'Matty', avatarSrc: avatarMatty },
-    { id: 'aiko', name: 'Aiko', avatarSrc: avatarAiko },
-    { id: 'arjun', name: 'Arjun', avatarSrc: avatarArjun },
-    { id: 'emma', name: 'Emma', avatarSrc: avatarEmma },
+    { id: 'code', name: 'Code' },
+    { id: 'writer', name: 'Writer' },
+    { id: 'analyst', name: 'Analyst' },
   ],
 };
 
