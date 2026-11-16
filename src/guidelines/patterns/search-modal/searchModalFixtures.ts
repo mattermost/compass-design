@@ -10,6 +10,7 @@ import avatarIsabella from '@/assets/avatars/Isabella Cruz.png';
 import avatarLeila from '@/assets/avatars/Leila Haddad.png';
 import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import avatarLukas from '@/assets/avatars/Lukas Meyer.png';
+import avatarMatty from '@/assets/avatars/Matty.png';
 import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 
@@ -127,6 +128,7 @@ export const SEARCH_MODAL_DATA: SearchModalData = {
     { id: 'as6', query: 'What did the team ship last week?' },
   ],
   agents: [
+    { id: 'matty', name: 'Matty', avatarSrc: avatarMatty },
     { id: 'aiko', name: 'Aiko', avatarSrc: avatarAiko },
     { id: 'arjun', name: 'Arjun', avatarSrc: avatarArjun },
     { id: 'emma', name: 'Emma', avatarSrc: avatarEmma },

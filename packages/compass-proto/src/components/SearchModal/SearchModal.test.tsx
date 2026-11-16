@@ -721,6 +721,27 @@ describe('agents suggestions', () => {
   });
 });
 
+describe('default agent', () => {
+  const picker = () =>
+    document.querySelector('[aria-haspopup="menu"]') as HTMLElement;
+
+  it('selects defaultAgentId in the footer and submits it', () => {
+    const onSubmit = vi.fn();
+    open({ initialMode: 'agents', defaultAgentId: 'arjun', onSubmit });
+    expect(picker().textContent).toContain('Arjun');
+    type('hello');
+    press(input(), 'Enter');
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ agentId: 'arjun' }),
+    );
+  });
+
+  it('falls back to the first agent when defaultAgentId is not offered', () => {
+    open({ initialMode: 'agents', defaultAgentId: 'nobody' });
+    expect(picker().textContent).toContain('Aiko');
+  });
+});
+
 describe('people cards', () => {
   it('lays out the most-chatted people as cards in the listbox, in keyboard order', () => {
     const onSelect = vi.fn();

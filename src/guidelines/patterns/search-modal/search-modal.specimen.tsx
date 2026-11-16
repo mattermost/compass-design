@@ -95,6 +95,7 @@ export function SearchModalCanvas({
             open={open}
             anchor={anchor}
             data={data}
+            defaultAgentId="matty"
             initialMode={mode}
             onModeChange={setMode}
             teams={SEARCH_MODAL_TEAMS}

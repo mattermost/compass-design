@@ -38,6 +38,11 @@ export interface SearchModalProps {
   onExited?: () => void;
   /** What each mode lists. The host owns the data and any filtering by team. */
   data?: SearchModalData;
+  /**
+   * Agent selected in the Agents footer until the user picks another. Default:
+   * the first of `data.agents`. Ignored when it isn't one of them.
+   */
+  defaultAgentId?: string;
   /** Mode shown when the dialog opens. State resets on every open. Default: `all`. */
   initialMode?: SearchMode;
   /** Modes to offer, in order. Default: all six. */
@@ -159,6 +164,7 @@ function SearchModalPanel({
   open,
   onClose,
   data = {},
+  defaultAgentId,
   initialMode = 'all',
   modes = SEARCH_MODES,
   onModeChange,
@@ -185,9 +191,12 @@ function SearchModalPanel({
   const [query, setQuery] = useState('');
   const [chips, setChips] = useState<string[]>([]);
   const [pickedAgent, setPickedAgent] = useState<string>();
-  // The first agent until one is picked, even if `data.agents` arrives later.
+  // The default (else first) agent until one is picked, even if `data.agents`
+  // arrives later.
   const agentId =
-    data.agents?.find((a) => a.id === pickedAgent)?.id ?? data.agents?.[0]?.id;
+    [pickedAgent, defaultAgentId]
+      .map((id) => data.agents?.find((a) => a.id === id)?.id)
+      .find(Boolean) ?? data.agents?.[0]?.id;
   const [teamMenuOpen, setTeamMenuOpen] = useState(false);
   const [localTeam, setLocalTeam] = useState<string | null>(null);
   const activeTeam = teamId !== undefined ? teamId : localTeam;
