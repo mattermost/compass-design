@@ -257,6 +257,26 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
     expect(new Set(names)).toEqual(new Set(visible.map((c) => c.name)));
   });
 
+  it('hides the presence badge on direct messages with a bot', () => {
+    const botIds = new Set(
+      cyberDefenseUsers.filter((u) => u.isBot).map((u) => u.id),
+    );
+    const isBotDm = (c: (typeof cyberDefenseChannels)[number]) =>
+      c.type === 'direct' &&
+      c.memberIds?.includes(cyberDefenseCurrentUserId) &&
+      c.memberIds.some(
+        (id) => botIds.has(id) && id !== cyberDefenseCurrentUserId,
+      );
+    const botDms = cyberDefenseChannels.filter(isBotDm);
+    expect(botDms.length).toBeGreaterThan(0);
+    const model = rows(build());
+    for (const c of botDms) {
+      expect(model.find((r) => r.name === c.name)?.showAvatarStatus).toBe(
+        false,
+      );
+    }
+  });
+
   it('groups favorites first, then channels, then direct messages, and omits empty groups', () => {
     const m = build();
     const order = ['favorites', 'channels', 'direct-messages'];

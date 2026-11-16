@@ -71,7 +71,7 @@ export function buildChannelsSidebarModelFromFixtures(
     item.leadingVisual = 'direct-message';
     item.avatarSrc = other ? avatars?.[other.id] : undefined;
     item.avatarAlt = channel.name;
-    item.showAvatarStatus = true;
+    item.showAvatarStatus = !other?.isBot;
     if (other?.customStatusEmoji)
       item.customStatusEmoji = other.customStatusEmoji;
     if (other?.customStatusText) item.customStatusText = other.customStatusText;

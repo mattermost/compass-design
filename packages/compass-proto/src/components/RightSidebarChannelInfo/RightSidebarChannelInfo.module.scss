@@ -39,7 +39,7 @@
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-50);
     letter-spacing: 0.11px;
-    color: rgba(var(--center-channel-color-rgb), 0.75);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     text-transform: uppercase;
     padding: var(--spacing-xxs) 0;
   }
@@ -82,7 +82,7 @@
     font-size: var(--font-size-50);
     line-height: var(--line-height-50);
     letter-spacing: 0.11px;
-    color: rgba(var(--center-channel-color-rgb), 0.72);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     margin: 0;
   }
 
@@ -96,5 +96,5 @@
 .right-sidebar-channel-info__count {
   font-size: var(--font-size-75);
   line-height: var(--line-height-75);
-  color: rgba(var(--center-channel-color-rgb), 0.72);
+  color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
 }
