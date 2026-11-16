@@ -358,6 +358,40 @@ describe('SuggestionList', () => {
       expect(message()).toBe('No matches');
     });
 
+    it('drops the heading of a section with no rows', () => {
+      render(
+        <Composer
+          options={undefined}
+          sections={[
+            { key: 'members', heading: 'Channel members', options: [] },
+            { key: 'others', heading: 'Not in channel', options: [] },
+          ]}
+        />,
+      );
+      expect(document.querySelector('[role="group"]')).toBeNull();
+      expect(document.body.textContent).not.toContain('Channel members');
+      expect(document.querySelector('[role="listbox"]')!.children).toHaveLength(
+        0,
+      );
+      expect(message()).toBe('No matches');
+    });
+
+    it('keeps only the headings of sections that still have rows', () => {
+      render(
+        <Composer
+          options={undefined}
+          sections={[
+            { key: 'members', heading: 'Channel members', options: [] },
+            { key: 'others', heading: 'Not in channel', options: [OPTIONS[2]] },
+          ]}
+        />,
+      );
+      const groups = document.querySelectorAll('[role="group"]');
+      expect(groups).toHaveLength(1);
+      expect(groups[0].textContent).toContain('Not in channel');
+      expect(document.body.textContent).not.toContain('Channel members');
+    });
+
     it('renders no message while there are rows', () => {
       render(<Composer />);
       expect(message()).toBe('');

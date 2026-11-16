@@ -204,10 +204,6 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'quick-switch-modal',
       ],
     },
-    {
-      label: 'Other',
-      slugs: ['suggestion-list'],
-    },
   ],
   layouts: [
     {
