@@ -53,7 +53,7 @@ export default function CallCardLibrary() {
         title="Missed call"
         meta="Yesterday at 4:12 PM"
         trailing={
-          <Button emphasis="secondary" size="medium">
+          <Button emphasis="tertiary" size="medium">
             Call back
           </Button>
         }
