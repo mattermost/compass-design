@@ -342,6 +342,32 @@ describe('switching modes', () => {
   });
 });
 
+describe('mode switch animation', () => {
+  const content = () =>
+    document.querySelector('[class*="search-modal__content"]')!;
+
+  it('does not animate on first open', () => {
+    open();
+    expect(content().className).not.toMatch(/enter-(forward|back)/);
+  });
+
+  it('slides in from the right for a later mode and from the left for an earlier one', () => {
+    open();
+    act(() => mode('Files').click());
+    expect(content().className).toMatch(/enter-forward/);
+    act(() => mode('Channels').click());
+    expect(content().className).toMatch(/enter-back/);
+    expect(content().className).not.toMatch(/enter-forward/);
+  });
+
+  it('remounts the content on a switch so the animation replays', () => {
+    open();
+    const before = content();
+    act(() => mode('Messages').click());
+    expect(content()).not.toBe(before);
+  });
+});
+
 describe('keyboard and selection', () => {
   it('Channels: the first row is highlighted and Enter opens it', () => {
     const onSelect = vi.fn();

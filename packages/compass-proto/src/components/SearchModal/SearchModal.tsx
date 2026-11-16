@@ -178,6 +178,8 @@ function SearchModalPanel({
   const [mode, setMode] = useState<SearchMode>(
     modes.includes(initialMode) ? initialMode : (modes[0] ?? initialMode),
   );
+  // Which way the content slides in after a mode switch (none on first open).
+  const [enterFrom, setEnterFrom] = useState<'forward' | 'back' | null>(null);
   const [query, setQuery] = useState('');
   const [chips, setChips] = useState<string[]>([]);
   const [pickedAgent, setPickedAgent] = useState<string>();
@@ -233,6 +235,9 @@ function SearchModalPanel({
 
   const changeMode = (next: SearchMode) => {
     if (next === mode) return;
+    setEnterFrom(
+      modes.indexOf(next) > modes.indexOf(mode) ? 'forward' : 'back',
+    );
     setMode(next);
     setQuery('');
     setChips([]);
@@ -404,31 +409,45 @@ function SearchModalPanel({
       footerType="pagination"
       footerDivider
     >
-      {content.noResults ? (
-        <EmptyState
-          title={labels.emptyTitle ?? 'No results found'}
-          titleLevel={3}
-          description={
-            labels.emptyDescription ??
-            "Try adjusting your search or filters to find what you're looking for."
-          }
-          illustration={{
-            'aria-label': 'Search',
-            width: '120px',
-            height: '80px',
-            children: <SearchIllustration />,
-          }}
-        />
-      ) : (
-        content.sections.length > 0 && (
-          <SearchResultsList
-            sections={content.sections}
-            label={labels.listboxLabel ?? 'Search results'}
-            {...search.listProps}
-            onSelect={(option) => choose(option.value)}
-          />
-        )
-      )}
+      {/* Keyed by mode so a switch remounts the content and plays the slide. */}
+      <div key={mode} className={styles['search-modal__stage']}>
+        <div
+          className={[
+            styles['search-modal__content'],
+            enterFrom === 'forward' &&
+              styles['search-modal__content--enter-forward'],
+            enterFrom === 'back' && styles['search-modal__content--enter-back'],
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {content.noResults ? (
+            <EmptyState
+              title={labels.emptyTitle ?? 'No results found'}
+              titleLevel={3}
+              description={
+                labels.emptyDescription ??
+                "Try adjusting your search or filters to find what you're looking for."
+              }
+              illustration={{
+                'aria-label': 'Search',
+                width: '120px',
+                height: '80px',
+                children: <SearchIllustration />,
+              }}
+            />
+          ) : (
+            content.sections.length > 0 && (
+              <SearchResultsList
+                sections={content.sections}
+                label={labels.listboxLabel ?? 'Search results'}
+                {...search.listProps}
+                onSelect={(option) => choose(option.value)}
+              />
+            )
+          )}
+        </div>
+      </div>
     </Modal>
   );
 }

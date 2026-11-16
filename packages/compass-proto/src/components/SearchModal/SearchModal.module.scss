@@ -1,4 +1,18 @@
 .search-modal {
+  @keyframes search-modal-enter-forward {
+    from {
+      opacity: 0;
+      transform: translateX(var(--spacing-l));
+    }
+  }
+
+  @keyframes search-modal-enter-back {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--spacing-l) * -1));
+    }
+  }
+
   // Width stays on Modal size medium. Height follows the results and stops at
   // 480px; the body scrolls after that.
   &#{&} {
@@ -61,6 +75,36 @@
       &::placeholder {
         font-family: var(--font-family-heading);
         color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+      }
+    }
+  }
+
+  // Clips the short slide so it never creates a horizontal scrollbar.
+  &__stage {
+    overflow-x: clip;
+    min-width: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+
+    // Switching to a later mode slides in from the right, an earlier one from the left.
+    &--enter-forward {
+      animation: search-modal-enter-forward var(--duration-quick)
+        var(--ease-entrance);
+    }
+
+    &--enter-back {
+      animation: search-modal-enter-back var(--duration-quick)
+        var(--ease-entrance);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &--enter-forward,
+      &--enter-back {
+        animation: none;
       }
     }
   }
