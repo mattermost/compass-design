@@ -40,6 +40,25 @@ export interface FixtureChannel {
   header?: string;
   /** Channel banner shown above the posts. */
   banner?: { text: string; backgroundColor: string };
+  /** The current user (see `cyberDefenseCurrentUserId`) has favorited the channel. */
+  favorite?: boolean;
+  /** Root posts from others the current user has not read. Unset when none. */
+  unreadCount?: number;
+  /** Unread posts that mention the current user (every unread post in a direct or group message). */
+  mentionCount?: number;
+  /** First unread root post: where a "New messages" line goes. */
+  firstUnreadPostId?: string;
+  /** Pinned posts in the channel. Unset when none. */
+  pinnedCount?: number;
+  bookmarks?: FixtureBookmark[];
+}
+
+export interface FixtureBookmark {
+  id: string;
+  label: string;
+  href?: string;
+  /** Emoji glyph that replaces the link icon. */
+  emoji?: string;
 }
 
 export interface FixturePost {
@@ -61,6 +80,8 @@ export interface FixturePost {
   kind?: FixturePostKind;
   /** The post was edited after it was sent. */
   edited?: boolean;
+  /** The post is pinned to the channel. */
+  pinned?: boolean;
   /** Message priority label. */
   priority?: FixturePostPriority;
   /** The author asked readers to acknowledge the post. */

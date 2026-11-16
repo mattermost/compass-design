@@ -1,3 +1,2 @@
-export * from './users';
-export * from './channels';
-export * from './posts';
+export * from './generated';
+export * from './lookups';

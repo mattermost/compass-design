@@ -3,9 +3,14 @@ import {
   buildDefaultChannelsSidebarModel,
   createAvatarRegistry,
   cyberDefenseChannels,
+  cyberDefenseCurrentUserId,
   cyberDefensePosts,
+  cyberDefenseTeam,
   cyberDefenseThreads,
   cyberDefenseUsers,
+  getCyberDefenseChannel,
+  getCyberDefenseChannelPosts,
+  getCyberDefenseUser,
   fixtureChannels,
   fixturePosts,
   fixturePresence,
@@ -70,19 +75,35 @@ describe('createAvatarRegistry ids and usernames', () => {
 });
 
 describe('cyber defense fixtures', () => {
+  // These check structure and references, not counts or particular posts, so
+  // they keep passing when the data is refreshed from mattermost-preview.
   const userIds = new Set(cyberDefenseUsers.map((u) => u.id));
   const postIds = new Set(cyberDefensePosts.map((p) => p.id));
+  const channelIds = new Set(cyberDefenseChannels.map((c) => c.id));
 
-  it('has 48 users with unique ids, and no overlap with fixtureUsers', () => {
-    expect(cyberDefenseUsers).toHaveLength(48);
-    expect(userIds.size).toBe(48);
+  it('has users, channels and posts with unique ids, and no overlap with fixtureUsers', () => {
+    expect(cyberDefenseUsers.length).toBeGreaterThan(0);
+    expect(cyberDefenseChannels.length).toBeGreaterThan(0);
+    expect(cyberDefensePosts.length).toBeGreaterThan(0);
+    expect(userIds.size).toBe(cyberDefenseUsers.length);
+    expect(postIds.size).toBe(cyberDefensePosts.length);
+    expect(channelIds.size).toBe(cyberDefenseChannels.length);
     const base = new Set<string>(fixtureUsers.map((u) => u.id));
     expect([...userIds].filter((id) => base.has(id))).toEqual([]);
   });
 
-  it('has unique post ids and every reference resolves', () => {
-    expect(postIds.size).toBe(cyberDefensePosts.length);
-    const channelIds = new Set(cyberDefenseChannels.map((c) => c.id));
+  it('has a current user, and the team and channels point at each other', () => {
+    expect(userIds.has(cyberDefenseCurrentUserId)).toBe(true);
+    for (const c of cyberDefenseChannels) {
+      expect(c.teamId).toBe(cyberDefenseTeam.id);
+      c.memberIds?.forEach((id) => expect(userIds.has(id)).toBe(true));
+      expect(c.bookmarks === undefined || c.bookmarks.length > 0).toBe(true);
+      const ids = c.bookmarks?.map((b) => b.id) ?? [];
+      expect(new Set(ids).size).toBe(ids.length);
+    }
+  });
+
+  it('resolves every post reference', () => {
     for (const p of cyberDefensePosts) {
       expect(channelIds.has(p.channelId)).toBe(true);
       expect(userIds.has(p.userId)).toBe(true);
@@ -95,47 +116,34 @@ describe('cyber defense fixtures', () => {
       );
       p.followerIds?.forEach((id) => expect(userIds.has(id)).toBe(true));
       if (p.respondingToId) expect(postIds.has(p.respondingToId)).toBe(true);
-    }
-    for (const c of cyberDefenseChannels) {
-      c.memberIds?.forEach((id) => expect(userIds.has(id)).toBe(true));
+      if (p.requestedById) expect(userIds.has(p.requestedById)).toBe(true);
     }
   });
 
-  it('lists posts in chronological order within each channel, roots first', () => {
-    const MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
-    const minutes = (ts: string) => {
-      const m = /^(\w{3}) (\d+) at (\d+):(\d+) (AM|PM)$/.exec(ts)!;
-      const h = (Number(m[3]) % 12) + (m[5] === 'PM' ? 12 : 0);
-      return (
-        ((MONTHS.indexOf(m[1]) * 31 + Number(m[2])) * 24 + h) * 60 +
-        Number(m[4])
-      );
-    };
-    const last = new Map<string, number>();
-    const seen = new Set<string>();
+  it('gives each post kind the data a host renders it from', () => {
     for (const p of cyberDefensePosts) {
-      const t = minutes(p.timestamp);
-      expect(t).toBeGreaterThanOrEqual(last.get(p.channelId) ?? 0);
-      last.set(p.channelId, t);
-      if (p.rootId) expect(seen.has(p.rootId)).toBe(true);
-      seen.add(p.id);
+      if (p.kind === 'slack-attachment')
+        expect(p.attachments?.length).toBeGreaterThan(0);
+      if (p.kind === 'run-update') expect(p.runUpdate).toBeTruthy();
+      if (p.kind === 'call') expect(p.call).toBeTruthy();
+      if (p.kind === 'webhook') expect(p.webhook).toBeTruthy();
+      if (p.requestAck || p.acknowledgements) expect(p.priority).toBeTruthy();
     }
   });
 
-  it('carries the post features hosts need to render', () => {
-    const has = (f: (p: (typeof cyberDefensePosts)[number]) => unknown) =>
-      cyberDefensePosts.some((p) => Boolean(f(p)));
-    expect(has((p) => p.attachments?.length)).toBe(true);
-    expect(has((p) => p.reactions?.length)).toBe(true);
-    expect(has((p) => p.priority)).toBe(true);
-    expect(has((p) => p.acknowledgements?.length)).toBe(true);
-    expect(has((p) => p.edited)).toBe(true);
-    expect(has((p) => p.followerIds?.length)).toBe(true);
-    expect(has((p) => p.files?.length)).toBe(true);
-    expect(has((p) => p.webhook)).toBe(true);
-    expect(has((p) => p.permalinkPostId)).toBe(true);
-    expect(has((p) => p.runUpdate)).toBe(true);
-    expect(has((p) => p.call)).toBe(true);
+  it('derives unread state that points at real posts in the same channel', () => {
+    for (const c of cyberDefenseChannels) {
+      if (c.firstUnreadPostId) {
+        const first = cyberDefensePosts.find(
+          (p) => p.id === c.firstUnreadPostId,
+        );
+        expect(first?.channelId).toBe(c.id);
+        expect(first?.rootId).toBeUndefined();
+        expect(c.unreadCount).toBeGreaterThan(0);
+      }
+      if (c.mentionCount)
+        expect(c.mentionCount).toBeLessThanOrEqual(c.unreadCount ?? 0);
+    }
   });
 
   it('leaves out system posts and groups replies into threads', () => {
@@ -148,6 +156,26 @@ describe('cyber defense fixtures', () => {
       expect(t.replies.length).toBeGreaterThan(0);
       t.replies.forEach((r) => expect(r.rootId).toBe(t.root.id));
     }
+  });
+
+  it('keeps posts chronological within a thread (replies after their root)', () => {
+    const order = new Map(cyberDefensePosts.map((p, i) => [p.id, i]));
+    for (const p of cyberDefensePosts)
+      if (p.rootId)
+        expect(order.get(p.id)!).toBeGreaterThan(order.get(p.rootId)!);
+  });
+
+  it('looks things up by id', () => {
+    const u = cyberDefenseUsers[0]!;
+    expect(getCyberDefenseUser(u.id)).toBe(u);
+    expect(getCyberDefenseChannel(cyberDefenseChannels[0]!.id)).toBe(
+      cyberDefenseChannels[0],
+    );
+    expect(
+      getCyberDefenseChannelPosts(cyberDefenseChannels[0]!.id).every(
+        (p) => p.channelId === cyberDefenseChannels[0]!.id,
+      ),
+    ).toBe(true);
   });
 });
 

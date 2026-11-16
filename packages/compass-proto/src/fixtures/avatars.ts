@@ -1,5 +1,5 @@
 import { fixtureUsers, type FixtureUserId } from './users';
-import { cyberDefenseUsers } from './cyber-defense/users';
+import { cyberDefenseUsers } from './cyber-defense/generated';
 
 /**
  * Avatar registry: user id -> image URL.

@@ -13,13 +13,15 @@ const fields = [
   { title: 'Severity', value: 'Medium', short: true },
 ];
 
+// Alert posts from the fixtures, picked by what they carry rather than by id so
+// the specimen survives a data refresh: one with an action button, one without.
+const alertPosts = cyberDefensePosts.filter(
+  (p) => p.kind === 'slack-attachment' && p.webhook,
+);
 const examplePosts = [
-  'security-alerts-1',
-  'security-alerts-2',
-  'security-alerts-8',
-]
-  .map((id) => cyberDefensePosts.find((p) => p.id === id))
-  .filter((p) => p !== undefined);
+  alertPosts.find((p) => p.attachments?.some((a) => a.actions?.length)),
+  alertPosts.find((p) => !p.attachments?.some((a) => a.actions?.length)),
+].filter((p) => p !== undefined);
 
 export default function MessageAttachmentLibrary() {
   return (
