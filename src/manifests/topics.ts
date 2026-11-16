@@ -1064,6 +1064,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.specimen'),
   },
   {
+    slug: 'search-modal',
+    name: 'Search Modal',
+    category: 'patterns',
+    description:
+      'Dialog behind the global Search field with recent searches, search modifiers, and suggestions.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/search-modal/search-modal.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/search-modal/search-modal.specimen'),
+  },
+  {
     slug: 'channel-header',
     name: 'Channel Header',
     category: 'patterns',
