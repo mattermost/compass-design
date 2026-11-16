@@ -19,12 +19,18 @@ export type AvatarRegistry = Partial<
   Record<FixtureUserId | (string & {}), string>
 >;
 
-/** File base name (lowercase) -> user id. Matches display names, plus ids and usernames. */
-const nameToUserId = new Map<string, string>();
+/**
+ * File base name (lowercase) -> user ids. Matches display names, plus ids and
+ * usernames. A name shared by several fixture users (two bots called "System")
+ * maps to all of them, so one file gives each of them the image.
+ */
+const nameToUserIds = new Map<string, Set<string>>();
 for (const u of [...fixtureUsers, ...cyberDefenseUsers]) {
   for (const key of [u.displayName, u.username, u.id]) {
     const k = key.toLowerCase();
-    if (!nameToUserId.has(k)) nameToUserId.set(k, u.id);
+    const ids = nameToUserIds.get(k) ?? new Set<string>();
+    ids.add(u.id);
+    nameToUserIds.set(k, ids);
   }
 }
 
@@ -36,15 +42,17 @@ function baseName(path: string): string {
 /**
  * Builds a registry from a map of file path (or name) to URL. Files are
  * matched by base name against fixture display names ("Aiko Tan.png"), user ids
- * or usernames ("areid.png"), so any directory prefix works. Files that match no fixture user are ignored.
+ * or usernames ("areid.png"), so any directory prefix works. A file that matches several fixture users (a shared display name) applies to each
+ * of them. Files that match no fixture user are ignored.
  */
 export function createAvatarRegistry(
   files: Record<string, string>,
 ): AvatarRegistry {
   const registry: AvatarRegistry = {};
   for (const [path, url] of Object.entries(files)) {
-    const id = nameToUserId.get(baseName(path));
-    if (id) registry[id] = url;
+    for (const id of nameToUserIds.get(baseName(path)) ?? []) {
+      registry[id] = url;
+    }
   }
   return registry;
 }
