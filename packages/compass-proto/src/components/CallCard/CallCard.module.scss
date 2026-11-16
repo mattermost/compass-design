@@ -19,7 +19,7 @@
   // 1px ring drawn as a shadow spread (not a border) so the card stays 72px
   // tall, with the elevation on top.
   box-shadow:
-    0 0 0 1px rgba(var(--center-channel-color-rgb), 0.12),
+    0 0 0 1px rgba(var(--center-channel-color-rgb), var(--opacity-12)),
     var(--elevation-1);
   color: var(--center-channel-color);
   transition: box-shadow var(--duration-quick) var(--ease-transition);
@@ -27,7 +27,7 @@
   // Hover lifts the card a step (Figma "State=Hover").
   &:hover {
     box-shadow:
-      0 0 0 1px rgba(var(--center-channel-color-rgb), 0.12),
+      0 0 0 1px rgba(var(--center-channel-color-rgb), var(--opacity-12)),
       var(--elevation-2);
   }
 
@@ -72,7 +72,7 @@
     overflow: hidden;
     font-size: var(--font-size-75);
     line-height: var(--line-height-75);
-    color: rgba(var(--center-channel-color-rgb), 0.75);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -93,8 +93,8 @@
 
   // Ended: grey icon disc instead of the online green.
   &--ended &__icon {
-    background: rgba(var(--center-channel-color-rgb), 0.08);
-    color: var(--color-neutral-650);
+    background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
   }
 
   // Calling: the icon disc pulses like the widget's ringing avatar.
@@ -113,14 +113,14 @@
     gap: var(--spacing-xs);
     font-size: var(--font-size-75);
     line-height: var(--line-height-75);
-    color: rgba(var(--center-channel-color-rgb), 0.72);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     white-space: nowrap;
   }
 }
 
 @keyframes call-card-ring {
   0% {
-    box-shadow: 0 0 0 0 rgba(var(--color-green-600-rgb), 0.32);
+    box-shadow: 0 0 0 0 rgba(var(--color-green-600-rgb), var(--opacity-32));
   }
   100% {
     box-shadow: 0 0 0 var(--spacing-m) rgba(var(--color-green-600-rgb), 0);
@@ -138,7 +138,8 @@
     &__right {
       justify-content: space-between;
       padding-top: var(--spacing-m);
-      border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+      border-top: 1px solid
+        rgba(var(--center-channel-color-rgb), var(--opacity-8));
     }
   }
 }
