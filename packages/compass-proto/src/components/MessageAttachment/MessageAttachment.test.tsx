@@ -30,22 +30,26 @@ describe('MessageAttachment', () => {
     );
   });
 
-  it('puts short fields in one row and long fields on their own rows', () => {
+  it('keeps fields in their original order, long ones spanning both columns', () => {
     const { container } = render(
       <MessageAttachment
         fields={[
           { title: 'Node', value: 'admin panel', short: true },
-          { title: 'Type', value: 'Brute force', short: true },
           { title: 'Details', value: 'Long description' },
+          { title: 'Type', value: 'Brute force', short: true },
         ]}
       />,
     );
-    const rows = container.querySelectorAll(
+    const grid = container.querySelector(
       '[class*="message-attachment__fields"]',
-    );
-    expect(rows).toHaveLength(2);
-    expect(rows[0]!.children).toHaveLength(2);
-    expect(rows[1]!.children).toHaveLength(1);
+    )!;
+    expect(grid.children).toHaveLength(3);
+    expect(
+      [...grid.children].map((el) => el.firstElementChild?.textContent),
+    ).toEqual(['Node', 'Details', 'Type']);
+    expect(
+      [...grid.children].map((el) => el.className.includes('field--long')),
+    ).toEqual([false, true, false]);
   });
 
   it('renders link actions as external anchors and plain actions as buttons', () => {

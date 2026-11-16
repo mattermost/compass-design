@@ -16,7 +16,7 @@ export type MessageAttachmentColor =
 export interface MessageAttachmentField {
   title: ReactNode;
   value: ReactNode;
-  /** Short fields sit side by side; others take a full row. Default: false. */
+  /** Short fields sit two to a row; others span the full width. Fields keep their order. Default: false. */
   short?: boolean;
 }
 
@@ -100,8 +100,6 @@ export default function MessageAttachment({
     color && !semantic
       ? ({ '--message-attachment-color': color } as CSSProperties)
       : undefined;
-  const shortFields = fields.filter((f) => f.short);
-  const longFields = fields.filter((f) => !f.short);
   const name = ariaLabel ?? (typeof title === 'string' ? title : undefined);
 
   const author = authorName ? (
@@ -175,18 +173,13 @@ export default function MessageAttachment({
           {text && (
             <div className={styles['message-attachment__text']}>{text}</div>
           )}
-          {shortFields.length > 0 && (
+          {fields.length > 0 && (
             <div className={styles['message-attachment__fields']}>
-              {shortFields.map((f, i) => (
+              {fields.map((f, i) => (
                 <Field key={i} field={f} />
               ))}
             </div>
           )}
-          {longFields.map((f, i) => (
-            <div key={i} className={styles['message-attachment__fields']}>
-              <Field field={f} />
-            </div>
-          ))}
           {imageSrc && (
             <img
               className={styles['message-attachment__image']}
@@ -236,7 +229,14 @@ export default function MessageAttachment({
 
 function Field({ field }: { field: MessageAttachmentField }) {
   return (
-    <div className={styles['message-attachment__field']}>
+    <div
+      className={[
+        styles['message-attachment__field'],
+        !field.short && styles['message-attachment__field--long'],
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <span className={styles['message-attachment__field-label']}>
         {field.title}
       </span>
