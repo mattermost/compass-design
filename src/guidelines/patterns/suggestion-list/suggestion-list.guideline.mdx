@@ -2,6 +2,9 @@ Suggestion List is the autocomplete surface that opens above a message
 composer while someone types a trigger: `@` for people and groups, `~` for
 channels, `:` for emoji, `/` for slash commands.
 
+It is a prototype pattern in `@mattermost/compass-proto` while its API settles,
+not part of the published core.
+
 Use it for suggestions tied to a text field that keeps focus. For a form field
 that picks a value, use [Combobox](/components/combobox) instead.
 
@@ -26,7 +29,7 @@ import SuggestionComposerDemo from './SuggestionComposerDemo';
 </AnatomyStage>
 
 The list opens directly above the Message Input at its width. The specimen
-shows it in context for each trigger: [mentions](/components/suggestion-list/specimen)
+shows it in context for each trigger: [mentions](/patterns/suggestion-list/specimen)
 (with groups and "Not in channel"), channels, slash commands and emoji.
 
 <Divider />

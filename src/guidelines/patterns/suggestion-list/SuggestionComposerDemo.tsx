@@ -2,17 +2,18 @@ import { useRef, type ReactNode } from 'react';
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
-import { MessageInput, getTextareaCharRect } from '@mattermost/compass-proto';
+import {
+  MessageInput,
+  SuggestionList,
+  getTextareaCharRect,
+  type SuggestionSection,
+} from '@mattermost/compass-proto';
 import {
   useAnchoredPopupPortal,
   type AnchoredPopupAnchor,
 } from '@mattermost/compass-ui/hooks/use-anchored-popup-portal';
 import { Emoji } from '@mattermost/compass-ui/components/emoji';
 import { Icon } from '@mattermost/compass-ui/components/icon';
-import {
-  SuggestionList,
-  type SuggestionSection,
-} from '@mattermost/compass-ui/components/suggestion-list';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import avatarArjun from '@/assets/avatars/Arjun Patel.png';
 import avatarEmma from '@/assets/avatars/Emma Novak.png';

@@ -1,12 +1,18 @@
 import { describe, expect, it, vi } from 'vitest';
 import { act, createRef, useState } from 'react';
-import { click, render } from '@/test-utils/render';
+import { render } from '@/test-utils/render';
 import SuggestionList from './SuggestionList';
 import {
   useSuggestionList,
   type SuggestionOption,
   type SuggestionSection,
 } from './useSuggestionList';
+
+function click(el: Element) {
+  act(() => {
+    (el as HTMLElement).click();
+  });
+}
 
 const OPTIONS: SuggestionOption[] = [
   { value: 'alice', label: 'alice', secondaryLabel: 'Alice Smith' },
