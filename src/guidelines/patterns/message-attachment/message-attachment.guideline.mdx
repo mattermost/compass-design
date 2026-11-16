@@ -1,0 +1,77 @@
+import { MessageAttachment } from '@mattermost/compass-proto';
+
+The Message Attachment is an unpublished prototyping composite in
+`@mattermost/compass-proto`. It is the card an integration posts under a
+message: an alert from a monitoring tool, a build result, a ticket update. A
+colored bar on the left edge sets the tone, and the card can carry a title,
+text, a grid of fields, an image, action buttons, and a footer.
+
+Use it for structured, glanceable status from an integration. Use plain message
+text for conversation, and the Attachment Card for a shared file.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <MessageAttachment
+    color="warning"
+    authorName="Microsoft Sentinel"
+    title="Multiple failed login attempts"
+    text="Five failed sign-ins for the same account within two minutes."
+    fields={[
+      { title: 'Node', value: 'admin panel', short: true },
+      { title: 'Severity', value: 'Medium', short: true },
+    ]}
+    actions={[{ label: 'View alert', href: 'https://example.com' }]}
+    footer="Security Alerts"
+  />
+</AnatomyStage>
+
+- <Num>1</Num> **Color bar** — A 3px bar on the left edge. Green, yellow, red
+  and blue are the semantic colors for good, warning, danger and info; any CSS
+  color also works. Without a color the bar is neutral.
+- <Num>2</Num> **Author** — Optional small name, with an icon, above the title.
+- <Num>3</Num> **Title** — The headline. It can link out.
+- <Num>4</Num> **Text** — Supporting detail.
+- <Num>5</Num> **Fields** — Label and value pairs. Short fields sit side by
+  side; the others take a full row.
+- <Num>6</Num> **Actions** — Buttons for what to do next. A button with a link
+  opens it in a new tab.
+- <Num>7</Num> **Footer** — Where the alert came from, with an optional icon.
+
+An optional line of text, the pretext, sits above the card. An image can sit
+under the fields, and a small thumbnail can sit at the top right.
+
+<Divider />
+
+## States
+
+- **Default** — The card sits on the channel background with a thin outline.
+- **Color** — Good, warning, danger, info, a custom color, or neutral.
+- **Narrow** — Below roughly 440px of its own width the short fields stack
+  into one column. It follows its container, not the viewport, so it also
+  stacks in a thread panel.
+
+Every part is optional. A card with only a title and text is valid, and empty
+parts are left out.
+
+<Divider />
+
+## Behavior
+
+The card is presentational. Pass the same values the integration sent: the
+props mirror the Mattermost and Slack attachment format, so a host can map a
+post's attachments straight onto them. The host decides what each action does.
+
+Field and text values render as plain text. Format them before you pass them in; the card does not interpret Markdown.
+
+Never rely on color alone to carry severity. Put the severity in the title or a
+field as well, so it reads without color.
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for every color, a full card, and real alerts rendered
+inside a post. Import `MessageAttachment` from `@mattermost/compass-proto`.

@@ -359,3 +359,16 @@
   width: 360px;
   max-width: 100%;
 }
+
+.patterns__message-attachment-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  width: 100%;
+  max-width: 720px;
+}
+
+.patterns__message-attachment-narrow {
+  width: 360px;
+  max-width: 100%;
+}

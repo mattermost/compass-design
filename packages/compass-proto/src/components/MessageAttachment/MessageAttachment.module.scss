@@ -1,0 +1,171 @@
+// Message attachment card. The bar color comes from a semantic modifier or from
+// `--message-attachment-color` (set inline for arbitrary CSS colors).
+.message-attachment {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  max-width: 700px; // one-off layout width, matches the webhook post card
+
+  &__pretext {
+    margin: 0;
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+  }
+
+  &__card {
+    --message-attachment-color: rgba(var(--center-channel-color-rgb), 0.24);
+
+    overflow: clip;
+    background: var(--center-channel-bg);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+    border-radius: var(--radius-s);
+    box-shadow: var(--elevation-1);
+    color: var(--center-channel-color);
+
+    &--good {
+      --message-attachment-color: var(--color-success);
+    }
+
+    &--warning {
+      --message-attachment-color: var(--color-warning);
+    }
+
+    &--danger {
+      --message-attachment-color: var(--color-danger);
+    }
+
+    &--info {
+      --message-attachment-color: var(--color-info);
+    }
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-m);
+    box-sizing: border-box;
+    // 3px bar + the usual 16px gap
+    padding: var(--spacing-l) var(--spacing-l) var(--spacing-l)
+      calc(var(--spacing-l) + 3px);
+    border-left: 3px solid var(--message-attachment-color);
+  }
+
+  &__author {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-75);
+
+    a {
+      color: inherit;
+    }
+  }
+
+  &__author-icon,
+  &__footer-icon {
+    width: var(--icon-size-16, 16px);
+    height: var(--icon-size-16, 16px);
+    border-radius: var(--radius-xs);
+    object-fit: cover;
+  }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-m);
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    margin: 0;
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-300);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-300);
+    overflow-wrap: anywhere;
+
+    a {
+      color: var(--link-color, inherit);
+    }
+  }
+
+  &__thumb {
+    flex: 0 0 auto;
+    width: 40px; // thumbnail size
+    height: 40px;
+    border-radius: var(--radius-xs);
+    object-fit: cover;
+  }
+
+  &__text {
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    overflow-wrap: anywhere;
+  }
+
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-m);
+  }
+
+  &__field {
+    display: flex;
+    flex: 1 0 0;
+    flex-direction: column;
+    gap: var(--spacing-xxxxs);
+    min-width: 120px; // keeps short fields from squeezing below a readable width
+  }
+
+  &__field-label {
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: rgba(var(--center-channel-color-rgb), 0.75);
+  }
+
+  &__field-value {
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    overflow-wrap: anywhere;
+  }
+
+  &__image {
+    max-width: 100%;
+    max-height: 300px; // keeps tall images from taking over the channel
+    border-radius: var(--radius-xs);
+    object-fit: contain;
+    align-self: flex-start;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-s);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin: 0;
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+  }
+}
+
+@container (max-width: 440px) {
+  .message-attachment__fields {
+    flex-direction: column;
+  }
+
+  .message-attachment__field {
+    flex: 1 0 100%;
+    min-width: 0;
+  }
+}

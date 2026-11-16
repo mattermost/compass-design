@@ -1256,6 +1256,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/message/message.specimen'),
   },
   {
+    slug: 'message-attachment',
+    name: 'Message Attachment',
+    category: 'patterns',
+    description:
+      'The card an integration posts under a message: color bar, title, fields, actions, and footer.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/message-attachment/message-attachment.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/message-attachment/message-attachment.specimen'),
+  },
+  {
     slug: 'message-input',
     name: 'Message Input',
     category: 'patterns',
