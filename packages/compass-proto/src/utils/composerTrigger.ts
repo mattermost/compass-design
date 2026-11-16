@@ -64,9 +64,10 @@ export function findComposerTrigger(
 
 /**
  * Replaces the typed trigger and query (`start` to `caret`) with `insertText`.
- * Adds a trailing space, unless `insertText` already ends in whitespace or one
- * follows the caret. The caret ends after that space, so it is no longer inside
- * the trigger. Returns the new text and where the caret goes.
+ * Adds a trailing space, unless `insertText` already ends in whitespace or a
+ * space or tab follows the caret (that one is reused, never doubled). The caret
+ * ends after the space, so it is no longer inside the trigger. Returns the new
+ * text and where the caret goes.
  */
 export function applyComposerSuggestion(
   text: string,
@@ -76,12 +77,23 @@ export function applyComposerSuggestion(
 ): { text: string; caret: number } {
   const after = text.slice(caret);
   const endsInSpace = /\s$/.test(insertText);
-  const spaceFollows = /^\s/.test(after);
-  const inserted = insertText + (endsInSpace || spaceFollows ? '' : ' ');
+  // Only a space or tab counts: a newline after the caret still gets a space
+  // before it, so the caret stays on its line and leaves the word.
+  const gapFollows = /^[ \t]/.test(after);
+  let inserted = insertText;
+  let rest = after;
+  let stepOver = 0;
+  if (endsInSpace) {
+    // The insert supplies the space; don't double one that is already there.
+    if (gapFollows) rest = after.slice(1);
+  } else if (gapFollows) {
+    // Keep the existing space and put the caret after it.
+    stepOver = 1;
+  } else {
+    inserted += ' ';
+  }
   return {
-    text: text.slice(0, match.start) + inserted + after,
-    // Step over a space that was already there, so the caret leaves the word.
-    caret:
-      match.start + inserted.length + (!endsInSpace && spaceFollows ? 1 : 0),
+    text: text.slice(0, match.start) + inserted + rest,
+    caret: match.start + inserted.length + stepOver,
   };
 }

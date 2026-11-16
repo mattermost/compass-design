@@ -423,4 +423,22 @@ describe('MessageInputWithSuggestions', () => {
       spy.mockRestore();
     }
   });
+
+  it('keeps the list on screen for a composer near the right edge', () => {
+    const spy = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(() => new DOMRect(900, 500, 100, 40));
+    try {
+      render(<Controlled />);
+      type('@a');
+      const surface = document
+        .querySelector('[role="listbox"]')!
+        .closest('[style*="position: fixed"]') as HTMLElement;
+      const left = parseFloat(surface.style.left);
+      expect(left).toBeGreaterThanOrEqual(8);
+      expect(left + 480).toBeLessThanOrEqual(window.innerWidth - 8 + 0.5);
+    } finally {
+      spy.mockRestore();
+    }
+  });
 });

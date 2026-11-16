@@ -122,9 +122,14 @@ function SuggestionsPopup({
       const box = boxRef.current?.getBoundingClientRect();
       if (!textarea || !box) return new DOMRect();
       const char = getTextareaCharRect(textarea, matchStart.current);
+      // At the trigger character, at least 4px in from the input's left edge,
+      // then pulled back on screen (the screen edge wins on a right-side input).
       const left = Math.max(
-        box.left + 4,
-        Math.min(char.left, window.innerWidth - popupWidth() - 8),
+        8,
+        Math.min(
+          Math.max(char.left, box.left + 4),
+          window.innerWidth - popupWidth() - 8,
+        ),
       );
       return new DOMRect(left, box.top, 0, box.height);
     },

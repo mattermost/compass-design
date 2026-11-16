@@ -94,4 +94,23 @@ describe('applyComposerSuggestion', () => {
       'hi @alice ',
     );
   });
+
+  it('puts a space before a following newline and keeps the caret on its line', () => {
+    expect(applyComposerSuggestion('hi @al\nnext', match, 6, '@alice')).toEqual(
+      { text: 'hi @alice \nnext', caret: 10 },
+    );
+  });
+
+  it('does not double a space that follows when the insert already ends in one', () => {
+    expect(
+      applyComposerSuggestion('hi @al there', match, 6, '@alice '),
+    ).toEqual({ text: 'hi @alice there', caret: 10 });
+  });
+
+  it('reuses a following tab', () => {
+    expect(applyComposerSuggestion('hi @al\tx', match, 6, '@alice')).toEqual({
+      text: 'hi @alice\tx',
+      caret: 10,
+    });
+  });
 });
