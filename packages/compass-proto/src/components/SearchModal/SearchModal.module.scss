@@ -1,0 +1,307 @@
+.search-modal {
+  @keyframes search-modal-enter-forward {
+    from {
+      opacity: 0;
+      transform: translateX(var(--spacing-l));
+    }
+  }
+
+  @keyframes search-modal-enter-back {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--spacing-l) * -1));
+    }
+  }
+
+  // Width stays on Modal size medium. Height follows the results and stops at
+  // 480px; the body scrolls after that.
+  &#{&} {
+    height: auto;
+    max-height: 480px;
+  }
+
+  &--empty :global([class*='modal__body']) {
+    display: none;
+  }
+
+  // Menu body inset is 16px; 12px lines row icons up with the search icon.
+  :global([class*='modal__body-inner']) {
+    padding-inline: var(--spacing-m);
+  }
+
+  // The field sits flush under the header, and the dialog dismisses with
+  // Escape or the scrim, so the close button is hidden.
+  &#{&} :global([class*='modal-header__slot']) {
+    padding-top: 0;
+  }
+
+  &#{&} :global([class*='modal-header__close']) {
+    display: none;
+  }
+
+  &__field {
+    position: relative;
+    // Header slot insets by spacing-xxxl. Grow back to the dialog edges.
+    width: calc(100% + (var(--spacing-xxxl) * 2));
+    margin-inline: calc(var(--spacing-xxxl) * -1);
+
+    // SearchInput has no underline variant: flatten the box to a bottom hairline.
+    :global([class*='search-input'] [class*='search-input__wrapper']) {
+      min-height: 0;
+      background: transparent;
+      border-radius: 0;
+      border-bottom: 1px solid
+        rgba(var(--center-channel-color-rgb), var(--opacity-16));
+      box-shadow: none;
+    }
+
+    &#{&}#{&}#{&}
+      :global(
+        [class*='search-input']:hover:not(:focus-within)
+          [class*='search-input__wrapper']
+      ),
+    &#{&}#{&}#{&}
+      :global(
+        [class*='search-input']:focus-within [class*='search-input__wrapper']
+      ) {
+      box-shadow: none;
+    }
+
+    :global([class*='search-input'] [class*='search-input__inner']) {
+      padding: var(--spacing-xl) calc(var(--spacing-xxl) + var(--spacing-xxxs));
+    }
+
+    :global([class*='search-input'] [class*='search-input__input']) {
+      font-family: var(--font-family-heading);
+      font-size: var(--font-size-400);
+      line-height: var(--line-height-400);
+
+      &::placeholder {
+        font-family: var(--font-family-heading);
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+      }
+    }
+  }
+
+  // Clips the short slide so it never creates a horizontal scrollbar.
+  &__stage {
+    overflow-x: clip;
+    min-width: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+
+    // Switching to a later mode slides in from the right, an earlier one from the left.
+    &--enter-forward {
+      animation: search-modal-enter-forward var(--duration-quick)
+        var(--ease-entrance);
+    }
+
+    &--enter-back {
+      animation: search-modal-enter-back var(--duration-quick)
+        var(--ease-entrance);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &--enter-forward,
+      &--enter-back {
+        animation: none;
+      }
+    }
+  }
+
+  // The list sits directly on the modal body.
+  &__list {
+    padding: var(--spacing-xs) 0;
+  }
+
+  // The keyboard highlight is a neutral fill, not the accent tint of an active row.
+  &__list [role='option'][aria-selected='true'] {
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+  }
+
+  // "People you chat with most": a row of person cards.
+  &__cards {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--spacing-xxxs) var(--spacing-l);
+  }
+
+  &__card {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    min-width: 0;
+    margin: 0;
+    border: 0;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-s);
+    background-color: transparent;
+    color: var(--center-channel-color);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-75);
+    text-align: center;
+    cursor: pointer;
+
+    &--selected {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    }
+  }
+
+  &__card-name {
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__modifier {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  // Pointer-only remove control at the end of a recent-search row.
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xxxs);
+    border-radius: var(--radius-s);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+      color: var(--center-channel-color);
+    }
+  }
+
+  &__tip {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    width: 100%;
+    min-width: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+  }
+
+  &__tip-icon {
+    flex-shrink: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+  }
+
+  &__tip-text {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  &__modifiers {
+    display: flex;
+    gap: var(--spacing-xxs);
+    min-width: 0;
+
+    // Dim buttons are flat at rest; these chips need a visible fill.
+    &#{&} > :global(button) {
+      background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    }
+  }
+
+  &__enter-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: var(--spacing-xxxxs);
+    border-radius: var(--radius-s);
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    width: 100%;
+    min-width: 0;
+    // The header slot pads its bottom; the field carries its own inset.
+    margin-bottom: calc(-1 * var(--spacing-xxl));
+  }
+
+  &__chips {
+    display: flex;
+    padding-top: var(--spacing-xs);
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  &__team {
+    display: inline-flex;
+  }
+
+  &__menu-layer {
+    position: fixed;
+    z-index: var(--z-menu);
+  }
+
+  &__tip--spread {
+    justify-content: space-between;
+  }
+
+  &__tip-hint {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s);
+    min-width: 0;
+  }
+
+  &__search-with {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--spacing-s);
+  }
+
+  &__search-with-label {
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-75);
+    text-transform: uppercase;
+  }
+
+  &__agent {
+    display: inline-flex;
+    align-items: center;
+    max-width: 128px;
+    padding: var(--spacing-xxxxs) var(--spacing-xxxs) var(--spacing-xxxxs)
+      var(--spacing-xxs);
+    border: 0;
+    border-radius: var(--radius-s);
+    background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    color: var(--center-channel-color);
+    font: inherit;
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-75);
+    cursor: pointer;
+
+    @include focus-ring;
+  }
+
+  &__agent-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+}

@@ -21,7 +21,14 @@ Never import `@mattermost/compass-ui/styles/standalone` in the webapp or a plugi
 
 ## Webpack
 
-compass-ui ships plain CSS, and its JavaScript imports it (`@mattermost/compass-ui/styles` plus one `.css` file per component), so the bundler needs a rule that matches `.css`. Without one the build fails with "You may need an appropriate loader". gcal's config already matched `.css`, but through `/\.(scss|css)$/` and sass, and its PR split the rule so `.css` goes through `css-loader` only (gcal `webpack.config.js`). I could not reproduce sass breaking the shipped CSS: sass 1.60.0 compiled all 82 files in alpha.29 without errors, though it rewrites them. Treat the split as a safe default, and check the consumer's sass-loader options (for example `additionalData`) before sending compass-ui's CSS through it:
+compass-ui ships plain CSS, and two things need the `.css` rule:
+
+1. The global styles import, `import '@mattermost/compass-ui/styles'`, which resolves to `dist/compass-ui.css`. It supplies the tokens (`var(--spacing-xs)` and the rest) that component CSS only references, so it is required.
+2. The side-effect CSS import inside each component's JavaScript. A component subpath import such as `@mattermost/compass-ui/components/modal` (lowercase kebab-case, the same as the folders in `dist/components`) pulls one in, so the bundler needs a `.css` rule even if nothing imports `/styles`.
+
+Without the rule the build fails with "Module parse failed ... You may need an appropriate loader". Plugin configs often have only a `.scss` rule or no style rule at all.
+
+Give `.css` its own rule and keep sass for `.scss`. Don't put `exclude: /node_modules/` on the `.css` rule, because compass-ui's CSS lives there.
 
 ```js
 {

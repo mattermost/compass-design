@@ -1,0 +1,14 @@
+{
+  "name": "compass-design",
+  "owner": { "name": "Mattermost" },
+  "metadata": {
+    "description": "Agent skills for building, reviewing, migrating and productionizing Mattermost UI with Compass."
+  },
+  "plugins": [
+    {
+      "name": "mattermost-compass-toolkit",
+      "source": "skills/compass-toolkit",
+      "description": "Compass agent skills: compass-build, compass-review, compass-migrate and prototype-to-production. They install together and read the shared rules in compass-build."
+    }
+  ]
+}

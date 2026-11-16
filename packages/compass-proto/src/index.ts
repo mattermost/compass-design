@@ -13,6 +13,7 @@ export * from './components/ChannelShell/index';
 export * from './components/ChannelsSidebar/index';
 export * from './components/EmojiPopover/index';
 export * from './components/GlobalHeader/index';
+export * from './components/SearchModal/index';
 export * from './components/HelpMenu/index';
 export * from './components/Message/index';
 export * from './components/MessageInput/index';
