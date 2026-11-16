@@ -187,6 +187,35 @@ describe('SearchModal shell', () => {
   });
 });
 
+describe('focus and reopening', () => {
+  it('focuses the field on open by default', () => {
+    open();
+    expect(document.activeElement).toBe(input());
+  });
+
+  it('leaves page focus alone with manageFocus={false}', () => {
+    const before = document.createElement('button');
+    document.body.appendChild(before);
+    before.focus();
+    open({ manageFocus: false });
+    expect(document.activeElement).toBe(before);
+    // Tab is not trapped inside the dialog either.
+    const tab = press(document.body, 'Tab');
+    expect(tab.defaultPrevented).toBe(false);
+  });
+
+  it('starts fresh when it is closed and reopened before the exit finishes', () => {
+    const props = { onClose: () => {}, data, initialMode: 'files' as const };
+    render(<SearchModal open {...props} />);
+    act(() => mode('Messages').click());
+    type('half typed');
+    act(() => root!.render(<SearchModal open={false} {...props} />));
+    act(() => root!.render(<SearchModal open {...props} />));
+    expect(input().value).toBe('');
+    expect(input().getAttribute('placeholder')).toBe('Search files');
+  });
+});
+
 describe('modes: before typing', () => {
   it('All: unread channels, frequent people, recent files and searches', () => {
     open();

@@ -31,6 +31,9 @@ export function SearchModalCanvas({
 }) {
   const [stage, setStage] = useState<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(true);
+  // The staged preview is open on load, so it must not take focus from the page.
+  // Once the user opens it themselves it manages focus like the real dialog.
+  const [focusManaged, setFocusManaged] = useState(false);
   const [mode, setMode] = useState<SearchMode>(initialMode);
   const [data, setData] = useState<SearchModalData>(SEARCH_MODAL_DATA);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -42,6 +45,7 @@ export function SearchModalCanvas({
   }, []);
 
   const reopen = (next?: SearchMode) => {
+    setFocusManaged(true);
     if (next) setMode(next);
     setResults(null);
     setOpen(true);
@@ -94,6 +98,7 @@ export function SearchModalCanvas({
           <SearchModal
             open={open}
             anchor={anchor}
+            manageFocus={focusManaged}
             data={data}
             defaultAgentId="matty"
             initialMode={mode}

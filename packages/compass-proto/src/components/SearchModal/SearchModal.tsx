@@ -43,6 +43,12 @@ export interface SearchModalProps {
    * the first of `data.agents`. Ignored when it isn't one of them.
    */
   defaultAgentId?: string;
+  /**
+   * Whether the dialog moves focus into the field on open and traps Tab. Default:
+   * true. Turn it off for a preview staged in a page that is already open when it
+   * loads, so it doesn't take focus from the page.
+   */
+  manageFocus?: boolean;
   /** Mode shown when the dialog opens. State resets on every open. Default: `all`. */
   initialMode?: SearchMode;
   /** Modes to offer, in order. Default: all six. */
@@ -142,6 +148,17 @@ export default function SearchModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, anchor, container]);
 
+  // The overlay stays mounted through the exit motion, so a quick close and reopen
+  // would keep the old mode and text. A new session remounts the panel fresh.
+  const [tracked, setTracked] = useState({ open, session: 0 });
+  if (tracked.open !== open) {
+    setTracked({
+      open,
+      session: open ? tracked.session + 1 : tracked.session,
+    });
+  }
+  const session = tracked.session;
+
   return (
     <ModalOverlay
       {...overlayProps}
@@ -150,7 +167,7 @@ export default function SearchModal({
       onClose={onClose}
       onExited={onExited}
     >
-      <SearchModalPanel open={open} onClose={onClose} {...rest} />
+      <SearchModalPanel key={session} open={open} onClose={onClose} {...rest} />
     </ModalOverlay>
   );
 }
@@ -164,6 +181,7 @@ function SearchModalPanel({
   open,
   onClose,
   data = {},
+  manageFocus = true,
   defaultAgentId,
   initialMode = 'all',
   modes = SEARCH_MODES,
@@ -339,6 +357,7 @@ function SearchModalPanel({
       headerDivider={false}
       onClose={onClose}
       initialFocusRef={inputRef}
+      manageFocus={manageFocus}
       headerLeading={
         <SegmentedControl
           aria-label={labels.modesLabel ?? 'Search modes'}
