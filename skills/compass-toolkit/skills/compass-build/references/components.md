@@ -82,7 +82,9 @@ Identifiers that only look numeric (postal codes, account or ID numbers) stay `t
 | Switch between views of the same content | `Tabs`                            |
 | Pagination                               | `PaginationDots`                  |
 
-### Button and IconButton size
+### Button and IconButton size **[proposed]**
+
+This sizing is a proposed house rule from plugin work. The published Button and IconButton guidelines still list `medium` as the web default and `ModalHeader` and `AdminConsoleHeader` keep `medium` close and back buttons; match the host's chrome where it differs.
 
 `medium` is the default prop value, not the default choice: it is too large for most product surfaces. Set the size by place.
 

@@ -25,7 +25,7 @@ Rules tagged **[proposed]** are not yet in the Compass guidelines. Follow them, 
 5. **Less is the default.** If an element, border, label or sentence can go without losing meaning, remove it.
 6. **Keyboard and screen reader first.** Every control is focusable, labelled and shows a focus ring.
 7. **Sentence case, short.** Buttons are 4 words or fewer and start with a verb.
-8. **Small controls by default.** `medium` (40px IconButton, Button) is the exception. Use `small` + compact in rows and `small` in toolbars and headers; see the sizing table in `references/components.md`.
+8. **Small controls by default** **[proposed]**. `medium` (40px IconButton, Button) is the exception. Use `small` + compact in rows and `small` in toolbars and headers; see the sizing table in `references/components.md`.
 
 ## Workflow
 
