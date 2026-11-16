@@ -40,3 +40,23 @@ jobs:
             exit 1
           fi
           echo "Plugin version ${base_version} -> ${head_version}."
+
+  # The Cursor manifest is not read by the check above, so a version bump in the
+  # Claude manifest alone would leave Cursor users on the old version string.
+  # Drift is never intended, so the skip label does not apply here.
+  manifests-in-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Require the Claude and Cursor plugin versions to match
+        run: |
+          claude_manifest=skills/compass-toolkit/.claude-plugin/plugin.json
+          cursor_manifest=skills/compass-toolkit/.cursor-plugin/plugin.json
+          claude_version=$(jq -r .version "$claude_manifest")
+          cursor_version=$(jq -r .version "$cursor_manifest")
+          if [ "$claude_version" != "$cursor_version" ]; then
+            echo "::error file=${cursor_manifest}::The Cursor plugin version (${cursor_version}) does not match the Claude plugin version (${claude_version}). Keep them equal."
+            exit 1
+          fi
+          echo "Plugin versions match: ${claude_version}."

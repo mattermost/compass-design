@@ -56,6 +56,17 @@ describe('createAvatarRegistry ids and usernames', () => {
     const reg = createAvatarRegistry({ '/a/areid.png': 'r.png' });
     expect(reg).toEqual({ areid: 'r.png' });
   });
+
+  it('gives every fixture user that shares a display name the image', () => {
+    const shared = new Map<string, string[]>();
+    for (const u of [...fixtureUsers, ...cyberDefenseUsers]) {
+      const k = u.displayName.toLowerCase();
+      shared.set(k, [...(shared.get(k) ?? []), u.id]);
+    }
+    const [name, ids] = [...shared].find(([, v]) => v.length > 1)!;
+    const reg = createAvatarRegistry({ [`/a/${name}.png`]: 'x.png' });
+    for (const id of ids) expect(reg[id]).toBe('x.png');
+  });
 });
 
 describe('cyber defense fixtures', () => {
@@ -87,6 +98,27 @@ describe('cyber defense fixtures', () => {
     }
     for (const c of cyberDefenseChannels) {
       c.memberIds?.forEach((id) => expect(userIds.has(id)).toBe(true));
+    }
+  });
+
+  it('lists posts in chronological order within each channel, roots first', () => {
+    const MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+    const minutes = (ts: string) => {
+      const m = /^(\w{3}) (\d+) at (\d+):(\d+) (AM|PM)$/.exec(ts)!;
+      const h = (Number(m[3]) % 12) + (m[5] === 'PM' ? 12 : 0);
+      return (
+        ((MONTHS.indexOf(m[1]) * 31 + Number(m[2])) * 24 + h) * 60 +
+        Number(m[4])
+      );
+    };
+    const last = new Map<string, number>();
+    const seen = new Set<string>();
+    for (const p of cyberDefensePosts) {
+      const t = minutes(p.timestamp);
+      expect(t).toBeGreaterThanOrEqual(last.get(p.channelId) ?? 0);
+      last.set(p.channelId, t);
+      if (p.rootId) expect(seen.has(p.rootId)).toBe(true);
+      seen.add(p.id);
     }
   });
 

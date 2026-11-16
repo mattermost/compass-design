@@ -203,6 +203,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'popover-menu',
         'profile-popover',
         'quick-switch-modal',
+        'search-modal',
       ],
     },
   ],

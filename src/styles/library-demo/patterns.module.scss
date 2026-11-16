@@ -103,6 +103,15 @@
     margin-bottom: var(--spacing-xs);
   }
 
+  // Search results panel docked to the right of the staged search modal frame.
+  &__search-modal-rhs {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+
   &__modal-canvas {
     position: relative;
     height: 480px;
