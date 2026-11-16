@@ -1,0 +1,53 @@
+// Sample-channel rendering (see FixtureChannel.tsx).
+.fixture-channel {
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+    align-items: flex-start;
+    margin-top: var(--spacing-xs);
+    width: 100%;
+  }
+
+  &__priority {
+    margin-right: var(--spacing-xs);
+    vertical-align: middle;
+  }
+
+  &__edited {
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+  }
+
+  &__banner {
+    padding: var(--spacing-xs) var(--spacing-l);
+    // Banner colors come from the data and are light; keep text dark on them.
+    color: var(--color-neutral-900);
+    text-align: center;
+  }
+
+  // Playbooks run update: a compact summary card (no shared component yet).
+  &__run {
+    padding: var(--spacing-s) var(--spacing-m);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+    border-left: 3px solid var(--color-info);
+    border-radius: var(--radius-s);
+    background: var(--center-channel-bg);
+  }
+
+  &__run-title {
+    margin: 0;
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+  }
+
+  &__run-meta {
+    margin: 0;
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+  }
+}

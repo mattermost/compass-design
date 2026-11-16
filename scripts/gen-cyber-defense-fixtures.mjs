@@ -521,6 +521,8 @@ for (const [index, src] of sources.entries()) {
       }));
     }
     if (a.followers) post.followerIds = Object.keys(a.followers);
+    if (a.unread_mentions?.[persona])
+      post.unreadMentions = a.unread_mentions[persona];
     if (a.files)
       post.files = a.files.map((f) => {
         const abs = path.join(opts.source, 'assets/files', f);

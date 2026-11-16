@@ -869,6 +869,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
       'jthomas',
       'threat-analyzer-ai',
     ],
+    unreadMentions: 1,
   },
   {
     id: 'inc-1281-credential-comp-23',
@@ -1921,6 +1922,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
       'mcruz',
       'threat-analyzer-ai',
     ],
+    unreadMentions: 1,
   },
   {
     id: 'threat-discussions-38',

@@ -9,4 +9,8 @@ export * from './teams';
 export * from './channels';
 export * from './posts';
 export * from './avatars';
+export {
+  buildChannelsSidebarModelFromFixtures,
+  type BuildChannelsSidebarModelFromFixturesInput,
+} from './buildChannelsSidebarModelFromFixtures';
 export * from './cyber-defense';

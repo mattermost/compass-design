@@ -1,0 +1,108 @@
+// Markdown for sample posts (see FixtureMarkdown.tsx). Sized like message text.
+.fixture-md {
+  &__p {
+    margin: 0;
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+    overflow-wrap: anywhere;
+
+    & + & {
+      margin-top: var(--spacing-xs);
+    }
+  }
+
+  &__heading {
+    margin: var(--spacing-xs) 0 0;
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-semibold);
+    color: var(--center-channel-color);
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &--1 {
+      font-size: var(--font-size-300);
+      line-height: var(--line-height-300);
+    }
+
+    &--2 {
+      font-size: var(--font-size-200);
+      line-height: var(--line-height-200);
+    }
+
+    &--3,
+    &--4 {
+      font-size: var(--font-size-100);
+      line-height: var(--line-height-100);
+    }
+  }
+
+  &__list {
+    margin: var(--spacing-xxs) 0;
+    padding-left: var(--spacing-xl);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+  }
+
+  &__item {
+    overflow-wrap: anywhere;
+  }
+
+  &__quote {
+    margin: var(--spacing-xs) 0;
+    padding-left: var(--spacing-m);
+    border-left: 3px solid rgba(var(--center-channel-color-rgb), 0.24);
+  }
+
+  &__pre {
+    margin: var(--spacing-xs) 0;
+    padding: var(--spacing-s) var(--spacing-m);
+    overflow-x: auto;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+    border-radius: var(--radius-s);
+    background: rgba(var(--center-channel-color-rgb), 0.04);
+    font-family: var(--font-family-mono, monospace);
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: var(--center-channel-color);
+  }
+
+  &__code {
+    padding: 0 var(--spacing-xxs);
+    border-radius: var(--radius-xs);
+    background: rgba(var(--center-channel-color-rgb), 0.08);
+    font-family: var(--font-family-mono, monospace);
+    font-size: 0.9em;
+  }
+
+  &__link {
+    color: var(--link-color);
+  }
+
+  &__mention {
+    color: var(--link-color);
+  }
+
+  &__table {
+    margin: var(--spacing-xs) 0;
+    border-collapse: collapse;
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: var(--center-channel-color);
+  }
+
+  &__th,
+  &__td {
+    padding: var(--spacing-xs) var(--spacing-s);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+    text-align: left;
+  }
+
+  &__th {
+    background: rgba(var(--center-channel-color-rgb), 0.04);
+    font-weight: var(--font-weight-semibold);
+  }
+}

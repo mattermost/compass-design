@@ -90,6 +90,8 @@ export interface FixturePost {
   reactions?: FixtureReaction[];
   /** User ids following the thread. Set on root posts. */
   followerIds?: string[];
+  /** Unread replies that mention the current user (see `cyberDefenseCurrentUserId`) in this thread. Set on root posts. */
+  unreadMentions?: number;
   files?: FixtureFile[];
   /** Slack-style attachments (cards with a color bar, fields and buttons). */
   attachments?: FixtureSlackAttachment[];

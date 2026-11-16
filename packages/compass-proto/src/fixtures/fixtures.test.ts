@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildChannelsSidebarModelFromFixtures,
   buildDefaultChannelsSidebarModel,
   createAvatarRegistry,
   cyberDefenseChannels,
@@ -226,5 +227,123 @@ describe('fixture element types', () => {
     );
     expect(statuses).toHaveLength(fixtureUsers.length);
     expect(mentions).toHaveLength(fixtureTeams.length);
+  });
+});
+
+describe('buildChannelsSidebarModelFromFixtures', () => {
+  const build = (
+    extra: Partial<
+      Parameters<typeof buildChannelsSidebarModelFromFixtures>[0]
+    > = {},
+  ) =>
+    buildChannelsSidebarModelFromFixtures({
+      channels: cyberDefenseChannels,
+      users: cyberDefenseUsers,
+      currentUserId: cyberDefenseCurrentUserId,
+      ...extra,
+    });
+  const rows = (m: ReturnType<typeof build>) =>
+    m.groups.flatMap((g) => g.items);
+
+  it('lists only channels the current user belongs to, each once', () => {
+    const visible = cyberDefenseChannels.filter((c) =>
+      c.memberIds?.includes(cyberDefenseCurrentUserId),
+    );
+    const names = rows(build()).map((r) => r.name);
+    expect(names).toHaveLength(visible.length);
+    expect(new Set(names)).toEqual(new Set(visible.map((c) => c.name)));
+  });
+
+  it('groups favorites first, then channels, then direct messages, and omits empty groups', () => {
+    const m = build();
+    const order = ['favorites', 'channels', 'direct-messages'];
+    const keys = m.groups.map((g) => g.key);
+    expect(keys).toEqual(order.filter((k) => keys.includes(k)));
+    m.groups.forEach((g) => expect(g.items.length).toBeGreaterThan(0));
+    const fav = new Set(
+      cyberDefenseChannels.filter((c) => c.favorite).map((c) => c.name),
+    );
+    m.groups
+      .find((g) => g.key === 'favorites')
+      ?.items.forEach((i) => expect(fav.has(i.name)).toBe(true));
+  });
+
+  it('marks the active channel and calls back with the channel id', () => {
+    const target = cyberDefenseChannels.find((c) =>
+      c.memberIds?.includes(cyberDefenseCurrentUserId),
+    )!;
+    const picked: string[] = [];
+    const m = build({
+      activeChannelId: target.id,
+      onSelectChannel: (id) => picked.push(id),
+    });
+    const r = rows(m);
+    expect(r.filter((i) => i.active).map((i) => i.name)).toEqual([target.name]);
+    r.find((i) => i.name === target.name)?.onClick?.();
+    expect(picked).toEqual([target.id]);
+  });
+
+  it('turns unread and mention counts into row status, and thread mentions into the Threads row', () => {
+    const channels = [
+      {
+        id: 'a',
+        teamId: 't',
+        type: 'public' as const,
+        name: 'A',
+        unreadCount: 3,
+      },
+      {
+        id: 'b',
+        teamId: 't',
+        type: 'public' as const,
+        name: 'B',
+        unreadCount: 2,
+        mentionCount: 1,
+      },
+    ];
+    const m = buildChannelsSidebarModelFromFixtures({
+      channels,
+      users: [],
+      currentUserId: 'me',
+      threadsMentionCount: 2,
+    });
+    const byName = Object.fromEntries(rows(m).map((i) => [i.name, i]));
+    expect(byName['A']).toMatchObject({ status: 'unread' });
+    expect(byName['B']).toMatchObject({ status: 'mention', mentionCount: 1 });
+    expect(m.topGroupItems[0]).toMatchObject({
+      name: 'Threads',
+      status: 'mention',
+      mentionCount: 2,
+    });
+    expect(build().topGroupItems[0]!.status).toBeUndefined();
+  });
+
+  it('gives direct messages the other person and group messages a member count', () => {
+    const dm = cyberDefenseChannels.find(
+      (c) =>
+        c.type === 'direct' && c.memberIds?.includes(cyberDefenseCurrentUserId),
+    );
+    const gm = cyberDefenseChannels.find(
+      (c) =>
+        c.type === 'group' && c.memberIds?.includes(cyberDefenseCurrentUserId),
+    );
+    const r = rows(
+      build({
+        avatars: {
+          [dm?.memberIds?.find((i) => i !== cyberDefenseCurrentUserId) ?? '']:
+            'x.png',
+        },
+      }),
+    );
+    if (dm)
+      expect(r.find((i) => i.name === dm.name)).toMatchObject({
+        leadingVisual: 'direct-message',
+        avatarSrc: 'x.png',
+      });
+    if (gm)
+      expect(r.find((i) => i.name === gm.name)).toMatchObject({
+        leadingVisual: 'group-message',
+        memberCount: gm.memberIds!.length - 1,
+      });
   });
 });
