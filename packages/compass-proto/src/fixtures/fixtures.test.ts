@@ -93,6 +93,12 @@ describe('cyber defense fixtures', () => {
     expect([...userIds].filter((id) => base.has(id))).toEqual([]);
   });
 
+  it('flags system and calls accounts as bots', () => {
+    for (const id of ['callsbot', 'systembot', 'calls', 'system-bot']) {
+      expect(cyberDefenseUsers.find((u) => u.id === id)?.isBot).toBe(true);
+    }
+  });
+
   it('has a current user, and the team and channels point at each other', () => {
     expect(userIds.has(cyberDefenseCurrentUserId)).toBe(true);
     for (const c of cyberDefenseChannels) {

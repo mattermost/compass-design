@@ -312,6 +312,9 @@ for (const u of people.people) {
   if (u.custom_status?.emoji)
     user.customStatusEmoji = glyph(u.custom_status.emoji);
   if (u.custom_status?.text) user.customStatusText = u.custom_status.text;
+  // The dataset lists some system accounts (callsbot, systembot) under
+  // `people`; flag them so hosts don't render them as people with presence.
+  if (u.is_bot || /bot$/i.test(u.username)) user.isBot = true;
   users.push(user);
   userIds.add(user.id);
 }

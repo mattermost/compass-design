@@ -83,6 +83,7 @@ export const cyberDefenseUsers: readonly FixtureUser[] = [
     username: 'callsbot',
     displayName: 'Calls Bot',
     presence: 'online',
+    isBot: true,
   },
   {
     id: 'dmartin',
@@ -253,6 +254,7 @@ export const cyberDefenseUsers: readonly FixtureUser[] = [
     username: 'systembot',
     displayName: 'System',
     presence: 'online',
+    isBot: true,
   },
   {
     id: 'tcarter',
