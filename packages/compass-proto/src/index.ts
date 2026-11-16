@@ -16,6 +16,7 @@ export * from './components/GlobalHeader/index';
 export * from './components/HelpMenu/index';
 export * from './components/Message/index';
 export * from './components/MessageInput/index';
+export * from './components/MessageInputWithSuggestions/index';
 export * from './components/MessageMoreOptionsMenu/index';
 export * from './components/MobileBottomSheet/index';
 export * from './components/MobileChannelSidebarItem/index';
@@ -71,3 +72,13 @@ export { default as MessageProcessingOutlineIcon } from './icons/MessageProcessi
 export { default as BookOpenVariantOutlineIcon } from './icons/BookOpenVariantOutlineIcon';
 export { getTextareaCharRect } from './utils/textareaCharRect';
 export type { CharRect } from './utils/textareaCharRect';
+export {
+  COMPOSER_TRIGGERS,
+  applyComposerSuggestion,
+  findComposerTrigger,
+} from './utils/composerTrigger';
+export type {
+  ComposerTrigger,
+  ComposerTriggerMatch,
+  FindComposerTriggerOptions,
+} from './utils/composerTrigger';
