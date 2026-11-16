@@ -1,5 +1,5 @@
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
-import SlashForwardIcon from '@mattermost/compass-icons/components/slash-forward';
+import SlashForwardBoxOutlineIcon from '@mattermost/compass-icons/components/slash-forward-box-outline';
 import {
   MessageInput,
   MessageInputWithSuggestions,
@@ -77,7 +77,7 @@ const SOURCES: MessageInputWithSuggestionsProps['sources'] = {
         value: c,
         label: `/${c}`,
         secondaryLabel: hint,
-        leadingVisual: <Icon glyph={<SlashForwardIcon />} />,
+        leadingVisual: <Icon glyph={<SlashForwardBoxOutlineIcon />} />,
       })),
     },
   ],

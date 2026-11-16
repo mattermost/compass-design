@@ -15,12 +15,12 @@ import {
   type AnchoredPopupAnchor,
 } from '@mattermost/compass-ui/hooks/use-anchored-popup-portal';
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
+import SuggestionList from '../SuggestionList/SuggestionList';
 import {
-  SuggestionList,
   useSuggestionList,
   type SuggestionOption,
   type SuggestionSection,
-} from '@mattermost/compass-ui/components/suggestion-list';
+} from '../SuggestionList/useSuggestionList';
 import MessageInput, {
   type MessageInputProps,
 } from '../MessageInput/MessageInput';
