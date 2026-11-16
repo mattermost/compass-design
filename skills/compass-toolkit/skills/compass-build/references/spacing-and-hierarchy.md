@@ -40,7 +40,7 @@ Reach for separators in this order: (1) space, (2) subtle fill change, (3) hairl
 
 ## Buttons and actions
 
-- **One `emphasis="primary"` Button per view.** Every other action is `tertiary` by default, or `quaternary`, `dim` or `link` when lighter. Avoid `secondary` unless a design calls for it; it is rarely used and may be phased out.
+- **One `emphasis="primary"` Button per view.** Every other action sets `emphasis` explicitly, because `Button` defaults to `primary`: `tertiary` is the usual choice, or `quaternary`, `dim` or `link` when lighter. Avoid `secondary` unless a design calls for it; it is rarely used and may be phased out.
 - Use the weakest emphasis that still finds the action: `tertiary` for the main alternative (Cancel, back) and for most other actions, `quaternary` for in-row and toolbar actions, `link` for inline navigation.
 - Two actions of equal weight: pick one primary, make the other `tertiary`.
 - Destructive primary actions (delete) use the destructive treatment; the safe action stays `tertiary`.
