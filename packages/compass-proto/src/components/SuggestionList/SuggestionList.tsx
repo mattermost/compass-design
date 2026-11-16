@@ -1,8 +1,9 @@
 import { forwardRef, useEffect } from 'react';
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
 import { MenuGroupHeading } from '@mattermost/compass-ui/components/menu-group-heading';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import { Spinner } from '@mattermost/compass-ui/components/spinner';
 import {
   toSuggestionSections,
   type SuggestionOption,
@@ -43,6 +44,19 @@ export interface SuggestionListProps extends Omit<
   listboxLabel?: string;
   /** Scroll region height before the list scrolls. Default: 320 (px). */
   maxHeight?: string | number;
+  /**
+   * A search is pending. With no rows, a loading row replaces the empty state;
+   * with rows, they stay and the loading row follows them. Sets `aria-busy`
+   * on the listbox. Default: false.
+   */
+  loading?: boolean;
+  /** Loading row text. Default: "Loading…". Pass `null` to render no row. */
+  loadingLabel?: ReactNode;
+  /**
+   * Shown when there are no rows and the list isn't loading. Default:
+   * "No matches". Pass `null` to render no row.
+   */
+  emptyLabel?: ReactNode;
 }
 
 /**
@@ -52,6 +66,10 @@ export interface SuggestionListProps extends Omit<
  * `aria-activedescendant` (see `useSuggestionList`). The host owns open state,
  * the text query, and where the list sits (typically above the composer, next
  * to the trigger character). The list fills its container up to 480px wide.
+ *
+ * With no rows it shows `emptyLabel`; while `loading` it shows `loadingLabel`
+ * (after any rows already there). The text is announced politely. Enter and Tab
+ * go to the field when no row is enabled, so Enter still sends.
  */
 const SuggestionList = forwardRef<HTMLDivElement, SuggestionListProps>(
   function SuggestionList(
@@ -64,12 +82,19 @@ const SuggestionList = forwardRef<HTMLDivElement, SuggestionListProps>(
       listboxId,
       listboxLabel = 'Suggestions',
       maxHeight = 320,
+      loading = false,
+      loadingLabel = 'Loading…',
+      emptyLabel = 'No matches',
       className,
       ...rest
     },
     ref,
   ) {
-    const resolved = toSuggestionSections(sections, options);
+    // A section with no rows (a filtered-out group) renders nothing, heading included.
+    const resolved = toSuggestionSections(sections, options).filter(
+      (section) => section.options.length > 0,
+    );
+    const isEmpty = resolved.length === 0;
     const idPrefix = listboxId ?? 'suggestion-list';
     const optionId = (value: string) => `${idPrefix}-option-${value}`;
 
@@ -135,6 +160,7 @@ const SuggestionList = forwardRef<HTMLDivElement, SuggestionListProps>(
             id={listboxId}
             role="listbox"
             aria-label={listboxLabel}
+            aria-busy={loading || undefined}
             className={styles['suggestion-list__listbox']}
           >
             {resolved.map((section) =>
@@ -154,6 +180,29 @@ const SuggestionList = forwardRef<HTMLDivElement, SuggestionListProps>(
                 section.options.map(renderOption)
               ),
             )}
+          </div>
+          {/* Outside the listbox, which may only contain options and groups.
+              The polite live region stays mounted so a change between loading,
+              empty and results is announced. */}
+          <div role="status" className={styles['suggestion-list__status']}>
+            {loading
+              ? loadingLabel != null && (
+                  <div
+                    className={mergeClassNames(
+                      styles['suggestion-list__message'],
+                      styles['suggestion-list__message--loading'],
+                    )}
+                  >
+                    <Spinner size="16" aria-hidden />
+                    <span>{loadingLabel}</span>
+                  </div>
+                )
+              : isEmpty &&
+                emptyLabel != null && (
+                  <div className={styles['suggestion-list__message']}>
+                    {emptyLabel}
+                  </div>
+                )}
           </div>
         </Scrollbar>
       </div>

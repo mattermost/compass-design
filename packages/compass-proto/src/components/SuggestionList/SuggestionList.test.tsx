@@ -46,6 +46,8 @@ function Composer({
   selectKeys,
   open = true,
   onFieldKeyDown,
+  showStatus,
+  listProps,
 }: {
   onSelect?: (o: SuggestionOption) => void;
   onClose?: () => void;
@@ -54,6 +56,8 @@ function Composer({
   selectKeys?: ('Enter' | 'Tab')[];
   open?: boolean;
   onFieldKeyDown?: (e: React.KeyboardEvent) => void;
+  showStatus?: boolean;
+  listProps?: Partial<React.ComponentProps<typeof SuggestionList>>;
 }) {
   const s = useSuggestionList({
     options: sections ? undefined : options,
@@ -62,6 +66,7 @@ function Composer({
     onSelect,
     onClose,
     selectKeys,
+    showStatus,
     id: 'sg',
   });
   return (
@@ -80,6 +85,7 @@ function Composer({
           options={sections ? undefined : options}
           sections={sections}
           data-testid="list"
+          {...listProps}
         />
       )}
     </div>
@@ -326,5 +332,153 @@ describe('SuggestionList', () => {
       />,
     );
     expect(document.querySelector('[data-testid="row-a"]')).not.toBeNull();
+  });
+
+  describe('loading and empty states', () => {
+    const status = () => document.querySelector('[role="status"]')!;
+    // The Spinner is decorative here, so only the list's own status counts.
+    const message = () => status().textContent;
+
+    it('shows the empty message in a polite status outside the listbox', () => {
+      render(<Composer options={[]} />);
+      const listbox = document.querySelector('[role="listbox"]')!;
+      expect(message()).toBe('No matches');
+      expect(listbox.contains(status())).toBe(false);
+      expect(listbox.querySelector('[role="option"]')).toBeNull();
+      expect(listbox.hasAttribute('aria-busy')).toBe(false);
+    });
+
+    it('treats sections with no options as empty', () => {
+      render(
+        <Composer
+          options={undefined}
+          sections={[{ key: 'a', heading: 'Members', options: [] }]}
+        />,
+      );
+      expect(message()).toBe('No matches');
+    });
+
+    it('drops the heading of a section with no rows', () => {
+      render(
+        <Composer
+          options={undefined}
+          sections={[
+            { key: 'members', heading: 'Channel members', options: [] },
+            { key: 'others', heading: 'Not in channel', options: [] },
+          ]}
+        />,
+      );
+      expect(document.querySelector('[role="group"]')).toBeNull();
+      expect(document.body.textContent).not.toContain('Channel members');
+      expect(document.querySelector('[role="listbox"]')!.children).toHaveLength(
+        0,
+      );
+      expect(message()).toBe('No matches');
+    });
+
+    it('keeps only the headings of sections that still have rows', () => {
+      render(
+        <Composer
+          options={undefined}
+          sections={[
+            { key: 'members', heading: 'Channel members', options: [] },
+            { key: 'others', heading: 'Not in channel', options: [OPTIONS[2]] },
+          ]}
+        />,
+      );
+      const groups = document.querySelectorAll('[role="group"]');
+      expect(groups).toHaveLength(1);
+      expect(groups[0].textContent).toContain('Not in channel');
+      expect(document.body.textContent).not.toContain('Channel members');
+    });
+
+    it('renders no message while there are rows', () => {
+      render(<Composer />);
+      expect(message()).toBe('');
+    });
+
+    it('shows a loading row instead of the empty message and marks the listbox busy', () => {
+      render(<Composer options={[]} listProps={{ loading: true }} />);
+      expect(message()).toBe('Loading…');
+      expect(
+        document.querySelector('[role="listbox"]')!.getAttribute('aria-busy'),
+      ).toBe('true');
+      // The spinner is hidden so the text is announced once.
+      expect(status().querySelector('[aria-hidden="true"]')).not.toBeNull();
+    });
+
+    it('keeps rows and keyboard navigation while loading more', () => {
+      render(<Composer listProps={{ loading: true }} />);
+      expect(document.querySelectorAll('[role="option"]')).toHaveLength(3);
+      expect(message()).toBe('Loading…');
+      key(field(), 'ArrowDown');
+      expect(activeId()).toBe('sg-option-carol');
+    });
+
+    it('lets the host translate or remove both messages', () => {
+      const { rerender } = render(
+        <Composer
+          options={[]}
+          listProps={{ emptyLabel: <em>Sin resultados</em> }}
+        />,
+      );
+      expect(status().querySelector('em')?.textContent).toBe('Sin resultados');
+      rerender(
+        <Composer
+          options={[]}
+          listProps={{ loading: true, loadingLabel: 'Cargando…' }}
+        />,
+      );
+      expect(message()).toBe('Cargando…');
+      rerender(
+        <Composer
+          options={[]}
+          listProps={{ loading: true, loadingLabel: null }}
+        />,
+      );
+      expect(message()).toBe('');
+      rerender(<Composer options={[]} listProps={{ emptyLabel: null }} />);
+      expect(message()).toBe('');
+    });
+
+    it('keeps the status mounted across a change so it is announced', () => {
+      const { rerender } = render(
+        <Composer options={[]} listProps={{ loading: true }} />,
+      );
+      const node = status();
+      rerender(<Composer options={[]} />);
+      expect(status()).toBe(node);
+      expect(message()).toBe('No matches');
+    });
+
+    it('keeps the field expanded for the status only when showStatus is set', () => {
+      const { rerender } = render(<Composer options={[]} />);
+      expect(field().getAttribute('aria-expanded')).toBe('false');
+      rerender(<Composer options={[]} showStatus />);
+      expect(field().getAttribute('aria-expanded')).toBe('true');
+      expect(field().getAttribute('aria-controls')).toBe('sg');
+      expect(field().hasAttribute('aria-activedescendant')).toBe(false);
+      rerender(<Composer options={[]} showStatus open={false} />);
+      expect(field().getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('leaves Enter and Tab to the field but still closes on Escape with no rows', () => {
+      const onSelect = vi.fn();
+      const onClose = vi.fn();
+      render(
+        <Composer
+          options={[]}
+          showStatus
+          onSelect={onSelect}
+          onClose={onClose}
+        />,
+      );
+      expect(key(field(), 'Enter').defaultPrevented).toBe(false);
+      expect(key(field(), 'Tab').defaultPrevented).toBe(false);
+      expect(key(field(), 'ArrowDown').defaultPrevented).toBe(false);
+      expect(onSelect).not.toHaveBeenCalled();
+      expect(key(field(), 'Escape').defaultPrevented).toBe(true);
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
   });
 });
