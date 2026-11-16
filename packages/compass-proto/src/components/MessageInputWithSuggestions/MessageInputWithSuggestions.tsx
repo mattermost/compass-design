@@ -234,9 +234,14 @@ export default function MessageInputWithSuggestions({
     [text, caret, composing, triggers],
   );
 
+  // A dismissal lasts until the text changes with no trigger left, not merely
+  // until the caret moves out and back in.
+  const lastText = useRef(text);
   useEffect(() => {
-    if (!match && dismissed) setDismissed(null);
-  }, [match, dismissed]);
+    const typed = lastText.current !== text;
+    lastText.current = text;
+    if (typed && !match && dismissed) setDismissed(null);
+  }, [text, match, dismissed]);
 
   const result = useMemo(() => {
     const source = match ? sources[match.trigger] : undefined;

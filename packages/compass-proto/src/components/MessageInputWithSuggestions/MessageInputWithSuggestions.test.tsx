@@ -441,4 +441,22 @@ describe('MessageInputWithSuggestions', () => {
       spy.mockRestore();
     }
   });
+
+  it('keeps a dismissed list closed when the caret leaves and returns', () => {
+    render(<Controlled />);
+    type('@al b', 3);
+    press('Escape');
+    expect(document.querySelector('[role="listbox"]')).toBeNull();
+    const el = textarea();
+    const move = (to: number) =>
+      act(() => {
+        el.setSelectionRange(to, to);
+        el.dispatchEvent(
+          new KeyboardEvent('keyup', { key: 'ArrowRight', bubbles: true }),
+        );
+      });
+    move(5);
+    move(3);
+    expect(document.querySelector('[role="listbox"]')).toBeNull();
+  });
 });
