@@ -1,6 +1,9 @@
 // Message attachment card. The bar color comes from a semantic modifier or from
 // `--message-attachment-color` (set inline for arbitrary CSS colors).
 .message-attachment {
+  // Container queries make the width independent of the content, so fill the
+  // parent (a shrink-wrapping parent would collapse the card to nothing).
+  width: 100%;
   container-type: inline-size;
   display: flex;
   flex-direction: column;
