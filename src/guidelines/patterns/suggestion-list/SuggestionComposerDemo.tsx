@@ -2,6 +2,7 @@ import { useRef, type ReactNode } from 'react';
 import AccountMultipleOutlineIcon from '@mattermost/compass-icons/components/account-multiple-outline';
 import GlobeIcon from '@mattermost/compass-icons/components/globe';
 import LockOutlineIcon from '@mattermost/compass-icons/components/lock-outline';
+import SlashForwardBoxOutlineIcon from '@mattermost/compass-icons/components/slash-forward-box-outline';
 import {
   MessageInput,
   SuggestionList,
@@ -130,16 +131,19 @@ const DEMOS: Record<
             value: 'away',
             label: '/away',
             secondaryLabel: 'Set your status to away',
+            leadingVisual: <Icon glyph={<SlashForwardBoxOutlineIcon />} />,
           },
           {
             value: 'archive',
             label: '/archive',
             secondaryLabel: 'Archive the current channel',
+            leadingVisual: <Icon glyph={<SlashForwardBoxOutlineIcon />} />,
           },
           {
             value: 'announce',
             label: '/announce',
             secondaryLabel: 'Post an announcement to the channel',
+            leadingVisual: <Icon glyph={<SlashForwardBoxOutlineIcon />} />,
           },
         ],
       },

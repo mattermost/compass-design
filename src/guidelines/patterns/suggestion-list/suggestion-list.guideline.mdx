@@ -59,4 +59,18 @@ The host owns open state, the query, and where the list sits. It floats above
 the Message Input, placed horizontally at the trigger character (`@`, `~`, `:`
 or `/`) and overlapping the top edge of the input by 4px. It stays above the
 input as the page scrolls and never flips to fit. The list is at most 480px
-wide. Hide it when there are no suggestions.
+wide.
+
+<Divider />
+
+## States
+
+- **Empty** — when nothing matches, the list shows a short message such as "No
+  matches" instead of disappearing, so people can tell the search ran. Hosts that
+  prefer to hide the list for no results can still do so.
+- **Loading** — while a remote search is pending, a spinner row with "Loading…"
+  appears. Rows that are already showing stay, with the loading row after them.
+
+Both messages are announced politely and can be translated. Arrow keys and
+Escape behave as usual; with no rows, Enter and Tab go to the text field, so
+Enter still sends the message.

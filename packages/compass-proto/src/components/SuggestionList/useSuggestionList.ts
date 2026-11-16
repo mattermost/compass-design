@@ -80,6 +80,13 @@ export interface UseSuggestionListOptions {
   loop?: boolean;
   /** Prefix for the listbox and row ids. Defaults to a generated id. */
   id?: string;
+  /**
+   * The list is showing its loading or empty state with no rows. Keeps
+   * `aria-expanded` and `aria-controls` on the field so the status is part of
+   * the combobox. Leave false when the host hides the list for no results.
+   * Default: false.
+   */
+  showStatus?: boolean;
 }
 
 const DEFAULT_SELECT_KEYS: SuggestionSelectKey[] = ['Enter', 'Tab'];
@@ -105,6 +112,7 @@ export function useSuggestionList({
   selectKeys = DEFAULT_SELECT_KEYS,
   loop = true,
   id,
+  showStatus = false,
 }: UseSuggestionListOptions) {
   const generatedId = useId();
   const listboxId = id ?? `suggestions-${generatedId.replace(/:/g, '')}`;
@@ -167,7 +175,7 @@ export function useSuggestionList({
     }
   };
 
-  const showing = open && enabled.length > 0;
+  const showing = open && (enabled.length > 0 || showStatus);
   return {
     listboxId,
     activeValue,
