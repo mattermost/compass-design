@@ -73,6 +73,7 @@ describe('CallCard', () => {
   it('forwards the avatar group formatters so hosts can translate it', () => {
     const { container } = render(
       <CallCard
+        title="Call started"
         participants={[
           { key: 'a', name: 'A One' },
           { key: 'b', name: 'B Two' },
