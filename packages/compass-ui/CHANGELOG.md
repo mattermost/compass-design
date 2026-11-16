@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Changed
 
 - **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto` ([#395](https://github.com/mattermost/compass-design/issues/395)):** they were added under `[Unreleased]` (#376) and never shipped in a release, so nothing is removed from a released version. The `@mattermost/compass-ui/components/suggestion-list` subpath and the root-barrel exports are gone; import `SuggestionList`, `useSuggestionList` and their types from `@mattermost/compass-proto` while it is a prototype. `useAnchoredPopupPortal`'s `side` option and virtual anchors stay in compass-ui.
+- **`@mattermost/compass-ui/components/suggestion-list` subpath and root-barrel exports removed ([#395](https://github.com/mattermost/compass-design/issues/395)):** `SuggestionList`, `useSuggestionList` and the types `SuggestionOption`, `SuggestionSection`, `SuggestionSelectKey`, `SuggestionOwnedMenuItemProps`, `UseSuggestionListOptions` and `SuggestionListProps` are no longer exported from compass-ui, and the `Components/Messaging/Suggestion List` Storybook story is gone. They were never in a release, so no released import breaks.
 
 ## [0.1.0-alpha.32] - 2026-11-13
 
