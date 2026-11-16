@@ -171,11 +171,14 @@ describe('cyber defense fixtures', () => {
     expect(getCyberDefenseChannel(cyberDefenseChannels[0]!.id)).toBe(
       cyberDefenseChannels[0],
     );
-    expect(
-      getCyberDefenseChannelPosts(cyberDefenseChannels[0]!.id).every(
-        (p) => p.channelId === cyberDefenseChannels[0]!.id,
-      ),
-    ).toBe(true);
+    // A channel that has posts, so the check can't pass on an empty list.
+    const channelId = cyberDefensePosts[0]!.channelId;
+    const posts = getCyberDefenseChannelPosts(channelId);
+    expect(posts.length).toBeGreaterThan(0);
+    expect(posts.every((p) => p.channelId === channelId)).toBe(true);
+    expect(posts).toEqual(
+      cyberDefensePosts.filter((p) => p.channelId === channelId),
+    );
   });
 });
 
