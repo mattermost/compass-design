@@ -178,10 +178,6 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       slugs: ['admin-panel', 'admin-console-sidebar'],
     },
     {
-      label: 'Messaging',
-      slugs: ['message', 'message-input', 'suggestion-list'],
-    },
-    {
       label: 'Mobile',
       slugs: [
         'mobile-navigation-bar',
@@ -207,6 +203,10 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'profile-popover',
         'quick-switch-modal',
       ],
+    },
+    {
+      label: 'Other',
+      slugs: ['suggestion-list'],
     },
   ],
   layouts: [
