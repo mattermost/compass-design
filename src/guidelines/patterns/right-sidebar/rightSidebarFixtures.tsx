@@ -74,7 +74,11 @@ export const sampleMemberGroups: RightSidebarChannelMemberGroup[] = (() => {
   ].filter((g) => g.members.length);
 })();
 
-export const sampleMemberCount = (sampleChannel.memberIds ?? []).length;
+/** The toolbar total counts the people listed (bots are not). */
+export const sampleMemberCount = sampleMemberGroups.reduce(
+  (n, g) => n + g.members.length,
+  0,
+);
 
 const teamNameOf = (channel?: FixtureChannel) =>
   workspaceTeams.find((t) => t.id === channel?.teamId)?.name;

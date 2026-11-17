@@ -82,6 +82,16 @@ const recentFiles = cyberDefensePosts
   )
   .slice(0, 4);
 
+// People you message first, then other people, so both groups have enough to show
+// (People mode hides "frequent" below three) however few direct messages the
+// sample data has.
+const peopleByContact = [
+  ...dmPeople,
+  ...others.filter((o) => !dmPeople.some((d) => d.id === o.id)),
+];
+const frequent = peopleByContact.slice(0, 6);
+const recent = peopleByContact.slice(6, 12);
+
 export const SEARCH_MODAL_DATA: SearchModalData = {
   unreadChannels: myChannels
     .filter((c) => c.unreadCount)
@@ -91,8 +101,8 @@ export const SEARCH_MODAL_DATA: SearchModalData = {
     .filter((c) => !c.unreadCount)
     .slice(0, 6)
     .map(toSearchChannel),
-  frequentPeople: dmPeople.slice(0, 6),
-  recentPeople: dmPeople.slice(6, 12),
+  frequentPeople: frequent,
+  recentPeople: recent,
   directory: others,
   recentFiles,
   recentMessageSearches: [
