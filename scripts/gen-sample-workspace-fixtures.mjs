@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 /**
  * Generates the sample workspace fixtures (`packages/compass-proto/src/fixtures/
- * cyber-defense/generated.ts`) from a `mattermost/mattermost-preview` dataset
+ * sample-workspace/generated.ts`) from a `mattermost/mattermost-preview` dataset
  * checkout, and copies the avatars, team icons and integration icons they use into `src/assets/`.
  *
- *   node scripts/gen-cyber-defense-fixtures.mjs --source <path to datasets/trial-journey>
- *   npm run generate:cyber-defense-fixtures -- --source <path>
+ *   node scripts/gen-sample-workspace-fixtures.mjs --source <path to datasets/trial-journey>
+ *   npm run generate:sample-workspace-fixtures -- --source <path>
  *
  * Options:
  *   --source <dir>        Dataset folder (contains people.yaml, world.yaml, script/). Required;
  *                         `MATTERMOST_PREVIEW_DATASET` is used when the flag is omitted.
  *   --teams <a,b,...>     Teams whose channels become the fixtures. Default: every team the
  *                         login persona is on (`--team <name>` is the same for one team).
- *   --download-icons      Download missing integration icons (needs network).
+ *   --download-icons      Download missing integration icons and attachment images (needs network).
  *
  * The script is strict on purpose. It fails, naming what to add, when the data
  * holds something it does not know how to map (a new post type, an unmapped
  * emoji, an unknown integration icon, a missing user), so a refresh never
- * drops content silently. See `packages/compass-proto/src/fixtures/cyber-defense/README.md`.
+ * drops content silently. See `packages/compass-proto/src/fixtures/sample-workspace/README.md`.
  */
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -28,11 +28,12 @@ import YAML from 'yaml';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(
   ROOT,
-  'packages/compass-proto/src/fixtures/cyber-defense',
+  'packages/compass-proto/src/fixtures/sample-workspace',
 );
 const AVATAR_DIR = path.join(ROOT, 'src/assets/avatars');
 const ICON_DIR = path.join(ROOT, 'src/assets/integrations');
 const TEAM_ICON_DIR = path.join(ROOT, 'src/assets/team-icons');
+const ATTACHMENT_IMAGE_DIR = path.join(ROOT, 'src/assets/attachment-images');
 
 /**
  * "Day zero". Source times are relative (`D-12 09:30` is 12 days before day
@@ -138,7 +139,7 @@ const MONTHS = [
 const ROTATION = ['away', 'do-not-disturb', 'offline'];
 
 function fail(message) {
-  console.error(`\ngen-cyber-defense-fixtures: ${message}\n`);
+  console.error(`\ngen-sample-workspace-fixtures: ${message}\n`);
   process.exit(1);
 }
 
@@ -211,7 +212,7 @@ function glyph(name) {
   const g = EMOJI[n];
   if (!g)
     fail(
-      `no glyph for emoji "${name}". Add it to EMOJI (or REPLACEMENTS) in scripts/gen-cyber-defense-fixtures.mjs.`,
+      `no glyph for emoji "${name}". Add it to EMOJI (or REPLACEMENTS) in scripts/gen-sample-workspace-fixtures.mjs.`,
     );
   return g;
 }
@@ -400,6 +401,25 @@ const channels = [];
 const posts = [];
 const unknownTypes = new Set();
 const iconUrls = new Map();
+/** Attachment image id (file name without extension) -> source URL. */
+const imageUrls = new Map();
+/**
+ * Registers an attachment image to be saved under `src/assets/attachment-images/`
+ * and returns its id (the file name without its extension).
+ */
+function attachmentImageId(url) {
+  if (!url) return undefined;
+  const id = decodeURIComponent(new URL(url).pathname.split('/').pop() ?? '')
+    .replace(/\.[^.]+$/, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  if (!id) fail(`cannot name an attachment image from ${url}`);
+  if (imageUrls.has(id) && imageUrls.get(id) !== url)
+    fail(`two different attachment images are both called "${id}"`);
+  imageUrls.set(id, url);
+  return id;
+}
 
 for (const [index, src] of sources.entries()) {
   const { fm, posts: parsed } = parseTranscript(src.file);
@@ -554,8 +574,8 @@ for (const [index, src] of sources.entries()) {
           })),
           footer: x.footer,
           footerIcon: x.footer_icon,
-          imageUrl: x.image_url,
-          thumbUrl: x.thumb_url,
+          imageId: attachmentImageId(x.image_url),
+          thumbId: attachmentImageId(x.thumb_url),
         }),
       );
     }
@@ -727,13 +747,13 @@ for (const u of people.people.concat(people.bots ?? [])) {
 }
 fs.mkdirSync(ICON_DIR, { recursive: true });
 const missingIcons = [];
-const haveIcon = (id) =>
-  fs.readdirSync(ICON_DIR).some((f) => f.replace(/\.[^.]+$/, '') === id);
-for (const [id, url] of iconUrls) {
-  if (haveIcon(id)) continue;
+/** Downloads `url` into `dir` as `<id>.<real extension>` unless `<id>` is already there. */
+async function saveImage(dir, id, url, missing) {
+  fs.mkdirSync(dir, { recursive: true });
+  if (fs.readdirSync(dir).some((f) => f.replace(/\.[^.]+$/, '') === id)) return;
   if (!opts.downloadIcons) {
-    missingIcons.push(`${id}: ${url}`);
-    continue;
+    missing.push(`${id}: ${url}`);
+    return;
   }
   const res = await fetch(url);
   if (!res.ok) fail(`could not download ${url} (${res.status})`);
@@ -748,8 +768,13 @@ for (const [id, url] of iconUrls) {
             bytes.subarray(8, 12).toString('latin1') === 'WEBP'
           ? 'webp'
           : fail(`${url} is not a PNG, JPEG or WebP image`);
-  fs.writeFileSync(path.join(ICON_DIR, `${id}.${ext}`), bytes);
+  fs.writeFileSync(path.join(dir, `${id}.${ext}`), bytes);
 }
+for (const [id, url] of iconUrls)
+  await saveImage(ICON_DIR, id, url, missingIcons);
+const missingImages = [];
+for (const [id, url] of imageUrls)
+  await saveImage(ATTACHMENT_IMAGE_DIR, id, url, missingImages);
 
 // team icons ------------------------------------------------------------------
 fs.mkdirSync(TEAM_ICON_DIR, { recursive: true });
@@ -778,7 +803,7 @@ try {
   /* not a git checkout */
 }
 const ts = (v) => JSON.stringify(v, null, 2);
-const file = `// Generated by scripts/gen-cyber-defense-fixtures.mjs. Do not edit by hand.
+const file = `// Generated by scripts/gen-sample-workspace-fixtures.mjs. Do not edit by hand.
 // Source: mattermost/mattermost-preview datasets/${path.basename(opts.source)} @ ${sha}
 // Refresh: see README.md in this folder.
 import type {
@@ -792,13 +817,13 @@ import type {
  * The teams the persona is on, in sidebar order, with the persona's unread and
  * mention badges for each (channels and threads).
  */
-export const cyberDefenseTeams: readonly FixtureTeam[] = ${ts(teamList)};
+export const workspaceTeams: readonly FixtureTeam[] = ${ts(teamList)};
 
 /** The first team: where the sample workspace opens. */
-export const cyberDefenseTeam: FixtureTeam = cyberDefenseTeams[0]!;
+export const workspaceTeam: FixtureTeam = workspaceTeams[0]!;
 
 /** The signed-in user in the sample workspace (the dataset's login persona). */
-export const cyberDefenseCurrentUserId = ${JSON.stringify(persona)};
+export const workspaceCurrentUserId = ${JSON.stringify(persona)};
 
 /**
  * People and bots in the sample workspace. Ids are Mattermost usernames.
@@ -806,21 +831,21 @@ export const cyberDefenseCurrentUserId = ${JSON.stringify(persona)};
  * has no presence: people who post are \`online\`, everyone else rotates through
  * away, do-not-disturb and offline.
  */
-export const cyberDefenseUsers: readonly FixtureUser[] = ${ts(users)};
+export const workspaceUsers: readonly FixtureUser[] = ${ts(users)};
 
 /**
  * The channels of every team (\`teamId\`) plus the direct and group messages
  * the persona has open (no \`teamId\`), with the persona's favorites and unread
  * state.
  */
-export const cyberDefenseChannels: readonly FixtureChannel[] = ${ts(channels)};
+export const workspaceChannels: readonly FixtureChannel[] = ${ts(channels)};
 
 /**
  * Posts in channel order, chronological within each channel. Join, leave and
  * add system posts are left out. Timestamps are fixed display strings (UTC) so
  * stories stay deterministic.
  */
-export const cyberDefensePosts: readonly FixturePost[] = ${ts(posts)};
+export const workspacePosts: readonly FixturePost[] = ${ts(posts)};
 `;
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const target = path.join(OUT_DIR, 'generated.ts');
@@ -844,4 +869,8 @@ if (noTeamIcon.length)
 if (missingIcons.length)
   console.log(
     `Missing integration icons (rerun with --download-icons):\n  ${missingIcons.join('\n  ')}`,
+  );
+if (missingImages.length)
+  console.log(
+    `Missing attachment images (rerun with --download-icons):\n  ${missingImages.join('\n  ')}`,
   );

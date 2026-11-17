@@ -1,7 +1,7 @@
 import {
   Message,
   MessageAttachment,
-  cyberDefensePosts,
+  workspacePosts,
 } from '@mattermost/compass-proto';
 import { integrationIcons } from '@/fixtures/integrationIcons';
 import { teamIcons } from '@/fixtures/teamIcons';
@@ -16,7 +16,7 @@ const fields = [
 
 // Alert posts from the fixtures, picked by what they carry rather than by id so
 // the specimen survives a data refresh: one with an action button, one without.
-const alertPosts = cyberDefensePosts.filter(
+const alertPosts = workspacePosts.filter(
   (p) => p.kind === 'slack-attachment' && p.webhook,
 );
 const examplePosts = [
@@ -91,7 +91,7 @@ export default function MessageAttachmentLibrary() {
       />
 
       <p className={styles['patterns__variant-label']}>
-        In a post (from the Cyber Defense HQ fixtures)
+        In a post (from the sample workspace fixtures)
       </p>
       {examplePosts.map((post) => {
         // The headline is the post's text; show it inside the card.

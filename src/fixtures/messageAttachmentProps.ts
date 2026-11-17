@@ -3,6 +3,7 @@ import type {
   FixtureSlackAttachment,
   MessageAttachmentProps,
 } from '@mattermost/compass-proto';
+import { attachmentImages } from './attachmentImages';
 
 /** Maps a fixture (Mattermost / Slack format) attachment onto `MessageAttachment` props. */
 export function toMessageAttachmentProps(
@@ -15,8 +16,8 @@ export function toMessageAttachmentProps(
     titleHref: a.titleLink,
     text: a.text,
     fields: a.fields,
-    imageSrc: a.imageUrl,
-    thumbSrc: a.thumbUrl,
+    imageSrc: a.imageId ? attachmentImages[a.imageId] : undefined,
+    thumbSrc: a.thumbId ? attachmentImages[a.thumbId] : undefined,
     actions: a.actions?.map((x) => ({ label: x.name, href: x.url })),
     footer: a.footer,
     footerIconSrc: a.footerIcon,

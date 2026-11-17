@@ -1,5 +1,5 @@
 import {
-  getCyberDefenseChannelPosts,
+  getWorkspaceChannelPosts,
   type FixtureChannel,
   type RightSidebarChannelInfoProps,
 } from '@mattermost/compass-proto';
@@ -10,7 +10,7 @@ export function fixtureChannelInfoProps(
   channel: FixtureChannel,
 ): RightSidebarChannelInfoProps {
   const direct = channel.type === 'direct' || channel.type === 'group';
-  const fileCount = getCyberDefenseChannelPosts(channel.id).reduce(
+  const fileCount = getWorkspaceChannelPosts(channel.id).reduce(
     (n, p) => n + (p.files?.length ?? 0),
     0,
   );

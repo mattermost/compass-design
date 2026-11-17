@@ -1,17 +1,17 @@
 import {
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  cyberDefenseUsers,
-  getCyberDefenseChannel,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  workspacePosts,
+  workspaceUsers,
+  getWorkspaceChannel,
+  getWorkspaceUser,
   type FixtureChannel,
   type FixturePost,
   type RightSidebarChannelMemberGroup,
   type SearchResultMessageData,
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
-import { workspaceTeams } from '@/fixtures/workspaceTeams';
+import { teamSidebarTeams } from '@/fixtures/teamSidebarTeams';
 import { fixtureChannelInfoProps } from '@/guidelines/_components/fixtureChannelInfoProps';
 import {
   plainPreview,
@@ -19,11 +19,9 @@ import {
   threadsIn,
 } from '@/guidelines/_components/fixtureThread';
 
-const me = cyberDefenseCurrentUserId;
+const me = workspaceCurrentUserId;
 
-const myChannels = cyberDefenseChannels.filter((c) =>
-  c.memberIds?.includes(me),
-);
+const myChannels = workspaceChannels.filter((c) => c.memberIds?.includes(me));
 const myTeamChannels = myChannels.filter(
   (c) => c.type === 'public' || c.type === 'private',
 );
@@ -34,13 +32,13 @@ export const sampleChannel: FixtureChannel =
     (c) => c.purpose && c.header && (c.memberIds?.length ?? 0) >= 4,
   ) ??
   myTeamChannels[0] ??
-  cyberDefenseChannels[0]!;
+  workspaceChannels[0]!;
 
 export const sampleChannelName = sampleChannel.name;
 export const sampleChannelInfoProps = fixtureChannelInfoProps(sampleChannel);
 
 const isPerson = (p: FixturePost) =>
-  !p.kind && !p.webhook && !!getCyberDefenseUser(p.userId);
+  !p.kind && !p.webhook && !!getWorkspaceUser(p.userId);
 
 /** A thread started by a person, with a few replies (any thread when none). */
 const threads = threadsIn(new Set(myChannels.map((c) => c.id)));
@@ -51,13 +49,13 @@ export const sampleThreadMessages = sampleThread
   ? threadMessages(sampleThread)
   : [];
 export const sampleThreadChannelName =
-  getCyberDefenseChannel(sampleThread?.root.channelId ?? '')?.name ??
+  getWorkspaceChannel(sampleThread?.root.channelId ?? '')?.name ??
   sampleChannelName;
 
 /** The channel's members, online ones first. */
 export const sampleMemberGroups: RightSidebarChannelMemberGroup[] = (() => {
   const people = (sampleChannel.memberIds ?? [])
-    .map((id) => getCyberDefenseUser(id))
+    .map((id) => getWorkspaceUser(id))
     .filter((u) => !!u && !u.isBot)
     .map((u) => ({
       id: u!.id,
@@ -81,11 +79,11 @@ export const sampleMemberCount = sampleMemberGroups.reduce(
 );
 
 const teamNameOf = (channel?: FixtureChannel) =>
-  workspaceTeams.find((t) => t.id === channel?.teamId)?.name;
+  teamSidebarTeams.find((t) => t.id === channel?.teamId)?.name;
 
 const toResult = (post: FixturePost): SearchResultMessageData => {
-  const author = getCyberDefenseUser(post.userId);
-  const channel = getCyberDefenseChannel(post.channelId);
+  const author = getWorkspaceUser(post.userId);
+  const channel = getWorkspaceChannel(post.channelId);
   return {
     id: post.id,
     avatarSrc: avatars[post.userId],
@@ -99,7 +97,7 @@ const toResult = (post: FixturePost): SearchResultMessageData => {
   };
 };
 
-const resultPosts = cyberDefensePosts
+const resultPosts = workspacePosts
   .filter((p) => isPerson(p) && p.text.length > 40 && p.text.length < 220)
   .filter((p) => myChannels.some((c) => c.id === p.channelId));
 
@@ -110,4 +108,4 @@ export const sampleTerm =
 
 /** Users with a name and an avatar, for the header variants. */
 export const sampleUser =
-  getCyberDefenseUser(me) ?? cyberDefenseUsers.find((u) => !u.isBot)!;
+  getWorkspaceUser(me) ?? workspaceUsers.find((u) => !u.isBot)!;

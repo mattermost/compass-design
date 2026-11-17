@@ -12,11 +12,11 @@ import {
   Message,
   MessageAttachment,
   attachmentFileType,
-  cyberDefenseCurrentUserId,
+  workspaceCurrentUserId,
   formatFileSize,
-  getCyberDefenseChannelPosts,
-  getCyberDefensePost,
-  getCyberDefenseUser,
+  getWorkspaceChannelPosts,
+  getWorkspacePost,
+  getWorkspaceUser,
   type FixtureChannel,
   type ChannelHeaderProps,
   type FixturePost,
@@ -29,12 +29,12 @@ import styles from './FixtureChannel.module.scss';
 
 /** The other person in a direct message, from the current user's point of view. */
 function otherUserId(channel: FixtureChannel): string | undefined {
-  return channel.memberIds?.find((id) => id !== cyberDefenseCurrentUserId);
+  return channel.memberIds?.find((id) => id !== workspaceCurrentUserId);
 }
 
 /** Posts in a channel that are not replies. */
 function rootPosts(channelId: string): FixturePost[] {
-  return getCyberDefenseChannelPosts(channelId).filter((p) => !p.rootId);
+  return getWorkspaceChannelPosts(channelId).filter((p) => !p.rootId);
 }
 
 /** One line of plain text: the permalink card wraps its text in a paragraph already. */
@@ -72,7 +72,7 @@ export function FixtureChannelHeader({
   const common = { name: channel.name, onNameClick, onInfoClick, infoToggled };
   if (channel.type === 'direct') {
     const id = otherUserId(channel);
-    const user = id ? getCyberDefenseUser(id) : undefined;
+    const user = id ? getWorkspaceUser(id) : undefined;
     return (
       <ChannelHeader
         {...common}
@@ -119,17 +119,17 @@ export function FixturePostMessage({
   channels: readonly FixtureChannel[];
   onOpenThread?: (rootId: string) => void;
 }) {
-  const author = getCyberDefenseUser(post.userId);
+  const author = getWorkspaceUser(post.userId);
   const webhook = post.webhook;
   const username = webhook?.displayName ?? author?.displayName ?? post.userId;
-  const replies = getCyberDefenseChannelPosts(post.channelId).filter(
+  const replies = getWorkspaceChannelPosts(post.channelId).filter(
     (p) => p.rootId === post.id,
   );
 
   const reactions = post.reactions?.map((r) => ({
     emoji: r.emoji,
     count: r.userIds.length,
-    byCurrentUser: r.userIds.includes(cyberDefenseCurrentUserId),
+    byCurrentUser: r.userIds.includes(workspaceCurrentUserId),
   }));
   const acks = post.acknowledgements ?? [];
   // An alert's headline goes inside its card, not above it.
@@ -150,7 +150,7 @@ export function FixturePostMessage({
   ) : undefined;
 
   const permalinked = post.permalinkPostId
-    ? getCyberDefensePost(post.permalinkPostId)
+    ? getWorkspacePost(post.permalinkPostId)
     : undefined;
   const permalinkChannel = permalinked
     ? channels.find((c) => c.id === permalinked.channelId)?.name
@@ -181,7 +181,7 @@ export function FixturePostMessage({
         key="permalink"
         authorName={
           permalinked.webhook?.displayName ??
-          getCyberDefenseUser(permalinked.userId)?.displayName
+          getWorkspaceUser(permalinked.userId)?.displayName
         }
         avatarSrc={
           (permalinked.webhook &&
@@ -222,7 +222,7 @@ export function FixturePostMessage({
         acknowledged={post.requestAck}
         acknowledgeCount={acks.length}
         currentUserAcknowledged={acks.some(
-          (a) => a.userId === cyberDefenseCurrentUserId,
+          (a) => a.userId === workspaceCurrentUserId,
         )}
         showAddReaction
       />,
@@ -257,12 +257,12 @@ export function FixturePostMessage({
                 .slice(0, 5)
                 .map((r) => ({
                   key: r.userId,
-                  name: getCyberDefenseUser(r.userId)?.displayName ?? r.userId,
+                  name: getWorkspaceUser(r.userId)?.displayName ?? r.userId,
                   src: avatars[r.userId],
                 }))}
               badge={post.unreadMentions ? 'mention' : 'none'}
               mentionCount={post.unreadMentions}
-              following={post.followerIds?.includes(cyberDefenseCurrentUserId)}
+              following={post.followerIds?.includes(workspaceCurrentUserId)}
               lastReplyTime={replies[replies.length - 1]!.timestamp}
               onReply={onOpenThread ? () => onOpenThread(post.id) : undefined}
             />

@@ -1,8 +1,8 @@
 import {
   ChannelHeader,
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  getWorkspaceUser,
   type FixtureChannel,
 } from '@mattermost/compass-proto';
 import { FixtureChannelHeader } from '@/guidelines/_components/FixtureChannel';
@@ -11,13 +11,13 @@ import styles from '@/styles/library-demo/patterns.module.scss';
 // One real channel of each kind from the sample workspace. The state each
 // variant shows (favorited, muted, a pinned count) is set on purpose, so it does
 // not depend on what the data happens to hold.
-const mine = cyberDefenseChannels.filter((c) =>
-  c.memberIds?.includes(cyberDefenseCurrentUserId),
+const mine = workspaceChannels.filter((c) =>
+  c.memberIds?.includes(workspaceCurrentUserId),
 );
 const otherIsBot = (c: FixtureChannel) =>
   Boolean(
-    getCyberDefenseUser(
-      c.memberIds?.find((id) => id !== cyberDefenseCurrentUserId) ?? '',
+    getWorkspaceUser(
+      c.memberIds?.find((id) => id !== workspaceCurrentUserId) ?? '',
     )?.isBot,
   );
 const channel = mine.find((c) => c.type === 'public' && c.purpose);

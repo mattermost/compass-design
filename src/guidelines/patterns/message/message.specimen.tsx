@@ -1,8 +1,8 @@
 import {
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  workspacePosts,
+  getWorkspaceUser,
   type FixturePost,
 } from '@mattermost/compass-proto';
 import { Divider } from '@mattermost/compass-ui/components/divider';
@@ -13,8 +13,8 @@ import styles from '@/styles/library-demo/patterns.module.scss';
 // from the sample workspace: no card, file or reaction, so the pattern shows
 // just the avatar, header and text.
 const memberChannelIds = new Set(
-  cyberDefenseChannels
-    .filter((c) => c.memberIds?.includes(cyberDefenseCurrentUserId))
+  workspaceChannels
+    .filter((c) => c.memberIds?.includes(workspaceCurrentUserId))
     .map((c) => c.id),
 );
 const plain = (p: FixturePost) =>
@@ -30,12 +30,12 @@ const plain = (p: FixturePost) =>
   !p.text.includes('\n');
 const byLength = (a: FixturePost, b: FixturePost) =>
   Math.abs(a.text.length - 90) - Math.abs(b.text.length - 90);
-const isBot = (p: FixturePost) => Boolean(getCyberDefenseUser(p.userId)?.isBot);
+const isBot = (p: FixturePost) => Boolean(getWorkspaceUser(p.userId)?.isBot);
 
-const person = cyberDefensePosts
+const person = workspacePosts
   .filter((p) => plain(p) && !isBot(p))
   .sort(byLength)[0];
-const bot = cyberDefensePosts
+const bot = workspacePosts
   .filter((p) => plain(p) && isBot(p))
   .sort(byLength)[0];
 
@@ -43,10 +43,10 @@ export default function MessageLibrary() {
   return (
     <div className={styles['patterns__message-demo']}>
       {person && (
-        <FixturePostMessage post={person} channels={cyberDefenseChannels} />
+        <FixturePostMessage post={person} channels={workspaceChannels} />
       )}
       {person && bot && <Divider />}
-      {bot && <FixturePostMessage post={bot} channels={cyberDefenseChannels} />}
+      {bot && <FixturePostMessage post={bot} channels={workspaceChannels} />}
     </div>
   );
 }

@@ -41,7 +41,7 @@ export interface FixtureChannel {
   header?: string;
   /** Channel banner shown above the posts. */
   banner?: { text: string; backgroundColor: string };
-  /** The current user (see `cyberDefenseCurrentUserId`) has favorited the channel. */
+  /** The current user (see `workspaceCurrentUserId`) has favorited the channel. */
   favorite?: boolean;
   /** Root posts from others the current user has not read. Unset when none. */
   unreadCount?: number;
@@ -95,7 +95,7 @@ export interface FixturePost {
   reactions?: FixtureReaction[];
   /** User ids following the thread. Set on root posts. */
   followerIds?: string[];
-  /** Unread replies that mention the current user (see `cyberDefenseCurrentUserId`) in this thread. Set on root posts. */
+  /** Unread replies that mention the current user (see `workspaceCurrentUserId`) in this thread. Set on root posts. */
   unreadMentions?: number;
   files?: FixtureFile[];
   /** Slack-style attachments (cards with a color bar, fields and buttons). */
@@ -155,8 +155,10 @@ export interface FixtureSlackAttachment {
   actions?: { name: string; url?: string }[];
   footer?: string;
   footerIcon?: string;
-  imageUrl?: string;
-  thumbUrl?: string;
+  /** Id of a full-width image; the host supplies the image (see `src/assets/attachment-images/`). */
+  imageId?: string;
+  /** Id of the thumbnail; the host supplies the image. */
+  thumbId?: string;
 }
 
 /** An integration that posts under its own name and icon. */

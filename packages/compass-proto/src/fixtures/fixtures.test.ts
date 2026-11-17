@@ -3,16 +3,16 @@ import {
   buildChannelsSidebarModelFromFixtures,
   buildDefaultChannelsSidebarModel,
   createAvatarRegistry,
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  cyberDefenseTeam,
-  cyberDefenseTeams,
-  cyberDefenseThreads,
-  cyberDefenseUsers,
-  getCyberDefenseChannel,
-  getCyberDefenseChannelPosts,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  workspacePosts,
+  workspaceTeam,
+  workspaceTeams,
+  workspaceThreads,
+  workspaceUsers,
+  getWorkspaceChannel,
+  getWorkspaceChannelPosts,
+  getWorkspaceUser,
   fixtureChannels,
   fixturePosts,
   fixturePresence,
@@ -66,7 +66,7 @@ describe('createAvatarRegistry ids and usernames', () => {
 
   it('gives every fixture user that shares a display name the image', () => {
     const shared = new Map<string, string[]>();
-    for (const u of [...fixtureUsers, ...cyberDefenseUsers]) {
+    for (const u of [...fixtureUsers, ...workspaceUsers]) {
       const k = u.displayName.toLowerCase();
       shared.set(k, [...(shared.get(k) ?? []), u.id]);
     }
@@ -79,31 +79,31 @@ describe('createAvatarRegistry ids and usernames', () => {
 describe('cyber defense fixtures', () => {
   // These check structure and references, not counts or particular posts, so
   // they keep passing when the data is refreshed from mattermost-preview.
-  const userIds = new Set(cyberDefenseUsers.map((u) => u.id));
-  const postIds = new Set(cyberDefensePosts.map((p) => p.id));
-  const channelIds = new Set(cyberDefenseChannels.map((c) => c.id));
+  const userIds = new Set(workspaceUsers.map((u) => u.id));
+  const postIds = new Set(workspacePosts.map((p) => p.id));
+  const channelIds = new Set(workspaceChannels.map((c) => c.id));
 
   it('has users, channels and posts with unique ids, and no overlap with fixtureUsers', () => {
-    expect(cyberDefenseUsers.length).toBeGreaterThan(0);
-    expect(cyberDefenseChannels.length).toBeGreaterThan(0);
-    expect(cyberDefensePosts.length).toBeGreaterThan(0);
-    expect(userIds.size).toBe(cyberDefenseUsers.length);
-    expect(postIds.size).toBe(cyberDefensePosts.length);
-    expect(channelIds.size).toBe(cyberDefenseChannels.length);
+    expect(workspaceUsers.length).toBeGreaterThan(0);
+    expect(workspaceChannels.length).toBeGreaterThan(0);
+    expect(workspacePosts.length).toBeGreaterThan(0);
+    expect(userIds.size).toBe(workspaceUsers.length);
+    expect(postIds.size).toBe(workspacePosts.length);
+    expect(channelIds.size).toBe(workspaceChannels.length);
     const base = new Set<string>(fixtureUsers.map((u) => u.id));
     expect([...userIds].filter((id) => base.has(id))).toEqual([]);
   });
 
   it('flags system and calls accounts as bots', () => {
     for (const id of ['callsbot', 'systembot', 'calls', 'system-bot']) {
-      expect(cyberDefenseUsers.find((u) => u.id === id)?.isBot).toBe(true);
+      expect(workspaceUsers.find((u) => u.id === id)?.isBot).toBe(true);
     }
   });
 
   it('has a current user, and the channels point at real teams', () => {
-    expect(userIds.has(cyberDefenseCurrentUserId)).toBe(true);
-    const teamIds = new Set(cyberDefenseTeams.map((t) => t.id));
-    for (const c of cyberDefenseChannels) {
+    expect(userIds.has(workspaceCurrentUserId)).toBe(true);
+    const teamIds = new Set(workspaceTeams.map((t) => t.id));
+    for (const c of workspaceChannels) {
       // Team channels name a team; direct and group messages belong to none.
       if (c.type === 'direct' || c.type === 'group') {
         expect(c.teamId).toBeUndefined();
@@ -118,29 +118,29 @@ describe('cyber defense fixtures', () => {
   });
 
   it('has teams with unique ids, each with channels, and the first is the default', () => {
-    expect(cyberDefenseTeams.length).toBeGreaterThan(0);
-    const ids = cyberDefenseTeams.map((t) => t.id);
+    expect(workspaceTeams.length).toBeGreaterThan(0);
+    const ids = workspaceTeams.map((t) => t.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(cyberDefenseTeam).toBe(cyberDefenseTeams[0]);
-    for (const t of cyberDefenseTeams) {
+    expect(workspaceTeam).toBe(workspaceTeams[0]);
+    for (const t of workspaceTeams) {
       expect(t.initials.length).toBeGreaterThan(0);
-      expect(cyberDefenseChannels.some((c) => c.teamId === t.id)).toBe(true);
+      expect(workspaceChannels.some((c) => c.teamId === t.id)).toBe(true);
     }
   });
 
   it('keeps channel ids unique across teams', () => {
     // Every team has its own town-square, so ids carry the team.
-    for (const c of cyberDefenseChannels)
+    for (const c of workspaceChannels)
       if (c.teamId) expect(c.id.startsWith(`${c.teamId}/`)).toBe(true);
   });
 
   it('derives each team badge from its channels and threads', () => {
-    for (const t of cyberDefenseTeams) {
-      const own = cyberDefenseChannels.filter((c) => c.teamId === t.id);
+    for (const t of workspaceTeams) {
+      const own = workspaceChannels.filter((c) => c.teamId === t.id);
       const ids = new Set(own.map((c) => c.id));
       const mentions =
         own.reduce((n, c) => n + (c.mentionCount ?? 0), 0) +
-        cyberDefensePosts
+        workspacePosts
           .filter((p) => ids.has(p.channelId))
           .reduce((n, p) => n + (p.unreadMentions ?? 0), 0);
       expect(t.mentions ?? 0).toBe(mentions);
@@ -149,7 +149,7 @@ describe('cyber defense fixtures', () => {
   });
 
   it('resolves every post reference', () => {
-    for (const p of cyberDefensePosts) {
+    for (const p of workspacePosts) {
       expect(channelIds.has(p.channelId)).toBe(true);
       expect(userIds.has(p.userId)).toBe(true);
       if (p.rootId) expect(postIds.has(p.rootId)).toBe(true);
@@ -166,7 +166,7 @@ describe('cyber defense fixtures', () => {
   });
 
   it('gives each post kind the data a host renders it from', () => {
-    for (const p of cyberDefensePosts) {
+    for (const p of workspacePosts) {
       if (p.kind === 'slack-attachment')
         expect(p.attachments?.length).toBeGreaterThan(0);
       if (p.kind === 'run-update') expect(p.runUpdate).toBeTruthy();
@@ -179,11 +179,9 @@ describe('cyber defense fixtures', () => {
   });
 
   it('derives unread state that points at real posts in the same channel', () => {
-    for (const c of cyberDefenseChannels) {
+    for (const c of workspaceChannels) {
       if (c.firstUnreadPostId) {
-        const first = cyberDefensePosts.find(
-          (p) => p.id === c.firstUnreadPostId,
-        );
+        const first = workspacePosts.find((p) => p.id === c.firstUnreadPostId);
         expect(first?.channelId).toBe(c.id);
         expect(first?.rootId).toBeUndefined();
         expect(c.unreadCount).toBeGreaterThan(0);
@@ -195,11 +193,11 @@ describe('cyber defense fixtures', () => {
 
   it('leaves out system posts and groups replies into threads', () => {
     expect(
-      cyberDefensePosts.some((p) =>
+      workspacePosts.some((p) =>
         /joined the channel|added to the channel/.test(p.text),
       ),
     ).toBe(false);
-    for (const t of cyberDefenseThreads) {
+    for (const t of workspaceThreads) {
       expect(t.replies.length).toBeGreaterThan(0);
       t.replies.forEach((r) => expect(r.rootId).toBe(t.root.id));
     }
@@ -207,7 +205,7 @@ describe('cyber defense fixtures', () => {
 
   it('gives every post a createdAt that agrees with the order within a channel', () => {
     const lastByChannel = new Map<string, number>();
-    for (const p of cyberDefensePosts) {
+    for (const p of workspacePosts) {
       expect(p.createdAt).toBeTruthy();
       const at = Date.parse(p.createdAt!);
       expect(Number.isNaN(at)).toBe(false);
@@ -219,25 +217,25 @@ describe('cyber defense fixtures', () => {
   });
 
   it('keeps posts chronological within a thread (replies after their root)', () => {
-    const order = new Map(cyberDefensePosts.map((p, i) => [p.id, i]));
-    for (const p of cyberDefensePosts)
+    const order = new Map(workspacePosts.map((p, i) => [p.id, i]));
+    for (const p of workspacePosts)
       if (p.rootId)
         expect(order.get(p.id)!).toBeGreaterThan(order.get(p.rootId)!);
   });
 
   it('looks things up by id', () => {
-    const u = cyberDefenseUsers[0]!;
-    expect(getCyberDefenseUser(u.id)).toBe(u);
-    expect(getCyberDefenseChannel(cyberDefenseChannels[0]!.id)).toBe(
-      cyberDefenseChannels[0],
+    const u = workspaceUsers[0]!;
+    expect(getWorkspaceUser(u.id)).toBe(u);
+    expect(getWorkspaceChannel(workspaceChannels[0]!.id)).toBe(
+      workspaceChannels[0],
     );
     // A channel that has posts, so the check can't pass on an empty list.
-    const channelId = cyberDefensePosts[0]!.channelId;
-    const posts = getCyberDefenseChannelPosts(channelId);
+    const channelId = workspacePosts[0]!.channelId;
+    const posts = getWorkspaceChannelPosts(channelId);
     expect(posts.length).toBeGreaterThan(0);
     expect(posts.every((p) => p.channelId === channelId)).toBe(true);
     expect(posts).toEqual(
-      cyberDefensePosts.filter((p) => p.channelId === channelId),
+      workspacePosts.filter((p) => p.channelId === channelId),
     );
   });
 });
@@ -299,17 +297,17 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
     > = {},
   ) =>
     buildChannelsSidebarModelFromFixtures({
-      channels: cyberDefenseChannels,
-      users: cyberDefenseUsers,
-      currentUserId: cyberDefenseCurrentUserId,
+      channels: workspaceChannels,
+      users: workspaceUsers,
+      currentUserId: workspaceCurrentUserId,
       ...extra,
     });
   const rows = (m: ReturnType<typeof build>) =>
     m.groups.flatMap((g) => g.items);
 
   it('lists only channels the current user belongs to, each once', () => {
-    const visible = cyberDefenseChannels.filter((c) =>
-      c.memberIds?.includes(cyberDefenseCurrentUserId),
+    const visible = workspaceChannels.filter((c) =>
+      c.memberIds?.includes(workspaceCurrentUserId),
     );
     const names = rows(build()).map((r) => r.name);
     expect(names).toHaveLength(visible.length);
@@ -318,15 +316,13 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
 
   it('hides the presence badge on direct messages with a bot', () => {
     const botIds = new Set(
-      cyberDefenseUsers.filter((u) => u.isBot).map((u) => u.id),
+      workspaceUsers.filter((u) => u.isBot).map((u) => u.id),
     );
-    const isBotDm = (c: (typeof cyberDefenseChannels)[number]) =>
+    const isBotDm = (c: (typeof workspaceChannels)[number]) =>
       c.type === 'direct' &&
-      c.memberIds?.includes(cyberDefenseCurrentUserId) &&
-      c.memberIds.some(
-        (id) => botIds.has(id) && id !== cyberDefenseCurrentUserId,
-      );
-    const botDms = cyberDefenseChannels.filter(isBotDm);
+      c.memberIds?.includes(workspaceCurrentUserId) &&
+      c.memberIds.some((id) => botIds.has(id) && id !== workspaceCurrentUserId);
+    const botDms = workspaceChannels.filter(isBotDm);
     expect(botDms.length).toBeGreaterThan(0);
     const model = rows(build());
     for (const c of botDms) {
@@ -343,7 +339,7 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
     expect(keys).toEqual(order.filter((k) => keys.includes(k)));
     m.groups.forEach((g) => expect(g.items.length).toBeGreaterThan(0));
     const fav = new Set(
-      cyberDefenseChannels.filter((c) => c.favorite).map((c) => c.name),
+      workspaceChannels.filter((c) => c.favorite).map((c) => c.name),
     );
     m.groups
       .find((g) => g.key === 'favorites')
@@ -351,8 +347,8 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
   });
 
   it('marks the active channel and calls back with the channel id', () => {
-    const target = cyberDefenseChannels.find((c) =>
-      c.memberIds?.includes(cyberDefenseCurrentUserId),
+    const target = workspaceChannels.find((c) =>
+      c.memberIds?.includes(workspaceCurrentUserId),
     )!;
     const picked: string[] = [];
     const m = build({
@@ -437,22 +433,22 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
   });
 
   it('lists only the chosen team channels, plus direct and group messages', () => {
-    const team = cyberDefenseTeams[cyberDefenseTeams.length - 1]!;
+    const team = workspaceTeams[workspaceTeams.length - 1]!;
     const names = rows(build({ teamId: team.id })).map((r) => r.name);
-    const mine = cyberDefenseChannels.filter(
+    const mine = workspaceChannels.filter(
       (c) =>
-        c.memberIds?.includes(cyberDefenseCurrentUserId) &&
+        c.memberIds?.includes(workspaceCurrentUserId) &&
         (!c.teamId || c.teamId === team.id),
     );
     expect(new Set(names)).toEqual(new Set(mine.map((c) => c.name)));
-    const other = cyberDefenseChannels.find(
+    const other = workspaceChannels.find(
       (c) => c.teamId && c.teamId !== team.id && !mine.includes(c),
     );
     if (other) expect(names).not.toContain(other.name);
     // Direct and group messages show in every team.
-    for (const t of cyberDefenseTeams) {
-      const direct = cyberDefenseChannels.filter(
-        (c) => !c.teamId && c.memberIds?.includes(cyberDefenseCurrentUserId),
+    for (const t of workspaceTeams) {
+      const direct = workspaceChannels.filter(
+        (c) => !c.teamId && c.memberIds?.includes(workspaceCurrentUserId),
       );
       const shown = new Set(rows(build({ teamId: t.id })).map((r) => r.name));
       direct.forEach((c) => expect(shown.has(c.name)).toBe(true));
@@ -460,18 +456,18 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
   });
 
   it('gives direct messages the other person and group messages a member count', () => {
-    const dm = cyberDefenseChannels.find(
+    const dm = workspaceChannels.find(
       (c) =>
-        c.type === 'direct' && c.memberIds?.includes(cyberDefenseCurrentUserId),
+        c.type === 'direct' && c.memberIds?.includes(workspaceCurrentUserId),
     );
-    const gm = cyberDefenseChannels.find(
+    const gm = workspaceChannels.find(
       (c) =>
-        c.type === 'group' && c.memberIds?.includes(cyberDefenseCurrentUserId),
+        c.type === 'group' && c.memberIds?.includes(workspaceCurrentUserId),
     );
     const r = rows(
       build({
         avatars: {
-          [dm?.memberIds?.find((i) => i !== cyberDefenseCurrentUserId) ?? '']:
+          [dm?.memberIds?.find((i) => i !== workspaceCurrentUserId) ?? '']:
             'x.png',
         },
       }),

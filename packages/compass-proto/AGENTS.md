@@ -24,9 +24,9 @@ Any popover, menu, or picker a proto composite opens (`EmojiPopover`, `PopoverMe
 
 Proto composites that are patterns or layouts still need a docs **guidelines page and specimen page** registered in `src/manifests/topics.ts` (see the root [AGENTS.md](../../AGENTS.md#required-docs-for-every-new-foundation-component-or-pattern)). Proto does not get Storybook — Storybook documents published `@mattermost/compass-ui` only.
 
-## Cyber Defense HQ fixtures
+## Sample workspace fixtures
 
-`src/fixtures/cyber-defense/generated.ts` is generated from `mattermost/mattermost-preview`; never edit it by hand. To refresh it, and what the generator fails on, see [src/fixtures/cyber-defense/README.md](src/fixtures/cyber-defense/README.md). Tests and specimens must not depend on exact counts or particular post ids, so a refresh doesn't break them.
+`src/fixtures/sample-workspace/generated.ts` is generated from `mattermost/mattermost-preview`; never edit it by hand. To refresh it, and what the generator fails on, see [src/fixtures/sample-workspace/README.md](src/fixtures/sample-workspace/README.md). Tests and specimens must not depend on exact counts or particular post ids, so a refresh doesn't break them.
 
 ## Changelog
 

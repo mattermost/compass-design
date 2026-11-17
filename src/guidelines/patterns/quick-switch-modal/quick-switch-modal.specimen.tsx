@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Button } from '@mattermost/compass-ui/components/button';
 import {
   QuickSwitchModal,
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  getWorkspaceUser,
   type FixtureChannel,
   type QuickSwitchItem,
 } from '@mattermost/compass-proto';
@@ -12,7 +12,7 @@ import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
-const me = cyberDefenseCurrentUserId;
+const me = workspaceCurrentUserId;
 
 /** How many channels the "Recent" group lists. */
 const RECENT_COUNT = 6;
@@ -20,7 +20,7 @@ const RECENT_COUNT = 6;
 function toItem(channel: FixtureChannel, group: string): QuickSwitchItem {
   if (channel.type === 'direct') {
     const otherId = channel.memberIds?.find((id) => id !== me);
-    const other = otherId ? getCyberDefenseUser(otherId) : undefined;
+    const other = otherId ? getWorkspaceUser(otherId) : undefined;
     return {
       id: channel.id,
       name: channel.name,
@@ -47,7 +47,7 @@ function toItem(channel: FixtureChannel, group: string): QuickSwitchItem {
 
 // The signed-in user's conversations: those with unread posts first, then a
 // few more. Group messages are left out (the switcher lists channels and people).
-const mine = cyberDefenseChannels.filter(
+const mine = workspaceChannels.filter(
   (c) => c.memberIds?.includes(me) && c.type !== 'group',
 );
 const unread = mine.filter((c) => c.unreadCount);

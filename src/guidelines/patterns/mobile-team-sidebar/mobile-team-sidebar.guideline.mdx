@@ -1,5 +1,5 @@
 import { MobileTeamSidebar } from '@mattermost/compass-proto';
-import { workspaceTeams } from '@/fixtures/workspaceTeams';
+import { teamSidebarTeams } from '@/fixtures/teamSidebarTeams';
 
 The Mobile Team Sidebar is the 72px-wide strip for switching teams on phones.
 It mirrors the desktop [Team Sidebar](/patterns/team-sidebar) — team avatars,
@@ -33,8 +33,8 @@ Use the Specimen tab for a live strip. Prefer desktop Team Sidebar on web.
 >
   <div style={{ height: '480px' }}>
     <MobileTeamSidebar
-      activeTeamId={workspaceTeams[0]?.id}
-      teams={workspaceTeams}
+      activeTeamId={teamSidebarTeams[0]?.id}
+      teams={teamSidebarTeams}
     />
   </div>
 </AnatomyStage>

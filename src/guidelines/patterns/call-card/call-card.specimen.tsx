@@ -1,9 +1,9 @@
 import {
   CallCard,
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  workspacePosts,
+  getWorkspaceUser,
 } from '@mattermost/compass-proto';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { avatars } from '@/fixtures/avatarRegistry';
@@ -12,16 +12,16 @@ import styles from '@/styles/library-demo/patterns.module.scss';
 // People and the call come from the sample workspace: the participants are the
 // people in a channel the signed-in user is in, and the ended card uses a real
 // call post's times when there is one.
-const me = cyberDefenseCurrentUserId;
+const me = workspaceCurrentUserId;
 const channel =
-  cyberDefenseChannels.find(
+  workspaceChannels.find(
     (c) =>
       c.memberIds?.includes(me) &&
       c.type !== 'direct' &&
       (c.memberIds?.length ?? 0) >= 5,
-  ) ?? cyberDefenseChannels[0];
+  ) ?? workspaceChannels[0];
 const people = (channel?.memberIds ?? [])
-  .map((id) => getCyberDefenseUser(id))
+  .map((id) => getWorkspaceUser(id))
   .filter((u) => !!u && !u.isBot);
 const participants = people.slice(0, 5).map((u) => ({
   key: u!.id,
@@ -30,7 +30,7 @@ const participants = people.slice(0, 5).map((u) => ({
 }));
 const starter = people.find((u) => u!.id !== me) ?? people[0];
 const starterName = starter?.displayName ?? 'a teammate';
-const callPost = cyberDefensePosts.find((p) => p.kind === 'call' && p.call);
+const callPost = workspacePosts.find((p) => p.kind === 'call' && p.call);
 const duration = callPost?.call?.durationSeconds ?? 510;
 const lasted = `Lasted ${Math.floor(duration / 60)} min ${duration % 60} sec`;
 

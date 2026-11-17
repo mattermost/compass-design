@@ -12,9 +12,9 @@ import {
   MessageInput,
   RightSidebar,
   RightSidebarThread,
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  getWorkspaceUser,
   shellStyles,
   type ChannelsSidebarModel,
 } from '@mattermost/compass-proto';
@@ -48,7 +48,7 @@ function withThreadsActive(model: ChannelsSidebarModel): ChannelsSidebarModel {
 
 const authorOf = (thread: FixtureThreadView) =>
   thread.root.webhook?.displayName ??
-  getCyberDefenseUser(thread.root.userId)?.displayName ??
+  getWorkspaceUser(thread.root.userId)?.displayName ??
   thread.root.userId;
 
 /**
@@ -70,10 +70,10 @@ export default function ThreadsViewLayout() {
   const scope = useMemo(
     () =>
       new Set(
-        cyberDefenseChannels
+        workspaceChannels
           .filter(
             (c) =>
-              c.memberIds?.includes(cyberDefenseCurrentUserId) &&
+              c.memberIds?.includes(workspaceCurrentUserId) &&
               (!c.teamId || c.teamId === team?.id),
           )
           .map((c) => c.id),
@@ -160,8 +160,7 @@ export default function ThreadsViewLayout() {
                         participants={people.map((r) => ({
                           key: r.userId,
                           name:
-                            getCyberDefenseUser(r.userId)?.displayName ??
-                            r.userId,
+                            getWorkspaceUser(r.userId)?.displayName ?? r.userId,
                           src:
                             (r.webhook && integrationIcons[r.webhook.iconId]) ||
                             avatars[r.userId],

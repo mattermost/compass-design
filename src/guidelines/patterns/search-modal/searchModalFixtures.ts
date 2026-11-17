@@ -1,10 +1,10 @@
 import {
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  cyberDefenseUsers,
-  getCyberDefenseChannel,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  workspacePosts,
+  workspaceUsers,
+  getWorkspaceChannel,
+  getWorkspaceUser,
   type FixtureChannel,
   type FixtureUser,
   type SearchChannel,
@@ -13,14 +13,14 @@ import {
 } from '@mattermost/compass-proto';
 import avatarMatty from '@/assets/avatars/Matty.png';
 import { avatars } from '@/fixtures/avatarRegistry';
-import { workspaceTeams } from '@/fixtures/workspaceTeams';
+import { teamSidebarTeams } from '@/fixtures/teamSidebarTeams';
 import { plainPreview } from '@/guidelines/_components/fixtureThread';
 
 // Everything the dialog lists comes from the sample workspace, from the point
 // of view of its signed-in user. Only the dialog's own vocabulary (modifier
 // buttons, suggested agent questions, the agents themselves) is written here.
 
-const me = cyberDefenseCurrentUserId;
+const me = workspaceCurrentUserId;
 
 const STATUS: Record<FixtureUser['presence'], SearchPerson['status']> = {
   online: 'online',
@@ -46,20 +46,20 @@ const toSearchChannel = (channel: FixtureChannel): SearchChannel => ({
   mentionCount: channel.mentionCount || undefined,
 });
 
-const myChannels = cyberDefenseChannels.filter(
+const myChannels = workspaceChannels.filter(
   (c) =>
     c.memberIds?.includes(me) && (c.type === 'public' || c.type === 'private'),
 );
 
 /** The people the signed-in user has a direct message with. */
-const dmPeople = cyberDefenseChannels
+const dmPeople = workspaceChannels
   .filter((c) => c.type === 'direct' && c.memberIds?.includes(me))
   .map((c) => c.memberIds?.find((id) => id !== me))
-  .map((id) => (id ? getCyberDefenseUser(id) : undefined))
+  .map((id) => (id ? getWorkspaceUser(id) : undefined))
   .filter((u): u is FixtureUser => !!u && !u.isBot)
   .map(toPerson);
 
-const others = cyberDefenseUsers
+const others = workspaceUsers
   .filter((u) => u.id !== me && !u.isBot)
   .map(toPerson);
 
@@ -70,13 +70,13 @@ const fileKind = (extension: string) =>
       ? 'word'
       : 'generic';
 
-const recentFiles = cyberDefensePosts
+const recentFiles = workspacePosts
   .filter((p) => p.files?.length)
   .flatMap((p) =>
     (p.files ?? []).map((file) => ({
       id: `${p.id}/${file.name}`,
       name: file.name,
-      description: `${channelSlug(getCyberDefenseChannel(p.channelId) ?? ({} as FixtureChannel)) ?? ''} · ${p.timestamp}`,
+      description: `${channelSlug(getWorkspaceChannel(p.channelId) ?? ({} as FixtureChannel)) ?? ''} · ${p.timestamp}`,
       kind: fileKind(file.extension) as 'pdf' | 'word' | 'generic',
     })),
   )
@@ -136,7 +136,7 @@ export const SEARCH_MODAL_DATA: SearchModalData = {
   ],
 };
 
-export const SEARCH_MODAL_TEAMS = workspaceTeams.map((t) => ({
+export const SEARCH_MODAL_TEAMS = teamSidebarTeams.map((t) => ({
   id: t.id,
   name: t.name,
 }));
@@ -154,7 +154,7 @@ export interface MessageHit {
 /** Posts in the workspace that mention any of the terms (all of them when there are none). */
 export function searchMessages(terms: string[], limit = 5): MessageHit[] {
   const wanted = terms.map((t) => t.toLowerCase());
-  return cyberDefensePosts
+  return workspacePosts
     .filter((p) => !p.kind || p.kind === 'bot-reply')
     .filter((p) => {
       const text = p.text.toLowerCase();
@@ -162,8 +162,8 @@ export function searchMessages(terms: string[], limit = 5): MessageHit[] {
     })
     .slice(0, limit)
     .map((p) => {
-      const author = getCyberDefenseUser(p.userId);
-      const channel = getCyberDefenseChannel(p.channelId);
+      const author = getWorkspaceUser(p.userId);
+      const channel = getWorkspaceChannel(p.channelId);
       return {
         id: p.id,
         avatarSrc: avatars[p.userId],

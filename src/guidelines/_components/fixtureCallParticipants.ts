@@ -1,6 +1,6 @@
 import {
-  cyberDefenseCurrentUserId,
-  getCyberDefenseUser,
+  workspaceCurrentUserId,
+  getWorkspaceUser,
   type FixtureChannel,
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
@@ -16,10 +16,10 @@ export function fixtureCallParticipants(
   max = 6,
 ): Participant[] {
   const others = (channel?.memberIds ?? [])
-    .filter((id) => id !== cyberDefenseCurrentUserId)
-    .map((id) => getCyberDefenseUser(id))
+    .filter((id) => id !== workspaceCurrentUserId)
+    .map((id) => getWorkspaceUser(id))
     .filter((u) => u !== undefined && !u.isBot);
-  const me = getCyberDefenseUser(cyberDefenseCurrentUserId);
+  const me = getWorkspaceUser(workspaceCurrentUserId);
   const people = [me, ...others].filter((u) => u !== undefined).slice(0, max);
   return people.map((u, i) => ({
     id: u.id,

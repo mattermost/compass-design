@@ -1,8 +1,8 @@
 import type { RightSidebarThreadMessage } from '@mattermost/compass-proto';
 import {
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  getCyberDefenseUser,
+  workspaceCurrentUserId,
+  workspacePosts,
+  getWorkspaceUser,
   type FixturePost,
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
@@ -23,10 +23,10 @@ export function threadsIn(
   channelIds: ReadonlySet<string>,
 ): FixtureThreadView[] {
   const byRoot = new Map<string, FixturePost[]>();
-  for (const p of cyberDefensePosts)
+  for (const p of workspacePosts)
     if (p.rootId && channelIds.has(p.channelId))
       byRoot.set(p.rootId, [...(byRoot.get(p.rootId) ?? []), p]);
-  return cyberDefensePosts
+  return workspacePosts
     .filter((p) => !p.rootId && byRoot.has(p.id))
     .map((root) => {
       const replies = byRoot.get(root.id)!;
@@ -34,9 +34,7 @@ export function threadsIn(
         root,
         replies,
         lastAt: replies[replies.length - 1]!.createdAt ?? root.createdAt ?? '',
-        following: Boolean(
-          root.followerIds?.includes(cyberDefenseCurrentUserId),
-        ),
+        following: Boolean(root.followerIds?.includes(workspaceCurrentUserId)),
       };
     })
     .sort((a, b) => b.lastAt.localeCompare(a.lastAt));
@@ -62,7 +60,7 @@ export function threadMessages(thread: {
   return [thread.root, ...thread.replies].map((post) => {
     const name =
       post.webhook?.displayName ??
-      getCyberDefenseUser(post.userId)?.displayName ??
+      getWorkspaceUser(post.userId)?.displayName ??
       post.userId;
     return {
       avatarSrc:

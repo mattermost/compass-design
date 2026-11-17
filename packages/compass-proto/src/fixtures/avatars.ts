@@ -1,5 +1,5 @@
 import { fixtureUsers, type FixtureUserId } from './users';
-import { cyberDefenseUsers } from './cyber-defense/generated';
+import { workspaceUsers } from './sample-workspace/generated';
 
 /**
  * Avatar registry: user id -> image URL.
@@ -25,7 +25,7 @@ export type AvatarRegistry = Partial<
  * maps to all of them, so one file gives each of them the image.
  */
 const nameToUserIds = new Map<string, Set<string>>();
-for (const u of [...fixtureUsers, ...cyberDefenseUsers]) {
+for (const u of [...fixtureUsers, ...workspaceUsers]) {
   for (const key of [u.displayName, u.username, u.id]) {
     const k = key.toLowerCase();
     const ids = nameToUserIds.get(k) ?? new Set<string>();

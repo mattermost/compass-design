@@ -1,7 +1,7 @@
 import {
-  cyberDefenseCurrentUserId,
-  cyberDefenseUsers,
-  getCyberDefenseUser,
+  workspaceCurrentUserId,
+  workspaceUsers,
+  getWorkspaceUser,
   type FixtureUser,
 } from '@mattermost/compass-proto';
 import { ProfilePopover } from '@mattermost/compass-ui/components/profile-popover';
@@ -11,9 +11,8 @@ import styles from '@/styles/library-demo/patterns.module.scss';
 // People come from the sample workspace; the popover's own extras (local time,
 // last online, staff and committer badges) are written here, as the sample data
 // has no such fields.
-const you =
-  getCyberDefenseUser(cyberDefenseCurrentUserId) ?? cyberDefenseUsers[0]!;
-const people = cyberDefenseUsers.filter(
+const you = getWorkspaceUser(workspaceCurrentUserId) ?? workspaceUsers[0]!;
+const people = workspaceUsers.filter(
   (u) => u.id !== you.id && !u.isBot && u.position,
 );
 const other = people.find((u) => !u.customStatusText) ?? people[0] ?? you;

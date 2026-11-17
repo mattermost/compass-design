@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import {
   GlobalHeader,
-  cyberDefenseCurrentUserId,
-  getCyberDefenseUser,
+  workspaceCurrentUserId,
+  getWorkspaceUser,
   RightSidebar,
   RightSidebarSearchResults,
   SearchModal,
@@ -68,9 +68,9 @@ export function SearchModalCanvas({
         <div ref={headerRef}>
           <GlobalHeader
             product="channels"
-            userAvatarSrc={avatars[cyberDefenseCurrentUserId]}
+            userAvatarSrc={avatars[workspaceCurrentUserId]}
             userAvatarAlt={
-              getCyberDefenseUser(cyberDefenseCurrentUserId)?.displayName
+              getWorkspaceUser(workspaceCurrentUserId)?.displayName
             }
             onSearchClick={(event) => {
               setAnchor(event.currentTarget.parentElement);

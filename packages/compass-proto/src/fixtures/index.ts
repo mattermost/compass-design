@@ -13,4 +13,4 @@ export {
   buildChannelsSidebarModelFromFixtures,
   type BuildChannelsSidebarModelFromFixturesInput,
 } from './buildChannelsSidebarModelFromFixtures';
-export * from './cyber-defense';
+export * from './sample-workspace';

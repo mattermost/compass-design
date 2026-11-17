@@ -1,23 +1,23 @@
 import { useMemo, useState } from 'react';
 import {
   buildChannelsSidebarModelFromFixtures,
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  cyberDefenseTeams,
-  cyberDefenseUsers,
-  getCyberDefenseUser,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  workspacePosts,
+  workspaceTeams,
+  workspaceUsers,
+  getWorkspaceUser,
   type ChannelShellProps,
   type FixtureChannel,
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
-import { workspaceTeams } from '@/fixtures/workspaceTeams';
+import { teamSidebarTeams } from '@/fixtures/teamSidebarTeams';
 import { useStickToBottom } from '@/hooks/useStickToBottom';
 
-const me = cyberDefenseCurrentUserId;
+const me = workspaceCurrentUserId;
 
 /** Channels the signed-in user belongs to. */
-const memberChannels = cyberDefenseChannels.filter((c) =>
+const memberChannels = workspaceChannels.filter((c) =>
   c.memberIds?.includes(me),
 );
 
@@ -33,7 +33,7 @@ function defaultChannelFor(teamId: string): FixtureChannel | undefined {
   const own = teamChannels(teamId);
   return (
     own.find((c) =>
-      cyberDefensePosts.some(
+      workspacePosts.some(
         (p) => p.channelId === c.id && p.kind === 'slack-attachment',
       ),
     ) ??
@@ -43,7 +43,7 @@ function defaultChannelFor(teamId: string): FixtureChannel | undefined {
 }
 
 /** Teams as the Team Sidebar takes them, with their icons. */
-const sidebarTeams: NonNullable<ChannelShellProps['teams']> = workspaceTeams;
+const sidebarTeams: NonNullable<ChannelShellProps['teams']> = teamSidebarTeams;
 
 export interface FixtureWorkspaceOptions {
   /** Team to open on. Default: the first team. */
@@ -59,15 +59,14 @@ export interface FixtureWorkspaceOptions {
  * render `channel` with the `Fixture*` components.
  */
 export function useFixtureWorkspace({
-  initialTeamId = cyberDefenseTeams[0]?.id,
+  initialTeamId = workspaceTeams[0]?.id,
 }: FixtureWorkspaceOptions = {}) {
   const [teamId, setTeamId] = useState(initialTeamId ?? '');
   const [channelId, setChannelId] = useState(
     () => defaultChannelFor(initialTeamId ?? '')?.id,
   );
 
-  const team =
-    cyberDefenseTeams.find((t) => t.id === teamId) ?? cyberDefenseTeams[0];
+  const team = workspaceTeams.find((t) => t.id === teamId) ?? workspaceTeams[0];
   // The active channel, if it is in this team (or a direct / group message).
   const channel =
     memberChannels.find(
@@ -80,11 +79,11 @@ export function useFixtureWorkspace({
   // Unread mentions in threads: the team's channels and direct messages.
   const threadsMentionCount = useMemo(() => {
     const inScope = new Set(
-      cyberDefenseChannels
+      workspaceChannels
         .filter((c) => !c.teamId || c.teamId === team?.id)
         .map((c) => c.id),
     );
-    return cyberDefensePosts
+    return workspacePosts
       .filter((p) => inScope.has(p.channelId))
       .reduce((n, p) => n + (p.unreadMentions ?? 0), 0);
   }, [team?.id]);
@@ -92,8 +91,8 @@ export function useFixtureWorkspace({
   const sidebarModel = useMemo(
     () =>
       buildChannelsSidebarModelFromFixtures({
-        channels: cyberDefenseChannels,
-        users: cyberDefenseUsers,
+        channels: workspaceChannels,
+        users: workspaceUsers,
         currentUserId: me,
         teamId: team?.id,
         activeChannelId: channel?.id,
@@ -117,7 +116,7 @@ export function useFixtureWorkspace({
     teamName: team?.name,
     onSelectTeam: selectTeam,
     userAvatarSrc: avatars[me],
-    userAvatarAlt: getCyberDefenseUser(me)?.displayName,
+    userAvatarAlt: getWorkspaceUser(me)?.displayName,
     channelsSidebarModel: sidebarModel,
   } satisfies Partial<ChannelShellProps>;
 
@@ -126,7 +125,7 @@ export function useFixtureWorkspace({
     selectTeam,
     channel,
     /** Every channel, for lookups such as a permalink's channel name. */
-    channels: cyberDefenseChannels,
+    channels: workspaceChannels,
     messagesRef,
     shellProps,
     setChannelId,
