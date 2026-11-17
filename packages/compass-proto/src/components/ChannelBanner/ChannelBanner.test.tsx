@@ -13,14 +13,12 @@ describe('ChannelBanner', () => {
       ).toBe('');
   });
 
-  it('shows the text with the default accessible name, or a translated one', () => {
+  it('shows the text without overriding its accessible name, unless one is passed', () => {
     const { container, rerender } = render(
       <ChannelBanner>Triage within 15 mins</ChannelBanner>,
     );
     expect(textOf(container)?.textContent).toBe('Triage within 15 mins');
-    expect(textOf(container)?.getAttribute('aria-label')).toBe(
-      'Channel banner text',
-    );
+    expect(textOf(container)?.hasAttribute('aria-label')).toBe(false);
     rerender(<ChannelBanner textAriaLabel="Kanalbanner">Hallo</ChannelBanner>);
     expect(textOf(container)?.getAttribute('aria-label')).toBe('Kanalbanner');
   });
