@@ -1,8 +1,14 @@
+/** White text stays readable down to this contrast ratio (WCAG's floor for large text and UI). */
+const MIN_WHITE_CONTRAST = 3;
+
 /**
- * Black or white text for a banner background, picked by the background's
- * relative luminance (WCAG), as the Mattermost webapp does. Takes a six-digit
- * hex color with or without `#`; anything else returns `undefined` so the
- * banner keeps its inherited text color.
+ * White or black text for a banner background. White is preferred: it is used
+ * whenever it keeps at least a 3:1 contrast ratio with the background (WCAG
+ * relative luminance), and black takes over only on lighter colors, so vivid
+ * blues and greens get white text. (The Mattermost webapp switches at equal
+ * contrast, about 0.179 luminance, which gives black text on those.) Takes a
+ * six-digit hex color with or without `#`; anything else returns `undefined`
+ * so the banner keeps its inherited text color.
  */
 export function channelBannerTextColor(
   backgroundColor: string,
@@ -19,5 +25,6 @@ export function channelBannerTextColor(
       : Math.pow((channel + 0.055) / 1.055, 2.4);
   });
   const luminance = 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
-  return luminance > 0.179 ? '#000000' : '#FFFFFF';
+  const whiteContrast = 1.05 / (luminance + 0.05);
+  return whiteContrast >= MIN_WHITE_CONTRAST ? '#FFFFFF' : '#000000';
 }

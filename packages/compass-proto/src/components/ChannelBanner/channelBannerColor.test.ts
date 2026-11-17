@@ -9,6 +9,14 @@ describe('channelBannerTextColor', () => {
     expect(channelBannerTextColor('#000000')).toBe('#FFFFFF');
   });
 
+  it('prefers white on vivid mid-tones and black once white drops below 3:1', () => {
+    expect(channelBannerTextColor('#0F93FF')).toBe('#FFFFFF');
+    expect(channelBannerTextColor('#2E8540')).toBe('#FFFFFF');
+    expect(channelBannerTextColor('#0071BC')).toBe('#FFFFFF');
+    expect(channelBannerTextColor('#FFAF00')).toBe('#000000');
+    expect(channelBannerTextColor('#7ECBC0')).toBe('#000000');
+  });
+
   it('accepts a color with or without the hash, in either case', () => {
     expect(channelBannerTextColor('fff0ba')).toBe('#000000');
     expect(channelBannerTextColor('#1c58d9')).toBe('#FFFFFF');
