@@ -21,7 +21,7 @@ import {
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
 import { integrationIcons } from '@/fixtures/integrationIcons';
-import { toMessageAttachmentProps } from '@/fixtures/messageAttachmentProps';
+import { postAttachmentProps } from '@/fixtures/messageAttachmentProps';
 import FixtureMarkdown from './FixtureMarkdown';
 import styles from './FixtureChannel.module.scss';
 
@@ -122,6 +122,8 @@ function FixturePostMessage({
     byCurrentUser: r.userIds.includes(cyberDefenseCurrentUserId),
   }));
   const acks = post.acknowledgements ?? [];
+  // An alert's headline goes inside its card, not above it.
+  const { cards: attachmentCards, hoisted } = postAttachmentProps(post);
 
   const permalinked = post.permalinkPostId
     ? getCyberDefensePost(post.permalinkPostId)
@@ -146,10 +148,8 @@ function FixturePostMessage({
       />,
     ),
   );
-  post.attachments?.forEach((a, i) =>
-    footerItems.push(
-      <MessageAttachment key={`att${i}`} {...toMessageAttachmentProps(a)} />,
-    ),
+  attachmentCards.forEach((card, i) =>
+    footerItems.push(<MessageAttachment key={`att${i}`} {...card} />),
   );
   if (permalinked)
     footerItems.push(
@@ -251,7 +251,7 @@ function FixturePostMessage({
           casing="all-caps"
         />
       )}
-      <FixtureMarkdown text={post.text} />
+      {!hoisted && <FixtureMarkdown text={post.text} />}
       {post.edited && (
         <span className={styles['fixture-channel__edited']}> Edited</span>
       )}

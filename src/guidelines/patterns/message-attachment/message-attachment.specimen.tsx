@@ -4,7 +4,7 @@ import {
   cyberDefensePosts,
 } from '@mattermost/compass-proto';
 import { integrationIcons } from '@/fixtures/integrationIcons';
-import { toMessageAttachmentProps } from '@/fixtures/messageAttachmentProps';
+import { postAttachmentProps } from '@/fixtures/messageAttachmentProps';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 const fields = [
@@ -76,24 +76,28 @@ export default function MessageAttachmentLibrary() {
       <p className={styles['patterns__variant-label']}>
         In a post (from the Cyber Defense HQ fixtures)
       </p>
-      {examplePosts.map((post) => (
-        <Message
-          key={post.id}
-          avatarSrc={
-            post.webhook ? integrationIcons[post.webhook.iconId] : undefined
-          }
-          avatarAlt={post.webhook?.displayName ?? post.userId}
-          username={post.webhook?.displayName ?? post.userId}
-          isBot
-          timestamp={post.timestamp}
-          showMessageActions={false}
-          footer={post.attachments?.map((a, i) => (
-            <MessageAttachment key={i} {...toMessageAttachmentProps(a)} />
-          ))}
-        >
-          {post.text.replace(/^#+\s*/, '')}
-        </Message>
-      ))}
+      {examplePosts.map((post) => {
+        // The headline is the post's text; show it inside the card.
+        const { cards, hoisted } = postAttachmentProps(post);
+        return (
+          <Message
+            key={post.id}
+            avatarSrc={
+              post.webhook ? integrationIcons[post.webhook.iconId] : undefined
+            }
+            avatarAlt={post.webhook?.displayName ?? post.userId}
+            username={post.webhook?.displayName ?? post.userId}
+            isBot
+            timestamp={post.timestamp}
+            showMessageActions={false}
+            footer={cards.map((card, i) => (
+              <MessageAttachment key={i} {...card} />
+            ))}
+          >
+            {hoisted ? null : post.text.replace(/^#+\s*/, '')}
+          </Message>
+        );
+      })}
 
       <p className={styles['patterns__variant-label']}>Narrow (fields stack)</p>
       <div className={styles['patterns__message-attachment-narrow']}>
