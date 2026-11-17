@@ -194,7 +194,7 @@ function FixturePostMessage({
     footerItems.push(
       <ReactionsRow
         key="reactions"
-        reactions={reactions}
+        reactions={reactions ?? []}
         acknowledged={post.requestAck}
         acknowledgeCount={acks.length}
         currentUserAcknowledged={acks.some(

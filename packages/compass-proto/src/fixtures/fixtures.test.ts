@@ -93,6 +93,12 @@ describe('cyber defense fixtures', () => {
     expect([...userIds].filter((id) => base.has(id))).toEqual([]);
   });
 
+  it('flags system and calls accounts as bots', () => {
+    for (const id of ['callsbot', 'systembot', 'calls', 'system-bot']) {
+      expect(cyberDefenseUsers.find((u) => u.id === id)?.isBot).toBe(true);
+    }
+  });
+
   it('has a current user, and the team and channels point at each other', () => {
     expect(userIds.has(cyberDefenseCurrentUserId)).toBe(true);
     for (const c of cyberDefenseChannels) {
@@ -255,6 +261,26 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
     const names = rows(build()).map((r) => r.name);
     expect(names).toHaveLength(visible.length);
     expect(new Set(names)).toEqual(new Set(visible.map((c) => c.name)));
+  });
+
+  it('hides the presence badge on direct messages with a bot', () => {
+    const botIds = new Set(
+      cyberDefenseUsers.filter((u) => u.isBot).map((u) => u.id),
+    );
+    const isBotDm = (c: (typeof cyberDefenseChannels)[number]) =>
+      c.type === 'direct' &&
+      c.memberIds?.includes(cyberDefenseCurrentUserId) &&
+      c.memberIds.some(
+        (id) => botIds.has(id) && id !== cyberDefenseCurrentUserId,
+      );
+    const botDms = cyberDefenseChannels.filter(isBotDm);
+    expect(botDms.length).toBeGreaterThan(0);
+    const model = rows(build());
+    for (const c of botDms) {
+      expect(model.find((r) => r.name === c.name)?.showAvatarStatus).toBe(
+        false,
+      );
+    }
   });
 
   it('groups favorites first, then channels, then direct messages, and omits empty groups', () => {

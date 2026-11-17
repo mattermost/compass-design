@@ -153,9 +153,9 @@ export default function RightSidebarChannelInfo({
             <span className={styles['right-sidebar-channel-info__group-title']}>
               Channel Header
             </span>
-            <p className={styles['right-sidebar-channel-info__header-text']}>
+            <div className={styles['right-sidebar-channel-info__header-text']}>
               {header}
-            </p>
+            </div>
           </div>
         )}
 
