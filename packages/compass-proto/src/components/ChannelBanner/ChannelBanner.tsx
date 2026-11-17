@@ -32,7 +32,11 @@ export interface ChannelBannerProps extends Omit<
    * `children` when that is a string.
    */
   tooltip?: string;
-  /** Accessible name of the text. Default: "Channel banner text". Pass a translated string. */
+  /**
+   * Optional accessible name for the text. Unset by default so screen readers
+   * read the banner copy itself; a name replaces that copy, so only pass one
+   * when the text isn't self-describing. Pass a translated string.
+   */
   textAriaLabel?: string;
   className?: string;
 }
@@ -49,7 +53,7 @@ export default function ChannelBanner({
   backgroundColor,
   textColor,
   tooltip,
-  textAriaLabel = 'Channel banner text',
+  textAriaLabel,
   className,
   style,
   ...rest
