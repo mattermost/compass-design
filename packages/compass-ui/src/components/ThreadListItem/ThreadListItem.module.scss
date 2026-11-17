@@ -205,7 +205,7 @@
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-25);
-    color: rgba(var(--center-channel-color-rgb), 0.64);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -264,7 +264,7 @@
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-25);
-    color: rgba(var(--center-channel-color-rgb), 0.64);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 4.5px var(--spacing-s);
   }

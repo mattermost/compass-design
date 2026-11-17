@@ -122,14 +122,26 @@ function renderBlocks(lines: string[]): ReactNode[] {
       );
     } else if (LIST.test(line)) {
       const items: ListItem[] = [];
-      while (i < lines.length && LIST.test(lines[i]!)) {
-        const [, indent, marker, content] = LIST.exec(lines[i]!)!;
-        items.push({
-          depth: Math.floor(indent!.length / 2),
-          ordered: /\d/.test(marker!),
-          text: content!,
-        });
-        i++;
+      while (i < lines.length) {
+        const m = LIST.exec(lines[i]!);
+        if (m) {
+          const [, indent, marker, content] = m;
+          items.push({
+            depth: Math.floor(indent!.length / 2),
+            ordered: /\d/.test(marker!),
+            number: /\d/.test(marker!) ? parseInt(marker!, 10) : undefined,
+            text: content!,
+          });
+          i++;
+        } else if (!lines[i]!.trim()) {
+          // Blank lines between items of the same kind keep one list, so
+          // numbers continue (1, 2, 3) instead of restarting at 1.
+          let j = i;
+          while (j < lines.length && !lines[j]!.trim()) j++;
+          const next = j < lines.length ? LIST.exec(lines[j]!) : null;
+          if (next && /\d/.test(next[2]!) === items[0]!.ordered) i = j;
+          else break;
+        } else break;
       }
       out.push(list(items, 0, key()).node);
     } else {
@@ -162,6 +174,8 @@ function renderBlocks(lines: string[]): ReactNode[] {
 interface ListItem {
   depth: number;
   ordered: boolean;
+  /** The number the item was written with (ordered items). */
+  number?: number;
   text: string;
 }
 
@@ -196,15 +210,21 @@ function list(
       </li>,
     );
   }
-  const Tag = ordered ? 'ol' : 'ul';
+  const className = `${styles['fixture-md__list']} ${ordered ? styles['fixture-md__list--ordered'] : ''}`;
+  const first = items[start]!.number;
   return {
-    node: (
-      <Tag
+    node: ordered ? (
+      <ol
         key={k}
-        className={`${styles['fixture-md__list']} ${ordered ? styles['fixture-md__list--ordered'] : ''}`}
+        className={className}
+        start={first && first !== 1 ? first : undefined}
       >
         {children}
-      </Tag>
+      </ol>
+    ) : (
+      <ul key={k} className={className}>
+        {children}
+      </ul>
     ),
     next: i,
   };
