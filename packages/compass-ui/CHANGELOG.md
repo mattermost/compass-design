@@ -10,7 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`MessageHeader` timestamp color:** the timestamp is the center channel color at 72% opacity (it was 56%), matching the design and the text opacity floor.
 - **`MessageSeparator` reply count color:** the `reply-count` label is the center channel color at 72% opacity (it was the full center channel color), matching the design. The line is unchanged.
-- **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the mention badge uses the small size, a 14px circle nudged 1px into the gutter's corner, so it no longer sits against the author name. The row's layout is otherwise unchanged.
+- **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the mention badge uses the small size, a 14px circle nudged into the gutter's corner, so it no longer sits against the author name. The row's layout is otherwise unchanged.
 
 ### Added
 
