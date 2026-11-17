@@ -189,9 +189,18 @@ function MobilePostItem({ post }: { post: FixturePost }) {
   );
 }
 
+/** Longest post text (in characters) that reads well in a phone-width column. */
+const MAX_PHONE_TEXT = 600;
+
+/** A post that fits a phone: no table or code block, and not a wall of text. */
+const fitsPhone = (p: FixturePost) =>
+  p.text.length <= MAX_PHONE_TEXT &&
+  !/^\s*\|.*\|\s*$/m.test(p.text) &&
+  !p.text.includes('```');
+
 /** The channel's newest posts, with date separators and the "New messages" line. */
 export function MobileChannelPosts({ channel }: { channel: FixtureChannel }) {
-  const roots = rootsOf(channel).slice(-POST_COUNT);
+  const roots = rootsOf(channel).filter(fitsPhone).slice(-POST_COUNT);
   const items: ReactNode[] = [];
   let day: string | undefined;
   for (const post of roots) {
