@@ -253,20 +253,22 @@ function FixturePostMessage({
       }
       threadFooter={
         replies.length ? (
-          <ThreadFooter
-            replyCount={replies.length}
-            avatars={[...new Map(replies.map((r) => [r.userId, r])).values()]
-              .slice(0, 5)
-              .map((r) => ({
-                key: r.userId,
-                name: getCyberDefenseUser(r.userId)?.displayName ?? r.userId,
-                src: avatars[r.userId],
-              }))}
-            badge={post.unreadMentions ? 'mention' : 'none'}
-            mentionCount={post.unreadMentions}
-            following={post.followerIds?.includes(cyberDefenseCurrentUserId)}
-            lastReplyTime={replies[replies.length - 1]!.timestamp}
-          />
+          <div className={styles['fixture-channel__thread-footer']}>
+            <ThreadFooter
+              replyCount={replies.length}
+              avatars={[...new Map(replies.map((r) => [r.userId, r])).values()]
+                .slice(0, 5)
+                .map((r) => ({
+                  key: r.userId,
+                  name: getCyberDefenseUser(r.userId)?.displayName ?? r.userId,
+                  src: avatars[r.userId],
+                }))}
+              badge={post.unreadMentions ? 'mention' : 'none'}
+              mentionCount={post.unreadMentions}
+              following={post.followerIds?.includes(cyberDefenseCurrentUserId)}
+              lastReplyTime={replies[replies.length - 1]!.timestamp}
+            />
+          </div>
         ) : undefined
       }
     >

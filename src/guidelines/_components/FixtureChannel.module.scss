@@ -13,6 +13,11 @@
     }
   }
 
+  // Message renders the thread footer flush; give it room under the post.
+  &__thread-footer {
+    margin-top: var(--spacing-xxxs);
+  }
+
   // Inline "Edited" marker after the text: a small pencil and the word, in
   // italics, as in the webapp's edited indicator (11px, muted).
   &__edited {
