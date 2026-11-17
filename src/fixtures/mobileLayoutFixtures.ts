@@ -101,8 +101,9 @@ export const mobileProfile = {
   avatarSrc: avatars[me],
   online: persona?.presence === 'online',
   statusLabel: PRESENCE_LABEL[persona?.presence ?? 'online'],
+  /** The custom status, when the user has one: its emoji and its text. */
   customStatus:
     persona?.customStatusEmoji && persona.customStatusText
-      ? `${persona.customStatusEmoji} ${persona.customStatusText}`
+      ? { emoji: persona.customStatusEmoji, text: persona.customStatusText }
       : undefined,
 };

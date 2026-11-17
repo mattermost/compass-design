@@ -42,10 +42,24 @@ export default function MobileProfileLibrary() {
                     />
                   }
                 />
+                {/* With a custom status set, its emoji takes the place of the emoticon icon. */}
                 <MobileMenuItem
-                  label={mobileProfile.customStatus ?? 'Set a Custom Status'}
+                  label={
+                    mobileProfile.customStatus?.text ?? 'Set a Custom Status'
+                  }
                   leadingVisual={
-                    <Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />
+                    mobileProfile.customStatus ? (
+                      <span
+                        className={
+                          styles['mobile-profile-layout__status-emoji']
+                        }
+                        aria-hidden
+                      >
+                        {mobileProfile.customStatus.emoji}
+                      </span>
+                    ) : (
+                      <Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />
+                    )
                   }
                 />
                 <div

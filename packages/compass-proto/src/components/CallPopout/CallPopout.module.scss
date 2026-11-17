@@ -1,12 +1,13 @@
 .popout {
+  // The window fills its frame with a 48px inset on every side, up to the
+  // frame's 1440 x 800 cap (so at most 1344 x 704), centered, as in the
+  // playground's video calls prototype.
   position: absolute;
-  top: 48px;
-  bottom: 48px;
-  left: 0;
-  right: 0;
-  width: calc((100% - 96px) * 2 / 3);
-  min-width: 1024px;
-  margin-inline: auto;
+  inset: 48px;
+  width: auto;
+  max-width: calc(1440px - 96px);
+  max-height: calc(800px - 96px);
+  margin: auto;
   z-index: 10;
   display: flex;
   flex-direction: column;

@@ -28,6 +28,7 @@ export default function CallPopoutLayout() {
   return (
     <div className={styles['call-popout-preview']}>
       <CallPopout
+        callTitle={channel ? `Call - ${channel.name}` : undefined}
         participants={participants}
         currentUserId={participants[0]?.id}
         muted={muted}
