@@ -12,6 +12,7 @@ import {
   MessageInput,
   RightSidebar,
   RightSidebarThread,
+  ThreadActionsMenu,
   workspaceChannels,
   workspaceCurrentUserId,
   getWorkspaceUser,
@@ -19,6 +20,7 @@ import {
   type ChannelsSidebarModel,
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
+import AnchoredMenuHost from '@/guidelines/_components/AnchoredMenuHost';
 import { integrationIcons } from '@/fixtures/integrationIcons';
 import {
   plainPreview,
@@ -60,6 +62,8 @@ export default function ThreadsViewLayout() {
   const { team, channels, shellProps } = useFixtureWorkspace();
   const [tab, setTab] = useState<ThreadsTab>('unreads');
   const [selectedId, setSelectedId] = useState<string>();
+  // The thread row's ••• menu, opened under its button.
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 
   const model = useMemo(
     () => withThreadsActive(shellProps.channelsSidebarModel),
@@ -90,117 +94,130 @@ export default function ThreadsViewLayout() {
     channels.find((c) => c.id === thread.root.channelId);
 
   return (
-    <ChannelShell
-      {...shellProps}
-      channelsSidebarModel={model}
-      innerContent={
-        <div className={inboxStyles['threads-view__split']}>
-          <div className={inboxStyles['threads-view__inbox']}>
-            <header className={inboxStyles['threads-view__tabs']}>
-              <Tabs
-                className={inboxStyles['threads-view__tabs-strip']}
-                tabs={[
-                  { key: 'all', label: 'All your threads' },
-                  { key: 'unreads', label: 'Unreads' },
-                ]}
-                activeKey={tab}
-                onChange={(key: string) => {
-                  if (key === 'all' || key === 'unreads') {
-                    setTab(key);
-                    setSelectedId(undefined);
+    <>
+      <ChannelShell
+        {...shellProps}
+        channelsSidebarModel={model}
+        innerContent={
+          <div className={inboxStyles['threads-view__split']}>
+            <div className={inboxStyles['threads-view__inbox']}>
+              <header className={inboxStyles['threads-view__tabs']}>
+                <Tabs
+                  className={inboxStyles['threads-view__tabs-strip']}
+                  tabs={[
+                    { key: 'all', label: 'All your threads' },
+                    { key: 'unreads', label: 'Unreads' },
+                  ]}
+                  activeKey={tab}
+                  onChange={(key: string) => {
+                    if (key === 'all' || key === 'unreads') {
+                      setTab(key);
+                      setSelectedId(undefined);
+                    }
+                  }}
+                  controls={
+                    <IconButton
+                      aria-label="Mark all as read"
+                      size="small"
+                      style="default"
+                      padding="compact"
+                      icon={<Icon size="16" glyph={<PlaylistCheckIcon />} />}
+                    />
                   }
-                }}
-                controls={
-                  <IconButton
-                    aria-label="Mark all as read"
-                    size="small"
-                    style="default"
-                    padding="compact"
-                    icon={<Icon size="16" glyph={<PlaylistCheckIcon />} />}
+                />
+              </header>
+
+              <div className={inboxStyles['threads-view__list']}>
+                <Scrollbar>
+                  <div className={inboxStyles['threads-view__list-inner']}>
+                    {shown.length === 0 && (
+                      <EmptyState
+                        title={
+                          tab === 'unreads'
+                            ? 'No unread threads'
+                            : 'No threads yet'
+                        }
+                        description={
+                          tab === 'unreads'
+                            ? "You're all caught up."
+                            : 'Threads you follow show up here.'
+                        }
+                      />
+                    )}
+                    {shown.map((thread) => {
+                      const mentions = thread.root.unreadMentions;
+                      const people = [
+                        ...new Map(
+                          thread.replies.map((r) => [r.userId, r]),
+                        ).values(),
+                      ].slice(0, 3);
+                      return (
+                        <ThreadListItem
+                          key={thread.root.id}
+                          active={thread.root.id === selected?.root.id}
+                          badge={mentions ? 'mention' : 'none'}
+                          mentionCount={mentions}
+                          authorName={authorOf(thread)}
+                          channelLabel={channelOf(thread)?.name.toUpperCase()}
+                          previewText={plainPreview(thread.root.text)}
+                          timestamp={thread.root.timestamp}
+                          replyCount={thread.replies.length}
+                          participants={people.map((r) => ({
+                            key: r.userId,
+                            name:
+                              getWorkspaceUser(r.userId)?.displayName ??
+                              r.userId,
+                            src:
+                              (r.webhook &&
+                                integrationIcons[r.webhook.iconId]) ||
+                              avatars[r.userId],
+                          }))}
+                          onClick={() => setSelectedId(thread.root.id)}
+                          onMenuClick={(event) =>
+                            setMenuAnchor(event.currentTarget)
+                          }
+                        />
+                      );
+                    })}
+                  </div>
+                </Scrollbar>
+              </div>
+            </div>
+
+            {selected && (
+              <RightSidebar
+                fill
+                alignBody="end"
+                className={[
+                  shellStyles['channel-shell__right-sidebar'],
+                  shellStyles['channel-shell__right-sidebar--fill'],
+                ].join(' ')}
+                header={
+                  <RightSidebarHeader
+                    title="Thread"
+                    secondaryTitle={channelOf(selected)?.name}
+                    actionLabel={selected.following ? 'Following' : undefined}
+                    actionActive={selected.following}
                   />
                 }
-              />
-            </header>
-
-            <div className={inboxStyles['threads-view__list']}>
-              <Scrollbar>
-                <div className={inboxStyles['threads-view__list-inner']}>
-                  {shown.length === 0 && (
-                    <EmptyState
-                      title={
-                        tab === 'unreads'
-                          ? 'No unread threads'
-                          : 'No threads yet'
-                      }
-                      description={
-                        tab === 'unreads'
-                          ? "You're all caught up."
-                          : 'Threads you follow show up here.'
-                      }
+                footer={
+                  <div className={shellStyles['channel-shell__message-input']}>
+                    <MessageInput
+                      placeholder="Reply to thread…"
+                      width="narrow"
                     />
-                  )}
-                  {shown.map((thread) => {
-                    const mentions = thread.root.unreadMentions;
-                    const people = [
-                      ...new Map(
-                        thread.replies.map((r) => [r.userId, r]),
-                      ).values(),
-                    ].slice(0, 3);
-                    return (
-                      <ThreadListItem
-                        key={thread.root.id}
-                        active={thread.root.id === selected?.root.id}
-                        badge={mentions ? 'mention' : 'none'}
-                        mentionCount={mentions}
-                        authorName={authorOf(thread)}
-                        channelLabel={channelOf(thread)?.name.toUpperCase()}
-                        previewText={plainPreview(thread.root.text)}
-                        timestamp={thread.root.timestamp}
-                        replyCount={thread.replies.length}
-                        participants={people.map((r) => ({
-                          key: r.userId,
-                          name:
-                            getWorkspaceUser(r.userId)?.displayName ?? r.userId,
-                          src:
-                            (r.webhook && integrationIcons[r.webhook.iconId]) ||
-                            avatars[r.userId],
-                        }))}
-                        onClick={() => setSelectedId(thread.root.id)}
-                      />
-                    );
-                  })}
-                </div>
-              </Scrollbar>
-            </div>
+                  </div>
+                }
+              >
+                <RightSidebarThread messages={threadMessages(selected)} />
+              </RightSidebar>
+            )}
           </div>
-
-          {selected && (
-            <RightSidebar
-              fill
-              alignBody="end"
-              className={[
-                shellStyles['channel-shell__right-sidebar'],
-                shellStyles['channel-shell__right-sidebar--fill'],
-              ].join(' ')}
-              header={
-                <RightSidebarHeader
-                  title="Thread"
-                  secondaryTitle={channelOf(selected)?.name}
-                  actionLabel={selected.following ? 'Following' : undefined}
-                  actionActive={selected.following}
-                />
-              }
-              footer={
-                <div className={shellStyles['channel-shell__message-input']}>
-                  <MessageInput placeholder="Reply to thread…" width="narrow" />
-                </div>
-              }
-            >
-              <RightSidebarThread messages={threadMessages(selected)} />
-            </RightSidebar>
-          )}
-        </div>
-      }
-    />
+        }
+      />
+      <AnchoredMenuHost anchor={menuAnchor} onClose={() => setMenuAnchor(null)}>
+        <ThreadActionsMenu />
+      </AnchoredMenuHost>
+    </>
   );
 }
