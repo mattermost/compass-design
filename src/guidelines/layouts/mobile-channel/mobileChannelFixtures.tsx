@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
 import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-card';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { PermalinkPreview } from '@mattermost/compass-ui/components/permalink-preview';
@@ -23,6 +24,7 @@ import { avatars } from '@/fixtures/avatarRegistry';
 import { integrationIcons } from '@/fixtures/integrationIcons';
 import { postAttachmentProps } from '@/fixtures/messageAttachmentProps';
 import FixtureMarkdown from '@/guidelines/_components/FixtureMarkdown';
+import channelStyles from '@/guidelines/_components/FixtureChannel.module.scss';
 
 // The Mobile Channel layout shows one real channel of the sample workspace,
 // from the signed-in user's point of view. Everything is picked by what it is
@@ -86,6 +88,14 @@ function MobilePostItem({ post }: { post: FixturePost }) {
   const callTextIsTitle = callText !== '' && !callText.includes('\n');
   const showText = !hoisted && !callTextIsTitle;
 
+  // "Edited" sits inline at the end of the text, as in the webapp and the desktop layouts.
+  const editedMark = post.edited ? (
+    <span className={channelStyles['fixture-channel__edited']}>
+      <PencilOutlineIcon size={12} />
+      Edited
+    </span>
+  ) : undefined;
+
   const permalinked = post.permalinkPostId
     ? getWorkspacePost(post.permalinkPostId)
     : undefined;
@@ -136,6 +146,19 @@ function MobilePostItem({ post }: { post: FixturePost }) {
         meta={lastedLabel(post.call.durationSeconds)}
       />,
     );
+  if (post.kind === 'run-update' && post.runUpdate) {
+    const r = post.runUpdate;
+    footer.push(
+      <div key="run" className={channelStyles['fixture-channel__run']}>
+        <p className={channelStyles['fixture-channel__run-title']}>
+          {r.runName}
+        </p>
+        <p className={channelStyles['fixture-channel__run-meta']}>
+          {r.numTasksChecked} of {r.numTasks} tasks done
+        </p>
+      </div>,
+    );
+  }
   const reactions = post.reactions?.map((r) => ({
     emoji: r.emoji,
     count: r.userIds.length,
@@ -184,7 +207,9 @@ function MobilePostItem({ post }: { post: FixturePost }) {
       showPinnedSavedIndicators={post.pinned}
       footer={footer.length ? <>{footer}</> : undefined}
     >
-      {showText ? <FixtureMarkdown text={post.text} /> : null}
+      {showText ? (
+        <FixtureMarkdown text={post.text} suffix={editedMark} />
+      ) : null}
     </MobileMessage>
   );
 }
