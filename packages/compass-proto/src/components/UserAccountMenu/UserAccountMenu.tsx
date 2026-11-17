@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { HTMLAttributes, ReactNode, SyntheticEvent } from 'react';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import CloseCircleIcon from '@mattermost/compass-icons/components/close-circle';
@@ -18,6 +18,35 @@ import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { usePopoverTransition } from '@mattermost/compass-ui/hooks/use-popover-transition';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './UserAccountMenu.module.scss';
+
+/**
+ * One line of text that ends in an ellipsis when it doesn't fit; hovering it
+ * then shows the full text in a tooltip (nothing extra when it fits).
+ */
+function TruncatedText({ text }: { text: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [cut, setCut] = useState(false);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    setCut(el ? el.scrollWidth > el.clientWidth : false);
+  }, [text]);
+  const span = (
+    <span ref={ref} className={styles['user-account-menu__truncated']}>
+      {text}
+    </span>
+  );
+  return cut ? (
+    <WithTooltip
+      label={text}
+      placement="top"
+      className={styles['user-account-menu__truncated-tip']}
+    >
+      {span}
+    </WithTooltip>
+  ) : (
+    span
+  );
+}
 
 export type UserAccountMenuStatus =
   | 'online'
@@ -154,7 +183,11 @@ export default function UserAccountMenu({
 
   return (
     <div className={rootClass} {...rest}>
-      <PopoverMenu open={open} aria-label="Account menu">
+      <PopoverMenu
+        open={open}
+        aria-label="Account menu"
+        className={styles['user-account-menu__menu']}
+      >
         {/* A div, not PopoverMenuTitle (a <p>): the avatar is a div. */}
         <div className={styles['user-account-menu__title']}>
           <UserAvatar
@@ -177,12 +210,16 @@ export default function UserAccountMenu({
           {customStatus ? (
             <MenuItem
               label={
-                [
-                  customStatus.text,
-                  customStatusExpiry && `(${customStatusExpiry})`,
-                ]
-                  .filter(Boolean)
-                  .join(' ') || 'Custom status'
+                <TruncatedText
+                  text={
+                    [
+                      customStatus.text,
+                      customStatusExpiry && `(${customStatusExpiry})`,
+                    ]
+                      .filter(Boolean)
+                      .join(' ') || 'Custom status'
+                  }
+                />
               }
               leadingVisual={
                 <span className={styles['user-account-menu__emoji']}>

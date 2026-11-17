@@ -167,6 +167,25 @@ export default function PopoverMenuLibrary() {
             submenuInitiallyOpen
           />
         </div>
+        <p
+          className={styles['patterns__variant-label']}
+          style={{ marginTop: 'var(--spacing-l)' }}
+        >
+          Long custom status: one line with an ellipsis; hovering it shows the
+          full text
+        </p>
+        <div className={styles['patterns__popover-menu-demo']}>
+          <UserAccountMenu
+            userName={workspacePersona?.displayName}
+            username={workspacePersona?.username}
+            avatarSrc={avatars[workspaceCurrentUserId]}
+            customStatus={{
+              emoji: personaCustomStatus.emoji,
+              text: `${personaCustomStatus.text}, and keeping every team across the quarter's goals`,
+            }}
+            customStatusExpiry="Until 5:00 PM"
+          />
+        </div>
       </section>
 
       <section className={styles['patterns__section']}>
