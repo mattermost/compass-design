@@ -1,17 +1,17 @@
+import { useState } from 'react';
 import { TeamSidebar } from '@mattermost/compass-proto';
-import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
+import { workspaceTeams } from '@/fixtures/workspaceTeams';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
+/** The workspace's teams; click one to make it the current team. */
 export default function TeamSidebarLibrary() {
+  const [activeTeamId, setActiveTeamId] = useState(workspaceTeams[0]?.id);
   return (
     <div className={styles['patterns__team-sidebar-demo']}>
       <TeamSidebar
-        activeTeamId="contributors"
-        teams={[
-          { id: 'contributors', name: 'Contributors', src: avatarStaffTeam },
-          { id: 'design', name: 'Design', initials: 'De', unread: true },
-          { id: 'acme', name: 'Acme', initials: 'Ac', mentions: 3 },
-        ]}
+        activeTeamId={activeTeamId}
+        teams={workspaceTeams}
+        onSelectTeam={setActiveTeamId}
       />
     </div>
   );

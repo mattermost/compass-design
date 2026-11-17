@@ -18,6 +18,7 @@ import {
   getCyberDefensePost,
   getCyberDefenseUser,
   type FixtureChannel,
+  type ChannelHeaderProps,
   type FixturePost,
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
@@ -59,11 +60,14 @@ export function FixtureChannelHeader({
   onNameClick,
   onInfoClick,
   infoToggled,
+  overrides,
 }: {
   channel: FixtureChannel;
   onNameClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onInfoClick?: () => void;
   infoToggled?: boolean;
+  /** Props that replace what the channel gives, to show a state on purpose (favorited, muted, a pinned count). */
+  overrides?: Partial<ChannelHeaderProps>;
 }) {
   const common = { name: channel.name, onNameClick, onInfoClick, infoToggled };
   if (channel.type === 'direct') {
@@ -80,6 +84,7 @@ export function FixtureChannelHeader({
             ? { emoji: user.customStatusEmoji, text: user.customStatusText }
             : undefined
         }
+        {...overrides}
       />
     );
   }
@@ -89,6 +94,7 @@ export function FixtureChannelHeader({
         {...common}
         type="gm"
         memberCount={channel.memberIds?.length}
+        {...overrides}
       />
     );
   return (
@@ -99,11 +105,12 @@ export function FixtureChannelHeader({
       memberCount={channel.memberIds?.length}
       pinnedCount={channel.pinnedCount}
       favorited={channel.favorite}
+      {...overrides}
     />
   );
 }
 
-function FixturePostMessage({
+export function FixturePostMessage({
   post,
   channels,
   onOpenThread,

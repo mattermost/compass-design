@@ -11,7 +11,7 @@ import {
   type FixtureChannel,
 } from '@mattermost/compass-proto';
 import { avatars } from '@/fixtures/avatarRegistry';
-import { teamIcons } from '@/fixtures/teamIcons';
+import { workspaceTeams } from '@/fixtures/workspaceTeams';
 import { useStickToBottom } from '@/hooks/useStickToBottom';
 
 const me = cyberDefenseCurrentUserId;
@@ -43,8 +43,7 @@ function defaultChannelFor(teamId: string): FixtureChannel | undefined {
 }
 
 /** Teams as the Team Sidebar takes them, with their icons. */
-const sidebarTeams: NonNullable<ChannelShellProps['teams']> =
-  cyberDefenseTeams.map((t) => ({ ...t, src: teamIcons[t.id] }));
+const sidebarTeams: NonNullable<ChannelShellProps['teams']> = workspaceTeams;
 
 export interface FixtureWorkspaceOptions {
   /** Team to open on. Default: the first team. */
