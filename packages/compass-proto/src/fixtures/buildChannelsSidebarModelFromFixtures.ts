@@ -11,6 +11,11 @@ export interface BuildChannelsSidebarModelFromFixturesInput {
   users: readonly FixtureUser[];
   /** The signed-in user. Only channels they belong to are listed. */
   currentUserId: string;
+  /**
+   * The team to show. Only that team's channels are listed, plus channels with
+   * no team (direct and group messages). Omit to list every channel.
+   */
+  teamId?: string;
   /** Channel shown as active. */
   activeChannelId?: string;
   /** Avatar registry for direct messages (see `createAvatarRegistry`). */
@@ -34,6 +39,7 @@ export function buildChannelsSidebarModelFromFixtures(
     channels,
     users,
     currentUserId,
+    teamId,
     activeChannelId,
     avatars,
     threadsMentionCount = 0,
@@ -79,7 +85,9 @@ export function buildChannelsSidebarModelFromFixtures(
   };
 
   const visible = channels.filter(
-    (c) => !c.memberIds || c.memberIds.includes(currentUserId),
+    (c) =>
+      (!c.memberIds || c.memberIds.includes(currentUserId)) &&
+      (teamId === undefined || !c.teamId || c.teamId === teamId),
   );
   const isDirect = (c: FixtureChannel) =>
     c.type === 'direct' || c.type === 'group';

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Generates the Cyber Defense HQ fixtures (`packages/compass-proto/src/fixtures/
+ * Generates the sample workspace fixtures (`packages/compass-proto/src/fixtures/
  * cyber-defense/generated.ts`) from a `mattermost/mattermost-preview` dataset
- * checkout, and copies the avatars the fixtures use into `src/assets/avatars/`.
+ * checkout, and copies the avatars, team icons and integration icons they use into `src/assets/`.
  *
  *   node scripts/gen-cyber-defense-fixtures.mjs --source <path to datasets/trial-journey>
  *   npm run generate:cyber-defense-fixtures -- --source <path>
@@ -10,7 +10,8 @@
  * Options:
  *   --source <dir>        Dataset folder (contains people.yaml, world.yaml, script/). Required;
  *                         `MATTERMOST_PREVIEW_DATASET` is used when the flag is omitted.
- *   --team <name>         Team whose channels become the fixtures. Default: cyber-defense-hq.
+ *   --teams <a,b,...>     Teams whose channels become the fixtures. Default: every team the
+ *                         login persona is on (`--team <name>` is the same for one team).
  *   --download-icons      Download missing integration icons (needs network).
  *
  * The script is strict on purpose. It fails, naming what to add, when the data
@@ -31,6 +32,7 @@ const OUT_DIR = path.join(
 );
 const AVATAR_DIR = path.join(ROOT, 'src/assets/avatars');
 const ICON_DIR = path.join(ROOT, 'src/assets/integrations');
+const TEAM_ICON_DIR = path.join(ROOT, 'src/assets/team-icons');
 
 /**
  * "Day zero". Source times are relative (`D-12 09:30` is 12 days before day
@@ -64,18 +66,32 @@ const EMOJI = {
   spiral_calendar_pad: '🗓️',
   toolbox: '🧰',
   clipboard: '📋',
+  '+1_medium_dark_skin_tone': '👍🏾',
+  100: '💯',
+  airplane: '✈️',
+  boom: '💥',
+  heavy_check_mark: '✔️',
+  lightning: '⚡',
+  'man-raising-hand_light_skin_tone': '🙋🏻‍♂️',
+  ok: '🆗',
+  raised_hands: '🙌',
+  rocket: '🚀',
+  wave: '👋',
+  worried: '😟',
 };
 const REPLACEMENTS = {
   'thank-you': 'pray',
   large_yellow_circle: 'yellow_circle',
   large_green_circle: 'green_circle',
+  plusone: '+1',
 };
 
 /**
  * Integration icon file name in the source URL -> `FixtureIntegrationIconId`
  * (and the file name under `src/assets/integrations/`). A new icon needs an
- * entry here, the id added to `FixtureIntegrationIconId` in `types.ts`, and
- * the image mapped in `src/fixtures/integrationIcons.ts`.
+ * entry here and the id added to `FixtureIntegrationIconId` in `types.ts`. The
+ * image is saved under `src/assets/integrations/` and picked up by
+ * `src/fixtures/integrationIcons.ts` by file name.
  */
 const INTEGRATION_ICONS = {
   'pagerduty.jpg': 'pagerduty',
@@ -83,6 +99,13 @@ const INTEGRATION_ICONS = {
   'MSdefender.jpg': 'ms-defender',
   'intune.jpg': 'intune',
   'splunk.jpg': 'splunk',
+  'datadog.jpg': 'datadog',
+  'jira.png': 'jira',
+  'gitlab.jpg': 'gitlab',
+  'cypress.jpg': 'cypress',
+  'github.jpg': 'github',
+  'Alert-User.jpg': 'alert-user',
+  'Flight-Status-User.jpg': 'flight-status',
 };
 
 /** Post `type`s the script maps. `system_*` posts are dropped. */
@@ -91,6 +114,11 @@ const KNOWN_TYPES = new Set([
   'custom_llmbot',
   'custom_calls',
   'slack_attachment',
+  // Playbooks bot posts: a reminder with a button, and the published retrospective
+  // (its full text lives in props the webapp doesn't show; the message text is kept).
+  'custom_update_status',
+  'custom_retro_rem_first',
+  'custom_retro',
 ]);
 
 const MONTHS = [
@@ -115,12 +143,16 @@ function fail(message) {
 }
 
 function args() {
-  const out = { team: 'cyber-defense-hq', downloadIcons: false };
+  const out = { teams: undefined, downloadIcons: false };
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--source') out.source = argv[++i];
-    else if (a === '--team') out.team = argv[++i];
+    else if (a === '--teams' || a === '--team')
+      out.teams = argv[++i]
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean);
     else if (a === '--download-icons') out.downloadIcons = true;
     else fail(`unknown option ${a}`);
   }
@@ -293,9 +325,6 @@ const dataset = read('dataset.yaml');
 const persona = dataset.persona?.login;
 if (!persona) fail('dataset.yaml has no persona.login');
 
-const team = world.teams.find((t) => t.name === opts.team);
-if (!team) fail(`world.yaml has no team "${opts.team}"`);
-
 // users ---------------------------------------------------------------------
 const users = [];
 const userIds = new Set();
@@ -331,6 +360,19 @@ for (const b of people.bots ?? []) {
 const userById = new Map(users.map((u) => [u.id, u]));
 if (!userIds.has(persona)) fail(`persona ${persona} is not in people.yaml`);
 
+// teams: every team the persona is on, unless --teams narrows it ------------------
+const personaTeams =
+  people.people.find((u) => u.username === persona)?.teams ?? [];
+const teamNames =
+  opts.teams ??
+  world.teams.map((t) => t.name).filter((n) => personaTeams.includes(n));
+const teams = teamNames.map(
+  (n) =>
+    world.teams.find((t) => t.name === n) ??
+    fail(`world.yaml has no team "${n}"`),
+);
+if (!teams.length) fail('no teams to generate: the persona is on none');
+
 // sources -------------------------------------------------------------------
 const scriptDir = path.join(opts.source, 'script');
 const mdFiles = (dir) =>
@@ -342,8 +384,9 @@ const mdFiles = (dir) =>
         .map((f) => path.join(dir, f))
     : [];
 const sources = [];
-for (const f of mdFiles(path.join(scriptDir, opts.team)))
-  sources.push({ kind: 'channel', file: f });
+for (const team of teams)
+  for (const f of mdFiles(path.join(scriptDir, team.name)))
+    sources.push({ kind: 'channel', file: f, team: team.name });
 for (const kind of ['dm', 'gm'])
   for (const f of mdFiles(path.join(scriptDir, kind))) {
     const { fm } = parseTranscript(f);
@@ -362,10 +405,13 @@ for (const [index, src] of sources.entries()) {
   const { fm, posts: parsed } = parseTranscript(src.file);
   let channel;
   if (src.kind === 'channel') {
-    const id = String(fm.channel).split('/')[1];
+    // `team/channel`: channel names repeat across teams (every team has a town-square).
+    const id = String(fm.channel);
+    if (!id.startsWith(`${src.team}/`))
+      fail(`${src.file}: channel "${id}" is not in team ${src.team}`);
     channel = {
       id,
-      teamId: opts.team,
+      teamId: src.team,
       type:
         { O: 'public', P: 'private' }[fm.type] ??
         fail(`${src.file}: unknown channel type ${fm.type}`),
@@ -391,8 +437,8 @@ for (const [index, src] of sources.entries()) {
         )
         .join(', ');
     channel = {
+      // Direct and group messages belong to no team.
       id: `${src.kind}-${members.join('-')}`,
-      teamId: opts.team,
       type: src.kind === 'dm' ? 'direct' : 'group',
       name: label(src.kind === 'dm' ? others.slice(0, 1) : others),
       memberIds: members,
@@ -461,6 +507,11 @@ for (const [index, src] of sources.entries()) {
       };
     } else if (p.type === 'slack_attachment') {
       post.kind = 'slack-attachment';
+    } else if (
+      p.type === 'custom_update_status' ||
+      p.type === 'custom_retro_rem_first'
+    ) {
+      post.kind = 'run-reminder';
     }
     if (pp.from_webhook) {
       post.kind ??= 'webhook';
@@ -473,7 +524,14 @@ for (const [index, src] of sources.entries()) {
       iconUrls.set(iconId, pp.override_icon_url);
       post.webhook = { displayName: pp.override_username, iconId };
     }
-    if (p.type === 'slack_attachment' && pp.attachments) {
+    if (
+      [
+        'slack_attachment',
+        'custom_update_status',
+        'custom_retro_rem_first',
+      ].includes(p.type) &&
+      pp.attachments
+    ) {
       post.attachments = pp.attachments.map((x) =>
         clean({
           color: x.color,
@@ -485,9 +543,12 @@ for (const [index, src] of sources.entries()) {
           titleLink: x.title_link,
           text: x.text,
           fields: x.fields,
+          // Only web links stay links; a Playbooks / plugin API URL is a button.
           actions: (x.actions ?? []).map((a) => ({
             name: a.name,
-            url: a.integration?.url,
+            url: /^https?:\/\//.test(a.integration?.url ?? '')
+              ? a.integration.url
+              : undefined,
           })),
           footer: x.footer,
           footerIcon: x.footer_icon,
@@ -607,6 +668,33 @@ for (const p of posts)
         `warning: ${p.id} points at ${ref}, which is not in the fixtures`,
       );
 
+// teams: initials, plus the persona's unread / mention badges per team ----------
+const initialsOf = (name) =>
+  name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase();
+const teamList = teams.map((t) => {
+  const own = channels.filter((c) => c.teamId === t.name);
+  const ids = new Set(own.map((c) => c.id));
+  // Mentions the persona has not read, in channels and in threads.
+  const mentions =
+    own.reduce((n, c) => n + (c.mentionCount ?? 0), 0) +
+    posts
+      .filter((p) => ids.has(p.channelId))
+      .reduce((n, p) => n + (p.unreadMentions ?? 0), 0);
+  const item = {
+    id: t.name,
+    name: t.display_name,
+    initials: initialsOf(t.display_name),
+  };
+  if (own.some((c) => c.unreadCount)) item.unread = true;
+  if (mentions) item.mentions = mentions;
+  return item;
+});
+
 // presence: people who post are online, the rest rotate -----------------------
 const posters = new Set(posts.map((p) => p.userId));
 let rotate = 0;
@@ -637,14 +725,45 @@ for (const u of people.people.concat(people.bots ?? [])) {
 }
 fs.mkdirSync(ICON_DIR, { recursive: true });
 const missingIcons = [];
+const haveIcon = (id) =>
+  fs.readdirSync(ICON_DIR).some((f) => f.replace(/\.[^.]+$/, '') === id);
 for (const [id, url] of iconUrls) {
-  const dest = path.join(ICON_DIR, `${id}.png`);
-  if (fs.existsSync(dest)) continue;
-  if (opts.downloadIcons) {
-    const res = await fetch(url);
-    if (!res.ok) fail(`could not download ${url} (${res.status})`);
-    fs.writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
-  } else missingIcons.push(`${id}: ${url}`);
+  if (haveIcon(id)) continue;
+  if (!opts.downloadIcons) {
+    missingIcons.push(`${id}: ${url}`);
+    continue;
+  }
+  const res = await fetch(url);
+  if (!res.ok) fail(`could not download ${url} (${res.status})`);
+  const bytes = Buffer.from(await res.arrayBuffer());
+  // Save under the file's real type; the source names JPEGs and PNGs loosely.
+  const ext =
+    bytes[0] === 0x89 && bytes[1] === 0x50
+      ? 'png'
+      : bytes[0] === 0xff && bytes[1] === 0xd8
+        ? 'jpg'
+        : bytes.subarray(0, 4).toString('latin1') === 'RIFF' &&
+            bytes.subarray(8, 12).toString('latin1') === 'WEBP'
+          ? 'webp'
+          : fail(`${url} is not a PNG, JPEG or WebP image`);
+  fs.writeFileSync(path.join(ICON_DIR, `${id}.${ext}`), bytes);
+}
+
+// team icons ------------------------------------------------------------------
+fs.mkdirSync(TEAM_ICON_DIR, { recursive: true });
+const noTeamIcon = [];
+for (const t of teams) {
+  const src = t.icon ? path.join(opts.source, 'assets', t.icon) : undefined;
+  if (!src || !fs.existsSync(src)) {
+    noTeamIcon.push(t.name);
+    continue;
+  }
+  const dest = path.join(TEAM_ICON_DIR, `${t.name}.png`);
+  if (
+    !fs.existsSync(dest) ||
+    !fs.readFileSync(src).equals(fs.readFileSync(dest))
+  )
+    fs.copyFileSync(src, dest);
 }
 
 // output ---------------------------------------------------------------------
@@ -656,12 +775,6 @@ try {
 } catch {
   /* not a git checkout */
 }
-const initials = team.display_name
-  .split(/\s+/)
-  .slice(0, 2)
-  .map((w) => w[0])
-  .join('')
-  .toUpperCase();
 const ts = (v) => JSON.stringify(v, null, 2);
 const file = `// Generated by scripts/gen-cyber-defense-fixtures.mjs. Do not edit by hand.
 // Source: mattermost/mattermost-preview datasets/${path.basename(opts.source)} @ ${sha}
@@ -673,7 +786,14 @@ import type {
   FixtureUser,
 } from '../types';
 
-export const cyberDefenseTeam: FixtureTeam = ${ts({ id: team.name, name: team.display_name, initials })};
+/**
+ * The teams the persona is on, in sidebar order, with the persona's unread and
+ * mention badges for each (channels and threads).
+ */
+export const cyberDefenseTeams: readonly FixtureTeam[] = ${ts(teamList)};
+
+/** The first team: where the sample workspace opens. */
+export const cyberDefenseTeam: FixtureTeam = cyberDefenseTeams[0]!;
 
 /** The signed-in user in the sample workspace (the dataset's login persona). */
 export const cyberDefenseCurrentUserId = ${JSON.stringify(persona)};
@@ -687,8 +807,9 @@ export const cyberDefenseCurrentUserId = ${JSON.stringify(persona)};
 export const cyberDefenseUsers: readonly FixtureUser[] = ${ts(users)};
 
 /**
- * The team's channels plus the direct and group messages the persona has open,
- * with the persona's favorites and unread state.
+ * The channels of every team (\`teamId\`) plus the direct and group messages
+ * the persona has open (no \`teamId\`), with the persona's favorites and unread
+ * state.
  */
 export const cyberDefenseChannels: readonly FixtureChannel[] = ${ts(channels)};
 
@@ -708,11 +829,15 @@ execFileSync('npx', ['prettier', '--write', target], {
 });
 
 console.log(
-  `Wrote ${path.relative(ROOT, target)}: ${users.length} users, ${channels.length} channels, ${posts.length} posts (source @ ${sha.slice(0, 9)}).`,
+  `Wrote ${path.relative(ROOT, target)}: ${teams.length} teams, ${users.length} users, ${channels.length} channels, ${posts.length} posts (source @ ${sha.slice(0, 9)}).`,
 );
 if (noAvatar.length)
   console.log(
     `No avatar in the source for: ${noAvatar.join(', ')} (they use the default avatar).`,
+  );
+if (noTeamIcon.length)
+  console.log(
+    `No team icon in the source for: ${noTeamIcon.join(', ')} (the team shows its initials).`,
   );
 if (missingIcons.length)
   console.log(

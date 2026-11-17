@@ -1,5 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
-import { useStickToBottom } from '@/hooks/useStickToBottom';
+import { useRef, useState } from 'react';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import {
@@ -7,17 +6,9 @@ import {
   ChannelShell,
   MessageInput,
   RightSidebarChannelInfo,
-  buildChannelsSidebarModelFromFixtures,
-  cyberDefenseChannels,
-  cyberDefenseCurrentUserId,
-  cyberDefensePosts,
-  cyberDefenseTeam,
-  cyberDefenseUsers,
-  getCyberDefenseUser,
   shellStyles,
   type ChannelBookmark,
 } from '@mattermost/compass-proto';
-import { avatars } from '@/fixtures/avatarRegistry';
 import AnchoredMenuHost from '@/guidelines/_components/AnchoredMenuHost';
 import ChannelBookmarksDemo, {
   type ChannelBookmarksDemoHandle,
@@ -28,49 +19,17 @@ import {
   FixtureMessageList,
 } from '@/guidelines/_components/FixtureChannel';
 import { fixtureChannelInfoProps } from '@/guidelines/_components/fixtureChannelInfoProps';
+import { useFixtureWorkspace } from '@/guidelines/_components/useFixtureWorkspace';
 
-// Everything on this page comes from the Cyber Defense HQ fixtures, from the
-// point of view of the sample workspace's signed-in user.
-const visibleChannels = cyberDefenseChannels.filter((c) =>
-  c.memberIds?.includes(cyberDefenseCurrentUserId),
-);
-// Open on a channel with alert cards when there is one: it shows the most.
-const defaultChannelId = (
-  visibleChannels.find((c) =>
-    cyberDefensePosts.some(
-      (p) => p.channelId === c.id && p.kind === 'slack-attachment',
-    ),
-  ) ?? visibleChannels[0]
-)?.id;
-const threadsMentionCount = cyberDefensePosts.reduce(
-  (n, p) => n + (p.unreadMentions ?? 0),
-  0,
-);
-
+// Everything on this page comes from the sample workspace fixtures, from the
+// point of view of its signed-in user: three teams to switch between, each with
+// its own channels, and the direct messages they share.
 export default function ChannelLayout() {
-  const [activeChannelId, setActiveChannelId] = useState(defaultChannelId);
+  const { channel, channels, messagesRef, shellProps } = useFixtureWorkspace();
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
   const bookmarksRef = useRef<ChannelBookmarksDemoHandle>(null);
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 
-  const channel =
-    visibleChannels.find((c) => c.id === activeChannelId) ?? visibleChannels[0];
-  // Open each channel on its newest message and keep it there.
-  const messagesRef = useStickToBottom(channel?.id);
-
-  const sidebarModel = useMemo(
-    () =>
-      buildChannelsSidebarModelFromFixtures({
-        channels: cyberDefenseChannels,
-        users: cyberDefenseUsers,
-        currentUserId: cyberDefenseCurrentUserId,
-        activeChannelId: channel?.id,
-        avatars,
-        threadsMentionCount,
-        onSelectChannel: setActiveChannelId,
-      }),
-    [channel?.id],
-  );
   if (!channel) return null;
 
   const bookmarks: ChannelBookmark[] = (channel.bookmarks ?? []).map((b) => ({
@@ -80,16 +39,10 @@ export default function ChannelLayout() {
     href: b.href,
     emoji: b.emoji,
   }));
-  const me = getCyberDefenseUser(cyberDefenseCurrentUserId);
 
   return (
     <ChannelShell
-      teams={[cyberDefenseTeam]}
-      activeTeamId={cyberDefenseTeam.id}
-      teamName={cyberDefenseTeam.name}
-      userAvatarSrc={avatars[cyberDefenseCurrentUserId]}
-      userAvatarAlt={me?.displayName}
-      channelsSidebarModel={sidebarModel}
+      {...shellProps}
       channelHeader={
         <>
           <FixtureChannelHeader
@@ -145,10 +98,7 @@ export default function ChannelLayout() {
         <div className={shellStyles['channel-shell__messages']}>
           <Scrollbar key={channel.id} ref={messagesRef}>
             <div className={shellStyles['channel-shell__messages-list']}>
-              <FixtureMessageList
-                channel={channel}
-                channels={cyberDefenseChannels}
-              />
+              <FixtureMessageList channel={channel} channels={channels} />
             </div>
           </Scrollbar>
         </div>

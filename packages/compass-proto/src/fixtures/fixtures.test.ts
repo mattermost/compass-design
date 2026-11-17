@@ -7,6 +7,7 @@ import {
   cyberDefenseCurrentUserId,
   cyberDefensePosts,
   cyberDefenseTeam,
+  cyberDefenseTeams,
   cyberDefenseThreads,
   cyberDefenseUsers,
   getCyberDefenseChannel,
@@ -28,7 +29,7 @@ describe('fixtures', () => {
     const channelIds = new Set(fixtureChannels.map((c) => c.id));
     expect(channelIds.size).toBe(fixtureChannels.length);
     for (const c of fixtureChannels) {
-      expect(teamIds.has(c.teamId)).toBe(true);
+      expect(teamIds.has(c.teamId ?? '')).toBe(true);
       c.memberIds?.forEach((id) => expect(userIds.has(id)).toBe(true));
     }
     for (const p of fixturePosts) {
@@ -99,14 +100,51 @@ describe('cyber defense fixtures', () => {
     }
   });
 
-  it('has a current user, and the team and channels point at each other', () => {
+  it('has a current user, and the channels point at real teams', () => {
     expect(userIds.has(cyberDefenseCurrentUserId)).toBe(true);
+    const teamIds = new Set(cyberDefenseTeams.map((t) => t.id));
     for (const c of cyberDefenseChannels) {
-      expect(c.teamId).toBe(cyberDefenseTeam.id);
+      // Team channels name a team; direct and group messages belong to none.
+      if (c.type === 'direct' || c.type === 'group') {
+        expect(c.teamId).toBeUndefined();
+      } else {
+        expect(teamIds.has(c.teamId ?? '')).toBe(true);
+      }
       c.memberIds?.forEach((id) => expect(userIds.has(id)).toBe(true));
       expect(c.bookmarks === undefined || c.bookmarks.length > 0).toBe(true);
       const ids = c.bookmarks?.map((b) => b.id) ?? [];
       expect(new Set(ids).size).toBe(ids.length);
+    }
+  });
+
+  it('has teams with unique ids, each with channels, and the first is the default', () => {
+    expect(cyberDefenseTeams.length).toBeGreaterThan(0);
+    const ids = cyberDefenseTeams.map((t) => t.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(cyberDefenseTeam).toBe(cyberDefenseTeams[0]);
+    for (const t of cyberDefenseTeams) {
+      expect(t.initials.length).toBeGreaterThan(0);
+      expect(cyberDefenseChannels.some((c) => c.teamId === t.id)).toBe(true);
+    }
+  });
+
+  it('keeps channel ids unique across teams', () => {
+    // Every team has its own town-square, so ids carry the team.
+    for (const c of cyberDefenseChannels)
+      if (c.teamId) expect(c.id.startsWith(`${c.teamId}/`)).toBe(true);
+  });
+
+  it('derives each team badge from its channels and threads', () => {
+    for (const t of cyberDefenseTeams) {
+      const own = cyberDefenseChannels.filter((c) => c.teamId === t.id);
+      const ids = new Set(own.map((c) => c.id));
+      const mentions =
+        own.reduce((n, c) => n + (c.mentionCount ?? 0), 0) +
+        cyberDefensePosts
+          .filter((p) => ids.has(p.channelId))
+          .reduce((n, p) => n + (p.unreadMentions ?? 0), 0);
+      expect(t.mentions ?? 0).toBe(mentions);
+      expect(Boolean(t.unread)).toBe(own.some((c) => c.unreadCount));
     }
   });
 
@@ -134,7 +172,9 @@ describe('cyber defense fixtures', () => {
       if (p.kind === 'run-update') expect(p.runUpdate).toBeTruthy();
       if (p.kind === 'call') expect(p.call).toBeTruthy();
       if (p.kind === 'webhook') expect(p.webhook).toBeTruthy();
-      if (p.requestAck || p.acknowledgements) expect(p.priority).toBeTruthy();
+      // Acknowledgements answer a request. (A request can have no priority label:
+      // "standard" priority is not shown.)
+      if (p.acknowledgements) expect(p.requestAck).toBe(true);
     }
   });
 
@@ -345,6 +385,29 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
       mentionCount: 2,
     });
     expect(build().topGroupItems[0]!.status).toBeUndefined();
+  });
+
+  it('lists only the chosen team channels, plus direct and group messages', () => {
+    const team = cyberDefenseTeams[cyberDefenseTeams.length - 1]!;
+    const names = rows(build({ teamId: team.id })).map((r) => r.name);
+    const mine = cyberDefenseChannels.filter(
+      (c) =>
+        c.memberIds?.includes(cyberDefenseCurrentUserId) &&
+        (!c.teamId || c.teamId === team.id),
+    );
+    expect(new Set(names)).toEqual(new Set(mine.map((c) => c.name)));
+    const other = cyberDefenseChannels.find(
+      (c) => c.teamId && c.teamId !== team.id && !mine.includes(c),
+    );
+    if (other) expect(names).not.toContain(other.name);
+    // Direct and group messages show in every team.
+    for (const t of cyberDefenseTeams) {
+      const direct = cyberDefenseChannels.filter(
+        (c) => !c.teamId && c.memberIds?.includes(cyberDefenseCurrentUserId),
+      );
+      const shown = new Set(rows(build({ teamId: t.id })).map((r) => r.name));
+      direct.forEach((c) => expect(shown.has(c.name)).toBe(true));
+    }
   });
 
   it('gives direct messages the other person and group messages a member count', () => {

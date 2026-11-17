@@ -1,15 +1,21 @@
 import type { FixtureIntegrationIconId } from '@mattermost/compass-proto';
-import defender from '@/assets/integrations/ms-defender.png';
-import intune from '@/assets/integrations/intune.png';
-import pagerduty from '@/assets/integrations/pagerduty.png';
-import sentinel from '@/assets/integrations/sentinel.png';
-import splunk from '@/assets/integrations/splunk.png';
+
+// Every image in `src/assets/integrations/`, keyed by file name without the
+// extension (`sentinel.png` -> `sentinel`). The fixture generator saves new
+// icons there under their `FixtureIntegrationIconId`, so a refresh needs no
+// edit here.
+const files = import.meta.glob('@/assets/integrations/*.{png,jpg,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
 
 /** Integration icon id (see `FixtureWebhookIdentity.iconId`) -> image URL. */
-export const integrationIcons: Record<FixtureIntegrationIconId, string> = {
-  pagerduty,
-  sentinel,
-  'ms-defender': defender,
-  intune,
-  splunk,
-};
+export const integrationIcons = Object.fromEntries(
+  Object.entries(files).map(([path, url]) => [
+    path
+      .split('/')
+      .pop()!
+      .replace(/\.[^.]+$/, ''),
+    url,
+  ]),
+) as Record<FixtureIntegrationIconId, string>;

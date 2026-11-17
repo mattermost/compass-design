@@ -29,6 +29,8 @@ export interface ChannelShellProps {
   userAvatarAlt?: string;
   teams?: TeamSidebarItem[];
   activeTeamId?: string;
+  /** Called with the team id when a team is chosen in the Team Sidebar. */
+  onSelectTeam?: (id: string) => void;
   teamName?: string;
   showFilter?: boolean;
   /** When set, passed to `ChannelsSidebar` as `model`. */
@@ -78,6 +80,7 @@ export default function ChannelShell({
   userAvatarAlt = 'User',
   teams = DEFAULT_TEAMS,
   activeTeamId = 'contributors',
+  onSelectTeam,
   teamName = 'Contributors',
   showFilter = true,
   channelsSidebarModel,
@@ -125,7 +128,11 @@ export default function ChannelShell({
 
       <div className={styles['channel-shell__body']}>
         <div className={styles['channel-shell__team-sidebar']}>
-          <TeamSidebar activeTeamId={activeTeamId} teams={teams} />
+          <TeamSidebar
+            activeTeamId={activeTeamId}
+            teams={teams}
+            onSelectTeam={onSelectTeam}
+          />
         </div>
 
         <div className={styles['channel-shell__outer-panel']}>

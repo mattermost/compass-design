@@ -1,8 +1,11 @@
-# Cyber Defense HQ fixtures
+# Sample workspace fixtures (the `cyberDefense*` exports)
 
 `generated.ts` is generated from the `trial-journey` dataset in
-[`mattermost/mattermost-preview`](https://github.com/mattermost/mattermost-preview).
-Do not edit it by hand. `lookups.ts` and `index.ts` are hand-written.
+[`mattermost/mattermost-preview`](https://github.com/mattermost/mattermost-preview):
+every team the dataset's login persona is on (Cyber Defense HQ, DevSecOps HQ and
+MissionOps HQ at the moment), their channels and posts, and the direct and group
+messages the persona has open. The `cyberDefense*` names date from when it held
+only the first team. Do not edit it by hand. `lookups.ts` and `index.ts` are hand-written.
 
 ## Refresh
 
@@ -13,22 +16,23 @@ Do not edit it by hand. `lookups.ts` and `index.ts` are hand-written.
    npm run generate:cyber-defense-fixtures -- --source ../mattermost-preview/datasets/trial-journey
    ```
 
-   (`MATTERMOST_PREVIEW_DATASET` works in place of `--source`. Add `--download-icons` if the run reports missing integration icons.)
+   (`MATTERMOST_PREVIEW_DATASET` works in place of `--source`. Add `--download-icons` if the run reports missing integration icons. `--teams a,b` narrows the teams; the default is every team the persona is on.)
 
 3. Check the result: `npm test` in `packages/compass-proto`, `npx tsc --noEmit` at the root, then look at the Channel layout and the Message Attachment specimen.
-4. Commit `generated.ts` together with any new files under `src/assets/avatars/` and `src/assets/integrations/`.
+4. Commit `generated.ts` together with any new files under `src/assets/avatars/`, `src/assets/integrations/` and `src/assets/team-icons/`.
 
 The run is repeatable: the same source gives the same file, so a diff shows only real content changes.
 
 ## What it reads
 
-| Source                             | Becomes                                                                                               |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `people.yaml`                      | `cyberDefenseUsers` (people and bots; ids are usernames)                                              |
-| `world.yaml` + `--team`            | `cyberDefenseTeam`                                                                                    |
-| `script/<team>/*.md`               | `cyberDefenseChannels` and `cyberDefensePosts`                                                        |
-| `script/dm/*.md`, `script/gm/*.md` | direct and group messages the login persona has open (`dataset.yaml` `persona.login`, and `shown_by`) |
-| `assets/avatars/`                  | `src/assets/avatars/<username>.png`                                                                   |
+| Source                             | Becomes                                                                                                       |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `people.yaml`                      | `cyberDefenseUsers` (people and bots; ids are usernames)                                                      |
+| `world.yaml` + the persona's teams | `cyberDefenseTeams` (with the persona's unread and mention badge per team) and `cyberDefenseTeam` (the first) |
+| `script/<team>/*.md`               | `cyberDefenseChannels` and `cyberDefensePosts`                                                                |
+| `script/dm/*.md`, `script/gm/*.md` | direct and group messages the login persona has open (`dataset.yaml` `persona.login`, and `shown_by`)         |
+| `assets/team-icons/`               | `src/assets/team-icons/<team id>.png` (`src/fixtures/teamIcons.ts` maps team id to image)                     |
+| `assets/avatars/`                  | `src/assets/avatars/<username>.png`                                                                           |
 
 State is from the persona's point of view: `favorite`, `unreadCount`, `mentionCount` and `firstUnreadPostId` come from the persona's `read` time in each transcript. System posts (join, leave, add, rename, privacy) are left out.
 
@@ -36,12 +40,18 @@ State is from the persona's point of view: `favorite`, `unreadCount`, `mentionCo
 
 A refresh never drops content silently. The run stops, and `generated.ts` stays as it was, when the data holds:
 
-| Problem                             | What to do                                                                                                                          |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| A post `type` it doesn't map        | Add handling in the script, and a field on `FixturePost` if needed                                                                  |
-| An emoji name with no glyph         | Add it to `EMOJI` (or `REPLACEMENTS` for a custom emoji) in the script                                                              |
-| An integration icon it doesn't know | Add it to `INTEGRATION_ICONS` in the script, to `FixtureIntegrationIconId` in `types.ts`, and to `src/fixtures/integrationIcons.ts` |
-| A user missing from `people.yaml`   | Fix the dataset                                                                                                                     |
+| Problem                             | What to do                                                                                                                                                                                        |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A post `type` it doesn't map        | Add handling in the script, and a field on `FixturePost` if needed                                                                                                                                |
+| An emoji name with no glyph         | Add it to `EMOJI` (or `REPLACEMENTS` for a custom emoji) in the script                                                                                                                            |
+| An integration icon it doesn't know | Add it to `INTEGRATION_ICONS` in the script and to `FixtureIntegrationIconId` in `types.ts`, then run with `--download-icons` (the image is saved under its real type and picked up by file name) |
+| A user missing from `people.yaml`   | Fix the dataset                                                                                                                                                                                   |
+
+## Teams and ids
+
+- Channel ids are `team/channel` (`dev-sec-ops-hq/alerts`), because every team has its own `town-square` and `off-topic`. Direct and group messages (`dm-…`, `gm-…`) have no `teamId` and show in every team.
+- `buildChannelsSidebarModelFromFixtures({ teamId })` lists one team's channels plus the direct and group messages.
+- A team's badge is the persona's unread channels and unread mentions (channels and threads) in that team.
 
 ## Notes
 

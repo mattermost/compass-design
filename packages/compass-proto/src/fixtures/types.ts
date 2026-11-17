@@ -29,7 +29,8 @@ export type FixtureChannelType = 'public' | 'private' | 'direct' | 'group';
 
 export interface FixtureChannel {
   id: string;
-  teamId: string;
+  /** The team the channel belongs to. Unset for direct and group messages, which belong to no team. */
+  teamId?: string;
   type: FixtureChannelType;
   /** Display name. For direct channels this is the other user's display name. */
   name: string;
@@ -75,7 +76,9 @@ export interface FixturePost {
    * What kind of post this is. Unset means a plain message. Hosts pick the
    * component from this: `webhook` and `slack-attachment` posts come from an
    * integration (see `webhook`), `run-update` from Playbooks, `call` from
-   * Calls, `bot-reply` from an AI agent answering `respondingToId`.
+   * Calls, `bot-reply` from an AI agent answering `respondingToId`, and
+   * `run-reminder` from Playbooks asking for a status update or a retrospective
+   * (its button is in `attachments`).
    */
   kind?: FixturePostKind;
   /** The post was edited after it was sent. */
@@ -112,7 +115,8 @@ export type FixturePostKind =
   | 'slack-attachment'
   | 'run-update'
   | 'call'
-  | 'bot-reply';
+  | 'bot-reply'
+  | 'run-reminder';
 
 export type FixturePostPriority = 'important' | 'urgent';
 
@@ -165,7 +169,14 @@ export type FixtureIntegrationIconId =
   | 'sentinel'
   | 'ms-defender'
   | 'intune'
-  | 'splunk';
+  | 'splunk'
+  | 'datadog'
+  | 'jira'
+  | 'gitlab'
+  | 'cypress'
+  | 'github'
+  | 'alert-user'
+  | 'flight-status';
 
 export interface FixtureRunUpdate {
   runName: string;
