@@ -7,6 +7,10 @@
     align-items: flex-start;
     margin-top: var(--spacing-xs);
     width: 100%;
+
+    &--flush {
+      margin-top: 0;
+    }
   }
 
   // Inline "Edited" marker after the text: a small pencil and the word, in

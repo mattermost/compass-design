@@ -236,7 +236,19 @@ function FixturePostMessage({
       }
       footer={
         footerItems.length ? (
-          <div className={styles['fixture-channel__footer']}>{footerItems}</div>
+          <div
+            className={[
+              styles['fixture-channel__footer'],
+              // A footer that starts with the reactions / acknowledge row sits
+              // right under the text; the top margin is for cards.
+              footerItems[0]!.key === 'reactions' &&
+                styles['fixture-channel__footer--flush'],
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {footerItems}
+          </div>
         ) : undefined
       }
       threadFooter={
