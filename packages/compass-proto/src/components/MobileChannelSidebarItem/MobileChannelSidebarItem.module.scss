@@ -47,6 +47,11 @@
       opacity: 1;
       --status-badge-bg: var(--sidebar-bg);
     }
+
+    // An emoji is artwork, not a glyph: it keeps its full color.
+    &--emoji {
+      opacity: 1;
+    }
   }
 
   &__group-icon {

@@ -144,6 +144,9 @@ export default function MobileChannelSidebarItem({
   const iconContainerClass = [
     styles['mobile-channel-sidebar-item__icon-container'],
     isDM ? styles['mobile-channel-sidebar-item__icon-container--dm'] : '',
+    leadingEmoji
+      ? styles['mobile-channel-sidebar-item__icon-container--emoji']
+      : '',
   ]
     .filter(Boolean)
     .join(' ');
