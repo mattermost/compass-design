@@ -1,4 +1,5 @@
 import { ChannelBanner } from '@mattermost/compass-proto';
+import TokenBanner from '@/guidelines/_components/TokenBanner';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 export default function ChannelBannerLibrary() {
@@ -11,19 +12,19 @@ export default function ChannelBannerLibrary() {
       </ChannelBanner>
 
       <p className={styles['patterns__variant-label']}>
-        Colored backgrounds (the text turns black or white to stay readable)
+        Colored backgrounds from the color tokens (white text)
       </p>
-      <ChannelBanner backgroundColor="#1C58D9">
+      <TokenBanner token="--color-blue-500">
         Internal use only. Do not share outside the company.
-      </ChannelBanner>
+      </TokenBanner>
 
-      <ChannelBanner backgroundColor="#D24B4E">
+      <TokenBanner token="--color-red-500">
         Incident in progress. Updates every 30 minutes.
-      </ChannelBanner>
+      </TokenBanner>
 
-      <ChannelBanner backgroundColor="#3DB887">
+      <TokenBanner token="--color-green-700">
         All systems operational.
-      </ChannelBanner>
+      </TokenBanner>
 
       <p className={styles['patterns__variant-label']}>With a link</p>
       <ChannelBanner backgroundColor="#FFF0BA">
