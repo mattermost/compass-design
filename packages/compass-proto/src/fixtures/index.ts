@@ -11,6 +11,7 @@ export * from './posts';
 export * from './avatars';
 export {
   buildChannelsSidebarModelFromFixtures,
+  splitLeadingEmoji,
   type BuildChannelsSidebarModelFromFixturesInput,
 } from './buildChannelsSidebarModelFromFixtures';
 export * from './sample-workspace';

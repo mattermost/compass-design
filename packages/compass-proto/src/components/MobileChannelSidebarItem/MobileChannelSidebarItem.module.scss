@@ -27,6 +27,12 @@
       var(--spacing-l);
   }
 
+  // A channel's emoji, in the leading visual slot.
+  &__emoji {
+    font-size: var(--font-size-200);
+    line-height: 1;
+  }
+
   &__icon-container {
     display: flex;
     align-items: center;

@@ -6,6 +6,24 @@ import type {
 import type { AvatarRegistry } from './avatars';
 import type { FixtureChannel, FixtureUser } from './types';
 
+const LEADING_EMOJI =
+  /^(\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic}|\p{Emoji_Modifier})*)\s*/u;
+
+/**
+ * Splits an emoji off the start of a channel name: `"🚨 Incident Status"`
+ * gives `{ emoji: "🚨", name: "Incident Status" }`. A name that doesn't start
+ * with an emoji (or is only an emoji) comes back unchanged with no `emoji`.
+ */
+export function splitLeadingEmoji(name: string): {
+  emoji?: string;
+  name: string;
+} {
+  const match = LEADING_EMOJI.exec(name);
+  const rest = match ? name.slice(match[0].length) : name;
+  if (!match || !rest.trim()) return { name };
+  return { emoji: match[1], name: rest };
+}
+
 export interface BuildChannelsSidebarModelFromFixturesInput {
   channels: readonly FixtureChannel[];
   users: readonly FixtureUser[];
@@ -35,6 +53,8 @@ export interface BuildChannelsSidebarModelFromFixturesInput {
  * Builds the channels sidebar from fixture channels, from the current user's
  * point of view: Favorites, Channels, then Direct Messages (direct and group),
  * with an optional Unreads group first.
+ * A public or private channel whose name starts with an emoji shows it as the
+ * row's leading visual (`leadingEmoji`) and drops it from the name.
  * Channels the user isn't a member of are left out, empty groups are omitted,
  * and unread / mention badges come from `unreadCount` and `mentionCount`.
  */
@@ -69,6 +89,12 @@ export function buildChannelsSidebarModelFromFixtures(
 
     if (channel.type === 'public' || channel.type === 'private') {
       item.leadingVisual = channel.type;
+      // An emoji at the start of the name becomes the row's leading visual.
+      const { emoji, name } = splitLeadingEmoji(channel.name);
+      if (emoji) {
+        item.leadingEmoji = emoji;
+        item.name = name;
+      }
       return item;
     }
     const others = (channel.memberIds ?? []).filter(

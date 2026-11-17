@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildChannelsSidebarModelFromFixtures,
+  splitLeadingEmoji,
   buildDefaultChannelsSidebarModel,
   createAvatarRegistry,
   workspaceChannels,
@@ -290,6 +291,34 @@ describe('fixture element types', () => {
   });
 });
 
+/** The name a channel has in the sidebar: a public or private channel's leading emoji moves to the row's leading visual. */
+const sidebarName = (c: (typeof workspaceChannels)[number]) =>
+  c.type === 'public' || c.type === 'private'
+    ? splitLeadingEmoji(c.name).name
+    : c.name;
+
+describe('splitLeadingEmoji', () => {
+  it('splits an emoji and the space after it off the start of a name', () => {
+    expect(splitLeadingEmoji('🚨 Incident Status')).toEqual({
+      emoji: '🚨',
+      name: 'Incident Status',
+    });
+    expect(splitLeadingEmoji('👩🏽‍💻 Dev Team')).toEqual({
+      emoji: '👩🏽‍💻',
+      name: 'Dev Team',
+    });
+  });
+
+  it('leaves names without a leading emoji alone', () => {
+    for (const plain of ['Town Square', 'Q3 plan 🚀', '', '3546B Coordination'])
+      expect(splitLeadingEmoji(plain)).toEqual({ name: plain });
+  });
+
+  it('keeps a name that is only an emoji', () => {
+    expect(splitLeadingEmoji('🚨')).toEqual({ name: '🚨' });
+  });
+});
+
 describe('buildChannelsSidebarModelFromFixtures', () => {
   const build = (
     extra: Partial<
@@ -311,7 +340,26 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
     );
     const names = rows(build()).map((r) => r.name);
     expect(names).toHaveLength(visible.length);
-    expect(new Set(names)).toEqual(new Set(visible.map((c) => c.name)));
+    expect(new Set(names)).toEqual(new Set(visible.map(sidebarName)));
+  });
+
+  it("moves a channel name's leading emoji to the row's leading visual", () => {
+    const withEmoji = workspaceChannels.filter(
+      (c) =>
+        (c.type === 'public' || c.type === 'private') &&
+        c.memberIds?.includes(workspaceCurrentUserId) &&
+        splitLeadingEmoji(c.name).emoji,
+    );
+    expect(withEmoji.length).toBeGreaterThan(0);
+    const all = rows(build());
+    for (const c of withEmoji) {
+      const { emoji, name } = splitLeadingEmoji(c.name);
+      const row = all.find((r) => r.name === name && r.leadingEmoji === emoji);
+      expect(row).toBeDefined();
+    }
+    // Other rows (direct messages included) have no leading emoji.
+    const emojiRows = all.filter((r) => r.leadingEmoji);
+    expect(emojiRows).toHaveLength(withEmoji.length);
   });
 
   it('hides the presence badge on direct messages with a bot', () => {
@@ -339,7 +387,7 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
     expect(keys).toEqual(order.filter((k) => keys.includes(k)));
     m.groups.forEach((g) => expect(g.items.length).toBeGreaterThan(0));
     const fav = new Set(
-      workspaceChannels.filter((c) => c.favorite).map((c) => c.name),
+      workspaceChannels.filter((c) => c.favorite).map(sidebarName),
     );
     m.groups
       .find((g) => g.key === 'favorites')
@@ -356,8 +404,10 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
       onSelectChannel: (id) => picked.push(id),
     });
     const r = rows(m);
-    expect(r.filter((i) => i.active).map((i) => i.name)).toEqual([target.name]);
-    r.find((i) => i.name === target.name)?.onClick?.();
+    expect(r.filter((i) => i.active).map((i) => i.name)).toEqual([
+      sidebarName(target),
+    ]);
+    r.find((i) => i.name === sidebarName(target))?.onClick?.();
     expect(picked).toEqual([target.id]);
   });
 
@@ -440,7 +490,7 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
         c.memberIds?.includes(workspaceCurrentUserId) &&
         (!c.teamId || c.teamId === team.id),
     );
-    expect(new Set(names)).toEqual(new Set(mine.map((c) => c.name)));
+    expect(new Set(names)).toEqual(new Set(mine.map(sidebarName)));
     const other = workspaceChannels.find(
       (c) => c.teamId && c.teamId !== team.id && !mine.includes(c),
     );
@@ -451,7 +501,7 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
         (c) => !c.teamId && c.memberIds?.includes(workspaceCurrentUserId),
       );
       const shown = new Set(rows(build({ teamId: t.id })).map((r) => r.name));
-      direct.forEach((c) => expect(shown.has(c.name)).toBe(true));
+      direct.forEach((c) => expect(shown.has(sidebarName(c))).toBe(true));
     }
   });
 

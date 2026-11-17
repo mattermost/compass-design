@@ -23,7 +23,18 @@ import styles from './ChannelsSidebar.module.scss';
  * the row is the single tab stop.
  */
 function toDesktopItem(row: ChannelsSidebarItemModel) {
-  const { customStatusEmoji, customStatusText, ...rest } = row;
+  const { customStatusEmoji, customStatusText, leadingEmoji, ...base } = row;
+  // An emoji replaces the built-in glyph as a custom leading visual.
+  const rest = leadingEmoji
+    ? {
+        ...base,
+        leadingVisual: (
+          <span className={styles['channels-sidebar__leading-emoji']}>
+            {leadingEmoji}
+          </span>
+        ),
+      }
+    : base;
   if (!customStatusEmoji || !customStatusText) {
     return { ...rest, customStatusEmoji };
   }
