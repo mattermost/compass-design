@@ -128,6 +128,8 @@
     left: 3px;
     width: 14px;
     height: 14px;
+    // The size's own side padding would leave no room for the count in 14px.
+    padding: 0;
   }
 
   &__mention-gutter {
