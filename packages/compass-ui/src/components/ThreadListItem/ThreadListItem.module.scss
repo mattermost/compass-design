@@ -101,8 +101,7 @@
   &__gutter {
     position: relative;
     flex-shrink: 0;
-    // Room for the mention badge (it hangs 12px left of the gutter) without touching the author name.
-    width: var(--spacing-m);
+    width: 8px;
     min-height: 21px;
     display: flex;
     align-items: flex-start;

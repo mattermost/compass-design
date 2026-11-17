@@ -161,7 +161,7 @@ export default function ThreadListItem({
                     <MentionBadge
                       count={mentionCount}
                       location="channel"
-                      size="medium"
+                      size="small"
                     />
                   </span>
                 )}

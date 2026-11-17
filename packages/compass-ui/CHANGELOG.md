@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Fixed
 
-- **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the left gutter is 12px wide (was 8px) so the mention badge no longer sits against the author name. Author names and the rest of the row shift 4px to the right.
+- **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the mention badge uses the small size so it no longer sits against the author name. The row's layout is otherwise unchanged.
 
 ### Added
 
