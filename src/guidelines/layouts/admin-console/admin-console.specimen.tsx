@@ -1,5 +1,9 @@
 import { useId } from 'react';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import {
+  cyberDefenseCurrentUserId,
+  getCyberDefenseUser,
+} from '@mattermost/compass-proto';
+import { avatars } from '@/fixtures/avatarRegistry';
 import { AdminConsoleFooter } from '@mattermost/compass-ui/components/admin-console-footer';
 import { AdminConsoleHeader } from '@mattermost/compass-ui/components/admin-console-header';
 import { AdminPanel } from '@mattermost/compass-ui/components/admin-panel';
@@ -37,8 +41,10 @@ export default function AdminConsoleLayout() {
     <div className={styles['admin-console-layout']}>
       <div className={styles['admin-console-layout__sidebar-mount']}>
         <AdminConsoleSidebar
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
+          avatarSrc={avatars[cyberDefenseCurrentUserId]}
+          avatarAlt={
+            getCyberDefenseUser(cyberDefenseCurrentUserId)?.displayName
+          }
           groups={postsSampleSidebarGroups}
         />
       </div>

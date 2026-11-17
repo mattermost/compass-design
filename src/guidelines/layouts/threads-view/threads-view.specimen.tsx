@@ -1,84 +1,98 @@
 import { useMemo, useState } from 'react';
 import PlaylistCheckIcon from '@mattermost/compass-icons/components/playlist-check';
+import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import { Tabs } from '@mattermost/compass-ui/components/tabs';
 import { ThreadListItem } from '@mattermost/compass-ui/components/thread-list-item';
-import { RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES } from '@/fixtures/rightSidebarThreadDemo';
-import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
-import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
-import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
-import avatarDariusCole from '@/assets/avatars/Darius Cole.png';
-import avatarDavidLiang from '@/assets/avatars/David Liang.png';
-import avatarEmmaNovak from '@/assets/avatars/Emma Novak.png';
-import avatarEthanBrooks from '@/assets/avatars/Ethan Brooks.png';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
-import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import {
+  ChannelShell,
+  MessageInput,
+  RightSidebar,
+  RightSidebarThread,
+  cyberDefenseChannels,
+  cyberDefenseCurrentUserId,
+  getCyberDefenseUser,
+  shellStyles,
+  type ChannelsSidebarModel,
+} from '@mattermost/compass-proto';
+import { avatars } from '@/fixtures/avatarRegistry';
+import { integrationIcons } from '@/fixtures/integrationIcons';
+import {
+  plainPreview,
+  threadMessages,
+  threadsIn,
+  type FixtureThreadView,
+} from '@/guidelines/_components/fixtureThread';
+import { useFixtureWorkspace } from '@/guidelines/_components/useFixtureWorkspace';
 import inboxStyles from './threads-view.specimen.module.scss';
-import { ChannelShell } from '@mattermost/compass-proto';
-import { MessageInput } from '@mattermost/compass-proto';
-import { RightSidebarThread } from '@mattermost/compass-proto';
-import { RightSidebar } from '@mattermost/compass-proto';
-import { buildDefaultChannelsSidebarModel } from '@mattermost/compass-proto';
-import type { ChannelsSidebarModel } from '@mattermost/compass-proto';
-import { shellStyles } from '@mattermost/compass-proto';
 
 type ThreadsTab = 'all' | 'unreads';
 
-function buildThreadsChannelsSidebarModel(
-  input: Parameters<typeof buildDefaultChannelsSidebarModel>[0],
-): ChannelsSidebarModel {
-  const base = buildDefaultChannelsSidebarModel(input);
+/** The sidebar with the Threads row active and no channel selected. */
+function withThreadsActive(model: ChannelsSidebarModel): ChannelsSidebarModel {
   return {
-    topGroupItems: base.topGroupItems.map((row) =>
+    topGroupItems: model.topGroupItems.map((row) =>
       row.leadingVisual === 'threads'
         ? { ...row, active: true }
         : { ...row, active: false },
     ),
-    groups: base.groups.map((g) => ({
+    groups: model.groups.map((g) => ({
       ...g,
       items: g.items.map((row) => ({ ...row, active: false })),
     })),
   };
 }
 
-const PARTICIPANTS_A = [
-  { key: '1', name: 'Leonard Riley', src: avatarLeonard },
-  { key: '2', name: 'Aiko Tan', src: avatarAikoTan },
-  { key: '3', name: 'Marco Rinaldi', src: avatarMarco },
-];
+const authorOf = (thread: FixtureThreadView) =>
+  thread.root.webhook?.displayName ??
+  getCyberDefenseUser(thread.root.userId)?.displayName ??
+  thread.root.userId;
 
-const PARTICIPANTS_B = [
-  { key: '1', name: 'Sofia Bauer', src: avatarSofia },
-  { key: '2', name: 'Arjun Patel', src: avatarArjunPatel },
-  { key: '3', name: 'Danielle Okoro', src: avatarDanielle },
-];
-
+/**
+ * The Threads inbox for the active team: the threads the signed-in user
+ * follows (or, when it follows none, every thread), "Unreads" being the ones
+ * with an unread mention, with the selected thread open on the right.
+ */
 export default function ThreadsViewLayout() {
+  const { team, channels, shellProps } = useFixtureWorkspace();
   const [tab, setTab] = useState<ThreadsTab>('unreads');
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState<string>();
 
-  const channelsModel = useMemo(
-    () =>
-      buildThreadsChannelsSidebarModel({
-        showUnreadsCategory: false,
-        avatarAikoTan,
-        avatarArjunPatel,
-        avatarDanielleOkoro: avatarDanielle,
-        avatarDariusCole,
-        avatarDavidLiang,
-        avatarEmmaNovak,
-        avatarEthanBrooks,
-      }),
-    [],
+  const model = useMemo(
+    () => withThreadsActive(shellProps.channelsSidebarModel),
+    [shellProps.channelsSidebarModel],
   );
+
+  // Threads in this team's channels and in the direct messages.
+  const scope = useMemo(
+    () =>
+      new Set(
+        cyberDefenseChannels
+          .filter(
+            (c) =>
+              c.memberIds?.includes(cyberDefenseCurrentUserId) &&
+              (!c.teamId || c.teamId === team?.id),
+          )
+          .map((c) => c.id),
+      ),
+    [team?.id],
+  );
+  const all = useMemo(() => threadsIn(scope), [scope]);
+  const followed = all.filter((t) => t.following);
+  const inbox = followed.length ? followed : all;
+  const shown =
+    tab === 'unreads' ? inbox.filter((t) => t.root.unreadMentions) : inbox;
+  const selected = shown.find((t) => t.root.id === selectedId) ?? shown[0];
+  const channelOf = (thread: FixtureThreadView) =>
+    channels.find((c) => c.id === thread.root.channelId);
 
   return (
     <ChannelShell
-      channelsSidebarModel={channelsModel}
+      {...shellProps}
+      channelsSidebarModel={model}
       innerContent={
         <div className={inboxStyles['threads-view__split']}>
           <div className={inboxStyles['threads-view__inbox']}>
@@ -93,7 +107,7 @@ export default function ThreadsViewLayout() {
                 onChange={(key: string) => {
                   if (key === 'all' || key === 'unreads') {
                     setTab(key);
-                    setSelectedIndex(0);
+                    setSelectedId(undefined);
                   }
                 }}
                 controls={
@@ -111,120 +125,73 @@ export default function ThreadsViewLayout() {
             <div className={inboxStyles['threads-view__list']}>
               <Scrollbar>
                 <div className={inboxStyles['threads-view__list-inner']}>
-                  <ThreadListItem
-                    active={selectedIndex === 0}
-                    badge="none"
-                    authorName="Leonard Riley"
-                    channelLabel="UX DESIGN"
-                    previewText="Nulla tincidunt eu viverra ultrices vitae enim pharetra in. Neque massa eu commodo elementum congue…"
-                    timestamp="5 mins ago"
-                    replyCount={3}
-                    participants={PARTICIPANTS_A}
-                    onClick={() => setSelectedIndex(0)}
-                    onMenuClick={() => undefined}
-                  />
-                  <ThreadListItem
-                    active={selectedIndex === 1}
-                    badge="unread"
-                    authorName="Pauline Burton"
-                    channelLabel="ENTERPRISE TEAM"
-                    previewText="Tristique lorem est facilisis sed est felis. Ut viverra semper suspendisse lacus mauris dui, sit aliquet nam."
-                    timestamp="5 mins ago"
-                    replyCount={3}
-                    participants={PARTICIPANTS_B}
-                    onClick={() => setSelectedIndex(1)}
-                  />
-                  <ThreadListItem
-                    active={selectedIndex === 2}
-                    badge="unread"
-                    authorName="Jenny Ball"
-                    channelLabel="DESIGN TEAM"
-                    previewText="Sed semper scelerisque sit sollicitudin donec nunc, elit at. Maecenas ac sed morbi lectus dolor quis lacus."
-                    timestamp="5 mins ago"
-                    replyCount={3}
-                    onClick={() => setSelectedIndex(2)}
-                  />
-                  <ThreadListItem
-                    active={selectedIndex === 3}
-                    badge="unread"
-                    authorName="Martin Newman"
-                    channelLabel="MOBILE TEAM"
-                    previewText="Tortor quis auctor vel lacus leo, commodo porttitor sit. Diam amet imperdiet arcu sed quis elementum."
-                    timestamp="5 mins ago"
-                    replyCount={3}
-                    onClick={() => setSelectedIndex(3)}
-                  />
-                  {tab === 'all' && (
-                    <>
-                      <ThreadListItem
-                        active={selectedIndex === 4}
-                        badge="none"
-                        authorName="Emma Novak"
-                        channelLabel="DEVELOPERS"
-                        previewText="Ship checklist is updated for the release candidate — please confirm your sections by EOD."
-                        timestamp="Yesterday"
-                        replyCount={1}
-                        participants={[
-                          {
-                            key: 'e',
-                            name: 'Emma Novak',
-                            src: avatarEmmaNovak,
-                          },
-                        ]}
-                        onClick={() => setSelectedIndex(4)}
-                      />
-                      <ThreadListItem
-                        active={selectedIndex === 5}
-                        badge="none"
-                        authorName="Ethan Brooks"
-                        channelLabel="TOWN SQUARE"
-                        previewText="Recording from the town hall is pinned in the channel header for anyone who missed it."
-                        timestamp="Mon"
-                        replyCount={12}
-                        participants={[
-                          {
-                            key: 'e',
-                            name: 'Ethan Brooks',
-                            src: avatarEthanBrooks,
-                          },
-                          {
-                            key: 'd',
-                            name: 'David Liang',
-                            src: avatarDavidLiang,
-                          },
-                        ]}
-                        onClick={() => setSelectedIndex(5)}
-                      />
-                    </>
+                  {shown.length === 0 && (
+                    <EmptyState
+                      title="No unread threads"
+                      description="You're all caught up."
+                    />
                   )}
+                  {shown.map((thread) => {
+                    const mentions = thread.root.unreadMentions;
+                    const people = [
+                      ...new Map(
+                        thread.replies.map((r) => [r.userId, r]),
+                      ).values(),
+                    ].slice(0, 3);
+                    return (
+                      <ThreadListItem
+                        key={thread.root.id}
+                        active={thread.root.id === selected?.root.id}
+                        badge={mentions ? 'mention' : 'none'}
+                        mentionCount={mentions}
+                        authorName={authorOf(thread)}
+                        channelLabel={channelOf(thread)?.name.toUpperCase()}
+                        previewText={plainPreview(thread.root.text)}
+                        timestamp={thread.root.timestamp}
+                        replyCount={thread.replies.length}
+                        participants={people.map((r) => ({
+                          key: r.userId,
+                          name:
+                            getCyberDefenseUser(r.userId)?.displayName ??
+                            r.userId,
+                          src:
+                            (r.webhook && integrationIcons[r.webhook.iconId]) ||
+                            avatars[r.userId],
+                        }))}
+                        onClick={() => setSelectedId(thread.root.id)}
+                      />
+                    );
+                  })}
                 </div>
               </Scrollbar>
             </div>
           </div>
 
-          <RightSidebar
-            fill
-            alignBody="end"
-            className={[
-              shellStyles['channel-shell__right-sidebar'],
-              shellStyles['channel-shell__right-sidebar--fill'],
-            ].join(' ')}
-            header={
-              <RightSidebarHeader
-                title="Thread"
-                secondaryTitle="UX Design"
-                actionLabel="Following"
-                actionActive
-              />
-            }
-            footer={
-              <div className={shellStyles['channel-shell__message-input']}>
-                <MessageInput placeholder="Reply to thread…" width="narrow" />
-              </div>
-            }
-          >
-            <RightSidebarThread messages={RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES} />
-          </RightSidebar>
+          {selected && (
+            <RightSidebar
+              fill
+              alignBody="end"
+              className={[
+                shellStyles['channel-shell__right-sidebar'],
+                shellStyles['channel-shell__right-sidebar--fill'],
+              ].join(' ')}
+              header={
+                <RightSidebarHeader
+                  title="Thread"
+                  secondaryTitle={channelOf(selected)?.name}
+                  actionLabel={selected.following ? 'Following' : undefined}
+                  actionActive={selected.following}
+                />
+              }
+              footer={
+                <div className={shellStyles['channel-shell__message-input']}>
+                  <MessageInput placeholder="Reply to thread…" width="narrow" />
+                </div>
+              }
+            >
+              <RightSidebarThread messages={threadMessages(selected)} />
+            </RightSidebar>
+          )}
         </div>
       }
     />
