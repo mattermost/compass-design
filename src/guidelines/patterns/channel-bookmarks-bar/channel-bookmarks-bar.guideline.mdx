@@ -1,6 +1,7 @@
-import { ChannelBookmarksBar } from '@mattermost/compass-proto';
 import {
+  BookmarkEditExample,
   BookmarkModalExample,
+  BookmarksAnatomyExample,
   BookmarksEmptyChannelExample,
   BookmarksHeaderMenuExample,
   BookmarksOverflowExample,
@@ -15,31 +16,7 @@ depends on one click away without pinning or searching.
 ## Anatomy
 
 <Preview caption="Channel bookmarks bar">
-  <div style={{ width: '100%' }}>
-    <ChannelBookmarksBar
-      bookmarks={[
-        {
-          id: 'wiki',
-          label: 'Team wiki',
-          labelText: 'Team wiki',
-          href: 'https://example.com/wiki',
-        },
-        {
-          id: 'roadmap',
-          label: 'Q4 roadmap',
-          labelText: 'Q4 roadmap',
-          href: 'https://example.com/roadmap',
-        },
-        {
-          id: 'handbook',
-          label: 'Employee handbook',
-          labelText: 'Employee handbook',
-          type: 'file',
-          href: 'https://example.com/handbook.pdf',
-        },
-      ]}
-    />
-  </div>
+  <BookmarksAnatomyExample />
 </Preview>
 
 - <Num>1</Num> **Bookmark** — Emoji (or a book / file icon when none is set) and
@@ -130,15 +107,7 @@ replaces the default icon in the bar, and a **Remove emoji** link takes it off
 again.
 
 <Preview caption="Edit a link bookmark with an emoji">
-  <BookmarkModalExample
-    type="link"
-    height={400}
-    initialValues={{
-      title: 'Team wiki',
-      url: 'https://example.com/wiki',
-      emoji: '📚',
-    }}
-  />
+  <BookmarkEditExample height={400} />
 </Preview>
 
 ## Reordering

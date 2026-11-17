@@ -9,26 +9,57 @@ import {
 } from '@mattermost/compass-ui/components/popover-menu';
 import {
   ChannelBookmarkModal,
+  ChannelBookmarksBar,
   type ChannelBookmarkAddType,
   type ChannelBookmarkModalProps,
-  ChannelHeader,
   ChannelHeaderMenu,
 } from '@mattermost/compass-proto';
-import ChannelBookmarksDemo from './ChannelBookmarksDemo';
+import {
+  channelWithoutBookmarks,
+  workspaceBookmarks,
+} from '@/fixtures/workspaceBookmarks';
+import { FixtureChannelHeader } from './FixtureChannel';
+import ChannelBookmarksDemo, {
+  SAMPLE_BOOKMARKS,
+  SAMPLE_FILE_BOOKMARK,
+} from './ChannelBookmarksDemo';
 import styles from './ChannelBookmarksExamples.module.scss';
 
-/** A channel header with no bookmarks bar under it (an empty channel). */
+/** The bar as the anatomy shows it: two of the workspace's bookmarks and a file. */
+export function BookmarksAnatomyExample() {
+  return (
+    <div className={styles['examples__full']}>
+      <ChannelBookmarksBar
+        bookmarks={[...workspaceBookmarks.slice(0, 2), SAMPLE_FILE_BOOKMARK]}
+      />
+    </div>
+  );
+}
+
+/** A channel header with no bookmarks bar under it (a channel with none). */
 export function BookmarksEmptyChannelExample() {
   return (
     <div className={styles['examples__full']}>
-      <ChannelHeader
-        type="channel"
-        name="Town Square"
-        description="Company-wide announcements and general discussion."
-        memberCount={124}
-        pinnedCount={2}
-      />
+      {channelWithoutBookmarks && (
+        <FixtureChannelHeader channel={channelWithoutBookmarks} />
+      )}
     </div>
+  );
+}
+
+/** Editing a link bookmark: the modal opens with the first bookmark's values and an emoji. */
+export function BookmarkEditExample({ height = 400 }: { height?: number }) {
+  const first = SAMPLE_BOOKMARKS[0];
+  return (
+    <BookmarkModalExample
+      type="link"
+      height={height}
+      initialValues={{
+        title: typeof first?.label === 'string' ? first.label : undefined,
+        url: first?.href,
+        emoji: first?.emoji ?? '📚',
+      }}
+    />
   );
 }
 

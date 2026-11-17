@@ -1,5 +1,5 @@
 import { GlobalHeader } from '@mattermost/compass-proto';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { personaHeaderProps } from '@/fixtures/workspacePersona';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 
 /**
@@ -14,11 +14,7 @@ export function GlobalHeaderAnatomyStage() {
       }}
     >
       <div style={{ width: '100%', maxWidth: 960 }}>
-        <GlobalHeader
-          product="channels"
-          userAvatarSrc={avatarLeonard}
-          userAvatarAlt="Leonard Riley"
-        />
+        <GlobalHeader product="channels" {...personaHeaderProps} />
       </div>
     </AnatomyStage>
   );

@@ -1,47 +1,14 @@
-import {
-  workspaceCurrentUserId,
-  workspaceUsers,
-  getWorkspaceUser,
-  type FixtureUser,
-} from '@mattermost/compass-proto';
 import { ProfilePopover } from '@mattermost/compass-ui/components/profile-popover';
-import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
-
-// People come from the sample workspace; the popover's own extras (local time,
-// last online, staff and committer badges) are written here, as the sample data
-// has no such fields.
-const you = getWorkspaceUser(workspaceCurrentUserId) ?? workspaceUsers[0]!;
-const people = workspaceUsers.filter(
-  (u) => u.id !== you.id && !u.isBot && u.position,
-);
-const other = people.find((u) => !u.customStatusText) ?? people[0] ?? you;
-const otherWithStatus = people.find((u) => u.customStatusText) ?? other;
-
-const identity = (user: FixtureUser) => ({
-  avatarSrc: avatars[user.id],
-  avatarAlt: user.displayName,
-  name: user.displayName,
-  username: `@${user.username}`,
-  title: user.position,
-  email: `${user.username}@example.com`,
-  lastOnline: 'Last online 6 hrs ago',
-});
-
-const localTime = {
-  time: '10:42 PM',
-  timezone: 'EST',
-  hourDifference: '3 hrs behind',
-};
-
-const customStatus = (user: FixtureUser) =>
-  user.customStatusText
-    ? {
-        emoji: user.customStatusEmoji ?? '📅',
-        text: user.customStatusText,
-        expiresLabel: 'Until Tomorrow',
-      }
-    : { emoji: '📅', text: 'In a meeting', expiresLabel: 'Until Tomorrow' };
+import {
+  customStatus,
+  githubHandle,
+  identity,
+  localTime,
+  other,
+  otherWithStatus,
+  you,
+} from './profilePopoverFixtures';
 
 export default function ProfilePopoverLibrary() {
   return (
@@ -66,7 +33,7 @@ export default function ProfilePopoverLibrary() {
           sharedOrg="Acme Corp."
           staff
           coreCommitter
-          githubHandle={otherWithStatus.username.replace('.', '')}
+          githubHandle={githubHandle(otherWithStatus)}
           localTime={localTime}
           customStatus={customStatus(otherWithStatus)}
           onClose={() => {}}
@@ -92,7 +59,7 @@ export default function ProfilePopoverLibrary() {
           sharedOrg="Acme Corp."
           staff
           coreCommitter
-          githubHandle={you.username.replace('.', '')}
+          githubHandle={githubHandle(you)}
           localTime={localTime}
           customStatus={customStatus(you)}
           onClose={() => {}}

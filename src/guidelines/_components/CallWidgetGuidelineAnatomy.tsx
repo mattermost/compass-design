@@ -1,21 +1,6 @@
 import { CallWidget } from '@mattermost/compass-proto';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
-import type { Participant } from '@/types/callParticipant';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
-import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
-
-const participants: Participant[] = [
-  {
-    id: '1',
-    name: 'Leonard Riley',
-    avatarSrc: avatarLeonard,
-    host: true,
-    talking: true,
-  },
-  { id: '2', name: 'Aiko Tan', avatarSrc: avatarAikoTan },
-  { id: '3', name: 'Arjun Patel', avatarSrc: avatarArjunPatel, muted: true },
-];
+import { callWidgetDemoProps } from '@/fixtures/callWidgetDemo';
 
 /**
  * Call Widget pattern — static anatomy preview on the shared AnatomyStage surface.
@@ -29,11 +14,7 @@ export function CallWidgetAnatomyStage() {
       }}
     >
       <CallWidget
-        participants={participants}
-        currentUserId="1"
-        talkerName="Leonard Riley"
-        talkerAvatarSrc={avatarLeonard}
-        channelName="op-nightingale"
+        {...callWidgetDemoProps}
         muted={false}
         onToggleMute={() => {}}
         handRaised={false}
@@ -49,10 +30,6 @@ export function CallWidgetAnatomyStage() {
         onCloseCallInfo={() => {}}
         externalEnabled
         onExternalEnabledChange={() => {}}
-        internalLink="https://mattermost.example.com/team/pl/join/abc123"
-        externalLink="https://guest.example.com/xyz"
-        dialInNumber="+1 669 555 0100"
-        dialInPin="123 456"
       />
     </AnatomyStage>
   );

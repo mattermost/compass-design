@@ -1,4 +1,8 @@
 import { MobileNavigationBar } from '@mattermost/compass-proto';
+import {
+  mobileChannel,
+  mobileMentionCount,
+} from '@/fixtures/mobilePatternFixtures';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import styles from './MobileNavigationBarGuidelineAnatomy.module.scss';
 
@@ -16,9 +20,9 @@ export function MobileNavigationBarAnatomyStage() {
       <div className={styles['mobile-navigation-bar-anatomy__frame']}>
         <MobileNavigationBar
           variant="channel"
-          name="UX Design"
-          memberCount={32}
-          mentionCount={1}
+          name={mobileChannel?.name ?? 'Channel'}
+          memberCount={mobileChannel?.memberIds?.length}
+          mentionCount={mobileMentionCount}
         />
       </div>
     </AnatomyStage>

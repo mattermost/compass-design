@@ -1,38 +1,12 @@
-import {
-  CallCard,
-  workspaceChannels,
-  workspaceCurrentUserId,
-  workspacePosts,
-  getWorkspaceUser,
-} from '@mattermost/compass-proto';
+import { CallCard } from '@mattermost/compass-proto';
 import { Button } from '@mattermost/compass-ui/components/button';
-import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
-
-// People and the call come from the sample workspace: the participants are the
-// people in a channel the signed-in user is in, and the ended card uses a real
-// call post's times when there is one.
-const me = workspaceCurrentUserId;
-const channel =
-  workspaceChannels.find(
-    (c) =>
-      c.memberIds?.includes(me) &&
-      c.type !== 'direct' &&
-      (c.memberIds?.length ?? 0) >= 5,
-  ) ?? workspaceChannels[0];
-const people = (channel?.memberIds ?? [])
-  .map((id) => getWorkspaceUser(id))
-  .filter((u) => !!u && !u.isBot);
-const participants = people.slice(0, 5).map((u) => ({
-  key: u!.id,
-  name: u!.displayName,
-  src: avatars[u!.id],
-}));
-const starter = people.find((u) => u!.id !== me) ?? people[0];
-const starterName = starter?.displayName ?? 'a teammate';
-const callPost = workspacePosts.find((p) => p.kind === 'call' && p.call);
-const duration = callPost?.call?.durationSeconds ?? 510;
-const lasted = `Lasted ${Math.floor(duration / 60)} min ${duration % 60} sec`;
+import {
+  lasted,
+  missedMeta,
+  participants,
+  starterName,
+} from './callCardFixtures';
 
 export default function CallCardLibrary() {
   return (
@@ -74,7 +48,7 @@ export default function CallCardLibrary() {
       <CallCard
         state="ended"
         title="Missed call"
-        meta={callPost?.call?.startedAt ?? 'Yesterday at 4:12 PM'}
+        meta={missedMeta}
         trailing={
           <Button emphasis="tertiary" size="medium">
             Call back

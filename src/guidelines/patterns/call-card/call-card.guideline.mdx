@@ -1,4 +1,5 @@
 import { CallCard } from '@mattermost/compass-proto';
+import { participants, starterName } from './callCardFixtures';
 
 The Call Card is an unpublished prototyping composite in
 `@mattermost/compass-proto`. It is the post a call leaves in a channel or
@@ -16,13 +17,8 @@ Widget, which holds the controls while you are in a call.
   <CallCard
     state="active"
     title="Call started"
-    meta="3 minutes ago by Aiko Tan"
-    participants={[
-      { key: 'a', name: 'Aiko Tan' },
-      { key: 'b', name: 'Arjun Patel' },
-      { key: 'c', name: 'Danielle Okoro' },
-      { key: 'd', name: 'Darius Cole' },
-    ]}
+    meta={`3 minutes ago by ${starterName}`}
+    participants={participants.slice(0, 4)}
     onJoin={() => {}}
   />
 </AnatomyStage>
@@ -31,8 +27,8 @@ Widget, which holds the controls while you are in a call.
   is live, grey once it has ended.
 - <Num>2</Num> **Title** — What happened, for example "Call started" or "Call
   ended".
-- <Num>3</Num> **Meta line** — When and by whom, for example "3 minutes ago by
-  Aiko Tan". For an ended call, the duration.
+- <Num>3</Num> **Meta line** — When and by whom, for example "3 minutes ago by"
+  followed by whoever started the call. For an ended call, the duration.
 - <Num>4</Num> **Participants** — A stack of avatars. The first few show and the
   rest collapse into a "+N" count.
 - <Num>5</Num> **Action** — Join call, Leave, or Cancel, depending on the state.

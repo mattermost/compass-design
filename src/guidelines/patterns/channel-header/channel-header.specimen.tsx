@@ -1,29 +1,21 @@
-import {
-  ChannelHeader,
-  workspaceChannels,
-  workspaceCurrentUserId,
-  getWorkspaceUser,
-  type FixtureChannel,
-} from '@mattermost/compass-proto';
+import { ChannelHeader } from '@mattermost/compass-proto';
 import { FixtureChannelHeader } from '@/guidelines/_components/FixtureChannel';
 import styles from '@/styles/library-demo/patterns.module.scss';
+import {
+  headerBotDm,
+  headerChannel,
+  headerGroupDm,
+  headerPersonDm,
+} from './channelHeaderFixtures';
 
-// One real channel of each kind from the sample workspace. The state each
-// variant shows (favorited, muted, a pinned count) is set on purpose, so it does
-// not depend on what the data happens to hold.
-const mine = workspaceChannels.filter((c) =>
-  c.memberIds?.includes(workspaceCurrentUserId),
-);
-const otherIsBot = (c: FixtureChannel) =>
-  Boolean(
-    getWorkspaceUser(
-      c.memberIds?.find((id) => id !== workspaceCurrentUserId) ?? '',
-    )?.isBot,
-  );
-const channel = mine.find((c) => c.type === 'public' && c.purpose);
-const botDm = mine.find((c) => c.type === 'direct' && otherIsBot(c));
-const personDm = mine.find((c) => c.type === 'direct' && !otherIsBot(c));
-const groupDm = mine.find((c) => c.type === 'group');
+// One real channel of each kind from the sample workspace (see
+// channelHeaderFixtures). The state each variant shows (favorited, muted, a
+// pinned count) is set on purpose, so it does not depend on what the data
+// happens to hold.
+const channel = headerChannel;
+const botDm = headerBotDm;
+const personDm = headerPersonDm;
+const groupDm = headerGroupDm;
 
 export default function ChannelHeaderLibrary() {
   return (

@@ -1,43 +1,35 @@
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import { Message } from '@mattermost/compass-proto';
+import { Message, getWorkspaceUser } from '@mattermost/compass-proto';
 import { messageStyles } from '@mattermost/compass-proto';
+import { avatars } from '@/fixtures/avatarRegistry';
+import FixtureMarkdown from '@/guidelines/_components/FixtureMarkdown';
 import Preview from '@/guidelines/_components/Preview';
+import { plainPersonPost } from '@/guidelines/patterns/message/messageFixtures';
 import styles from './MessageGuidelineStates.module.scss';
 
 /**
- * Default vs hover snapshots for the Message pattern guidelines (States section).
+ * Default vs hover snapshots for the Message pattern guidelines (States section),
+ * on a real message from the sample workspace.
  */
-function SampleBody() {
-  return (
-    <p className={messageStyles['message__body-text']}>
-      Short status update for the team.
-    </p>
-  );
-}
-
 export function MessageGuidelineStates() {
+  const post = plainPersonPost;
+  if (!post) return null;
+  const name = getWorkspaceUser(post.userId)?.displayName ?? post.userId;
+  const message = (className?: string) => (
+    <Message
+      className={className}
+      avatarSrc={avatars[post.userId]}
+      avatarAlt={name}
+      username={name}
+      timestamp={post.timestamp}
+    >
+      <FixtureMarkdown text={post.text} />
+    </Message>
+  );
   return (
     <div className={styles['message-states']}>
-      <Preview caption="Default">
-        <Message
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
-          username="Leonard Riley"
-          timestamp="Today at 9:41 AM"
-        >
-          <SampleBody />
-        </Message>
-      </Preview>
+      <Preview caption="Default">{message()}</Preview>
       <Preview caption="Hover">
-        <Message
-          className={messageStyles['message--state-hover']}
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
-          username="Leonard Riley"
-          timestamp="Today at 9:41 AM"
-        >
-          <SampleBody />
-        </Message>
+        {message(messageStyles['message--state-hover'])}
       </Preview>
     </div>
   );
