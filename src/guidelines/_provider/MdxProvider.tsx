@@ -65,6 +65,7 @@ import { GlobalHeaderAnatomyStage } from '@/guidelines/_components/GlobalHeaderG
 import { ProductRailAnatomyStage } from '@/guidelines/_components/ProductRailGuidelineAnatomy';
 import { TeamSidebarAnatomyStage } from '@/guidelines/_components/TeamSidebarGuidelineAnatomy';
 import { ChannelSidebarAnatomyStage } from '@/guidelines/_components/ChannelSidebarGuidelineAnatomy';
+import { MobileChannelSidebarAnatomyStage } from '@/guidelines/_components/MobileChannelSidebarGuidelineAnatomy';
 import { AdminConsoleSidebarAnatomyStage } from '@/guidelines/_components/AdminConsoleSidebarGuidelineAnatomy';
 import { MobileNavigationBarAnatomyStage } from '@/guidelines/_components/MobileNavigationBarGuidelineAnatomy';
 import { MobileModalNavigationBarAnatomyStage } from '@/guidelines/_components/MobileModalNavigationBarGuidelineAnatomy';
@@ -136,6 +137,7 @@ const MDX_COMPONENTS = {
   ProductRailAnatomyStage,
   TeamSidebarAnatomyStage,
   ChannelSidebarAnatomyStage,
+  MobileChannelSidebarAnatomyStage,
   AdminConsoleSidebarAnatomyStage,
   MobileNavigationBarAnatomyStage,
   MobileModalNavigationBarAnatomyStage,
