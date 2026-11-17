@@ -22,7 +22,9 @@ export default function FixtureMarkdown({
         {inline(text.replace(/\s*\n+\s*/g, ' '))}
       </span>
     );
-  return <>{renderBlocks(text.split('\n'))}</>;
+  return (
+    <div className={styles['fixture-md']}>{renderBlocks(text.split('\n'))}</div>
+  );
 }
 
 const HEADING = /^(#{1,6}) +(.*)$/;

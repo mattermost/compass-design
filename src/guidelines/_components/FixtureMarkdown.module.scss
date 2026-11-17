@@ -225,4 +225,16 @@
       text-decoration: underline;
     }
   }
+
+  // The space around a post's parts (text, attachments, reactions) belongs to
+  // the message layout. Keep the margins between blocks inside the text, drop
+  // the ones on its outer edges so they don't add to that spacing. Last in the
+  // file so it wins over the per-block margins above.
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
 }
