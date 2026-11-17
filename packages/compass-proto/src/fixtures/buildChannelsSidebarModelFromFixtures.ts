@@ -20,6 +20,11 @@ export interface BuildChannelsSidebarModelFromFixturesInput {
   activeChannelId?: string;
   /** Avatar registry for direct messages (see `createAvatarRegistry`). */
   avatars?: AvatarRegistry;
+  /**
+   * Adds an Unreads group at the top with the channels that have unread or
+   * mention badges; they are left out of the other groups. Default: false.
+   */
+  showUnreadsCategory?: boolean;
   /** Unread thread mentions for the current user; shown on the Threads row. */
   threadsMentionCount?: number;
   /** Called with the channel id when a row is clicked. */
@@ -28,7 +33,8 @@ export interface BuildChannelsSidebarModelFromFixturesInput {
 
 /**
  * Builds the channels sidebar from fixture channels, from the current user's
- * point of view: Favorites, Channels, then Direct Messages (direct and group).
+ * point of view: Favorites, Channels, then Direct Messages (direct and group),
+ * with an optional Unreads group first.
  * Channels the user isn't a member of are left out, empty groups are omitted,
  * and unread / mention badges come from `unreadCount` and `mentionCount`.
  */
@@ -40,6 +46,7 @@ export function buildChannelsSidebarModelFromFixtures(
     users,
     currentUserId,
     teamId,
+    showUnreadsCategory = false,
     activeChannelId,
     avatars,
     threadsMentionCount = 0,
@@ -100,20 +107,28 @@ export function buildChannelsSidebarModelFromFixtures(
   ) => {
     if (list.length) groups.push({ key, category, items: list.map(row) });
   };
+  // Unread channels move up into their own group when it is on.
+  const unread = (c: FixtureChannel) =>
+    Boolean(c.unreadCount || c.mentionCount);
+  const unreads = showUnreadsCategory ? visible.filter(unread) : [];
+  const rest = showUnreadsCategory
+    ? visible.filter((c) => !unread(c))
+    : visible;
+  add('unreads', { label: 'Unreads', showChevron: false }, unreads);
   add(
     'favorites',
     { label: 'Favorites' },
-    visible.filter((c) => c.favorite),
+    rest.filter((c) => c.favorite),
   );
   add(
     'channels',
     { label: 'Channels' },
-    visible.filter((c) => !c.favorite && !isDirect(c)),
+    rest.filter((c) => !c.favorite && !isDirect(c)),
   );
   add(
     'direct-messages',
     { label: 'Direct Messages', showPlusButton: true },
-    visible.filter((c) => !c.favorite && isDirect(c)),
+    rest.filter((c) => !c.favorite && isDirect(c)),
   );
 
   const threads: ChannelsSidebarItemModel = {

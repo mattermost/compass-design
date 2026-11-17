@@ -479,6 +479,8 @@ for (const [index, src] of sources.entries()) {
       userId: p.user,
       text: tok(p.text),
       timestamp: display(p.when),
+      // ISO 8601 (UTC): for ordering across channels. `timestamp` is derived from it.
+      createdAt: new Date(p.when).toISOString(),
     };
     if (p.reply) post.rootId = p.root.id;
     if (p.type === 'custom_run_update') {

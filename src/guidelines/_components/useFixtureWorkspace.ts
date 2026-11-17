@@ -124,6 +124,7 @@ export function useFixtureWorkspace({
 
   return {
     team,
+    selectTeam,
     channel,
     /** Every channel, for lookups such as a permalink's channel name. */
     channels: cyberDefenseChannels,

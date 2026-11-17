@@ -70,6 +70,8 @@ export interface FixturePost {
   text: string;
   /** Display timestamp, e.g. "Today at 9:41 AM". Fixed strings keep stories deterministic. */
   timestamp: string;
+  /** When the post was made, as an ISO 8601 UTC string. For ordering across channels; `timestamp` is what to show. */
+  createdAt?: string;
   /** Set on replies: id of the thread's root post. */
   rootId?: string;
   /**

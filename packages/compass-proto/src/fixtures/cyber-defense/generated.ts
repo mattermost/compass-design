@@ -1044,6 +1044,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '/cyber-defense-hq/pl/p-wgqiecfi',
     timestamp: 'May 13 at 1:16 AM',
+    createdAt: '2026-05-13T01:16:20.000Z',
     permalinkPostId: 'p-wgqiecfi',
     edited: true,
   },
@@ -1053,6 +1054,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@jthomas paged',
     timestamp: 'May 13 at 1:16 AM',
+    createdAt: '2026-05-13T01:16:52.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'PagerDuty',
@@ -1065,6 +1067,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- Severity: #sev-2\n- Detected: 4:08 PM PT\n- Incident Type: SaaS Credential Abuse via Legacy IMAP\n- Affected User: jacob.renner@acme-corp.io\n- Source IP: 203.0.113.45 (Romania)\n- Accessed System: Internal Confluence (read-only)\n- Initial Impact: Unauthorized login → internal page access\n\n**✅ Immediate Actions Taken:**\n- Account locked and sessions revoked\n- IMAP disabled for the user\n- IOC set uploaded and shared\n- No external exposure identified',
     timestamp: 'May 13 at 1:20 AM',
+    createdAt: '2026-05-13T01:20:43.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🚨 INC-1281 Credential Compromise',
@@ -1089,6 +1092,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: '### Initial Triage\nConfirmed alert details — credential spray succeeded on a user with legacy IMAP enabled. Account locked via AzureAD. Moving to token revocation.',
     timestamp: 'May 13 at 1:23 AM',
+    createdAt: '2026-05-13T01:23:26.000Z',
   },
   {
     id: 'cyber-defense-hq/inc-1281-credential-comp-5',
@@ -1096,6 +1100,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'amccall',
     text: 'Just issued:\n\n```powershell\nSet-CASMailbox -Identity "jacob.renner" -ImapEnabled $false  \nRemove-AzureADUserAllRefreshToken -ObjectId <GUID>\n```\nSession dead, IMAP blocked. This was an exception legacy service account — updating profile immediately.',
     timestamp: 'May 13 at 1:25 AM',
+    createdAt: '2026-05-13T01:25:26.000Z',
   },
   {
     id: 'cyber-defense-hq/inc-1281-credential-comp-6',
@@ -1103,6 +1108,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: 'Telemetry shows a tight window. Login occurred at 16:03 UTC, session ran ~4 mins before SIEM fired. Confluence access began 90 seconds after login.',
     timestamp: 'May 13 at 1:27 AM',
+    createdAt: '2026-05-13T01:27:42.000Z',
     followerIds: ['admin', 'ataylor', 'hanas', 'mattermost-ai-agent'],
     files: [
       {
@@ -1118,6 +1124,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mcruz',
     text: '### Threat Intel Review\nIP `203.0.113.45` mapped to SentryMBA infrastructure, Romanian source, active since April. Download signature matches curl/wget tool usage.',
     timestamp: 'May 13 at 1:29 AM',
+    createdAt: '2026-05-13T01:29:05.000Z',
     followerIds: ['hanas', 'mcruz'],
   },
   {
@@ -1126,6 +1133,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: 'Notably precise — slow spray, then immediate target access. We’ve seen similar profiles targeting our Jira subdomain last quarter.',
     timestamp: 'May 13 at 1:29 AM',
+    createdAt: '2026-05-13T01:29:49.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-9',
   },
   {
@@ -1134,6 +1142,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mcruz',
     text: 'IOC set uploaded: `/case-artifacts/ioc_sentrymba_0516.yml`\nSharing to private MISP instance.',
     timestamp: 'May 13 at 1:30 AM',
+    createdAt: '2026-05-13T01:30:32.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-9',
   },
   {
@@ -1142,6 +1151,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ebond',
     text: '### Cross-Platform Impact Review\nAudit shows:\n```\n- GET /spaces/ENG/pages/VULN-DASH-2025  \n- Headers: curl/8.1  \n- IP: 203.0.113.45  \n- Total files accessed: 5  \n- No downloads >500kB  \n```',
     timestamp: 'May 13 at 1:47 AM',
+    createdAt: '2026-05-13T01:47:07.000Z',
     followerIds: ['ebond', 'hanas'],
   },
   {
@@ -1150,6 +1160,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: 'Okta blocked a parallel auth attempt from the same subnet — attacker likely probed other paths but was stopped by MFA.',
     timestamp: 'May 13 at 1:47 AM',
+    createdAt: '2026-05-13T01:47:46.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-12',
   },
   {
@@ -1158,6 +1169,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'karmstrong',
     text: '### Stakeholder Messaging\nDrafting an advisory. Please provide feedback:\n> "Internal account access via legacy protocol. No external data touched. Immediate containment performed."\nSent to CS, Comms, and Legal. Recommending no disclosure at this time.',
     timestamp: 'May 13 at 1:49 AM',
+    createdAt: '2026-05-13T01:49:45.000Z',
   },
   {
     id: 'p-yotdz9r8',
@@ -1165,6 +1177,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- User account compromised via credential spray\n- Legacy IMAP path exploited\n- Confluence access confirmed (non-privileged internal pages)\n- Session terminated, IOC set identified\n- Org-wide protocol audit underway\n- No breach or downstream access detected',
     timestamp: 'May 13 at 1:50 AM',
+    createdAt: '2026-05-13T01:50:38.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🚨 INC-1281 Credential Compromise',
@@ -1189,6 +1202,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: "### Postmortem Retrospective Planning\nLet’s plan the retro for Friday, 10 AM PT. Scope will include detection timing, protocol exemptions, and communications handling. Please acknowledge you've seen this.",
     timestamp: 'May 13 at 1:53 AM',
+    createdAt: '2026-05-13T01:53:05.000Z',
     edited: true,
     priority: 'important',
     requestAck: true,
@@ -1214,6 +1228,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'karmstrong',
     text: 'I’ll prep a timeline and pull internal comms. Let me know if we want to include draft disclosures too.',
     timestamp: 'May 13 at 1:53 AM',
+    createdAt: '2026-05-13T01:53:28.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-16',
   },
   {
@@ -1222,6 +1237,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'amccall',
     text: "Will export the session logs and control actions. I'll annotate steps taken and add them to `/case-artifacts/`.",
     timestamp: 'May 13 at 1:54 AM',
+    createdAt: '2026-05-13T01:54:21.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-16',
   },
   {
@@ -1230,6 +1246,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mcruz',
     text: 'I’ll gather the intel correlations and IOC set notes for context. Also tracking any reused infrastructure indicators.',
     timestamp: 'May 13 at 1:54 AM',
+    createdAt: '2026-05-13T01:54:44.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-16',
   },
   {
@@ -1238,6 +1255,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: 'Perfect. Retro invite going out shortly — let’s make sure all gaps and response deltas are covered clearly.',
     timestamp: 'May 13 at 1:55 AM',
+    createdAt: '2026-05-13T01:55:08.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-16',
   },
   {
@@ -1246,6 +1264,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: '@jthomas please include me on the invite as well. Thanks!',
     timestamp: 'May 27 at 9:37 PM',
+    createdAt: '2026-05-27T21:37:14.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-16',
   },
   {
@@ -1254,6 +1273,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: '@mattermost-ai-agent Please summarize the sequence of events in the attachment.',
     timestamp: 'Jun 19 at 5:45 PM',
+    createdAt: '2026-06-19T17:45:13.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-6',
   },
   {
@@ -1262,6 +1282,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '- 16:03:12 UTC: Successful login via IMAP from IP 185.34.62.189  \n- 16:03:45 UTC: Session established from the same IP  \n- 16:04:23 UTC: Confluence page accessed (/spaces/ENG/pages/VULN-DASH-2025) from the same IP  \n- 16:08:01 UTC: SIEM alert generated by localhost\n\nSequence: Attacker logged in, established session, accessed a sensitive Confluence page in under 2 minutes, and the SIEM alert triggered approximately 4 minutes after the initial login.',
     timestamp: 'Jun 19 at 5:45 PM',
+    createdAt: '2026-06-19T17:45:13.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-6',
     kind: 'bot-reply',
     requestedById: 'ataylor',
@@ -1280,6 +1301,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: 'Call ended',
     timestamp: 'Oct 22 at 7:44 PM',
+    createdAt: '2026-10-22T19:44:50.000Z',
     kind: 'call',
     call: {
       startedAt: 'Oct 22 at 7:44 PM',
@@ -1304,6 +1326,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: 'Just dropped the full session trace into `/case-artifacts/session_trace_0516.json`. It shows token activity post-login. Take a look.',
     timestamp: 'Oct 22 at 7:45 PM',
+    createdAt: '2026-10-22T19:45:31.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
   },
   {
@@ -1312,6 +1335,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'amccall',
     text: 'Heads-up — one other internal account shows similar auth pattern, but login failed. No successful access, still reviewing.',
     timestamp: 'Oct 22 at 7:45 PM',
+    createdAt: '2026-10-22T19:45:42.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
     reactions: [
       {
@@ -1326,6 +1350,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'amccall',
     text: 'Flagging for retro: need to revisit our legacy auth exemption list. Might be time to phase it out entirely.',
     timestamp: 'Oct 22 at 7:45 PM',
+    createdAt: '2026-10-22T19:45:53.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
   },
   {
@@ -1334,6 +1359,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ebond',
     text: 'Yes, good call. Let’s add that to the postmortem agenda — we can also discuss if we expand MFA to include service accounts.',
     timestamp: 'Oct 22 at 7:46 PM',
+    createdAt: '2026-10-22T19:46:05.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
     reactions: [
       {
@@ -1348,6 +1374,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'callsbot',
     text: 'Here is the call transcript:',
     timestamp: 'Oct 22 at 7:53 PM',
+    createdAt: '2026-10-22T19:53:32.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
     files: [
       {
@@ -1363,6 +1390,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: '@threat-analyzer-ai please summarize the call transcript and identify next steps.',
     timestamp: 'Oct 22 at 7:53 PM',
+    createdAt: '2026-10-22T19:53:39.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
   },
   {
@@ -1371,6 +1399,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'threat-analyzer-ai',
     text: '**Summary of Call Transcript (incident_0561_call_transcript.vtt):**\n\n- **Confirmed Incident:**  \n  Successful login achieved via credential spray attack using IMAP against a legacy-exempt (no MFA) account.  \n  Initial access timestamp: 4:03 PM PT.\n\n- **Immediate Response Actions:**  \n  - Account locked in AzureAD; active sessions terminated.  \n  - IMAP disabled for that user.  \n  - IP address involved (203.0.113.45, Romania) recognized from prior SentryMBA activity.  \n  - No evidence of broad scanning; attack was targeted.\n\n- **Attacker Actions:**  \n  - Accessed Confluence 90 seconds after login (read-only, Engineering space).  \n  - No large downloads or sensitive data observed so far.  \n  - No indicators of external data exfiltration.\n\n- **Detection & Investigative Notes:**  \n  - SIEM alert delayed by about 5 minutes after login.  \n  - Attacker used “curl/8.1” as the request user-agent.  \n  - Confluence logs corroborate limited, low-impact access.\n\n- **Operational Actions:**  \n  - Incident classified as critical but contained, with no customer impact.  \n  - IOCs to be distributed internally (MISP and Intel distro).  \n  - Sweep under way for all accounts with legacy authentication enabled, and blocking suspicious IPs.  \n  - Hunt started for failed login attempts and matching attack patterns across last 7 days, and SaaS logs.\n\n- **Communications:**  \n  - Stakeholder communication being prepared for CS, Legal, Executives.\n\n**Next Steps Raised During Call and Recommendations:**\n\n1. **IOC Distribution:**  \n   - Mary (Intel) to publish IOCs to MISP and notify internal Intel distro group.\n\n2. **Legacy Auth Sweep:**  \n   - Adam (Triage) to compile list of all legacy-auth-enabled accounts and complete IMAP/POP3 sweeps.  \n   - IP address (203.0.113.45) to be blocked at the edge.\n\n3. **Broader Hunt:**  \n   - Huzaifa (Detection) to flag failed attempts from attacker subnet over past 7 days.  \n   - Pivot in SIEM and SaaS logs for matching request headers (“curl/8.1”).\n\n4. **Incident Documentation & Communication:**  \n   - Maintain complete logs in the designated incident channel and case folder.  \n   - Internal comms to be distributed in 10 minutes to stakeholders; updates to continue.\n\n5. **Scheduled Checkpoint:**  \n   - Next status checkpoint set for 4:50 PM PT.\n\n**Additional Recommendations:**\n- Continue monitoring for signs of data exfiltration or lateral movement.\n- Ensure all legacy authentication exceptions are reviewed, and consider accelerating their deprecation.\n- Evaluate expanding MFA to cover service accounts.\n- Investigate other accounts showing similar suspicious authentication patterns as flagged by @amccall.\n\n**Current Status:**\nIncident is contained, with rapid response actions underway. No customer impact or sensitive data exposure identified at this stage.',
     timestamp: 'Oct 22 at 7:53 PM',
+    createdAt: '2026-10-22T19:53:39.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
     kind: 'bot-reply',
     requestedById: 'jthomas',
@@ -1393,6 +1422,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: '@ataylor please review this call summary when you get online ^',
     timestamp: 'Oct 22 at 7:55 PM',
+    createdAt: '2026-10-22T19:55:49.000Z',
     rootId: 'cyber-defense-hq/inc-1281-credential-comp-22',
   },
   {
@@ -1401,6 +1431,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp)\n@admin ran the [SaaS Credential Abuse Response](/playbooks/playbooks/saas-credential-abuse-response) playbook.',
     timestamp: 'May 13 at 1:15 AM',
+    createdAt: '2026-05-13T01:15:21.000Z',
     followerIds: ['admin', 'playbooks'],
   },
   {
@@ -1409,6 +1440,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- Severity: #sev-2\n- Detected: 4:08 PM PT\n- Incident Type: SaaS Credential Abuse via Legacy IMAP\n- Affected User: jacob.renner@acme-corp.io\n- Source IP: 203.0.113.45 (Romania)\n- Accessed System: Internal Confluence (read-only)\n- Initial Impact: Unauthorized login → internal page access\n\n**✅ Immediate Actions Taken:**\n- Account locked and sessions revoked\n- IMAP disabled for the user\n- IOC set uploaded and shared\n- No external exposure identified',
     timestamp: 'May 13 at 1:20 AM',
+    createdAt: '2026-05-13T01:20:43.000Z',
     rootId: 'cyber-defense-hq/incident-status-updates-1',
     kind: 'run-update',
     runUpdate: {
@@ -1434,6 +1466,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: '/cyber-defense-hq/pl/p-ptmb7rki',
     timestamp: 'May 13 at 1:21 AM',
+    createdAt: '2026-05-13T01:21:12.000Z',
     permalinkPostId: 'p-ptmb7rki',
   },
   {
@@ -1442,6 +1475,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Final Status Update: Credential Compromise (INC-1281)\n✅ Incident contained\n✅ Impact limited to internal content\n✅ Session and account hardened\n✅ All checklist tasks complete\n📅 Retrospective: Friday 10 AM PT\n📁 Artifacts: `/case-artifacts/`\n\nGreat job moving fast under pressure. Let’s document thoroughly and tune what we need for next time.',
     timestamp: 'May 13 at 1:57 AM',
+    createdAt: '2026-05-13T01:57:40.000Z',
     rootId: 'cyber-defense-hq/incident-status-updates-1',
     kind: 'run-update',
     runUpdate: {
@@ -1467,6 +1501,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- User account compromised via credential spray\n- Legacy IMAP path exploited\n- Confluence access confirmed (non-privileged internal pages)\n- Session terminated, IOC set identified\n- Org-wide protocol audit underway\n- No breach or downstream access detected',
     timestamp: 'Oct 20 at 3:09 PM',
+    createdAt: '2026-10-20T15:09:04.000Z',
     rootId: 'cyber-defense-hq/incident-status-updates-1',
     kind: 'run-update',
     runUpdate: {
@@ -1493,6 +1528,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- User account compromised via credential spray\n- Legacy IMAP path exploited\n- Confluence access confirmed (non-privileged internal pages)\n- Session terminated, IOC set identified\n- Org-wide protocol audit underway\n- No breach or downstream access detected',
     timestamp: 'Oct 24 at 7:45 PM',
+    createdAt: '2026-10-24T19:45:32.000Z',
     rootId: 'cyber-defense-hq/incident-status-updates-1',
     kind: 'run-update',
     runUpdate: {
@@ -1519,6 +1555,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- User account compromised via credential spray\n- Legacy IMAP path exploited\n- Confluence access confirmed (non-privileged internal pages)\n- Session terminated, IOC set identified\n- Org-wide protocol audit underway\n- No breach or downstream access detected',
     timestamp: 'Oct 24 at 7:49 PM',
+    createdAt: '2026-10-24T19:49:22.000Z',
     rootId: 'cyber-defense-hq/incident-status-updates-1',
     kind: 'run-update',
     runUpdate: {
@@ -1545,6 +1582,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### 🔐 Warning: Multiple failed login attempts detected',
     timestamp: 'May 22 at 9:33 PM',
+    createdAt: '2026-05-22T21:33:32.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Microsoft Sentinel',
@@ -1597,6 +1635,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### 🛑 Critical: Ransomware signature detected on WIN-LAPTOP-0921',
     timestamp: 'May 22 at 9:37 PM',
+    createdAt: '2026-05-22T21:37:21.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Microsoft Defender',
@@ -1637,6 +1676,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### ⚠️ Warning: Privilege escalation outside maintenance window',
     timestamp: 'May 22 at 9:40 PM',
+    createdAt: '2026-05-22T21:40:35.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Microsoft Sentinel',
@@ -1683,6 +1723,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### 📤 Alert: Excessive outbound traffic from db-prod-7',
     timestamp: 'May 22 at 9:43 PM',
+    createdAt: '2026-05-22T21:43:40.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Splunk',
@@ -1735,6 +1776,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Alert: Phishing email with malicious PDF',
     timestamp: 'May 22 at 9:48 PM',
+    createdAt: '2026-05-22T21:48:55.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Microsoft Defender',
@@ -1781,6 +1823,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Device compliance failure - corporate policy violation',
     timestamp: 'May 22 at 9:53 PM',
+    createdAt: '2026-05-22T21:53:12.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Microsoft Intune',
@@ -1833,6 +1876,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Alert: Spike in 5xx errors from production API gateway',
     timestamp: 'May 22 at 9:58 PM',
+    createdAt: '2026-05-22T21:58:47.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Splunk',
@@ -1885,6 +1929,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Alert: Credential Abuse Detected',
     timestamp: 'May 22 at 10:01 PM',
+    createdAt: '2026-05-22T22:01:30.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Microsoft Sentinel',
@@ -1954,6 +1999,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: 'Already reached out to finance for confirmation. We should also check who else might have been targeted',
     timestamp: 'May 27 at 9:31 PM',
+    createdAt: '2026-05-27T21:31:08.000Z',
     rootId: 'cyber-defense-hq/security-alerts-6',
     reactions: [
       {
@@ -1968,6 +2014,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: '@hanas can you check into this one please?',
     timestamp: 'May 27 at 9:35 PM',
+    createdAt: '2026-05-27T21:35:38.000Z',
     rootId: 'p-wgqiecfi',
   },
   {
@@ -1976,6 +2023,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kchegg',
     text: 'Flagging anomaly in data egress panel now.',
     timestamp: 'May 27 at 9:42 PM',
+    createdAt: '2026-05-27T21:42:57.000Z',
     rootId: 'cyber-defense-hq/security-alerts-4',
     reactions: [
       {
@@ -1990,6 +2038,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@threat-analyzer-ai please summarize the threat and suggest next steps',
     timestamp: 'Nov 6 at 4:25 PM',
+    createdAt: '2026-11-06T16:25:28.000Z',
     rootId: 'p-wgqiecfi',
   },
   {
@@ -1998,6 +2047,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'threat-analyzer-ai',
     text: 'Summary:  \nA critical alert indicates that jacob.renner@acme-corp.io experienced 1,057 failed login attempts via legacy IMAP from a Romania-based IP (203.0.113.45), followed by a successful login. The account then accessed internal Confluence pages. This pattern strongly suggests a brute-force credential attack succeeded, resulting in unauthorized access.\n\nRisk:  \n- High confidence credential compromise.\n- Potential access to sensitive internal documentation and possible lateral movement.\n\nRecommended Next Steps:\n1. Immediately disable or lock jacob.renner@acme-corp.io’s account.\n2. Invalidate all active sessions for this user.\n3. Begin a password reset for the affected account and review other high-privilege accounts for similar activity.\n4. Investigate access logs in Confluence for data exfiltration or unusual activity from the user.\n5. Block or monitor traffic from the source IP (203.0.113.45) at your perimeter.\n6. Initiate company-wide review for other brute-force patterns—focus on legacy protocols.\n7. Notify user (Jacob Renner) and IT management. Consider requiring multi-factor authentication (MFA) where possible.\n8. Preserve logs for forensics and report incident per internal policy. \n\nImmediate escalation is warranted given confirmed credential compromise and internal access.',
     timestamp: 'Nov 6 at 4:25 PM',
+    createdAt: '2026-11-06T16:25:28.000Z',
     rootId: 'p-wgqiecfi',
     kind: 'bot-reply',
     requestedById: 'admin',
@@ -2010,6 +2060,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '“@threat-analyzer-ai what is the procedure for escalating this?',
     timestamp: 'Nov 6 at 4:25 PM',
+    createdAt: '2026-11-06T16:25:48.000Z',
     rootId: 'p-wgqiecfi',
   },
   {
@@ -2018,6 +2069,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'threat-analyzer-ai',
     text: 'Escalation Procedure:\n\n1. **Immediate Notification**: Notify the security incident response team and IT management about the confirmed credential compromise and potential data exposure.\n\n2. **Account Containment**: Disable or lock the compromised user account (jacob.renner@acme-corp.io). Invalidate any active sessions.\n\n3. **Evidence Preservation**: Secure and preserve all relevant logs (authentication, IMAP, Confluence access) for investigation and forensic analysis.\n\n4. **Triage & Incident Classification**: Classify the incident severity (Critical: confirmed compromise with internal access) and document the details (user, source IP, method, sequence, affected resources).\n\n5. **Investigation & Impact Assessment**:\n    - Analyze what actions the attacker performed after accessing Confluence.\n    - Review for lateral movement or further suspicious activity.\n\n6. **Stakeholder Notification**: Alert legal/compliance and, if policy requires, upper management and communications teams.\n\n7. **Remediation Guidance**: Follow containment and remediation steps (password resets, block malicious IPs, force MFA, scan for related brute-force activity).\n\n8. **Reporting**: File a report in your incident management system and update incident response documentation.\n\nRefer to your organization’s Incident Response Plan for specific roles, contacts, and reporting timelines.  \nFor additional detail on escalation processes in Mattermost, see the guidance at [docs.mattermost.com](https://docs.mattermost.com).',
     timestamp: 'Nov 6 at 4:25 PM',
+    createdAt: '2026-11-06T16:25:48.000Z',
     rootId: 'p-wgqiecfi',
     kind: 'bot-reply',
     requestedById: 'admin',
@@ -2030,6 +2082,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@kchegg - let’s please loop in your team to coordinate a response.',
     timestamp: 'Nov 6 at 4:26 PM',
+    createdAt: '2026-11-06T16:26:27.000Z',
     rootId: 'p-wgqiecfi',
   },
   {
@@ -2038,6 +2091,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'boards',
     text: '@admin linked the board [Untitled board](/boards/team/cyber-defense-hq/threat-discussion-tasks) with this channel',
     timestamp: 'May 7 at 9:18 PM',
+    createdAt: '2026-05-07T21:18:45.000Z',
   },
   {
     id: 'cyber-defense-hq/threat-discussions-2',
@@ -2045,6 +2099,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kchegg',
     text: '### Qakbot\nSeeing some chatter about QakBot re-emerging with new C2 domains. Anyone tracking this?',
     timestamp: 'May 8 at 12:25 AM',
+    createdAt: '2026-05-08T00:25:37.000Z',
     edited: true,
     followerIds: ['aarthur', 'kchegg'],
   },
@@ -2054,6 +2109,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kchegg',
     text: 'I’ll run this through MISP and see what turns up',
     timestamp: 'May 8 at 12:25 AM',
+    createdAt: '2026-05-08T00:25:59.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-2',
   },
   {
@@ -2062,6 +2118,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aarthur',
     text: 'Can sandbox a recent sample and grab PCAPs if we want visibility',
     timestamp: 'May 8 at 12:26 AM',
+    createdAt: '2026-05-08T00:26:56.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-2',
   },
   {
@@ -2070,6 +2127,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'amccall',
     text: '### AWS Failed Logins Spike\nNoticing a spike in failed logins from AWS IPs across multiple endpoints. Could be a password spraying op? 👀',
     timestamp: 'May 8 at 12:28 AM',
+    createdAt: '2026-05-08T00:28:17.000Z',
     followerIds: ['amccall', 'jthomas'],
   },
   {
@@ -2078,6 +2136,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'amccall',
     text: 'I’ll look into login telemetry from our SIEM',
     timestamp: 'May 8 at 12:29 AM',
+    createdAt: '2026-05-08T00:29:12.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-5',
   },
   {
@@ -2086,6 +2145,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: 'If confirmed, let’s kick off a mini-investigation',
     timestamp: 'May 8 at 12:30 AM',
+    createdAt: '2026-05-08T00:30:21.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-5',
   },
   {
@@ -2094,6 +2154,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kchegg',
     text: '### Alert IP Identified in RDP-Targeting Botnet\n@wdaniel GreyNoise just tagged one of our recent alert IPs as part of a botnet targeting RDP services. Worth digging deeper?',
     timestamp: 'May 8 at 12:25 PM',
+    createdAt: '2026-05-08T12:25:53.000Z',
     followerIds: ['kchegg', 'wdaniel'],
   },
   {
@@ -2102,6 +2163,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'wdaniel',
     text: 'I’ll update our SOAR logic to track these signatures',
     timestamp: 'May 8 at 12:26 PM',
+    createdAt: '2026-05-08T12:26:58.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-8',
   },
   {
@@ -2110,6 +2172,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kchegg',
     text: 'We saw something similar last quarter — I’ll check timelines.',
     timestamp: 'May 8 at 12:27 PM',
+    createdAt: '2026-05-08T12:27:48.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-8',
   },
   {
@@ -2118,6 +2181,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'areid',
     text: '### DNS tunneling from dev\nDarktrace flagged DNS tunneling behavior from a dev box. Any chance this could be a legit test tool?',
     timestamp: 'May 8 at 12:35 PM',
+    createdAt: '2026-05-08T12:35:33.000Z',
     edited: true,
     followerIds: ['aarthur', 'areid'],
   },
@@ -2127,6 +2191,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aarthur',
     text: 'Running the hostname through lab telemetry. Will verify whether any exfil was staged.',
     timestamp: 'May 8 at 12:37 PM',
+    createdAt: '2026-05-08T12:37:03.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-11',
   },
   {
@@ -2135,6 +2200,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aarthur',
     text: 'Reviewing a payload that uses LOLBins to evade AV detection. Anyone want to help reverse this? 🛠️',
     timestamp: 'May 8 at 12:37 PM',
+    createdAt: '2026-05-08T12:37:24.000Z',
     followerIds: ['aarthur', 'ebond'],
   },
   {
@@ -2143,6 +2209,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ebond',
     text: 'I’ll snapshot the system and pull memory artifacts',
     timestamp: 'May 8 at 12:37 PM',
+    createdAt: '2026-05-08T12:37:51.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-13',
   },
   {
@@ -2151,6 +2218,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aarthur',
     text: 'Appreciate it @ebond. I’ll de-obfuscate the initial PowerShell dropper',
     timestamp: 'May 8 at 12:38 PM',
+    createdAt: '2026-05-08T12:38:26.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-13',
   },
   {
@@ -2159,6 +2227,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hstevens',
     text: '### Phishing Payload Simulation\nRed Canary posted updated Atomic Red Team tests for phishing payload delivery. Worth integrating?',
     timestamp: 'May 8 at 12:40 PM',
+    createdAt: '2026-05-08T12:40:19.000Z',
     followerIds: ['hstevens'],
   },
   {
@@ -2167,6 +2236,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hstevens',
     text: 'I’ve already forked it into our internal testing repo',
     timestamp: 'May 8 at 12:40 PM',
+    createdAt: '2026-05-08T12:40:27.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-16',
   },
   {
@@ -2175,6 +2245,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mcruz',
     text: '### Spike in Phishing Activity and Okta Spoofs\nAnyone else seeing more fake Okta login pages? We caught two this week through our phishing alerts. Might be worth a Friday phishing refresher for users.',
     timestamp: 'May 8 at 1:22 PM',
+    createdAt: '2026-05-08T13:22:57.000Z',
     followerIds: ['admin', 'hanas', 'jthomas', 'mcruz'],
   },
   {
@@ -2183,6 +2254,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mcruz',
     text: '### Malicious Invoice PDF with Macro Payload\nUser submitted a PDF invoice with embedded macro + encoded PowerShell. Sending it to the sandbox now.',
     timestamp: 'May 8 at 1:27 PM',
+    createdAt: '2026-05-08T13:27:24.000Z',
     followerIds: ['aarthur', 'areid', 'ebond', 'mcruz'],
   },
   {
@@ -2191,6 +2263,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: 'I added detections for recent fake domains — pushing to QA tonight',
     timestamp: 'May 8 at 1:28 PM',
+    createdAt: '2026-05-08T13:28:02.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-18',
   },
   {
@@ -2199,6 +2272,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: 'People are tired and clicky on Fridays. Let’s consider suppressing non-urgent phishing alerts heading into the weekend.',
     timestamp: 'May 8 at 1:28 PM',
+    createdAt: '2026-05-08T13:28:42.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-18',
   },
   {
@@ -2207,6 +2281,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aarthur',
     text: "I'll load the doc into our emulation stack. Could be part of a known malware family.",
     timestamp: 'May 8 at 1:30 PM',
+    createdAt: '2026-05-08T13:30:23.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-22',
   },
   {
@@ -2215,6 +2290,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ebond',
     text: 'Share the SHA256 when you can — I’ll check it against our IR triage history.',
     timestamp: 'May 8 at 1:31 PM',
+    createdAt: '2026-05-08T13:31:10.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-22',
   },
   {
@@ -2223,6 +2299,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: '### Detection Tuning — Azure Logins & SSH False Positives\nJust wrote new logic for Azure login anomalies — velocity, geo, and impossible travel checks. Testing in QA.',
     timestamp: 'May 8 at 2:01 PM',
+    createdAt: '2026-05-08T14:01:57.000Z',
     reactions: [
       {
         emoji: '🥳',
@@ -2237,6 +2314,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hstevens',
     text: 'Nice @hanas, share the syntax once it stabilizes — I’ll convert it to Sigma',
     timestamp: 'May 8 at 2:02 PM',
+    createdAt: '2026-05-08T14:02:36.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-26',
   },
   {
@@ -2245,6 +2323,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'wdaniel',
     text: 'Our Splunk SSH brute-force rule is triggering on legitimate dev activity again. Might be time to carve out test accounts.',
     timestamp: 'May 8 at 2:03 PM',
+    createdAt: '2026-05-08T14:03:36.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-26',
   },
   {
@@ -2253,6 +2332,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hstevens',
     text: "I'll patch the rule to allowlist dev VMs tagged `devbox-*`.",
     timestamp: 'May 8 at 2:04 PM',
+    createdAt: '2026-05-08T14:04:03.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-26',
   },
   {
@@ -2261,6 +2341,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'karmstrong',
     text: "Running a hunt for lateral movement this week. Any specific log sources you'd like added @ebond @aarthur @kchegg?",
     timestamp: 'May 8 at 2:05 PM',
+    createdAt: '2026-05-08T14:05:05.000Z',
     edited: true,
     followerIds: ['aarthur', 'ebond', 'karmstrong', 'kchegg'],
   },
@@ -2270,6 +2351,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ebond',
     text: 'Include Netlogon and session change logs — might help us catch quiet pivots.',
     timestamp: 'May 8 at 2:05 PM',
+    createdAt: '2026-05-08T14:05:29.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-30',
   },
   {
@@ -2278,6 +2360,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aarthur',
     text: 'Loop in service account access too — often overlooked in lateral movement.',
     timestamp: 'May 8 at 2:06 PM',
+    createdAt: '2026-05-08T14:06:04.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-30',
   },
   {
@@ -2286,6 +2369,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kchegg',
     text: 'Interesting pivot: a threat actor in a recent breach reused GitHub usernames in their malware config. Might be a detection angle there.',
     timestamp: 'May 8 at 2:06 PM',
+    createdAt: '2026-05-08T14:06:48.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-30',
   },
   {
@@ -2294,6 +2378,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hstevens',
     text: '### IOC Tagging Structure and CVE Mapping\nI’m updating our IOC tagging schema to better capture phishing types and CVEs. cc @rhull',
     timestamp: 'May 8 at 2:20 PM',
+    createdAt: '2026-05-08T14:20:21.000Z',
     reactions: [
       {
         emoji: '🙏',
@@ -2308,6 +2393,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rhull',
     text: '@hstevens let’s include NIST CVE tags if we want to map these into our compliance dashboards.',
     timestamp: 'May 8 at 2:20 PM',
+    createdAt: '2026-05-08T14:20:51.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-34',
   },
   {
@@ -2316,6 +2402,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'areid',
     text: 'Please loop in @jthomas as well.',
     timestamp: 'May 27 at 9:47 PM',
+    createdAt: '2026-05-27T21:47:09.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-34',
     edited: true,
   },
@@ -2325,6 +2412,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'areid',
     text: "Let's escalate this in the ~security-alert channel for visibility.",
     timestamp: 'May 27 at 9:53 PM',
+    createdAt: '2026-05-27T21:53:14.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-22',
   },
   {
@@ -2333,6 +2421,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mcruz',
     text: '### EDR Observations and WMI Blind Spots\nAnyone watch the latest MITRE Engenuity EDR evals? Our tool caught the credential dump but missed lateral via `WMI`. 😬\n\nThe attack used fairly standard process-to-process launches with no obvious anomalies in parent/child relationships, so it blended into normal admin patterns. We’re depending too heavily on command-line visibility here, and it seems like we’re still not correlating `WMI` event logs (like `Microsoft-Windows-WMI-Activity/Operational EventID 5857/5858`) with follow-on remote execution such as `wmic process call create` or `Win32_Process spawns`.\n\nI pulled together a [quick snapshot](https://mattermost.com/solutions/use-cases/integrated-security-operations/) from our internal replication run:\n\n| Technique | Procedure Tested | Expected Signal | Actual Signal | Notes |\n| --- | --- | --- | --- | --- |\n| `T1003.001` LSASS Dumping | `procdump64.exe -ma lsass.exe` | Alert + Memory Access Trace | **Detected** | Normal behavior, no issues. |\n| `T1047` WMI Exec | `wmic process call create calc.exe` | Remote Exec + Parent Link | **Missed** | No correlation between WMI logs and process creation. |\n| `T1021.002` SMB Lateral Movement | `psexec.exe /accepteula cmd.exe` | Remote Service Creation | **Partially Detected** | Flagged service install but not interactive session. |\n| `T1059.001` PowerShell Execution | `powershell -enc <payload>` | Script Block + AMSI Event | **Detected** | Telemetry merged as expected. |\n| `T1547.001` Registry Autoruns | `reg add ...\\Run` | Persistence Change | **Detected** | No deviation from baseline. |',
     timestamp: 'Oct 16 at 11:24 PM',
+    createdAt: '2026-10-16T23:24:24.000Z',
     priority: 'urgent',
     requestAck: true,
     acknowledgements: [
@@ -2357,6 +2446,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: 'EDR flagged `mimikatz.exe` running on a staging server. Could be legit testing, but I’m logging it just in case.',
     timestamp: 'Oct 16 at 11:25 PM',
+    createdAt: '2026-10-16T23:25:16.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-37',
   },
   {
@@ -2365,6 +2455,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: '@threat-analyzer-ai please suggest next actions for this',
     timestamp: 'Oct 16 at 11:27 PM',
+    createdAt: '2026-10-16T23:27:17.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-37',
   },
   {
@@ -2373,6 +2464,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'threat-analyzer-ai',
     text: '**Risk Rating:** Elevated—Confirmed credential dumping tool execution on a staging server. Legitimate testing is possible, but this behavior is frequently associated with active compromise.\n\n**Recommended Next Actions:**\n\n1. **Verify Legitimacy:**\n   - Contact the server owner or relevant team to confirm if the use of `mimikatz.exe` was authorized (e.g., part of scheduled testing or red team activity).\n\n2. **Containment (if unauthorized or unclear):**\n   - Isolate the affected staging server from the network to prevent further lateral movement or data exfiltration.\n\n3. **Immediate Investigation:**\n   - Review process and user activity around the time `mimikatz.exe` was launched.\n   - Check for other suspicious processes, scripts, or binaries launched before and after the event.\n   - Analyze Windows Security and PowerShell logs for evidence of privilege escalation, credential access, or lateral movement (e.g., failed logins, new admin accounts).\n\n4. **Threat Hunting:**\n   - Search for indicators of `mimikatz` or similar tooling across other systems.\n   - Review recent logins, especially accounts with elevated privileges.\n\n5. **Preserve Evidence:**\n   - Collect and securely store relevant logs, volatile memory, and forensic images from the server for further analysis.\n\n6. **Report and Escalate:**\n   - If unauthorized, escalate to the incident response team in accordance with your playbook.\n   - Document findings, actions taken, and communicate status to stakeholders.\n\nIf authorization for this activity is quickly confirmed and no other anomalies are present, document the exception and resume normal monitoring. If not, proceed with full incident response.\n\n**Note:** Even if this is a test, frequent use of real credential dumpers increases risk and may create blind spots for true attacker activity. Recommend reviewing policies around offensive tool use on production/staging systems.',
     timestamp: 'Oct 16 at 11:27 PM',
+    createdAt: '2026-10-16T23:27:17.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-37',
     kind: 'bot-reply',
     requestedById: 'hanas',
@@ -2385,6 +2477,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: 'Please loop in @ataylor on this as well.',
     timestamp: 'Oct 16 at 11:28 PM',
+    createdAt: '2026-10-16T23:28:31.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-37',
   },
   {
@@ -2393,6 +2486,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ebond',
     text: "Let's get confirmation from the testing team. If it’s not theirs, we should treat this as high severity.",
     timestamp: 'Oct 16 at 11:29 PM',
+    createdAt: '2026-10-16T23:29:35.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-37',
   },
   {
@@ -2401,6 +2495,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hanas',
     text: 'I’ll also check for any lateral execution from the same user context.',
     timestamp: 'Oct 16 at 11:30 PM',
+    createdAt: '2026-10-16T23:30:02.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-37',
   },
   {
@@ -2409,6 +2504,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: 'I added a task to our board to create a dashboard for this:\n\n[<Jump To Card>](/boards/team/cyber-defense-hq/threat-discussion-tasks/2-board-view/create-dashboard-for-phishing-report-trends-by-weekday)',
     timestamp: 'Oct 21 at 8:26 PM',
+    createdAt: '2026-10-21T20:26:11.000Z',
     rootId: 'cyber-defense-hq/threat-discussions-18',
   },
   {
@@ -2417,6 +2513,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### 👋 Welcome to Mattermost!\n\nThis is your sandbox environment to demo how Mattermost can accelerate and safeguard your security operations. You can explore these channels:\n\n- ~security-alerts – Integrated real-time threat intelligence and cyber alerts.\n\n\n- ~threat-discussions – Collaborative analysis and response planning for emerging threats\n\n\n- ~incident-status-updates – Centralized feed of incident status updates and escalations.\n\n\n- ~inc-1281-credential-comp – Active response channel for a simulated credential compromise scenario using Playbooks.\n\n**Want to explore AI-powered workflows?** Try the Mattermost AI agent by clicking the ✨ icon on the right side of the screen or mentioning `@mattermost-ai-agent` in any channel or thread.\n\n*This is a demo environment. No changes made here impact real systems.* \n\n__________________\n\n\nFor a quick intro to the platform, watch the [video here](https://www.youtube.com/watch?v=QEYArydYd-A)',
     timestamp: 'May 5 at 7:42 PM',
+    createdAt: '2026-05-05T19:42:00.000Z',
     edited: true,
   },
   {
@@ -2425,6 +2522,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: '@on-call this is the new alerting channel I set up to monitor our infrastructure. You’ll see alerts coming in to this channel automatically from our connected infra. It might be a good idea to set your notification preferences to prioritize alerts in this channel :alarm_clock:',
     timestamp: 'May 12 at 8:47 PM',
+    createdAt: '2026-05-12T20:47:52.000Z',
     reactions: [
       {
         emoji: '👍',
@@ -2442,6 +2540,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Alert: Potential Lateral Movement Detected on OT Network',
     timestamp: 'May 12 at 9:11 PM',
+    createdAt: '2026-05-12T21:11:49.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Microsoft Sentinel',
@@ -2507,6 +2606,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Warning: Disk space warning on backup server',
     timestamp: 'May 12 at 9:16 PM',
+    createdAt: '2026-05-12T21:16:53.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Datadog',
@@ -2553,6 +2653,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### ⚠️ Warning: Memory usage above 85% on db-cluster-1',
     timestamp: 'May 12 at 9:22 PM',
+    createdAt: '2026-05-12T21:22:30.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'PagerDuty',
@@ -2620,6 +2721,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: "### DNS issues across prod clusters\n\n@on-call we’re experiencing DNS issues across the board in production. I've opened a ticket with AWS support, but we should investigate. Please acknowledge.",
     timestamp: 'May 12 at 9:26 PM',
+    createdAt: '2026-05-12T21:26:10.000Z',
     priority: 'urgent',
     requestAck: true,
     acknowledgements: [
@@ -2648,6 +2750,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### 🧯 Alert: Server outage detected on prod-cluster',
     timestamp: 'May 12 at 9:30 PM',
+    createdAt: '2026-05-12T21:30:00.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'PagerDuty',
@@ -2726,6 +2829,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sbandhu',
     text: '@sec-ops this could be critical — starting triage now. We should confirm whether `10.10.3.40` controls any production assets.',
     timestamp: 'May 14 at 9:56 PM',
+    createdAt: '2026-05-14T21:56:13.000Z',
     rootId: 'dev-sec-ops-hq/alerts-2',
     edited: true,
   },
@@ -2735,6 +2839,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: 'Recent network activity logs from `OT-GATEWAY-02` shows evidence of traffic and file transfer to `10.10.3.40` that aligns with the alert.',
     timestamp: 'May 14 at 9:57 PM',
+    createdAt: '2026-05-14T21:57:39.000Z',
     rootId: 'dev-sec-ops-hq/alerts-2',
     edited: true,
   },
@@ -2744,6 +2849,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: "I'll clean up some old backups to free up space.",
     timestamp: 'May 14 at 10:00 PM',
+    createdAt: '2026-05-14T22:00:05.000Z',
     rootId: 'dev-sec-ops-hq/alerts-5',
     reactions: [
       {
@@ -2758,6 +2864,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: "We had a deployment around an hour ago, but it didn't directly impact databases. Checking logs for anomalies.",
     timestamp: 'May 14 at 10:01 PM',
+    createdAt: '2026-05-14T22:01:20.000Z',
     rootId: 'dev-sec-ops-hq/alerts-7',
   },
   {
@@ -2766,6 +2873,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aahmad',
     text: 'I noticed some increased load on the cluster. Could be related to yesterday’s analytics script update? Possibly a query optimization issue?',
     timestamp: 'May 14 at 10:02 PM',
+    createdAt: '2026-05-14T22:02:38.000Z',
     rootId: 'dev-sec-ops-hq/alerts-7',
   },
   {
@@ -2774,6 +2882,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: "Temporary mitigation—I've increased memory allocation slightly to stabilize. Usage is back down to 75%, but we should identify and fix the root cause soon.",
     timestamp: 'May 14 at 10:03 PM',
+    createdAt: '2026-05-14T22:03:08.000Z',
     rootId: 'dev-sec-ops-hq/alerts-7',
     edited: true,
     reactions: [
@@ -2789,6 +2898,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aahmad',
     text: 'Checking the logs now, I haven’t found anything specific, but this piece was interesting:',
     timestamp: 'May 14 at 10:03 PM',
+    createdAt: '2026-05-14T22:03:54.000Z',
     rootId: 'dev-sec-ops-hq/alerts-11',
     edited: true,
   },
@@ -2798,6 +2908,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aahmad',
     text: '```\ncloud_nimrw3nj6ggafdh7sdh9sdh- ro/(nouser)@100.145.186.127:49710 closing because  pgbouncer cannot connect to server (age=0s)',
     timestamp: 'May 14 at 10:04 PM',
+    createdAt: '2026-05-14T22:04:54.000Z',
     rootId: 'dev-sec-ops-hq/alerts-11',
   },
   {
@@ -2806,6 +2917,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: 'Do you think rotating the pods will resolve it?',
     timestamp: 'May 14 at 10:06 PM',
+    createdAt: '2026-05-14T22:06:15.000Z',
     rootId: 'dev-sec-ops-hq/alerts-11',
   },
   {
@@ -2814,6 +2926,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: 'I can try, I’ll roll all deployments. Watching the metrics now to see if it resolves.',
     timestamp: 'May 14 at 10:06 PM',
+    createdAt: '2026-05-14T22:06:43.000Z',
     rootId: 'dev-sec-ops-hq/alerts-11',
   },
   {
@@ -2822,6 +2935,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: 'Could this be the bind server acting up?',
     timestamp: 'May 14 at 10:06 PM',
+    createdAt: '2026-05-14T22:06:57.000Z',
     rootId: 'dev-sec-ops-hq/alerts-11',
   },
   {
@@ -2830,6 +2944,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: 'Okay, I’ve restarted all the bind servers, DNS lookup is working now.',
     timestamp: 'May 14 at 10:07 PM',
+    createdAt: '2026-05-14T22:07:17.000Z',
     rootId: 'dev-sec-ops-hq/alerts-11',
     reactions: [
       {
@@ -2844,6 +2959,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: 'Wonder if we have some holes in DNS monitoring and alerting - maybe a good follow-up item if so.',
     timestamp: 'May 14 at 10:07 PM',
+    createdAt: '2026-05-14T22:07:33.000Z',
     rootId: 'dev-sec-ops-hq/alerts-11',
     edited: true,
     reactions: [
@@ -2859,6 +2975,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: "I'm checking AWS health dashboard and recent infrastructure logs.",
     timestamp: 'May 14 at 10:13 PM',
+    createdAt: '2026-05-14T22:13:55.000Z',
     rootId: 'p-7pqydhgy',
     reactions: [
       {
@@ -2873,6 +2990,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: "Just confirmed with AWS support—there's an AZ outage impacting our nodes. They're working on a fix, no ETA yet.",
     timestamp: 'May 14 at 10:15 PM',
+    createdAt: '2026-05-14T22:15:21.000Z',
     rootId: 'p-7pqydhgy',
   },
   {
@@ -2881,6 +2999,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: 'Do we know which customer instances are impacted?',
     timestamp: 'May 14 at 10:15 PM',
+    createdAt: '2026-05-14T22:15:31.000Z',
     rootId: 'p-7pqydhgy',
   },
   {
@@ -2889,6 +3008,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: "Not yet, but I’d suggest we kick off an INC Outage Playbook for this. Let's continue the conversation there.",
     timestamp: 'May 14 at 10:15 PM',
+    createdAt: '2026-05-14T22:15:53.000Z',
     rootId: 'p-7pqydhgy',
   },
   {
@@ -2897,6 +3017,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '`INC Outage` is a trigger for the [Server Outage Playbook](/playbooks/playbooks/server-outage-playbook) playbook, would you like to run it?',
     timestamp: 'May 14 at 10:15 PM',
+    createdAt: '2026-05-14T22:15:53.000Z',
     rootId: 'p-7pqydhgy',
     kind: 'slack-attachment',
     attachments: [
@@ -2919,6 +3040,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: 'I started the incident playbook. Please check progress of this outage here: ~inc82-server-outage',
     timestamp: 'May 14 at 10:16 PM',
+    createdAt: '2026-05-14T22:16:42.000Z',
     rootId: 'p-7pqydhgy',
     reactions: [
       {
@@ -2937,6 +3059,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: '@mattermost-ai-agent Please summarize this incident and next steps.',
     timestamp: 'Jun 19 at 5:13 PM',
+    createdAt: '2026-06-19T17:13:18.000Z',
     rootId: 'p-7pqydhgy',
   },
   {
@@ -2945,6 +3068,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '- Outage detected on production cluster nodes: prod-web-03, prod-db-05, prod-app-02\n- Health checks/heartbeats are failing; status 500s > 20%\n- AWS availability zone outage confirmed—no estimated time for fix\n- Incident severity: Critical\n- Impacted services: Web Application Infrastructure\n- Incident owner: @vanand\n- INC Outage Playbook initiated; progress will be tracked in ~inc82-server-outage\n\nNext Steps:\n- Track incident updates and recovery actions in ~inc82-server-outage\n- Identify affected customer instances when feasible\n- Maintain communication with AWS support for recovery status\n- Use the playbook for role assignment, status updates, and customer comms',
     timestamp: 'Jun 19 at 5:13 PM',
+    createdAt: '2026-06-19T17:13:18.000Z',
     rootId: 'p-7pqydhgy',
     kind: 'bot-reply',
     requestedById: 'ataylor',
@@ -2957,6 +3081,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@mbarry **created** bug [SOC-985: Overlapping header in plugin selector modal](https://mattermost.com/marketplace/jira-plugin/)',
     timestamp: 'May 12 at 9:44 PM',
+    createdAt: '2026-05-12T21:44:32.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'Jira',
@@ -2969,6 +3094,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: 'platform/master New comment by @rhines on **"[Draft] Login Form Refactor"**:\n@aarthur - Please review the changes; all unit tests are passing and the review app is at [https://35215609-review-10-user-st-4mx3j7.34.139.81.11.nip.io/](https://mattermost.com/marketplace/gitlab-plugin/)',
     timestamp: 'May 12 at 9:54 PM',
+    createdAt: '2026-05-12T21:54:14.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'GitLab',
@@ -2981,6 +3107,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '**E2E for Pull Request Build:** [soc-pr-4181](https://mattermost.com/marketplace/github-plugin/) with soc-incident-dashboard:cc134b2',
     timestamp: 'May 12 at 9:58 PM',
+    createdAt: '2026-05-12T21:58:32.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Cypress UI Test',
@@ -2999,6 +3126,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: 'platform/frontend New pipeline from api by @aahmad for **Update gitlab-ci.yml file** [View Pipeline](https://mattermost.com/marketplace/gitlab-plugin/)',
     timestamp: 'May 12 at 10:00 PM',
+    createdAt: '2026-05-12T22:00:33.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'GitLab',
@@ -3011,6 +3139,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@jdunlap assigned @rharrison to task [SOC-2341 - Final form validation fix](https://mattermost.com/marketplace/jira-plugin/)',
     timestamp: 'May 12 at 10:03 PM',
+    createdAt: '2026-05-12T22:03:44.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'Jira',
@@ -3023,6 +3152,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@rharrison changed the status of [SOC-2341 - Final form validation fix to QA](https://mattermost.com/marketplace/jira-plugin/)',
     timestamp: 'May 12 at 10:19 PM',
+    createdAt: '2026-05-12T22:19:57.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Jira',
@@ -3068,6 +3198,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '🚀 **New GitLab Pipeline Triggered**',
     timestamp: 'May 12 at 10:25 PM',
+    createdAt: '2026-05-12T22:25:58.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'GitLab',
@@ -3087,6 +3218,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '**E2E for Pull Request Build**: [soc-pr-30922](https://mattermost.com/marketplace/github-plugin/) with soc-incident-dashboard:9fae9bc',
     timestamp: 'May 12 at 10:29 PM',
+    createdAt: '2026-05-12T22:29:08.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Cypress UI Test',
@@ -3105,6 +3237,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '#### SOC-9026: add initial setup for pgbouncer\n[platform/cloud-monitoring](https://mattermost.com/marketplace/github-plugin/) #new-pull-request by @hkeith\n\n**Summary**\nThis change will add an initial setup for pgBouncer. It will run once during cluster creation, removing pgBouncer configs from Argocd. After cluster creation, the provisioner will handle the pgBouncer configurations.',
     timestamp: 'May 12 at 10:34 PM',
+    createdAt: '2026-05-12T22:34:10.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'GitHub',
@@ -3117,6 +3250,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@rhines **opened** a new PR [PLT-235: streamline webhook event parsing for pipeline triggers](https://mattermost.com/marketplace/github-plugin/)',
     timestamp: 'May 12 at 10:36 PM',
+    createdAt: '2026-05-12T22:36:58.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'GitHub',
@@ -3129,6 +3263,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### [v2.6.0 Release](/playbooks/runs/release-planning)\n@vanand ran the [Release Playbook](/playbooks/playbooks/release-playbook) playbook.',
     timestamp: 'May 14 at 9:05 PM',
+    createdAt: '2026-05-14T21:05:09.000Z',
     followerIds: ['playbooks', 'vanand'],
   },
   {
@@ -3137,6 +3272,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: "@qa-team Here's the updated input validation logic for username fields. Please review before we merge into release/q2-2025-alpha. 🙏\n\n```javascript\n// Username input validation\nfunction validateUsername(username) {\n  const regex = /^[a-zA-Z0-9_-]{3,16}$/;\n  return regex.test(username);\n}\n\n// Usage\nif (!validateUsername(input.value)) {\n  showError('Username must be 3-16 characters, letters, numbers, dashes or underscores.');\n}\n\n```",
     timestamp: 'May 14 at 10:33 PM',
+    createdAt: '2026-05-14T22:33:44.000Z',
     rootId: 'dev-sec-ops-hq/heartbeat-6',
     edited: true,
   },
@@ -3146,6 +3282,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jdunlap',
     text: 'Checking that now. Is @vanand aware this fix is coming? We’ll need to tag it for cherry picking into the release branch.',
     timestamp: 'May 14 at 10:34 PM',
+    createdAt: '2026-05-14T22:34:11.000Z',
     rootId: 'dev-sec-ops-hq/heartbeat-6',
     edited: true,
     reactions: [
@@ -3161,6 +3298,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sbandhu',
     text: 'Please make sure we **queue this change for security review.**',
     timestamp: 'May 14 at 10:36 PM',
+    createdAt: '2026-05-14T22:36:03.000Z',
     rootId: 'dev-sec-ops-hq/heartbeat-6',
     edited: true,
     reactions: [
@@ -3176,6 +3314,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: 'Done! Thanks @sbandhu.',
     timestamp: 'May 22 at 4:41 PM',
+    createdAt: '2026-05-22T16:41:58.000Z',
     rootId: 'dev-sec-ops-hq/heartbeat-6',
   },
   {
@@ -3184,6 +3323,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '@mattermost-ai-agent Please summarize the conversation and code change for this issue.',
     timestamp: 'Jun 19 at 5:49 PM',
+    createdAt: '2026-06-19T17:49:28.000Z',
     rootId: 'dev-sec-ops-hq/heartbeat-6',
   },
   {
@@ -3192,6 +3332,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '- The status of SOC-2341 ("Final form validation fix to QA") was changed, addressing missing input validation on the registration form\'s username field when special characters are entered.\n- @rharrison shared new validation logic for the username: usernames must be 3-16 characters and only use letters, numbers, dashes, or underscores. The validation is implemented using a regular expression in JavaScript:\n\n  ```javascript\n  /^[a-zA-Z0-9_-]{3,16}$/\n  ```\n\n- @qa-team was asked to review this logic before merging into the release/q2-2025-alpha branch.\n- @jdunlap confirmed they are checking and asked if @vanand is aware, to ensure the change is tagged for cherry-picking into the release branch.\n- @sbandhu requested this update be queued for security review.\n- @ataylor confirmed the security review request is complete.',
     timestamp: 'Jun 19 at 5:49 PM',
+    createdAt: '2026-06-19T17:49:28.000Z',
     rootId: 'dev-sec-ops-hq/heartbeat-6',
     kind: 'bot-reply',
     requestedById: 'admin',
@@ -3204,6 +3345,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: "I'm also adding @rhines to the channel for visibility.",
     timestamp: 'May 12 at 7:15 PM',
+    createdAt: '2026-05-12T19:15:44.000Z',
   },
   {
     id: 'dev-sec-ops-hq/inc82-server-outage-2',
@@ -3211,6 +3353,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: '@sre-team, I’m kicking off this [incident Playbook](/playbooks/runs/inc82-server-outage) based on the notification in the ~alerts channel.\n\n/dev-sec-ops-hq/pl/p-7pqydhgy',
     timestamp: 'May 12 at 7:16 PM',
+    createdAt: '2026-05-12T19:16:12.000Z',
     permalinkPostId: 'p-7pqydhgy',
     edited: true,
   },
@@ -3220,6 +3363,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: "@vanand, @hkeith, @ataylor please acknowledge when you've seen this",
     timestamp: 'May 14 at 10:23 PM',
+    createdAt: '2026-05-14T22:23:11.000Z',
     priority: 'urgent',
     requestAck: true,
   },
@@ -3229,6 +3373,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@here — @mbarry requested a status update for [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage).',
     timestamp: 'May 14 at 10:28 PM',
+    createdAt: '2026-05-14T22:28:07.000Z',
   },
   {
     id: 'p-rw4un8ji',
@@ -3236,6 +3381,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Incident: Server Outage Status Update\n**🟢 Completed:**\n- Verified the nodes are currently unreachable via ping and failed heartbeat signals: `prod-web-03`, `prod-db-05`, `prod-app-02`\n\n\n**🟡 In-Progress:**\n- Checking which customer instances are impacted @hkeith \n- Start diagnosis and investigation including reviewing system logs and initiating SSH connectivity tests to affected nodes\n\n\n**Next Actions:**\n- Draft customer comms and escalate to leadership for awareness @mbarry',
     timestamp: 'May 22 at 5:10 PM',
+    createdAt: '2026-05-22T17:10:41.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🟡 INC82 Server Outage',
@@ -3261,6 +3407,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'boards',
     text: '@admin linked the board [Release Planning](/boards/team/dev-sec-ops-hq/release-planning-2) with this channel',
     timestamp: 'May 8 at 11:44 PM',
+    createdAt: '2026-05-08T23:44:35.000Z',
   },
   {
     id: 'dev-sec-ops-hq/release-planning-2',
@@ -3268,6 +3415,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: 'Hey team, I started this planning channel dedicated to coordinating roadmap, deliverables, release retros, and discussing any blockers to meeting our release timelines. I’ve put together a [Release Planning Board](/boards/team/dev-sec-ops-hq/release-planning-2/2-by-quarter) to collaborate on.  \n\nKeep this space focused and async-friendly—tag a card or teammate when relevant.',
     timestamp: 'May 14 at 9:03 PM',
+    createdAt: '2026-05-14T21:03:42.000Z',
   },
   {
     id: 'p-trduccis',
@@ -3275,6 +3423,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@vanand marked [v2.6.0 Release](/playbooks/runs/release-planning) as finished.',
     timestamp: 'May 14 at 9:06 PM',
+    createdAt: '2026-05-14T21:06:29.000Z',
   },
   {
     id: 'dev-sec-ops-hq/release-planning-4',
@@ -3282,6 +3431,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@channel Reminder to [fill out the retrospective](/playbooks/runs/release-planning/retrospective).',
     timestamp: 'May 14 at 9:06 PM',
+    createdAt: '2026-05-14T21:06:29.000Z',
     kind: 'run-reminder',
     attachments: [
       {
@@ -3299,6 +3449,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@channel Retrospective for [v2.6.0 Release](/playbooks/runs/release-planning) has been published by @vanand\n[See the full retrospective](/playbooks/runs/release-planning/retrospective)',
     timestamp: 'May 14 at 9:11 PM',
+    createdAt: '2026-05-14T21:11:53.000Z',
   },
   {
     id: 'dev-sec-ops-hq/release-planning-6',
@@ -3306,6 +3457,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rhines',
     text: "I've begun outlining API endpoints for Real-Time Customer Notifications. Who can help validate these? [<Jump To Card>](/boards/team/dev-sec-ops-hq/release-planning-2/2-by-quarter/real-time-customer-notifications)",
     timestamp: 'May 14 at 9:13 PM',
+    createdAt: '2026-05-14T21:13:17.000Z',
     followerIds: ['aarthur', 'rharrison', 'rhines', 'sbandhu'],
   },
   {
@@ -3314,6 +3466,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'aarthur',
     text: 'Happy to review. Please share your initial draft?',
     timestamp: 'May 14 at 9:14 PM',
+    createdAt: '2026-05-14T21:14:01.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-6',
     reactions: [
       {
@@ -3328,6 +3481,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: 'Please also loop in @sbandhu for security review.',
     timestamp: 'May 14 at 9:14 PM',
+    createdAt: '2026-05-14T21:14:39.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-6',
     reactions: [
       {
@@ -3342,6 +3496,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: '@channel I have a customer call conflicting with our meeting. @sjain & @rharrison will also OOO, proposing we cancel and pick it up again next week?',
     timestamp: 'May 14 at 9:16 PM',
+    createdAt: '2026-05-14T21:16:45.000Z',
     reactions: [
       {
         emoji: '✅',
@@ -3372,6 +3527,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: '+1, please post async in the channel as needed. Thanks.',
     timestamp: 'May 14 at 9:17 PM',
+    createdAt: '2026-05-14T21:17:51.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-9',
   },
   {
@@ -3380,6 +3536,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: "I've drafted an outline of things that we could track post launch on this.  Would welcome any feedback from team. \n\nThought it might be worth doing a pre-launch measure on some capabilities already released?",
     timestamp: 'May 14 at 9:19 PM',
+    createdAt: '2026-05-14T21:19:09.000Z',
     reactions: [
       {
         emoji: '🙏',
@@ -3393,6 +3550,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: '@sjain could your team assist with visuals for the new permissions model in Advanced Role-Based Access? [<Jump To Card>](/boards/team/dev-sec-ops-hq/release-planning-2/2-by-quarter/advanced-role-based-access-controls)',
     timestamp: 'May 14 at 9:20 PM',
+    createdAt: '2026-05-14T21:20:05.000Z',
     reactions: [
       {
         emoji: '💯',
@@ -3411,6 +3569,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sjain',
     text: 'Will do - expect something by Monday.',
     timestamp: 'May 14 at 9:20 PM',
+    createdAt: '2026-05-14T21:20:29.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-12',
   },
   {
@@ -3419,6 +3578,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: '@here, Reminder to queue agenda items for our release sync later today.',
     timestamp: 'May 14 at 9:21 PM',
+    createdAt: '2026-05-14T21:21:32.000Z',
   },
   {
     id: 'dev-sec-ops-hq/release-planning-16',
@@ -3426,6 +3586,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: 'Call ended',
     timestamp: 'May 14 at 9:23 PM',
+    createdAt: '2026-05-14T21:23:10.000Z',
     kind: 'call',
     call: {
       startedAt: 'May 14 at 9:23 PM',
@@ -3441,6 +3602,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'hkeith',
     text: 'For Audit Log Export, I’m drafting infra requirements. Technical feasibility check would be useful next week. [<Jump To Card>](/boards/team/dev-sec-ops-hq/release-planning-2/2-by-quarter/audit-log-export)',
     timestamp: 'May 14 at 9:25 PM',
+    createdAt: '2026-05-14T21:25:09.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-16',
     reactions: [
       {
@@ -3455,6 +3617,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: 'Docs for Interactive Developer Portal are nearly done. [<Jump To Card>](/boards/team/dev-sec-ops-hq/release-planning-2/2-by-quarter/interactive-developer-portal)',
     timestamp: 'May 14 at 9:26 PM',
+    createdAt: '2026-05-14T21:26:17.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-16',
     reactions: [
       {
@@ -3469,6 +3632,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'callsbot',
     text: "Here's the call transcript",
     timestamp: 'May 14 at 9:43 PM',
+    createdAt: '2026-05-14T21:43:00.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-16',
     files: [
       {
@@ -3484,6 +3648,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: '@channel, I’m planning our 2.6 release retro call next week. Thoughts on timing and agenda?',
     timestamp: 'May 14 at 9:47 PM',
+    createdAt: '2026-05-14T21:47:08.000Z',
     followerIds: [
       'aahmad',
       'aarthur',
@@ -3508,6 +3673,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rhines',
     text: "I'm good either Tuesday or Wednesday.",
     timestamp: 'May 14 at 9:47 PM',
+    createdAt: '2026-05-14T21:47:37.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-20',
     reactions: [
       {
@@ -3522,6 +3688,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: 'We had some good lessons learned from the API Enhancements launch after receiving some customer feedback. Happy to share on it. [<Jump To Card>](/boards/team/dev-sec-ops-hq/release-planning-2/2-by-quarter/public-api-enhancements)',
     timestamp: 'May 14 at 9:49 PM',
+    createdAt: '2026-05-14T21:49:03.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-20',
   },
   {
@@ -3530,6 +3697,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: 'Thanks Robbie, that would be super helpful. Could you prep a brief overview?',
     timestamp: 'May 14 at 9:49 PM',
+    createdAt: '2026-05-14T21:49:22.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-20',
     reactions: [
       {
@@ -3544,6 +3712,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: "@vanand I'd like to briefly discuss our process around PR reviews and whether we want to apply a more structured workflow between dev, design, PM and QA review.",
     timestamp: 'May 22 at 4:45 PM',
+    createdAt: '2026-05-22T16:45:10.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-20',
   },
   {
@@ -3552,6 +3721,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: '@mattermost-ai-agent Please generate a meeting agenda for a 15 minute call based on the topics mentioned.',
     timestamp: 'Jun 19 at 5:56 PM',
+    createdAt: '2026-06-19T17:56:23.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-20',
   },
   {
@@ -3560,6 +3730,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '**2.6 Release Retro – 15 Minute Agenda**\n\n1. Quick Welcome & Purpose (1 min)\n2. Lessons Learned – API Enhancements Launch  \n   - Customer feedback  \n   - Key takeaways  \n   (Robbie Harrison, 5 min)\n3. PR Review Workflow Discussion  \n   - Assessment of current process  \n   - Proposal to structure review flow between Dev, Design, PM, and QA  \n   (Alex Taylor, 5 min)\n4. Open Floor/Additional Feedback (3 min)\n5. Action Items & Next Steps (1 min)',
     timestamp: 'Jun 19 at 5:56 PM',
+    createdAt: '2026-06-19T17:56:24.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-20',
     kind: 'bot-reply',
     requestedById: 'ataylor',
@@ -3578,6 +3749,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: 'Circling back on this. @jdunlap do you have the test plan you can share here?',
     timestamp: 'Today at 11:11 PM',
+    createdAt: '2026-11-14T23:11:39.000Z',
     rootId: 'dev-sec-ops-hq/release-planning-12',
   },
   {
@@ -3586,6 +3758,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'vanand',
     text: '@channel, here’s the release schedule for v2.7.0. Please let me know if there’s any questions or concerns. Be aware that **feature complete is coming up on April 16th** so any outstanding feature PRs will need to be merged by that date in order to make the RC1.   \n\n____________\n\nFeature Complete Apr 16\nBranch and RC-1 Cut Apr 18\nCode Freeze Apr 23\nRelease Build Cut Apr 27\nRelease Day Apr 30',
     timestamp: 'May 14 at 4:30 PM',
+    createdAt: '2026-05-14T16:30:13.000Z',
     followerIds: [
       'aarthur',
       'admin',
@@ -3604,6 +3777,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbarry',
     text: '@here, we are triaging open tickets tagged for the release and remaining PRs that need to be merged before feature complete. Please ping @vanand if you have anything coming hot today.',
     timestamp: 'May 14 at 4:35 PM',
+    createdAt: '2026-05-14T16:35:39.000Z',
     reactions: [
       {
         emoji: '👀',
@@ -3617,6 +3791,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Release v2.7.0 Status Update\n**🟢 Completed:**\n- Triaged pending tickets and PRs to merge\n- Changelog draft submitted\n\n**🟡 In-Progress:**\n- Release metrics report in-progress by @mbarry for v2.6.1 release.\n- Release retro scheduled for next week for v2.6.0\n\n**Next Actions:**\n- @vanand to help add retrospective notes in the Jira tickets for backported bug fixes, including root cause analysis and preventative process\n- @qa-team to review v2.7.0 Jira queries for low impact issues we can bump to next release',
     timestamp: 'May 14 at 4:38 PM',
+    createdAt: '2026-05-14T16:38:26.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'Release v2.7.0',
@@ -3639,6 +3814,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Release v2.7.0 Status Update\n**🟢 Completed:**\n- Development: Features complete, final PR merges in progress.\n- QA: Initial feature testing underway.\n- Documentation: Draft reviews scheduled for new feature docs.\n\n**🟡 In-Progress:**\n- RC Build & Deployment scheduled for next Wednesday.\n- Security Audits: Start immediately after RC deployment.\n\n**Next Actions:**\n- @rharrison: Finalize PR merges by Friday.',
     timestamp: 'May 14 at 4:50 PM',
+    createdAt: '2026-05-14T16:50:25.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'Release v2.7.0',
@@ -3661,6 +3837,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: ' @channel: Reminder—please confirm final PR merges for RC1 branching next week',
     timestamp: 'May 14 at 4:55 PM',
+    createdAt: '2026-05-14T16:55:24.000Z',
     requestAck: true,
     acknowledgements: [
       {
@@ -3696,6 +3873,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rhines',
     text: "@rharrison @vanand I've got a clean up PR incoming for RBAC. I will need help prioritizing reviews: [<Jump To Card>](/boards/team/dev-sec-ops-hq/release-planning-2/1-all-features/advanced-role-based-access-controls)",
     timestamp: 'May 14 at 8:42 PM',
+    createdAt: '2026-05-14T20:42:46.000Z',
     rootId: 'p-3mqkfgqj',
     edited: true,
     reactions: [
@@ -3711,6 +3889,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@here — @rharrison requested a status update for [Release v2.7.0](/playbooks/runs/release-v270).',
     timestamp: 'May 14 at 8:44 PM',
+    createdAt: '2026-05-14T20:44:44.000Z',
   },
   {
     id: 'p-49kyy94k',
@@ -3718,6 +3897,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Release v2.7.0 Status Update\n**🟢 Completed:**\n- RC1 deployment to staging completed successfully.\n- QA regression tests ongoing with minor issues identified.\n- Security audits underway with no critical vulnerabilities found.\n\n**🟡 In-Progress:**\n- RC2 Build & Deployment scheduled for next Wednesday.\n\n**Next Actions:**\n- @rhines please confirm if any PRs for existing known issues are expected for RBAC before RC2\n- @sbandhu complete security review before RC2 cut next Wednesday',
     timestamp: 'May 14 at 8:50 PM',
+    createdAt: '2026-05-14T20:50:44.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'Release v2.7.0',
@@ -3741,6 +3921,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rharrison',
     text: 'cc// @rhines we need to rally reviews on the outstanding PRs for the RBAC MVP.',
     timestamp: 'May 14 at 8:52 PM',
+    createdAt: '2026-05-14T20:52:22.000Z',
     rootId: 'dev-sec-ops-hq/release-v270-1',
     edited: true,
     reactions: [
@@ -3756,6 +3937,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rhines',
     text: 'Will do. cc// @jdunlap we’ll need help from QA to prioritize testing after dev review is complete.',
     timestamp: 'May 14 at 8:53 PM',
+    createdAt: '2026-05-14T20:53:08.000Z',
     rootId: 'dev-sec-ops-hq/release-v270-1',
   },
   {
@@ -3764,6 +3946,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### 👋 Welcome to Mattermost!\n\nThis is your sandbox environment to demo how Mattermost empowers your team to securely streamline DevSecOps workflows. You can explore these channels:\n\n- ~heartbeat  – Centralized visibility with integrated alerts for build pipelines, code changes and ticket tracking.\n\n\n- ~release-planning  – Collaborative workspace for coordinating feature work and launches using Boards.\n\n\n- ~release-v270 – Structured release workflows and task tracking using Playbooks.\n\n\n- ~alerts – Integrated real-time incident alerts and DevSecOps monitoring.\n\n\n- ~inc82-server-outage – Active incident response workflow for triaging and resolving outages with Playbooks.\n\n**Want to explore AI-powered workflows?** Try the Mattermost AI agent by clicking the ✨ icon on the right side of the screen or mentioning `@mattermost-ai-agent` in any channel or thread.\n\n*This is a demo environment. No changes made here impact real systems.* \n\n__________________\n\n\nFor a quick intro to the platform, watch the [video here](https://www.youtube.com/watch?v=aKbhUvMCp_k)',
     timestamp: 'May 5 at 7:41 PM',
+    createdAt: '2026-05-05T19:41:53.000Z',
     edited: true,
     reactions: [
       {
@@ -3778,6 +3961,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Hurricane Isla Evacuation Order - Please Acknowledge\n@tcarter, @rrichards, @mramirez , here’s the original alert that has triggered this personnel recall due to Hurricane Isla. We will use this Playbook and channel for the recall operation. There is an evacuation order in place. Please acknowledge you’ve seen this. /mission-ops-hq/pl/p-zc4ge7im',
     timestamp: 'May 12 at 8:16 PM',
+    createdAt: '2026-05-12T20:16:19.000Z',
     permalinkPostId: 'p-zc4ge7im',
     edited: true,
     priority: 'urgent',
@@ -3807,6 +3991,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sreynolds',
     text: 'Staging teams at Sites Alpha and Delta now have fuel reserves for evacuation transport. We’re still waiting on final clearance for Route 17—flood risk is high near the southern pass.',
     timestamp: 'May 12 at 8:18 PM',
+    createdAt: '2026-05-12T20:18:43.000Z',
     reactions: [
       {
         emoji: '👍',
@@ -3820,6 +4005,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: 'Good call. I’ve initiated contact with JTF-West Ops to request contingency airlift support if ground routes become impassable. They’ll hold readiness until we confirm airspace availability.',
     timestamp: 'May 12 at 8:21 PM',
+    createdAt: '2026-05-12T20:21:05.000Z',
   },
   {
     id: 'mission-ops-hq/cui-3234a-personnel-recall-4',
@@ -3827,6 +4013,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sreynolds',
     text: 'Preparing to Copy. Updating the mission safety briefing with this new info. Moving the call to 08:15 to integrate weather and evac data. Team leads, please prepare your zone reports in advance.deliver the mission safety briefing. Make sure all team members join the call at 9:00 AM.',
     timestamp: 'May 12 at 8:21 PM',
+    createdAt: '2026-05-12T20:21:25.000Z',
   },
   {
     id: 'mission-ops-hq/cui-3234a-personnel-recall-5',
@@ -3834,6 +4021,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kyun',
     text: 'Understood. We’ve begun cross-checking evac priority lists based on coastal exposure and housing types. I’ll share a compiled evac sequence for Zone 7 in the next 10 minutes.',
     timestamp: 'May 12 at 8:21 PM',
+    createdAt: '2026-05-12T20:21:49.000Z',
   },
   {
     id: 'p-x5bg998q',
@@ -3841,6 +4029,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### MSN-3234A Status Update\n\n🟢 Completed Tasks:\n- Recall order approved by command\n- Priority alert posted in Unit Command Channel. and acknowledged\n\n🟡 In Progress:\n- RTB timeline is being finalized for all units\n- Briefing call scheduled to align objectives before mobilization\n\n⏭️ Next Actions:\n- Personnel notification underway via Mattermost\n- Logistics team preparing transportation assets and contingency plans.',
     timestamp: 'May 12 at 8:23 PM',
+    createdAt: '2026-05-12T20:23:24.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🎖️ MSN-3234A Emergency Recall',
@@ -3864,6 +4053,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: '### Briefing call starting at 1700\n@all we’ll start our briefing call at 1700 sharp. Please come prepared with information from your teams.',
     timestamp: 'May 12 at 8:23 PM',
+    createdAt: '2026-05-12T20:23:56.000Z',
   },
   {
     id: 'mission-ops-hq/cui-3234a-personnel-recall-8',
@@ -3871,6 +4061,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: 'Call ended',
     timestamp: 'May 13 at 12:37 PM',
+    createdAt: '2026-05-13T12:37:44.000Z',
     kind: 'call',
     call: {
       startedAt: 'May 13 at 12:37 PM',
@@ -3894,6 +4085,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: 'Initiating storm response briefing. Isla now Cat 4. 130 mph winds. All teams check in with latest.',
     timestamp: 'May 13 at 12:44 PM',
+    createdAt: '2026-05-13T12:44:10.000Z',
     rootId: 'mission-ops-hq/cui-3234a-personnel-recall-8',
   },
   {
@@ -3902,6 +4094,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sreynolds',
     text: 'Alpha & Delta teams staged. Still trying to clear Route 17—Southern access partially underwater.',
     timestamp: 'May 13 at 12:44 PM',
+    createdAt: '2026-05-13T12:44:46.000Z',
     rootId: 'mission-ops-hq/cui-3234a-personnel-recall-8',
   },
   {
@@ -3910,6 +4103,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rrichards',
     text: 'Confirmed. Drafting alt-ground plan now. Will upload ETA 15 min.',
     timestamp: 'May 13 at 12:45 PM',
+    createdAt: '2026-05-13T12:45:30.000Z',
     rootId: 'mission-ops-hq/cui-3234a-personnel-recall-8',
   },
   {
@@ -3918,6 +4112,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'callsbot',
     text: "Here's the call transcript",
     timestamp: 'May 13 at 12:47 PM',
+    createdAt: '2026-05-13T12:47:22.000Z',
     rootId: 'mission-ops-hq/cui-3234a-personnel-recall-8',
     files: [
       {
@@ -3933,6 +4128,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: '@mattermost-ai-agent Please summarize the call transcript.',
     timestamp: 'Jun 19 at 6:47 PM',
+    createdAt: '2026-06-19T18:47:30.000Z',
     rootId: 'mission-ops-hq/cui-3234a-personnel-recall-8',
   },
   {
@@ -3941,6 +4137,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '- Hurricane Isla is approaching as a Category 4 storm with 130 mph winds and approximately six hours until landfall.\n- Alpha and Delta response teams are staged with fuel and ready.\n- Southern access via Route 17 is partially underwater; rerouting is being planned due to worsening weather.\n- JST (Joint Support Team) will be involved if additional reroute support is required.\n- Prioritization of response is being handled based on coastal exposure, housing density, and medical dependency (Zone 7 group is specifically mentioned).\n- All updates and coordination are to be posted in the Emergency Recall channel.\n\nNext Steps:\n- Await the alternative ground plan and ETA from Lt. Richards.\n- Continue monitoring storm progress and changing ground access.\n- Maintain communication and post all new developments in the Recall channel.',
     timestamp: 'Jun 19 at 6:47 PM',
+    createdAt: '2026-06-19T18:47:30.000Z',
     rootId: 'mission-ops-hq/cui-3234a-personnel-recall-8',
     kind: 'bot-reply',
     requestedById: 'ataylor',
@@ -3953,6 +4150,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'boards',
     text: '@admin linked the board [MSN-3546B Tracker](/boards/team/mission-ops-hq/msn-3546b-tracker) with this channel',
     timestamp: 'May 2 at 4:22 PM',
+    createdAt: '2026-05-02T16:22:13.000Z',
   },
   {
     id: 'mission-ops-hq/cui-3546b-coordination-2',
@@ -3960,6 +4158,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'boards',
     text: '@admin linked the board [MSN-3546B Personnel Status](/boards/team/mission-ops-hq/msn-3546b-personnel-status) with this channel',
     timestamp: 'May 2 at 5:08 PM',
+    createdAt: '2026-05-02T17:08:40.000Z',
   },
   {
     id: 'mission-ops-hq/cui-3546b-coordination-3',
@@ -3967,6 +4166,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: 'Hey @all, I started a planning channel for MSN-3546B. This space is dedicated to coordinating planning activities, milestones, task updates, and logistics tracking for the upcoming mission. Use this thread to ask questions, drop updates, or raise blockers as we prepare for execution. \n\nKeep this space focused and async-friendly—tag a card or teammate when relevant. @dmartin could you create a board for tracking vehicle readiness?',
     timestamp: 'May 2 at 5:48 PM',
+    createdAt: '2026-05-02T17:48:24.000Z',
     reactions: [
       {
         emoji: '✅',
@@ -3980,6 +4180,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'tcarter',
     text: "Anyone know if the spare radios passed final check? Still showing 'pending' on Equipment Readiness. We can’t move forward on kit loadouts until that’s confirmed, and comms has already flagged readiness as dependent.",
     timestamp: 'May 5 at 8:57 PM',
+    createdAt: '2026-05-05T20:57:49.000Z',
     reactions: [
       {
         emoji: '🙋🏻‍♂️',
@@ -3994,6 +4195,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kyun',
     text: 'They passed bench test this morning. I’ll mark the card now.',
     timestamp: 'May 5 at 8:58 PM',
+    createdAt: '2026-05-05T20:58:55.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-4',
   },
   {
@@ -4002,6 +4204,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rrichards',
     text: 'I’ll double-check the battery kits just in case.',
     timestamp: 'May 5 at 8:59 PM',
+    createdAt: '2026-05-05T20:59:21.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-4',
   },
   {
@@ -4010,6 +4213,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'tcarter',
     text: 'Thanks @rrichards!',
     timestamp: 'May 6 at 5:56 PM',
+    createdAt: '2026-05-06T17:56:58.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-4',
   },
   {
@@ -4018,6 +4222,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'dmartin',
     text: "### Planning board\nThe main planning board is here [📋 MSN-3546B Tracker](/boards/team/mission-ops-hq/msn-3546b-tracker/board-view). We're tracking launch timing, equipment readiness, and task ownership there. If you're leading a workstream, make sure your swimlane is up to date before our next review checkpoint.",
     timestamp: 'May 6 at 5:57 PM',
+    createdAt: '2026-05-06T17:57:37.000Z',
     edited: true,
     reactions: [
       {
@@ -4036,6 +4241,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sreynolds',
     text: '### Route 7 flood risk\nJust a heads up to those of you who are in the area. Route 7 is now flagged as questionable due to flooding risk. We may need to shift convoy staging. If it’s unusable, we’ll need to re-route the entire staging plan for column Bravo. Let’s assess quickly and commit to a decision in the next 2 hours.',
     timestamp: 'May 6 at 6:00 PM',
+    createdAt: '2026-05-06T18:00:03.000Z',
     edited: true,
     reactions: [
       {
@@ -4051,6 +4257,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mramirez',
     text: 'Do we have a fallback route cleared by security yet?',
     timestamp: 'May 6 at 6:01 PM',
+    createdAt: '2026-05-06T18:01:20.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-9',
   },
   {
@@ -4059,6 +4266,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rrichards',
     text: 'Stand by. I’ll confirm with base ops and update the launch plan card.',
     timestamp: 'May 6 at 6:02 PM',
+    createdAt: '2026-05-06T18:02:07.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-9',
     reactions: [
       {
@@ -4073,6 +4281,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mramirez',
     text: 'Thanks @rrichards',
     timestamp: 'May 6 at 6:02 PM',
+    createdAt: '2026-05-06T18:02:42.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-9',
   },
   {
@@ -4081,6 +4290,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'lriley',
     text: '### Launch window forecast\nNew forecast update coming in. Weather for launch window is degrading. If visibility drops below 3km, that takes our primary window off the table. I’ve tagged ops leads in the card for visibility. Also monitoring the ~heartbeat channel for severe conditions.',
     timestamp: 'May 6 at 6:35 PM',
+    createdAt: '2026-05-06T18:35:39.000Z',
     edited: true,
     files: [
       {
@@ -4096,6 +4306,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'lriley',
     text: '### Safety briefing\nCan we clarify who’s handling the safety brief tomorrow? Still blank on [the board](/boards/team/mission-ops-hq/msn-3546b-tracker/board-view). We’ll need it posted by COB today so we can circulate ahead of final checks. Don’t forget the evacuation and comms handoff details.',
     timestamp: 'May 6 at 6:42 PM',
+    createdAt: '2026-05-06T18:42:49.000Z',
     followerIds: ['ataylor', 'lriley', 'mbrown'],
   },
   {
@@ -4104,6 +4315,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'lriley',
     text: "This is card I'm referring to: [<Jump To Card>](/boards/team/mission-ops-hq/msn-3546b-tracker/board-view/safety-briefing)",
     timestamp: 'May 6 at 6:43 PM',
+    createdAt: '2026-05-06T18:43:09.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-14',
   },
   {
@@ -4112,6 +4324,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbrown',
     text: 'I’ve got it. I’ll draft and link the details to the card when it’s ready.',
     timestamp: 'May 6 at 6:46 PM',
+    createdAt: '2026-05-06T18:46:30.000Z',
     rootId: 'mission-ops-hq/cui-3546b-coordination-14',
     reactions: [
       {
@@ -4126,6 +4339,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'dmartin',
     text: '@all I created this channel as a feed to follow all active flights',
     timestamp: 'May 12 at 8:40 PM',
+    createdAt: '2026-05-12T20:40:36.000Z',
     reactions: [
       {
         emoji: '✅',
@@ -4147,6 +4361,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Flight Status Update\n\n| **Name**   | **Callsign** | **Departure**     | **Arrival**       | **Status** |\n|------------|--------------|-------------------|-------------------|------------|\n| Alpha 301  | Eagle3       | SFO @ 13:15 UTC   | SEA @ 15:05 UTC   | 🟢 en route   |\n| Bravo122   | Falcon1      | ORD @ 13:45 UTC   | DFW @ 15:25 UTC   | 🟢 en route   |\n\n*This is an automated update from the Flight Status Bot.*',
     timestamp: 'May 12 at 8:43 PM',
+    createdAt: '2026-05-12T20:43:37.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'Flight Status',
@@ -4160,6 +4375,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Flight Status Update\n\n| **Name**     | **Callsign** | **Departure**       | **Arrival**         | **Status** |\n|------------|--------------|-------------------|-------------------|------------|\n| Alpha 301  | Eagle3       | SFO @ 13:15 UTC   | SEA @ 15:05 UTC   | 🟡 delayed   |\n| Bravo122   | Falcon1      | ORD @ 13:45 UTC   | DFW @ 15:25 UTC   | ✅ landed  |\n| Charlie88  | Raven2       | MIA @ 13:10 UTC     | ATL @ 14:40 UTC     | 🟢 en route   |\n\n*This is an automated update from the Flight Status Bot.*',
     timestamp: 'May 12 at 8:54 PM',
+    createdAt: '2026-05-12T20:54:33.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'Flight Status',
@@ -4173,6 +4389,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '### Flight Status Update\n\n| **Name**     | **Callsign** | **Departure**       | **Arrival**         | **Status** |\n|------------|--------------|-------------------|-------------------|------------|\n| Alpha 301  | Eagle3       | SFO @ 13:15 UTC   | SEA @ 15:05 UTC   | ✅ landed   |\n| Bravo122   | Falcon1      | ORD @ 13:45 UTC   | DFW @ 15:25 UTC   | ✅ landed  |\n| Charlie88  | Raven2       | MIA @ 13:10 UTC   | ATL @ 14:40 UTC   | 🟢 en route   |\n| Delta77    | Hawk9        | BOS @ 13:50 UTC   | IAD @ 14:55 UTC   | 🟠 staged     |\n\n*This is an automated update from the Flight Status Bot.*',
     timestamp: 'May 12 at 8:59 PM',
+    createdAt: '2026-05-12T20:59:09.000Z',
     kind: 'webhook',
     webhook: {
       displayName: 'Flight Status',
@@ -4185,6 +4402,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### INT-6271B Intel Brief Status Update\n\n🗺 **Situation Overview:**\n- Satellite recon data received and processed.\n- Situation map updated based on last 24h movements.\n\n⚠️ **Threat Assessment:**\n- New priority flagged in threat database.\n- Risk vectors analyzed and distributed to leads.',
     timestamp: 'May 12 at 10:38 PM',
+    createdAt: '2026-05-12T22:38:57.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'INT-6271B Intel Brief',
@@ -4200,6 +4418,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall)\n@admin ran the [Emergency Personnel Recall](/playbooks/playbooks/personnel-recall) playbook.',
     timestamp: 'May 1 at 6:58 PM',
+    createdAt: '2026-05-01T18:58:56.000Z',
     followerIds: ['admin', 'playbooks'],
   },
   {
@@ -4208,6 +4427,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### MSN-3234A Status Update\n\n🟢 Completed Tasks:\n- Recall order approved by command\n- Priority alert posted in Unit Command Channel. and acknowledged\n\n🟡 In Progress:\n- RTB timeline is being finalized for all units\n- Briefing call scheduled to align objectives before mobilization\n\n⏭️ Next Actions:\n- Personnel notification underway via Mattermost\n- Logistics team preparing transportation assets and contingency plans.',
     timestamp: 'May 12 at 8:23 PM',
+    createdAt: '2026-05-12T20:23:24.000Z',
     rootId: 'mission-ops-hq/cui-ops-updates-1',
     kind: 'run-update',
     runUpdate: {
@@ -4232,6 +4452,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: '/mission-ops-hq/pl/p-rua3w7uq',
     timestamp: 'May 12 at 10:36 PM',
+    createdAt: '2026-05-12T22:36:35.000Z',
     permalinkPostId: 'p-rua3w7uq',
   },
   {
@@ -4240,6 +4461,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief)\n@admin ran the [MissionOps Intelligence Brief](/playbooks/playbooks/intelligence-brief) playbook.',
     timestamp: 'May 12 at 10:37 PM',
+    createdAt: '2026-05-12T22:37:23.000Z',
     followerIds: ['admin', 'playbooks'],
   },
   {
@@ -4248,6 +4470,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### INT-6271B Intel Brief Status Update\n\n🗺 **Situation Overview:**\n- Satellite recon data received and processed.\n- Situation map updated based on last 24h movements.\n\n⚠️ **Threat Assessment:**\n- New priority flagged in threat database.\n- Risk vectors analyzed and distributed to leads.',
     timestamp: 'May 12 at 10:38 PM',
+    createdAt: '2026-05-12T22:38:57.000Z',
     rootId: 'mission-ops-hq/cui-ops-updates-4',
     kind: 'run-update',
     runUpdate: {
@@ -4264,6 +4487,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '/mission-ops-hq/pl/p-ynjd6o4u',
     timestamp: 'May 12 at 10:39 PM',
+    createdAt: '2026-05-12T22:39:05.000Z',
     permalinkPostId: 'p-ynjd6o4u',
   },
   {
@@ -4272,6 +4496,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### [INT-7405B Intel Brief](/playbooks/runs/int-7405b-intel-brief)\n@kyun ran the [MissionOps Intelligence Brief](/playbooks/playbooks/intelligence-brief) playbook.',
     timestamp: 'May 12 at 10:41 PM',
+    createdAt: '2026-05-12T22:41:00.000Z',
     followerIds: ['playbooks'],
   },
   {
@@ -4280,6 +4505,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### INT-7405B Intel Brief Status Update\n\n⚠️ **Threat Assessment:**\n- New priority flagged in threat database.',
     timestamp: 'May 12 at 10:41 PM',
+    createdAt: '2026-05-12T22:41:34.000Z',
     rootId: 'mission-ops-hq/cui-ops-updates-7',
     kind: 'run-update',
     runUpdate: {
@@ -4296,6 +4522,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kyun',
     text: '/mission-ops-hq/pl/p-ukok5rmc',
     timestamp: 'May 12 at 10:42 PM',
+    createdAt: '2026-05-12T22:42:46.000Z',
     permalinkPostId: 'p-ukok5rmc',
   },
   {
@@ -4304,6 +4531,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### [OPN-4621B Launch](/playbooks/runs/opn-4621b-launch)\n@admin ran the [Launch Mission Execution Playbook](/playbooks/playbooks/launch-mission-execution-playbook) playbook.',
     timestamp: 'May 12 at 10:44 PM',
+    createdAt: '2026-05-12T22:44:09.000Z',
     followerIds: ['admin', 'playbooks'],
   },
   {
@@ -4312,6 +4540,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### OPN-4621B Mission Launch Status Update\n\n🛰 **Coordination:**\n- Telemetry confirmed from all forward teams.\n\n🚀 **Launch Prep:**\n- Payload secured and comms window established.\n- All launch sequences reviewed and checklist validated.',
     timestamp: 'May 12 at 10:45 PM',
+    createdAt: '2026-05-12T22:45:53.000Z',
     rootId: 'mission-ops-hq/cui-ops-updates-10',
     kind: 'run-update',
     runUpdate: {
@@ -4328,6 +4557,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sreynolds',
     text: '/mission-ops-hq/pl/p-33xnf7tg',
     timestamp: 'May 12 at 10:46 PM',
+    createdAt: '2026-05-12T22:46:43.000Z',
     permalinkPostId: 'p-33xnf7tg',
   },
   {
@@ -4336,6 +4566,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### [OPN-3903C Launch](/playbooks/runs/opn-3903c-launch)\n@dmartin ran the [Launch Mission Execution Playbook](/playbooks/playbooks/launch-mission-execution-playbook) playbook.',
     timestamp: 'May 12 at 10:49 PM',
+    createdAt: '2026-05-12T22:49:24.000Z',
     followerIds: ['playbooks'],
   },
   {
@@ -4344,6 +4575,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### OPN-3903C Mission Launch Status Update\n\n** 📡 Coordination:**\nOps leads synced across mission thread.\n\n**🚀 Launch Prep:**\n- All launch sequences reviewed and checklist validated.',
     timestamp: 'May 12 at 10:50 PM',
+    createdAt: '2026-05-12T22:50:26.000Z',
     rootId: 'mission-ops-hq/cui-ops-updates-13',
     kind: 'run-update',
     runUpdate: {
@@ -4360,6 +4592,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'admin',
     text: '/mission-ops-hq/pl/p-wr9kz9s8',
     timestamp: 'May 12 at 10:50 PM',
+    createdAt: '2026-05-12T22:50:55.000Z',
     permalinkPostId: 'p-wr9kz9s8',
   },
   {
@@ -4368,6 +4601,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### INT-7405B Intel Brief Status Update\n\n⚠️ **Threat Assessment:**\n- New priority flagged in threat database.',
     timestamp: 'May 12 at 10:41 PM',
+    createdAt: '2026-05-12T22:41:34.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'INT-7405B Intel Brief',
@@ -4383,6 +4617,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@kyun, please provide a status update for [INT-7405B Intel Brief](/playbooks/runs/int-7405b-intel-brief).',
     timestamp: 'May 19 at 10:41 PM',
+    createdAt: '2026-05-19T22:41:35.000Z',
     kind: 'run-reminder',
     attachments: [
       {
@@ -4400,6 +4635,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### OPN-3903C Mission Launch Status Update\n\n** 📡 Coordination:**\nOps leads synced across mission thread.\n\n**🚀 Launch Prep:**\n- All launch sequences reviewed and checklist validated.',
     timestamp: 'May 12 at 10:50 PM',
+    createdAt: '2026-05-12T22:50:26.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'OPN-3903C Launch',
@@ -4415,6 +4651,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@dmartin, please provide a status update for [OPN-3903C Launch](/playbooks/runs/opn-3903c-launch).',
     timestamp: 'Jul 10 at 3:50 PM',
+    createdAt: '2026-07-10T15:50:56.000Z',
     kind: 'run-reminder',
     attachments: [
       {
@@ -4432,6 +4669,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### OPN-4621B Mission Launch Status Update\n\n🛰 **Coordination:**\n- Telemetry confirmed from all forward teams.\n\n🚀 **Launch Prep:**\n- Payload secured and comms window established.\n- All launch sequences reviewed and checklist validated.',
     timestamp: 'May 12 at 10:45 PM',
+    createdAt: '2026-05-12T22:45:53.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'OPN-4621B Launch',
@@ -4447,6 +4685,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### 👋 Welcome to Mattermost!\n\nThis is your sandbox environment to demo how Mattermost accelerates decision advantage with mission-critical ChatOps. You can start by exploring these channels:\n\n**Operational Coordination**\n\n- ~cui-3546b-coordination – Simulated ops channel for coordination using Boards.\n\n- ~cui-flight-status-feed – Integrated real-time flight status updates.\n\n\n**Alerts and Status Updates**\n\n- ~u-weather-alerts – Integrated weather alerting.\n\n- ~cui-ops-updates  – Active operations status reports and alerting.\n\n\n**Active Projects** \n\n- ~cui-int-6271b-intel-brief – Workflow for standardizing intelligence briefs using Playbooks.\n\n- ~cui-3234a-personnel-recall – Simulated personnel recall workflow using Playbooks.\n\n\n**Want to explore AI-powered workflows?** Try the Mattermost AI agent by clicking the ✨ icon on the right side of the screen or mentioning `@mattermost-ai-agent` in any channel or thread.\n\n*This is a demo environment with simulated scenarios. No changes made here impact real systems.* \n\n__________________\n\n\nFor a quick intro to the platform, watch the [video here](https://youtu.be/Zpyy2FqGotM)',
     timestamp: 'May 5 at 7:21 PM',
+    createdAt: '2026-05-05T19:21:42.000Z',
     edited: true,
     reactions: [
       {
@@ -4461,6 +4700,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'dmartin',
     text: '@all this is the new alerting channel we set up to monitor severe weather conditions, flight statuses, and important news. You’ll see alerts coming in to this channel automatically from our alert system. It might be a good idea to set your notifications to ‘all activity’ for this channel.',
     timestamp: 'May 12 at 7:10 PM',
+    createdAt: '2026-05-12T19:10:18.000Z',
   },
   {
     id: 'mission-ops-hq/u-weather-alerts-2',
@@ -4468,6 +4708,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### Lightning Advisory: Kirtland AFB',
     timestamp: 'May 12 at 7:12 PM',
+    createdAt: '2026-05-12T19:12:38.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Alert System',
@@ -4511,6 +4752,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'tcarter',
     text: 'Confirmed lightning strikes east of the motor pool. Outdoor ops are suspended — shelter protocols in effect.',
     timestamp: 'May 12 at 7:14 PM',
+    createdAt: '2026-05-12T19:14:20.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-2',
     reactions: [
       {
@@ -4525,6 +4767,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'rrichards',
     text: 'Copy. Crew Alpha is inside. Did you want us to power down exterior grid lines?',
     timestamp: 'May 12 at 7:14 PM',
+    createdAt: '2026-05-12T19:14:52.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-2',
   },
   {
@@ -4533,6 +4776,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'tcarter',
     text: 'Just disconnect non-critical feeds. Keep perimeter sensors up — we’ll need wind shift data if this escalates.',
     timestamp: 'May 12 at 7:15 PM',
+    createdAt: '2026-05-12T19:15:23.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-2',
   },
   {
@@ -4541,6 +4785,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbrown',
     text: "Lightning telemetry still spiking. We're getting about one strike per 2 mins. Will ping again at :30 mark.",
     timestamp: 'May 12 at 7:15 PM',
+    createdAt: '2026-05-12T19:15:43.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-2',
   },
   {
@@ -4549,6 +4794,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: "Thanks all — keep eyes on and confirm when that cell starts drifting north. Don’t assume it's over just because it goes quiet.",
     timestamp: 'May 12 at 7:17 PM',
+    createdAt: '2026-05-12T19:17:04.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-2',
     reactions: [
       {
@@ -4567,6 +4813,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### Flash Flood Watch: MacDill AFB',
     timestamp: 'May 12 at 7:19 PM',
+    createdAt: '2026-05-12T19:19:46.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Alert System',
@@ -4610,6 +4857,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sreynolds',
     text: 'Flood risk high around Gate 3 and Baypoint perimeter. Redirecting vehicle routes — north gate only for now.',
     timestamp: 'May 12 at 7:20 PM',
+    createdAt: '2026-05-12T19:20:24.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-8',
   },
   {
@@ -4618,6 +4866,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mramirez',
     text: 'Got it, @sreynolds. Just flagged that to local logistics. @kyun are you still seeing data from WX-204?',
     timestamp: 'May 12 at 7:21 PM',
+    createdAt: '2026-05-12T19:21:58.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-8',
   },
   {
@@ -4626,6 +4875,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kyun',
     text: '@mramirez I just checked — WX-204 uplink dropped a few packets. Might be water intrusion or RF interference. I’m running a resync now.\n\n```\n[08:03:55] [WX-201] Sync request acknowledged  \n[08:03:56] [WX-201] Precipitation rate: 2.3"/hr | Wind: 24 kts SW  \n[08:03:57] [WX-204] Sync failed: partial packet received (loss rate: 18%)  \n[08:03:58] [WX-204] Retrying uplink…  \n[08:04:00] [WX-204] Recovered 5/6 packets. Data interpolated.  \n[08:04:01] [WX-208] Sync successful | Pressure drop: 3.7 mb (last 10 mins)  \n[08:04:02] System flag: INTERMITTENT SIGNAL [WX-204]  \n```',
     timestamp: 'May 12 at 7:22 PM',
+    createdAt: '2026-05-12T19:22:48.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-8',
     edited: true,
   },
@@ -4635,6 +4885,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'sreynolds',
     text: 'Thank you @kyun. If it doesn’t stabilize, let’s prep a manual gauge drop. I’d rather not lose visibility on that sector.',
     timestamp: 'May 12 at 7:23 PM',
+    createdAt: '2026-05-12T19:23:31.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-8',
     reactions: [
       {
@@ -4649,6 +4900,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### Dust Storm: Al Udeid AB',
     timestamp: 'May 12 at 7:27 PM',
+    createdAt: '2026-05-12T19:27:21.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Alert System',
@@ -4692,6 +4944,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kyun',
     text: '@lriley, dust front just crossed the outer fence line — visibility’s already under 300m. I’ve switched HVAC to internal recirc mode.',
     timestamp: 'May 12 at 7:28 PM',
+    createdAt: '2026-05-12T19:28:14.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-13',
   },
   {
@@ -4700,6 +4953,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'lriley',
     text: 'Copy that. I just rerouted Bravo convoy through the west ridge — slower path but it should keep them out of direct exposure.',
     timestamp: 'May 12 at 7:28 PM',
+    createdAt: '2026-05-12T19:28:34.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-13',
   },
   {
@@ -4708,6 +4962,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'kyun',
     text: 'Good call. Getting some dropouts on the uplinks already. If signal degrades past 30%, I’ll move us to local fallback.',
     timestamp: 'May 12 at 7:29 PM',
+    createdAt: '2026-05-12T19:29:04.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-13',
     reactions: [
       {
@@ -4722,6 +4977,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### Tsunami Watch: Andersen AFB',
     timestamp: 'May 12 at 7:31 PM',
+    createdAt: '2026-05-12T19:31:34.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Alert System',
@@ -4765,6 +5021,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mramirez',
     text: "Seismic alert just came through. I'm notifying local agencies now and coordinating with JRM. cc: @dmartin",
     timestamp: 'May 12 at 7:32 PM',
+    createdAt: '2026-05-12T19:32:29.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-17',
   },
   {
@@ -4773,6 +5030,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'dmartin',
     text: 'Thanks, @mramirez. Let’s keep our civilian-mil channels clear. Can you get me a quick evac readiness check — 10 minutes?',
     timestamp: 'May 12 at 7:33 PM',
+    createdAt: '2026-05-12T19:33:19.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-17',
     reactions: [
       {
@@ -4787,6 +5045,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mramirez',
     text: 'Affirmative @dmartin. I’ve got staging points up already. I’ll confirm evac corridor status and update you shortly.',
     timestamp: 'May 12 at 7:33 PM',
+    createdAt: '2026-05-12T19:33:52.000Z',
     rootId: 'mission-ops-hq/u-weather-alerts-17',
   },
   {
@@ -4795,6 +5054,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### Heat Advisory: Ramstein AFB',
     timestamp: 'May 12 at 7:39 PM',
+    createdAt: '2026-05-12T19:39:50.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Alert System',
@@ -4837,6 +5097,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### Severe Thunderstorm Warning: JBLM',
     timestamp: 'May 12 at 7:40 PM',
+    createdAt: '2026-05-12T19:40:01.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Alert System',
@@ -4880,6 +5141,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'tcarter',
     text: 'Radar showing hail buildup over the ridge. We need to get ISR drones secured — risk of lens damage is too high. @mbrown, where’s your team?',
     timestamp: 'May 12 at 7:41 PM',
+    createdAt: '2026-05-12T19:41:28.000Z',
     rootId: 'p-3nqsaxqk',
   },
   {
@@ -4888,6 +5150,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mbrown',
     text: 'Already ahead of you, sir. We pulled all three ISR units into Bay 2. Sensors are intact and still feeding telemetry from the fixed posts.',
     timestamp: 'May 12 at 7:41 PM',
+    createdAt: '2026-05-12T19:41:56.000Z',
     rootId: 'p-3nqsaxqk',
     reactions: [
       {
@@ -4906,6 +5169,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'tcarter',
     text: 'Sounds good. @rrichards — go ahead and hold convoy Bravo in place. They’re pre-staged and can sit tight for another 90 if needed. Let’s not move until we get visual confirmation the cell’s cleared the area.',
     timestamp: 'May 12 at 7:42 PM',
+    createdAt: '2026-05-12T19:42:41.000Z',
     rootId: 'p-3nqsaxqk',
     reactions: [
       {
@@ -4920,6 +5184,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'systembot',
     text: '### Hurricane Warning: Isla (Cat 4) Landfall Confirmed',
     timestamp: 'May 12 at 8:05 PM',
+    createdAt: '2026-05-12T20:05:27.000Z',
     kind: 'slack-attachment',
     webhook: {
       displayName: 'Alert System',
@@ -4970,6 +5235,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mramirez',
     text: 'This looks severe. @dmartin Can we activate contingency protocols for affected regions before final trajectory assessments?',
     timestamp: 'May 12 at 8:09 PM',
+    createdAt: '2026-05-12T20:09:04.000Z',
     rootId: 'p-zc4ge7im',
   },
   {
@@ -4978,6 +5244,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'dmartin',
     text: 'Command has authorized full personnel recall. Awaiting launch of coordination channel.',
     timestamp: 'May 12 at 8:09 PM',
+    createdAt: '2026-05-12T20:09:28.000Z',
     rootId: 'p-zc4ge7im',
     reactions: [
       {
@@ -4992,6 +5259,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'arogers',
     text: 'All personnel execute evacuation procedures per protocol. Playbook has been initiated. Please follow SOPs here: ~cui-3234a-personnel-recall',
     timestamp: 'May 12 at 8:10 PM',
+    createdAt: '2026-05-12T20:10:29.000Z',
     rootId: 'p-zc4ge7im',
     edited: true,
   },
@@ -5001,6 +5269,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: 'Check out this whitepaper:',
     timestamp: 'Jun 19 at 7:05 PM',
+    createdAt: '2026-06-19T19:05:58.000Z',
     files: [
       {
         name: 'Secure_ChatOps_Guide.pdf',
@@ -5015,6 +5284,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'jthomas',
     text: 'Hi Alex, can you please help complete the onboarding tasks for our new analyst joining the team (@amccall)? Thanks!',
     timestamp: 'Jul 4 at 6:42 PM',
+    createdAt: '2026-07-04T18:42:57.000Z',
     priority: 'important',
     requestAck: true,
   },
@@ -5024,6 +5294,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '- A fix (SOC-2341) for missing username field validation (excluding special characters) is now in QA, assigned to @jdunlap.\n- E2E tests for PR soc-pr-30922 with soc-incident-dashboard component completed successfully.\n- Initial setup for pgBouncer is being added; configs move from ArgoCD to post-creation provisioner logic (SOC-9026 PR by @hkeith).\n- New PR opened: PLT-235 to streamline webhook event parsing for pipeline triggers (@rhines).\n- The Release Playbook for v2.6.0 was run by @vanand.\n- @rharrison shared new regex-based username validation and requested QA review before merging to release branch.\n- @jdunlap is checking the fix and asks if @vanand is aware, noting the need for cherry-picking.\n- @sbandhu emphasized the need to queue this change for security review.\n- @ataylor confirmed the security review request is handled.',
     timestamp: 'Jun 19 at 5:19 PM',
+    createdAt: '2026-06-19T17:19:00.000Z',
     kind: 'bot-reply',
     requestedById: 'ataylor',
     edited: true,
@@ -5034,6 +5305,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '- v2.7.0 release schedule milestones: feature complete is April 16; branch/RC-1 cut April 18; code freeze April 23; release build April 27; release day April 30. All feature PRs must be merged by April 16 to be included in RC1.\n- Open tickets and remaining PRs are being triaged; contributors should notify @vanand about urgent PRs.\n- RC1 has been deployed to staging; QA regression is ongoing with only minor issues, and security audits have found no critical vulnerabilities.\n- RC2 build and deployment are planned for next Wednesday.\n- Outstanding RBAC (Role-Based Access Control) cleanup PR needs prioritized reviews; assistance requested from QA for testing after dev review.\n- Next steps include confirming pending RBAC issue PRs before RC2 and completing the security review before next Wednesday.',
     timestamp: 'Jun 19 at 5:51 PM',
+    createdAt: '2026-06-19T17:51:11.000Z',
     kind: 'bot-reply',
     requestedById: 'ataylor',
     edited: true,
@@ -5044,6 +5316,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: '- SOC-2341 status updated to QA after fixing missing username validation on the registration form. Usernames are now restricted to 3-16 characters, letters, numbers, dashes, or underscores, implemented via a new JavaScript regex.\n- @qa-team is reviewing before merge; discussion included tagging for cherry-picking into the release branch and alerting stakeholders.\n- Security review for the change has been confirmed as initiated.\n- Additional updates: new GitLab pipeline triggered on platform/master, E2E tests completed for a PR build, initial pgbouncer setup added for cluster creation, and a new PR to streamline webhook event parsing has been opened.',
     timestamp: 'Jun 19 at 5:51 PM',
+    createdAt: '2026-06-19T17:51:56.000Z',
     kind: 'bot-reply',
     requestedById: 'ataylor',
     edited: true,
@@ -5054,6 +5327,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: "Please review this code change for any syntax errors:\n\n```\n// Username input validation\nfunction validateUsername(username) {\n  const regex = /^[a-zA-Z0-9_-]{3,16}$/;\n  return regex.test(username);\n}\n\n// Usage\nif (!validateUsername(input.value)) {\n  showError('Username must be 3-16 characters, letters, numbers, dashes or underscores.');\n}\n```",
     timestamp: 'Jun 19 at 5:54 PM',
+    createdAt: '2026-06-19T17:54:27.000Z',
     followerIds: ['ataylor', 'mattermost-ai-agent'],
   },
   {
@@ -5062,6 +5336,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'mattermost-ai-agent',
     text: 'No syntax errors are present in the code provided.  \n\n- The function is written correctly and uses valid regular expression syntax.\n- The usage example uses proper JavaScript conditional logic.\n- Function and variable names are valid.\n\nNext Steps:\n- Ensure that input is defined and has a value property in your actual application context.\n- Confirm that showError is implemented elsewhere in your code.\n\nSecurity Considerations:\n- Always sanitize and validate user inputs server-side, as client-side validation alone is insufficient for security.',
     timestamp: 'Jun 19 at 5:54 PM',
+    createdAt: '2026-06-19T17:54:27.000Z',
     rootId: 'p-okr49byt',
     kind: 'bot-reply',
     requestedById: 'ataylor',
@@ -5074,6 +5349,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Runs in Progress\nYou have 2 runs currently in progress:\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)',
     timestamp: 'May 2 at 11:12 AM',
+    createdAt: '2026-05-02T11:12:12.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-2',
@@ -5081,6 +5357,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Runs in Progress\nYou have 2 runs currently in progress:\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)',
     timestamp: 'May 5 at 1:00 AM',
+    createdAt: '2026-05-05T01:00:00.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-3',
@@ -5088,6 +5365,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n##### Your assigned tasks\nYou have 0 assigned tasks.\n\n##### Runs in Progress\nYou have 2 runs currently in progress:\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)',
     timestamp: 'May 5 at 3:24 PM',
+    createdAt: '2026-05-05T15:24:03.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-4',
@@ -5095,6 +5373,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### MSN-3234A Status Update\n\n🟢 Completed Tasks:\n- Recall order approved by command\n- Priority alert posted in Unit Command Channel. and acknowledged\n\n🟡 In Progress:\n- RTB timeline is being finalized for all units\n- Briefing call scheduled to align objectives before mobilization\n\n⏭️ Next Actions:\n- Personnel notification underway via Mattermost\n- Logistics team preparing transportation assets and contingency plans.',
     timestamp: 'May 12 at 8:23 PM',
+    createdAt: '2026-05-12T20:23:24.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🎖️ MSN-3234A Emergency Recall',
@@ -5118,6 +5397,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n##### Your assigned tasks\nYou have 0 assigned tasks.\n\n##### Runs in Progress\nYou have 5 runs currently in progress:\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [Release v2.7.0](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'May 12 at 10:51 PM',
+    createdAt: '2026-05-12T22:51:31.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-6',
@@ -5125,6 +5405,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🎖️ MSN-3234A Emergency Recall](/mission-ops-hq/channels/msn-3234a-emergency-recall?telem_action=todo_overduestatus_clicked&telem_run_id=cui-3234a-personnel-recall&forceRHSOpen) (Owner: @arogers)',
     timestamp: 'May 13 at 4:23 AM',
+    createdAt: '2026-05-13T04:23:25.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-7',
@@ -5132,6 +5413,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🚨 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-compromise-f5xb?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'May 13 at 1:57 PM',
+    createdAt: '2026-05-13T13:57:41.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-8',
@@ -5139,6 +5421,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Release v2.7.0 Status Update\n**🟢 Completed:**\n- Triaged pending tickets and PRs to merge\n- Changelog draft submitted\n\n**🟡 In-Progress:**\n- Release metrics report in-progress by @mbarry for v2.6.1 release.\n- Release retro scheduled for next week for v2.6.0\n\n**Next Actions:**\n- @vanand to help add retrospective notes in the Jira tickets for backported bug fixes, including root cause analysis and preventative process\n- @qa-team to review v2.7.0 Jira queries for low impact issues we can bump to next release',
     timestamp: 'May 14 at 4:38 PM',
+    createdAt: '2026-05-14T16:38:26.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'Release v2.7.0',
@@ -5161,6 +5444,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Release v2.7.0 Status Update\n**🟢 Completed:**\n- Development: Features complete, final PR merges in progress.\n- QA: Initial feature testing underway.\n- Documentation: Draft reviews scheduled for new feature docs.\n\n**🟡 In-Progress:**\n- RC Build & Deployment scheduled for next Wednesday.\n- Security Audits: Start immediately after RC deployment.\n\n**Next Actions:**\n- @rharrison: Finalize PR merges by Friday.',
     timestamp: 'May 14 at 4:50 PM',
+    createdAt: '2026-05-14T16:50:25.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'Release v2.7.0',
@@ -5183,6 +5467,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Release v2.7.0 Status Update\n**🟢 Completed:**\n- RC1 deployment to staging completed successfully.\n- QA regression tests ongoing with minor issues identified.\n- Security audits underway with no critical vulnerabilities found.\n\n**🟡 In-Progress:**\n- RC2 Build & Deployment scheduled for next Wednesday.\n\n**Next Actions:**\n- @rhines please confirm if any PRs for existing known issues are expected for RBAC before RC2\n- @sbandhu complete security review before RC2 cut next Wednesday',
     timestamp: 'May 14 at 8:50 PM',
+    createdAt: '2026-05-14T20:50:44.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: 'Release v2.7.0',
@@ -5206,6 +5491,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [Release v2.7.0](/dev-sec-ops-hq/channels/release-v270?telem_action=todo_overduestatus_clicked&telem_run_id=release-v270&forceRHSOpen) (Owner: @vanand)',
     timestamp: 'May 15 at 4:50 AM',
+    createdAt: '2026-05-15T04:50:45.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-12',
@@ -5213,6 +5499,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n##### Your assigned tasks\nYou have 0 assigned tasks.\n\n##### Runs in Progress\nYou have 6 runs currently in progress:\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'May 19 at 9:09 PM',
+    createdAt: '2026-05-19T21:09:54.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-13',
@@ -5220,6 +5507,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@admin assigned you the task **Configure status update template and frequency** (previously assigned to @mbarry) for the run: [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=dm_assignedtask)\n   #taskassigned',
     timestamp: 'May 22 at 4:30 PM',
+    createdAt: '2026-05-22T16:30:40.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-14',
@@ -5227,6 +5515,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@admin assigned you the task **Submit ticket with AWS support** (previously assigned to @jdunlap) for the run: [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=dm_assignedtask)\n   #taskassigned',
     timestamp: 'May 22 at 4:30 PM',
+    createdAt: '2026-05-22T16:30:56.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-15',
@@ -5234,6 +5523,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@admin assigned you the task **Update release download links in relevant docs and webpages** (previously assigned to No Assignee) for the run: [v2.7.0 Release](/playbooks/runs/release-v270?from=dm_assignedtask)\n   #taskassigned',
     timestamp: 'May 22 at 4:31 PM',
+    createdAt: '2026-05-22T16:31:10.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-16',
@@ -5241,6 +5531,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '@admin assigned you the task **Publish announcements and marketing** (previously assigned to No Assignee) for the run: [v2.7.0 Release](/playbooks/runs/release-v270?from=dm_assignedtask)\n   #taskassigned',
     timestamp: 'May 22 at 4:31 PM',
+    createdAt: '2026-05-22T16:31:26.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-17',
@@ -5248,6 +5539,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'May 23 at 5:10 PM',
+    createdAt: '2026-05-23T17:10:42.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-18',
@@ -5255,6 +5547,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 7 runs currently in progress:\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'May 27 at 9:17 PM',
+    createdAt: '2026-05-27T21:17:17.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-19',
@@ -5262,6 +5555,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🎖️ MSN-3234A Emergency Recall](/mission-ops-hq/channels/msn-3234a-emergency-recall?telem_action=todo_overduestatus_clicked&telem_run_id=cui-3234a-personnel-recall&forceRHSOpen) (Owner: @arogers)',
     timestamp: 'May 28 at 6:06 AM',
+    createdAt: '2026-05-28T06:06:05.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-20',
@@ -5269,6 +5563,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'May 28 at 10:04 PM',
+    createdAt: '2026-05-28T22:04:26.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-21',
@@ -5276,6 +5571,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [Release v2.7.0](/dev-sec-ops-hq/channels/release-v270?telem_action=todo_overduestatus_clicked&telem_run_id=release-v270&forceRHSOpen) (Owner: @vanand)',
     timestamp: 'May 28 at 10:05 PM',
+    createdAt: '2026-05-28T22:05:06.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-22',
@@ -5283,6 +5579,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'May 28 at 10:05 PM',
+    createdAt: '2026-05-28T22:05:19.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-23',
@@ -5290,6 +5587,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [INT-6271B Intel Brief](/mission-ops-hq/channels/int-6271b-intel-brief?telem_action=todo_overduestatus_clicked&telem_run_id=cui-int-6271b-intel-brief&forceRHSOpen) (Owner: @admin)',
     timestamp: 'May 28 at 10:05 PM',
+    createdAt: '2026-05-28T22:05:38.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-24',
@@ -5297,6 +5595,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Jun 4 at 3:37 PM',
+    createdAt: '2026-06-04T15:37:01.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-25',
@@ -5304,6 +5603,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Jun 9 at 7:22 PM',
+    createdAt: '2026-06-09T19:22:07.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-26',
@@ -5311,6 +5611,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢  Release v2.7.0](/dev-sec-ops-hq/channels/release-v270?telem_action=todo_overduestatus_clicked&telem_run_id=release-v270&forceRHSOpen) (Owner: @vanand)',
     timestamp: 'Jun 12 at 9:49 PM',
+    createdAt: '2026-06-12T21:49:35.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-27',
@@ -5318,6 +5619,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'Jun 12 at 9:49 PM',
+    createdAt: '2026-06-12T21:49:40.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-28',
@@ -5325,6 +5627,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🎖️ (CUI) MSN-3234A Emergency Recall](/mission-ops-hq/channels/cui-msn-3234a-emergency-recall?telem_action=todo_overduestatus_clicked&telem_run_id=cui-3234a-personnel-recall&forceRHSOpen) (Owner: @arogers)',
     timestamp: 'Jun 12 at 9:50 PM',
+    createdAt: '2026-06-12T21:50:01.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-29',
@@ -5332,6 +5635,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [📝 (CUI) INT-6271B Intel Brief](/mission-ops-hq/channels/cui-int-6271b-intel-brief?telem_action=todo_overduestatus_clicked&telem_run_id=cui-int-6271b-intel-brief&forceRHSOpen) (Owner: @admin)',
     timestamp: 'Jun 12 at 9:50 PM',
+    createdAt: '2026-06-12T21:50:08.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-30',
@@ -5339,6 +5643,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Jun 18 at 9:49 PM',
+    createdAt: '2026-06-18T21:49:10.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-31',
@@ -5346,6 +5651,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [🎖️ MSN-3234A Emergency Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Jun 18 at 10:51 PM',
+    createdAt: '2026-06-18T22:51:02.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-32',
@@ -5353,6 +5659,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [🎖️ 3234A Personnel Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Jun 23 at 6:12 PM',
+    createdAt: '2026-06-23T18:12:15.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-33',
@@ -5360,6 +5667,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'Jun 25 at 9:32 PM',
+    createdAt: '2026-06-25T21:32:56.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-34',
@@ -5367,6 +5675,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢  Release v2.7.0](/dev-sec-ops-hq/channels/release-v270?telem_action=todo_overduestatus_clicked&telem_run_id=release-v270&forceRHSOpen) (Owner: @vanand)',
     timestamp: 'Jun 25 at 9:33 PM',
+    createdAt: '2026-06-25T21:33:01.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-35',
@@ -5374,6 +5683,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🏠 (CUI) 3234A Personnel Recall](/mission-ops-hq/channels/cui-3234a-personnel-recall?telem_action=todo_overduestatus_clicked&telem_run_id=cui-3234a-personnel-recall&forceRHSOpen) (Owner: @arogers)',
     timestamp: 'Jun 25 at 9:33 PM',
+    createdAt: '2026-06-25T21:33:35.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-36',
@@ -5381,6 +5691,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [📝 (CUI) INT-6271B Intel Brief](/mission-ops-hq/channels/cui-int-6271b-intel-brief?telem_action=todo_overduestatus_clicked&telem_run_id=cui-int-6271b-intel-brief&forceRHSOpen) (Owner: @admin)',
     timestamp: 'Jun 25 at 9:33 PM',
+    createdAt: '2026-06-25T21:33:39.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-37',
@@ -5388,6 +5699,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Jun 25 at 10:52 PM',
+    createdAt: '2026-06-25T22:52:39.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-38',
@@ -5395,6 +5707,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [🎖️ 3234A Personnel Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Jul 2 at 9:39 PM',
+    createdAt: '2026-07-02T21:39:54.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-39',
@@ -5402,6 +5715,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🏠 (CUI) 3234A Personnel Recall](/mission-ops-hq/channels/cui-3234a-personnel-recall?telem_action=todo_overduestatus_clicked&telem_run_id=cui-3234a-personnel-recall&forceRHSOpen) (Owner: @arogers)',
     timestamp: 'Jul 10 at 3:49 PM',
+    createdAt: '2026-07-10T15:49:09.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-40',
@@ -5409,6 +5723,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [📝 (CUI) INT-6271B Intel Brief](/mission-ops-hq/channels/cui-int-6271b-intel-brief?telem_action=todo_overduestatus_clicked&telem_run_id=cui-int-6271b-intel-brief&forceRHSOpen) (Owner: @admin)',
     timestamp: 'Jul 10 at 3:49 PM',
+    createdAt: '2026-07-10T15:49:19.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-41',
@@ -5416,6 +5731,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'Jul 10 at 3:49 PM',
+    createdAt: '2026-07-10T15:49:29.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-42',
@@ -5423,6 +5739,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢  Release v2.7.0](/dev-sec-ops-hq/channels/release-v270?telem_action=todo_overduestatus_clicked&telem_run_id=release-v270&forceRHSOpen) (Owner: @vanand)',
     timestamp: 'Jul 10 at 3:49 PM',
+    createdAt: '2026-07-10T15:49:37.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-43',
@@ -5430,6 +5747,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Jul 10 at 3:49 PM',
+    createdAt: '2026-07-10T15:49:56.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-44',
@@ -5437,6 +5755,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [🎖️ 3234A Personnel Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Jul 10 at 6:20 PM',
+    createdAt: '2026-07-10T18:20:20.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-45',
@@ -5444,6 +5763,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [🎖️ 3234A Personnel Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Jul 25 at 6:28 PM',
+    createdAt: '2026-07-25T18:28:29.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-46',
@@ -5451,6 +5771,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [🎖️ 3234A Personnel Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Aug 1 at 6:20 PM',
+    createdAt: '2026-08-01T18:20:55.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-47',
@@ -5458,6 +5779,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Aug 1 at 8:55 PM',
+    createdAt: '2026-08-01T20:55:27.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-48',
@@ -5465,6 +5787,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'Aug 1 at 8:56 PM',
+    createdAt: '2026-08-01T20:56:21.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-49',
@@ -5472,6 +5795,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢  Release v2.7.0](/dev-sec-ops-hq/channels/release-v270?telem_action=todo_overduestatus_clicked&telem_run_id=release-v270&forceRHSOpen) (Owner: @vanand)',
     timestamp: 'Aug 1 at 8:56 PM',
+    createdAt: '2026-08-01T20:56:26.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-50',
@@ -5479,6 +5803,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🏠 (CUI) 3234A Personnel Recall](/mission-ops-hq/channels/cui-3234a-personnel-recall?telem_action=todo_overduestatus_clicked&telem_run_id=cui-3234a-personnel-recall&forceRHSOpen) (Owner: @arogers)',
     timestamp: 'Aug 1 at 8:56 PM',
+    createdAt: '2026-08-01T20:56:49.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-51',
@@ -5486,6 +5811,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [📝 (CUI) INT-6271B Intel Brief](/mission-ops-hq/channels/cui-int-6271b-intel-brief?telem_action=todo_overduestatus_clicked&telem_run_id=cui-int-6271b-intel-brief&forceRHSOpen) (Owner: @admin)',
     timestamp: 'Aug 1 at 8:56 PM',
+    createdAt: '2026-08-01T20:56:57.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-52',
@@ -5493,6 +5819,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'Oct 10 at 9:34 PM',
+    createdAt: '2026-10-10T21:34:47.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-53',
@@ -5500,6 +5827,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Oct 17 at 6:09 PM',
+    createdAt: '2026-10-17T18:09:56.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-54',
@@ -5507,6 +5835,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- User account compromised via credential spray\n- Legacy IMAP path exploited\n- Confluence access confirmed (non-privileged internal pages)\n- Session terminated, IOC set identified\n- Org-wide protocol audit underway\n- No breach or downstream access detected',
     timestamp: 'Oct 20 at 3:09 PM',
+    createdAt: '2026-10-20T15:09:04.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🚨 INC-1281 Credential Compromise',
@@ -5532,6 +5861,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟡 INC82 Server Outage](/dev-sec-ops-hq/channels/inc82-server-outage?telem_action=todo_overduestatus_clicked&telem_run_id=inc82-server-outage&forceRHSOpen) (Owner: @hkeith)',
     timestamp: 'Oct 23 at 11:11 PM',
+    createdAt: '2026-10-23T23:11:50.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-56',
@@ -5539,6 +5869,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- User account compromised via credential spray\n- Legacy IMAP path exploited\n- Confluence access confirmed (non-privileged internal pages)\n- Session terminated, IOC set identified\n- Org-wide protocol audit underway\n- No breach or downstream access detected',
     timestamp: 'Oct 24 at 7:45 PM',
+    createdAt: '2026-10-24T19:45:32.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🚨 INC-1281 Credential Compromise',
@@ -5564,6 +5895,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '### Status Update: Credential Compromise (INC-1281)\n- User account compromised via credential spray\n- Legacy IMAP path exploited\n- Confluence access confirmed (non-privileged internal pages)\n- Session terminated, IOC set identified\n- Org-wide protocol audit underway\n- No breach or downstream access detected',
     timestamp: 'Oct 24 at 7:49 PM',
+    createdAt: '2026-10-24T19:49:22.000Z',
     kind: 'run-update',
     runUpdate: {
       runName: '🚨 INC-1281 Credential Compromise',
@@ -5589,6 +5921,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Oct 31 at 7:49 PM',
+    createdAt: '2026-10-31T19:49:23.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-59',
@@ -5596,6 +5929,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Nov 5 at 3:30 PM',
+    createdAt: '2026-11-05T15:30:28.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-60',
@@ -5603,6 +5937,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: '##### Overdue Status Updates\nYou have 0 runs overdue.\n\n##### Runs in Progress\nYou have 8 runs currently in progress:\n- [🎖️ 3234A Personnel Recall](/playbooks/runs/cui-3234a-personnel-recall?from=digest_runsinprogress)\n- [Getting Started with Mattermost (Cyber Defense HQ) ](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (DevSecOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [Getting Started with Mattermost (MissionOps HQ)](/playbooks/runs/town-square?from=digest_runsinprogress)\n- [🚨 INC-1281 Credential Compromise](/playbooks/runs/inc-1281-credential-comp?from=digest_runsinprogress)\n- [🟡 INC82 Server Outage](/playbooks/runs/inc82-server-outage?from=digest_runsinprogress)\n- [INT-6271B Intel Brief](/playbooks/runs/cui-int-6271b-intel-brief?from=digest_runsinprogress)\n- [v2.7.0 Release](/playbooks/runs/release-v270?from=digest_runsinprogress)',
     timestamp: 'Nov 12 at 9:20 PM',
+    createdAt: '2026-11-12T21:20:07.000Z',
   },
   {
     id: 'dm-ataylor-playbooks-61',
@@ -5610,6 +5945,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'playbooks',
     text: 'Status update is overdue for [🟢 INC-1281 Credential Compromise](/cyber-defense-hq/channels/inc-1281-credential-comp?telem_action=todo_overduestatus_clicked&telem_run_id=inc-1281-credential-comp&forceRHSOpen) (Owner: @jthomas)',
     timestamp: 'Nov 12 at 10:49 PM',
+    createdAt: '2026-11-12T22:49:15.000Z',
   },
   {
     id: 'gm-aahmad-ataylor-jdunlap-sbandhu-1',
@@ -5617,6 +5953,7 @@ export const cyberDefensePosts: readonly FixturePost[] = [
     userId: 'ataylor',
     text: 'Hey @channel, can we push back our sync tomorrow by 30 minutes? Thanks!',
     timestamp: 'May 22 at 4:49 PM',
+    createdAt: '2026-05-22T16:49:14.000Z',
     edited: true,
   },
 ];

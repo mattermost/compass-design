@@ -106,9 +106,11 @@ export function FixtureChannelHeader({
 function FixturePostMessage({
   post,
   channels,
+  onOpenThread,
 }: {
   post: FixturePost;
   channels: readonly FixtureChannel[];
+  onOpenThread?: (rootId: string) => void;
 }) {
   const author = getCyberDefenseUser(post.userId);
   const webhook = post.webhook;
@@ -255,6 +257,7 @@ function FixturePostMessage({
               mentionCount={post.unreadMentions}
               following={post.followerIds?.includes(cyberDefenseCurrentUserId)}
               lastReplyTime={replies[replies.length - 1]!.timestamp}
+              onReply={onOpenThread ? () => onOpenThread(post.id) : undefined}
             />
           </div>
         ) : undefined
@@ -270,9 +273,12 @@ function FixturePostMessage({
 export function FixtureMessageList({
   channel,
   channels,
+  onOpenThread,
 }: {
   channel: FixtureChannel;
   channels: readonly FixtureChannel[];
+  /** Called with the root post id when a thread's reply link is clicked. */
+  onOpenThread?: (rootId: string) => void;
 }) {
   const roots = rootPosts(channel.id);
   const items: ReactNode[] = [];
@@ -290,7 +296,12 @@ export function FixtureMessageList({
         <MessageSeparator key={`new-${post.id}`} type="new-messages" />,
       );
     items.push(
-      <FixturePostMessage key={post.id} post={post} channels={channels} />,
+      <FixturePostMessage
+        key={post.id}
+        post={post}
+        channels={channels}
+        onOpenThread={onOpenThread}
+      />,
     );
   }
   return <>{items}</>;

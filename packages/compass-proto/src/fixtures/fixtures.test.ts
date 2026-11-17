@@ -205,6 +205,19 @@ describe('cyber defense fixtures', () => {
     }
   });
 
+  it('gives every post a createdAt that agrees with the order within a channel', () => {
+    const lastByChannel = new Map<string, number>();
+    for (const p of cyberDefensePosts) {
+      expect(p.createdAt).toBeTruthy();
+      const at = Date.parse(p.createdAt!);
+      expect(Number.isNaN(at)).toBe(false);
+      expect(at).toBeGreaterThanOrEqual(
+        lastByChannel.get(p.channelId) ?? -Infinity,
+      );
+      lastByChannel.set(p.channelId, at);
+    }
+  });
+
   it('keeps posts chronological within a thread (replies after their root)', () => {
     const order = new Map(cyberDefensePosts.map((p, i) => [p.id, i]));
     for (const p of cyberDefensePosts)
@@ -385,6 +398,42 @@ describe('buildChannelsSidebarModelFromFixtures', () => {
       mentionCount: 2,
     });
     expect(build().topGroupItems[0]!.status).toBeUndefined();
+  });
+
+  it('puts unread channels in an Unreads group when asked, and nowhere else', () => {
+    const channels = [
+      { id: 'a', type: 'public' as const, name: 'A', unreadCount: 2 },
+      { id: 'b', type: 'public' as const, name: 'B', favorite: true },
+      {
+        id: 'c',
+        type: 'public' as const,
+        name: 'C',
+        mentionCount: 1,
+        unreadCount: 1,
+        favorite: true,
+      },
+    ];
+    const build2 = (showUnreadsCategory: boolean) =>
+      buildChannelsSidebarModelFromFixtures({
+        channels,
+        users: [],
+        currentUserId: 'me',
+        showUnreadsCategory,
+      });
+    expect(build2(false).groups.map((g) => g.key)).toEqual([
+      'favorites',
+      'channels',
+    ]);
+    const on = build2(true);
+    expect(on.groups.map((g) => g.key)).toEqual(['unreads', 'favorites']);
+    expect(on.groups[0]!.items.map((i) => i.name).sort()).toEqual(['A', 'C']);
+    expect(on.groups[0]!.category).toMatchObject({
+      label: 'Unreads',
+      showChevron: false,
+    });
+    // each channel appears once
+    const names = on.groups.flatMap((g) => g.items.map((i) => i.name));
+    expect(names.sort()).toEqual(['A', 'B', 'C']);
   });
 
   it('lists only the chosen team channels, plus direct and group messages', () => {
