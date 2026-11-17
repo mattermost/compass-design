@@ -1,11 +1,4 @@
-import CogOutlineIcon from '@mattermost/compass-icons/components/cog-outline';
-import {
-  ProductRail,
-  ProductRailTeamButton,
-  WithTooltip,
-} from '@mattermost/compass-proto';
-import { Icon } from '@mattermost/compass-ui/components/icon';
-import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { ProductRail, ProductRailTeamButton } from '@mattermost/compass-proto';
 import {
   productRailDemoItems,
   productRailDemoTeams,
@@ -29,15 +22,6 @@ export function ProductRailAnatomyStage() {
           }
           activeId="channels"
           items={productRailDemoItems}
-          footer={
-            <WithTooltip label="Settings" placement="right">
-              <IconButton
-                size="medium"
-                style="inverted"
-                icon={<Icon glyph={<CogOutlineIcon />} />}
-              />
-            </WithTooltip>
-          }
         />
       </div>
     </AnatomyStage>
