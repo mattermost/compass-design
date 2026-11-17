@@ -32,6 +32,17 @@
     }
   }
 
+  // A channel's emoji, in the leading visual slot (16px, like the glyphs).
+  &__emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-16, 16px);
+    height: var(--icon-size-16, 16px);
+    font-size: var(--font-size-100);
+    line-height: 1;
+  }
+
   &__heading {
     padding-inline: var(--spacing-xl);
   }

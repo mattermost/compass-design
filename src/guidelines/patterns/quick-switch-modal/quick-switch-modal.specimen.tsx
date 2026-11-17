@@ -5,6 +5,7 @@ import {
   workspaceChannels,
   workspaceCurrentUserId,
   getWorkspaceUser,
+  splitLeadingEmoji,
   type FixtureChannel,
   type QuickSwitchItem,
 } from '@mattermost/compass-proto';
@@ -36,9 +37,12 @@ function toItem(channel: FixtureChannel, group: string): QuickSwitchItem {
       ),
     };
   }
+  // A name that starts with an emoji shows it in place of the globe.
+  const { emoji, name } = splitLeadingEmoji(channel.name);
   return {
     id: channel.id,
-    name: channel.name,
+    name,
+    leadingEmoji: emoji,
     kind: 'channel',
     secondaryLabel: `~${channel.id.split('/').pop()}`,
     group,

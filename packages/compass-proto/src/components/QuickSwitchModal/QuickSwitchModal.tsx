@@ -47,6 +47,12 @@ export interface QuickSwitchItem {
    */
   secondaryLabel?: string;
   /**
+   * An emoji shown in place of the default globe (a channel whose name starts
+   * with one; put the rest of the name in `name`). Ignored when `leadingVisual`
+   * is set.
+   */
+  leadingEmoji?: string;
+  /**
    * Leading visual. Pass `<Icon glyph={<SomeIcon />} />` (the row provides the
    * size) or a 16–24px node such as an avatar. Default: a globe icon.
    */
@@ -397,7 +403,16 @@ function QuickSwitchPanel({
                           secondaryLabel={item.secondaryLabel}
                           secondaryLabelPosition="inline"
                           leadingVisual={
-                            item.leadingVisual ?? <Icon glyph={<GlobeIcon />} />
+                            item.leadingVisual ??
+                            (item.leadingEmoji ? (
+                              <span
+                                className={styles['quick-switch-modal__emoji']}
+                              >
+                                {item.leadingEmoji}
+                              </span>
+                            ) : (
+                              <Icon glyph={<GlobeIcon />} />
+                            ))
                           }
                           active={index === active}
                           // Focus stays in the input (aria-activedescendant).

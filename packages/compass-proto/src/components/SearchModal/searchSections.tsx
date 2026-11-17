@@ -105,7 +105,9 @@ export function buildModeContent({
     return {
       value,
       label: c.name,
-      leadingVisual: (
+      leadingVisual: c.leadingEmoji ? (
+        <span className={styles['search-modal__emoji']}>{c.leadingEmoji}</span>
+      ) : (
         <Icon glyph={c.kind === 'private' ? <LockIcon /> : <GlobeIcon />} />
       ),
       menuItemProps: { mentionCount: c.mentionCount },

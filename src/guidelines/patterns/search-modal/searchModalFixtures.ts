@@ -5,6 +5,7 @@ import {
   workspaceUsers,
   getWorkspaceChannel,
   getWorkspaceUser,
+  splitLeadingEmoji,
   type FixtureChannel,
   type FixtureUser,
   type SearchChannel,
@@ -39,12 +40,17 @@ const toPerson = (user: FixtureUser): SearchPerson => ({
 
 const channelSlug = (channel: FixtureChannel) => channel.id.split('/').pop();
 
-const toSearchChannel = (channel: FixtureChannel): SearchChannel => ({
-  id: channel.id,
-  name: channelSlug(channel) ?? channel.name,
-  kind: channel.type === 'private' ? 'private' : 'public',
-  mentionCount: channel.mentionCount || undefined,
-});
+const toSearchChannel = (channel: FixtureChannel): SearchChannel => {
+  // A name that starts with an emoji shows it in place of the globe / lock.
+  const { emoji, name } = splitLeadingEmoji(channel.name);
+  return {
+    id: channel.id,
+    name,
+    leadingEmoji: emoji,
+    kind: channel.type === 'private' ? 'private' : 'public',
+    mentionCount: channel.mentionCount || undefined,
+  };
+};
 
 const myChannels = workspaceChannels.filter(
   (c) =>
