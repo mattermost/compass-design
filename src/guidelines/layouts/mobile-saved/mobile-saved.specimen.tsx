@@ -8,9 +8,10 @@ import {
   mobileMessageStyles,
 } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
-import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import {
+  mobileProfile,
+  mobileSavedPosts,
+} from '@/fixtures/mobileLayoutFixtures';
 import styles from './mobile-saved.specimen.module.scss';
 
 const bodyTextClass = mobileMessageStyles['mobile-message__body-text'];
@@ -25,53 +26,30 @@ export default function MobileSavedLibrary() {
           <MobileSavedMessages>
             <Scrollbar>
               <div className={styles['mobile-saved-layout__list']}>
-                <MobileMessage
-                  avatarSrc={avatarLeonard}
-                  avatarAlt="Leonard Riley"
-                  username="Leonard Riley"
-                  timestamp="10:12 AM"
-                  channelName="UX Design"
-                  teamName="Contributors"
-                >
-                  <p className={bodyTextClass}>
-                    Design review is bumped to 2:00 PM today — conflict with the
-                    roadmap meeting.
-                  </p>
-                </MobileMessage>
-                <MobileMessage
-                  avatarSrc={avatarMarco}
-                  avatarAlt="Marco Rinaldi"
-                  username="Marco Rinaldi"
-                  timestamp="Yesterday"
-                  channelName="Onboarding"
-                  teamName="Design"
-                >
-                  <p className={bodyTextClass}>
-                    Just pushed the updated onboarding flow to staging — would
-                    love a second pair of eyes before we cut a release.
-                  </p>
-                </MobileMessage>
-                <MobileMessage
-                  avatarSrc={avatarSofia}
-                  avatarAlt="Sofia Bauer"
-                  username="Sofia Bauer"
-                  timestamp="Mon"
-                  channelName="Town Square"
-                  teamName="Contributors"
-                >
-                  <p className={bodyTextClass}>
-                    Morning everyone! Reminder that the Q2 roadmap review is at
-                    10:30 today.
-                  </p>
-                </MobileMessage>
+                {mobileSavedPosts.map((post) => (
+                  <MobileMessage
+                    key={post.id}
+                    avatarSrc={post.avatarSrc}
+                    avatarAlt={post.username}
+                    username={post.username}
+                    timestamp={
+                      post.day ? `${post.day} at ${post.time}` : post.time
+                    }
+                    isBot={post.isBot}
+                    channelName={post.channelName}
+                    teamName={post.teamName}
+                  >
+                    <p className={bodyTextClass}>{post.text}</p>
+                  </MobileMessage>
+                ))}
               </div>
             </Scrollbar>
           </MobileSavedMessages>
           <MobileTabBar
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            profileSrc={avatarLeonard}
-            profileAlt="Leonard Riley"
+            profileSrc={mobileProfile.avatarSrc}
+            profileAlt={mobileProfile.displayName}
           />
         </div>
       </DeviceFrame>

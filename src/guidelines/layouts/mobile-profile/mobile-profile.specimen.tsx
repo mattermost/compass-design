@@ -13,7 +13,7 @@ import {
   MobileTabBar,
 } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { mobileProfile } from '@/fixtures/mobileLayoutFixtures';
 import styles from './mobile-profile.specimen.module.scss';
 
 export default function MobileProfileLibrary() {
@@ -24,15 +24,16 @@ export default function MobileProfileLibrary() {
       <DeviceFrame insetContent={false} statusBarStyle="light">
         <div className={styles['mobile-profile-layout__shell']}>
           <MobileProfile
-            avatarSrc={avatarLeonard}
-            avatarAlt="Leonard Riley"
-            displayName="Leonard Riley"
-            username="@leonard.riley"
+            avatarSrc={mobileProfile.avatarSrc}
+            avatarAlt={mobileProfile.displayName}
+            displayName={mobileProfile.displayName}
+            username={mobileProfile.username}
+            status={mobileProfile.online}
           >
             <Scrollbar>
               <div className={styles['mobile-profile-layout__menu']}>
                 <MobileMenuItem
-                  label="Online"
+                  label={mobileProfile.statusLabel}
                   leadingVisual={
                     <Icon
                       size="20"
@@ -42,7 +43,7 @@ export default function MobileProfileLibrary() {
                   }
                 />
                 <MobileMenuItem
-                  label="Set a Custom Status"
+                  label={mobileProfile.customStatus ?? 'Set a Custom Status'}
                   leadingVisual={
                     <Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />
                   }
@@ -77,8 +78,8 @@ export default function MobileProfileLibrary() {
           <MobileTabBar
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            profileSrc={avatarLeonard}
-            profileAlt="Leonard Riley"
+            profileSrc={mobileProfile.avatarSrc}
+            profileAlt={mobileProfile.displayName}
           />
         </div>
       </DeviceFrame>
