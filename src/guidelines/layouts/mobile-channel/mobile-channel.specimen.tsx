@@ -1,3 +1,4 @@
+import { useStickToBottom } from '@/hooks/useStickToBottom';
 import { useState } from 'react';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
@@ -124,6 +125,7 @@ function KeyboardMicIcon() {
 }
 
 export default function MobileChannelLayout() {
+  const messagesRef = useStickToBottom();
   const [draft, setDraft] = useState('');
   const [composerExpanded, setComposerExpanded] = useState(false);
   const [composerFocused, setComposerFocused] = useState(false);
@@ -148,7 +150,7 @@ export default function MobileChannelLayout() {
             />
 
             <div className={styles['mobile-channel-layout__body']}>
-              <Scrollbar>
+              <Scrollbar ref={messagesRef}>
                 <div className={styles['mobile-channel-layout__messages']}>
                   <MessageSeparator type="date" label="Today" />
 

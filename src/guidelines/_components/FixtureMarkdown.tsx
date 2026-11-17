@@ -15,6 +15,7 @@ export default function FixtureMarkdown({ text }: { text: string }) {
 const HEADING = /^(#{1,6}) +(.*)$/;
 const LIST = /^(\s*)([-*]|\d+\.) +(.*)$/;
 const FENCE = /^```/;
+const RULE = /^\s*([-*_])(\s*\1){2,}\s*$/;
 const TABLE_ROW = /^\s*\|.*\|\s*$/;
 const TABLE_RULE = /^\s*\|?[\s:|-]+\|?\s*$/;
 
@@ -36,12 +37,15 @@ function renderBlocks(lines: string[]): ReactNode[] {
           {code.join('\n')}
         </pre>,
       );
+    } else if (RULE.test(line)) {
+      out.push(<hr key={key()} className={styles['fixture-md__hr']} />);
+      i++;
     } else if (HEADING.test(line)) {
       const [, hashes, content] = HEADING.exec(line)!;
       out.push(
         <p
           key={key()}
-          className={`${styles['fixture-md__heading']} ${styles[`fixture-md__heading--${Math.min(hashes!.length, 4)}`]}`}
+          className={`${styles['fixture-md__heading']} ${styles[`fixture-md__heading--${hashes!.length}`]}`}
         >
           {inline(content!)}
         </p>,
@@ -81,6 +85,7 @@ function renderBlocks(lines: string[]): ReactNode[] {
         lines[i]!.trim() &&
         !FENCE.test(lines[i]!) &&
         !HEADING.test(lines[i]!) &&
+        !RULE.test(lines[i]!) &&
         !LIST.test(lines[i]!) &&
         !/^>/.test(lines[i]!)
       )
@@ -140,7 +145,10 @@ function list(
   const Tag = ordered ? 'ol' : 'ul';
   return {
     node: (
-      <Tag key={k} className={styles['fixture-md__list']}>
+      <Tag
+        key={k}
+        className={`${styles['fixture-md__list']} ${ordered ? styles['fixture-md__list--ordered'] : ''}`}
+      >
         {children}
       </Tag>
     ),
@@ -186,7 +194,7 @@ function table(rows: string[], k: number): ReactNode {
 }
 
 const INLINE =
-  /(\*\*[^*]+\*\*)|(\*[^*\s][^*]*\*)|(`[^`]+`)|(\[[^\]]+\]\([^)\s]+\))|(https?:\/\/[^\s<)]+)|(@[a-z][a-z0-9._-]*)|(~[a-z][a-z0-9-]*)/g;
+  /(\*\*[^*]+\*\*)|(\*[^*\s][^*]*\*)|(`[^`]+`)|(\[[^\]]+\]\([^)\s]+\))|(https?:\/\/[^\s<)]+)|(@[a-z][a-z0-9._-]*)|(~[a-z][a-z0-9-]*)|(~~[^~]+~~)/g;
 
 const unescape = (s: string) => s.replace(/\\([\\`*_{}[\]()#+\-.!|>~])/g, '$1');
 
@@ -202,7 +210,13 @@ function inline(text: string): ReactNode[] {
     if (at > last) out.push(unescape(text.slice(last, at)));
     const [token] = m;
     const k = at;
-    if (m[1]) out.push(<strong key={k}>{inline(token.slice(2, -2))}</strong>);
+    if (m[1])
+      out.push(
+        <strong key={k} className={styles['fixture-md__strong']}>
+          {inline(token.slice(2, -2))}
+        </strong>,
+      );
+    else if (m[8]) out.push(<del key={k}>{inline(token.slice(2, -2))}</del>);
     else if (m[2]) out.push(<em key={k}>{inline(token.slice(1, -1))}</em>);
     else if (m[3])
       out.push(

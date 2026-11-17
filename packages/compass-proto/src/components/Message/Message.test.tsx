@@ -86,4 +86,35 @@ describe('Message', () => {
     const col = container.querySelector('[class*="avatar-col"]')!;
     expect(col.children.length).toBeGreaterThan(0);
   });
+
+  it('shows the priority label in the header row, after the timestamp', () => {
+    const { container } = render(
+      <Message {...base} priority="urgent">
+        Body text
+      </Message>,
+    );
+    const header = container.querySelector('[class*="message-header"]')!;
+    const text = header.textContent ?? '';
+    expect(text).toContain('Urgent');
+    expect(text.indexOf('Urgent')).toBeGreaterThan(
+      text.indexOf(base.timestamp),
+    );
+    expect(container.textContent?.match(/Urgent/g)).toHaveLength(1);
+  });
+
+  it('uses translated priority labels, and shows none without a priority', () => {
+    const { container, rerender } = render(
+      <Message
+        {...base}
+        priority="important"
+        priorityLabels={{ important: 'Wichtig' }}
+      >
+        Body
+      </Message>,
+    );
+    expect(container.textContent).toContain('Wichtig');
+    expect(container.textContent).not.toContain('Important');
+    rerender(<Message {...base}>Body</Message>);
+    expect(container.textContent).not.toContain('Wichtig');
+  });
 });

@@ -1,3 +1,4 @@
+import { useStickToBottom } from '@/hooks/useStickToBottom';
 import { useState } from 'react';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
@@ -21,6 +22,7 @@ import { RightSidebarChannelInfo } from '@mattermost/compass-proto';
 import { shellStyles } from '@mattermost/compass-proto';
 
 export default function ModalLayout() {
+  const messagesRef = useStickToBottom();
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
 
   const modalFooter = (
@@ -89,7 +91,7 @@ export default function ModalLayout() {
     >
       <>
         <div className={shellStyles['channel-shell__messages']}>
-          <Scrollbar>
+          <Scrollbar ref={messagesRef}>
             <div className={shellStyles['channel-shell__messages-list']}>
               <MessageSeparator type="date" label="Today" />
 

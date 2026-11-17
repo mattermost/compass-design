@@ -3,7 +3,6 @@ import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-car
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { PermalinkPreview } from '@mattermost/compass-ui/components/permalink-preview';
 import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
-import { Tag } from '@mattermost/compass-ui/components/tag';
 import { ThreadFooter } from '@mattermost/compass-ui/components/thread-footer';
 import {
   CallCard,
@@ -213,6 +212,7 @@ function FixturePostMessage({
       username={username}
       timestamp={post.timestamp}
       isBot={Boolean(webhook) || author?.isBot}
+      priority={post.priority}
       customStatus={
         author?.customStatusEmoji && author.customStatusText && !webhook
           ? { emoji: author.customStatusEmoji, text: author.customStatusText }
@@ -242,15 +242,6 @@ function FixturePostMessage({
         ) : undefined
       }
     >
-      {post.priority && (
-        <Tag
-          className={styles['fixture-channel__priority']}
-          label={post.priority}
-          type={post.priority === 'urgent' ? 'danger' : 'info'}
-          size="x-small"
-          casing="all-caps"
-        />
-      )}
       {!hoisted && <FixtureMarkdown text={post.text} />}
       {post.edited && (
         <span className={styles['fixture-channel__edited']}> Edited</span>

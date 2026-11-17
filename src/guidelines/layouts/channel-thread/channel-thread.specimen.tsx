@@ -1,3 +1,4 @@
+import { useStickToBottom } from '@/hooks/useStickToBottom';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
 import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
@@ -19,6 +20,7 @@ import { RightSidebar } from '@mattermost/compass-proto';
 import { shellStyles } from '@mattermost/compass-proto';
 
 export default function ChannelThreadLayout() {
+  const messagesRef = useStickToBottom();
   return (
     <ChannelShell
       channelsSidebarModel={defaultChannelsSidebarDemoModel}
@@ -55,7 +57,7 @@ export default function ChannelThreadLayout() {
     >
       <>
         <div className={shellStyles['channel-shell__messages']}>
-          <Scrollbar>
+          <Scrollbar ref={messagesRef}>
             <div className={shellStyles['channel-shell__messages-list']}>
               <MessageSeparator type="date" label="Today" />
 

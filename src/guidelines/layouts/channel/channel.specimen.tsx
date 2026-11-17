@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
+import { useStickToBottom } from '@/hooks/useStickToBottom';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import {
@@ -54,6 +55,9 @@ export default function ChannelLayout() {
 
   const channel =
     visibleChannels.find((c) => c.id === activeChannelId) ?? visibleChannels[0];
+  // Open each channel on its newest message and keep it there.
+  const messagesRef = useStickToBottom(channel?.id);
+
   const sidebarModel = useMemo(
     () =>
       buildChannelsSidebarModelFromFixtures({
@@ -139,7 +143,7 @@ export default function ChannelLayout() {
       <>
         <FixtureChannelBanner channel={channel} />
         <div className={shellStyles['channel-shell__messages']}>
-          <Scrollbar key={channel.id}>
+          <Scrollbar key={channel.id} ref={messagesRef}>
             <div className={shellStyles['channel-shell__messages-list']}>
               <FixtureMessageList
                 channel={channel}

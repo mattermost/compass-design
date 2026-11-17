@@ -1,3 +1,4 @@
+import { useStickToBottom } from '@/hooks/useStickToBottom';
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
@@ -82,6 +83,7 @@ function TeamSwitcher() {
 }
 
 export default function ProductLayout() {
+  const messagesRef = useStickToBottom();
   const [product, setProduct] = useState<ProductRailDemoId>('channels');
 
   return (
@@ -113,7 +115,7 @@ export default function ProductLayout() {
             memberCount={124}
           />
           <div className={shellStyles['channel-shell__messages']}>
-            <Scrollbar>
+            <Scrollbar ref={messagesRef}>
               <div className={shellStyles['channel-shell__messages-list']}>
                 <MessageSeparator type="date" label="Today" />
                 <Message

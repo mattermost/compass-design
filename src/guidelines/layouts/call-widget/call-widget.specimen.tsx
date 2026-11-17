@@ -1,3 +1,4 @@
+import { useStickToBottom } from '@/hooks/useStickToBottom';
 import { useState } from 'react';
 import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
@@ -27,6 +28,7 @@ const callLinkProps = {
 };
 
 export default function CallWidgetLayout() {
+  const messagesRef = useStickToBottom();
   const [externalEnabled, setExternalEnabled] = useState(false);
   const [widgetOverlay, setWidgetOverlay] = useState<
     'menu' | 'info' | 'participants' | null
@@ -80,7 +82,7 @@ export default function CallWidgetLayout() {
       }
     >
       <div className={shellStyles['channel-shell__messages']}>
-        <Scrollbar>
+        <Scrollbar ref={messagesRef}>
           <div className={shellStyles['channel-shell__messages-list']}>
             <MessageSeparator type="date" label="Today" />
 
