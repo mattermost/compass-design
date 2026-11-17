@@ -106,6 +106,8 @@ export function useFixtureWorkspace({
   );
 
   const selectTeam = (id: string) => {
+    // Re-clicking the active team keeps the open channel or conversation.
+    if (id === team?.id) return;
     setTeamId(id);
     setChannelId(defaultChannelFor(id)?.id);
   };
