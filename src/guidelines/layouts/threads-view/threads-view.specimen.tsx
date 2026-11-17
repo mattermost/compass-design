@@ -173,9 +173,13 @@ export default function ThreadsViewLayout() {
                               avatars[r.userId],
                           }))}
                           onClick={() => setSelectedId(thread.root.id)}
-                          onMenuClick={(event) =>
-                            setMenuAnchor(event.currentTarget)
-                          }
+                          onMenuClick={(event) => {
+                            // A second click on the same button closes the menu.
+                            const button = event.currentTarget;
+                            setMenuAnchor((open) =>
+                              open === button ? null : button,
+                            );
+                          }}
                         />
                       );
                     })}
