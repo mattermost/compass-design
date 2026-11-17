@@ -1,4 +1,10 @@
-import { Fragment, type ReactNode } from 'react';
+import {
+  Fragment,
+  cloneElement,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import styles from './FixtureMarkdown.module.scss';
 
 /**
@@ -11,8 +17,15 @@ import styles from './FixtureMarkdown.module.scss';
 export default function FixtureMarkdown({
   text,
   inline: inlineOnly = false,
+  suffix,
 }: {
   text: string;
+  /**
+   * Content placed inline at the end of the text, such as an "Edited"
+   * indicator. It joins the last paragraph; when the text ends in anything
+   * else (a list, code, a table) it gets a paragraph of its own.
+   */
+  suffix?: ReactNode;
   /** Render one line of inline content only (no paragraph), for single-line slots such as the channel banner. */
   inline?: boolean;
 }) {
@@ -22,9 +35,35 @@ export default function FixtureMarkdown({
         {inline(text.replace(/\s*\n+\s*/g, ' '))}
       </span>
     );
-  return (
-    <div className={styles['fixture-md']}>{renderBlocks(text.split('\n'))}</div>
-  );
+  const blocks = renderBlocks(text.split('\n'));
+  if (suffix) {
+    const last = blocks[blocks.length - 1];
+    const para = last as ReactElement<{
+      children?: ReactNode;
+      className?: string;
+    }>;
+    // Headings are paragraphs too; the suffix belongs after a text paragraph.
+    if (
+      isValidElement(last) &&
+      last.type === 'p' &&
+      !String(para.props.className).includes('heading')
+    ) {
+      blocks[blocks.length - 1] = cloneElement(
+        para,
+        undefined,
+        para.props.children,
+        ' ',
+        suffix,
+      );
+    } else {
+      blocks.push(
+        <p key="suffix" className={styles['fixture-md__p']}>
+          {suffix}
+        </p>,
+      );
+    }
+  }
+  return <div className={styles['fixture-md']}>{blocks}</div>;
 }
 
 const HEADING = /^(#{1,6}) +(.*)$/;

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
 import { AttachmentCard } from '@mattermost/compass-ui/components/attachment-card';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { PermalinkPreview } from '@mattermost/compass-ui/components/permalink-preview';
@@ -124,6 +125,20 @@ function FixturePostMessage({
   const acks = post.acknowledgements ?? [];
   // An alert's headline goes inside its card, not above it.
   const { cards: attachmentCards, hoisted } = postAttachmentProps(post);
+  // A call post's text is its card's title ("Call ended"), so the card says it
+  // and the body must not repeat it.
+  const callText = post.kind === 'call' ? post.text.trim() : '';
+  const callTextIsTitle = callText !== '' && !callText.includes('\n');
+  const callTitle = callTextIsTitle ? callText : 'Call ended';
+  const showText = !hoisted && !callTextIsTitle;
+  // "Edited" sits inline at the end of the text, as in the webapp.
+  const editedMark = post.edited ? (
+    <span className={styles['fixture-channel__edited']}>
+      {/* The raw glyph is an <svg>; the compass Icon is a <div>, which can't sit in a paragraph. */}
+      <PencilOutlineIcon size={12} />
+      Edited
+    </span>
+  ) : undefined;
 
   const permalinked = post.permalinkPostId
     ? getCyberDefensePost(post.permalinkPostId)
@@ -175,7 +190,7 @@ function FixturePostMessage({
       <CallCard
         key="call"
         state="ended"
-        title="Call ended"
+        title={callTitle}
         meta={lastedLabel(post.call.durationSeconds)}
       />,
     );
@@ -243,10 +258,8 @@ function FixturePostMessage({
         ) : undefined
       }
     >
-      {!hoisted && <FixtureMarkdown text={post.text} />}
-      {post.edited && (
-        <span className={styles['fixture-channel__edited']}> Edited</span>
-      )}
+      {/* Posts a card speaks for (calls, alert cards) have no text to mark as edited. */}
+      {showText && <FixtureMarkdown text={post.text} suffix={editedMark} />}
     </Message>
   );
 }

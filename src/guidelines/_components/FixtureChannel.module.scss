@@ -9,10 +9,18 @@
     width: 100%;
   }
 
+  // Inline "Edited" marker after the text: a small pencil and the word, in
+  // italics, as in the webapp's edited indicator (11px, muted).
   &__edited {
-    font-size: var(--font-size-75);
-    line-height: var(--line-height-75);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxxxs);
+    margin-left: var(--spacing-xxxs);
+    font-size: var(--font-size-50);
+    font-style: italic;
+    line-height: normal;
     color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    user-select: none;
   }
 
   // Playbooks run update: a compact summary card (no shared component yet).
