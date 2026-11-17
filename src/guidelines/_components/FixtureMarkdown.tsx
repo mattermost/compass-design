@@ -8,7 +8,20 @@ import styles from './FixtureMarkdown.module.scss';
  * `@mentions` and `~channels`. It builds React elements, never HTML, so post
  * text cannot inject markup. Docs only; hosts use their own renderer.
  */
-export default function FixtureMarkdown({ text }: { text: string }) {
+export default function FixtureMarkdown({
+  text,
+  inline: inlineOnly = false,
+}: {
+  text: string;
+  /** Render one line of inline content only (no paragraph), for single-line slots such as the channel banner. */
+  inline?: boolean;
+}) {
+  if (inlineOnly)
+    return (
+      <span className={styles['fixture-md--inline']}>
+        {inline(text.replace(/\s*\n+\s*/g, ' '))}
+      </span>
+    );
   return <>{renderBlocks(text.split('\n'))}</>;
 }
 

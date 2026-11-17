@@ -9,22 +9,10 @@
     width: 100%;
   }
 
-  &__priority {
-    margin-right: var(--spacing-xs);
-    vertical-align: middle;
-  }
-
   &__edited {
     font-size: var(--font-size-75);
     line-height: var(--line-height-75);
     color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
-  }
-
-  &__banner {
-    padding: var(--spacing-xs) var(--spacing-l);
-    // Banner colors come from the data and are light; keep text dark on them.
-    color: var(--color-neutral-900);
-    text-align: center;
   }
 
   // Playbooks run update: a compact summary card (no shared component yet).

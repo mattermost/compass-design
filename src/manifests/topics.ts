@@ -1100,6 +1100,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-header/channel-header.specimen'),
   },
   {
+    slug: 'channel-banner',
+    name: 'Channel Banner',
+    category: 'patterns',
+    description:
+      'The slim strip across the top of a channel for a notice or classification, in the color a channel admin chooses.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/channel-banner/channel-banner.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/channel-banner/channel-banner.specimen'),
+  },
+  {
     slug: 'channel-bookmarks-bar',
     name: 'Channel Bookmarks Bar',
     category: 'patterns',

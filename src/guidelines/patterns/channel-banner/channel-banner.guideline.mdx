@@ -1,0 +1,55 @@
+import { ChannelBanner } from '@mattermost/compass-proto';
+
+The Channel Banner is an unpublished prototyping composite in
+`@mattermost/compass-proto`. It is the slim strip a channel admin sets across
+the top of a channel: a notice, a classification, a reminder about where
+escalations go. It sits above the messages and stays put while they scroll.
+
+Use it for one short line that everyone in the channel should see. Use the
+channel header for the channel's description and the Channel Info panel for
+longer text.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <ChannelBanner backgroundColor="#FFF0BA">
+    Triage within 15 mins. Escalations and discussions in ~threat-discussions
+  </ChannelBanner>
+</AnatomyStage>
+
+- <Num>1</Num> **Strip** — A slim, full-width bar in the color the admin chose.
+- <Num>2</Num> **Text** — One centered line. Links inside it are underlined.
+
+The text turns black or white on its own, whichever reads better on the
+background, so any color an admin picks stays legible.
+
+<Divider />
+
+## States
+
+- **Default** — The text fits on one line, centered in the strip.
+- **Light and dark backgrounds** — Black text on light colors, white text on dark
+  ones.
+- **Overflowing** — Text that does not fit ends in an ellipsis. Hovering the strip
+  shows the full text in a tooltip.
+- **Empty** — With no text there is no banner at all, not an empty colored strip.
+
+<Divider />
+
+## Behavior
+
+The banner is one line by design. Keep the message short, and put the detail in a
+link rather than a longer sentence.
+
+The text is a prop, so a host can render Markdown or translated copy into it.
+The accessible name of the text ("Channel banner text") and the tooltip text are
+props too.
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for the colors, a link, and text that overflows. Import
+`ChannelBanner` from `@mattermost/compass-proto`.

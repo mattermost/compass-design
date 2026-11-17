@@ -6,6 +6,7 @@ import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { ThreadFooter } from '@mattermost/compass-ui/components/thread-footer';
 import {
   CallCard,
+  ChannelBanner,
   ChannelHeader,
   Message,
   MessageAttachment,
@@ -280,15 +281,15 @@ export function FixtureMessageList({
   return <>{items}</>;
 }
 
-/** Strip at the top of a channel with its banner text, when it has one. */
+/** The channel's banner, when it has one. */
 export function FixtureChannelBanner({ channel }: { channel: FixtureChannel }) {
   if (!channel.banner) return null;
   return (
-    <div
-      className={styles['fixture-channel__banner']}
-      style={{ background: channel.banner.backgroundColor }}
+    <ChannelBanner
+      backgroundColor={channel.banner.backgroundColor}
+      tooltip={channel.banner.text}
     >
-      <FixtureMarkdown text={channel.banner.text} />
-    </div>
+      <FixtureMarkdown text={channel.banner.text} inline />
+    </ChannelBanner>
   );
 }
