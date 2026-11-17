@@ -48,8 +48,16 @@ export interface MessageAttachmentProps extends Omit<
   fields?: MessageAttachmentField[];
   /** Full-width image under the fields. */
   imageSrc?: string;
-  /** Small image at the top right. */
+  /**
+   * Image for the thumbnail column: a 140 by 140 box in its own column on the
+   * right, beside all the content. Cropped to fill the box.
+   */
   thumbSrc?: string;
+  /**
+   * Replaces the image in the thumbnail column with your own content (it gets
+   * the same 140 by 140 box). Wins over `thumbSrc`.
+   */
+  thumbnail?: ReactNode;
   /** Alt text for `imageSrc` and `thumbSrc`. Default: empty (decorative). */
   imageAlt?: string;
   actions?: MessageAttachmentAction[];
@@ -65,7 +73,8 @@ const SEMANTIC: readonly string[] = ['good', 'warning', 'danger', 'info'];
 /**
  * Message attachment: the card an integration (webhook, bot) posts under a
  * message. A colored bar on the left edge, then optional title, body
- * text, a grid of fields, an image, action buttons and a footer. Mirrors the
+ * text, a grid of fields, an image, action buttons and a footer, with an
+ * optional 140 by 140 thumbnail in its own column on the right. Mirrors the
  * Mattermost / Slack attachment format, so hosts can map `attachments` from a
  * post straight onto these props. Presentational: the host owns what the
  * action buttons do.
@@ -79,6 +88,7 @@ export default function MessageAttachment({
   fields = [],
   imageSrc,
   thumbSrc,
+  thumbnail,
   imageAlt = '',
   actions = [],
   footer,
@@ -94,6 +104,15 @@ export default function MessageAttachment({
       ? ({ '--message-attachment-color': color } as CSSProperties)
       : undefined;
   const name = ariaLabel ?? (typeof title === 'string' ? title : undefined);
+  const aside =
+    thumbnail ??
+    (thumbSrc && (
+      <img
+        className={styles['message-attachment__thumb']}
+        src={thumbSrc}
+        alt={imageAlt}
+      />
+    ));
 
   return (
     <div
@@ -117,87 +136,77 @@ export default function MessageAttachment({
         aria-label={name}
       >
         <div className={styles['message-attachment__inner']}>
-          {(title || thumbSrc) && (
-            <div className={styles['message-attachment__top']}>
-              {title && (
-                <p className={styles['message-attachment__title']}>
-                  {titleHref ? (
-                    <a
-                      href={titleHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {title}
-                    </a>
+          <div className={styles['message-attachment__content']}>
+            {title && (
+              <p className={styles['message-attachment__title']}>
+                {titleHref ? (
+                  <a href={titleHref} target="_blank" rel="noopener noreferrer">
+                    {title}
+                  </a>
+                ) : (
+                  title
+                )}
+              </p>
+            )}
+            {text && (
+              <div className={styles['message-attachment__text']}>{text}</div>
+            )}
+            {fields.length > 0 && (
+              <div className={styles['message-attachment__fields']}>
+                {fields.map((f, i) => (
+                  <Field key={i} field={f} />
+                ))}
+              </div>
+            )}
+            {imageSrc && (
+              <img
+                className={styles['message-attachment__image']}
+                src={imageSrc}
+                alt={imageAlt}
+              />
+            )}
+            {actions.length > 0 && (
+              <div className={styles['message-attachment__actions']}>
+                {actions.map((a, i) =>
+                  a.href ? (
+                    <Button key={i} asChild emphasis="tertiary" size="small">
+                      <a
+                        href={a.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={a.onClick}
+                      >
+                        {a.label}
+                      </a>
+                    </Button>
                   ) : (
-                    title
-                  )}
-                </p>
-              )}
-              {thumbSrc && (
-                <img
-                  className={styles['message-attachment__thumb']}
-                  src={thumbSrc}
-                  alt={imageAlt}
-                />
-              )}
-            </div>
-          )}
-          {text && (
-            <div className={styles['message-attachment__text']}>{text}</div>
-          )}
-          {fields.length > 0 && (
-            <div className={styles['message-attachment__fields']}>
-              {fields.map((f, i) => (
-                <Field key={i} field={f} />
-              ))}
-            </div>
-          )}
-          {imageSrc && (
-            <img
-              className={styles['message-attachment__image']}
-              src={imageSrc}
-              alt={imageAlt}
-            />
-          )}
-          {actions.length > 0 && (
-            <div className={styles['message-attachment__actions']}>
-              {actions.map((a, i) =>
-                a.href ? (
-                  <Button key={i} asChild emphasis="tertiary" size="small">
-                    <a
-                      href={a.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Button
+                      key={i}
+                      emphasis="tertiary"
+                      size="small"
                       onClick={a.onClick}
                     >
                       {a.label}
-                    </a>
-                  </Button>
-                ) : (
-                  <Button
-                    key={i}
-                    emphasis="tertiary"
-                    size="small"
-                    onClick={a.onClick}
-                  >
-                    {a.label}
-                  </Button>
-                ),
-              )}
-            </div>
-          )}
-          {footer && (
-            <p className={styles['message-attachment__footer']}>
-              {footerIconSrc && (
-                <img
-                  className={styles['message-attachment__footer-icon']}
-                  src={footerIconSrc}
-                  alt=""
-                />
-              )}
-              {footer}
-            </p>
+                    </Button>
+                  ),
+                )}
+              </div>
+            )}
+            {footer && (
+              <p className={styles['message-attachment__footer']}>
+                {footerIconSrc && (
+                  <img
+                    className={styles['message-attachment__footer-icon']}
+                    src={footerIconSrc}
+                    alt=""
+                  />
+                )}
+                {footer}
+              </p>
+            )}
+          </div>
+          {aside && (
+            <div className={styles['message-attachment__aside']}>{aside}</div>
           )}
         </div>
       </section>

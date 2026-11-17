@@ -4,6 +4,7 @@ import {
   cyberDefensePosts,
 } from '@mattermost/compass-proto';
 import { integrationIcons } from '@/fixtures/integrationIcons';
+import { teamIcons } from '@/fixtures/teamIcons';
 import { postAttachmentProps } from '@/fixtures/messageAttachmentProps';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
@@ -71,6 +72,22 @@ export default function MessageAttachmentLibrary() {
         ]}
         footer="Security Alerts"
         footerIconSrc={integrationIcons.sentinel}
+      />
+
+      <p className={styles['patterns__variant-label']}>
+        With a thumbnail (its own column, 140 by 140)
+      </p>
+      <MessageAttachment
+        color="danger"
+        title="Hurricane Warning: Isla (Cat 4) Landfall Confirmed"
+        text="Landfall confirmed in 6 hours. Immediate evacuation and emergency recall initiated."
+        fields={[
+          { title: 'Location', value: 'Sector 7 Coastal Region', short: true },
+          { title: 'Winds', value: '130 mph', short: true },
+          { title: 'Time to landfall', value: '6 hours', short: true },
+          { title: 'Category', value: '4', short: true },
+        ]}
+        thumbSrc={teamIcons['mission-ops-hq']}
       />
 
       <p className={styles['patterns__variant-label']}>

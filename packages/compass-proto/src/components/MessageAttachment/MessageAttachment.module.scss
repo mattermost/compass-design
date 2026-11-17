@@ -47,15 +47,34 @@
     }
   }
 
+  // Two columns: the content, then the optional thumbnail column.
   &__inner {
     display: flex;
-    flex-direction: column;
-    gap: var(--spacing-m);
+    align-items: flex-start;
+    gap: var(--spacing-l);
     box-sizing: border-box;
     // 3px bar + the usual 16px gap
     padding: var(--spacing-l) var(--spacing-l) var(--spacing-l)
       calc(var(--spacing-l) + 3px);
     border-left: 3px solid var(--message-attachment-color);
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--spacing-m);
+    min-width: 0;
+  }
+
+  // The thumbnail column: a 140 by 140 box (3.5 x the 40px spacing step), its
+  // own column to the right of all the content.
+  &__aside {
+    flex: 0 0 auto;
+    overflow: hidden;
+    width: calc(var(--spacing-xxxxl) * 3.5);
+    height: calc(var(--spacing-xxxxl) * 3.5);
+    border-radius: var(--radius-xs);
   }
 
   &__footer-icon {
@@ -65,15 +84,7 @@
     object-fit: cover;
   }
 
-  &__top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--spacing-m);
-  }
-
   &__title {
-    flex: 1 1 auto;
     margin: 0;
     font-family: var(--font-family-heading);
     font-size: var(--font-size-300);
@@ -87,9 +98,9 @@
   }
 
   &__thumb {
-    flex: 0 0 auto;
-    width: 40px; // thumbnail size
-    height: 40px;
+    display: block;
+    width: 100%;
+    height: 100%;
     border-radius: var(--radius-xs);
     object-fit: cover;
   }
@@ -159,5 +170,10 @@
 @container (max-width: 440px) {
   .message-attachment__fields {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  // Too narrow for a 140px column beside the content: it goes below instead.
+  .message-attachment__inner {
+    flex-direction: column;
   }
 }

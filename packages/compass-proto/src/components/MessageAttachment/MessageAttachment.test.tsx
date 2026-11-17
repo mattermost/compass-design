@@ -104,4 +104,66 @@ describe('MessageAttachment', () => {
     act(() => a.click());
     expect(onClick).toHaveBeenCalledTimes(1);
   });
+
+  describe('thumbnail column', () => {
+    const column = (c: HTMLElement) =>
+      c.querySelector(
+        '[class*="message-attachment__aside"]',
+      ) as HTMLElement | null;
+
+    it('puts thumbSrc in its own column after all the content', () => {
+      const { container } = render(
+        <MessageAttachment
+          title="Hurricane warning"
+          text="Landfall in 6 hours."
+          fields={[{ title: 'Winds', value: '130 mph', short: true }]}
+          actions={[{ label: 'View' }]}
+          footer="Weather"
+          thumbSrc="radar.jpg"
+        />,
+      );
+      const aside = column(container)!;
+      expect(aside.querySelector('img')?.getAttribute('src')).toBe('radar.jpg');
+      const inner = aside.parentElement!;
+      const content = inner.firstElementChild!;
+      // Content first, thumbnail column last, and the thumbnail is not inside the content.
+      expect(inner.lastElementChild).toBe(aside);
+      expect(content.contains(aside)).toBe(false);
+      for (const part of [
+        'Hurricane warning',
+        'Landfall',
+        'Winds',
+        'View',
+        'Weather',
+      ])
+        expect(content.textContent).toContain(part);
+    });
+
+    it('lets the thumbnail slot replace the image, and shows no column without either', () => {
+      const { container, rerender } = render(
+        <MessageAttachment
+          title="t"
+          thumbSrc="radar.jpg"
+          thumbnail={<span data-testid="custom">map</span>}
+        />,
+      );
+      expect(column(container)?.querySelector('img')).toBeNull();
+      expect(column(container)?.textContent).toBe('map');
+      rerender(<MessageAttachment title="t" />);
+      expect(column(container)).toBeNull();
+    });
+
+    it('uses the image alt text for thumbSrc, and nothing for a decorative one', () => {
+      const { container, rerender } = render(
+        <MessageAttachment title="t" thumbSrc="a.jpg" imageAlt="Radar" />,
+      );
+      expect(column(container)?.querySelector('img')?.getAttribute('alt')).toBe(
+        'Radar',
+      );
+      rerender(<MessageAttachment title="t" thumbSrc="a.jpg" />);
+      expect(column(container)?.querySelector('img')?.getAttribute('alt')).toBe(
+        '',
+      );
+    });
+  });
 });
