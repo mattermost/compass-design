@@ -127,8 +127,16 @@ export default function ThreadsViewLayout() {
                 <div className={inboxStyles['threads-view__list-inner']}>
                   {shown.length === 0 && (
                     <EmptyState
-                      title="No unread threads"
-                      description="You're all caught up."
+                      title={
+                        tab === 'unreads'
+                          ? 'No unread threads'
+                          : 'No threads yet'
+                      }
+                      description={
+                        tab === 'unreads'
+                          ? "You're all caught up."
+                          : 'Threads you follow show up here.'
+                      }
                     />
                   )}
                   {shown.map((thread) => {
