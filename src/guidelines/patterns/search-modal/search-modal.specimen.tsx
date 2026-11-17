@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import {
   GlobalHeader,
+  cyberDefenseCurrentUserId,
+  getCyberDefenseUser,
   RightSidebar,
   RightSidebarSearchResults,
   SearchModal,
@@ -10,12 +12,12 @@ import {
 } from '@mattermost/compass-proto';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
 import {
-  MESSAGE_HITS,
   SEARCH_MODAL_DATA,
   SEARCH_MODAL_TEAMS,
+  searchMessages,
 } from './searchModalFixtures';
 
 /**
@@ -52,13 +54,7 @@ export function SearchModalCanvas({
   };
 
   const terms = results ? results.query.split(/\s+/).filter(Boolean) : [];
-  const hits = results
-    ? MESSAGE_HITS.filter(
-        (hit) =>
-          terms.length === 0 ||
-          terms.some((t) => hit.body.toLowerCase().includes(t.toLowerCase())),
-      )
-    : [];
+  const hits = results ? searchMessages(terms) : [];
 
   return (
     <div style={{ width: '100%' }}>
@@ -72,8 +68,10 @@ export function SearchModalCanvas({
         <div ref={headerRef}>
           <GlobalHeader
             product="channels"
-            userAvatarSrc={avatarLeonard}
-            userAvatarAlt="Leonard Riley"
+            userAvatarSrc={avatars[cyberDefenseCurrentUserId]}
+            userAvatarAlt={
+              getCyberDefenseUser(cyberDefenseCurrentUserId)?.displayName
+            }
             onSearchClick={(event) => {
               setAnchor(event.currentTarget.parentElement);
               reopen();

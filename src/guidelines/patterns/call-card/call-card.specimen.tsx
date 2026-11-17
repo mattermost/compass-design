@@ -1,31 +1,54 @@
-import { CallCard } from '@mattermost/compass-proto';
+import {
+  CallCard,
+  cyberDefenseChannels,
+  cyberDefenseCurrentUserId,
+  cyberDefensePosts,
+  getCyberDefenseUser,
+} from '@mattermost/compass-proto';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
-const participants = [
-  {
-    key: 'leonard-riley',
-    name: 'Leonard Riley',
-    src: avatars['leonard-riley'],
-  },
-  { key: 'aiko-tan', name: 'Aiko Tan', src: avatars['aiko-tan'] },
-  { key: 'arjun-patel', name: 'Arjun Patel', src: avatars['arjun-patel'] },
-  { key: 'darius-cole', name: 'Darius Cole', src: avatars['darius-cole'] },
-  { key: 'emma-novak', name: 'Emma Novak', src: avatars['emma-novak'] },
-];
+// People and the call come from the sample workspace: the participants are the
+// people in a channel the signed-in user is in, and the ended card uses a real
+// call post's times when there is one.
+const me = cyberDefenseCurrentUserId;
+const channel =
+  cyberDefenseChannels.find(
+    (c) =>
+      c.memberIds?.includes(me) &&
+      c.type !== 'direct' &&
+      (c.memberIds?.length ?? 0) >= 5,
+  ) ?? cyberDefenseChannels[0];
+const people = (channel?.memberIds ?? [])
+  .map((id) => getCyberDefenseUser(id))
+  .filter((u) => !!u && !u.isBot);
+const participants = people.slice(0, 5).map((u) => ({
+  key: u!.id,
+  name: u!.displayName,
+  src: avatars[u!.id],
+}));
+const starter = people.find((u) => u!.id !== me) ?? people[0];
+const starterName = starter?.displayName ?? 'a teammate';
+const callPost = cyberDefensePosts.find((p) => p.kind === 'call' && p.call);
+const duration = callPost?.call?.durationSeconds ?? 510;
+const lasted = `Lasted ${Math.floor(duration / 60)} min ${duration % 60} sec`;
 
 export default function CallCardLibrary() {
   return (
     <div className={styles['patterns__call-card-demo']}>
       <p className={styles['patterns__variant-label']}>Calling</p>
-      <CallCard state="calling" title="Calling Aiko Tan…" onCancel={() => {}} />
+      <CallCard
+        state="calling"
+        title={`Calling ${starterName}…`}
+        onCancel={() => {}}
+      />
 
       <p className={styles['patterns__variant-label']}>Active</p>
       <CallCard
         state="active"
         title="Call started"
-        meta="3 minutes ago by Aiko Tan"
+        meta={`3 minutes ago by ${starterName}`}
         participants={participants}
         onJoin={() => {}}
       />
@@ -43,7 +66,7 @@ export default function CallCardLibrary() {
       <CallCard
         state="ended"
         title="Call ended"
-        meta="Lasted 8 min 30 sec"
+        meta={lasted}
         recordingLabel="1 recording"
       />
 
@@ -51,7 +74,7 @@ export default function CallCardLibrary() {
       <CallCard
         state="ended"
         title="Missed call"
-        meta="Yesterday at 4:12 PM"
+        meta={callPost?.call?.startedAt ?? 'Yesterday at 4:12 PM'}
         trailing={
           <Button emphasis="tertiary" size="medium">
             Call back
@@ -64,7 +87,7 @@ export default function CallCardLibrary() {
         <CallCard
           state="active"
           title="Call started"
-          meta="3 minutes ago by Aiko Tan"
+          meta={`3 minutes ago by ${starterName}`}
           participants={participants}
           onJoin={() => {}}
         />

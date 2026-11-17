@@ -1,129 +1,120 @@
-import type { SearchModalData, SearchPerson } from '@mattermost/compass-proto';
-import avatarArjun from '@/assets/avatars/Arjun Patel.png';
-import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
-import avatarDarius from '@/assets/avatars/Darius Cole.png';
-import avatarDavid from '@/assets/avatars/David Liang.png';
-import avatarEmma from '@/assets/avatars/Emma Novak.png';
-import avatarEthan from '@/assets/avatars/Ethan Brooks.png';
-import avatarIsabella from '@/assets/avatars/Isabella Cruz.png';
-import avatarLeila from '@/assets/avatars/Leila Haddad.png';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarLukas from '@/assets/avatars/Lukas Meyer.png';
+import {
+  cyberDefenseChannels,
+  cyberDefenseCurrentUserId,
+  cyberDefensePosts,
+  cyberDefenseUsers,
+  getCyberDefenseChannel,
+  getCyberDefenseUser,
+  type FixtureChannel,
+  type FixtureUser,
+  type SearchChannel,
+  type SearchModalData,
+  type SearchPerson,
+} from '@mattermost/compass-proto';
 import avatarMatty from '@/assets/avatars/Matty.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
-import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import { avatars } from '@/fixtures/avatarRegistry';
+import { workspaceTeams } from '@/fixtures/workspaceTeams';
+import { plainPreview } from '@/guidelines/_components/fixtureThread';
 
-const person = (
-  id: string,
-  name: string,
-  avatarSrc: string,
-  extra: Partial<SearchPerson> = {},
-): SearchPerson => ({ id, name, avatarSrc, ...extra });
+// Everything the dialog lists comes from the sample workspace, from the point
+// of view of its signed-in user. Only the dialog's own vocabulary (modifier
+// buttons, suggested agent questions, the agents themselves) is written here.
 
-const frequentPeople = [
-  person('sofia', 'Sofia Bauer', avatarSofia, {
-    status: 'online',
-    username: '@sofia',
-  }),
-  person('marco', 'Marco Rinaldi', avatarMarco, {
-    status: 'away',
-    username: '@marco',
-  }),
-  person('leonard', 'Leonard Riley', avatarLeonard, {
-    status: 'online',
-    username: '@leonard',
-  }),
-  person('cody', 'Cody Fisher', avatarDarius, { status: 'online' }),
-  person('arvind', 'Arvind Balaram', avatarArjun, { status: 'online' }),
-  person('leslie', 'Leslie Alexander', avatarDanielle, { status: 'online' }),
-];
+const me = cyberDefenseCurrentUserId;
 
-const recentPeople = [
-  person('wade', 'Wade Warren', avatarLeonard, { username: '@Wade.Warren' }),
-  person('jenny', 'Jenny Wilson', avatarEmma, { username: '@Jenny.Wilson' }),
-  person('floyd', 'Floyd Miles', avatarDavid, { username: '@Floyd.Miles' }),
-  person('jane', 'Jane Cooper', avatarIsabella, { username: '@Jane.Cooper' }),
-  person('albert', 'Albert Flores', avatarLukas, {
-    username: '@Albert.Flores',
-  }),
-  person('jacob', 'Jacob Jones', avatarLeila, { username: '@Jacob.Jones' }),
-];
+const STATUS: Record<FixtureUser['presence'], SearchPerson['status']> = {
+  online: 'online',
+  away: 'away',
+  'do-not-disturb': 'dnd',
+  offline: 'offline',
+};
+
+const toPerson = (user: FixtureUser): SearchPerson => ({
+  id: user.id,
+  name: user.displayName,
+  avatarSrc: avatars[user.id],
+  username: `@${user.username}`,
+  status: STATUS[user.presence],
+});
+
+const channelSlug = (channel: FixtureChannel) => channel.id.split('/').pop();
+
+const toSearchChannel = (channel: FixtureChannel): SearchChannel => ({
+  id: channel.id,
+  name: channelSlug(channel) ?? channel.name,
+  kind: channel.type === 'private' ? 'private' : 'public',
+  mentionCount: channel.mentionCount || undefined,
+});
+
+const myChannels = cyberDefenseChannels.filter(
+  (c) =>
+    c.memberIds?.includes(me) && (c.type === 'public' || c.type === 'private'),
+);
+
+/** The people the signed-in user has a direct message with. */
+const dmPeople = cyberDefenseChannels
+  .filter((c) => c.type === 'direct' && c.memberIds?.includes(me))
+  .map((c) => c.memberIds?.find((id) => id !== me))
+  .map((id) => (id ? getCyberDefenseUser(id) : undefined))
+  .filter((u): u is FixtureUser => !!u && !u.isBot)
+  .map(toPerson);
+
+const others = cyberDefenseUsers
+  .filter((u) => u.id !== me && !u.isBot)
+  .map(toPerson);
+
+const fileKind = (extension: string) =>
+  extension === 'pdf'
+    ? 'pdf'
+    : extension === 'doc' || extension === 'docx'
+      ? 'word'
+      : 'generic';
+
+const recentFiles = cyberDefensePosts
+  .filter((p) => p.files?.length)
+  .flatMap((p) =>
+    (p.files ?? []).map((file) => ({
+      id: `${p.id}/${file.name}`,
+      name: file.name,
+      description: `${channelSlug(getCyberDefenseChannel(p.channelId) ?? ({} as FixtureChannel)) ?? ''} · ${p.timestamp}`,
+      kind: fileKind(file.extension) as 'pdf' | 'word' | 'generic',
+    })),
+  )
+  .slice(0, 4);
 
 export const SEARCH_MODAL_DATA: SearchModalData = {
-  unreadChannels: [
-    { id: 'ux-design', name: 'ux-design', mentionCount: 3 },
-    { id: 'releases', name: 'releases' },
-    { id: 'security', name: 'security', kind: 'private', mentionCount: 1 },
-  ],
-  recentChannels: [
-    { id: 'town-square', name: 'town-square' },
-    { id: 'off-topic', name: 'off-topic' },
-    { id: 'design-crit', name: 'design-crit', kind: 'private' },
-    { id: 'design-system', name: 'design-system' },
-    { id: 'platform', name: 'platform' },
-    { id: 'customers', name: 'customers', kind: 'private' },
-  ],
-  frequentPeople,
-  recentPeople,
-  directory: [
-    person('ethan', 'Ethan Brooks', avatarEthan, {
-      status: 'offline',
-      username: '@ethan',
-    }),
-    person('isabella', 'Isabella Cruz', avatarIsabella, {
-      status: 'online',
-      username: '@isabella',
-    }),
-    person('emma', 'Emma Novak', avatarEmma, { username: '@emma' }),
-  ],
-  recentFiles: [
-    {
-      id: 'file1',
-      name: 'Compass_Brand_Guidelines.pdf',
-      description: 'ux-design · Yesterday',
-      kind: 'pdf',
-    },
-    {
-      id: 'file2',
-      name: 'Q3_Roadmap.docx',
-      description: 'releases · Mon',
-      kind: 'word',
-    },
-    {
-      id: 'file3',
-      name: 'Onboarding_flows.fig',
-      description: 'design-crit · Last week',
-    },
-    {
-      id: 'file4',
-      name: 'Support_macros.pdf',
-      description: 'customers · Last week',
-      kind: 'pdf',
-    },
-  ],
+  unreadChannels: myChannels
+    .filter((c) => c.unreadCount)
+    .slice(0, 3)
+    .map(toSearchChannel),
+  recentChannels: myChannels
+    .filter((c) => !c.unreadCount)
+    .slice(0, 6)
+    .map(toSearchChannel),
+  frequentPeople: dmPeople.slice(0, 6),
+  recentPeople: dmPeople.slice(6, 12),
+  directory: others,
+  recentFiles,
   recentMessageSearches: [
-    { id: 'm1', query: 'launch checklist' },
-    { id: 'm2', query: 'in:ux-design accessibility' },
-    { id: 'm3', query: 'from:sofia Figma' },
-    { id: 'm4', query: 'onboarding FAQ' },
+    { id: 'm1', query: 'incident' },
+    { id: 'm2', query: 'from:alerts triage' },
   ],
   recentFileSearches: [
-    { id: 'fs1', query: 'brand guidelines' },
-    { id: 'fs2', query: 'ext:pdf roadmap' },
-    { id: 'fs3', query: 'Q3 planning' },
+    { id: 'fs1', query: 'report' },
+    { id: 'fs2', query: 'ext:pdf' },
   ],
   messageModifiers: ['From:', 'In:', 'On:', 'Before:', 'After:', '-', '""'],
   fileModifiers: ['From:', 'In:', 'Ext:', 'After:', 'Before:'],
   recentAgentSearches: [
-    { id: 'ra1', query: 'Summarize what I missed in ux-design' },
-    { id: 'ra2', query: 'When is the next release?' },
+    { id: 'ra1', query: 'Summarize what I missed in my unread channels' },
+    { id: 'ra2', query: 'Which alerts are still open?' },
   ],
   agentSuggestions: [
     { id: 'as1', query: 'What are my open action items?' },
     { id: 'as2', query: 'What messages are pending my feedback?' },
     { id: 'as3', query: 'Which channels have been most active this week?' },
-    { id: 'as4', query: 'Who worked on the onboarding flow?' },
-    { id: 'as5', query: 'What decisions were made in the last design review?' },
+    { id: 'as4', query: 'Who worked on the latest incident?' },
+    { id: 'as5', query: 'What decisions were made in the last review?' },
     { id: 'as6', query: 'What did the team ship last week?' },
   ],
   // Agents, not people: only Matty has artwork, the rest use the avatar fallback.
@@ -135,38 +126,44 @@ export const SEARCH_MODAL_DATA: SearchModalData = {
   ],
 };
 
-export const SEARCH_MODAL_TEAMS = [
-  { id: 'compass', name: 'Compass' },
-  { id: 'platform', name: 'Platform' },
-];
+export const SEARCH_MODAL_TEAMS = workspaceTeams.map((t) => ({
+  id: t.id,
+  name: t.name,
+}));
 
-/** Message hits shown in the results panel after a Messages search. */
-export const MESSAGE_HITS = [
-  {
-    id: 'hit1',
-    avatarSrc: avatarSofia,
-    avatarAlt: 'Sofia Bauer',
-    username: 'Sofia Bauer',
-    timestamp: '9:14 AM',
-    channelLabel: 'ux-design',
-    body: 'Updated the launch checklist with the new onboarding screens — review before Friday.',
-  },
-  {
-    id: 'hit2',
-    avatarSrc: avatarMarco,
-    avatarAlt: 'Marco Rinaldi',
-    username: 'Marco Rinaldi',
-    timestamp: 'Yesterday',
-    channelLabel: 'releases',
-    body: 'Can we keep the launch checklist in Releases so support can find it?',
-  },
-  {
-    id: 'hit3',
-    avatarSrc: avatarLeonard,
-    avatarAlt: 'Leonard Riley',
-    username: 'Leonard Riley',
-    timestamp: 'Mon',
-    channelLabel: 'ux-design',
-    body: 'Pinned the launch checklist to this channel for the next two sprints.',
-  },
-];
+export interface MessageHit {
+  id: string;
+  avatarSrc?: string;
+  avatarAlt: string;
+  username: string;
+  timestamp: string;
+  channelLabel: string;
+  body: string;
+}
+
+/** Posts in the workspace that mention any of the terms (all of them when there are none). */
+export function searchMessages(terms: string[], limit = 5): MessageHit[] {
+  const wanted = terms.map((t) => t.toLowerCase());
+  return cyberDefensePosts
+    .filter((p) => !p.kind || p.kind === 'bot-reply')
+    .filter((p) => {
+      const text = p.text.toLowerCase();
+      return wanted.length === 0 || wanted.some((t) => text.includes(t));
+    })
+    .slice(0, limit)
+    .map((p) => {
+      const author = getCyberDefenseUser(p.userId);
+      const channel = getCyberDefenseChannel(p.channelId);
+      return {
+        id: p.id,
+        avatarSrc: avatars[p.userId],
+        avatarAlt: author?.displayName ?? '',
+        username: author?.displayName ?? p.userId,
+        timestamp: p.timestamp,
+        channelLabel: channel
+          ? (channelSlug(channel) ?? channel.name)
+          : p.channelId,
+        body: plainPreview(p.text),
+      };
+    });
+}
