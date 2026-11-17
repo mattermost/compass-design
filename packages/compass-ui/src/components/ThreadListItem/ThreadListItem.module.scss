@@ -121,6 +121,15 @@
     position: static;
   }
 
+  // Small mention badge, nudged into the gutter's top-left corner.
+  &__mention-badge {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    width: 14px;
+    height: 14px;
+  }
+
   &__mention-gutter {
     position: absolute;
     top: 1px;

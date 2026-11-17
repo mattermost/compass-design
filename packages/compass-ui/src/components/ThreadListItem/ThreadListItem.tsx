@@ -159,6 +159,7 @@ export default function ThreadListItem({
                     aria-hidden
                   >
                     <MentionBadge
+                      className={styles['thread-list-item__mention-badge']}
                       count={mentionCount}
                       location="channel"
                       size="small"
