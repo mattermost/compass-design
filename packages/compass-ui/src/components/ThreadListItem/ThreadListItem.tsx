@@ -173,7 +173,11 @@ export default function ThreadListItem({
                       <span className={styles['thread-list-item__author']}>
                         {authorName}
                       </span>
-                      <Tag casing="all-caps" label={channelLabel} />
+                      <Tag
+                        className={styles['thread-list-item__channel']}
+                        casing="all-caps"
+                        label={channelLabel}
+                      />
                       {statusHint && (
                         <span
                           className={styles['thread-list-item__status-hint']}

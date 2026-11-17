@@ -101,7 +101,8 @@
   &__gutter {
     position: relative;
     flex-shrink: 0;
-    width: 8px;
+    // Room for the mention badge (it hangs 12px left of the gutter) without touching the author name.
+    width: var(--spacing-m);
     min-height: 21px;
     display: flex;
     align-items: flex-start;
@@ -154,14 +155,29 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--spacing-xs);
     overflow: hidden;
   }
 
+  // Author and channel: the channel gives way (ellipsis) so the timestamp never collides with it.
   &__name-group {
     display: flex;
+    flex: 0 1 auto;
     gap: var(--spacing-xs);
     align-items: center;
+    min-width: 0;
     overflow: hidden;
+  }
+
+  // The Tag's label (its last child) shortens with an ellipsis when the row is narrow.
+  &__channel {
+    min-width: 0;
+
+    > :last-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__author {

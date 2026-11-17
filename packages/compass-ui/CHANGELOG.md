@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the left gutter is 12px wide (was 8px) so the mention badge no longer sits against the author name. Author names and the rest of the row shift 4px to the right.
+
 ### Added
 
 - **`useAnchoredPopupPortal` `side` option and virtual anchors ([#258](https://github.com/mattermost/compass-design/issues/258)):** `side` (`auto` default, `above`, `below`) opens the popup on one side and never flips it, so it stays put as the page scrolls (a suggestion list above a composer); `maxHeight` is then the room on that side. The anchor ref now accepts any object with `getBoundingClientRect` (exported type `AnchoredPopupAnchor`), so a popup can be placed against a box that is not an element, such as a character inside a textarea. `Select`, `Combobox` and `DateRangePicker` behave as before.
