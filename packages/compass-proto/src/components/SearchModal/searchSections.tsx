@@ -13,7 +13,7 @@ import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import type {
   SuggestionOption,
   SuggestionSection,
-} from '@mattermost/compass-ui/components/suggestion-list';
+} from '@/components/SuggestionList';
 import type {
   SearchChannel,
   SearchFile,

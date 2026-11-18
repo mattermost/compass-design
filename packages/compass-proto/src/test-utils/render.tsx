@@ -29,3 +29,9 @@ export function render(ui: ReactElement) {
     rerender: (next: ReactElement) => act(() => root.render(next)),
   };
 }
+
+export function click(el: Element) {
+  act(() => {
+    (el as HTMLElement).click();
+  });
+}

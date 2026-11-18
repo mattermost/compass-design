@@ -3,7 +3,7 @@ import type { KeyboardEvent } from 'react';
 import {
   useSuggestionList,
   type SuggestionSection,
-} from '@mattermost/compass-ui/components/suggestion-list';
+} from '@/components/SuggestionList';
 
 export interface UseSearchModalOptions {
   sections: SuggestionSection[];
