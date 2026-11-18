@@ -69,7 +69,7 @@
 
   &__container {
     position: relative;
-    padding: 16px;
+    padding: var(--spacing-l);
     width: 100%;
     max-width: 480px;
     border-radius: var(--radius-m);
@@ -172,8 +172,8 @@
     inset: 0;
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 24px;
+    gap: var(--spacing-l);
+    padding: var(--spacing-xxl);
   }
 
   &__avatar {
@@ -187,7 +187,7 @@
   &__lines {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--spacing-xs);
     flex: 1;
   }
 
@@ -408,7 +408,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--spacing-xs);
     padding: var(--spacing-xxxxl);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     border-radius: var(--radius-m);

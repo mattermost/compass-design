@@ -115,18 +115,20 @@ Use the same treatment on similar compact controls (`IconButton`, `TileButton`, 
 position: relative;
 &::after { … }
 
-// ✅ GOOD — rest with the same width/style (transparent) so colour + offset interpolate
+// ❌ BAD — resting transparent outline + outline transition: a host reset
+// (`*:focus { outline: none }`, as in the webapp) makes the ring fade out on
+// the control that lost focus (#184)
 outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-outline-offset: 0;
+transition: outline-color var(--duration-quick) var(--ease-transition);
 
-&:focus-visible {
-  outline-color: var(--focus-ring-color);
-  outline-offset: 3px;
-}
+// ✅ GOOD — shared mixin: no resting outline, ring only under :focus-visible,
+// fades in via a keyframe animation (nothing animates on focus-leave)
+@include focus-ring; // or focus-ring($color, $offset)
 ```
 
 - Default ring colour: `--focus-ring-color` (theme alias for `--button-bg`). Use it directly in outline/focus styles; override locally only for contrast (destructive, sidebar, on-primary surfaces) or on a composite root for child controls.
-- Transition `outline-color` and `outline-offset` with `--duration-quick` / `--ease-transition`.
+- **Never transition** `outline-*` (the mixin's ring fade-in is a keyframe animation, which can't fade out), and never put a `background-color` / `color` transition on a control's base state: state changes (`toggled`, `selected`, `active`) and focus leaving must be instant so neighbours don't crossfade or flash. Declare hover / press fades under `&:hover, &:active` only. Repro: Storybook "Testing/Transition Flash Repro".
+- `focus-ring($host-shadow: ...)`: opt-in for controls a host may also ring with a `box-shadow` (the webapp's `.a11y--focused`, which lingers after blur). Pass the control's own `box-shadow` (`none` if it has none); the mixin applies it in every state at specificity (0,3,0) via a doubled `:not()`, so it wins without `!important`. `$host-radius` does the same for `border-radius` (the webapp's `.a11y--focused` also sets one). States with their own shadow or radius (hover, selected, `ReactionButton--mine`, `IconButton--rounded`) must declare it at (0,3,0) or higher.
 - Destructive: `outline-color` is `--error-text` / `--color-danger`. Secondary Button may still use `--link-color` for its ring.
 - Inverted / dark surfaces: keep the same ring colour; the offset gap shows the real background (no fake inner fill).
 - Form fields, checkboxes, radios, and switches keep their own field/box rings — don’t replace those with this button ring.
@@ -158,6 +160,8 @@ Toasts / global banners: use `rgb(var(--semantic-color-*))` directly for type fi
 ## Figma opacity suffixes
 
 Figma `token/8` → `rgba(var(--token-rgb), 0.08)` (no suffixed CSS variable). Text color alpha clamp ≥ **0.72**; icon color clamp ≥ **0.56**. **Exceptions:** field placeholder text may use **0.64**; disabled components may go as low as **0.4**. Backgrounds/borders/fills may use the mapped alpha as written.
+
+Tokens exist for alpha steps: `--opacity-{4..100}` (compose: `rgba(var(--center-channel-color-rgb), var(--opacity-32))`). Don't hardcode alpha values such as 0.32 or 0.56.
 
 ## Opacity floors
 

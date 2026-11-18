@@ -13,6 +13,7 @@
   "scripts": {
     "generate:compass-icons": "node scripts/gen-compass-icon-manifest.mjs",
     "generate:illustrations": "node scripts/gen-compass-illustrations.mjs",
+    "generate:sample-workspace-fixtures": "node scripts/gen-sample-workspace-fixtures.mjs",
     "prebuild": "npm run generate:compass-icons && npm run generate:illustrations && npm run build:ui && npm run build:proto",
     "predev": "node scripts/ensure-compass-ui.mjs",
     "prepreview": "node scripts/ensure-compass-ui.mjs",
@@ -31,16 +32,17 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
+    "lint:styles": "stylelint \"**/*.scss\" && stylelint --config stylelint.advisory.config.js \"**/*.scss\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run format:check",
+    "check": "npm run lint && npm run lint:styles && npm run format:check",
     "storybook": "npm run storybook --workspace=@mattermost/compass-ui",
     "build-storybook": "npm run build-storybook --workspace=@mattermost/compass-ui"
   },
   "dependencies": {
     "@fontsource/metropolis": "^5.2.5",
     "@fontsource/open-sans": "^5.2.7",
-    "@mattermost/compass-icons": "^0.1.64",
+    "@mattermost/compass-icons": "^0.1.65",
     "@mattermost/compass-proto": "*",
     "@mattermost/compass-ui": "*",
     "@mdx-js/react": "^3.1.1",
@@ -65,14 +67,17 @@
     "globals": "^15.15.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.5.8",
+    "postcss-scss": "^4.0.9",
     "prettier": "^3.8.3",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "sass": "^1.83.4",
+    "stylelint": "^17.16.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^6.0.5",
-    "vite-plugin-svgr": "^4.5.0"
+    "vite-plugin-svgr": "^4.5.0",
+    "yaml": "^2.9.1"
   }
 }

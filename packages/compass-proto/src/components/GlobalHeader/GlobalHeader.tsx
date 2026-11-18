@@ -1,7 +1,6 @@
 import ProductsIcon from '@mattermost/compass-icons/components/products';
-import ProductChannelsIcon from '@mattermost/compass-icons/components/product-channels';
-import ProductPlaybooksIcon from '@mattermost/compass-icons/components/product-playbooks';
-import ProductBoardsIcon from '@mattermost/compass-icons/components/product-boards';
+import CreationOutlineIcon from '@mattermost/compass-icons/components/creation-outline';
+import LightningBoltOutlineIcon from '@mattermost/compass-icons/components/lightning-bolt-outline';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import ArrowRightIcon from '@mattermost/compass-icons/components/arrow-right';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
@@ -13,12 +12,28 @@ import CheckboxMultipleMarkedOutlineIcon from '@mattermost/compass-icons/compone
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { StatusBadge } from '@mattermost/compass-ui/components/status-badge';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import type { ComponentType, MouseEvent, SyntheticEvent } from 'react';
+import type {
+  ComponentType,
+  MouseEvent,
+  ReactNode,
+  SyntheticEvent,
+} from 'react';
+import BookOpenVariantOutlineIcon from '../../icons/BookOpenVariantOutlineIcon';
+import BullseyeArrowIcon from '../../icons/BullseyeArrowIcon';
+import ClipboardTextOutlineIcon from '../../icons/ClipboardTextOutlineIcon';
+import MessageProcessingOutlineIcon from '../../icons/MessageProcessingOutlineIcon';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './GlobalHeader.module.scss';
 
-export type GlobalHeaderProduct = 'channels' | 'playbooks' | 'boards';
+export type GlobalHeaderProduct =
+  | 'channels'
+  | 'playbooks'
+  | 'boards'
+  | 'agents'
+  | 'docs'
+  | 'automation';
 
 /**
  * Click handler for Global Header controls. Receives the click event so hosts can
@@ -35,6 +50,19 @@ export type GlobalHeaderSearchHandler = (
   event: SyntheticEvent<HTMLElement>,
 ) => void;
 
+export type GlobalHeaderUserStatus =
+  | 'online'
+  | 'away'
+  | 'do-not-disturb'
+  | 'offline';
+
+/** A custom status. The emoji is a node so hosts can render it their own way. */
+export interface GlobalHeaderCustomStatus {
+  emoji: ReactNode;
+  /** Shown in the tooltip. */
+  text?: string;
+}
+
 export interface GlobalHeaderProps {
   /** Optional CSS class name. */
   className?: string;
@@ -42,12 +70,21 @@ export interface GlobalHeaderProps {
   product?: GlobalHeaderProduct;
   /** When true and product is Channels, shows the Channels product icon + label. */
   showChannelsBranding?: boolean;
+  /**
+   * When false, hides the product icon + name for every product (use when a Product Rail already
+   * shows the active product). Default: true.
+   */
+  showProductBranding?: boolean;
   /** When true, shows the Upgrade button in the right controls. */
   showUpgradeButton?: boolean;
   /** URL for the signed-in user avatar. Omit for initials fallback. */
   userAvatarSrc?: string;
   /** Alt text for the signed-in user avatar. */
   userAvatarAlt?: string;
+  /** Status badge on the avatar. Default: online. */
+  status?: GlobalHeaderUserStatus;
+  /** Custom status; its emoji renders before the avatar inside the account control. Hover shows a tooltip; the account menu carries the status for assistive tech. */
+  customStatus?: GlobalHeaderCustomStatus;
   /** When set, Recent mentions (@) calls this on click. Channels product only. */
   onRecentMentionsClick?: GlobalHeaderClickHandler;
   /** When true, Recent mentions shows as toggled/selected. */
@@ -84,15 +121,21 @@ const PRODUCT_ICON: Record<
   GlobalHeaderProduct,
   ComponentType<{ size?: number }>
 > = {
-  channels: ProductChannelsIcon,
-  playbooks: ProductPlaybooksIcon,
-  boards: ProductBoardsIcon,
+  channels: MessageProcessingOutlineIcon,
+  playbooks: ClipboardTextOutlineIcon,
+  boards: BullseyeArrowIcon,
+  agents: CreationOutlineIcon,
+  docs: BookOpenVariantOutlineIcon,
+  automation: LightningBoltOutlineIcon,
 };
 
 const PRODUCT_LABEL: Record<GlobalHeaderProduct, string> = {
   channels: 'Channels',
   playbooks: 'Playbooks',
   boards: 'Boards',
+  agents: 'Agents',
+  docs: 'Docs',
+  automation: 'Automation',
 };
 
 function InvertedIconButton({
@@ -177,9 +220,12 @@ export default function GlobalHeader({
   className = '',
   product = 'channels',
   showChannelsBranding = true,
+  showProductBranding = true,
   showUpgradeButton = false,
   userAvatarSrc,
   userAvatarAlt = 'User',
+  status = 'online',
+  customStatus,
   onRecentMentionsClick,
   recentMentionsActive = false,
   onProductSwitcherClick,
@@ -197,7 +243,8 @@ export default function GlobalHeader({
   accountActive = false,
 }: GlobalHeaderProps) {
   const isChannels = product === 'channels';
-  const showBrand = isChannels ? showChannelsBranding : true;
+  const showBrand =
+    showProductBranding && (isChannels ? showChannelsBranding : true);
 
   const rootClass = [
     styles['global-header'],
@@ -299,6 +346,7 @@ export default function GlobalHeader({
           type="button"
           className={[
             styles['global-header__account'],
+            customStatus ? styles['global-header__account--custom-status'] : '',
             accountActive ? styles['global-header__account--active'] : '',
           ]
             .filter(Boolean)
@@ -309,12 +357,42 @@ export default function GlobalHeader({
           }
           onClick={onAccountClick}
         >
-          <UserAvatar
-            src={userAvatarSrc}
-            alt={userAvatarAlt}
-            size="24"
-            status
-          />
+          {customStatus && (
+            <WithTooltip
+              label={customStatus.text ?? 'Custom status'}
+              emoji={
+                typeof customStatus.emoji === 'string'
+                  ? customStatus.emoji
+                  : undefined
+              }
+              emojiSize={
+                typeof customStatus.emoji === 'string' ? 'large' : undefined
+              }
+            >
+              {/* Decorative: status details live in the account menu. Empty
+                  aria-label keeps WithTooltip from copying the tooltip text. */}
+              <span
+                className={styles['global-header__custom-status']}
+                aria-hidden
+                aria-label=""
+              >
+                {customStatus.emoji}
+              </span>
+            </WithTooltip>
+          )}
+          <span className={styles['global-header__avatar']}>
+            <UserAvatar
+              src={userAvatarSrc}
+              alt={userAvatarAlt}
+              size="24"
+              status={status === 'online'}
+            />
+            {status !== 'online' && (
+              <span className={styles['global-header__status']}>
+                <StatusBadge status={status} size="small" />
+              </span>
+            )}
+          </span>
         </button>
       </div>
     </header>

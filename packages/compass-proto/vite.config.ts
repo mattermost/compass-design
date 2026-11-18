@@ -15,13 +15,30 @@ export default defineConfig({
     dts({
       tsconfigPath: path.resolve(__dirname, 'tsconfig.build.json'),
       include: ['src'],
-      exclude: ['**/*.stories.tsx'],
+      exclude: [
+        '**/*.stories.tsx',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        'src/test-utils',
+      ],
       rollupTypes: false,
     }),
   ],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+    alias: [
+      // Shared Sass (mixins, breakpoints) lives in compass-ui; must precede '@'.
+      {
+        find: '@/styles',
+        replacement: path.resolve(__dirname, '../compass-ui/src/styles'),
+      },
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+    ],
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/styles/breakpoints" as *;\n@use "@/styles/mixins" as *;\n`,
+      },
     },
   },
   build: {

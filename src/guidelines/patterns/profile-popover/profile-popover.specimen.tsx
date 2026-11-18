@@ -1,6 +1,14 @@
 import { ProfilePopover } from '@mattermost/compass-ui/components/profile-popover';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
 import styles from '@/styles/library-demo/patterns.module.scss';
+import {
+  customStatus,
+  githubHandle,
+  identity,
+  localTime,
+  other,
+  otherWithStatus,
+  you,
+} from './profilePopoverFixtures';
 
 export default function ProfilePopoverLibrary() {
   return (
@@ -9,20 +17,9 @@ export default function ProfilePopoverLibrary() {
         <p className={styles['patterns__variant-label']}>Others — full</p>
         <ProfilePopover
           user="others"
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
-          name="Leonard Riley"
-          username="@leonard.riley"
-          title="Lead Engineer, Enterprise"
-          email="leonard.riley@acme.com"
-          jobRole="System Admin"
-          lastOnline="Last online 6 hrs ago"
+          {...identity(other)}
           staff
-          localTime={{
-            time: '10:42 PM',
-            timezone: 'EST',
-            hourDifference: '3 hrs behind',
-          }}
+          localTime={localTime}
           onClose={() => {}}
         />
       </div>
@@ -32,28 +29,13 @@ export default function ProfilePopoverLibrary() {
         </p>
         <ProfilePopover
           user="others"
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
-          name="Leonard Riley"
-          username="@leonard.riley"
-          title="Lead Engineer, Enterprise"
-          email="leonard.riley@acme.com"
-          jobRole="System Admin"
-          lastOnline="Last online 6 hrs ago"
+          {...identity(otherWithStatus)}
           sharedOrg="Acme Corp."
           staff
           coreCommitter
-          githubHandle="lennyriley"
-          localTime={{
-            time: '10:42 PM',
-            timezone: 'EST',
-            hourDifference: '3 hrs behind',
-          }}
-          customStatus={{
-            emoji: '📅',
-            text: 'In a meeting',
-            expiresLabel: 'Until Tomorrow',
-          }}
+          githubHandle={githubHandle(otherWithStatus)}
+          localTime={localTime}
+          customStatus={customStatus(otherWithStatus)}
           onClose={() => {}}
         />
       </div>
@@ -61,20 +43,9 @@ export default function ProfilePopoverLibrary() {
         <p className={styles['patterns__variant-label']}>You</p>
         <ProfilePopover
           user="you"
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
-          name="Leonard Riley"
-          username="@leonard.riley"
-          title="Lead Engineer, Enterprise"
-          email="leonard.riley@acme.com"
-          jobRole="System Admin"
-          lastOnline="Last online 6 hrs ago"
+          {...identity(you)}
           staff
-          localTime={{
-            time: '10:42 PM',
-            timezone: 'EST',
-            hourDifference: '3 hrs behind',
-          }}
+          localTime={localTime}
           onClose={() => {}}
         />
       </div>
@@ -84,28 +55,13 @@ export default function ProfilePopoverLibrary() {
         </p>
         <ProfilePopover
           user="you"
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
-          name="Leonard Riley"
-          username="@leonard.riley"
-          title="Lead Engineer, Enterprise"
-          email="leonard.riley@acme.com"
-          jobRole="System Admin"
-          lastOnline="Last online 6 hrs ago"
-          sharedOrg="Dunder Mifflin"
+          {...identity(you)}
+          sharedOrg="Acme Corp."
           staff
           coreCommitter
-          githubHandle="lennyriley"
-          localTime={{
-            time: '10:42 PM',
-            timezone: 'EST',
-            hourDifference: '3 hrs behind',
-          }}
-          customStatus={{
-            emoji: '📅',
-            text: 'In a meeting',
-            expiresLabel: 'Until Tomorrow',
-          }}
+          githubHandle={githubHandle(you)}
+          localTime={localTime}
+          customStatus={customStatus(you)}
           onClose={() => {}}
         />
       </div>

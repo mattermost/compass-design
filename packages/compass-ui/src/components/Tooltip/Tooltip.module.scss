@@ -34,7 +34,14 @@
     gap: var(--spacing-xs);
     min-width: 0;
     width: 100%;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset, no spacing token
     padding: 0.5px 0;
+  }
+
+  &__content--emoji-large {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: var(--spacing-xxxxs);
   }
 
   &__icon {

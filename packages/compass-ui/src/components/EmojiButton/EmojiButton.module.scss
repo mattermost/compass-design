@@ -7,27 +7,20 @@
   border-radius: var(--radius-s);
   border: 0;
   cursor: pointer;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
   background-color: transparent;
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
-
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
-  }
+  // No transitions on the button: toggled / active changes (either direction,
+  // even while hovered) and focus-leaving are instant, and hover/press snap
+  // too. The emoji scale on hover below is a separate element transition (#184).
+  @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
 
-  &:hover:not(:disabled):not(:active):not(.emoji-button--active):not(
-      .emoji-button--toggled
-    ) {
+  &:is(:hover, :focus-visible):not(:disabled):not(:active):not(
+      .emoji-button--active
+    ):not(.emoji-button--toggled) {
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
   }
 
@@ -36,7 +29,7 @@
     transition: transform var(--duration-quick) var(--ease-transition);
   }
 
-  &:hover:not(:disabled) &__emoji {
+  &:is(:hover, :focus-visible):not(:disabled) &__emoji {
     transform: scale(1.2);
   }
 
@@ -53,7 +46,7 @@
     &.emoji-button--padding-compact {
       width: 20px;
       height: 20px;
-      padding: 2px;
+      padding: var(--spacing-xxxxs);
     }
   }
 
@@ -97,7 +90,7 @@
   &--active:not(:disabled) {
     background-color: rgba(var(--button-bg-rgb), 0.08);
 
-    &:hover:not(:disabled):not(:active) {
+    &:is(:hover, :focus-visible):not(:disabled):not(:active) {
       background-color: rgba(var(--button-bg-rgb), 0.12);
     }
 
@@ -110,7 +103,7 @@
   &--toggled {
     background-color: var(--button-bg);
 
-    &:hover:not(:disabled):not(:active) {
+    &:is(:hover, :focus-visible):not(:disabled):not(:active) {
       background-color: color-mix(in srgb, black 8%, var(--button-bg));
     }
 

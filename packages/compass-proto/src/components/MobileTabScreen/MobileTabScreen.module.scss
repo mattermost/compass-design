@@ -5,6 +5,7 @@
   height: 100%;
   min-height: 0;
   min-width: 0;
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- device inset fallback, not a spacing token
   padding-top: var(--device-status-bar-height, 54px);
   background-color: var(--sidebar-bg);
   box-sizing: border-box;

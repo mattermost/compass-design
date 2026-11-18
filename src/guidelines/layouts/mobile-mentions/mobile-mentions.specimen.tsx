@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import {
@@ -9,10 +9,11 @@ import {
   mobileMessageStyles,
 } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
-import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
-import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import { mobileMentionCount } from '@/fixtures/mobilePatternFixtures';
+import {
+  mobileMentionPosts,
+  mobileProfile,
+} from '@/fixtures/mobileLayoutFixtures';
 import styles from './mobile-mentions.specimen.module.scss';
 
 const bodyTextClass = mobileMessageStyles['mobile-message__body-text'];
@@ -27,54 +28,34 @@ export default function MobileMentionsLibrary() {
           <MobileMentions>
             <Scrollbar>
               <div className={styles['mobile-mentions-layout__list']}>
-                <MessageSeparator type="date" label="Today" />
-                <MobileMessage
-                  avatarSrc={avatarSofia}
-                  avatarAlt="Sofia Bauer"
-                  username="Sofia Bauer"
-                  timestamp="9:02 AM"
-                  channelName="UX Design"
-                  teamName="Contributors"
-                >
-                  <p className={bodyTextClass}>
-                    @Leonard Riley can you join the Q2 roadmap review at 10:30?
-                  </p>
-                </MobileMessage>
-                <MobileMessage
-                  avatarSrc={avatarMarco}
-                  avatarAlt="Marco Rinaldi"
-                  username="Marco Rinaldi"
-                  timestamp="9:14 AM"
-                  channelName="Onboarding"
-                  teamName="Design"
-                >
-                  <p className={bodyTextClass}>
-                    @Leonard Riley would love a second pair of eyes on the
-                    onboarding flow before we cut a release.
-                  </p>
-                </MobileMessage>
-                <MessageSeparator type="date" label="Yesterday" />
-                <MobileMessage
-                  avatarSrc={avatarAikoTan}
-                  avatarAlt="Aiko Tan"
-                  username="Aiko Tan"
-                  timestamp="4:41 PM"
-                  channelName="UX Design"
-                  teamName="Contributors"
-                >
-                  <p className={bodyTextClass}>
-                    Thanks @Leonard Riley — I’ll take a pass after standup.
-                  </p>
-                </MobileMessage>
+                {mobileMentionPosts.map((post, i) => (
+                  <Fragment key={post.id}>
+                    {post.day &&
+                      post.day !== mobileMentionPosts[i - 1]?.day && (
+                        <MessageSeparator type="date" label={post.day} />
+                      )}
+                    <MobileMessage
+                      avatarSrc={post.avatarSrc}
+                      avatarAlt={post.username}
+                      username={post.username}
+                      timestamp={post.time}
+                      isBot={post.isBot}
+                      channelName={post.channelName}
+                      teamName={post.teamName}
+                    >
+                      <p className={bodyTextClass}>{post.text}</p>
+                    </MobileMessage>
+                  </Fragment>
+                ))}
               </div>
             </Scrollbar>
           </MobileMentions>
           <MobileTabBar
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            profileSrc={avatarLeonard}
-            profileAlt="Leonard Riley"
-            mentionsBadge={2}
+            profileSrc={mobileProfile.avatarSrc}
+            profileAlt={mobileProfile.displayName}
+            mentionsBadge={mobileMentionCount}
           />
         </div>
       </DeviceFrame>

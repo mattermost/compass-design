@@ -146,9 +146,7 @@ export default function ThreadFooter({
             aria-label={formatReplyLabel(replyCount)}
             leadingIcon={<Icon size="12" glyph={<ReplyOutlineIcon />} />}
           >
-            <span className={styles['thread-footer__btn-label']}>
-              {formatReplyCount(replyCount)}
-            </span>
+            {formatReplyCount(replyCount)}
           </Button>
 
           <div className={styles['thread-footer__divider']} aria-hidden />

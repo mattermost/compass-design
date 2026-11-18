@@ -540,6 +540,22 @@ describe('Combobox inside a host with key listeners', () => {
     expect(hostKeys).toEqual([]);
     expect(documentKeys).toEqual([]);
   });
+
+  it('keeps Enter that removes a chip from reaching the host', async () => {
+    const onChange = vi.fn();
+    const user = setupUser();
+    const hostKeys = renderInHost({
+      multiple: true,
+      value: ['gpt-4o', 'gpt-4o-mini'],
+      onChange,
+    });
+    focus(getByRole('button', 'gpt-4o. Press Delete to remove.'));
+    await user.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(['gpt-4o-mini']);
+    expect(hostKeys).toEqual([]);
+    expect(documentKeys).toEqual([]);
+  });
 });
 
 describe('Combobox inside a form', () => {
@@ -1650,5 +1666,29 @@ describe('Combobox input pass-through', () => {
       expect(chipLabels()).toEqual([]);
       expect(input().getAttribute('data-testid')).toBe('tags');
     });
+  });
+});
+
+describe('Combobox field message', () => {
+  it('links the message to the input and marks it invalid', () => {
+    render(
+      <Combobox
+        label="Country"
+        options={MODELS}
+        message="Choose a country"
+        aria-describedby="help"
+      />,
+    );
+    const ids = input().getAttribute('aria-describedby')?.split(' ') ?? [];
+    expect(ids[0]).toBe('help');
+    expect(document.getElementById(ids[1] ?? '')?.textContent).toContain(
+      'Choose a country',
+    );
+    expect(input().getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('adds nothing without a message', () => {
+    render(<Combobox label="Country" options={MODELS} />);
+    expect(input().getAttribute('aria-describedby')).toBeNull();
   });
 });

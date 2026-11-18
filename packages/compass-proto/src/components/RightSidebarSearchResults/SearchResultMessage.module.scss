@@ -1,0 +1,33 @@
+.search-result {
+  position: relative;
+  border-bottom: 1px solid
+    rgba(var(--center-channel-color-rgb), var(--opacity-8));
+
+  &__context {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    min-height: var(--spacing-xxxl);
+    padding: var(--spacing-s) var(--spacing-xxl) 0;
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: var(--center-channel-color);
+  }
+
+  &__channel {
+    min-width: 0;
+    overflow: hidden;
+    font-weight: var(--font-weight-semibold);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__team {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+  }
+}

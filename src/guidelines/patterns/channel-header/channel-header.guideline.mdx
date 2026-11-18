@@ -1,6 +1,4 @@
-import { ChannelHeader } from '@mattermost/compass-proto';
-import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { ChannelHeaderTypePreview } from '@/guidelines/_components/ChannelHeaderGuidelineAnatomy';
 
 `ChannelHeader` lives in `@mattermost/compass-proto` for prototyping until a published API is ready.
 
@@ -51,15 +49,7 @@ from channel identity on the left toward global utilities on the right.
 ### Standard Channel Header
 
 <Preview caption="Standard channel header">
-  <div style={{ width: '100%' }}>
-    <ChannelHeader
-      type="channel"
-      name="UX Design"
-      memberCount={48}
-      pinnedCount={3}
-      description="Design critiques, specs, and Compass references."
-    />
-  </div>
+  <ChannelHeaderTypePreview kind="channel" />
 </Preview>
 
 Used for public and private channels. This is the baseline layout: full title
@@ -69,15 +59,7 @@ search, mentions, saved posts, and help.
 ### Direct Message header
 
 <Preview caption="Direct message header">
-  <div style={{ width: '100%' }}>
-    <ChannelHeader
-      type="dm"
-      name="Aiko Tan"
-      avatarSrc={avatarAikoTan}
-      avatarStatus
-      pinnedCount={1}
-    />
-  </div>
+  <ChannelHeaderTypePreview kind="dm" />
 </Preview>
 
 Matches the Standard header with these changes:
@@ -89,14 +71,7 @@ Matches the Standard header with these changes:
 ### Group message header
 
 <Preview caption="Group message header">
-  <div style={{ width: '100%' }}>
-    <ChannelHeader
-      type="gm"
-      name="Aiko Tan, Arjun Patel, Danielle Okoro"
-      memberCount={4}
-      pinnedCount={1}
-    />
-  </div>
+  <ChannelHeaderTypePreview kind="gm" />
 </Preview>
 
 Matches the Standard header with these changes:
@@ -107,15 +82,7 @@ Matches the Standard header with these changes:
 ### Bot message header
 
 <Preview caption="Bot message header">
-  <div style={{ width: '100%' }}>
-    <ChannelHeader
-      type="bot"
-      name="Todo"
-      avatarSrc={avatarLeonard}
-      description="Created by the Todo Plugin"
-      pinnedCount={1}
-    />
-  </div>
+  <ChannelHeaderTypePreview kind="bot" />
 </Preview>
 
 Matches the Standard header with these changes:

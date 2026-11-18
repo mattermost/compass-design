@@ -97,5 +97,9 @@
 
   &--reply {
     padding: var(--spacing-xxxs) var(--spacing-xxl);
+
+    .message-separator__text {
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
   }
 }

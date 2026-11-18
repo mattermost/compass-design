@@ -1,9 +1,13 @@
 import type { ReactNode } from 'react';
+import Emoji from '@/components/Emoji/Emoji';
 import { IconSlotContext } from '@/components/Icon/Icon';
 import { ShortcutTagGroup } from '@/components/ShortcutTag/ShortcutTag';
 import styles from './Tooltip.module.scss';
 
 export type TooltipArrow = 'top' | 'right' | 'bottom' | 'left';
+
+/** `inline` sits beside the label; `large` stacks above it (e.g. a custom status). */
+export type TooltipEmojiSize = 'inline' | 'large';
 
 export interface TooltipShortcutKey {
   label: string;
@@ -20,6 +24,13 @@ export interface TooltipProps {
   shortcutKeys?: TooltipShortcutKey[];
   /** Optional leading icon — pass `<Icon glyph={<SomeIcon />} />`; Tooltip provides the correct size via context. */
   icon?: ReactNode;
+  /**
+   * Optional emoji character. Decorative (`aria-hidden`), so the label must carry the
+   * meaning. Replaces `icon` when both are passed.
+   */
+  emoji?: string;
+  /** Emoji placement: `inline` beside the label (12px) or `large` above it (40px). Default: inline. */
+  emojiSize?: TooltipEmojiSize;
   /** Optional CSS class name. */
   className?: string;
 }
@@ -35,6 +46,8 @@ export default function Tooltip({
   hint,
   shortcutKeys,
   icon,
+  emoji,
+  emojiSize = 'inline',
   className = '',
 }: TooltipProps) {
   const arrowClass = styles[`tooltip--arrow-${arrow.toLowerCase()}`] ?? '';
@@ -46,13 +59,26 @@ export default function Tooltip({
   return (
     <div className={rootClass}>
       <div className={styles['tooltip__container']}>
-        <div className={styles['tooltip__content']}>
-          {icon != null && (
-            <span className={styles['tooltip__icon']} aria-hidden>
-              <IconSlotContext.Provider value={{ size: '16' }}>
-                {icon}
-              </IconSlotContext.Provider>
-            </span>
+        <div
+          className={[
+            styles['tooltip__content'],
+            emoji && emojiSize === 'large'
+              ? styles['tooltip__content--emoji-large']
+              : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {emoji ? (
+            <Emoji emoji={emoji} size={emojiSize === 'large' ? '40' : '12'} />
+          ) : (
+            icon != null && (
+              <span className={styles['tooltip__icon']} aria-hidden>
+                <IconSlotContext.Provider value={{ size: '16' }}>
+                  {icon}
+                </IconSlotContext.Provider>
+              </span>
+            )
           )}
           <span className={styles['tooltip__label']}>{label}</span>
         </div>

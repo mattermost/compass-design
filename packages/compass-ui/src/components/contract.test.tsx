@@ -9,6 +9,7 @@ import EmptyState from './EmptyState/EmptyState';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import FieldMessage from './FieldMessage/FieldMessage';
 import GlobalBanner from './GlobalBanner/GlobalBanner';
+import MessageActions from './MessageActions/MessageActions';
 import Modal from './Modal/Modal';
 import ModalOverlay from './Modal/ModalOverlay';
 import ModalHeader from './ModalHeader/ModalHeader';
@@ -18,7 +19,10 @@ import PasswordInput from './PasswordInput/PasswordInput';
 import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
 import SearchInput from './SearchInput/SearchInput';
 import SectionNotice from './SectionNotice/SectionNotice';
+import SegmentedControl from './SegmentedControl/SegmentedControl';
+import SuggestionList from './SuggestionList/SuggestionList';
 import Tabs from './Tabs/Tabs';
+import ChannelSidebarItem from './ChannelSidebarItem/ChannelSidebarItem';
 import Tag from './Tag/Tag';
 import TextInput from './TextInput/TextInput';
 import TileButton from './TileButton/TileButton';
@@ -56,6 +60,18 @@ const ROOT_CASES: Record<string, (attrs: RootAttrs) => ReactElement> = {
       onChange={() => {}}
       {...a}
     />
+  ),
+  SegmentedControl: (a) => (
+    <SegmentedControl
+      aria-label="Mode"
+      options={[{ key: 'a', label: 'A' }]}
+      value="a"
+      onChange={() => {}}
+      {...a}
+    />
+  ),
+  SuggestionList: (a) => (
+    <SuggestionList options={[{ value: 'a', label: 'A' }]} {...a} />
   ),
   AdminPanel: (a) => <AdminPanel title="Panel" {...a} />,
   AdminPanelFooter: (a) => (
@@ -192,6 +208,15 @@ const BUTTON_CASES: Record<
       />
     ),
   },
+  'MessageActions jumpButtonProps': {
+    label: 'Jump to message',
+    render: (p, on) => (
+      <MessageActions
+        type="search-results"
+        jumpButtonProps={{ ...p, onClick: on }}
+      />
+    ),
+  },
   'RightSidebarHeader secondaryTitleButtonProps': {
     label: 'UX Design',
     render: (p, on) => (
@@ -277,6 +302,17 @@ const BUTTON_CASES: Record<
       />
     ),
   },
+  'ChannelSidebarItem toggleButtonProps': {
+    label: 'Toggle',
+    render: (p, on) => (
+      <ChannelSidebarItem
+        name="Agent"
+        expanded
+        onExpandedChange={on}
+        toggleButtonProps={p}
+      />
+    ),
+  },
   'TabItem buttonProps': {
     label: 'B',
     render: (p) => (
@@ -286,6 +322,20 @@ const BUTTON_CASES: Record<
           { key: 'b', label: 'B', buttonProps: p },
         ]}
         activeKey="a"
+        onChange={() => {}}
+      />
+    ),
+  },
+  'SegmentedControl option buttonProps': {
+    label: 'B',
+    render: (p, on) => (
+      <SegmentedControl
+        aria-label="Mode"
+        options={[
+          { key: 'a', label: 'A' },
+          { key: 'b', label: 'B', buttonProps: { ...p, onClick: on } },
+        ]}
+        value="a"
         onChange={() => {}}
       />
     ),

@@ -10,6 +10,7 @@ import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
 import Button from '../Button/Button';
 import MenuItem from '../MenuItem/MenuItem';
+import SearchInput from '../SearchInput/SearchInput';
 import TextInput from '../TextInput/TextInput';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import Modal from './Modal';
@@ -171,6 +172,39 @@ export const SubtitleBeside: Story = {
         <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
           Settings body with an inline header subtitle (Figma Subtitle =
           Beside).
+        </p>
+      </Modal>
+    </ModalCanvas>
+  ),
+};
+
+export const WithHeaderLeading: Story = {
+  render: () => (
+    <ModalCanvas>
+      <Modal
+        title="Search"
+        headerDivider={false}
+        headerLeading={
+          <div style={{ display: 'flex', gap: 'var(--spacing-xs)' }}>
+            <Button emphasis="secondary" size="small">
+              Channels
+            </Button>
+            <Button emphasis="quaternary" size="small">
+              Messages
+            </Button>
+          </div>
+        }
+        headerAction={
+          <Button emphasis="tertiary" size="small">
+            All teams
+          </Button>
+        }
+        headerSlot={<SearchInput aria-label="Search" placeholder="Search" />}
+        onClose={fn()}
+      >
+        <p style={{ margin: 0, color: 'var(--center-channel-color)' }}>
+          The mode switcher sits where the title would, and the dialog is still
+          named Search.
         </p>
       </Modal>
     </ModalCanvas>

@@ -9,8 +9,9 @@ $pin-size: 24px;
 .modal-anatomy {
   display: flex;
   justify-content: center;
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- one-off width, no spacing token
   margin: 72px;
-  border-radius: 12px;
+  border-radius: var(--radius-l);
   background-color: rgba(var(--center-channel-color-rgb), 0.08);
 
   &__chart {

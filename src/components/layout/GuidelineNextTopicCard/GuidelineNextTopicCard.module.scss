@@ -50,7 +50,7 @@
 
   &__icon {
     flex-shrink: 0;
-    margin-top: 2px;
+    margin-top: var(--spacing-xxxxs);
     color: rgba(var(--center-channel-color-rgb), 0.56);
     transition: color var(--duration-quick) var(--ease-transition);
   }

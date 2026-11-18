@@ -235,11 +235,13 @@ const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
       if (disabled) return;
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
+        e.stopPropagation();
         e.currentTarget.click();
         return;
       }
       if (e.key === 'Delete' || e.key === 'Backspace') {
         e.preventDefault();
+        e.stopPropagation();
         e.currentTarget
           .querySelector<HTMLButtonElement>('[data-chip-remove]')
           ?.click();
@@ -254,6 +256,7 @@ const Chip = forwardRef<HTMLElement, Omit<ChipProps, 'ref'>>(function Chip(
       e.key === ' '
     ) {
       e.preventDefault();
+      e.stopPropagation();
       e.currentTarget
         .querySelector<HTMLButtonElement>('[data-chip-remove]')
         ?.click();

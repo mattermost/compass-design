@@ -1,9 +1,12 @@
 import { ChannelsSidebar } from '@mattermost/compass-proto';
 import {
-  defaultChannelsSidebarDemoModel,
-  unreadsChannelsSidebarDemoModel,
-} from '@/fixtures/channelsSidebarDemo';
+  sidebarDemoModel,
+  sidebarDemoTeam,
+} from '@/fixtures/workspaceSidebarDemo';
 import styles from '@/styles/library-demo/patterns.module.scss';
+
+const defaultModel = sidebarDemoModel(false);
+const unreadsModel = sidebarDemoModel(true);
 
 export default function ChannelsSidebarLibrary() {
   return (
@@ -12,11 +15,15 @@ export default function ChannelsSidebarLibrary() {
         <p className={styles['patterns__variant-label']}>
           Unreads category Off
         </p>
-        <ChannelsSidebar showFilter model={defaultChannelsSidebarDemoModel} />
+        <ChannelsSidebar
+          showFilter
+          teamName={sidebarDemoTeam.name}
+          model={defaultModel}
+        />
       </div>
       <div>
         <p className={styles['patterns__variant-label']}>Unreads category On</p>
-        <ChannelsSidebar model={unreadsChannelsSidebarDemoModel} />
+        <ChannelsSidebar teamName={sidebarDemoTeam.name} model={unreadsModel} />
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     arrow: { control: 'select', options: ARROWS },
+    emojiSize: { control: 'select', options: ['inline', 'large'] },
   },
 } satisfies Meta<typeof Tooltip>;
 
@@ -37,6 +38,24 @@ export const WithHint: Story = {
     arrow: 'right',
     hint: 'Jump to any channel or direct message',
     shortcutKeys: [{ label: 'Cmd' }, { label: 'K' }],
+  },
+};
+
+export const WithInlineEmoji: Story = {
+  args: {
+    label: 'Out of office',
+    arrow: 'bottom',
+    emoji: '🌴',
+    emojiSize: 'inline',
+  },
+};
+
+export const WithLargeEmoji: Story = {
+  args: {
+    label: 'Out of office',
+    arrow: 'bottom',
+    emoji: '🌴',
+    emojiSize: 'large',
   },
 };
 

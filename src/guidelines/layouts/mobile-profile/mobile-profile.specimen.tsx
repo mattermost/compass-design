@@ -13,7 +13,7 @@ import {
   MobileTabBar,
 } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { mobileProfile } from '@/fixtures/mobileLayoutFixtures';
 import styles from './mobile-profile.specimen.module.scss';
 
 export default function MobileProfileLibrary() {
@@ -24,15 +24,16 @@ export default function MobileProfileLibrary() {
       <DeviceFrame insetContent={false} statusBarStyle="light">
         <div className={styles['mobile-profile-layout__shell']}>
           <MobileProfile
-            avatarSrc={avatarLeonard}
-            avatarAlt="Leonard Riley"
-            displayName="Leonard Riley"
-            username="@leonard.riley"
+            avatarSrc={mobileProfile.avatarSrc}
+            avatarAlt={mobileProfile.displayName}
+            displayName={mobileProfile.displayName}
+            username={mobileProfile.username}
+            status={mobileProfile.online}
           >
             <Scrollbar>
               <div className={styles['mobile-profile-layout__menu']}>
                 <MobileMenuItem
-                  label="Online"
+                  label={mobileProfile.statusLabel}
                   leadingVisual={
                     <Icon
                       size="20"
@@ -41,10 +42,24 @@ export default function MobileProfileLibrary() {
                     />
                   }
                 />
+                {/* With a custom status set, its emoji takes the place of the emoticon icon. */}
                 <MobileMenuItem
-                  label="Set a Custom Status"
+                  label={
+                    mobileProfile.customStatus?.text ?? 'Set a Custom Status'
+                  }
                   leadingVisual={
-                    <Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />
+                    mobileProfile.customStatus ? (
+                      <span
+                        className={
+                          styles['mobile-profile-layout__status-emoji']
+                        }
+                        aria-hidden
+                      >
+                        {mobileProfile.customStatus.emoji}
+                      </span>
+                    ) : (
+                      <Icon size="20" glyph={<EmoticonHappyOutlineIcon />} />
+                    )
                   }
                 />
                 <div
@@ -77,8 +92,8 @@ export default function MobileProfileLibrary() {
           <MobileTabBar
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            profileSrc={avatarLeonard}
-            profileAlt="Leonard Riley"
+            profileSrc={mobileProfile.avatarSrc}
+            profileAlt={mobileProfile.displayName}
           />
         </div>
       </DeviceFrame>

@@ -92,6 +92,7 @@
 
   &__post-content {
     display: flex;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
     gap: var(--spacing-xxxxs, 4px);
     align-items: flex-start;
     width: 100%;
@@ -120,6 +121,17 @@
     position: static;
   }
 
+  // Small mention badge, nudged into the gutter's top-left corner.
+  &__mention-badge {
+    position: relative;
+    top: 2px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    // The size's own side padding would leave no room for the count in 14px.
+    padding: 0;
+  }
+
   &__mention-gutter {
     position: absolute;
     top: 1px;
@@ -140,6 +152,7 @@
   &__post-body-content {
     display: flex;
     flex-direction: column;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
     gap: var(--spacing-xxxxs, 4px);
     align-items: flex-start;
     width: 100%;
@@ -152,14 +165,29 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--spacing-xs);
     overflow: hidden;
   }
 
+  // Author and channel: the channel gives way (ellipsis) so the timestamp never collides with it.
   &__name-group {
     display: flex;
+    flex: 0 1 auto;
     gap: var(--spacing-xs);
     align-items: center;
+    min-width: 0;
     overflow: hidden;
+  }
+
+  // The Tag's label (its last child) shortens with an ellipsis when the row is narrow.
+  &__channel {
+    min-width: 0;
+
+    > :last-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__author {
@@ -179,7 +207,7 @@
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-25);
-    color: rgba(var(--center-channel-color-rgb), 0.64);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -224,6 +252,7 @@
   &__replies-inner {
     display: flex;
     align-items: center;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- original 4px fallback kept: it disagrees with the 2px --spacing-xxxxs token (intended gap is unconfirmed)
     gap: var(--spacing-xxxxs, 4px);
     min-height: 24px;
     border-radius: var(--radius-s);
@@ -237,7 +266,8 @@
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-25);
-    color: rgba(var(--center-channel-color-rgb), 0.64);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- half-pixel offset pairs with the off-scale line-height
     padding: 4.5px var(--spacing-s);
   }
 }

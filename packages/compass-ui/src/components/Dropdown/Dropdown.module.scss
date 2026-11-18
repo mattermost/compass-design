@@ -12,12 +12,7 @@
   font-family: var(--font-family-body);
   font-weight: var(--font-weight-semibold);
   color: var(--center-channel-color);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
+  @include focus-ring;
   padding: 0;
   // Shrink to the host's space so a long label truncates instead of overflowing.
   min-width: 0;
@@ -31,9 +26,9 @@
     --button-fg: var(--center-channel-color);
   }
 
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
+  &:hover:not(:disabled),
+  &:active:not(:disabled) {
+    transition: background-color var(--duration-quick) var(--ease-transition);
   }
 
   &:hover:not(:disabled) {

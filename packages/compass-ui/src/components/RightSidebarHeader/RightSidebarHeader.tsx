@@ -4,6 +4,7 @@ import ArrowExpandIcon from '@mattermost/compass-icons/components/arrow-expand';
 import ArrowLeftIcon from '@mattermost/compass-icons/components/arrow-left';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import DockWindowIcon from '@mattermost/compass-icons/components/dock-window';
+import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import Tag from '@/components/Tag/Tag';
@@ -149,8 +150,10 @@ export default function RightSidebarHeader({
 
       <div className={styles['right-sidebar-header__actions']}>
         {actionLabel && (
-          <button
-            type="button"
+          <Button
+            emphasis="dim"
+            size="small"
+            compact
             className={[
               styles['right-sidebar-header__action'],
               actionActive
@@ -163,7 +166,7 @@ export default function RightSidebarHeader({
             aria-pressed={actionActive ? true : undefined}
           >
             {actionLabel}
-          </button>
+          </Button>
         )}
         {actions}
         {onExpand && (

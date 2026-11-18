@@ -1,0 +1,249 @@
+import { act } from 'react';
+import { describe, expect, it, vi } from 'vitest';
+import { render } from '@/test-utils/render';
+import MessageInput from './MessageInput';
+
+function type(textarea: HTMLTextAreaElement, value: string) {
+  const setter = Object.getOwnPropertyDescriptor(
+    HTMLTextAreaElement.prototype,
+    'value',
+  )!.set!;
+  act(() => {
+    setter.call(textarea, value);
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+}
+
+function pressEnter(
+  textarea: HTMLTextAreaElement,
+  shiftKey = false,
+  keyCode = 13,
+) {
+  const event = new KeyboardEvent('keydown', {
+    key: 'Enter',
+    keyCode,
+    shiftKey,
+    bubbles: true,
+    cancelable: true,
+  });
+  act(() => {
+    textarea.dispatchEvent(event);
+  });
+  return event;
+}
+
+const sendButton = (container: HTMLElement) =>
+  container.querySelector(
+    'button[aria-label="Send message"]',
+  ) as HTMLButtonElement;
+
+describe('MessageInput', () => {
+  it('passes rest attributes and className to the root', () => {
+    const { container } = render(
+      <MessageInput
+        data-testid="composer"
+        id="post_textbox"
+        className="host-class"
+      />,
+    );
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.dataset.testid).toBe('composer');
+    expect(root.id).toBe('post_textbox');
+    expect(root.className).toContain('host-class');
+  });
+
+  it('calls onSend from the Send button and clears uncontrolled text', () => {
+    const onSend = vi.fn();
+    const { container } = render(<MessageInput onSend={onSend} />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, 'Hello team');
+    act(() => sendButton(container).click());
+    expect(onSend).toHaveBeenCalledWith('Hello team');
+    expect(textarea.value).toBe('');
+  });
+
+  it('sends on Enter and keeps Shift+Enter for new lines', () => {
+    const onSend = vi.fn();
+    const { container } = render(<MessageInput onSend={onSend} />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, 'Hello');
+    expect(pressEnter(textarea, true).defaultPrevented).toBe(false);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(pressEnter(textarea).defaultPrevented).toBe(true);
+    expect(onSend).toHaveBeenCalledWith('Hello');
+  });
+
+  it('does not send on Enter that confirms IME composition (keyCode 229)', () => {
+    const onSend = vi.fn();
+    const { container } = render(<MessageInput onSend={onSend} />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, 'こんにちは');
+    expect(pressEnter(textarea, false, 229).defaultPrevented).toBe(false);
+    expect(onSend).not.toHaveBeenCalled();
+  });
+
+  it('does not send when the host already prevented Enter', () => {
+    const onSend = vi.fn();
+    const { container } = render(
+      <MessageInput
+        onSend={onSend}
+        onKeyDownCapture={(e) => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
+      />,
+    );
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, '@al');
+    pressEnter(textarea);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(textarea.value).toBe('@al');
+  });
+
+  it('does not send when the host onKeyDown prevents Enter', () => {
+    const onSend = vi.fn();
+    const { container } = render(
+      <MessageInput
+        onSend={onSend}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
+      />,
+    );
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, '@al');
+    pressEnter(textarea);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(textarea.value).toBe('@al');
+  });
+
+  it('ignores Enter in another textarea rendered inside suggestions', () => {
+    const onSend = vi.fn();
+    const { container } = render(
+      <MessageInput
+        onSend={onSend}
+        suggestions={<textarea aria-label="Suggestion note" />}
+      />,
+    );
+    const composer = container.querySelector(
+      'textarea:not([aria-label="Suggestion note"])',
+    ) as HTMLTextAreaElement;
+    const other = container.querySelector(
+      'textarea[aria-label="Suggestion note"]',
+    ) as HTMLTextAreaElement;
+    type(composer, 'Hello');
+    pressEnter(other);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(composer.value).toBe('Hello');
+    pressEnter(composer);
+    expect(onSend).toHaveBeenCalledWith('Hello');
+  });
+
+  it('does not send empty text', () => {
+    const onSend = vi.fn();
+    const { container } = render(<MessageInput onSend={onSend} />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, '   ');
+    pressEnter(textarea);
+    expect(onSend).not.toHaveBeenCalled();
+  });
+
+  it('leaves Enter alone and keeps text when onSend is not set', () => {
+    const { container } = render(<MessageInput />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, 'Draft');
+    expect(pressEnter(textarea).defaultPrevented).toBe(false);
+    act(() => sendButton(container).click());
+    expect(textarea.value).toBe('Draft');
+  });
+
+  it('leaves clearing to the host when controlled', () => {
+    const onSend = vi.fn();
+    const { container } = render(
+      <MessageInput value="Controlled" onChange={() => {}} onSend={onSend} />,
+    );
+    act(() => sendButton(container).click());
+    expect(onSend).toHaveBeenCalledWith('Controlled');
+    expect(container.querySelector('textarea')!.value).toBe('Controlled');
+  });
+
+  it('renders suggestions above the input only when provided', () => {
+    const { container, rerender } = render(<MessageInput />);
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.children).toHaveLength(1);
+    rerender(<MessageInput suggestions={<ul data-testid="suggestions" />} />);
+    const slot = root.firstElementChild as HTMLElement;
+    expect(slot.querySelector('[data-testid="suggestions"]')).not.toBeNull();
+    expect(slot.nextElementSibling?.querySelector('textarea')).not.toBeNull();
+  });
+
+  it('renders no suggestions wrapper for a closed slot (false, empty string)', () => {
+    const { container, rerender } = render(
+      <MessageInput suggestions={false} />,
+    );
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.children).toHaveLength(1);
+    rerender(<MessageInput suggestions="" />);
+    expect(root.children).toHaveLength(1);
+  });
+
+  it('applies textareaProps and lets its onKeyDown keep the draft', () => {
+    const onSend = vi.fn();
+    const onSelectionChange = vi.fn();
+    const { container } = render(
+      <MessageInput
+        onSend={onSend}
+        onSelectionChange={onSelectionChange}
+        textareaProps={{
+          role: 'combobox',
+          className: 'host-field',
+          'aria-expanded': true,
+          onKeyDown: (e) => {
+            if (e.key === 'Enter') e.preventDefault();
+          },
+        }}
+      />,
+    );
+    const textarea = container.querySelector('textarea')!;
+    expect(textarea.className).toContain('host-field');
+    expect(textarea.className).toContain('message-input__textarea');
+    expect(textarea.getAttribute('role')).toBe('combobox');
+    expect(textarea.getAttribute('aria-expanded')).toBe('true');
+    type(textarea, '@al');
+    pressEnter(textarea);
+    expect(onSend).not.toHaveBeenCalled();
+    expect(textarea.value).toBe('@al');
+    act(() => textarea.click());
+    expect(onSelectionChange).toHaveBeenCalled();
+  });
+
+  it('sends trimmed text', () => {
+    const onSend = vi.fn();
+    const { container } = render(<MessageInput onSend={onSend} />);
+    const textarea = container.querySelector('textarea')!;
+    type(textarea, '  hello \n');
+    pressEnter(textarea);
+    expect(onSend).toHaveBeenCalledWith('hello');
+  });
+
+  it.each(['ctrlKey', 'metaKey', 'altKey'])(
+    'does not send on Enter with %s',
+    (modifier) => {
+      const onSend = vi.fn();
+      const { container } = render(<MessageInput onSend={onSend} />);
+      const textarea = container.querySelector('textarea')!;
+      type(textarea, 'Hello');
+      act(() => {
+        textarea.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            key: 'Enter',
+            keyCode: 13,
+            [modifier]: true,
+            bubbles: true,
+            cancelable: true,
+          }),
+        );
+      });
+      expect(onSend).not.toHaveBeenCalled();
+    },
+  );
+});

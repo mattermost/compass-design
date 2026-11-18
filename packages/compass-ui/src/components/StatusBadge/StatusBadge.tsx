@@ -12,7 +12,8 @@ export type StatusBadgeSize =
   | 'x-small'
   | 'small'
   | 'medium'
-  | 'large';
+  | 'large'
+  | 'x-large';
 
 /** Figma Status Badge status variant. */
 export type StatusBadgeStatus =
@@ -28,6 +29,8 @@ export interface StatusBadgeProps {
   size?: StatusBadgeSize;
   /** Status variant. Figma: Status. Default: Online. */
   status?: StatusBadgeStatus;
+  /** Accessible name for the badge. Defaults to the `status` value; pass a translated string. */
+  label?: string;
 }
 
 /** Compass icon size in px per StatusBadge size — Figma. */
@@ -36,7 +39,8 @@ const BADGE_ICON_SIZE_PX: Record<StatusBadgeSize, number> = {
   'x-small': 12,
   small: 16,
   medium: 20,
-  large: 32,
+  large: 28,
+  'x-large': 32,
 };
 
 /** Compass icon component per status variant. */
@@ -55,6 +59,7 @@ export default function StatusBadge({
   className = '',
   size = 'x-small',
   status = 'online',
+  label,
 }: StatusBadgeProps) {
   const sizeClass = styles[`status-badge--size-${toKebab(size)}`];
   const statusClass = styles[`status-badge--status-${toKebab(status)}`];
@@ -66,7 +71,7 @@ export default function StatusBadge({
   const GlyphIcon = GLYPH_COMPONENT[status];
 
   return (
-    <span className={rootClass} role="img" aria-label={status}>
+    <span className={rootClass} role="img" aria-label={label ?? status}>
       <span className={styles['status-badge__glyph']}>
         <GlyphIcon size={iconSizePx} />
       </span>

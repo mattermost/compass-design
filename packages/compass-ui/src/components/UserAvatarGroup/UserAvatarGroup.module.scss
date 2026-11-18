@@ -19,7 +19,7 @@
     flex-shrink: 0;
     width: 20px;
     height: 20px;
-    margin-right: -2px;
+    margin-right: calc(-1 * var(--spacing-xxxxs));
     border-radius: var(--radius-pill);
     // Sizes 20–24: 1px ring; sizes 28+: 2px ring (per Figma)
     outline: 1px solid var(--center-channel-bg, var(--color-neutral-0));

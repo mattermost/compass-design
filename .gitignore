@@ -15,6 +15,7 @@ packages/compass-ui/storybook-static/
 .vscode/
 .idea/
 .cursor/plans/
+.cursor/AGENTS.md
 *.suo
 *.ntvs*
 *.njsproj

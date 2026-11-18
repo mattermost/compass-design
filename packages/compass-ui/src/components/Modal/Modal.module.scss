@@ -84,6 +84,7 @@
   }
 
   &__body-inner {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
     padding: 28px var(--spacing-xxxl);
 
     &--menu {

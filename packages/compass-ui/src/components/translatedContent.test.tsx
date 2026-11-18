@@ -13,6 +13,7 @@ import MenuGroupHeading from './MenuGroupHeading/MenuGroupHeading';
 import MenuItem from './MenuItem/MenuItem';
 import PopoverNotice from './PopoverNotice/PopoverNotice';
 import SectionNotice from './SectionNotice/SectionNotice';
+import SegmentedControl from './SegmentedControl/SegmentedControl';
 import Tabs from './Tabs/Tabs';
 import Tag from './Tag/Tag';
 import Toast from './Toast/Toast';
@@ -20,6 +21,7 @@ import Tooltip from './Tooltip/Tooltip';
 import TourPoint from './TourPoint/TourPoint';
 import RightSidebarHeader from './RightSidebarHeader/RightSidebarHeader';
 import ProfilePopover from './ProfilePopover/ProfilePopover';
+import Modal from './Modal/Modal';
 
 /** Stand-in for react-intl's `<FormattedMessage/>`: an element, not a string. */
 function Msg({ children }: { children: ReactNode }) {
@@ -41,6 +43,19 @@ describe('text props accept translated nodes', () => {
   it('MenuItem label', () => {
     const { container } = render(<MenuItem label={<Msg>Edit</Msg>} />);
     expect(messages(container)).toEqual(['Edit']);
+  });
+
+  it('SegmentedControl option label', () => {
+    const { container } = render(
+      <SegmentedControl
+        aria-label="Mode"
+        options={[{ key: 'a', label: <Msg>Channels</Msg> }]}
+        value="a"
+        onChange={() => {}}
+      />,
+    );
+    expect(getByRole('tab').textContent).toBe('Channels');
+    expect(messages(container)).toEqual(['Channels']);
   });
 
   it('Tabs tab label', () => {
@@ -222,6 +237,25 @@ describe('text props accept translated nodes', () => {
       />,
     );
     expect(messages(container)).toEqual(['Thread', 'Beta', 'Follow']);
+  });
+
+  it('Modal title stays the dialog name when headerLeading is set', () => {
+    const { container } = render(
+      <Modal
+        title={<Msg>Search</Msg>}
+        headerLeading={<button type="button">Channels</button>}
+      >
+        body
+      </Modal>,
+    );
+    const heading = container.querySelector('h2');
+    expect(heading?.textContent).toBe('Search');
+    expect(heading?.querySelector('[data-testid="msg"]')).not.toBeNull();
+    expect(heading?.querySelector('button')).toBeNull();
+    expect(
+      container.querySelector('[class*="modal-header__leading"] button')
+        ?.textContent,
+    ).toBe('Channels');
   });
 
   it('ProfilePopover name, title and built-in copy', () => {

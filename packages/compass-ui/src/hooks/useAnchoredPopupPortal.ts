@@ -17,6 +17,13 @@ import {
   type PopupPlacement,
 } from '@/utils/anchoredPopupPlacement';
 
+/**
+ * What the popup is placed against: an element, or any object with a
+ * `getBoundingClientRect` (a virtual anchor such as a character inside a
+ * textarea). The rect is read on every placement.
+ */
+export type AnchoredPopupAnchor = Pick<HTMLElement, 'getBoundingClientRect'>;
+
 export interface UseAnchoredPopupPortalOptions {
   /** Height used for the flip decision when content isn’t measured yet. */
   preferredHeight: number;
@@ -30,7 +37,14 @@ export interface UseAnchoredPopupPortalOptions {
    * than `static`); coords are converted to that container’s space.
    */
   portalContainer?: HTMLElement | null;
-  zIndex?: number;
+  zIndex?: number | string;
+  /**
+   * Which side of the anchor to open on. `auto` (default) prefers below and
+   * flips above when there is no room. `above` / `below` never flip, so the
+   * popup stays on that side as the page scrolls (a suggestion list above a
+   * composer). `maxHeight` is then the room on that side.
+   */
+  side?: 'auto' | 'above' | 'below';
   /**
    * When true (default), fixed width matches the trigger.
    * DateRangePicker sets false and keeps its CSS width.
@@ -63,11 +77,19 @@ function usesViewportFixedCoords(mount: HTMLElement): boolean {
 }
 
 /**
- * Positions a form-widget popup in a portal with viewport-aware above/below flip.
- * Internal to compass-ui form widgets — not a general overlay positioning API.
+ * Positions a popup in a portal with viewport-aware above/below flip (or a fixed
+ * `side`). Used by the form widgets (`Select`, `Combobox`, `DateRangePicker`) and
+ * by hosts that portal a popup against an element or a virtual anchor. The
+ * shared `Popover.Positioner` planned in #111 replaces it; hosts use this one only
+ * as an interim positioner.
+ *
+ * The anchor's rect is re-read when the popup opens, on resize, on scroll (any
+ * ancestor) and when the portaled popup changes size, not when the host
+ * re-renders. A virtual anchor that moves on its own (a trigger character in a
+ * textarea as text wraps) is not followed until one of those happens.
  */
 export function useAnchoredPopupPortal(
-  anchorRef: RefObject<HTMLElement | null>,
+  anchorRef: RefObject<AnchoredPopupAnchor | null>,
   isOpen: boolean,
   options: UseAnchoredPopupPortalOptions,
 ): UseAnchoredPopupPortalResult {
@@ -79,6 +101,7 @@ export function useAnchoredPopupPortal(
     zIndex = ANCHORED_POPUP_Z_INDEX,
     matchWidth = true,
     gap = ANCHORED_POPUP_GAP,
+    side = 'auto',
   } = options;
 
   const portalRef = useRef<HTMLDivElement | null>(null);
@@ -116,6 +139,7 @@ export function useAnchoredPopupPortal(
         preferredHeight: heightForFlip,
         maxHeightCap,
         bounds: containerFrame?.bounds,
+        forcePlacement: side === 'auto' ? undefined : side,
       });
 
     const fixed = computeAnchoredPopupFixedStyle(rect, nextPlacement, {
@@ -145,6 +169,7 @@ export function useAnchoredPopupPortal(
     maxHeightCap,
     portalContainer,
     preferredHeight,
+    side,
     zIndex,
   ]);
 

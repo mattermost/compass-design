@@ -28,7 +28,7 @@
     padding: var(--spacing-s);
     font-size: var(--font-size-75);
     font-weight: var(--font-weight-semibold);
-    line-height: 16px;
+    line-height: var(--line-height-75);
     text-transform: uppercase;
     letter-spacing: 0.075em;
     color: rgba(var(--center-channel-color-rgb), 0.64);
@@ -51,7 +51,7 @@
     padding: var(--spacing-xxs) var(--spacing-s);
     border-radius: var(--radius-s);
     font-size: var(--font-size-200);
-    line-height: 24px;
+    line-height: var(--line-height-200);
     color: rgba(var(--center-channel-color-rgb), 0.8);
     text-decoration: none;
     transition:

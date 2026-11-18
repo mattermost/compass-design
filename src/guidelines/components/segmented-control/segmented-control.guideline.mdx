@@ -1,0 +1,151 @@
+import { useState } from 'react';
+import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
+import FileTextOutlineIcon from '@mattermost/compass-icons/components/file-text-outline';
+import MessageTextOutlineIcon from '@mattermost/compass-icons/components/message-text-outline';
+import PoundIcon from '@mattermost/compass-icons/components/pound';
+import { Icon } from '@mattermost/compass-ui/components/icon';
+import { SegmentedControl } from '@mattermost/compass-ui/components/segmented-control';
+
+Segmented controls let people pick one option from a short, exclusive set
+shown as one compact control — search modes in a header, a filter on a list,
+or a form choice that doesn't need a radio mark. One segment is selected;
+choosing another replaces it.
+
+<Divider />
+
+## When to use
+
+Use a Segmented control for two to five short, mutually exclusive options
+that should read as a single control.
+
+- **View switcher** — search modes in a modal header, or a filter that
+  changes what the same surface shows. Set `role="tablist"` (the default).
+  The host owns the panel.
+- **Form choice** — a short exclusive value that doesn't need a radio mark
+  or a description. Set `role="radiogroup"`. The value stays in your state;
+  it is not a native radio and is not included in form submission.
+
+Reach for something else when the job is different:
+
+- [Tabs](/components/tabs) switch sibling views and can carry badges, an
+  underlined page bar, or trailing controls. A compact mode switcher is not
+  a tab strip.
+- [Radio](/components/radio) is the form control when the choice should
+  submit with the form, show a radio mark, or use longer stacked labels.
+- [Card Button](/components/card-button) is the choice that needs an icon, a
+  title, and a description.
+- Multi-select stays on [Chip](/components/chip) or
+  [Checkbox](/components/checkbox).
+
+<Divider />
+
+## Anatomy
+
+The track is a quiet tinted well with rounded corners and a little padding. Segments sit in a row. The selected segment is raised on
+the center-channel surface with a light shadow, and its label uses the
+default text color. Unselected labels are quieter.
+
+<AnatomyStage>
+  <SegmentedControl
+    aria-label="Search mode"
+    value="channels"
+    onChange={() => {}}
+    options={[
+      {
+        key: 'channels',
+        label: 'Channels',
+        icon: <Icon glyph={<PoundIcon />} />,
+      },
+      {
+        key: 'messages',
+        label: 'Messages',
+        icon: <Icon glyph={<MessageTextOutlineIcon />} />,
+      },
+      {
+        key: 'files',
+        label: 'Files',
+        icon: <Icon glyph={<FileTextOutlineIcon />} />,
+      },
+      {
+        key: 'people',
+        label: 'People',
+        icon: <Icon glyph={<AccountOutlineIcon />} />,
+      },
+    ]}
+  />
+</AnatomyStage>
+
+- <Num>1</Num> **Track** — groups the segments.
+- <Num>2</Num> **Segment** — one exclusive option. Sentence case, one or two
+  words.
+- <Num>3</Num> **Leading icon** — optional. Same idea on every segment, or none.
+- <Num>4</Num> **Label** — the option name.
+- <Num>5</Num> **Selected segment** — raised surface. Exactly one. It slides to
+  the segment you choose.
+
+<Divider />
+
+## Sizes
+
+Small is the default. It uses the same label size and icon size as a small
+[Button](/components/button). Medium uses the same label size and icon size
+as a medium Button. Pass `size="medium"` when the control sits with medium
+type.
+
+<Divider />
+
+## Behavior
+
+Clicking a segment selects it. The raised surface slides over; the label
+color changes immediately. Reduced motion skips the slide. Arrow keys move
+between segments and skip disabled ones. Give the group a name with
+`aria-label` or `aria-labelledby`.
+
+export const SegmentedControlDemo = () => {
+  const [value, setValue] = useState('messages');
+  return (
+    <SegmentedControl
+      aria-label="Search mode"
+      value={value}
+      onChange={setValue}
+      options={[
+        { key: 'channels', label: 'Channels' },
+        { key: 'messages', label: 'Messages' },
+        {
+          key: 'files',
+          label: 'Files',
+          disabled: true,
+          title: 'Files search is unavailable',
+        },
+        { key: 'people', label: 'People' },
+      ]}
+    />
+  );
+};
+
+<SegmentedControlDemo />
+
+Files search is unavailable.
+
+- **View switcher (`tablist`)** — Left and Right move focus. Enter, Space, or
+  a click selects. Leaving the group puts the tab stop back on the selected
+  segment. The host renders the panel.
+- **Form choice (`radiogroup`)** — arrow keys move the selection. Up and
+  Down do the same as Left and Right.
+- **Disabled** — the label dims, clicks do nothing, and arrow keys skip it.
+  Explain why in text next to the group. A tooltip can repeat that reason,
+  but keyboard users never land on the segment, so the tooltip is not enough
+  on its own.
+- **Hover and keyboard focus** — an unselected segment picks up a light
+  fill and its label darkens slightly. The selected label stays at full
+  strength.
+  The selected segment does not fade when the choice changes.
+
+<Divider />
+
+## Content
+
+- Keep labels parallel and short: "Day / Week / Month", not "Today's agenda
+  / Weekly / This month".
+- Always start with one segment selected.
+- If you need more than five options, use a [Select](/components/select).

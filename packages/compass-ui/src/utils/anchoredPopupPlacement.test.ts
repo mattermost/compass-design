@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   ANCHORED_POPUP_GAP,
   computeAnchoredPopupFixedStyle,
+  computeAnchoredPopupPlacement,
   getAnchoredPopupContainerFrame,
 } from './anchoredPopupPlacement';
 
@@ -134,5 +135,31 @@ describe('getAnchoredPopupContainerFrame', () => {
     expect(above.bottom).not.toBe(
       mount.scrollHeight - mapped.top + ANCHORED_POPUP_GAP,
     );
+  });
+});
+
+describe('computeAnchoredPopupPlacement forcePlacement', () => {
+  const anchor = { top: 20, bottom: 70 };
+
+  it('stays below when there is no more room above either', () => {
+    expect(
+      computeAnchoredPopupPlacement(anchor, 700, { preferredHeight: 900 })
+        .placement,
+    ).toBe('below');
+  });
+
+  it('keeps the forced side even with no room', () => {
+    expect(
+      computeAnchoredPopupPlacement(anchor, 700, {
+        preferredHeight: 400,
+        forcePlacement: 'above',
+      }).placement,
+    ).toBe('above');
+    expect(
+      computeAnchoredPopupPlacement({ top: 600, bottom: 650 }, 700, {
+        preferredHeight: 400,
+        forcePlacement: 'below',
+      }).placement,
+    ).toBe('below');
   });
 });

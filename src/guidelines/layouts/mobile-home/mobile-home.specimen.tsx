@@ -7,19 +7,19 @@ import {
   MobileTeamSidebar,
 } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
-import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
-import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
-import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
-import avatarDariusCole from '@/assets/avatars/Darius Cole.png';
-import avatarDavidLiang from '@/assets/avatars/David Liang.png';
-import avatarEmmaNovak from '@/assets/avatars/Emma Novak.png';
-import avatarEthanBrooks from '@/assets/avatars/Ethan Brooks.png';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
+import {
+  mobileHomeFirstTeamId,
+  mobileHomeModel,
+  mobileHomeTeamName,
+  mobileHomeTeams,
+} from '@/fixtures/mobileHomeFixtures';
+import { mobileMentionCount } from '@/fixtures/mobilePatternFixtures';
+import { personaHeaderProps } from '@/fixtures/workspacePersona';
 import styles from './mobile-home.specimen.module.scss';
 
+/** The workspace's teams and channels on a phone; picking a team shows its channels. */
 export default function MobileHomeLibrary() {
-  const [activeTeamId, setActiveTeamId] = useState('contributors');
+  const [activeTeamId, setActiveTeamId] = useState(mobileHomeFirstTeamId);
   const [activeTab, setActiveTab] = useState<MobileTabBarTab>('home');
 
   return (
@@ -30,42 +30,24 @@ export default function MobileHomeLibrary() {
             <MobileTeamSidebar
               activeTeamId={activeTeamId}
               onSelectTeam={setActiveTeamId}
-              teams={[
-                {
-                  id: 'contributors',
-                  name: 'Contributors',
-                  src: avatarStaffTeam,
-                },
-                {
-                  id: 'design',
-                  name: 'Design',
-                  initials: 'De',
-                  unread: true,
-                },
-              ]}
+              teams={mobileHomeTeams}
             />
           }
           channelsSidebar={
             <MobileChannelsSidebar
-              teamName={activeTeamId === 'design' ? 'Design' : 'Contributors'}
+              key={activeTeamId}
+              teamName={mobileHomeTeamName(activeTeamId)}
               subtitle="Community"
-              showUnreadsCategory
-              avatarAikoTan={avatarAikoTan}
-              avatarArjunPatel={avatarArjunPatel}
-              avatarDanielleOkoro={avatarDanielle}
-              avatarDariusCole={avatarDariusCole}
-              avatarDavidLiang={avatarDavidLiang}
-              avatarEmmaNovak={avatarEmmaNovak}
-              avatarEthanBrooks={avatarEthanBrooks}
+              model={mobileHomeModel(activeTeamId)}
             />
           }
           tabBar={
             <MobileTabBar
               activeTab={activeTab}
               onTabChange={setActiveTab}
-              profileSrc={avatarLeonard}
-              profileAlt="Leonard Riley"
-              mentionsBadge={2}
+              profileSrc={personaHeaderProps.userAvatarSrc}
+              profileAlt={personaHeaderProps.userAvatarAlt}
+              mentionsBadge={mobileMentionCount}
             />
           }
         />

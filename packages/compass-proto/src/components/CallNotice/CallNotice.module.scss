@@ -85,6 +85,7 @@
 
   &--size-medium {
     .call-notice__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
         calc(var(--spacing-xs) + var(--spacing-xxxxs));
@@ -193,6 +194,7 @@
 
   &--type-other {
     .call-notice__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- off-scale value between spacing tokens
       gap: 5px;
       padding: var(--spacing-xxxs) var(--spacing-s) var(--spacing-xxxs)
         calc(var(--spacing-xxxs) + var(--spacing-xxxxs));

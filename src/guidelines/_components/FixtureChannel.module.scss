@@ -1,0 +1,53 @@
+// Sample-channel rendering (see FixtureChannel.tsx).
+.fixture-channel {
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  // Message renders the thread footer flush; give it room under the post.
+  &__thread-footer {
+    margin-top: var(--spacing-xxxs);
+  }
+
+  // Inline "Edited" marker after the text: a small pencil and the word, in
+  // italics, as in the webapp's edited indicator (11px, muted).
+  &__edited {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xxxxs);
+    margin-left: var(--spacing-xxxs);
+    font-size: var(--font-size-50);
+    font-style: italic;
+    line-height: normal;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    user-select: none;
+  }
+
+  // Playbooks run update: a compact summary card (no shared component yet).
+  &__run {
+    padding: var(--spacing-s) var(--spacing-m);
+    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-12));
+    border-left: 3px solid var(--color-info);
+    border-radius: var(--radius-s);
+    background: var(--center-channel-bg);
+  }
+
+  &__run-title {
+    margin: 0;
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+  }
+
+  &__run-meta {
+    margin: 0;
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-75);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+  }
+}

@@ -16,9 +16,9 @@
   &__segmented {
     display: inline-flex;
     background: rgba(var(--center-channel-color-rgb), 0.08);
-    padding: 2px;
+    padding: var(--spacing-xxxxs);
     border-radius: var(--radius-pill);
-    gap: 2px;
+    gap: var(--spacing-xxxxs);
   }
 
   &__tab {

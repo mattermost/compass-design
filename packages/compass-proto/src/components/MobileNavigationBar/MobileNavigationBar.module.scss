@@ -5,6 +5,7 @@
   width: 100%;
   box-sizing: border-box;
   // Matches iPhone status / DeviceFrame status bar so system chrome overlays this spacer
+  // stylelint-disable-next-line declaration-property-value-disallowed-list -- device inset fallback, not a spacing token
   padding-top: var(--device-status-bar-height, 54px);
   background-color: var(--sidebar-bg);
   color: rgba(var(--sidebar-text-rgb), 0.75);
@@ -25,7 +26,7 @@
     align-items: center;
     flex-shrink: 0;
     width: 100px;
-    padding: 2px var(--spacing-xs);
+    padding: var(--spacing-xxxxs) var(--spacing-xs);
     box-sizing: border-box;
   }
 
@@ -86,7 +87,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 2px;
+    gap: var(--spacing-xxxxs);
     max-width: 100%;
     min-width: 0;
   }
@@ -111,7 +112,7 @@
 
   &__status-emoji {
     flex-shrink: 0;
-    font-size: 16px;
+    font-size: var(--font-size-200);
     line-height: 1;
   }
 

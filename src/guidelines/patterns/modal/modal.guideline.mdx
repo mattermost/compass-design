@@ -30,7 +30,8 @@ header and body, an optional footer, and the dimmed overlay behind the dialog.
 - <Num>1</Num> **Container** — the dialog shell: 12px corner radius, 1px border,
   and Elevation 6.
 - <Num>2</Num> **Header** — identifies purpose and intent: title, subtitle,
-  optional header action, optional header input, and close button.
+  optional leading content in place of the visible title, optional header
+  action, optional header input, and close button.
 - <Num>3</Num> **Body** — the main content region; scrolls when it exceeds the
   viewable area.
 - <Num>4</Num> **Footer** — optional actions, pagination, stepped progress, or a
@@ -59,8 +60,15 @@ The title should be a short statement or question; add a subtitle only when
 users need more guidance. Use `subtitlePlacement="beside"` for an inline
 context label (settings-style headers); default is `below`. Pass
 `headerAction` for a control before close; use `hideTitle` for close-only
-chrome (keep `title` for accessibility). Header and footer are also available
-as standalone `ModalHeader` / `ModalFooter` imports. Reserve a header action
+chrome (keep `title` for accessibility). Pass `headerLeading` (`leading` on
+`ModalHeader`) when a control should sit where the title does, such as a mode
+switcher. The slot is left aligned and centered with the close button, and it
+is not a heading, so it keeps its own type. `title` is still required and
+still names the dialog; it is hidden visually, the same way `hideTitle` keeps
+it. The subtitle is omitted while the slot is set. `hideTitle` on its own is
+still the close-only header, and `headerSlot` stays the full-width area under
+the title row. Header and footer are also available as standalone
+`ModalHeader` / `ModalFooter` imports. Reserve a header action
 for related work that is not one of the modal's primary outcomes. Use a header
 input (via `headerAction`) when the body shows long lists — search is the
 common case. Keep that list a stable height while filtering (see Searchable

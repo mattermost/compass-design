@@ -90,6 +90,12 @@ export function focus(el: Element) {
   });
 }
 
+export function blur(el: Element) {
+  act(() => {
+    (el as HTMLElement).blur();
+  });
+}
+
 /** Sets an input's value the way a user would, so React's onChange fires. */
 export function type(el: HTMLInputElement, value: string) {
   act(() => {

@@ -9,26 +9,27 @@
   border-radius: var(--radius-s);
   box-shadow: var(--elevation-1);
   cursor: pointer;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    box-shadow var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  @include focus-ring(
+    $host-shadow: var(--elevation-1),
+    $host-radius: var(--radius-s)
+  );
 
-  &:hover {
+  &:hover,
+  &:active {
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      box-shadow var(--duration-quick) var(--ease-transition);
+  }
+
+  // `:not()` pairs keep these at (0,3,0) so they outrank the focus-ring
+  // mixin's host-shadow reset.
+  &:hover#{$host-reset-boost} {
     background-color: rgba(var(--mention-bg-rgb), 0.92);
     box-shadow: var(--elevation-2);
   }
 
-  &:active {
+  &:active#{$host-reset-boost} {
     box-shadow: var(--elevation-1);
-  }
-
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
   }
 
   &__icon {

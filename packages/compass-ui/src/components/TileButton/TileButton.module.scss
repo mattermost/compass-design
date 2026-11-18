@@ -16,13 +16,8 @@
   color: var(--tile-button-fg);
   cursor: pointer;
   text-decoration: none;
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    color var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  // No transition at rest: toggled / focus-leaving must be instant (#184).
+  @include focus-ring($host-shadow: none, $host-radius: var(--radius-s));
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
@@ -35,9 +30,13 @@
     text-decoration: none;
   }
 
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
+  // Hover/press fade only; not while toggled, so state changes are instant (#184).
+  // (`toggled` set => `aria-pressed` present, so toggle tiles never fade.)
+  &:hover:not([aria-pressed]),
+  &:active:not([aria-pressed]) {
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      color var(--duration-quick) var(--ease-transition);
   }
 
   &:hover:not(:disabled, .tile-button--disabled) {

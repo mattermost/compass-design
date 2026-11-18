@@ -68,6 +68,15 @@ export interface ModalProps extends Omit<
   /** Optional control before close (Button, search field, …). */
   headerAction?: ReactNode;
   /**
+   * Custom content in the title position: left aligned and vertically
+   * centered with the close button. Not wrapped in the heading, so it does
+   * not inherit heading type. `title` stays required and names the dialog;
+   * it is visually hidden, the same as `hideTitle`. The subtitle is omitted.
+   * `hideTitle` without this prop stays the close-only header. `headerSlot`
+   * stays the full-width area under the title row.
+   */
+  headerLeading?: ReactNode;
+  /**
    * Full-width slot rendered below the title row and above the header divider.
    * Accepts any ReactNode — SearchInput, Tabs, a custom toolbar, etc.
    */
@@ -94,8 +103,12 @@ export interface ModalProps extends Omit<
   /** Show divider between body and footer. Default: true. */
   footerDivider?: boolean;
   /**
-   * Close on Escape via a document listener while mounted. Escapes already
-   * handled by an inner widget (`defaultPrevented`) are ignored. Default: true.
+   * Close on Escape while mounted (topmost modal only). Handled on the dialog
+   * root first, so a host `document` listener that prevents every Escape
+   * cannot block it, with a document listener as the fallback when focus is
+   * outside the dialog. Escapes already handled by an inner widget or this
+   * modal's `onKeyDown` (`defaultPrevented`) are ignored; a handled Escape
+   * calls `preventDefault()`. Default: true.
    */
   closeOnEscape?: boolean;
   /**
@@ -145,6 +158,7 @@ function ModalPanel({
   closeButtonProps,
   headerDivider = true,
   headerAction,
+  headerLeading,
   headerSlot,
   bodyPadding = 'default',
   scrollable = true,
@@ -159,10 +173,11 @@ function ModalPanel({
   active,
   transition,
   visible,
+  onKeyDown,
   ...rest
 }: ModalProps & ModalPanelState) {
   const rootRef = useRef<HTMLDivElement>(null);
-  useModalFocus(rootRef, {
+  const { onDialogKeyDown } = useModalFocus(rootRef, {
     initialFocusRef,
     closeOnEscape,
     manageFocus,
@@ -194,10 +209,16 @@ function ModalPanel({
     footerType === 'spacer-large';
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- WAI-ARIA dialog pattern: Escape closes the dialog
     <div
       {...rest}
       ref={rootRef}
       tabIndex={-1}
+      onKeyDown={(event) => {
+        // Host handler first: it can still preventDefault to keep the modal open.
+        onKeyDown?.(event);
+        onDialogKeyDown(event);
+      }}
       className={[
         styles.modal,
         sizeClass,
@@ -227,6 +248,7 @@ function ModalPanel({
         closeButtonProps={closeButtonProps}
         divider={headerDivider}
         headerAction={headerAction}
+        leading={headerLeading}
         headerSlot={headerSlot}
       />
 
@@ -248,7 +270,8 @@ function ModalPanel({
 }
 
 /**
- * Modal dialog shell — composes ModalHeader, scrollable body, and ModalFooter.
+ * Modal dialog shell — composes ModalHeader (title, or `headerLeading` in the
+ * title position), scrollable body, and ModalFooter.
  * Owns dialog-level focus and keyboard behavior: initial focus, Tab trap,
  * Escape, and focus restore on unmount. Host owns portal, overlay/backdrop,
  * scroll lock, stacking, and open state. Mount-controlled by default; pass

@@ -16,6 +16,44 @@ import {
 } from './channelsSidebarModel';
 import styles from './ChannelsSidebar.module.scss';
 
+/**
+ * Desktop row props: with `customStatusText`, the emoji gets a hover tooltip
+ * (large emoji above the text) and the row announces the status to screen
+ * readers through `customStatusLabel`. The tooltip is pointer-only on purpose:
+ * the row is the single tab stop.
+ */
+function toDesktopItem(row: ChannelsSidebarItemModel) {
+  const { customStatusEmoji, customStatusText, leadingEmoji, ...base } = row;
+  // An emoji replaces the built-in glyph as a custom leading visual.
+  const rest = leadingEmoji
+    ? {
+        ...base,
+        leadingVisual: (
+          <span className={styles['channels-sidebar__leading-emoji']}>
+            {leadingEmoji}
+          </span>
+        ),
+      }
+    : base;
+  if (!customStatusEmoji || !customStatusText) {
+    return { ...rest, customStatusEmoji };
+  }
+  return {
+    ...rest,
+    customStatusLabel: `${customStatusEmoji} ${customStatusText}`,
+    customStatusEmoji: (
+      <WithTooltip
+        label={customStatusText}
+        emoji={customStatusEmoji}
+        emojiSize="large"
+        placement="right"
+      >
+        <span>{customStatusEmoji}</span>
+      </WithTooltip>
+    ),
+  };
+}
+
 function applyChannelSidebarInteractivity(
   model: ChannelsSidebarModel,
   activeChannelName: string | undefined,
@@ -182,6 +220,7 @@ export interface ChannelsSidebarProps {
    * Rename built-in channel/DM items without editing the model.
    * Keys are the default names; values are the display names to use instead.
    * Applies to `name` and `avatarAlt` on each item (same as the legacy hardcoded list).
+   * @deprecated Build the model with `buildDefaultChannelsSidebarModel({ channelNames })` instead. Still works.
    */
   channelNameOverrides?: Record<string, string>;
   /**
@@ -232,7 +271,10 @@ export default function ChannelsSidebar({
 
       <div className={styles['channels-sidebar__top-group']}>
         {model.topGroupItems.map((row, i) => (
-          <ChannelSidebarItem key={`top-${i}-${row.name}`} {...row} />
+          <ChannelSidebarItem
+            key={`top-${i}-${row.name}`}
+            {...toDesktopItem(row)}
+          />
         ))}
       </div>
 
@@ -252,7 +294,7 @@ export default function ChannelsSidebar({
                 {group.items.map((row, index) => (
                   <ChannelSidebarItem
                     key={`${group.key}-${index}-${row.name}`}
-                    {...row}
+                    {...toDesktopItem(row)}
                   />
                 ))}
               </div>

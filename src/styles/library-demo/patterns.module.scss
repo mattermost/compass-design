@@ -99,8 +99,17 @@
 
   &__variant-label {
     font-size: var(--font-size-75);
-    color: rgba(var(--center-channel-color-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     margin-bottom: var(--spacing-xs);
+  }
+
+  // Search results panel docked to the right of the staged search modal frame.
+  &__search-modal-rhs {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
   }
 
   &__modal-canvas {
@@ -120,6 +129,12 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-l);
+  }
+
+  &__modal-leading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
   }
 
   &__modal-host-body {
@@ -160,6 +175,12 @@
   }
 
   // ── Team Sidebar demo ───────────────────────────────────────
+  &__product-rail-demo {
+    display: inline-flex;
+    align-items: stretch;
+    height: 480px;
+  }
+
   &__team-sidebar-demo {
     display: inline-flex;
     align-items: stretch;
@@ -191,6 +212,12 @@
     .patterns__variant-label {
       margin-bottom: 0;
     }
+  }
+
+  &__message-input-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
   }
 
   &__message-input-narrow {
@@ -267,6 +294,12 @@
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     border-radius: var(--radius-m);
+
+    // Room for a child menu that opens to the left of the parent (User account menu).
+    &--submenu-left {
+      padding-left: calc(var(--spacing-xxxxxl) * 5);
+      padding-bottom: calc(var(--spacing-xxxxxl) * 3);
+    }
   }
 
   &__popover-nested-demo {
@@ -312,4 +345,43 @@
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     border-radius: var(--radius-m);
   }
+}
+
+.patterns__call-card-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  width: 100%;
+  max-width: 720px;
+}
+
+.patterns__call-card-narrow {
+  width: 360px;
+  max-width: 100%;
+}
+
+.patterns__message-attachment-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  width: 100%;
+  max-width: 720px;
+}
+
+.patterns__message-attachment-narrow {
+  width: 360px;
+  max-width: 100%;
+}
+
+.patterns__channel-banner-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  width: 100%;
+  max-width: 720px;
+}
+
+.patterns__channel-banner-narrow {
+  width: 240px;
+  max-width: 100%;
 }

@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { MobileMessageInput } from '@mattermost/compass-proto';
 import type { MobileMessageAttachment } from '@mattermost/compass-proto';
+import { mobileChannel, mobileImage } from '@/fixtures/mobilePatternFixtures';
 import sampleImage from '@/assets/images/sample-image.jpg';
 import styles from './mobile-message-input.specimen.module.scss';
 
@@ -30,6 +31,10 @@ function Stage({
   );
 }
 
+const placeholder = `Write to ${mobileChannel?.name ?? 'channel'}…`;
+// An image the sample data's attachments use, else a stock sample.
+const attachmentImage = mobileImage ?? sampleImage;
+
 function InteractiveRoot() {
   const [value, setValue] = useState('');
   const [expanded, setExpanded] = useState(false);
@@ -37,8 +42,8 @@ function InteractiveRoot() {
 
   return (
     <MobileMessageInput
-      variant="Root"
-      placeholder="Write to UX Design…"
+      variant="root"
+      placeholder={placeholder}
       value={value}
       onChange={setValue}
       expanded={expanded}
@@ -52,7 +57,7 @@ function InteractiveRoot() {
           ...prev,
           {
             id: `att-${Date.now()}`,
-            src: sampleImage,
+            src: attachmentImage,
             alt: 'Sample attachment',
           },
         ])
@@ -79,7 +84,7 @@ export default function MobileMessageInputLibrary() {
   >([
     {
       id: '1',
-      src: sampleImage,
+      src: attachmentImage,
       alt: 'Screenshot',
     },
   ]);
@@ -87,21 +92,21 @@ export default function MobileMessageInputLibrary() {
   return (
     <div className={styles['mmi-specimen']}>
       <Stage label="Root — unfocused">
-        <MobileMessageInput variant="Root" placeholder="Write to UX Design…" />
+        <MobileMessageInput variant="root" placeholder={placeholder} />
       </Stage>
 
       <Stage label="Root — focused (placeholder)">
         <MobileMessageInput
-          variant="Root"
-          placeholder="Write to UX Design…"
+          variant="root"
+          placeholder={placeholder}
           defaultFocused
         />
       </Stage>
 
       <Stage label="Root — focused with value (send)">
         <MobileMessageInput
-          variant="Root"
-          placeholder="Write to UX Design…"
+          variant="root"
+          placeholder={placeholder}
           value={focusedValue}
           onChange={setFocusedValue}
           defaultFocused
@@ -110,7 +115,7 @@ export default function MobileMessageInputLibrary() {
 
       <Stage label="Reply — focused">
         <MobileMessageInput
-          variant="Reply"
+          variant="reply"
           value={replyValue}
           onChange={setReplyValue}
           defaultFocused
@@ -119,8 +124,8 @@ export default function MobileMessageInputLibrary() {
 
       <Stage label="Root — expanded" tall>
         <MobileMessageInput
-          variant="Root"
-          placeholder="Write to UX Design…"
+          variant="root"
+          placeholder={placeholder}
           value={expandedValue}
           onChange={setExpandedValue}
           expanded={expanded}
@@ -131,8 +136,8 @@ export default function MobileMessageInputLibrary() {
 
       <Stage label="Root — with attachments">
         <MobileMessageInput
-          variant="Root"
-          placeholder="Write to UX Design…"
+          variant="root"
+          placeholder={placeholder}
           value={attachmentValue}
           onChange={setAttachmentValue}
           defaultFocused

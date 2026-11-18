@@ -24,11 +24,12 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
-    "typecheck": "tsc -p tsconfig.build.json --noEmit"
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "test": "vitest run"
   },
   "peerDependencies": {
-    "@mattermost/compass-icons": "^0.1.64",
-    "@mattermost/compass-ui": "0.1.0-alpha.27",
+    "@mattermost/compass-icons": "^0.1.65",
+    "@mattermost/compass-ui": "0.1.0-alpha.32",
     "react": "^18.2.0 || ^19.0.0",
     "react-dom": "^18.2.0 || ^19.0.0",
     "simplebar-react": "^3.3.2"
@@ -39,7 +40,7 @@
     }
   },
   "devDependencies": {
-    "@mattermost/compass-icons": "^0.1.64",
+    "@mattermost/compass-icons": "^0.1.65",
     "@mattermost/compass-ui": "*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -50,6 +51,7 @@
     "simplebar-react": "^3.3.2",
     "typescript": "~5.7.2",
     "vite": "^6.0.5",
+    "vitest": "*",
     "vite-plugin-dts": "^4.5.3",
     "vite-plugin-lib-inject-css": "^2.2.1",
     "vite-plugin-svgr": "^4.5.0"

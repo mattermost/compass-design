@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { ReactElement } from 'react';
 import {
+  blur,
   click,
   focus,
   getByRole,
@@ -406,11 +407,84 @@ describe('other overridable messages', () => {
 
   it('DateRangePicker shows placeholder only while empty', () => {
     const { rerender } = render(<DateRangePicker />);
-    expect(getByRole('button', 'mm/dd/yyyy')).toBeTruthy();
+    expect(getByRole('combobox', 'mm/dd/yyyy')).toBeTruthy();
     rerender(<DateRangePicker placeholder="Pick a date" />);
-    expect(getByRole('button', 'Pick a date')).toBeTruthy();
+    expect(getByRole('combobox', 'Pick a date')).toBeTruthy();
     rerender(<DateRangePicker placeholder="Pick a date" value="2026-01-05" />);
-    expect(getByRole('button', '01/05/2026')).toBeTruthy();
+    expect(getByRole('combobox', '01/05/2026')).toBeTruthy();
+  });
+
+  it('DateRangePicker trigger exposes label, required and description', () => {
+    const { container } = render(
+      <DateRangePicker
+        label="Dates"
+        required
+        aria-describedby="help"
+        value="2026-01-05"
+      />,
+    );
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-required')).toBe('true');
+    expect(trigger.getAttribute('aria-describedby')).toBe('help');
+    const labelledBy = trigger.getAttribute('aria-labelledby');
+    expect(labelledBy).toBeTruthy();
+    expect(container.querySelector(`[id="${labelledBy}"]`)?.textContent).toBe(
+      'Dates',
+    );
+  });
+
+  it('DateRangePicker without a label is named by its value text', () => {
+    const { container } = render(<DateRangePicker placeholder="Pick a date" />);
+    const trigger = getByRole('combobox');
+    const labelledBy = trigger.getAttribute('aria-labelledby');
+    expect(container.querySelector(`[id="${labelledBy}"]`)?.textContent).toBe(
+      'Pick a date',
+    );
+    expect(trigger.getAttribute('aria-required')).toBeNull();
+  });
+
+  it('DateRangePicker aria-label overrides the derived name', () => {
+    render(<DateRangePicker label="Dates" aria-label="Report range" />);
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-label')).toBe('Report range');
+    expect(trigger.getAttribute('aria-labelledby')).toBeNull();
+  });
+
+  it('DateRangePicker floats its label while the trigger is focused', () => {
+    const { container } = render(<DateRangePicker label="Dates" />);
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).not.toMatch(/label-floated/);
+    focus(getByRole('combobox'));
+    expect(root.className).toMatch(/label-floated/);
+  });
+
+  it('DateRangePicker calls onFocus and onBlur and falls back to dialogLabel when nothing names it', () => {
+    const events: string[] = [];
+    render(
+      <DateRangePicker
+        placeholder=""
+        onFocus={() => events.push('focus')}
+        onBlur={() => events.push('blur')}
+      />,
+    );
+    const trigger = getByRole('combobox');
+    expect(trigger.getAttribute('aria-labelledby')).toBeNull();
+    expect(trigger.getAttribute('aria-label')).toBe('Date picker');
+    focus(trigger);
+    blur(trigger);
+    expect(events).toEqual(['focus', 'blur']);
+  });
+
+  it('DateRangePicker treats label={false} as no label', () => {
+    const { container } = render(<DateRangePicker label={false} />);
+    const trigger = getByRole('combobox');
+    const labelledBy = trigger.getAttribute('aria-labelledby');
+    expect(container.querySelector(`[id="${labelledBy}"]`)?.textContent).toBe(
+      'mm/dd/yyyy',
+    );
+    expect((container.firstElementChild as HTMLElement).className).not.toMatch(
+      /has-label/,
+    );
   });
 
   it('DateRangePicker labels', () => {
@@ -421,7 +495,7 @@ describe('other overridable messages', () => {
         todayLabel="Heute"
       />,
     );
-    const trigger = getByRole('button', 'tt.mm.jjjj');
+    const trigger = getByRole('combobox', 'tt.mm.jjjj');
     click(trigger);
     expect(getByRole('button', 'Vorheriger Monat')).toBeTruthy();
     expect(getByRole('button', 'Heute')).toBeTruthy();

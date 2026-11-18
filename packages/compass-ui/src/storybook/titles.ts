@@ -55,6 +55,8 @@ export const TITLE_LAYOUT_SCROLLBAR =
   'Components/Layout and Containers/Scrollbar';
 export const TITLE_LAYOUT_TABS = 'Components/Layout and Containers/Tabs';
 
+export const TITLE_FORMS_SEGMENTED_CONTROL =
+  'Components/Forms and Input/Segmented Control';
 export const TITLE_FORMS_CHIP = 'Components/Forms and Input/Chip';
 export const TITLE_FORMS_COMBOBOX = 'Components/Forms and Input/Combobox';
 export const TITLE_FORMS_DATE_RANGE_PICKER =
@@ -86,6 +88,8 @@ export const TITLE_CARDS_LINK_PREVIEW =
 export const TITLE_CARDS_PERMALINK_PREVIEW =
   'Components/Cards and Previews/Permalink Preview';
 
+export const TITLE_MESSAGING_SUGGESTION_LIST =
+  'Components/Messaging/Suggestion List';
 export const TITLE_MESSAGING_THREAD_FOOTER =
   'Components/Messaging/Thread Footer';
 
@@ -112,3 +116,7 @@ export const TITLE_STYLE_SHAPE = 'Foundations/Style/Shape';
 export const TITLE_STYLE_ELEVATION = 'Foundations/Style/Elevation';
 export const TITLE_STYLE_SPACING = 'Foundations/Style/Spacing';
 export const TITLE_STYLE_ANIMATION = 'Foundations/Style/Animation';
+
+// Browser-only repro stories (not in the guidelines sidebar; see AGENTS.md).
+export const TITLE_TESTING_TRANSITION_FLASH_REPRO =
+  'Testing/Transition Flash Repro';

@@ -1,20 +1,16 @@
+import { useStickToBottom } from '@/hooks/useStickToBottom';
 import { useState } from 'react';
-import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import {
-  MobileMessage,
   MobileMessageInput,
   MobileNavigationBar,
-  mobileMessageStyles,
 } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
-import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
-import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
+import {
+  MobileChannelPosts,
+  mobileChannelLayoutChannel as channel,
+} from './mobileChannelFixtures';
 import styles from './mobile-channel.specimen.module.scss';
-
-const bodyTextClass = mobileMessageStyles['mobile-message__body-text'];
 
 /** Rough iOS keyboard layout matching system QWERTY + suggestions. */
 const KEYBOARD_LETTER_ROWS = [
@@ -124,6 +120,7 @@ function KeyboardMicIcon() {
 }
 
 export default function MobileChannelLayout() {
+  const messagesRef = useStickToBottom();
   const [draft, setDraft] = useState('');
   const [composerExpanded, setComposerExpanded] = useState(false);
   const [composerFocused, setComposerFocused] = useState(false);
@@ -143,63 +140,14 @@ export default function MobileChannelLayout() {
           <div className={styles['mobile-channel-layout__content']}>
             <MobileNavigationBar
               variant="channel"
-              name="Town Square"
-              memberCount={124}
+              name={channel?.name ?? ''}
+              memberCount={channel?.memberIds?.length}
             />
 
             <div className={styles['mobile-channel-layout__body']}>
-              <Scrollbar>
+              <Scrollbar ref={messagesRef}>
                 <div className={styles['mobile-channel-layout__messages']}>
-                  <MessageSeparator type="date" label="Today" />
-
-                  <MobileMessage
-                    avatarSrc={avatarSofia}
-                    avatarAlt="Sofia Bauer"
-                    username="Sofia Bauer"
-                    timestamp="9:02 AM"
-                  >
-                    <p className={bodyTextClass}>
-                      Morning everyone! Reminder that the Q2 roadmap review is
-                      at 10:30 today.
-                    </p>
-                  </MobileMessage>
-
-                  <MobileMessage
-                    avatarSrc={avatarMarco}
-                    avatarAlt="Marco Rinaldi"
-                    username="Marco Rinaldi"
-                    timestamp="9:14 AM"
-                  >
-                    <p className={bodyTextClass}>
-                      Just pushed the updated onboarding flow to staging — would
-                      love a second pair of eyes before we cut a release.
-                    </p>
-                  </MobileMessage>
-
-                  <MobileMessage
-                    avatarSrc={avatarAikoTan}
-                    avatarAlt="Aiko Tan"
-                    username="Aiko Tan"
-                    timestamp="9:33 AM"
-                  >
-                    <p className={bodyTextClass}>
-                      Nice work Marco. I can take a pass after standup.
-                    </p>
-                  </MobileMessage>
-
-                  <MessageSeparator type="new-messages" />
-
-                  <MobileMessage
-                    avatarSrc={avatarLeonard}
-                    avatarAlt="Leonard Riley"
-                    username="Leonard Riley"
-                    timestamp="10:12 AM"
-                  >
-                    <p className={bodyTextClass}>
-                      Design review is bumped to 2:00 PM today — conflict with
-                      the roadmap meeting.
-                    </p>
-                  </MobileMessage>
+                  {channel && <MobileChannelPosts channel={channel} />}
                 </div>
               </Scrollbar>
             </div>
@@ -218,8 +166,8 @@ export default function MobileChannelLayout() {
               />
               <div className={styles['mobile-channel-layout__composer-sheet']}>
                 <MobileMessageInput
-                  variant="Root"
-                  placeholder="Write to Town Square…"
+                  variant="root"
+                  placeholder={`Write to ${channel?.name ?? 'channel'}…`}
                   value={draft}
                   onChange={setDraft}
                   expanded={composerExpanded}

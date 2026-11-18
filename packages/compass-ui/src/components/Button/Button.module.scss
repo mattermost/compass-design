@@ -16,14 +16,9 @@
   cursor: pointer;
   text-decoration: none;
   color: var(--button-fg);
-  transition:
-    background-color var(--duration-quick) var(--ease-transition),
-    color var(--duration-quick) var(--ease-transition),
-    box-shadow var(--duration-quick) var(--ease-transition),
-    outline-color var(--duration-quick) var(--ease-transition),
-    outline-offset var(--duration-quick) var(--ease-transition);
-  outline: 2px solid color-mix(in srgb, var(--focus-ring-color) 0%, transparent);
-  outline-offset: 0;
+  // No transition at rest (see `focus-ring` mixin and #184): fades are opted
+  // into on :hover / :active below so state changes and focus-leaving are instant.
+  @include focus-ring;
 
   // When the root is an anchor (`asChild`), keep Compass colours over host
   // `a` / `a:hover` / `a:visited` rules (e.g. Bootstrap).
@@ -36,9 +31,12 @@
     text-decoration: none;
   }
 
-  &:focus-visible {
-    outline-color: var(--focus-ring-color);
-    outline-offset: 3px;
+  &:hover,
+  &:active {
+    transition:
+      background-color var(--duration-quick) var(--ease-transition),
+      color var(--duration-quick) var(--ease-transition),
+      box-shadow var(--duration-quick) var(--ease-transition);
   }
 
   &:is(:disabled, .button--disabled) {
@@ -193,7 +191,7 @@
 
     background-color: transparent;
 
-    &:hover:not(:disabled, .button--disabled) {
+    &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
       background-color: rgba(var(--link-color-rgb), 0.08);
     }
     &:active:not(:disabled, .button--disabled) {
@@ -210,7 +208,7 @@
 
     background-color: transparent;
 
-    &:hover:not(:disabled, .button--disabled) {
+    &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
       --button-fg: rgba(var(--center-channel-color-rgb), 0.88);
 
       background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -240,7 +238,7 @@
       padding: 0;
     }
 
-    &:hover:not(:disabled, .button--disabled) {
+    &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
       .button__label {
         text-decoration: underline;
       }
@@ -336,7 +334,7 @@
     &.button--emphasis-quaternary {
       --button-fg: var(--error-text, var(--color-danger));
 
-      &:hover:not(:disabled, .button--disabled) {
+      &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
         background-color: rgba(
           var(--error-text-color-rgb, var(--color-danger-rgb)),
           0.08
@@ -356,7 +354,7 @@
     &.button--emphasis-dim {
       --button-fg: var(--error-text, var(--color-danger));
 
-      &:hover:not(:disabled, .button--disabled) {
+      &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
         --button-fg: var(--error-text, var(--color-danger));
 
         background-color: rgba(
@@ -447,7 +445,7 @@
     &.button--emphasis-quaternary {
       --button-fg: var(--sidebar-text);
 
-      &:hover:not(:disabled, .button--disabled) {
+      &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
         background-color: rgba(var(--sidebar-text-rgb), 0.12);
       }
       &:active:not(:disabled, .button--disabled) {
@@ -461,7 +459,7 @@
     &.button--emphasis-dim {
       --button-fg: rgba(var(--sidebar-text-rgb), 0.72);
 
-      &:hover:not(:disabled, .button--disabled) {
+      &:is(:hover, :focus-visible):not(:disabled, .button--disabled) {
         --button-fg: var(--sidebar-text);
 
         background-color: rgba(var(--sidebar-text-rgb), 0.08);

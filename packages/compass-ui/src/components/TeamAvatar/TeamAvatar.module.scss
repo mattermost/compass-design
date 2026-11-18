@@ -44,7 +44,7 @@
     height: 100%;
     background: rgba(var(--sidebar-text-rgb), 0.16);
     color: var(--sidebar-text, white);
-    font-family: Metropolis, sans-serif;
+    font-family: var(--font-family-heading);
     font-weight: var(--font-weight-semibold);
     line-height: 1;
     user-select: none;
@@ -61,14 +61,17 @@
   &--size-24 {
     width: 24px;
     height: 24px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 4px;
     outline-width: 2px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 4px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 11.2px;
     }
 
@@ -89,14 +92,17 @@
   &--size-28 {
     width: 28px;
     height: 28px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 4px;
     outline-width: 2px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 4px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 13.07px;
     }
 
@@ -117,14 +123,17 @@
   &--size-32 {
     width: 32px;
     height: 32px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 6px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 6px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 14.93px;
     }
 
@@ -145,14 +154,17 @@
   &--size-40 {
     width: 40px;
     height: 40px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 8px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 8px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 18.67px;
     }
 
@@ -173,14 +185,17 @@
   &--size-48 {
     width: 48px;
     height: 48px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 9px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 9px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 22.4px;
     }
 
@@ -201,14 +216,17 @@
   &--size-56 {
     width: 56px;
     height: 56px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 10px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 10px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 26.13px;
     }
 
@@ -229,14 +247,17 @@
   &--size-64 {
     width: 64px;
     height: 64px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 11px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 11px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 29.87px;
     }
 
@@ -257,14 +278,17 @@
   &--size-72 {
     width: 72px;
     height: 72px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 12px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 12px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 33.6px;
     }
 
@@ -285,14 +309,17 @@
   &--size-96 {
     width: 96px;
     height: 96px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 18px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 20px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 44.8px;
     }
 
@@ -313,14 +340,17 @@
   &--size-120 {
     width: 120px;
     height: 120px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
     border-radius: 24px;
     outline-width: 3px;
 
     .team-avatar__inner {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- radius scales with avatar size, not a spacing token
       border-radius: 24px;
     }
 
     .team-avatar__fallback {
+      // stylelint-disable-next-line declaration-property-value-disallowed-list -- proportional to the avatar size; no font-size token applies
       font-size: 56px;
     }
 

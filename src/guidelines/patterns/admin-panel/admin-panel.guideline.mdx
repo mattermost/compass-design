@@ -96,6 +96,11 @@ workspace chrome, not inside every panel.
 - **Collapsed expandable panels.** The header stays visible without a lower
   divider until expanded; opening restores the divider and shows the body and
   footer together. Expand/collapse is unavailable without a header.
+- **Header click.** On an expandable panel, clicking the title, subtitle or
+  empty header area toggles it, like the expand button. The Switch, Button and
+  other header actions keep their own clicks and never toggle, including a
+  popup those actions open outside the header. Keyboard users toggle with
+  the expand button.
 - **Saving and validation** for the whole page stay in the
   [`Admin Console Footer`](/components/admin-console-footer) or equivalent —
   use the panel footer for sectional actions only.

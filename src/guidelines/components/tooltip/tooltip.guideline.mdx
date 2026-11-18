@@ -20,8 +20,8 @@ already on screen.
 - <Num>1</Num> **Container** — dark, elevated surface (Elevation 3) with an
   arrow pointing back at the trigger.
 - <Num>2</Num> **Label** — primary text; one short line.
-- <Num>3</Num> **Icon** — optional; reinforces the label when an icon adds
-  clarity.
+- <Num>3</Num> **Icon or emoji** — optional; reinforces the label when it adds
+  clarity. An emoji sits inline beside the label or large above it.
 - <Num>4</Num> **Shortcut** — optional keyboard hint, rendered as a shortcut tag
   stack (e.g. `⌘K`).
 - <Num>5</Num> **Hint** — optional secondary line for a brief expansion or
@@ -69,13 +69,16 @@ follows the user's reading flow.
     label="Mute channel"
     hint="You won't get notifications, but you'll still see new messages."
   />
+  <Tooltip label="Out of office" emoji="🌴" />
+  <Tooltip label="Out of office" emoji="🌴" emojiSize="large" />
 </div>
 
-| Variant          | Use when                                                                 |
-| ---------------- | ------------------------------------------------------------------------ |
-| Label only       | The default. Pairs with Icon Buttons and any unlabeled control.          |
-| Label + shortcut | The action has a keyboard shortcut worth surfacing.                      |
-| Label + hint     | The label needs a one-line clarification — what the action does, or why. |
+| Variant          | Use when                                                                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Label only       | The default. Pairs with Icon Buttons and any unlabeled control.                                                                                                     |
+| Label + shortcut | The action has a keyboard shortcut worth surfacing.                                                                                                                 |
+| Label + hint     | The label needs a one-line clarification — what the action does, or why.                                                                                            |
+| Label + emoji    | The trigger is an emoji, such as a custom status. Use the large emoji (above the label) when the emoji is the main content, inline when it only supports the label. |
 
 <Divider />
 

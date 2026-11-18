@@ -1,18 +1,18 @@
+import { useState } from 'react';
 import { MobileTeamSidebar } from '@mattermost/compass-proto';
-import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
+import { teamSidebarTeams } from '@/fixtures/teamSidebarTeams';
 import styles from './mobile-team-sidebar.specimen.module.scss';
 
+/** The workspace's teams on a phone; tap one to make it the current team. */
 export default function MobileTeamSidebarLibrary() {
+  const [activeTeamId, setActiveTeamId] = useState(teamSidebarTeams[0]?.id);
   return (
     <div className={styles['mts-specimen']}>
       <div className={styles['mts-specimen__frame']}>
         <MobileTeamSidebar
-          activeTeamId="contributors"
-          teams={[
-            { id: 'contributors', name: 'Contributors', src: avatarStaffTeam },
-            { id: 'design', name: 'Design', initials: 'De', unread: true },
-            { id: 'acme', name: 'Acme', initials: 'Ac', mentions: 3 },
-          ]}
+          activeTeamId={activeTeamId}
+          teams={teamSidebarTeams}
+          onSelectTeam={setActiveTeamId}
         />
       </div>
     </div>

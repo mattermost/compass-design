@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MobileMessageInput } from '@mattermost/compass-proto';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
+import { mobileChannel, mobileImage } from '@/fixtures/mobilePatternFixtures';
 import sampleImage from '@/assets/images/sample-image.jpg';
 import styles from './MobileMessageInputGuidelineAnatomy.module.scss';
 
@@ -19,15 +20,15 @@ export function MobileMessageInputAnatomyStage() {
     >
       <div className={styles['mobile-message-input-anatomy__frame']}>
         <MobileMessageInput
-          variant="Root"
-          placeholder="Write to UX Design…"
+          variant="root"
+          placeholder={`Write to ${mobileChannel?.name ?? 'channel'}…`}
           value={value}
           onChange={setValue}
           defaultFocused
           attachments={[
             {
               id: 'anatomy-1',
-              src: sampleImage,
+              src: mobileImage ?? sampleImage,
               alt: 'Sample attachment',
             },
           ]}

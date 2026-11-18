@@ -1,7 +1,11 @@
 import type { CSSProperties } from 'react';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
-import { RightSidebar } from '@mattermost/compass-proto';
+import { RightSidebar, RightSidebarThread } from '@mattermost/compass-proto';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
+import {
+  sampleThreadChannelName,
+  sampleThreadMessages,
+} from '@/guidelines/patterns/right-sidebar/rightSidebarFixtures';
 
 const shellStyle: CSSProperties = {
   display: 'inline-flex',
@@ -13,15 +17,9 @@ const shellStyle: CSSProperties = {
   backgroundColor: 'var(--center-channel-bg)',
 };
 
-const placeholderBodyStyle: CSSProperties = {
-  padding: 'var(--spacing-l)',
-  fontSize: 'var(--font-size-75)',
-  lineHeight: 'var(--line-height-75)',
-  color: 'rgba(var(--center-channel-color-rgb), 0.72)',
-};
-
 /**
- * Right Sidebar pattern — anatomy preview on the shared AnatomyStage surface.
+ * Right Sidebar pattern — anatomy preview on the shared AnatomyStage surface,
+ * with a real thread from the sample workspace in the body.
  */
 export function RightSidebarAnatomyStage() {
   return (
@@ -34,21 +32,18 @@ export function RightSidebarAnatomyStage() {
     >
       <div style={shellStyle}>
         <RightSidebar
+          alignBody="end"
           header={
             <RightSidebarHeader
               title="Thread"
-              secondaryTitle="UX Design"
+              secondaryTitle={sampleThreadChannelName}
               onExpand={() => {}}
               onPopout={() => {}}
               onClose={() => {}}
             />
           }
         >
-          <div style={placeholderBodyStyle}>
-            Body content scrolls here — for example thread messages, channel
-            info, search hits, or plugin UI. Padding is owned by the content you
-            compose inside the body region.
-          </div>
+          <RightSidebarThread messages={sampleThreadMessages} />
         </RightSidebar>
       </div>
     </AnatomyStage>
