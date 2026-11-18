@@ -1,90 +1,87 @@
 import { ReactionsRow } from '@mattermost/compass-ui/components/reactions-row';
 import { MobileMessage, mobileMessageStyles } from '@mattermost/compass-proto';
-import avatarDanielle from '@/assets/avatars/Danielle Okoro.png';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import {
+  mobileBotPost,
+  mobileHumanPost,
+  mobileReactedPost,
+  mobileReactions,
+  type MobilePost,
+} from '@/fixtures/mobilePatternFixtures';
 import styles from './mobile-message.specimen.module.scss';
 
 const bodyTextClass = mobileMessageStyles['mobile-message__body-text'];
 
+function Stage({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className={styles['mm-specimen__stage']}>
+      <p className={styles['mm-specimen__label']}>{label}</p>
+      <div className={styles['mm-specimen__frame']}>{children}</div>
+    </div>
+  );
+}
+
+/** A message from the sample workspace in `MobileMessage`. */
+function Post({
+  data,
+  ...rest
+}: { data: MobilePost } & Partial<React.ComponentProps<typeof MobileMessage>>) {
+  return (
+    <MobileMessage
+      avatarSrc={data.avatarSrc}
+      avatarAlt={data.username}
+      username={data.username}
+      timestamp={data.timestamp}
+      isBot={data.isBot}
+      {...rest}
+    >
+      <p className={bodyTextClass}>{data.text}</p>
+    </MobileMessage>
+  );
+}
+
 export default function MobileMessageLibrary() {
   return (
     <div className={styles['mm-specimen']}>
-      <div className={styles['mm-specimen__stage']}>
-        <p className={styles['mm-specimen__label']}>Default</p>
-        <div className={styles['mm-specimen__frame']}>
-          <MobileMessage
-            avatarSrc={avatarLeonard}
-            avatarAlt="Leonard Riley"
-            username="Leonard Riley"
-            timestamp="9:41 AM"
-          >
-            <p className={bodyTextClass}>
-              Hey team, the new components are looking great!
-            </p>
-          </MobileMessage>
-        </div>
-      </div>
+      {mobileHumanPost && (
+        <>
+          <Stage label="Default">
+            <Post data={mobileHumanPost} />
+          </Stage>
+          <Stage label="Active (tap)">
+            <Post
+              data={mobileHumanPost}
+              className={mobileMessageStyles['mobile-message--state-active']}
+            />
+          </Stage>
+        </>
+      )}
 
-      <div className={styles['mm-specimen__stage']}>
-        <p className={styles['mm-specimen__label']}>Active (tap)</p>
-        <div className={styles['mm-specimen__frame']}>
-          <MobileMessage
-            className={mobileMessageStyles['mobile-message--state-active']}
-            avatarSrc={avatarLeonard}
-            avatarAlt="Leonard Riley"
-            username="Leonard Riley"
-            timestamp="9:41 AM"
-          >
-            <p className={bodyTextClass}>
-              Hey team, the new components are looking great!
-            </p>
-          </MobileMessage>
-        </div>
-      </div>
+      {mobileBotPost && (
+        <Stage label="Bot">
+          <Post data={mobileBotPost} isBot />
+        </Stage>
+      )}
 
-      <div className={styles['mm-specimen__stage']}>
-        <p className={styles['mm-specimen__label']}>Bot</p>
-        <div className={styles['mm-specimen__frame']}>
-          <MobileMessage
-            avatarSrc={avatarDanielle}
-            avatarAlt="Mattermost"
-            username="Mattermost"
-            timestamp="9:45 AM"
-            isBot
-          >
-            <p className={bodyTextClass}>
-              You have 3 unread messages in #general.
-            </p>
-          </MobileMessage>
-        </div>
-      </div>
-
-      <div className={styles['mm-specimen__stage']}>
-        <p className={styles['mm-specimen__label']}>Pinned + reactions</p>
-        <div className={styles['mm-specimen__frame']}>
-          <MobileMessage
+      {(mobileReactedPost ?? mobileHumanPost) && (
+        <Stage label="Pinned + reactions">
+          <Post
+            data={(mobileReactedPost ?? mobileHumanPost)!}
             showPinnedSavedIndicators
-            avatarSrc={avatarLeonard}
-            avatarAlt="Leonard Riley"
-            username="Leonard Riley"
-            timestamp="10:12 AM"
             footer={
               <ReactionsRow
-                reactions={[
-                  { emoji: '👍', count: 2, byCurrentUser: true },
-                  { emoji: '🎉', count: 1 },
-                ]}
+                reactions={mobileReactions(mobileReactedPost?.post)}
                 showAddReaction
               />
             }
-          >
-            <p className={bodyTextClass}>
-              Design review is bumped to 2:00 PM today — conflict with the
-              roadmap meeting.
-            </p>
-          </MobileMessage>
-        </div>
-      </div>
+          />
+        </Stage>
+      )}
     </div>
   );
 }

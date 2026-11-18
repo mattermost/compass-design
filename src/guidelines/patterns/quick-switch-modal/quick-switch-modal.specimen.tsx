@@ -2,51 +2,63 @@ import { useState } from 'react';
 import { Button } from '@mattermost/compass-ui/components/button';
 import {
   QuickSwitchModal,
+  workspaceChannels,
+  workspaceCurrentUserId,
+  getWorkspaceUser,
+  splitLeadingEmoji,
+  type FixtureChannel,
   type QuickSwitchItem,
 } from '@mattermost/compass-proto';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import avatarAiko from '@/assets/avatars/Aiko Tan.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
+import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
-const channel = (
-  name: string,
-  handle: string,
-  group: string,
-): QuickSwitchItem => ({
-  id: handle,
-  name,
-  kind: 'channel',
-  secondaryLabel: `~${handle}`,
-  group,
-});
+const me = workspaceCurrentUserId;
 
-const directMessage = (
-  name: string,
-  handle: string,
-  src: string,
-  group: string,
-): QuickSwitchItem => ({
-  id: `dm-${handle}`,
-  name,
-  kind: 'direct-message',
-  secondaryLabel: `@${handle}`,
-  group,
-  leadingVisual: <UserAvatar src={src} alt="" size="20" />,
-});
+/** How many channels the "Recent" group lists. */
+const RECENT_COUNT = 6;
 
+function toItem(channel: FixtureChannel, group: string): QuickSwitchItem {
+  if (channel.type === 'direct') {
+    const otherId = channel.memberIds?.find((id) => id !== me);
+    const other = otherId ? getWorkspaceUser(otherId) : undefined;
+    return {
+      id: channel.id,
+      name: channel.name,
+      kind: 'direct-message',
+      secondaryLabel: other ? `@${other.username}` : undefined,
+      group,
+      leadingVisual: (
+        <UserAvatar
+          src={otherId ? avatars[otherId] : undefined}
+          alt=""
+          size="20"
+        />
+      ),
+    };
+  }
+  // A name that starts with an emoji shows it in place of the globe.
+  const { emoji, name } = splitLeadingEmoji(channel.name);
+  return {
+    id: channel.id,
+    name,
+    leadingEmoji: emoji,
+    kind: 'channel',
+    secondaryLabel: `~${channel.id.split('/').pop()}`,
+    group,
+  };
+}
+
+// The signed-in user's conversations: those with unread posts first, then a
+// few more. Group messages are left out (the switcher lists channels and people).
+const mine = workspaceChannels.filter(
+  (c) => c.memberIds?.includes(me) && c.type !== 'group',
+);
+const unread = mine.filter((c) => c.unreadCount);
+const recent = mine.filter((c) => !c.unreadCount).slice(0, RECENT_COUNT);
 const quickSwitchItems: QuickSwitchItem[] = [
-  channel('Ask Anything', 'announcements', 'Unread'),
-  channel('Ask R&D', 'ask-r-and-d', 'Unread'),
-  channel('Bugs', 'bugs', 'Unread'),
-  channel('Contributors', 'contributors', 'Unread'),
-  channel('Design Challenge', 'design-challenge', 'Unread'),
-  channel('Developers: Webapp', 'developers-web-app', 'Recent'),
-  directMessage('Aiko Tan', 'aiko', avatarAiko, 'Recent'),
-  channel('Integrations and Apps', 'integrations-and-apps', 'Recent'),
-  directMessage('Marco Rinaldi', 'marco', avatarMarco, 'Recent'),
-  channel('Off-Topic', 'off-topic', 'Recent'),
-  channel('QA: Builds', 'qa-builds', 'Recent'),
+  ...unread.map((c) => toItem(c, 'Unread')),
+  ...recent.map((c) => toItem(c, 'Recent')),
 ];
 
 /** Stages the real overlay inside the canvas frame instead of the page. */

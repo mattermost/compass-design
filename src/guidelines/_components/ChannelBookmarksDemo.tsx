@@ -14,57 +14,52 @@ import {
   type ChannelBookmarkAddType,
   type ChannelBookmarksBarProps,
 } from '@mattermost/compass-proto';
+import { workspaceBookmarks } from '@/fixtures/workspaceBookmarks';
 
-export const SAMPLE_BOOKMARKS: ChannelBookmark[] = [
+/**
+ * Bookmarks added on purpose to what the sample data has (one per channel), so
+ * the bar has enough to overflow and shows a file bookmark and a bookmark
+ * without an emoji.
+ */
+const EXTRA_BOOKMARKS: ChannelBookmark[] = [
   {
-    id: 'wiki',
-    emoji: '📚',
-    label: 'Team wiki',
-    labelText: 'Team wiki',
-    href: 'https://example.com/wiki',
-  },
-  {
-    id: 'roadmap',
-    emoji: '🗺️',
-    label: 'Q4 roadmap',
-    labelText: 'Q4 roadmap',
-    href: 'https://example.com/roadmap',
-  },
-  {
-    id: 'design',
-    label: 'Design system',
-    labelText: 'Design system',
-    href: 'https://example.com/design',
-  },
-  {
-    id: 'handbook',
+    id: 'extra-handbook',
     emoji: '📎',
-    label: 'Employee handbook',
-    labelText: 'Employee handbook',
+    label: 'Response handbook',
+    labelText: 'Response handbook',
     type: 'file',
     href: 'https://example.com/handbook.pdf',
   },
   {
-    id: 'standup',
+    id: 'extra-standup',
     emoji: '🗓️',
     label: 'Weekly standup notes',
     labelText: 'Weekly standup notes',
     href: 'https://example.com/standup',
   },
   {
-    id: 'oncall',
+    id: 'extra-oncall',
     label: 'On-call rotation',
     labelText: 'On-call rotation',
     href: 'https://example.com/oncall',
   },
   {
-    id: 'status',
+    id: 'extra-status',
     emoji: '🟢',
     label: 'Status page',
     labelText: 'Status page',
     href: 'https://example.com/status',
   },
 ];
+
+/** The sample workspace's bookmarks, then the extras above. */
+export const SAMPLE_BOOKMARKS: ChannelBookmark[] = [
+  ...workspaceBookmarks,
+  ...EXTRA_BOOKMARKS,
+];
+
+/** The bookmark that is a file, for the file icon. */
+export const SAMPLE_FILE_BOOKMARK = EXTRA_BOOKMARKS[0]!;
 
 type ModalState = {
   open: boolean;

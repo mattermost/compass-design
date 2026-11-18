@@ -55,6 +55,10 @@ export interface ModeContent {
   noResults: boolean;
 }
 
+/** A channel's full display name: its leading emoji (shown as the row's icon) and its name. */
+const channelDisplayName = (c: SearchChannel) =>
+  c.leadingEmoji ? `${c.leadingEmoji} ${c.name}` : undefined;
+
 export const matches = (query: string, values: (string | undefined)[]) => {
   const needle = query.trim().toLowerCase();
   if (!needle) return false;
@@ -105,7 +109,9 @@ export function buildModeContent({
     return {
       value,
       label: c.name,
-      leadingVisual: (
+      leadingVisual: c.leadingEmoji ? (
+        <span className={styles['search-modal__emoji']}>{c.leadingEmoji}</span>
+      ) : (
         <Icon glyph={c.kind === 'private' ? <LockIcon /> : <GlobeIcon />} />
       ),
       menuItemProps: { mentionCount: c.mentionCount },
@@ -240,7 +246,7 @@ export function buildModeContent({
           'channels',
           h.channels ?? 'Channels',
           allChannels
-            .filter((c) => matches(query, [c.name]))
+            .filter((c) => matches(query, [c.name, channelDisplayName(c)]))
             .map((c) => channelOption('c', c)),
         );
         add(
@@ -277,7 +283,7 @@ export function buildModeContent({
           'channels',
           h.channels ?? 'Channels',
           allChannels
-            .filter((c) => matches(query, [c.name]))
+            .filter((c) => matches(query, [c.name, channelDisplayName(c)]))
             .map((c) => channelOption('c', c)),
         );
       }

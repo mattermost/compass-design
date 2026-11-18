@@ -23,7 +23,18 @@ import styles from './ChannelsSidebar.module.scss';
  * the row is the single tab stop.
  */
 function toDesktopItem(row: ChannelsSidebarItemModel) {
-  const { customStatusEmoji, customStatusText, ...rest } = row;
+  const { customStatusEmoji, customStatusText, leadingEmoji, ...base } = row;
+  // An emoji replaces the built-in glyph as a custom leading visual.
+  const rest = leadingEmoji
+    ? {
+        ...base,
+        leadingVisual: (
+          <span className={styles['channels-sidebar__leading-emoji']}>
+            {leadingEmoji}
+          </span>
+        ),
+      }
+    : base;
   if (!customStatusEmoji || !customStatusText) {
     return { ...rest, customStatusEmoji };
   }
@@ -209,6 +220,7 @@ export interface ChannelsSidebarProps {
    * Rename built-in channel/DM items without editing the model.
    * Keys are the default names; values are the display names to use instead.
    * Applies to `name` and `avatarAlt` on each item (same as the legacy hardcoded list).
+   * @deprecated Build the model with `buildDefaultChannelsSidebarModel({ channelNames })` instead. Still works.
    */
   channelNameOverrides?: Record<string, string>;
   /**

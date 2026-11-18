@@ -3,52 +3,26 @@ import { SegmentedControl } from '@mattermost/compass-ui/components/segmented-co
 import {
   RightSidebarSearchResults,
   type RightSidebarSearchResultsKind,
-  type SearchResultMessageData,
 } from '@mattermost/compass-proto';
-import avatarAiko from '@/assets/avatars/Aiko Tan.png';
-import avatarMarco from '@/assets/avatars/Marco Rinaldi.png';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import { RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES } from '@/fixtures/rightSidebarThreadDemo';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
 import { RightSidebarThread } from '@mattermost/compass-proto';
 import { RightSidebarChannelInfo } from '@mattermost/compass-proto';
 import { RightSidebarChannelMembers } from '@mattermost/compass-proto';
 import { RightSidebar } from '@mattermost/compass-proto';
-
-const RESULTS: SearchResultMessageData[] = [
-  {
-    id: 'r1',
-    avatarSrc: avatarAiko,
-    avatarAlt: 'Aiko Tan',
-    username: 'Aiko Tan',
-    timestamp: 'Today at 9:48 AM',
-    channelLabel: 'UX Design',
-    teamLabel: 'Compass',
-    body: 'Heads up: the sidebar header now shows the parent channel as a secondary title.',
-  },
-  {
-    id: 'r2',
-    avatarSrc: avatarMarco,
-    avatarAlt: 'Marco Rinaldi',
-    username: 'Marco Rinaldi',
-    timestamp: 'Yesterday at 4:12 PM',
-    channelLabel: 'Developers: Webapp',
-    teamLabel: 'Compass',
-    body: 'Can we reuse the sidebar search results for pinned messages too?',
-    pinned: true,
-  },
-  {
-    id: 'r3',
-    avatarSrc: avatarLeonard,
-    avatarAlt: 'Leonard Riley',
-    username: 'Leonard Riley',
-    timestamp: 'Mon at 11:03 AM',
-    channelLabel: 'Leonard Riley',
-    body: 'Sidebar spec is in Figma, ping me if anything is unclear.',
-  },
-];
+import {
+  sampleChannelName,
+  sampleChannelInfoProps,
+  sampleMemberCount,
+  sampleMemberGroups,
+  sampleResults,
+  sampleTerm,
+  sampleThreadChannelName,
+  sampleThreadMessages,
+  sampleUser,
+} from './rightSidebarFixtures';
 
 const KINDS: { kind: RightSidebarSearchResultsKind; title: string }[] = [
   { kind: 'search', title: 'Search results' },
@@ -129,7 +103,7 @@ function SearchResultsDemo() {
           header={
             <RightSidebarHeader
               title={title}
-              secondaryTitle={kind === 'search' ? undefined : 'Compass'}
+              secondaryTitle={kind === 'search' ? undefined : sampleChannelName}
               onExpand={() => {}}
               onClose={() => {}}
             />
@@ -137,8 +111,8 @@ function SearchResultsDemo() {
         >
           <RightSidebarSearchResults
             kind={kind}
-            results={empty ? [] : RESULTS}
-            terms={kind === 'search' ? ['sidebar'] : []}
+            results={empty ? [] : sampleResults}
+            terms={kind === 'search' && sampleTerm ? [sampleTerm] : []}
             onJump={(result) => setJumped(result.username)}
           />
         </RightSidebar>
@@ -162,7 +136,7 @@ export default function RightSidebarLibrary() {
         </p>
         <RightSidebarHeader
           title="Thread"
-          secondaryTitle="UX Design"
+          secondaryTitle={sampleThreadChannelName}
           onClose={() => {}}
         />
 
@@ -185,9 +159,13 @@ export default function RightSidebarLibrary() {
           Header — with leading avatar + action
         </p>
         <RightSidebarHeader
-          title="Leonard Riley"
+          title={sampleUser.displayName}
           leadingIcon={
-            <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
+            <UserAvatar
+              src={avatars[sampleUser.id]}
+              alt={sampleUser.displayName}
+              size="24"
+            />
           }
           actionLabel="Follow"
           onActionClick={() => {}}
@@ -204,7 +182,7 @@ export default function RightSidebarLibrary() {
         </p>
         <RightSidebarHeader
           title="Thread"
-          secondaryTitle="UX Design"
+          secondaryTitle={sampleThreadChannelName}
           actionLabel="Following"
           actionActive
         />
@@ -222,13 +200,13 @@ export default function RightSidebarLibrary() {
           header={
             <RightSidebarHeader
               title="Thread"
-              secondaryTitle="UX Design"
+              secondaryTitle={sampleThreadChannelName}
               onExpand={() => {}}
               onClose={() => {}}
             />
           }
         >
-          <RightSidebarThread messages={RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES} />
+          <RightSidebarThread messages={sampleThreadMessages} />
         </RightSidebar>
       </div>
 
@@ -243,13 +221,13 @@ export default function RightSidebarLibrary() {
           header={
             <RightSidebarHeader
               title="Info"
-              secondaryTitle="UX Design"
+              secondaryTitle={sampleChannelName}
               onExpand={() => {}}
               onClose={() => {}}
             />
           }
         >
-          <RightSidebarChannelInfo />
+          <RightSidebarChannelInfo {...sampleChannelInfoProps} />
         </RightSidebar>
       </div>
 
@@ -264,14 +242,17 @@ export default function RightSidebarLibrary() {
           header={
             <RightSidebarHeader
               title="Members"
-              secondaryTitle="UX Design"
+              secondaryTitle={sampleChannelName}
               onBack={() => {}}
               onExpand={() => {}}
               onClose={() => {}}
             />
           }
         >
-          <RightSidebarChannelMembers />
+          <RightSidebarChannelMembers
+            memberCount={sampleMemberCount}
+            groups={sampleMemberGroups}
+          />
         </RightSidebar>
       </div>
       <p

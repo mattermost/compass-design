@@ -12,3 +12,9 @@ export type {
   ChannelBookmarkModalProps,
   ChannelBookmarkModalValues,
 } from './ChannelBookmarkModal';
+export {
+  attachmentFileType,
+  attachmentMeta,
+  fileExtension,
+  formatFileSize,
+} from './fileKind';

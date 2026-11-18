@@ -1,5 +1,5 @@
 import { GlobalHeader } from '@mattermost/compass-proto';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { personaHeaderProps } from '@/fixtures/workspacePersona';
 
 The Global Header is the full-width bar at the very top of the application. It
 carries product context, history navigation, global discovery (where the product
@@ -58,11 +58,7 @@ the right. The live React implementation mirrors the Global Header Figma spec
 
 <Preview caption="Channels">
   <div style={{ width: '100%' }}>
-    <GlobalHeader
-      product="channels"
-      userAvatarSrc={avatarLeonard}
-      userAvatarAlt="Leonard Riley"
-    />
+    <GlobalHeader product="channels" {...personaHeaderProps} />
   </div>
 </Preview>
 
@@ -76,8 +72,7 @@ Default layout: left (switcher, branding, navigator) → center (search + help)
     <GlobalHeader
       product="channels"
       showUpgradeButton
-      userAvatarSrc={avatarLeonard}
-      userAvatarAlt="Leonard Riley"
+      {...personaHeaderProps}
     />
   </div>
 </Preview>
@@ -89,11 +84,7 @@ right-cluster icons so it remains visible without crowding search.
 
 <Preview caption="Playbooks">
   <div style={{ width: '100%' }}>
-    <GlobalHeader
-      product="playbooks"
-      userAvatarSrc={avatarLeonard}
-      userAvatarAlt="Leonard Riley"
-    />
+    <GlobalHeader product="playbooks" {...personaHeaderProps} />
   </div>
 </Preview>
 
@@ -104,11 +95,7 @@ Tasks, then Help, Settings, and Account.
 
 <Preview caption="Boards">
   <div style={{ width: '100%' }}>
-    <GlobalHeader
-      product="boards"
-      userAvatarSrc={avatarLeonard}
-      userAvatarAlt="Leonard Riley"
-    />
+    <GlobalHeader product="boards" {...personaHeaderProps} />
   </div>
 </Preview>
 

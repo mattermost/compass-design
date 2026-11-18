@@ -39,7 +39,11 @@ function termScore(item: QuickSwitchItem, term: string): number | null {
     .toLowerCase()
     .replace(/^[~@#]/, '');
   if (secondary.startsWith(term)) return 3;
-  const rest = [secondary, ...(item.keywords ?? [])].join(' ').toLowerCase();
+  // The leading emoji is part of the channel's display name, so searching for
+  // it (or pasting the full name) still finds the channel.
+  const rest = [secondary, item.leadingEmoji ?? '', ...(item.keywords ?? [])]
+    .join(' ')
+    .toLowerCase();
   return rest.includes(term) ? 4 : null;
 }
 

@@ -87,6 +87,42 @@ function key(k: string, init: KeyboardEventInit = {}) {
   });
 }
 
+describe('a channel with a leading emoji', () => {
+  const withEmoji: QuickSwitchItem[] = [
+    {
+      id: 'incident',
+      name: 'Incident Status Updates',
+      leadingEmoji: '🚨',
+      secondaryLabel: '~incident-status-updates',
+    },
+    { id: 'bugs', name: 'Bugs', secondaryLabel: '~bugs' },
+  ];
+
+  it('is still found by searching for the emoji or the full display name', () => {
+    expect(filterQuickSwitchItems(withEmoji, '🚨').map((i) => i.id)).toEqual([
+      'incident',
+    ]);
+    expect(
+      filterQuickSwitchItems(withEmoji, '🚨 incident status').map((i) => i.id),
+    ).toEqual(['incident']);
+    expect(filterQuickSwitchItems(withEmoji, 'incident')).toHaveLength(1);
+  });
+
+  it('shows the emoji in place of the globe and keeps it in the accessible name', () => {
+    mount({ items: withEmoji });
+    const row = document.body.querySelector('[role="option"]');
+    expect(row?.textContent).toContain('🚨');
+    expect(row?.getAttribute('aria-label')).toBe(
+      '🚨 Incident Status Updates ~incident-status-updates',
+    );
+    expect(
+      document.body
+        .querySelectorAll('[role="option"]')[1]
+        ?.getAttribute('aria-label'),
+    ).toBeNull();
+  });
+});
+
 describe('filterQuickSwitchItems', () => {
   it('returns everything for an empty query', () => {
     expect(filterQuickSwitchItems(items, '  ')).toBe(items);

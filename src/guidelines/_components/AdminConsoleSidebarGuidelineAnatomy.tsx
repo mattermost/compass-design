@@ -1,5 +1,8 @@
-import { AdminConsoleSidebar } from '@mattermost/compass-proto';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import {
+  AdminConsoleSidebar,
+  defaultAdminConsoleSidebarGroups,
+} from '@mattermost/compass-proto';
+import { adminConsoleSidebarUserProps } from '@/fixtures/workspaceAdmin';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import patternsStyles from '@/styles/library-demo/patterns.module.scss';
 
@@ -11,8 +14,8 @@ export function AdminConsoleSidebarAnatomyStage() {
     <AnatomyStage style={{ alignItems: 'stretch' }}>
       <div className={patternsStyles['patterns__team-sidebar-demo']}>
         <AdminConsoleSidebar
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
+          {...adminConsoleSidebarUserProps}
+          groups={defaultAdminConsoleSidebarGroups}
         />
       </div>
     </AnatomyStage>

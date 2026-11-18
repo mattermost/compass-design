@@ -76,9 +76,11 @@ export default function RightSidebarThread({
         {rest.length > 0 && (
           <MessageSeparator type="reply-count" label={replySeparatorLabel} />
         )}
-        {rest.map((message) => (
+        {rest.map((message, index) => (
           <Message
-            key={`${message.username}-${message.timestamp}`}
+            // The same person can reply twice in one minute, so the name and time
+            // alone are not unique.
+            key={`${index}-${message.username}-${message.timestamp}`}
             avatarSrc={message.avatarSrc}
             avatarAlt={message.avatarAlt}
             username={message.username}

@@ -23,6 +23,8 @@ export interface SearchChannel {
   name: string;
   /** Default: `public`. */
   kind?: 'public' | 'private';
+  /** An emoji shown in place of the globe / lock (a channel whose name starts with one). */
+  leadingEmoji?: string;
   mentionCount?: number;
 }
 

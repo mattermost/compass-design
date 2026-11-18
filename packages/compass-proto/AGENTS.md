@@ -24,6 +24,10 @@ Any popover, menu, or picker a proto composite opens (`EmojiPopover`, `PopoverMe
 
 Proto composites that are patterns or layouts still need a docs **guidelines page and specimen page** registered in `src/manifests/topics.ts` (see the root [AGENTS.md](../../AGENTS.md#required-docs-for-every-new-foundation-component-or-pattern)). Proto does not get Storybook — Storybook documents published `@mattermost/compass-ui` only.
 
+## Sample workspace fixtures
+
+`src/fixtures/sample-workspace/generated.ts` is generated from `mattermost/mattermost-preview`; never edit it by hand. To refresh it, and what the generator fails on, see [src/fixtures/sample-workspace/README.md](src/fixtures/sample-workspace/README.md). Tests and specimens must not depend on exact counts or particular post ids, so a refresh doesn't break them.
+
 ## Changelog
 
 Record proto changes (renamed props, new variants, etc.) in [CHANGELOG.md](./CHANGELOG.md), under `[Unreleased]` with the date they land (`YYYY-MM-DD`, newest first). `compass-proto` is unpublished, so it has no release sections. Do not put proto changes in `packages/compass-ui/CHANGELOG.md`, which covers the published `@mattermost/compass-ui` package only. The `Changelog` workflow only checks published compass-ui source, not this file.

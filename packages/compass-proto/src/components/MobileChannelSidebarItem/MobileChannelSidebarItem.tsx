@@ -44,6 +44,8 @@ export interface MobileChannelSidebarItemProps {
   mentionCount?: number;
   /** Member count shown in the group icon when leadingVisual='group-message'. */
   memberCount?: number;
+  /** An emoji shown in place of the `leadingVisual` glyph. */
+  leadingEmoji?: string;
   /** Avatar image URL for leadingVisual='direct-message'. */
   avatarSrc?: string;
   /** Avatar alt text for leadingVisual='direct-message'. */
@@ -108,6 +110,7 @@ export default function MobileChannelSidebarItem({
   name,
   hideLeadingVisual = false,
   leadingVisual = 'public',
+  leadingEmoji,
   status = 'read',
   muted = false,
   callActive = false,
@@ -141,6 +144,9 @@ export default function MobileChannelSidebarItem({
   const iconContainerClass = [
     styles['mobile-channel-sidebar-item__icon-container'],
     isDM ? styles['mobile-channel-sidebar-item__icon-container--dm'] : '',
+    leadingEmoji
+      ? styles['mobile-channel-sidebar-item__icon-container--emoji']
+      : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -161,13 +167,19 @@ export default function MobileChannelSidebarItem({
       <div className={styles['mobile-channel-sidebar-item__left']}>
         {!hideLeadingVisual && (
           <div className={iconContainerClass}>
-            <LeadingVisualContent
-              leadingVisual={leadingVisual}
-              memberCount={memberCount}
-              avatarSrc={avatarSrc}
-              avatarAlt={avatarAlt}
-              showAvatarStatus={showAvatarStatus}
-            />
+            {leadingEmoji ? (
+              <span className={styles['mobile-channel-sidebar-item__emoji']}>
+                {leadingEmoji}
+              </span>
+            ) : (
+              <LeadingVisualContent
+                leadingVisual={leadingVisual}
+                memberCount={memberCount}
+                avatarSrc={avatarSrc}
+                avatarAlt={avatarAlt}
+                showAvatarStatus={showAvatarStatus}
+              />
+            )}
           </div>
         )}
         <div className={styles['mobile-channel-sidebar-item__content']}>

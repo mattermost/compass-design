@@ -25,6 +25,7 @@ import CallInfoPanel from '@/components/CallInfoPanel/CallInfoPanel';
 import ParticipantsPanel from '@/components/ParticipantsPanel/ParticipantsPanel';
 import WithTooltip from '@/components/WithTooltip/WithTooltip';
 import type { Participant } from '@/types/callParticipant';
+import { splitLeadingEmoji } from '@/fixtures/buildChannelsSidebarModelFromFixtures';
 import styles from './CallWidget.module.scss';
 
 export interface CallWidgetProps {
@@ -111,7 +112,10 @@ export default function CallWidget({
                 &middot;
               </span>
               <span className={styles['widget__channel']}>
-                <Icon size="12" glyph={<GlobeIcon />} />
+                {/* A name that starts with an emoji already has its own glyph. */}
+                {!splitLeadingEmoji(channelName).emoji && (
+                  <Icon size="12" glyph={<GlobeIcon />} />
+                )}
                 {channelName}
               </span>
             </div>

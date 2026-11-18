@@ -8,7 +8,10 @@ import {
   type MessageActionsType,
 } from '@mattermost/compass-ui/components/message-actions';
 import { PinnedSavedIndicators } from '@mattermost/compass-ui/components/pinned-saved-indicators';
+import { Tag } from '@mattermost/compass-ui/components/tag';
 import styles from './Message.module.scss';
+
+export type MessagePriority = 'important' | 'urgent';
 
 export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
   avatarSrc?: string;
@@ -25,6 +28,13 @@ export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
    */
   username: ReactNode;
   timestamp: string;
+  /**
+   * Message priority. Shows a label in the header, right after the timestamp:
+   * `urgent` in the danger color, `important` in the info color.
+   */
+  priority?: MessagePriority;
+  /** Text of the priority label. Defaults: "Important" and "Urgent". Pass translated nodes. */
+  priorityLabels?: Partial<Record<MessagePriority, ReactNode>>;
   /** Emoji in the byline. Tooltip shows the emoji large above the text. */
   customStatus?: { emoji: string; text: string };
   isBot?: boolean;
@@ -72,6 +82,8 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(function Message(
     username,
     timestamp,
     customStatus,
+    priority,
+    priorityLabels,
     isBot = false,
     botLabel,
     messageActionsType = 'center-channel',
@@ -126,7 +138,25 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(function Message(
                     username
                   )
                 }
-                timestamp={timestamp}
+                timestamp={
+                  priority ? (
+                    <>
+                      {timestamp}
+                      <Tag
+                        className={styles['message__priority']}
+                        label={
+                          priorityLabels?.[priority] ??
+                          (priority === 'urgent' ? 'Urgent' : 'Important')
+                        }
+                        type={priority === 'urgent' ? 'danger' : 'info'}
+                        size="x-small"
+                        casing="all-caps"
+                      />
+                    </>
+                  ) : (
+                    timestamp
+                  )
+                }
                 isBot={isBot}
                 botLabel={botLabel}
               />

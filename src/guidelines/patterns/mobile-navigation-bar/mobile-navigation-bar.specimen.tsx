@@ -1,5 +1,13 @@
 import type { ReactNode } from 'react';
 import { MobileNavigationBar } from '@mattermost/compass-proto';
+import {
+  mobileBotDm,
+  mobileChannel,
+  mobileDm,
+  mobileGm,
+  mobileMentionCount,
+  mobileStatusUser,
+} from '@/fixtures/mobilePatternFixtures';
 import styles from './mobile-navigation-bar.specimen.module.scss';
 
 function Stage({ label, children }: { label: string; children: ReactNode }) {
@@ -17,43 +25,43 @@ export default function MobileNavigationBarLibrary() {
       <Stage label="Channel">
         <MobileNavigationBar
           variant="channel"
-          name="UX Design"
-          memberCount={32}
+          name={mobileChannel?.name ?? 'Channel'}
+          memberCount={mobileChannel?.memberIds?.length}
         />
       </Stage>
 
       <Stage label="Channel — mention badge">
         <MobileNavigationBar
           variant="channel"
-          name="UX Design"
-          memberCount={32}
-          mentionCount={1}
+          name={mobileChannel?.name ?? 'Channel'}
+          memberCount={mobileChannel?.memberIds?.length}
+          mentionCount={mobileMentionCount}
         />
       </Stage>
 
       <Stage label="DM">
-        <MobileNavigationBar variant="dm" name="Norma Fletcher" />
+        <MobileNavigationBar variant="dm" name={mobileDm?.name ?? 'Person'} />
       </Stage>
 
       <Stage label="DM — custom status">
         <MobileNavigationBar
           variant="dm"
-          name="Norma Fletcher"
-          customStatusEmoji="🙂"
-          customStatusText="Feeling happy"
+          name={mobileStatusUser?.displayName ?? mobileDm?.name ?? 'Person'}
+          customStatusEmoji={mobileStatusUser?.customStatusEmoji}
+          customStatusText={mobileStatusUser?.customStatusText}
         />
       </Stage>
 
       <Stage label="GM">
         <MobileNavigationBar
           variant="gm"
-          name="Hilda Martin, Steve Murphy"
-          memberCount={4}
+          name={mobileGm?.name ?? 'Group'}
+          memberCount={mobileGm?.memberIds?.length}
         />
       </Stage>
 
       <Stage label="Bot">
-        <MobileNavigationBar variant="bot" name="Jira" />
+        <MobileNavigationBar variant="bot" name={mobileBotDm?.name ?? 'Bot'} />
       </Stage>
     </div>
   );

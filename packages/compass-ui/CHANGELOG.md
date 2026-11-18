@@ -6,6 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **Text at 72% opacity in `ThreadListItem`, `ThreadFooter` and `MessageActions`:** the `ThreadListItem` timestamp and reply count, the `ThreadFooter` last-reply text and the `MessageActions` button text were the center channel color at 64% opacity; they are 72%, the floor for text.
+- **`MessageHeader` timestamp color:** the timestamp is the center channel color at 72% opacity (it was 56%), matching the design and the text opacity floor.
+- **`MessageSeparator` reply count color:** the `reply-count` label is the center channel color at 72% opacity (it was the full center channel color), matching the design. The line is unchanged.
+- **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the mention badge uses the small size, a 14px circle nudged into the gutter's corner, so it no longer sits against the author name. The row's layout is otherwise unchanged.
+
 ### Added
 
 - **`useAnchoredPopupPortal` `side` option and virtual anchors ([#258](https://github.com/mattermost/compass-design/issues/258)):** `side` (`auto` default, `above`, `below`) opens the popup on one side and never flips it, so it stays put as the page scrolls (a suggestion list above a composer); `maxHeight` is then the room on that side. The anchor ref now accepts any object with `getBoundingClientRect` (exported type `AnchoredPopupAnchor`), so a popup can be placed against a box that is not an element, such as a character inside a textarea. `Select`, `Combobox` and `DateRangePicker` behave as before.

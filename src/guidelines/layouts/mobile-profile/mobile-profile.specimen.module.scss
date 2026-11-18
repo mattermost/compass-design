@@ -35,4 +35,15 @@
   &__status-icon {
     color: var(--online-indicator);
   }
+
+  // The custom status emoji, in the 20px icon slot.
+  &__status-emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-20, 20px);
+    height: var(--icon-size-20, 20px);
+    font-size: var(--font-size-200);
+    line-height: 1;
+  }
 }

@@ -1,31 +1,41 @@
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
-  ChannelHeader,
   ChannelsSidebar,
-  Message,
   MessageInput,
   ProductRail,
   ProductRailTeamButton,
   ProductRailTeamMenu,
   ProductShell,
   shellStyles,
+  type ProductRailTeam,
 } from '@mattermost/compass-proto';
 import { EmptyState } from '@mattermost/compass-ui/components/empty-state';
-import { MessageSeparator } from '@mattermost/compass-ui/components/message-separator';
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
 import {
   productRailDemoItems,
-  productRailDemoTeams,
   type ProductRailDemoId,
 } from '@/fixtures/productRailDemo';
-import avatarSofia from '@/assets/avatars/Sofia Bauer.png';
-import { defaultChannelsSidebarDemoModel } from '@/fixtures/channelsSidebarDemo';
+import {
+  FixtureChannelBanner,
+  FixtureChannelHeader,
+  FixtureMessageList,
+} from '@/guidelines/_components/FixtureChannel';
+import { useFixtureWorkspace } from '@/guidelines/_components/useFixtureWorkspace';
+
+interface TeamSwitcherProps {
+  teams: ProductRailTeam[];
+  activeTeamId?: string;
+  onSelectTeam: (id: string) => void;
+}
 
 /** Host-owned wiring: the button opens the team menu beside it. */
-function TeamSwitcher() {
-  const [activeTeamId, setActiveTeamId] = useState('contributors');
+function TeamSwitcher({
+  teams,
+  activeTeamId,
+  onSelectTeam,
+}: TeamSwitcherProps) {
   // `anchor` keeps the menu mounted until its exit animation ends; `open` drives it.
   const [anchor, setAnchor] = useState<DOMRect | null>(null);
   const [open, setOpen] = useState(false);
@@ -36,7 +46,7 @@ function TeamSwitcher() {
   return (
     <div ref={wrapRef}>
       <ProductRailTeamButton
-        teams={productRailDemoTeams}
+        teams={teams}
         activeTeamId={activeTeamId}
         open={open}
         onClick={(e) => {
@@ -60,7 +70,7 @@ function TeamSwitcher() {
             }}
           >
             <ProductRailTeamMenu
-              teams={productRailDemoTeams}
+              teams={teams}
               activeTeamId={activeTeamId}
               open={open}
               onExited={() => setAnchor(null)}
@@ -69,7 +79,7 @@ function TeamSwitcher() {
                 wrapRef.current?.querySelector('button')?.focus();
               }}
               onSelectTeam={(id) => {
-                setActiveTeamId(id);
+                onSelectTeam(id);
                 setOpen(false);
                 wrapRef.current?.querySelector('button')?.focus();
               }}
@@ -81,7 +91,14 @@ function TeamSwitcher() {
   );
 }
 
+/**
+ * The product-agnostic shell: a Product Rail with the team switcher, then the
+ * Channels product shown from the sample workspace (the rail's team button
+ * switches teams, as the Team Sidebar does in the Channel layout).
+ */
 export default function ProductLayout() {
+  const { team, channel, channels, messagesRef, shellProps, selectTeam } =
+    useFixtureWorkspace();
   const [product, setProduct] = useState<ProductRailDemoId>('channels');
 
   return (
@@ -89,7 +106,13 @@ export default function ProductLayout() {
       product={product}
       productRail={
         <ProductRail
-          header={<TeamSwitcher />}
+          header={
+            <TeamSwitcher
+              teams={shellProps.teams}
+              activeTeamId={team?.id}
+              onSelectTeam={selectTeam}
+            />
+          }
           activeId={product}
           onSelect={(id) => setProduct(id as ProductRailDemoId)}
           items={productRailDemoItems}
@@ -98,39 +121,25 @@ export default function ProductLayout() {
       sidebar={
         product === 'channels' ? (
           <ChannelsSidebar
-            teamName="Contributors"
-            model={defaultChannelsSidebarDemoModel}
+            teamName={team?.name}
+            model={shellProps.channelsSidebarModel}
           />
         ) : undefined
       }
     >
-      {product === 'channels' ? (
+      {product === 'channels' && channel ? (
         <>
-          <ChannelHeader
-            type="channel"
-            name="Town Square"
-            description="Company-wide announcements and general discussion."
-            memberCount={124}
-          />
+          <FixtureChannelHeader channel={channel} />
+          <FixtureChannelBanner channel={channel} />
           <div className={shellStyles['channel-shell__messages']}>
-            <Scrollbar>
+            <Scrollbar key={channel.id} ref={messagesRef}>
               <div className={shellStyles['channel-shell__messages-list']}>
-                <MessageSeparator type="date" label="Today" />
-                <Message
-                  avatarSrc={avatarSofia}
-                  avatarAlt="Sofia Bauer"
-                  username="Sofia Bauer"
-                  timestamp="9:02 AM"
-                >
-                  <p className={shellStyles['channel-shell__post-text']}>
-                    Morning everyone! Roadmap review is at 10:30 today.
-                  </p>
-                </Message>
+                <FixtureMessageList channel={channel} channels={channels} />
               </div>
             </Scrollbar>
           </div>
           <div className={shellStyles['channel-shell__message-input']}>
-            <MessageInput placeholder="Write to Town Square" />
+            <MessageInput placeholder={`Write to ${channel.name}`} />
           </div>
         </>
       ) : (

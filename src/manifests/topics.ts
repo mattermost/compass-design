@@ -1040,6 +1040,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/call-widget/call-widget.specimen'),
   },
   {
+    slug: 'call-card',
+    name: 'Call Card',
+    category: 'patterns',
+    description:
+      'The post a call leaves in a channel: Join call while it is live, then its duration and recordings once it ends.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/call-card/call-card.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/call-card/call-card.specimen'),
+  },
+  {
     slug: 'emoji-popover',
     name: 'Emoji Popover',
     category: 'patterns',
@@ -1086,6 +1098,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-header/channel-header.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/patterns/channel-header/channel-header.specimen'),
+  },
+  {
+    slug: 'channel-banner',
+    name: 'Channel Banner',
+    category: 'patterns',
+    description:
+      'The slim strip across the top of a channel for a notice or classification, in the color a channel admin chooses.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/channel-banner/channel-banner.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/channel-banner/channel-banner.specimen'),
   },
   {
     slug: 'channel-bookmarks-bar',
@@ -1242,6 +1266,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/message/message.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/patterns/message/message.specimen'),
+  },
+  {
+    slug: 'message-attachment',
+    name: 'Message Attachment',
+    category: 'patterns',
+    description:
+      'The card an integration posts under a message: color bar, title, fields, actions, and footer.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/message-attachment/message-attachment.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/message-attachment/message-attachment.specimen'),
   },
   {
     slug: 'message-input',

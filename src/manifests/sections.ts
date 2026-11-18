@@ -230,6 +230,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'modal',
         'threads-view',
         'call-widget',
+        'call-card',
         'call-popout',
         'admin-console',
       ],

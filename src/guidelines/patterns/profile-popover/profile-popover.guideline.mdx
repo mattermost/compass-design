@@ -1,5 +1,11 @@
 import { ProfilePopover } from '@mattermost/compass-ui/components/profile-popover';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import {
+  anatomyUser,
+  customStatus,
+  githubHandle,
+  identity,
+  localTime,
+} from './profilePopoverFixtures';
 
 The Profile Popover is used to display a user's profile information when you click
 or tap on a username or avatar.
@@ -21,28 +27,14 @@ at once.
 >
   <ProfilePopover
     user="others"
-    avatarSrc={avatarLeonard}
-    avatarAlt="Leonard Riley"
-    name="Leonard Riley"
-    username="@leonard.riley"
-    title="Lead Engineer, Enterprise"
-    email="leonard.riley@acme.com"
+    {...identity(anatomyUser)}
     jobRole="System Admin"
-    lastOnline="Last online 6 hrs ago"
     staff
     sharedOrg="Acme Corp."
     coreCommitter
-    githubHandle="lennyriley"
-    localTime={{
-      time: '10:42 PM',
-      timezone: 'EST',
-      hourDifference: '3 hrs behind',
-    }}
-    customStatus={{
-      emoji: '📅',
-      text: 'In a meeting',
-      expiresLabel: 'Until Tomorrow',
-    }}
+    githubHandle={githubHandle(anatomyUser)}
+    localTime={localTime}
+    customStatus={customStatus(anatomyUser)}
     onClose={() => {}}
     onMention={() => {}}
     onAddToChannel={() => {}}

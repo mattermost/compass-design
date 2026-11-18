@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import SendIcon from '@mattermost/compass-icons/components/send';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MobileModalNavigationBar } from '@mattermost/compass-proto';
-import avatarStaffTeam from '@/assets/avatars/Staff Team.png';
+import { mobileApp, mobileChannel } from '@/fixtures/mobilePatternFixtures';
 import styles from './mobile-modal-navigation-bar.specimen.module.scss';
 
 function Stage({ label, children }: { label: string; children: ReactNode }) {
@@ -29,7 +29,7 @@ export default function MobileModalNavigationBarLibrary() {
         <MobileModalNavigationBar
           variant="child"
           title="Modal"
-          subtitle="UX Design"
+          subtitle={mobileChannel?.name}
         />
       </Stage>
 
@@ -53,8 +53,8 @@ export default function MobileModalNavigationBarLibrary() {
         <MobileModalNavigationBar
           variant="parent"
           title="Modal"
-          avatarSrc={avatarStaffTeam}
-          avatarAlt="App"
+          avatarSrc={mobileApp.src}
+          avatarAlt={mobileApp.name}
         />
       </Stage>
 
@@ -62,8 +62,8 @@ export default function MobileModalNavigationBarLibrary() {
         <MobileModalNavigationBar
           variant="child"
           title="Modal"
-          avatarSrc={avatarStaffTeam}
-          avatarAlt="App"
+          avatarSrc={mobileApp.src}
+          avatarAlt={mobileApp.name}
           actionLabel="Done"
         />
       </Stage>

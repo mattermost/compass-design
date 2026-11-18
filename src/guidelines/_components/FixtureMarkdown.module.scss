@@ -1,0 +1,240 @@
+// Markdown for sample posts (see FixtureMarkdown.tsx). Ported from the
+// Mattermost webapp (webapp/channels/src/sass/layout/_markdown.scss, base/_typography.scss
+// and the post body rules in components/_post.scss) so text formatting looks the
+// same as in the product. Sizes are the webapp's; colors use theme tokens where the
+// webapp hardcodes them (table borders, zebra rows). Font sizes use the type
+// tokens, so three sizes snap to the nearest one: h4 19px -> 20px, h5 15px -> 16px,
+// code 13px and 90% -> 12px.
+.fixture-md {
+  // Post text: 14px / 20px, like the message body.
+  &__p {
+    margin: 0;
+    // The docs reset removes list markers; set them as the webapp has them.
+    list-style: disc outside;
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+    overflow-wrap: anywhere;
+
+    // Consecutive paragraphs sit 0.5em apart.
+    & + & {
+      margin-top: 0.5em;
+    }
+  }
+
+  // Heading scale from the webapp: h1 28, h2 25, h3 22, h4 19, h5 15, h6 body
+  // size. Each level takes its font size and the matching line height from the
+  // type tokens. Levels 1 to 5 use the heading font. Semibold (the webapp's 700
+  // snaps to the Compass heading weight), 4px above and below (none above when
+  // first).
+  &__heading {
+    margin: var(--spacing-xxxs) 0;
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-semibold);
+    color: var(--center-channel-color);
+    overflow-wrap: anywhere;
+
+    &:first-child {
+      margin: 0 0 var(--spacing-xxxs);
+    }
+
+    &--1,
+    &--2,
+    &--3,
+    &--4,
+    &--5 {
+      font-family: var(--font-family-heading);
+    }
+
+    &--1 {
+      font-size: var(--font-size-700);
+      line-height: var(--line-height-700);
+    }
+
+    &--2 {
+      font-size: var(--font-size-600);
+      line-height: var(--line-height-600);
+    }
+
+    &--3 {
+      font-size: var(--font-size-500);
+      line-height: var(--line-height-500);
+    }
+
+    &--4 {
+      font-size: var(--font-size-400);
+      line-height: var(--line-height-400);
+    }
+
+    &--5 {
+      font-size: var(--font-size-200);
+      line-height: var(--line-height-200);
+    }
+
+    &--6 {
+      font-size: var(--font-size-100);
+      line-height: var(--line-height-100);
+    }
+  }
+
+  // Lists: 22px indent, 3px above, a hair below; a list next to a paragraph
+  // sits 0.6em away. Nested lists have a 20px indent and no margin.
+  &__list {
+    // The docs reset removes list markers; set them as the webapp has them.
+    list-style: disc outside;
+    margin: 3px 0 0.11em;
+    padding-left: calc(var(--spacing-xl) + var(--spacing-xxxxs));
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+
+    &--ordered {
+      list-style-type: decimal;
+    }
+
+    .fixture-md__list {
+      margin: 0;
+      padding-left: var(--spacing-xl);
+      font-size: var(--font-size-100);
+    }
+  }
+
+  &__list:not(&__list--ordered) &__list:not(&__list--ordered) {
+    list-style-type: circle;
+  }
+
+  &__p + &__list,
+  &__list + &__p {
+    margin-top: 0.6em;
+  }
+
+  &__item {
+    overflow-wrap: anywhere;
+  }
+
+  // Blockquote: 2px rule, 2px 12px padding, muted text.
+  &__quote {
+    margin: var(--spacing-xxs) 0 0;
+    padding: var(--spacing-xxxxs) var(--spacing-m);
+    border-left: 2px solid
+      rgba(var(--center-channel-color-rgb), var(--opacity-20));
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-regular);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    & + .fixture-md__p {
+      margin-top: var(--spacing-xxs);
+    }
+  }
+
+  // Code block (the webapp's .post-code .hljs): 8.5px padding, 1px border,
+  // 0.25em radius, 13px mono, scrolls sideways.
+  &__pre {
+    margin: 5px 0;
+    padding: 8.5px;
+    overflow-x: auto;
+    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-20));
+    border-radius: 0.25em;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-100);
+    white-space: pre;
+    color: var(--center-channel-color);
+  }
+
+  // Inline code: tinted background, 2px 4px padding, 90% size.
+  &__code {
+    padding: var(--spacing-xxxxs) var(--spacing-xxxs);
+    border-radius: var(--radius-s);
+    background: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-75);
+    font-weight: var(--font-weight-regular);
+    line-height: inherit;
+    color: inherit;
+  }
+
+  &__link,
+  &__mention {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+
+  // Mentions underline on hover, like .mention-link.
+  &__mention:hover,
+  &__link:hover {
+    text-decoration: underline;
+  }
+
+  &__strong {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  // Rule: 1px, 15px above, 16px below.
+  &__hr {
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: 15px 0 var(--spacing-l);
+    background: rgba(var(--center-channel-color-rgb), var(--opacity-24));
+  }
+
+  // Table: 5px above, 10px below, 6px 13px cell padding, 1px borders, zebra rows.
+  // The webapp's #ddd borders and #f8f8f8 zebra are theme tokens here.
+  &__table {
+    margin: 5px 0 var(--spacing-s);
+    border-collapse: collapse;
+    background: var(--center-channel-bg);
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-100);
+    color: var(--center-channel-color);
+  }
+
+  &__th,
+  &__td {
+    padding: var(--spacing-xxs) 13px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-16));
+    text-align: left;
+  }
+
+  &__th {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &__table tbody tr:nth-child(2n) {
+    background: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+  }
+
+  // One line of inline content in a slot with its own text color (the channel
+  // banner): links and mentions keep that color and are underlined, as in the
+  // webapp, so they stay readable on any background.
+  &--inline {
+    .fixture-md__link,
+    .fixture-md__mention {
+      color: inherit;
+      text-decoration: underline;
+    }
+  }
+
+  // The space around a post's parts (text, attachments, reactions) belongs to
+  // the message layout. Keep the margins between blocks inside the text, drop
+  // the ones on its outer edges so they don't add to that spacing. Last in the
+  // file so it wins over the per-block margins above.
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
