@@ -142,6 +142,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'reaction-button',
         'reactions-row',
         'message-separator',
+        'suggestion-list',
         'thread-footer',
         'thread-list-item',
       ],
@@ -197,7 +198,13 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Overlays',
-      slugs: ['emoji-popover', 'popover-menu', 'profile-popover'],
+      slugs: [
+        'emoji-popover',
+        'popover-menu',
+        'profile-popover',
+        'quick-switch-modal',
+        'search-modal',
+      ],
     },
   ],
   layouts: [
@@ -217,11 +224,13 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       label: 'Webapp',
       slugs: [
         'channel',
+        'product',
         'channel-thread',
         'channel-info',
         'modal',
         'threads-view',
         'call-widget',
+        'call-card',
         'call-popout',
         'admin-console',
       ],

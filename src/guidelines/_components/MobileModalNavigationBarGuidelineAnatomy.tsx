@@ -1,6 +1,7 @@
 import SendIcon from '@mattermost/compass-icons/components/send';
 import { Icon } from '@mattermost/compass-ui/components/icon';
 import { MobileModalNavigationBar } from '@mattermost/compass-proto';
+import { mobileChannel } from '@/fixtures/mobilePatternFixtures';
 import AnatomyStage from '@/guidelines/_components/AnatomyStage';
 import styles from './MobileModalNavigationBarGuidelineAnatomy.module.scss';
 
@@ -19,7 +20,7 @@ export function MobileModalNavigationBarAnatomyStage() {
         <MobileModalNavigationBar
           variant="child"
           title="Modal"
-          subtitle="UX Design"
+          subtitle={mobileChannel?.name}
           actionLabel="Action"
           trailingIcon={<Icon size="20" glyph={<SendIcon />} />}
         />

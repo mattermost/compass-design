@@ -1,6 +1,8 @@
-import { AdminConsoleSidebar } from '@mattermost/compass-proto';
-import { defaultAdminConsoleSidebarGroups } from '@mattermost/compass-proto';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import {
+  AdminConsoleSidebar,
+  defaultAdminConsoleSidebarGroups,
+} from '@mattermost/compass-proto';
+import { adminConsoleSidebarUserProps } from '@/fixtures/workspaceAdmin';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 export default function AdminConsoleSidebarLibrary() {
@@ -9,8 +11,7 @@ export default function AdminConsoleSidebarLibrary() {
       <div>
         <p className={styles['patterns__variant-label']}>Default</p>
         <AdminConsoleSidebar
-          avatarSrc={avatarLeonard}
-          avatarAlt="Leonard Riley"
+          {...adminConsoleSidebarUserProps}
           groups={defaultAdminConsoleSidebarGroups}
         />
       </div>

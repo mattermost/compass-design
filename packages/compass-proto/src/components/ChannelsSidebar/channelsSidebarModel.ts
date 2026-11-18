@@ -28,6 +28,11 @@ export type ChannelsSidebarItemModel = Omit<
 > & {
   name: string;
   leadingVisual?: ChannelSidebarItemLeadingVisual;
+  /**
+   * An emoji shown in place of the built-in `leadingVisual` glyph (a channel
+   * whose name starts with one). Shown on desktop and mobile.
+   */
+  leadingEmoji?: string;
   /** Plain custom status emoji after the name. Shown on desktop and mobile. */
   customStatusEmoji?: string;
   /**

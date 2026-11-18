@@ -1,0 +1,40 @@
+// Channel banner. Size and spacing follow the Mattermost webapp
+// (webapp/channels/src/components/channel_banner/style.scss): a 24px strip with
+// 2px of block and 24px of inline padding, and one centered 20px line.
+.channel-banner {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--spacing-xxl);
+  max-height: var(--spacing-xxl);
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--spacing-xxxxs);
+  padding-inline: var(--spacing-xxl);
+  white-space: nowrap;
+
+  // The tooltip wrapper is inline by default, which would shrink the banner and
+  // stop its text overflowing; make it fill the banner's parent instead.
+  &__tooltip-host {
+    display: block;
+    width: 100%;
+  }
+
+  &__text {
+    display: block;
+    overflow: hidden;
+    max-width: 100%;
+    font-family: var(--font-family-body);
+    font-size: calc(var(--font-size-75) + 1px); // the webapp's 13px
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-100);
+    text-align: center;
+    text-overflow: ellipsis;
+
+    // Links take the contrast color too: a blue link on a blue banner would vanish.
+    a {
+      color: var(--channel-banner-text-color);
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,22 +1,7 @@
 import { useState } from 'react';
 import { CallWidget } from '@mattermost/compass-proto';
-import type { Participant } from '@/types/callParticipant';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
-import avatarAikoTan from '@/assets/avatars/Aiko Tan.png';
-import avatarArjunPatel from '@/assets/avatars/Arjun Patel.png';
+import { callWidgetDemoProps } from '@/fixtures/callWidgetDemo';
 import styles from '@/styles/library-demo/patterns.module.scss';
-
-const participants: Participant[] = [
-  {
-    id: '1',
-    name: 'Leonard Riley',
-    avatarSrc: avatarLeonard,
-    host: true,
-    talking: true,
-  },
-  { id: '2', name: 'Aiko Tan', avatarSrc: avatarAikoTan },
-  { id: '3', name: 'Arjun Patel', avatarSrc: avatarArjunPatel, muted: true },
-];
 
 export default function CallWidgetLibrary() {
   const [overlay, setOverlay] = useState<
@@ -33,11 +18,7 @@ export default function CallWidgetLibrary() {
         Active call (interactive)
       </p>
       <CallWidget
-        participants={participants}
-        currentUserId="1"
-        talkerName="Leonard Riley"
-        talkerAvatarSrc={avatarLeonard}
-        channelName="op-nightingale"
+        {...callWidgetDemoProps}
         muted={muted}
         onToggleMute={() => setMuted((m) => !m)}
         handRaised={handRaised}
@@ -55,10 +36,6 @@ export default function CallWidgetLibrary() {
         onCloseCallInfo={() => setOverlay(null)}
         externalEnabled={externalEnabled}
         onExternalEnabledChange={setExternalEnabled}
-        internalLink="https://mattermost.example.com/team/pl/join/abc123"
-        externalLink="https://guest.example.com/xyz"
-        dialInNumber="+1 669 555 0100"
-        dialInPin="123 456"
       />
     </div>
   );

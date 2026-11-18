@@ -10,16 +10,18 @@ import {
   MobileNavigationBar,
 } from '@mattermost/compass-proto';
 import DeviceFrame from '@/components/layout/DeviceFrame';
+import { mobileChannel } from '@/fixtures/mobilePatternFixtures';
 import MobileModalStage from '@/components/layout/MobileModalStage';
 import styles from './mobile-modal.specimen.module.scss';
 
+/** The screen behind the modal: the workspace's busiest channel. */
 function ChannelPeek() {
   return (
     <div className={styles['mobile-modal-layout__peek']}>
       <MobileNavigationBar
         variant="channel"
-        name="UX Design"
-        memberCount={32}
+        name={mobileChannel?.name ?? 'Channel'}
+        memberCount={mobileChannel?.memberIds?.length}
       />
       <div className={styles['mobile-modal-layout__peek-body']}>
         <p className={styles['mobile-modal-layout__peek-copy']}>

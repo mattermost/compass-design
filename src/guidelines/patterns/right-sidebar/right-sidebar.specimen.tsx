@@ -1,12 +1,128 @@
+import { useState } from 'react';
+import { SegmentedControl } from '@mattermost/compass-ui/components/segmented-control';
+import {
+  RightSidebarSearchResults,
+  type RightSidebarSearchResultsKind,
+} from '@mattermost/compass-proto';
 import { RightSidebarHeader } from '@mattermost/compass-ui/components/right-sidebar-header';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
-import { RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES } from '@/fixtures/rightSidebarThreadDemo';
-import avatarLeonard from '@/assets/avatars/Leonard Riley.png';
+import { avatars } from '@/fixtures/avatarRegistry';
 import styles from '@/styles/library-demo/patterns.module.scss';
 import { RightSidebarThread } from '@mattermost/compass-proto';
 import { RightSidebarChannelInfo } from '@mattermost/compass-proto';
 import { RightSidebarChannelMembers } from '@mattermost/compass-proto';
 import { RightSidebar } from '@mattermost/compass-proto';
+import {
+  sampleChannelName,
+  sampleChannelInfoProps,
+  sampleMemberCount,
+  sampleMemberGroups,
+  sampleResults,
+  sampleTerm,
+  sampleThreadChannelName,
+  sampleThreadMessages,
+  sampleUser,
+} from './rightSidebarFixtures';
+
+const KINDS: { kind: RightSidebarSearchResultsKind; title: string }[] = [
+  { kind: 'search', title: 'Search results' },
+  { kind: 'mentions', title: 'Recent mentions' },
+  { kind: 'saved', title: 'Saved messages' },
+  { kind: 'pinned', title: 'Pinned messages' },
+];
+
+function SearchResultsDemo() {
+  const [kind, setKind] = useState<RightSidebarSearchResultsKind>('search');
+  const [empty, setEmpty] = useState(false);
+  const [jumped, setJumped] = useState<string | null>(null);
+  const title = KINDS.find((k) => k.kind === kind)?.title;
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: 'var(--spacing-xl)',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--spacing-s)',
+          }}
+        >
+          <span
+            className={styles['patterns__variant-label']}
+            style={{ marginBottom: 0 }}
+          >
+            Kind
+          </span>
+          <SegmentedControl
+            role="radiogroup"
+            aria-label="Kind"
+            value={kind}
+            onChange={(value) =>
+              setKind(value as RightSidebarSearchResultsKind)
+            }
+            options={KINDS.map((k) => ({ key: k.kind, label: k.kind }))}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--spacing-s)',
+          }}
+        >
+          <span
+            className={styles['patterns__variant-label']}
+            style={{ marginBottom: 0 }}
+          >
+            State
+          </span>
+          <SegmentedControl
+            role="radiogroup"
+            aria-label="State"
+            value={empty ? 'empty' : 'results'}
+            onChange={(value) => setEmpty(value === 'empty')}
+            options={[
+              { key: 'results', label: 'results' },
+              { key: 'empty', label: 'empty' },
+            ]}
+          />
+        </div>
+      </div>
+      <div
+        className={styles['patterns__rsb-shell']}
+        style={{ marginTop: 'var(--spacing-xl)' }}
+      >
+        <RightSidebar
+          alignBody="stretch"
+          header={
+            <RightSidebarHeader
+              title={title}
+              secondaryTitle={kind === 'search' ? undefined : sampleChannelName}
+              onExpand={() => {}}
+              onClose={() => {}}
+            />
+          }
+        >
+          <RightSidebarSearchResults
+            kind={kind}
+            results={empty ? [] : sampleResults}
+            terms={kind === 'search' && sampleTerm ? [sampleTerm] : []}
+            onJump={(result) => setJumped(result.username)}
+          />
+        </RightSidebar>
+      </div>
+      <p className={styles['patterns__variant-label']}>
+        {jumped ? `Jumped to ${jumped}'s message` : 'Press Jump on a result'}
+      </p>
+    </>
+  );
+}
 
 export default function RightSidebarLibrary() {
   return (
@@ -20,7 +136,7 @@ export default function RightSidebarLibrary() {
         </p>
         <RightSidebarHeader
           title="Thread"
-          secondaryTitle="UX Design"
+          secondaryTitle={sampleThreadChannelName}
           onClose={() => {}}
         />
 
@@ -43,9 +159,13 @@ export default function RightSidebarLibrary() {
           Header — with leading avatar + action
         </p>
         <RightSidebarHeader
-          title="Leonard Riley"
+          title={sampleUser.displayName}
           leadingIcon={
-            <UserAvatar src={avatarLeonard} alt="Leonard Riley" size="24" />
+            <UserAvatar
+              src={avatars[sampleUser.id]}
+              alt={sampleUser.displayName}
+              size="24"
+            />
           }
           actionLabel="Follow"
           onActionClick={() => {}}
@@ -62,7 +182,7 @@ export default function RightSidebarLibrary() {
         </p>
         <RightSidebarHeader
           title="Thread"
-          secondaryTitle="UX Design"
+          secondaryTitle={sampleThreadChannelName}
           actionLabel="Following"
           actionActive
         />
@@ -80,13 +200,13 @@ export default function RightSidebarLibrary() {
           header={
             <RightSidebarHeader
               title="Thread"
-              secondaryTitle="UX Design"
+              secondaryTitle={sampleThreadChannelName}
               onExpand={() => {}}
               onClose={() => {}}
             />
           }
         >
-          <RightSidebarThread messages={RIGHT_SIDEBAR_THREAD_DEMO_MESSAGES} />
+          <RightSidebarThread messages={sampleThreadMessages} />
         </RightSidebar>
       </div>
 
@@ -101,13 +221,13 @@ export default function RightSidebarLibrary() {
           header={
             <RightSidebarHeader
               title="Info"
-              secondaryTitle="UX Design"
+              secondaryTitle={sampleChannelName}
               onExpand={() => {}}
               onClose={() => {}}
             />
           }
         >
-          <RightSidebarChannelInfo />
+          <RightSidebarChannelInfo {...sampleChannelInfoProps} />
         </RightSidebar>
       </div>
 
@@ -122,16 +242,26 @@ export default function RightSidebarLibrary() {
           header={
             <RightSidebarHeader
               title="Members"
-              secondaryTitle="UX Design"
+              secondaryTitle={sampleChannelName}
               onBack={() => {}}
               onExpand={() => {}}
               onClose={() => {}}
             />
           }
         >
-          <RightSidebarChannelMembers />
+          <RightSidebarChannelMembers
+            memberCount={sampleMemberCount}
+            groups={sampleMemberGroups}
+          />
         </RightSidebar>
       </div>
+      <p
+        className={styles['patterns__variant-label']}
+        style={{ marginTop: 'var(--spacing-xl)' }}
+      >
+        Full sidebar — search results, mentions, saved and pinned
+      </p>
+      <SearchResultsDemo />
     </>
   );
 }

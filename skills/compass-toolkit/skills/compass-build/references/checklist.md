@@ -19,14 +19,14 @@ Walk every item. Fix failures, then report which items you checked. Items tagged
 ## Components and tokens
 
 - [ ] Used existing Compass components and patterns instead of custom markup. `[manual]`
-- [ ] No raw px, hex, font-size, radius, shadow, duration or easing. `[lint]`
+- [ ] No raw px, hex, font-size, radius, shadow, duration or easing. `[lint]` Border widths are raw by design: don't swap them for spacing tokens.
 - [ ] Subpath, named imports only; variant props are kebab-case strings.
 - [ ] Picked components with `references/components.md` (e.g. single date = `DateRangePicker mode="date"`).
 - [ ] Every `TextInput` has the type that matches its data (`email`, `tel`, `url`, `number`; `text` only when nothing more specific fits).
 - [ ] Each field's control was chosen with "Choosing the control for a field" in `references/components.md` (option count, single vs multi, free text vs known set).
 - [ ] In a form with a submit button, yes/no fields are `Checkbox`, not `Switch`.
 - [ ] Required fields have a trailing asterisk (individual fields only) and `required` or `aria-required`. Fields use floating labels (every standard input takes `label`); a separate label appears only where absolutely needed (admin left column).
-- [ ] `IconButton` uses `icon={<Icon glyph=... />}`, normally with no `size` (an explicit size only as a deliberate override), and has `aria-label`.
+- [ ] `IconButton` uses `icon={<Icon glyph=... />}` and has `aria-label`. Its size follows the place (see `references/components.md`): `small` + `padding='compact'` in rows, `small` in toolbars and headers, `medium` only as the exception.
 - [ ] No inline styles for tokenizable values; no `!important`; no deep overrides of Compass components.
 - [ ] Context respected (core, plugin or prototype): correct style import, no standalone stylesheet in a host.
 

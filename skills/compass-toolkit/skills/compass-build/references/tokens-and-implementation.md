@@ -24,7 +24,7 @@ Source: `.claude/rules/styling.md`, `packages/compass-ui/AGENTS.md`, `/foundatio
 | Motion      | `--duration-quick` 150ms, `--duration-moderate` 300ms, `--ease-transition`, `--ease-entrance`, `--ease-exit`                  |
 | Stacking    | `--z-sidebar` 100, `--z-modal` 1050, `--z-confirm-modal` 1060, `--z-menu` 1100, `--z-popover` 1200, `--z-tooltip` 1350        |
 
-- Nearest token, or `calc()` of tokens, beats raw px. Allowed raw: 1px hairlines, visually-hidden, one-off layout widths with no token, breakpoints.
+- Nearest token, or `calc()` of tokens, beats raw px. Allowed raw: border widths (1px hairlines, a 2px or 4px accent bar), visually-hidden, one-off layout widths with no token, breakpoints. **Spacing tokens are for gaps, padding and margins, never border widths**: a `border-left: 4px solid` stays 4px, don't write `var(--spacing-xxxs)` there.
 - No tokenizable spacing or font in inline `style={{}}`. Use a CSS module.
 - Tokens are additive-only. Never rename, remove or revalue one. Add a new one.
 
@@ -50,7 +50,7 @@ color: var(--link-color);
 ## Component usage
 
 - **Variant props** are lowercase kebab-case strings: `size="x-small"`, `emphasis="tertiary"`.
-- **IconButton:** `icon={<Icon glyph={<SomeIcon />} />}`, normally no `size` (the button sizes it; an explicit `size` is allowed only as a deliberate override), always an `aria-label`.
+- **IconButton:** `icon={<Icon glyph={<SomeIcon />} />}`, always an `aria-label`. Set `size` by place, not the `medium` default: `size='small' padding='compact'` in table, list and tree rows, `size='small'` in toolbars and headers (sizes and places in `references/components.md`). The button sizes the icon.
 - **Icons in slots** (`leadingIcon`, `icon`): pass `<Icon glyph={...} />` without `size`. The host component sizes it; an explicit `size` still takes precedence and is allowed as a deliberate override.
 - **Links that look like buttons:** `Button asChild` wrapping `<a>` or a router `Link`. Never `<Link><Button/></Link>`.
 - **Avatars:** real image from `src/assets/avatars/` when available; initials only as fallback.

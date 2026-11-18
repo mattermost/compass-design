@@ -11,6 +11,17 @@ Package split (in-repo):
 - **`@mattermost/compass-ui`** — [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md)
 - **`@mattermost/compass-proto`** — [packages/compass-proto/AGENTS.md](packages/compass-proto/AGENTS.md)
 
+## Required docs for every new foundation, component, or pattern
+
+This is a **must**, not a nice-to-have. Adding (or promoting) a foundation, component, or pattern is not done until all of these exist:
+
+1. **Guidelines page** — `src/guidelines/<category>/<slug>/<slug>.guideline.mdx`.
+2. **Specimen page** — `src/guidelines/<category>/<slug>/<slug>.specimen.tsx`, showing the real states and variants.
+3. **Topic registration** — a `Topic` in `src/manifests/topics.ts` (with `guidelinePage` **and** `specimenPage`) and, where a sidebar group fits, a slug in `src/manifests/sections.ts`.
+4. **Storybook story — if it is part of `@mattermost/compass-ui`** (published components, and foundations with published tokens/styles): `*.stories.tsx` next to the source, title per `titles.ts` / `sections.ts`. Proto-only (`@mattermost/compass-proto`) additions do not get Storybook (see [packages/compass-ui/AGENTS.md](packages/compass-ui/AGENTS.md)), but they still need 1–3.
+
+Procedure: [skills/internal/add-docs-topic/SKILL.md](skills/internal/add-docs-topic/SKILL.md). Do not open a PR that adds one of these without the pages (and story, where required); if the PR is a partial slice, say what is missing and why in the PR body.
+
 ## Building new components
 
 Before writing new UI, audit `src/components/` (and Compass UI). Reuse an existing component when it already covers the need — especially when the name matches Figma. Only build a new sub-component when nothing suitable exists.
@@ -34,11 +45,29 @@ Tooltips, modals, and popovers (`Modal`, `Tooltip`, `PopoverMenu`, `ProfilePopov
 - **Component-owned (allowed):** behavior that is part of the WAI-ARIA pattern for the surface and only touches its own subtree and the previously focused element — initial focus, focus trap, Escape, focus restore, `aria-*`. It must be on by default or opt-out via a prop, honor `defaultPrevented` (skip Escape an inner widget already handled), and add no DOM beyond the pattern. `Modal` is the first adopter; non-modal surfaces (`Tooltip`, `PopoverMenu`, `ProfilePopover`) adopt case by case.
 - **Host-owned (excluded):** open/close state, portals, positioning, stacking, scroll lock, the backdrop element and outside-click. **Exception:** `ModalOverlay` ships the modal scrim (portal, scroll lock, backdrop click, exit motion) so hosts don't each rebuild it; the host still owns open state and the portal container, and the final z-index (the scrim defaults to `--z-modal`; override with `zIndex` or the token). `modalOverlayStyles` stays exported for hosts that already position their own node. Follow each component's existing lifecycle pattern (`Modal` is mount-controlled; `Dropdown` takes controlled `isOpen`) and wire lifecycle props from the host (e.g. `isOpen`, `onClose`) — compose with host hooks (e.g. `useOutsideClose`, `usePopoverTransition`, `useExitAnimation`).
 
+### Popovers always portal
+
+Every popover-style surface — `EmojiPopover`, `TourPoint`, `PopoverMenu`, `ProfilePopover`, `PopoverNotice`, tooltips, and any menu or picker a trigger opens — must be **portaled out of its trigger's container** and positioned against the trigger (viewport-fixed, flipping when there's no room). It must never sit in the normal flow of, or inside the DOM of, the trigger's container. In-flow popovers change the height of their parent (a modal grows when a picker opens), get clipped by `overflow`, and break stacking.
+
+- **Where this applies:** every place a popover is _used_ — hosts, `compass-proto` composites, docs specimens, layouts, and Storybook stories. The host owns the portal (this follows "Host-owned" below); do not add portals or positioning to the chrome primitives themselves.
+- **How:** portal to `document.body` (or the host's designated container), `position: fixed` from the trigger's `getBoundingClientRect()`, `z-index: var(--z-popover)` (or `--z-menu` for menus), update on resize and capture-phase scroll, and close on outside press (`useOutsideClose` with the portaled surface as the second root) and Escape. `WithTooltip` is the model for tooltips; `AnchoredMenu` in the bookmarks bar (compass-proto) shows the menu pattern. The `use-anchored-popup-portal` hook belongs to the compass-ui form widgets and is not a general overlay API. Until the shared `Popover.Positioner` from #111 ships, a host or docs specimen with no other option may use it as an interim positioner (it takes an element or a virtual anchor, and `side="above"` / `"below"` stops it flipping), for example the Suggestion List demos. Don't build new components on it; #111 replaces it.
+- **Escape inside a modal:** an Escape that dismisses a portaled popover must `preventDefault()` so the surrounding `Modal` stays open.
+- **Not acceptable:** rendering the popover as a sibling in the trigger's flex/grid container, `position: absolute` inside the trigger's wrapper, or expanding a container to hold it.
+
 **Exceptions:** form widgets with menu/popover surfaces (`Combobox`, `Select`, `DateRangePicker`, etc.) own widget-level open/close, keyboard behavior, and may **portal + position** their own menus (viewport flip, escape overflow clipping). That portal logic is scoped to those widgets — do not reuse it as a general overlay positioning API for chrome primitives. Proto/mobile presentation components (`MobileBottomSheet`, `MobileModalStage`, etc.) may bundle backdrop and animation for prototyping — keep those in `compass-proto` or playground presenters, not published overlay primitives. Prototype tooltip hosting (`WithTooltip`) also lives in `compass-proto`, not in `Tooltip` or `IconButton`.
+
+### Submenu recipe
+
+Every submenu (a `PopoverMenu` opened from a menu row with a chevron) follows the Popover Menu guideline:
+
+- **Overlap the parent by 8px** — the child's edge sits 8px inside the parent menu's edge, on the side it opens toward (flip to the left when there's no room).
+- **Align the first item with the parent row** — the child's surface reaches above the row by its own padding so its first item sits level with the row that opened it.
+- **The parent row is active** (`MenuItem active`) while the submenu is open.
+- Static docs previews of a submenu render the same geometry (see `BookmarksHeaderMenuExample`); the live one is portaled like any popover.
 
 ## Component usage (short)
 
-- **Primary button:** `emphasis="primary"` at most once per view. Prefer `secondary` / `tertiary` / `quaternary` otherwise.
+- **Primary button:** `emphasis="primary"` at most once per view. Every other `Button` sets `emphasis` explicitly, because it defaults to `primary`: `tertiary` is the usual choice (Cancel, back, alternatives); use `quaternary`, `dim` or `link` for lighter actions, and avoid `secondary` unless a design calls for it.
 - **EmptyState actions:** omit `size` on the action `Button` unless Figma requires otherwise (default Medium).
 - **Admin True/False radios:** lay out horizontally in a flex row (e.g. `admin-console-layout__radio-row`); override Radio `width: 100%` so both stay on one row; match label `padding-top: var(--spacing-xxs)`.
 - **Avatars:** pass a real image from `src/assets/avatars/` when the component supports `src` / equivalent. Initials-only only when documenting fallback or unnamed users.

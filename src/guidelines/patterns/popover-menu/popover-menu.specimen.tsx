@@ -26,6 +26,12 @@ import { UserAccountMenu } from '@mattermost/compass-proto';
 import { ProductSwitcherMenu } from '@mattermost/compass-proto';
 import { TeamMenu } from '@mattermost/compass-proto';
 import { ThreadActionsMenu } from '@mattermost/compass-proto';
+import { avatars } from '@/fixtures/avatarRegistry';
+import {
+  personaCustomStatus,
+  workspacePersona,
+} from '@/fixtures/workspacePersona';
+import { workspaceCurrentUserId } from '@mattermost/compass-proto';
 import styles from '@/styles/library-demo/patterns.module.scss';
 
 // Autocomplete menus are plain Popover Menus: 480px wide, 304px tall at most (minus the 1px
@@ -152,9 +158,32 @@ export default function PopoverMenuLibrary() {
           className={`${styles['patterns__popover-menu-demo']} ${styles['patterns__popover-menu-demo--submenu-left']}`}
         >
           <UserAccountMenu
+            userName={workspacePersona?.displayName}
+            username={workspacePersona?.username}
+            avatarSrc={avatars[workspaceCurrentUserId]}
+            customStatus={personaCustomStatus}
             status="do-not-disturb"
             dndUntil="until Monday 9:00 AM"
             submenuInitiallyOpen
+          />
+        </div>
+        <p
+          className={styles['patterns__variant-label']}
+          style={{ marginTop: 'var(--spacing-l)' }}
+        >
+          Long custom status: one line with an ellipsis; hovering it shows the
+          full text
+        </p>
+        <div className={styles['patterns__popover-menu-demo']}>
+          <UserAccountMenu
+            userName={workspacePersona?.displayName}
+            username={workspacePersona?.username}
+            avatarSrc={avatars[workspaceCurrentUserId]}
+            customStatus={{
+              emoji: personaCustomStatus.emoji,
+              text: `${personaCustomStatus.text}, and keeping every team across the quarter's goals`,
+            }}
+            customStatusExpiry="Until 5:00 PM"
           />
         </div>
       </section>

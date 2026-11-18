@@ -1,0 +1,173 @@
+// Ported from the Mattermost webapp ProductRail
+// (webapp/channels/src/components/product_rail/product_rail.scss), mapped onto compass tokens.
+.product-rail {
+  // The rail sits on the header background; badges ring themselves in it.
+  --product-rail-bg: var(--sidebar-header-bg);
+
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--spacing-xxxs);
+  box-sizing: border-box;
+  width: 72px;
+  height: 100%;
+  overflow: auto;
+  padding: var(--spacing-m) 0;
+  background-color: var(--product-rail-bg);
+  scrollbar-width: none;
+
+  &__header,
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xxxs);
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+  }
+
+  // Pinned to the bottom of the rail.
+  &__footer {
+    margin-top: auto;
+  }
+}
+
+.product-rail-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 64px;
+  padding: var(--spacing-xxxs) 0;
+  border: none;
+  border-radius: var(--radius-m);
+  background: none;
+  color: rgba(var(--sidebar-text-rgb), var(--opacity-72));
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--sidebar-text);
+  }
+
+  // Hover fades in; state changes (selected) and leaving hover snap, so neighbours never crossfade.
+  &:hover .product-rail-item__icon {
+    background: rgba(var(--sidebar-text-rgb), var(--opacity-8));
+    transition: background-color var(--duration-quick) var(--ease-transition);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
+    outline: none;
+  }
+
+  // Shared centre for the mention badge and unread dot, relative to the 36px icon chip.
+  --product-rail-badge-center-x: calc(100% - 3px);
+  --product-rail-badge-center-y: 3px;
+
+  &__icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-m);
+
+    svg {
+      fill: currentColor;
+    }
+
+    img {
+      width: var(--icon-size-24);
+      height: var(--icon-size-24);
+    }
+  }
+
+  &__label {
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0 var(--spacing-xxxxs);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- webapp uses weight 500; no token between regular and semibold
+    font-weight: 500;
+    font-size: var(--font-size-50);
+    // stylelint-disable-next-line declaration-property-value-disallowed-list -- 14px line-height is off the --line-height-* scale (matches the webapp rail)
+    line-height: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__sr-only {
+    @include visually-hidden;
+  }
+
+  // Both are positioned by their centre, so the badge stays put whatever its width. The unread dot
+  // sits on the anchor; the mention badge's centre is one `--spacing-xxxxs` (2px) down and left of it.
+  &__mention-badge {
+    position: absolute;
+    top: calc(var(--product-rail-badge-center-y) + var(--spacing-xxxxs));
+    left: calc(var(--product-rail-badge-center-x) - var(--spacing-xxxxs));
+    transform: translate(-50%, -50%);
+    min-width: 18px;
+    height: 16px;
+    padding: 0 var(--spacing-xxxs);
+    border-radius: var(--radius-pill);
+    background: var(--mention-bg);
+    box-shadow: 0 0 0 2px var(--product-rail-bg);
+    color: var(--mention-color);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-25);
+    line-height: var(--line-height-25);
+    text-align: center;
+  }
+
+  // Ring wrapper around the shared Unread Badge.
+  &__unread-dot {
+    position: absolute;
+    top: var(--product-rail-badge-center-y);
+    left: var(--product-rail-badge-center-x);
+    transform: translate(-50%, -50%);
+    display: flex;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 0 0 2px var(--product-rail-bg);
+  }
+
+  &--unread &__label {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &--urgent &__mention-badge {
+    background: var(--dnd-indicator);
+    color: var(--button-color);
+  }
+
+  &--selected,
+  &--selected:hover {
+    color: var(--sidebar-text);
+  }
+
+  // Selecting a tile that is still hovered must snap, not continue the hover fade.
+  &--selected &__icon,
+  &--selected:hover &__icon {
+    background: rgba(var(--sidebar-text-rgb), var(--opacity-16));
+    transition: none;
+  }
+}

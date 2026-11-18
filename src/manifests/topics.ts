@@ -597,6 +597,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/menu-group-heading/menu-group-heading.specimen'),
   },
   {
+    slug: 'suggestion-list',
+    name: 'Suggestion List',
+    category: 'components',
+    description:
+      'Autocomplete listbox for a composer: @mention, ~channel, :emoji: and /slash rows with avatar, status and grouped headings.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/components/suggestion-list/suggestion-list.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/suggestion-list/suggestion-list.specimen'),
+  },
+  {
     slug: 'menu-item',
     name: 'Menu Item',
     category: 'components',
@@ -1028,6 +1040,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/call-widget/call-widget.specimen'),
   },
   {
+    slug: 'call-card',
+    name: 'Call Card',
+    category: 'patterns',
+    description:
+      'The post a call leaves in a channel: Join call while it is live, then its duration and recordings once it ends.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/call-card/call-card.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/call-card/call-card.specimen'),
+  },
+  {
     slug: 'emoji-popover',
     name: 'Emoji Popover',
     category: 'patterns',
@@ -1040,6 +1064,30 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/emoji-popover/emoji-popover.specimen'),
   },
   {
+    slug: 'quick-switch-modal',
+    name: 'Quick Switch Modal',
+    category: 'patterns',
+    description:
+      'Keyboard-first dialog for jumping to a channel, direct message, or group message.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/quick-switch-modal/quick-switch-modal.specimen'),
+  },
+  {
+    slug: 'search-modal',
+    name: 'Search Modal',
+    category: 'patterns',
+    description:
+      'Dialog behind the global Search field with recent searches, search modifiers, and suggestions.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/search-modal/search-modal.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/search-modal/search-modal.specimen'),
+  },
+  {
     slug: 'channel-header',
     name: 'Channel Header',
     category: 'patterns',
@@ -1050,6 +1098,30 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-header/channel-header.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/patterns/channel-header/channel-header.specimen'),
+  },
+  {
+    slug: 'channel-banner',
+    name: 'Channel Banner',
+    category: 'patterns',
+    description:
+      'The slim strip across the top of a channel for a notice or classification, in the color a channel admin chooses.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/channel-banner/channel-banner.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/channel-banner/channel-banner.specimen'),
+  },
+  {
+    slug: 'channel-bookmarks-bar',
+    name: 'Channel Bookmarks Bar',
+    category: 'patterns',
+    description:
+      'Quick links under the channel header, with overflow handling, an actions menu, and a create modal.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.specimen'),
   },
   {
     slug: 'mobile-navigation-bar',
@@ -1196,6 +1268,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/message/message.specimen'),
   },
   {
+    slug: 'message-attachment',
+    name: 'Message Attachment',
+    category: 'patterns',
+    description:
+      'The card an integration posts under a message: color bar, title, fields, actions, and footer.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/message-attachment/message-attachment.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/message-attachment/message-attachment.specimen'),
+  },
+  {
     slug: 'message-input',
     name: 'Message Input',
     category: 'patterns',
@@ -1255,6 +1339,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/right-sidebar/right-sidebar.specimen'),
   },
   {
+    slug: 'product-rail',
+    name: 'Product Rail',
+    category: 'patterns',
+    description:
+      'Labeled vertical rail for switching between products such as Channels, Playbooks, and Boards.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/product-rail/product-rail.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/product-rail/product-rail.specimen'),
+  },
+  {
     slug: 'team-sidebar',
     name: 'Team Sidebar',
     category: 'patterns',
@@ -1282,6 +1378,16 @@ export const TOPICS: Topic[] = [
   // ===========================================================================
   // Layouts
   // ===========================================================================
+  {
+    slug: 'product',
+    name: 'Product',
+    category: 'layouts',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/layouts/product/product.guideline.mdx'),
+    specimenPage: () => import('@/guidelines/layouts/product/product.specimen'),
+    fullBleedSpecimen: true,
+  },
   {
     slug: 'channel',
     name: 'Channel',

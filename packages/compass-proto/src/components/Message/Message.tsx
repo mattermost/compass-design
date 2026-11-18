@@ -1,25 +1,48 @@
-import React from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import { UserAvatar } from '@mattermost/compass-ui/components/user-avatar';
 import { MessageHeader } from '@mattermost/compass-ui/components/message-header';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import {
   MessageActions,
+  type MessageActionsProps,
   type MessageActionsType,
 } from '@mattermost/compass-ui/components/message-actions';
 import { PinnedSavedIndicators } from '@mattermost/compass-ui/components/pinned-saved-indicators';
+import { Tag } from '@mattermost/compass-ui/components/tag';
 import styles from './Message.module.scss';
 
-type MessageProps = {
+export type MessagePriority = 'important' | 'urgent';
+
+export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
   avatarSrc?: string;
   avatarAlt: string;
-  username: string;
+  /**
+   * Replaces the default 32px `UserAvatar`. Use it to make the avatar
+   * interactive, e.g. wrap a `UserAvatar` in a `<button>` that opens a
+   * profile popover. A falsy value (`false`, `null`) falls back to the default. When set, `avatarSrc` and `avatarAlt` are ignored.
+   */
+  avatar?: ReactNode;
+  /**
+   * Display name in the byline. Pass a node (e.g. a `<button>`) to make the
+   * username interactive or to render translated content.
+   */
+  username: ReactNode;
   timestamp: string;
+  /**
+   * Message priority. Shows a label in the header, right after the timestamp:
+   * `urgent` in the danger color, `important` in the info color.
+   */
+  priority?: MessagePriority;
+  /** Text of the priority label. Defaults: "Important" and "Urgent". Pass translated nodes. */
+  priorityLabels?: Partial<Record<MessagePriority, ReactNode>>;
   /** Emoji in the byline. Tooltip shows the emoji large above the text. */
   customStatus?: { emoji: string; text: string };
   isBot?: boolean;
   botLabel?: string;
   /** Hover toolbar context. Default: Center Channel. */
   messageActionsType?: MessageActionsType;
+  /** Extra props for the hover toolbar (e.g. `jumpButtonProps` with `type="search-results"`). `type` is set by `messageActionsType`. */
+  messageActionsProps?: Omit<MessageActionsProps, 'type'>;
   /** When false, the hover Message Actions toolbar is omitted. Default: true. */
   showMessageActions?: boolean;
   /** When true, Pinned + Saved row appears at the top of the message container. */
@@ -32,42 +55,55 @@ type MessageProps = {
    * `message__body-text` class from `Message.module.scss` so typography matches
    * the component and host shells (docs, patterns) cannot restyle bare tags.
    */
-  children: React.ReactNode;
+  children: ReactNode;
   /** Link Preview block — renders after `children`. */
-  linkPreview?: React.ReactNode;
+  linkPreview?: ReactNode;
   /** Image Preview block(s) — renders after the link preview slot. */
-  imagePreviews?: React.ReactNode;
+  imagePreviews?: ReactNode;
   /** Trailing body content — e.g. attachments and reactions — renders last. */
-  footer?: React.ReactNode;
+  footer?: ReactNode;
   /**
    * Thread footer — renders a `<ThreadFooter>` when this is a root post with replies.
    * Pass `<ThreadFooter .../>` directly; Message renders it flush (no extra padding).
    */
-  threadFooter?: React.ReactNode;
-};
+  threadFooter?: ReactNode;
+}
 
-export default function Message({
-  avatarSrc,
-  avatarAlt,
-  username,
-  timestamp,
-  customStatus,
-  isBot = false,
-  botLabel,
-  messageActionsType = 'center-channel',
-  showMessageActions = true,
-  showPinnedSavedIndicators = false,
-  className = '',
-  children,
-  linkPreview,
-  imagePreviews,
-  footer,
-  threadFooter,
-}: MessageProps) {
+/**
+ * Desktop message (avatar, byline, body slots, hover actions). Other attributes
+ * (`data-*`, `aria-*`, `id`, event handlers such as `onClick`) and `ref` go to
+ * the root element, so hosts can target or anchor to a message without DOM queries.
+ */
+const Message = forwardRef<HTMLDivElement, MessageProps>(function Message(
+  {
+    avatarSrc,
+    avatarAlt,
+    avatar,
+    username,
+    timestamp,
+    customStatus,
+    priority,
+    priorityLabels,
+    isBot = false,
+    botLabel,
+    messageActionsType = 'center-channel',
+    messageActionsProps,
+    showMessageActions = true,
+    showPinnedSavedIndicators = false,
+    className = '',
+    children,
+    linkPreview,
+    imagePreviews,
+    footer,
+    threadFooter,
+    ...rest
+  },
+  ref,
+) {
   const rootClass = [styles.message, className].filter(Boolean).join(' ');
 
   return (
-    <div className={rootClass}>
+    <div {...rest} ref={ref} className={rootClass}>
       {showPinnedSavedIndicators && (
         <div className={styles['message__pinned']}>
           <PinnedSavedIndicators />
@@ -75,7 +111,7 @@ export default function Message({
       )}
       <div className={styles['message__layout']}>
         <div className={styles['message__avatar-col']}>
-          <UserAvatar src={avatarSrc} alt={avatarAlt} size="32" />
+          {avatar || <UserAvatar src={avatarSrc} alt={avatarAlt} size="32" />}
         </div>
         <div className={styles['message__content']}>
           <div className={styles['message__header-row']}>
@@ -102,14 +138,35 @@ export default function Message({
                     username
                   )
                 }
-                timestamp={timestamp}
+                timestamp={
+                  priority ? (
+                    <>
+                      {timestamp}
+                      <Tag
+                        className={styles['message__priority']}
+                        label={
+                          priorityLabels?.[priority] ??
+                          (priority === 'urgent' ? 'Urgent' : 'Important')
+                        }
+                        type={priority === 'urgent' ? 'danger' : 'info'}
+                        size="x-small"
+                        casing="all-caps"
+                      />
+                    </>
+                  ) : (
+                    timestamp
+                  )
+                }
                 isBot={isBot}
                 botLabel={botLabel}
               />
             </div>
             {showMessageActions && (
               <div className={styles['message__actions-slot']}>
-                <MessageActions type={messageActionsType} />
+                <MessageActions
+                  {...messageActionsProps}
+                  type={messageActionsType}
+                />
               </div>
             )}
           </div>
@@ -138,4 +195,6 @@ export default function Message({
       </div>
     </div>
   );
-}
+});
+
+export default Message;

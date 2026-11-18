@@ -32,4 +32,5 @@ Six levels above flat (0). Pick the level by role, not by eye.
 
 - Default is flat. Most surfaces in a layout have no shadow; separate them with space, a divider or a subtle fill first. **[proposed]**
 - A child surface (submenu spawned from a menu) sits one level above its parent.
+- Submenu geometry: the child overlaps the parent menu by 8px on the side it opens toward (flipping when there is no room), its first item sits level with the row that opened it, and that parent row shows its active state while the submenu is open.
 - Stacking (matches the webapp scale): `--z-sidebar` 100, `--z-modal` 1050, `--z-confirm-modal` 1060, `--z-menu` 1100, `--z-popover` 1200, `--z-tooltip` 1350. Portaled menus (`Select`, `Combobox`, `DateRangePicker`) default to `--z-menu`, above modals. A confirm over another modal uses `--z-confirm-modal` via `ModalOverlay` `zIndex`. Don't invent z-index numbers.

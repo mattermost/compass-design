@@ -19,8 +19,10 @@ export interface RightSidebarProps {
   /**
    * When `end`, short body content sits on the bottom of the scroll viewport (e.g.
    * thread replies). Default `start` keeps content top-aligned (e.g. channel info).
+   * `stretch` gives the content a definite height equal to the body, so a child
+   * can fill it and center itself (e.g. an empty state); taller content still scrolls.
    */
-  alignBody?: 'start' | 'end';
+  alignBody?: 'start' | 'end' | 'stretch';
 }
 
 export default function RightSidebar({
@@ -42,6 +44,7 @@ export default function RightSidebar({
   const bodyClass = [
     styles['right-sidebar__body'],
     alignBody === 'end' ? styles['right-sidebar__body--align-end'] : '',
+    alignBody === 'stretch' ? styles['right-sidebar__body--stretch'] : '',
   ]
     .filter(Boolean)
     .join(' ');
