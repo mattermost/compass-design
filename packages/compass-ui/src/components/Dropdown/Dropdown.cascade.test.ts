@@ -1,13 +1,13 @@
 // @vitest-environment node
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { Window } from 'happy-dom';
 import { describe, expect, it } from 'vitest';
 import * as sass from 'sass';
 
 const srcDir = path.resolve(
-  path.dirname(new URL(import.meta.url).pathname),
+  path.dirname(fileURLToPath(import.meta.url)),
   '../..',
 );
 
