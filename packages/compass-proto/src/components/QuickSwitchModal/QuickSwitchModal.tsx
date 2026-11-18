@@ -399,6 +399,19 @@ function QuickSwitchPanel({
                           tabIndex={-1}
                           aria-selected={index === active}
                           label={item.label ?? item.name}
+                          // The emoji sits in the (hidden) leading slot, so
+                          // the accessible name carries it.
+                          aria-label={
+                            item.leadingEmoji && !item.label
+                              ? [
+                                  item.leadingEmoji,
+                                  item.name,
+                                  item.secondaryLabel,
+                                ]
+                                  .filter(Boolean)
+                                  .join(' ')
+                              : undefined
+                          }
                           className={styles['quick-switch-modal__option']}
                           secondaryLabel={item.secondaryLabel}
                           secondaryLabelPosition="inline"

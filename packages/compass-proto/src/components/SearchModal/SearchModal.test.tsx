@@ -320,6 +320,28 @@ describe('modes: while typing', () => {
     expect(options()).toHaveLength(0);
   });
 
+  it('shows a channel emoji in place of the globe and finds the channel by it or its full name', () => {
+    open({
+      data: {
+        ...data,
+        unreadChannels: [
+          {
+            id: 'incident',
+            name: 'Incident Status Updates',
+            leadingEmoji: '🚨',
+          },
+        ],
+      },
+    });
+    expect(document.body.textContent).toContain('🚨');
+    type('🚨');
+    expect(document.body.textContent).toContain('Incident Status Updates');
+    type('🚨 incident status');
+    expect(document.body.textContent).toContain('Incident Status Updates');
+    type('zzzz');
+    expect(document.body.textContent).toContain('No results found');
+  });
+
   it('Channels: flattens into one list of matches', () => {
     open({ initialMode: 'channels' });
     type('crit');
