@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.33] - 2026-11-18
+
 ### Changed
 
 - **`Dropdown` renders its own button:** the trigger no longer composes Compass `Button` (it was a quaternary medium button, so Button's padding and link-coloured hover won when that stylesheet loaded later). It is a `<button type="button">` with Dropdown's own padding, hover, active, focus and disabled styles. `--button-fg` overrides and the rule that flattened Button's label wrapper are gone. Default markup changes: Button's classes and the `button__label` span are no longer on the trigger. Props are unchanged (`size`, `padding`, `appearance`, `isOpen`, `leadingIcon`, `disabled`, and button attributes including `aria-*`).
@@ -606,7 +608,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.33...HEAD
+[0.1.0-alpha.33]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...0.1.0-alpha.33
 [0.1.0-alpha.32]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.31...0.1.0-alpha.32
 [0.1.0-alpha.31]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.30...0.1.0-alpha.31
 [0.1.0-alpha.30]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.29...0.1.0-alpha.30
