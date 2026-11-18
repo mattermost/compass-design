@@ -6,13 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`Dropdown` renders its own button:** the trigger no longer composes Compass `Button` (it was a quaternary medium button, so Button's padding and link-coloured hover won when that stylesheet loaded later). It is a `<button type="button">` with Dropdown's own padding, hover, active, focus and disabled styles. `--button-fg` overrides and the rule that flattened Button's label wrapper are gone. Default markup changes: Button's classes and the `button__label` span are no longer on the trigger. Props are unchanged (`size`, `padding`, `appearance`, `isOpen`, `leadingIcon`, `disabled`, and button attributes including `aria-*`).
+
 ### Fixed
 
 - **Text at 72% opacity in `ThreadListItem`, `ThreadFooter` and `MessageActions`:** the `ThreadListItem` timestamp and reply count, the `ThreadFooter` last-reply text and the `MessageActions` button text were the center channel color at 64% opacity; they are 72%, the floor for text.
 - **`MessageHeader` timestamp color:** the timestamp is the center channel color at 72% opacity (it was 56%), matching the design and the text opacity floor.
 - **`MessageSeparator` reply count color:** the `reply-count` label is the center channel color at 72% opacity (it was the full center channel color), matching the design. The line is unchanged.
 - **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the mention badge uses the small size, a 14px circle nudged into the gutter's corner, so it no longer sits against the author name. The row's layout is otherwise unchanged.
-- **`Dropdown` padding and default hover:** `Dropdown` renders a quaternary medium `Button`, so both class sets sit on the trigger. Size padding tied `.button--size-medium`, and the default hover and active wash tied quaternary's link-coloured background, so a later Button stylesheet painted Button's padding and the link wash. Those rules now repeat the dropdown class the same way `--button-fg` and inverted hover already do, and they win whichever sheet loads last. Markup is unchanged.
 
 ### Added
 
