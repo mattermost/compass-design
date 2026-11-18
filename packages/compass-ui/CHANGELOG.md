@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`Dropdown` renders its own button:** the trigger no longer composes Compass `Button` (it was a quaternary medium button, so Button's padding and link-coloured hover won when that stylesheet loaded later). It is a `<button type="button">` with Dropdown's own padding, hover, active, focus and disabled styles. `--button-fg` overrides and the rule that flattened Button's label wrapper are gone. Default markup changes: Button's classes and the `button__label` span are no longer on the trigger. Props are unchanged (`size`, `padding`, `appearance`, `isOpen`, `leadingIcon`, `disabled`, and button attributes including `aria-*`).
+
 ### Fixed
 
 - **Text at 72% opacity in `ThreadListItem`, `ThreadFooter` and `MessageActions`:** the `ThreadListItem` timestamp and reply count, the `ThreadFooter` last-reply text and the `MessageActions` button text were the center channel color at 64% opacity; they are 72%, the floor for text.

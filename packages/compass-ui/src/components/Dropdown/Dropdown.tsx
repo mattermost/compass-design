@@ -1,5 +1,4 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import Button from '@/components/Button/Button';
 import { toKebab } from '@/utils/string';
 import Icon from '@/components/Icon/Icon';
 import { IconSlotContext } from '@/components/Icon/Icon';
@@ -65,10 +64,8 @@ export default function Dropdown({
     .join(' ');
 
   return (
-    <Button
+    <button
       className={rootClass}
-      emphasis="quaternary"
-      size="medium"
       type={type}
       disabled={disabled}
       aria-expanded={isOpen}
@@ -90,6 +87,6 @@ export default function Dropdown({
           <Icon size="12" glyph={<ChevronDownIcon />} />
         </span>
       </span>
-    </Button>
+    </button>
   );
 }
