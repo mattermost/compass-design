@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { MessageInput } from '@mattermost/compass-proto';
 import {
+  MessageInput,
   SuggestionList,
   useSuggestionList,
   type SuggestionOption,
-} from '@mattermost/compass-ui/components/suggestion-list';
+} from '@mattermost/compass-proto';
 import { Button } from '@mattermost/compass-ui/components/button';
 import styles from '@/styles/library-demo/patterns.module.scss';
 

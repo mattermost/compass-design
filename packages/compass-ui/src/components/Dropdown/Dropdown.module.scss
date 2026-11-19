@@ -18,14 +18,6 @@
   min-width: 0;
   max-width: 100%;
 
-  // Button owns label/icon colour via `--button-fg` (quaternary defaults to the
-  // link colour), so set that, not just `color`. Tripled class so it beats
-  // Button's emphasis and disabled rules (both 0,2,0) whichever stylesheet
-  // loads last; disabled is dimmed by `opacity` below, not by Button's colour.
-  &#{&}#{&} {
-    --button-fg: var(--center-channel-color);
-  }
-
   &:hover:not(:disabled),
   &:active:not(:disabled) {
     transition: background-color var(--duration-quick) var(--ease-transition);
@@ -47,14 +39,6 @@
   // ---------------------------------------------------------------------------
   // Elements
   // ---------------------------------------------------------------------------
-
-  // Button's label wrapper (a CSS-module hashed class, so match it by position)
-  // is display: contents; label and chevron sit in `__trigger` so Button
-  // icon-slot `gap` does not sit between them (Figma label–chevron). Without
-  // this the wrapper is a non-shrinking flex item that defeats truncation.
-  > span {
-    display: contents;
-  }
 
   &__trigger {
     display: inline-flex;
@@ -290,8 +274,7 @@
   // ---------------------------------------------------------------------------
   // Appearance: Inverted (dark background)
   // ---------------------------------------------------------------------------
-  &--appearance-inverted#{&}#{&} {
-    --button-fg: var(--sidebar-text);
+  &--appearance-inverted {
     color: var(--sidebar-text);
 
     &:hover:not(:disabled) {

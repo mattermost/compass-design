@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/compass-ui",
-  "version": "0.1.0-alpha.32",
+  "version": "0.1.0-alpha.33",
   "description": "Compass design system UI components for Mattermost products",
   "repository": {
     "type": "git",
@@ -290,9 +290,6 @@
       ],
       "components/status-badge": [
         "./dist/components/status-badge/index.d.ts"
-      ],
-      "components/suggestion-list": [
-        "./dist/components/suggestion-list/index.d.ts"
       ],
       "components/switch": [
         "./dist/components/switch/index.d.ts"

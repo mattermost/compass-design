@@ -1,10 +1,9 @@
 import { forwardRef, useEffect } from 'react';
 import type { HTMLAttributes } from 'react';
-import MenuItem from '@/components/MenuItem/MenuItem';
-import MenuGroupHeading from '@/components/MenuGroupHeading/MenuGroupHeading';
-import Scrollbar from '@/components/Scrollbar/Scrollbar';
-import { mergeMenuItemProps } from '@/utils/menuItemProps';
-import { mergeClassNames } from '@/utils/props';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import { MenuGroupHeading } from '@mattermost/compass-ui/components/menu-group-heading';
+import { Scrollbar } from '@mattermost/compass-ui/components/scrollbar';
+import { mergeClassNames, mergeMenuItemProps } from './menuItemProps';
 import {
   toSuggestionSections,
   type SuggestionOption,

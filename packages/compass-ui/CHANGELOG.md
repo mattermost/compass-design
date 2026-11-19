@@ -6,20 +6,35 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Changed
+
+- **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto`:** they were added after `0.1.0-alpha.32` and never published from this package, so there is nothing to migrate. The `components/suggestion-list` subpath and root exports are not in any compass-ui release.
+
+### Added
+
+- **`DateRangePicker` `clearable`, `clearLabel` and `clearButtonProps` ([#284](https://github.com/mattermost/compass-design/issues/284)):** set `clearable` to show a clear button once a date (or range) is set. It calls `onChange('')` in single mode and `onRangeChange('', '')` in range mode, and returns focus to the field. `clearLabel` (default `'Clear'`) names the button; `clearButtonProps` passes attributes to it. Off by default, so default markup is unchanged.
+
+### Fixed
+
+- **`DateRangePicker` opens on the selected month ([#284](https://github.com/mattermost/compass-design/issues/284)):** the calendar now opens on the month of the selected date, or of the range start, instead of always today's month. With no value it still opens on today. No markup change.
+
+## [0.1.0-alpha.33] - 2026-11-18
+
+### Changed
+
+- **`Dropdown` renders its own button:** the trigger no longer composes Compass `Button` (it was a quaternary medium button, so Button's padding and link-coloured hover won when that stylesheet loaded later). It is a `<button type="button">` with Dropdown's own padding, hover, active, focus and disabled styles. `--button-fg` overrides and the rule that flattened Button's label wrapper are gone. Default markup changes: Button's classes and the `button__label` span are no longer on the trigger. Props are unchanged (`size`, `padding`, `appearance`, `isOpen`, `leadingIcon`, `disabled`, and button attributes including `aria-*`).
+
 ### Fixed
 
 - **Text at 72% opacity in `ThreadListItem`, `ThreadFooter` and `MessageActions`:** the `ThreadListItem` timestamp and reply count, the `ThreadFooter` last-reply text and the `MessageActions` button text were the center channel color at 64% opacity; they are 72%, the floor for text.
 - **`MessageHeader` timestamp color:** the timestamp is the center channel color at 72% opacity (it was 56%), matching the design and the text opacity floor.
 - **`MessageSeparator` reply count color:** the `reply-count` label is the center channel color at 72% opacity (it was the full center channel color), matching the design. The line is unchanged.
 - **`ThreadListItem` long channel labels and the mention badge:** a long `channelLabel` now shortens with an ellipsis instead of running into the timestamp (the row keeps a gap between the two), and the mention badge uses the small size, a 14px circle nudged into the gutter's corner, so it no longer sits against the author name. The row's layout is otherwise unchanged.
-- **`DateRangePicker` opens on the selected month ([#284](https://github.com/mattermost/compass-design/issues/284)):** the calendar now opens on the month of the selected date, or of the range start, instead of always today's month. With no value it still opens on today. No markup change.
 
 ### Added
 
 - **`useAnchoredPopupPortal` `side` option and virtual anchors ([#258](https://github.com/mattermost/compass-design/issues/258)):** `side` (`auto` default, `above`, `below`) opens the popup on one side and never flips it, so it stays put as the page scrolls (a suggestion list above a composer); `maxHeight` is then the room on that side. The anchor ref now accepts any object with `getBoundingClientRect` (exported type `AnchoredPopupAnchor`), so a popup can be placed against a box that is not an element, such as a character inside a textarea. `Select`, `Combobox` and `DateRangePicker` behave as before.
 - **`MessageActions` `jumpButtonProps`:** extra attributes for the Jump button in the `search-results` toolbar (typically `onClick` to open the message in its channel, or `data-testid`); `className` is merged and `aria-label` / `type` still win. Default markup is unchanged. Part of #264.
-- **`SuggestionList` and `useSuggestionList` ([#258](https://github.com/mattermost/compass-design/issues/258)):** the autocomplete surface for a composer (`@mention`, `~channel`, `:emoji:`, `/slash`). `SuggestionList` is a `role="listbox"` of `MenuItem` rows: each `SuggestionOption` takes `value`, `label` and `secondaryLabel` (translated nodes), a `leadingVisual` (a 24px `UserAvatar` with `status`, a `TeamAvatar` or an `Icon`), a `trailingLabel` such as "Not in channel", `disabled` and `menuItemProps`. Pass `options`, or `sections` with an optional `heading` per group. `activeValue` highlights a row and `onSelect` fires on click; the pointer moves the highlight through `onActiveValueChange`. `listboxLabel` (default "Suggestions") names the listbox, `maxHeight` caps the scroll region, and rest props and a `ref` go on the root. Focus never leaves the text field: `useSuggestionList` returns `inputProps` (`role="combobox"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`), an `onKeyDown` and `listProps`. Arrow keys move through enabled rows (wrapping unless `loop={false}`), Enter and Tab accept (`selectKeys`), and Escape calls `onClose` and `preventDefault()`. Keys are left alone while closed, with a modifier (so Shift+Enter still adds a line), during IME composition, or when `defaultPrevented`. The first enabled row is active whenever the options change. The list fills its container up to a 480px max width. Open state, the query and positioning stay with the host. Nothing changes for existing components.
-- **`DateRangePicker` `clearable`, `clearLabel` and `clearButtonProps` ([#284](https://github.com/mattermost/compass-design/issues/284)):** set `clearable` to show a clear button once a date (or range) is set. It calls `onChange('')` in single mode and `onRangeChange('', '')` in range mode, and returns focus to the field. `clearLabel` (default `'Clear'`) names the button; `clearButtonProps` passes attributes to it. Off by default, so default markup is unchanged.
 
 ## [0.1.0-alpha.32] - 2026-11-13
 
@@ -604,7 +619,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.33...HEAD
+[0.1.0-alpha.33]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...0.1.0-alpha.33
 [0.1.0-alpha.32]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.31...0.1.0-alpha.32
 [0.1.0-alpha.31]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.30...0.1.0-alpha.31
 [0.1.0-alpha.30]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.29...0.1.0-alpha.30

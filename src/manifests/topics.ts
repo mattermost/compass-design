@@ -599,14 +599,14 @@ export const TOPICS: Topic[] = [
   {
     slug: 'suggestion-list',
     name: 'Suggestion List',
-    category: 'components',
+    category: 'patterns',
     description:
       'Autocomplete listbox for a composer: @mention, ~channel, :emoji: and /slash rows with avatar, status and grouped headings.',
     status: 'beta',
     guidelinePage: () =>
-      import('@/guidelines/components/suggestion-list/suggestion-list.guideline.mdx'),
+      import('@/guidelines/patterns/suggestion-list/suggestion-list.guideline.mdx'),
     specimenPage: () =>
-      import('@/guidelines/components/suggestion-list/suggestion-list.specimen'),
+      import('@/guidelines/patterns/suggestion-list/suggestion-list.specimen'),
   },
   {
     slug: 'menu-item',

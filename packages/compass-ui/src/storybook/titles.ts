@@ -88,8 +88,6 @@ export const TITLE_CARDS_LINK_PREVIEW =
 export const TITLE_CARDS_PERMALINK_PREVIEW =
   'Components/Cards and Previews/Permalink Preview';
 
-export const TITLE_MESSAGING_SUGGESTION_LIST =
-  'Components/Messaging/Suggestion List';
 export const TITLE_MESSAGING_THREAD_FOOTER =
   'Components/Messaging/Thread Footer';
 
