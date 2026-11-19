@@ -78,6 +78,25 @@ Every submenu (a `PopoverMenu` opened from a menu row with a chevron) follows th
 
 Prefer design tokens from `src/styles/tokens.scss` over hardcoded px/hex/ms. Full BEM, tokens, motion, opacity, and Scrollbars rules load when editing styles — see the styling rule pair below.
 
+## Responding to review bots (CodeRabbit, Bugbot)
+
+Before fixing any finding, verify it against the code: read the callee, check whether the behavior is already handled, and confirm the PR's diff introduces or worsens it.
+
+- Fix a **Critical** or **Major** finding once you have confirmed it is real. If it is wrong, or the diff neither introduces nor worsens it, reply with the reason instead. Don't dismiss a finding only because the underlying failure predates the PR: if the diff makes it worse, it counts.
+- Fix a **Minor** finding only if it is a defect someone would hit: wrong behavior, a security or privacy gap, data loss, a crash or hang, a realistic race, a flaky or falsely passing test, a docs command that fails, a wrong fact, or a control unusable by keyboard or screen reader.
+- For any other Minor finding (wording, typos, qualifying accurate text, extra assertions, defensive checks for inputs that won't occur, refactors), do not change code. Reply once: "Skipping: nit, no user impact."
+- Batch all review fixes into one commit per review round.
+- Never argue with the bot to create a learning; leave design disagreements for a human.
+
+CodeRabbit commands:
+
+| Situation                                             | Command                                                                       |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------- |
+| A notice says "Reviews paused"                        | `@coderabbitai resume`                                                        |
+| New commits, not paused, no review after 20 minutes   | `@coderabbitai review`                                                        |
+| Findings fixed, but CodeRabbit still requests changes | `@coderabbitai resolve`                                                       |
+| A rate-limit notice                                   | `@coderabbitai rate limit`, then `@coderabbitai review` once capacity returns |
+
 ## Area-specific guidance
 
 - [src/guidelines/AGENTS.md](src/guidelines/AGENTS.md) — Docs guidelines, specimens, MDX
