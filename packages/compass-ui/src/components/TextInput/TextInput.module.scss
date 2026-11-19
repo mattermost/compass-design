@@ -56,8 +56,10 @@
       box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
     }
 
-    .text-input:has(.text-input__input:focus-visible):not(
-        .text-input--read-only
+    // A read-only input left out of the tab order shows no ring; one a caller
+    // makes tabbable keeps it.
+    .text-input:has(
+        .text-input__input:focus-visible:not([readonly][tabindex='-1'])
       )
       & {
       box-shadow:
@@ -299,7 +301,7 @@
     }
   }
 
-  &:has(.text-input__input:focus-visible):not(.text-input--read-only)
+  &:has(.text-input__input:focus-visible:not([readonly][tabindex='-1']))
     .text-input__label {
     color: var(--button-bg);
   }
@@ -315,8 +317,9 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Read-only modifier — locked value: tinted fill, dimmed text, no hover,
-  // focus ring or caret.
+  // Read-only modifier — locked value: tinted fill, dimmed text, no hover or
+  // caret. The focus ring is dropped above while the input is out of the tab
+  // order (the default for read-only).
   // ---------------------------------------------------------------------------
   &--read-only {
     .text-input__wrapper,
@@ -343,7 +346,8 @@
       box-shadow: inset 0 0 0 1px var(--error-text, var(--color-danger));
     }
 
-    &:has(.text-input__input:focus-visible) .text-input__wrapper {
+    &:has(.text-input__input:focus-visible:not([readonly][tabindex='-1']))
+      .text-input__wrapper {
       box-shadow:
         inset 0 0 0 1px var(--error-text, var(--color-danger)),
         0 0 0 1px var(--error-text, var(--color-danger));
@@ -353,7 +357,9 @@
       color: var(--error-text, var(--color-danger));
     }
 
-    &:has(.text-input__input:focus-visible) .text-input__label {
+    // Same selector shape as the base focused-label rule so this one wins.
+    &:has(.text-input__input:focus-visible:not([readonly][tabindex='-1']))
+      .text-input__label {
       color: var(--error-text, var(--color-danger));
     }
   }
