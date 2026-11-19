@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit configuration for compass-design.
+# Rules here mirror AGENTS.md; keep them in sync when that file changes.
+
+# Inherit org-level settings (tuning, tone, defaults) and layer repo settings on top.
+inheritance: true
+
+reviews:
+  path_filters:
+    - "!package-lock.json"
+    - "!**/dist/**"
+
+  path_instructions:
+    - path: "src/guidelines/**"
+      instructions: |
+        Docs for foundations, components, patterns, and layouts. Every new or promoted
+        topic needs all of: a `<slug>.guideline.mdx`, a `<slug>.specimen.tsx` showing real
+        states and variants, a `Topic` in `src/manifests/topics.ts` (with both
+        `guidelinePage` and `specimenPage`), and a slug in `src/manifests/sections.ts`
+        where a sidebar group fits. Flag a PR that adds a topic without these, unless the
+        PR body explains the partial slice.
+
+    - path: "src/components/**"
+      instructions: |
+        - Reuse existing components before adding new sub-components (especially names
+          matching Figma).
+        - Variant prop values (`size`, `emphasis`, `appearance`, `type`, `padding`, ...)
+          must be lowercase kebab-case string literals (`'x-small'`, `'do-not-disturb'`);
+          flag Title Case values. Map to BEM modifiers with `toKebab()`.
+        - Check `src/hooks/` (`useExitAnimation`, `useOutsideClose`) before duplicating logic.
+        - Prefer design tokens over hardcoded px/hex/ms.
+
+    - path: "packages/compass-ui/**"
+      instructions: |
+        Published package consumed by the Mattermost webapp and plugins. Check against
+        the Component API contract in packages/compass-ui/AGENTS.md: backwards
+        compatibility, translatable text, label props, attribute pass-through, and refs.
+        New published components and foundations need a `*.stories.tsx` next to the source.
+        Version bumps follow .claude/rules/version-bumps.md.
+
+    - path: "packages/compass-proto/**"
+      instructions: |
+        Prototype composites. No Storybook required here. Prototype tooltip hosting
+        (`WithTooltip`) lives here, not in `Tooltip` or `IconButton`.
+
+    - path: "**/*.{tsx,ts,mdx}"
+      instructions: |
+        - Popover-style surfaces (menus, pickers, tooltips, EmojiPopover, TourPoint,
+          ProfilePopover, PopoverNotice) must be portaled out of the trigger's container
+          and positioned against the trigger. Flag in-flow popovers, `position: absolute`
+          inside the trigger wrapper, or containers that expand to hold one. Form widgets
+          (Combobox, Select, DateRangePicker) may own their own menu portal.
+        - An Escape that dismisses a portaled popover inside a Modal must call
+          `preventDefault()` so the Modal stays open.
+        - `Button` defaults to `emphasis="primary"`: at most one primary per view, every
+          other Button sets `emphasis` explicitly.
+        - `IconButton` takes `icon={<Icon glyph={<SomeIcon />} />}` with no `size`; wrap
+          desktop usages in `WithTooltip`; always set `aria-label`.
+        - Navigational CTAs use `Button`/`IconButton`/`TileButton` with `asChild` wrapping
+          `<a>` or a router `Link`, not `history.push` or `<Link><Button/></Link>`.
+        - Avatars should use a real image from `src/assets/avatars/` unless documenting
+          the fallback.
+
+    - path: "**/*.scss"
+      instructions: |
+        Follow .claude/rules/styling.md: BEM, design tokens from `src/styles/tokens.scss`
+        instead of hardcoded px/hex/ms, motion and opacity tokens, and scrollbar rules.
+
+    - path: "skills/**"
+      instructions: |
+        Agent skills and procedures. Check they stay consistent with AGENTS.md.
+
+    - path: "AGENTS.md"
+      instructions: |
+        Shared agent guidance. `CLAUDE.md` imports it, and the styling rule files in
+        `.claude/rules/` and `.cursor/rules/` must stay in sync. Flag drift.
