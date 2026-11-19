@@ -1,40 +1,31 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 #
 # CodeRabbit configuration for compass-design.
-# The rules themselves live in AGENTS.md and the rule files below, which CodeRabbit
-# reads as code guidelines. Keep this file to scoping and pointers; don't restate rules.
+# The rules themselves live in AGENTS.md; code guidelines are configured at the org level.
+# Keep this file to scoping and pointers; don't restate rules.
 
 # Inherit org-level settings (tuning, tone, defaults) and layer repo settings on top.
 inheritance: true
 
-knowledge_base:
-  code_guidelines:
-    enabled: true
-    filePatterns:
-      - "AGENTS.md"
-      - "**/AGENTS.md"
-      - ".claude/rules/*.md"
-      - ".cursor/rules/*.mdc"
-
 reviews:
   path_filters:
-    - "!package-lock.json"
-    - "!**/dist/**"
+    - '!package-lock.json'
+    - '!**/dist/**'
 
   path_instructions:
-    - path: "src/guidelines/**"
+    - path: 'src/guidelines/**'
       instructions: |
         Per AGENTS.md "Required docs", a new or promoted foundation, component, or
         pattern needs a guideline page, a specimen page, a Topic in
         `src/manifests/topics.ts`, and a sections slug where one fits. Flag any that
         are missing unless the PR body explains the partial slice.
 
-    - path: "packages/compass-ui/**"
+    - path: 'packages/compass-ui/**'
       instructions: |
         Review against the Component API contract in packages/compass-ui/AGENTS.md.
         New published components and foundations need a `*.stories.tsx`.
 
-    - path: "**/*.{tsx,ts,mdx}"
+    - path: '**/*.{tsx,ts,mdx}'
       instructions: |
         Apply the AGENTS.md "Popovers always portal" and "Variant prop string values"
         rules. Flag in-flow popovers and Title Case variant prop values.
