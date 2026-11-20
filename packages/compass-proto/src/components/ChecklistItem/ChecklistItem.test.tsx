@@ -60,6 +60,12 @@ describe('ChecklistItem', () => {
     expect(root.className).toContain('host');
   });
 
+  it('keeps the checkbox control from stretching across the row', () => {
+    const { container } = render(<ChecklistItem item={baseItem} />);
+    const checkbox = container.querySelector('label');
+    expect(checkbox?.className).toMatch(/checklist-item__checkbox/);
+  });
+
   it('renders edit fields when editing', () => {
     const onSave = vi.fn();
     const { container } = render(

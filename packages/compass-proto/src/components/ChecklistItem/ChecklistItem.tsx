@@ -129,6 +129,7 @@ export default function ChecklistItem({
           </WithTooltip>
         )}
         <Checkbox
+          className={styles['checklist-item__checkbox']}
           size="medium"
           checked={checked}
           disabled={readOnly || skipped || editing}

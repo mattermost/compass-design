@@ -26,6 +26,13 @@
     cursor: grab;
   }
 
+  // Checkbox's label root defaults to width: 100%; hug the box when the
+  // title is a sibling, not Checkbox children.
+  &__checkbox {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
   &__body {
     display: flex;
     flex: 1 1 auto;
