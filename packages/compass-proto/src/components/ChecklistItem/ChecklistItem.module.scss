@@ -6,6 +6,11 @@
   padding: var(--spacing-xs) var(--spacing-s);
   box-sizing: border-box;
 
+  // Extra left pad so the hover drag handle sits in the gutter, not the row flow.
+  &--with-drag {
+    padding-left: calc(var(--spacing-s) + var(--icon-size-16));
+  }
+
   &:hover,
   &:focus-within {
     background-color: color-mix(
@@ -36,6 +41,7 @@
   &:focus-within &__drag,
   &--menu-open &__drag {
     opacity: 1;
+    pointer-events: auto;
   }
 
   // Same chrome as Message Actions: elevated surface of compact Icon Buttons.
@@ -72,16 +78,21 @@
   }
 
   &__drag {
+    position: absolute;
+    // Sit in the left padding gutter, aligned with the checkbox first line.
+    top: calc(
+      var(--spacing-xs) + (var(--line-height-100) - var(--icon-size-16)) / 2
+    );
+    left: var(--spacing-s);
     display: inline-flex;
-    flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    // Match Checkbox medium first-line centering (16px icon in 20px line).
-    margin-top: calc((var(--line-height-100) - var(--icon-size-16)) / 2);
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
     color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
     cursor: grab;
-    // Keep layout space; reveal with the row like the actions toolbar.
     opacity: 0;
+    pointer-events: none;
     transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
@@ -185,11 +196,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-xxs);
-    // Align under the title: drag + checkbox + gaps.
-    padding-left: calc(
-      var(--icon-size-16) + var(--spacing-xs) + var(--icon-size-16) +
-        var(--spacing-xs)
-    );
+    // Align under the title: checkbox + gap (drag lives in the left padding).
+    padding-left: calc(var(--icon-size-16) + var(--spacing-xs));
   }
 
   &--closed {

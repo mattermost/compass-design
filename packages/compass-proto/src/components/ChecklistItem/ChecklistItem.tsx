@@ -372,12 +372,15 @@ export default function ChecklistItem({
     !editing &&
     Boolean(onEdit || onAssign || onDueDate || hasMoreMenu);
 
+  const showDrag = showDragHandle && !readOnly;
+
   const rootClass = [
     styles['checklist-item'],
     checked && styles['checklist-item--closed'],
     skipped && styles['checklist-item--skipped'],
     editing && styles['checklist-item--editing'],
     menuOpen && styles['checklist-item--menu-open'],
+    showDrag && styles['checklist-item--with-drag'],
     className,
   ]
     .filter(Boolean)
@@ -478,12 +481,12 @@ export default function ChecklistItem({
       )}
 
       <div className={styles['checklist-item__row']}>
-        {showDragHandle && !readOnly && (
-          <WithTooltip label={dragHandleLabel}>
-            <span
-              className={styles['checklist-item__drag']}
-              aria-hidden={editing || undefined}
-            >
+        {showDrag && (
+          <WithTooltip
+            label={dragHandleLabel}
+            className={styles['checklist-item__drag']}
+          >
+            <span aria-hidden={editing || undefined}>
               <Icon size="16" glyph={<DragVerticalIcon />} />
             </span>
           </WithTooltip>
@@ -499,7 +502,6 @@ export default function ChecklistItem({
         />
         <div className={styles['checklist-item__body']}>
           {editing ? (
-            // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- focusout commits the inline edit
             <div
               ref={editRootRef}
               className={styles['checklist-item__edit']}
@@ -509,6 +511,7 @@ export default function ChecklistItem({
                 ref={titleEditRef}
                 id={titleId}
                 role="textbox"
+                tabIndex={0}
                 aria-label={titleInputPlaceholder}
                 contentEditable
                 suppressContentEditableWarning
@@ -523,6 +526,7 @@ export default function ChecklistItem({
               <div
                 ref={descriptionEditRef}
                 role="textbox"
+                tabIndex={0}
                 aria-multiline="true"
                 aria-label={descriptionInputPlaceholder}
                 contentEditable
