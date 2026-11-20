@@ -316,34 +316,85 @@
   }
 
   // ── Tour Point demo ─────────────────────────────────────────
+  // Each variant gets its own tip-staged surface so the zero-size tip-anchored
+  // root can open the panel inside the stage (panel max 352×~240).
   &__tour-point-demo {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
     gap: var(--spacing-xl);
     align-items: start;
-    padding: var(--spacing-xl);
-    background-color: rgba(var(--center-channel-color-rgb), 0.04);
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
-    border-radius: var(--radius-m);
-
-    .patterns__variant-label {
-      margin-bottom: var(--spacing-xs);
-    }
   }
 
   &__tour-point-demo-cell {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xs);
+    min-width: 0;
   }
 
-  &__tour-point-single-demo {
-    display: flex;
-    justify-content: center;
-    padding: var(--spacing-xl);
+  &__tour-point-stage {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 420px;
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     border-radius: var(--radius-m);
+  }
+
+  &__tour-point-tip {
+    position: absolute;
+  }
+
+  // Tip sits so the open panel (and pointer) stay inside the stage.
+  &__tour-point-tip--top-center {
+    left: 50%;
+    top: var(--spacing-xxxxxl);
+  }
+
+  &__tour-point-tip--top-left {
+    left: var(--spacing-xxxxxl);
+    top: var(--spacing-xxxxxl);
+  }
+
+  &__tour-point-tip--top-right {
+    left: calc(100% - var(--spacing-xxxxxl));
+    top: var(--spacing-xxxxxl);
+  }
+
+  &__tour-point-tip--bottom-center {
+    left: 50%;
+    top: calc(100% - var(--spacing-xxxxxl));
+  }
+
+  &__tour-point-tip--bottom-left {
+    left: var(--spacing-xxxxxl);
+    top: calc(100% - var(--spacing-xxxxxl));
+  }
+
+  &__tour-point-tip--bottom-right {
+    left: calc(100% - var(--spacing-xxxxxl));
+    top: calc(100% - var(--spacing-xxxxxl));
+  }
+
+  &__tour-point-tip--left-center {
+    left: var(--spacing-xxxxxl);
+    top: 50%;
+  }
+
+  &__tour-point-tip--right-center {
+    left: calc(100% - var(--spacing-xxxxxl));
+    top: 50%;
+  }
+
+  // pointerPosition="none" — panel grows down/right from the tip.
+  &__tour-point-tip--none {
+    left: calc(50% - 176px);
+    top: calc(50% - 120px);
+  }
+
+  &__tour-point-single-demo {
+    max-width: 480px;
   }
 }
 

@@ -22,33 +22,60 @@ function labelFor(position: TourPointPointerPosition) {
     .join(' ');
 }
 
-/** Places the tip origin at the stage center so open ↔ closed stays put. */
+const TIP_INSET = 48;
+
+/** Tip placement so the open panel stays inside the stage for each pointer. */
+function tipStyle(
+  pointerPosition: TourPointPointerPosition | 'none' = 'top-center',
+): CSSProperties {
+  switch (pointerPosition) {
+    case 'top-left':
+      return { left: TIP_INSET, top: TIP_INSET };
+    case 'top-right':
+      return { left: `calc(100% - ${TIP_INSET}px)`, top: TIP_INSET };
+    case 'bottom-center':
+      return { left: '50%', top: `calc(100% - ${TIP_INSET}px)` };
+    case 'bottom-left':
+      return { left: TIP_INSET, top: `calc(100% - ${TIP_INSET}px)` };
+    case 'bottom-right':
+      return {
+        left: `calc(100% - ${TIP_INSET}px)`,
+        top: `calc(100% - ${TIP_INSET}px)`,
+      };
+    case 'left-center':
+      return { left: TIP_INSET, top: '50%' };
+    case 'right-center':
+      return { left: `calc(100% - ${TIP_INSET}px)`, top: '50%' };
+    case 'none':
+      return { left: 'calc(50% - 176px)', top: 'calc(50% - 120px)' };
+    case 'top-center':
+    default:
+      return { left: '50%', top: TIP_INSET };
+  }
+}
+
+/** Per-example stage; tip origin placed so the open card stays in bounds. */
 function TourStage({
   children,
   style,
+  pointerPosition = 'top-center',
 }: {
   children: ReactNode;
   style?: CSSProperties;
+  pointerPosition?: TourPointPointerPosition | 'none';
 }) {
   return (
     <div
       style={{
         position: 'relative',
-        minHeight: 320,
-        padding: 96,
+        minHeight: 420,
         background:
           'color-mix(in srgb, var(--center-channel-color) 4%, transparent)',
         borderRadius: 'var(--radius-m)',
         ...style,
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-        }}
-      >
+      <div style={{ position: 'absolute', ...tipStyle(pointerPosition) }}>
         {children}
       </div>
     </div>
@@ -81,7 +108,7 @@ export const Default: Story = {
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel orci id urna facilisis luctus.',
   },
   render: (args) => (
-    <TourStage>
+    <TourStage pointerPosition={args.pointerPosition ?? 'top-center'}>
       <TourPoint {...args} />
     </TourStage>
   ),
@@ -91,7 +118,7 @@ export const ClosedPulsingDot: Story = {
   parameters: { controls: { disable: true } },
   render: function ClosedPulsingDotStory() {
     return (
-      <TourStage>
+      <TourStage pointerPosition="top-center">
         <TourPoint
           title="Welcome to channels"
           pointerPosition="top-center"
@@ -110,7 +137,7 @@ export const OpenAndClose: Story = {
   parameters: { controls: { disable: true } },
   render: function OpenAndCloseStory() {
     return (
-      <TourStage>
+      <TourStage pointerPosition="top-center">
         <TourPoint
           title="Collapse stays on the tip"
           pointerPosition="top-center"
@@ -154,7 +181,7 @@ export const MultiStep: Story = {
     };
 
     return (
-      <TourStage>
+      <TourStage pointerPosition="top-center">
         <TourPoint
           title={steps[step].title}
           pointerPosition="top-center"
@@ -202,7 +229,7 @@ export const NoPointer: Story = {
       'Set pointerPosition to none when the card is shown without an on-canvas anchor.',
   },
   render: (args) => (
-    <TourStage>
+    <TourStage pointerPosition="none">
       <TourPoint {...args} />
     </TourStage>
   ),
@@ -225,7 +252,7 @@ export const AllVariants: Story = {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(440px, 1fr))',
             gap: 24,
           }}
         >
@@ -240,7 +267,7 @@ export const AllVariants: Story = {
               >
                 {labelFor(pointerPosition)}
               </p>
-              <TourStage style={{ minHeight: 280, padding: 72 }}>
+              <TourStage pointerPosition={pointerPosition}>
                 <TourPoint
                   title="Tour point title"
                   pointerPosition={pointerPosition}
@@ -266,7 +293,7 @@ export const AllVariants: Story = {
         >
           No pointer
         </h3>
-        <TourStage>
+        <TourStage pointerPosition="none" style={{ maxWidth: 480 }}>
           <TourPoint
             title="Standalone tour copy"
             pointerPosition="none"
