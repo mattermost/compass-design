@@ -57,7 +57,11 @@ export interface TourPointProps extends Omit<
   children: ReactNode;
   /** Optional image between body copy and footer (e.g. screenshot as an img). */
   media?: ReactNode;
-  /** Where the pointer sits on the card edge; omit or `none` to hide the pointer. */
+  /**
+   * Where the pointer sits on the card edge; omit or `none` to hide the pointer.
+   * The root’s `(0,0)` is the pointer tip — position the host anchor there so the
+   * pulsing tip stays fixed when the card opens or collapses.
+   */
   pointerPosition?: TourPointPointerPosition | 'none';
   /**
    * Animated marker at the arrow tip (Figma Pulsing Dot). Only applies when a
@@ -305,72 +309,76 @@ export default function TourPoint({
         </span>
       )}
 
-      <div className={panelClass}>
-        <div className={styles['tour-point__header']}>
-          <h2 className={styles['tour-point__title']}>{title}</h2>
-          {onClose && (
-            <IconButton
-              {...closeButtonProps}
-              className={mergeClassNames(
-                styles['tour-point__close'],
-                closeButtonProps?.className,
-              )}
-              aria-label={closeLabel}
-              size="small"
-              padding="compact"
-              style="default"
-              icon={<Icon size="16" glyph={<CloseIcon />} />}
-              onClick={() => requestDismiss(onClose, false)}
-            />
-          )}
-        </div>
-
-        <div className={styles['tour-point__body']}>
-          <div className={styles['tour-point__description']}>{children}</div>
-          {media != null && (
-            <div className={styles['tour-point__media']}>{media}</div>
-          )}
-        </div>
-
-        {showFooter && (
-          <div className={styles['tour-point__footer']}>
-            {progress != null ? (
-              <PaginationDots
-                className={styles['tour-point__progress']}
-                pages={progress.pages}
-                activePage={progress.activePage}
-                dotStyle="on-primary"
-                onPageChange={progress.onPageChange}
-                label={progress.label}
-                formatPageLabel={progress.formatPageLabel}
-              />
-            ) : (
-              <span
-                className={styles['tour-point__footer-spacer']}
-                aria-hidden
+      <div className={styles['tour-point__anchor']}>
+        <div className={panelClass}>
+          <div className={styles['tour-point__header']}>
+            <h2 className={styles['tour-point__title']}>{title}</h2>
+            {onClose && (
+              <IconButton
+                {...closeButtonProps}
+                className={mergeClassNames(
+                  styles['tour-point__close'],
+                  closeButtonProps?.className,
+                )}
+                aria-label={closeLabel}
+                size="small"
+                padding="compact"
+                style="default"
+                icon={<Icon size="16" glyph={<CloseIcon />} />}
+                onClick={() => requestDismiss(onClose, false)}
               />
             )}
-
-            {primaryAction != null ? (
-              <div className={styles['tour-point__next-wrap']}>
-                <Button
-                  emphasis="primary"
-                  size="small"
-                  trailingIcon={<Icon size="16" glyph={<ChevronRightIcon />} />}
-                  disabled={primaryAction.disabled}
-                  loading={primaryAction.loading}
-                  onClick={
-                    primaryAction.onClick
-                      ? () => requestDismiss(primaryAction.onClick, true)
-                      : undefined
-                  }
-                >
-                  {primaryAction.label}
-                </Button>
-              </div>
-            ) : null}
           </div>
-        )}
+
+          <div className={styles['tour-point__body']}>
+            <div className={styles['tour-point__description']}>{children}</div>
+            {media != null && (
+              <div className={styles['tour-point__media']}>{media}</div>
+            )}
+          </div>
+
+          {showFooter && (
+            <div className={styles['tour-point__footer']}>
+              {progress != null ? (
+                <PaginationDots
+                  className={styles['tour-point__progress']}
+                  pages={progress.pages}
+                  activePage={progress.activePage}
+                  dotStyle="on-primary"
+                  onPageChange={progress.onPageChange}
+                  label={progress.label}
+                  formatPageLabel={progress.formatPageLabel}
+                />
+              ) : (
+                <span
+                  className={styles['tour-point__footer-spacer']}
+                  aria-hidden
+                />
+              )}
+
+              {primaryAction != null ? (
+                <div className={styles['tour-point__next-wrap']}>
+                  <Button
+                    emphasis="primary"
+                    size="small"
+                    trailingIcon={
+                      <Icon size="16" glyph={<ChevronRightIcon />} />
+                    }
+                    disabled={primaryAction.disabled}
+                    loading={primaryAction.loading}
+                    onClick={
+                      primaryAction.onClick
+                        ? () => requestDismiss(primaryAction.onClick, true)
+                        : undefined
+                    }
+                  >
+                    {primaryAction.label}
+                  </Button>
+                </div>
+              ) : null}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

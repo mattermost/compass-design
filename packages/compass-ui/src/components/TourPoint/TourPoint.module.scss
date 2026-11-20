@@ -22,27 +22,23 @@
 
 // ---------------------------------------------------------------------------
 // Block — Tour callout anchored to UI with directional pointer
+// Root (0,0) is the pointer tip so open ↔ closed keeps the pulsing dot fixed.
 // ---------------------------------------------------------------------------
 .tour-point {
   position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: stretch;
-  max-width: 352px;
-  min-width: 280px;
-
-  &--closed {
-    max-width: none;
-    min-width: 0;
-    width: 40px;
-    height: 40px;
-  }
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: top;
 
   // ---------------------------------------------------------------------------
-  // Closed pulsing-dot control
+  // Closed pulsing-dot control — centered on the tip origin
   // ---------------------------------------------------------------------------
   &__open {
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
     display: block;
     width: 40px;
     height: 40px;
@@ -53,12 +49,15 @@
     background: transparent;
     cursor: pointer;
     color: inherit;
+    transform: translate(-50%, -50%);
 
     .tour-point__pointer-pulse {
-      left: 50%;
-      top: 50%;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-top: calc(-1 * var(--spacing-xl));
+      inset: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
       pointer-events: none;
     }
 
@@ -134,13 +133,21 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Panel
+  // Panel positioner — places the card relative to the tip; panel only scales
   // ---------------------------------------------------------------------------
+  &__anchor {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+
   &__panel {
     position: relative;
-    z-index: 1;
     display: flex;
     flex-direction: column;
+    min-width: 280px;
+    max-width: 352px;
     border-radius: var(--radius-m);
     background-color: var(--button-bg);
     box-shadow: var(--elevation-4);
@@ -309,15 +316,15 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Pointer placement modifiers
+  // Pointer placement — tip of the triangle sits at root (0,0)
   // ---------------------------------------------------------------------------
   &--pointer-top-center {
     .tour-point__pointer {
-      top: -9px;
-      left: 50%;
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, 0);
     }
 
     .tour-point__pointer-triangle {
@@ -329,16 +336,22 @@
       top: 0;
       margin-left: calc(-1 * var(--spacing-xl));
       margin-top: calc(-1 * var(--spacing-xl));
+    }
+
+    .tour-point__anchor {
+      top: 9px;
+      left: 0;
+      transform: translateX(-50%);
     }
   }
 
   &--pointer-top-left {
     .tour-point__pointer {
-      top: -9px;
-      left: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, 0);
     }
 
     .tour-point__pointer-triangle {
@@ -350,16 +363,21 @@
       top: 0;
       margin-left: calc(-1 * var(--spacing-xl));
       margin-top: calc(-1 * var(--spacing-xl));
+    }
+
+    .tour-point__anchor {
+      top: 9px;
+      left: calc(-1 * var(--spacing-xl));
     }
   }
 
   &--pointer-top-right {
     .tour-point__pointer {
-      top: -9px;
-      right: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(50%);
+      transform: translate(-50%, 0);
     }
 
     .tour-point__pointer-triangle {
@@ -372,15 +390,21 @@
       margin-left: calc(-1 * var(--spacing-xl));
       margin-top: calc(-1 * var(--spacing-xl));
     }
+
+    .tour-point__anchor {
+      top: 9px;
+      left: var(--spacing-xl);
+      transform: translateX(-100%);
+    }
   }
 
   &--pointer-bottom-center {
     .tour-point__pointer {
-      bottom: -9px;
-      left: 50%;
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, -100%);
     }
 
     .tour-point__pointer-triangle {
@@ -392,16 +416,22 @@
       bottom: 0;
       margin-left: calc(-1 * var(--spacing-xl));
       margin-bottom: calc(-1 * var(--spacing-xl));
+    }
+
+    .tour-point__anchor {
+      top: -9px;
+      left: 0;
+      transform: translate(-50%, -100%);
     }
   }
 
   &--pointer-bottom-left {
     .tour-point__pointer {
-      bottom: -9px;
-      left: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, -100%);
     }
 
     .tour-point__pointer-triangle {
@@ -413,16 +443,22 @@
       bottom: 0;
       margin-left: calc(-1 * var(--spacing-xl));
       margin-bottom: calc(-1 * var(--spacing-xl));
+    }
+
+    .tour-point__anchor {
+      top: -9px;
+      left: calc(-1 * var(--spacing-xl));
+      transform: translateY(-100%);
     }
   }
 
   &--pointer-bottom-right {
     .tour-point__pointer {
-      bottom: -9px;
-      right: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(50%);
+      transform: translate(-50%, -100%);
     }
 
     .tour-point__pointer-triangle {
@@ -435,15 +471,21 @@
       margin-left: calc(-1 * var(--spacing-xl));
       margin-bottom: calc(-1 * var(--spacing-xl));
     }
+
+    .tour-point__anchor {
+      top: -9px;
+      left: var(--spacing-xl);
+      transform: translate(-100%, -100%);
+    }
   }
 
   &--pointer-left-center {
     .tour-point__pointer {
-      left: -9px;
-      top: 50%;
+      top: 0;
+      left: 0;
       width: 9px;
       height: 18px;
-      transform: translateY(-50%);
+      transform: translate(0, -50%);
     }
 
     .tour-point__pointer-triangle {
@@ -456,15 +498,21 @@
       margin-left: calc(-1 * var(--spacing-xl));
       margin-top: calc(-1 * var(--spacing-xl));
     }
+
+    .tour-point__anchor {
+      top: 0;
+      left: 9px;
+      transform: translateY(-50%);
+    }
   }
 
   &--pointer-right-center {
     .tour-point__pointer {
-      right: -9px;
-      top: 50%;
+      top: 0;
+      left: 0;
       width: 9px;
       height: 18px;
-      transform: translateY(-50%);
+      transform: translate(-100%, -50%);
     }
 
     .tour-point__pointer-triangle {
@@ -476,6 +524,12 @@
       top: 50%;
       margin-right: calc(-1 * var(--spacing-xl));
       margin-top: calc(-1 * var(--spacing-xl));
+    }
+
+    .tour-point__anchor {
+      top: 0;
+      left: -9px;
+      transform: translate(-100%, -50%);
     }
   }
 }
