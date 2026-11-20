@@ -17,9 +17,14 @@
   // Shrink to the host's space so a long label truncates instead of overflowing.
   // overflow: hidden is required for a flex-item <button> to honor min-width: 0
   // (otherwise the label's min-content keeps the button from shrinking).
+  // Start-align overrides the UA button text-align: center so a hard clip (when
+  // the host constrains width before the label ellipsizes) keeps the start of
+  // the name instead of cutting both ends.
   min-width: 0;
   max-width: 100%;
   overflow: hidden;
+  justify-content: flex-start;
+  text-align: start;
 
   &:hover:not(:disabled),
   &:active:not(:disabled) {
@@ -48,6 +53,7 @@
     // ellipsize; inline-flex alone sizes to nowrap text and never shrinks.
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     width: 100%;
     min-width: 0;
     max-width: 100%;
@@ -57,7 +63,7 @@
     display: inline-flex;
     align-items: center;
     min-width: 0;
-    flex-shrink: 1;
+    flex: 1 1 0%;
     overflow: hidden;
   }
 
@@ -74,6 +80,7 @@
     color: inherit;
     min-width: 0;
     overflow: hidden;
+    text-align: start;
     text-overflow: ellipsis;
   }
 

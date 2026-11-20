@@ -44,14 +44,17 @@ describe('Dropdown', () => {
   });
 
   // happy-dom does not resolve CSS-module computed styles on the button; assert
-  // the shrink path in source so a flex host can ellipsize a long label.
-  it('keeps overflow and a full-width flex trigger for host truncation', () => {
+  // the shrink path in source so a flex host can ellipsize a long label from the start.
+  it('keeps overflow, start alignment, and a full-width flex trigger for host truncation', () => {
     expect(dropdownScss).toMatch(/min-width:\s*0;/);
     expect(dropdownScss).toMatch(/max-width:\s*100%;/);
     expect(dropdownScss).toMatch(/overflow:\s*hidden;/);
+    expect(dropdownScss).toMatch(/justify-content:\s*flex-start;/);
+    expect(dropdownScss).toMatch(/text-align:\s*start;/);
     expect(dropdownScss).toMatch(
       /&__trigger\s*\{[^}]*display:\s*flex;[^}]*width:\s*100%;/s,
     );
+    expect(dropdownScss).toMatch(/&__content\s*\{[^}]*flex:\s*1 1 0%;/s);
     expect(dropdownScss).toMatch(
       /&__label\s*\{[^}]*text-overflow:\s*ellipsis;/s,
     );
