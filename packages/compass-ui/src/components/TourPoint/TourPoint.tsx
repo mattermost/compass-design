@@ -108,13 +108,16 @@ export interface TourPointProps extends Omit<
   openButtonProps?: BuiltInButtonProps;
   progress?: TourPointProgress;
   /**
-   * Primary footer action (`Next`, or `Done` on the last step of a series).
-   * Runs after the exit transition; uncontrolled retained hosts reopen afterward.
+   * Primary footer action (`Next`, or `Done` / `Got it` on a terminal tip).
+   * Runs after the exit transition. Uncontrolled retained hosts reopen only for a
+   * mid-series `Next` (`progress.pages > 1` and `activePage < pages`); terminal
+   * actions stay collapsed like close / Escape.
    */
   primaryAction?: TourPointAction;
   /**
    * Optional previous-step action for a series (`Previous`). Same exit-then-callback
-   * timing as `primaryAction`. Omit on the first step.
+   * timing as `primaryAction`; always reopens afterward (uncontrolled) so the prior
+   * tip can take focus. Omit on the first step.
    */
   secondaryAction?: TourPointAction;
   className?: string;
@@ -232,6 +235,12 @@ export default function TourPoint({
     pendingReopenRef.current = reopen;
     setOpen(false);
   };
+
+  // Mid-series Next only — Got it / Done / single tips stay collapsed.
+  const reopenAfterPrimary =
+    progress != null &&
+    progress.pages > 1 &&
+    progress.activePage < progress.pages;
 
   const showPointer = pointerPosition !== 'none';
   const pointerModifier =
@@ -415,7 +424,10 @@ export default function TourPoint({
                           onClick={
                             primaryAction.onClick
                               ? () =>
-                                  requestDismiss(primaryAction.onClick, true)
+                                  requestDismiss(
+                                    primaryAction.onClick,
+                                    reopenAfterPrimary,
+                                  )
                               : undefined
                           }
                         >

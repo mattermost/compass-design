@@ -188,7 +188,7 @@ describe('TourPoint exit dismiss', () => {
       return (
         <TourPoint
           title={titles[step]}
-          progress={{ pages: 2, activePage: step }}
+          progress={{ pages: 2, activePage: step + 1 }}
           primaryAction={{
             label: 'Next',
             onClick: () => {
@@ -214,6 +214,47 @@ describe('TourPoint exit dismiss', () => {
     expect(root()).not.toBeNull();
     expect(titleEl()?.textContent).toBe('Step two');
     expect(document.activeElement).toBe(primaryButton());
+  });
+
+  it('stays collapsed after Got it when the host keeps the instance', () => {
+    const onGotIt = vi.fn();
+    render(
+      <TourPoint
+        title="Tip"
+        onClose={() => {}}
+        primaryAction={{ label: 'Got it', onClick: onGotIt }}
+      >
+        Body
+      </TourPoint>,
+    );
+    click(primaryButton('Got it')!);
+    flushExit();
+    expect(onGotIt).toHaveBeenCalledTimes(1);
+    expect(titleEl()).toBeNull();
+    expect(
+      document.querySelector('button[aria-label="Open tip"]'),
+    ).not.toBeNull();
+  });
+
+  it('stays collapsed after Done on the last step of a series', () => {
+    const onDone = vi.fn();
+    render(
+      <TourPoint
+        title="Last tip"
+        onClose={() => {}}
+        progress={{ pages: 3, activePage: 3 }}
+        primaryAction={{ label: 'Done', onClick: onDone }}
+      >
+        Body
+      </TourPoint>,
+    );
+    click(primaryButton('Done')!);
+    flushExit();
+    expect(onDone).toHaveBeenCalledTimes(1);
+    expect(titleEl()).toBeNull();
+    expect(
+      document.querySelector('button[aria-label="Open tip"]'),
+    ).not.toBeNull();
   });
 
   it('restores focus into the tip after Next when open is controlled', () => {
@@ -263,6 +304,7 @@ describe('TourPoint exit dismiss', () => {
           </button>
           <TourPoint
             title={step === 0 ? 'Step one' : 'Step two'}
+            progress={{ pages: 2, activePage: step + 1 }}
             primaryAction={{
               label: 'Next',
               onClick: () => setStep(1),
