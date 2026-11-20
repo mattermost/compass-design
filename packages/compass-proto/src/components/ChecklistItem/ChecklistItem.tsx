@@ -594,6 +594,7 @@ export default function ChecklistItem({
             <Chip
               size="medium"
               compact
+              className={styles['checklist-item__chip']}
               leadingAvatar={
                 item.checkedBy.src
                   ? { src: item.checkedBy.src, alt: item.checkedBy.name }
@@ -610,6 +611,7 @@ export default function ChecklistItem({
             <Chip
               size="medium"
               compact
+              className={styles['checklist-item__chip']}
               leadingAvatar={
                 item.assignee.src
                   ? { src: item.assignee.src, alt: item.assignee.name }
@@ -620,7 +622,12 @@ export default function ChecklistItem({
             </Chip>
           )}
           {item.dueDate && (
-            <Chip size="medium" compact leadingIcon={<CalendarOutlineIcon />}>
+            <Chip
+              size="medium"
+              compact
+              className={styles['checklist-item__chip']}
+              leadingIcon={<CalendarOutlineIcon />}
+            >
               {item.dueDate}
             </Chip>
           )}
@@ -628,6 +635,7 @@ export default function ChecklistItem({
             <Chip
               size="medium"
               compact
+              className={styles['checklist-item__chip']}
               leadingIcon={<SlashForwardBoxOutlineIcon />}
             >
               {item.command}

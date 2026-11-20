@@ -198,6 +198,11 @@
     padding-left: calc(var(--icon-size-16) + var(--spacing-xs));
   }
 
+  // Playbooks task chips use regular weight; Chip defaults to semibold.
+  &__meta &__chip {
+    font-weight: var(--font-weight-regular);
+  }
+
   &--closed {
     .checklist-item__title {
       text-decoration: line-through;
