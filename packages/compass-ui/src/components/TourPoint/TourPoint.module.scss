@@ -181,6 +181,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    // The anchor's containing block is 0px wide, so a block panel resolves to
+    // min-width. max-content keeps the old inline-flex card width.
+    width: max-content;
     min-width: 280px;
     max-width: 352px;
     border-radius: var(--radius-m);
