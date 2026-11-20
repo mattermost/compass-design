@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`Dropdown` long-label truncation in flex hosts:** the standalone button now sets `overflow: hidden`, and `__trigger` is `display: flex; width: 100%`, so a host that constrains width (flex row with `min-width: 0`) can ellipsize the label instead of overflowing. Default markup is unchanged; hosts still must constrain the button's available width.
+
 ## [0.1.0-alpha.35] - 2026-11-20
 
 ### Fixed

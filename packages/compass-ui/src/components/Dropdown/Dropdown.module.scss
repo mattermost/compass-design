@@ -15,8 +15,11 @@
   @include focus-ring;
   padding: 0;
   // Shrink to the host's space so a long label truncates instead of overflowing.
+  // overflow: hidden is required for a flex-item <button> to honor min-width: 0
+  // (otherwise the label's min-content keeps the button from shrinking).
   min-width: 0;
   max-width: 100%;
+  overflow: hidden;
 
   &:hover:not(:disabled),
   &:active:not(:disabled) {
@@ -41,8 +44,11 @@
   // ---------------------------------------------------------------------------
 
   &__trigger {
-    display: inline-flex;
+    // Fill the button when the host constrains its width so the label can
+    // ellipsize; inline-flex alone sizes to nowrap text and never shrinks.
+    display: flex;
     align-items: center;
+    width: 100%;
     min-width: 0;
     max-width: 100%;
   }
