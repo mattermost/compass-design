@@ -32,6 +32,12 @@
     pointer-events: auto;
   }
 
+  &:hover &__drag,
+  &:focus-within &__drag,
+  &--menu-open &__drag {
+    opacity: 1;
+  }
+
   // Same chrome as Message Actions: elevated surface of compact Icon Buttons.
   &__actions {
     display: inline-flex;
@@ -74,6 +80,9 @@
     margin-top: calc((var(--line-height-100) - var(--icon-size-16)) / 2);
     color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
     cursor: grab;
+    // Keep layout space; reveal with the row like the actions toolbar.
+    opacity: 0;
+    transition: opacity var(--duration-quick) var(--ease-transition);
   }
 
   // Checkbox's label root defaults to width: 100%; hug the box when the
