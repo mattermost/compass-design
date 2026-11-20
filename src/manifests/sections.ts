@@ -104,7 +104,6 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       slugs: [
         'card-button',
         'checkbox',
-        'checklist-item',
         'chip',
         'combobox',
         'date-range-picker',
@@ -163,6 +162,10 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
         'menu-item',
         'right-sidebar-header',
       ],
+    },
+    {
+      label: 'Playbooks',
+      slugs: ['checklist-item'],
     },
     {
       label: 'Progress Indicators',
