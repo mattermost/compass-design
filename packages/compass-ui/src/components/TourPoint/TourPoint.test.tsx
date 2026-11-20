@@ -245,6 +245,20 @@ describe('TourPoint exit dismiss', () => {
     expect(document.activeElement).toBe(outside);
   });
 
+  it('does not steal focus on default-open mount', () => {
+    render(
+      <TourPoint
+        title="Tip"
+        primaryAction={{ label: 'Next', onClick: () => {} }}
+      >
+        Body
+      </TourPoint>,
+    );
+    expect(titleEl()?.textContent).toBe('Tip');
+    expect(document.activeElement).not.toBe(primaryButton());
+    expect(document.activeElement).not.toBe(closeButton());
+  });
+
   it('does nothing when primaryAction has no onClick', () => {
     const onOpenChange = vi.fn();
     render(

@@ -132,6 +132,9 @@ export default function TourPoint({
   const { mounted: panelMounted, visible } = usePopoverTransition(open);
   const pendingActionRef = useRef<(() => void) | undefined>(undefined);
   const pendingReopenRef = useRef(false);
+  // Only restore panel focus after an explicit open (dot click / retained next).
+  // Default-open mount does not steal focus (matches pre-PR TourPoint).
+  const restoreFocusRef = useRef(false);
   const restoreFocusToDotRef = useRef(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -151,6 +154,7 @@ export default function TourPoint({
     // Primary "next" on an uncontrolled retained instance reopens the card for
     // the updated step. Close / Escape stay collapsed as the pulsing dot.
     if (shouldReopen && !isControlled) {
+      restoreFocusRef.current = true;
       setOpen(true);
     } else if (!shouldReopen) {
       restoreFocusToDotRef.current = true;
@@ -158,7 +162,8 @@ export default function TourPoint({
   });
 
   useEffect(() => {
-    if (!panelMounted) return;
+    if (!panelMounted || !restoreFocusRef.current) return;
+    restoreFocusRef.current = false;
     const root = rootRef.current;
     if (!root) return;
     // Don't steal focus if the user or the dismiss callback already moved it.
@@ -267,6 +272,7 @@ export default function TourPoint({
           aria-label={openLabel}
           onClick={(e) => {
             openButtonProps?.onClick?.(e);
+            restoreFocusRef.current = true;
             setOpen(true);
           }}
         >
