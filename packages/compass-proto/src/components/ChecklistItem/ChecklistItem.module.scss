@@ -27,7 +27,6 @@
 
   &:hover &__actions-slot,
   &:focus-within &__actions-slot,
-  &--actions-visible &__actions-slot,
   &--menu-open &__actions-slot {
     opacity: 1;
     pointer-events: auto;
@@ -71,7 +70,8 @@
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    margin-top: var(--spacing-xxxxs);
+    // Match Checkbox medium first-line centering (16px icon in 20px line).
+    margin-top: calc((var(--line-height-100) - var(--icon-size-16)) / 2);
     color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
     cursor: grab;
   }
@@ -100,9 +100,10 @@
     background: transparent;
     color: var(--center-channel-color);
     font: inherit;
+    // Same type metrics as Checkbox medium label so the box lines up.
     font-size: var(--font-size-100);
     font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-200);
+    line-height: var(--line-height-100);
     text-align: left;
     overflow-wrap: anywhere;
 

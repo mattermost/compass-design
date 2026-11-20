@@ -76,11 +76,6 @@ export interface ChecklistItemProps extends Omit<
    * text, with Cancel / Save.
    */
   editing?: boolean;
-  /**
-   * Keeps the hover actions toolbar visible (docs / always-open demos).
-   * Default: false — shown on hover and focus-within.
-   */
-  actionsVisible?: boolean;
   onStateChange?: (state: ChecklistItemState) => void;
   onTitleChange?: (title: string) => void;
   onDescriptionChange?: (description: string) => void;
@@ -277,7 +272,6 @@ export default function ChecklistItem({
   readOnly = false,
   showDragHandle = true,
   editing = false,
-  actionsVisible = false,
   onStateChange,
   onTitleChange,
   onDescriptionChange,
@@ -341,7 +335,6 @@ export default function ChecklistItem({
     checked && styles['checklist-item--closed'],
     skipped && styles['checklist-item--skipped'],
     editing && styles['checklist-item--editing'],
-    actionsVisible && styles['checklist-item--actions-visible'],
     menuOpen && styles['checklist-item--menu-open'],
     className,
   ]

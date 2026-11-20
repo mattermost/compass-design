@@ -115,7 +115,6 @@ describe('ChecklistItem', () => {
     const { container } = render(
       <ChecklistItem
         item={baseItem}
-        actionsVisible
         onEdit={onEdit}
         onAssign={onAssign}
         onDueDate={() => undefined}
@@ -140,7 +139,6 @@ describe('ChecklistItem', () => {
       <ChecklistItem
         item={baseItem}
         readOnly
-        actionsVisible
         onEdit={() => undefined}
         onAssign={() => undefined}
       />,

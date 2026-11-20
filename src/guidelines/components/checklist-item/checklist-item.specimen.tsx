@@ -61,24 +61,6 @@ export default function ChecklistItemLibrary() {
         }
       />
 
-      <span className={styles['components__instance-label']}>
-        Actions always visible
-      </span>
-      <ChecklistItem
-        actionsVisible
-        item={{
-          id: 'actions',
-          title: 'Declare the incident channel',
-          state: 'open',
-        }}
-        onEdit={() => undefined}
-        onAssign={() => undefined}
-        onDueDate={() => undefined}
-        onDuplicate={() => undefined}
-        onDelete={() => undefined}
-        onStateChange={() => undefined}
-      />
-
       <span className={styles['components__instance-label']}>Closed</span>
       <ChecklistItem
         item={{
