@@ -31,6 +31,7 @@ export type TourPointPointerPosition =
   | 'right-center';
 
 export interface TourPointProgress {
+  /** Total steps in the series. Dots render only when `pages > 1`. */
   pages: number;
   /** Current step (1-indexed), matching `PaginationDots`. */
   activePage: number;
@@ -360,7 +361,7 @@ export default function TourPoint({
 
             {showFooter && (
               <div className={styles['tour-point__footer']}>
-                {progress != null ? (
+                {progress != null && progress.pages > 1 ? (
                   <PaginationDots
                     className={styles['tour-point__progress']}
                     pages={progress.pages}

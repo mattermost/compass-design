@@ -112,8 +112,7 @@ export const ClosedPulsingDot: Story = {
           pointerPosition="top-center"
           defaultOpen={false}
           onClose={() => {}}
-          progress={{ pages: 3, activePage: 0 }}
-          primaryAction={{ label: 'Next', onClick: () => {} }}
+          primaryAction={{ label: 'Got it', onClick: () => {} }}
         >
           Starts closed as a pulsing dot. Click the dot to open the tip.
         </TourPoint>
@@ -132,8 +131,7 @@ export const OpenAndClose: Story = {
           pointerPosition="top-center"
           defaultOpen
           onClose={() => {}}
-          progress={{ pages: 3, activePage: 0 }}
-          primaryAction={{ label: 'Next', onClick: () => {} }}
+          primaryAction={{ label: 'Got it', onClick: () => {} }}
         >
           Click × to collapse. The pulsing dot stays on the dashed anchor. Click
           the dot to reopen.

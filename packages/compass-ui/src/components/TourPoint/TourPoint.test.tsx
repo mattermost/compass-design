@@ -245,6 +245,32 @@ describe('TourPoint exit dismiss', () => {
     expect(document.activeElement).toBe(outside);
   });
 
+  it('hides pagination dots when progress.pages is 1', () => {
+    render(
+      <TourPoint
+        title="Tip"
+        progress={{ pages: 1, activePage: 1 }}
+        primaryAction={{ label: 'Got it', onClick: () => {} }}
+      >
+        Body
+      </TourPoint>,
+    );
+    expect(document.querySelector('[role="tablist"]')).toBeNull();
+  });
+
+  it('shows pagination dots when progress.pages is greater than 1', () => {
+    render(
+      <TourPoint
+        title="Tip"
+        progress={{ pages: 3, activePage: 1 }}
+        primaryAction={{ label: 'Next', onClick: () => {} }}
+      >
+        Body
+      </TourPoint>,
+    );
+    expect(document.querySelector('[role="tablist"]')).not.toBeNull();
+  });
+
   it('does not steal focus on default-open mount', () => {
     render(
       <TourPoint
