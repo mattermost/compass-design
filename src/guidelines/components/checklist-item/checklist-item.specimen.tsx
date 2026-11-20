@@ -30,9 +30,6 @@ export default function ChecklistItemLibrary() {
     null,
   );
   const [draft, setDraft] = useState<ChecklistItemData>(emptyDraft);
-  // Remount the always-editing draft after save/cancel so contentEditable
-  // fields reseed from the cleared props.
-  const [draftKey, setDraftKey] = useState(0);
 
   const startEditing = () => {
     setEditSnapshot(item);
@@ -49,11 +46,6 @@ export default function ChecklistItemLibrary() {
     if (editSnapshot) setItem(editSnapshot);
     setEditing(false);
     setEditSnapshot(null);
-  };
-
-  const resetDraft = () => {
-    setDraft(emptyDraft());
-    setDraftKey((key) => key + 1);
   };
 
   return (
@@ -115,18 +107,16 @@ export default function ChecklistItemLibrary() {
         Editing (add a task)
       </span>
       <ChecklistItem
-        key={draftKey}
         item={draft}
         editing
-        // Remount reseeds empty fields; don't steal focus after Tab/blur save.
-        autoFocus={false}
+        focusOnEdit={false}
         showDragHandle={false}
         onTitleChange={(title) => setDraft((prev) => ({ ...prev, title }))}
         onDescriptionChange={(description) =>
           setDraft((prev) => ({ ...prev, description }))
         }
-        onSave={resetDraft}
-        onCancel={resetDraft}
+        onSave={() => setDraft(emptyDraft())}
+        onCancel={() => setDraft(emptyDraft())}
       />
     </div>
   );

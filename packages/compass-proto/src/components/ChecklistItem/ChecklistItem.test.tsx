@@ -108,17 +108,40 @@ describe('ChecklistItem', () => {
     expect(onSave).toHaveBeenCalled();
   });
 
-  it('skips autofocus when autoFocus is false', () => {
+  it('skips focusing the title when focusOnEdit is false', () => {
     const { container } = render(
       <ChecklistItem
         item={{ ...baseItem, title: 'Draft task' }}
         editing
-        autoFocus={false}
+        focusOnEdit={false}
       />,
     );
     const title = container.querySelector('[role="textbox"]') as HTMLElement;
     expect(title.textContent).toBe('Draft task');
     expect(document.activeElement).not.toBe(title);
+  });
+
+  it('reseeds empty draft text while staying focused after save', () => {
+    const { container, rerender } = render(
+      <ChecklistItem
+        item={{ ...baseItem, title: 'Draft task', description: 'Notes' }}
+        editing
+        focusOnEdit={false}
+      />,
+    );
+    const title = container.querySelector('[role="textbox"]') as HTMLElement;
+    title.focus();
+    expect(document.activeElement).toBe(title);
+
+    rerender(
+      <ChecklistItem
+        item={{ ...baseItem, title: '', description: '' }}
+        editing
+        focusOnEdit={false}
+      />,
+    );
+    expect(title.textContent).toBe('');
+    expect(document.activeElement).toBe(title);
   });
 
   it('does not save on Enter while an IME composition is active', () => {

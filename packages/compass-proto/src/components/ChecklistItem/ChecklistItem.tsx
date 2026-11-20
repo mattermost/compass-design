@@ -93,11 +93,10 @@ export interface ChecklistItemProps extends Omit<
    */
   editing?: boolean;
   /**
-   * When editing, focus the title field on mount / when editing becomes true.
-   * Set false for remounted drafts so blur/Tab resets don’t steal focus back.
-   * Default: true.
+   * When editing becomes true, focus the title field. Default: true.
+   * Named to avoid the HTML `autoFocus` attribute / jsx-a11y rule.
    */
-  autoFocus?: boolean;
+  focusOnEdit?: boolean;
   onStateChange?: (state: ChecklistItemState) => void;
   onTitleChange?: (title: string) => void;
   onDescriptionChange?: (description: string) => void;
@@ -298,7 +297,7 @@ export default function ChecklistItem({
   readOnly = false,
   showDragHandle = true,
   editing = false,
-  autoFocus = true,
+  focusOnEdit = true,
   onStateChange,
   onTitleChange,
   onDescriptionChange,
@@ -344,11 +343,39 @@ export default function ChecklistItem({
     const descriptionNode = descriptionEditRef.current;
     if (titleNode) titleNode.textContent = item.title;
     if (descriptionNode) descriptionNode.textContent = item.description ?? '';
-    // Seed editable text when entering edit mode (or remounting a draft).
-    // Skip focus when the host remounts after a blur reset so Tab can leave.
-    if (autoFocus) focusEditableEnd(titleNode);
+    if (focusOnEdit) focusEditableEnd(titleNode);
+    // Seed once when entering edit mode — avoid resetting caret on each keystroke.
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally seed on edit start only
-  }, [editing, autoFocus]);
+  }, [editing, focusOnEdit]);
+
+  // Keep contentEditable DOM in sync when the host clears a persistent draft
+  // (same `editing` session). Refocus only if the wipe happened while focused
+  // (Enter/Escape); skip focus after Tab/blur so the next control keeps it.
+  useEffect(() => {
+    if (!editing) return;
+    const titleNode = titleEditRef.current;
+    const descriptionNode = descriptionEditRef.current;
+    if (!titleNode || !descriptionNode) return;
+
+    const nextTitle = item.title;
+    const nextDescription = item.description ?? '';
+    if (
+      titleNode.textContent === nextTitle &&
+      descriptionNode.textContent === nextDescription
+    ) {
+      return;
+    }
+
+    const focusInside = editRootRef.current?.contains(document.activeElement);
+    if (focusInside && (nextTitle !== '' || nextDescription !== '')) {
+      // Mid-edit controlled updates while typing — leave the caret alone.
+      return;
+    }
+
+    titleNode.textContent = nextTitle;
+    descriptionNode.textContent = nextDescription;
+    if (focusInside) focusEditableEnd(titleNode);
+  }, [editing, item.title, item.description]);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   useOutsideClose(actionsRef, menuOpen, closeMenu, menuPortalRef);
