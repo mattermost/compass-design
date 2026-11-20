@@ -16,6 +16,7 @@ import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import ContentCopyIcon from '@mattermost/compass-icons/components/content-copy';
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
+import DragVerticalIcon from '@mattermost/compass-icons/components/drag-vertical';
 import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
 import PlusIcon from '@mattermost/compass-icons/components/plus';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
@@ -52,6 +53,9 @@ export interface CollapsibleChecklistProps extends Omit<
   defaultCollapsed?: boolean;
   onCollapsedChange?: (collapsed: boolean) => void;
   readOnly?: boolean;
+  /** Show a decorative drag handle in the header left gutter on hover. Default: true. */
+  showDragHandle?: boolean;
+  dragHandleLabel?: string;
   onRename?: () => void;
   onDuplicate?: () => void;
   onDelete?: () => void;
@@ -266,6 +270,8 @@ export default function CollapsibleChecklist({
   defaultCollapsed = false,
   onCollapsedChange,
   readOnly = false,
+  showDragHandle = true,
+  dragHandleLabel = 'Drag to reorder',
   onRename,
   onDuplicate,
   onDelete,
@@ -421,9 +427,21 @@ export default function CollapsibleChecklist({
     .filter(Boolean)
     .join(' ');
 
+  const showDrag = showDragHandle && !readOnly;
+
   return (
     <div className={rootClass} {...rest}>
       <div ref={headerRef} className={styles['collapsible-checklist__header']}>
+        {showDrag && (
+          <WithTooltip
+            label={dragHandleLabel}
+            className={styles['collapsible-checklist__drag']}
+          >
+            <span aria-hidden>
+              <Icon size="16" glyph={<DragVerticalIcon />} />
+            </span>
+          </WithTooltip>
+        )}
         <button
           type="button"
           className={styles['collapsible-checklist__toggle']}
@@ -452,7 +470,7 @@ export default function CollapsibleChecklist({
           <div className={styles['collapsible-checklist__actions']}>
             <WithTooltip label={moreActionsLabel}>
               <IconButton
-                size="x-small"
+                size="small"
                 padding="compact"
                 aria-haspopup="menu"
                 aria-expanded={menuOpen}

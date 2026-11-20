@@ -19,11 +19,14 @@
     display: flex;
     flex: 1 1 auto;
     align-items: center;
-    gap: var(--spacing-xxs);
+    // Match ChecklistItem row: checkbox/chevron → title gap.
+    gap: var(--spacing-xs);
     min-width: 0;
     margin: 0;
+    // Left pad matches ChecklistItem --with-drag so chevron ↔ checkbox,
+    // title ↔ task title.
     padding: var(--spacing-s) var(--spacing-xs) var(--spacing-s)
-      var(--spacing-xs);
+      var(--spacing-l);
     border: 0;
     background: transparent;
     color: inherit;
@@ -50,6 +53,30 @@
         color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
       }
     }
+  }
+
+  &__drag {
+    position: absolute;
+    top: var(--spacing-m);
+    left: var(--spacing-xxxxs);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+    cursor: grab;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  &__header:hover &__drag,
+  &__header:focus-within &__drag,
+  &--menu-open &__drag {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   &__chevron {

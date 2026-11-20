@@ -43,14 +43,15 @@ composes [`ChecklistItem`](/components/checklist-item) for each row.
   </div>
 </AnatomyStage>
 
-- <Num>1</Num> **Header** — Chevron, section title, and “n / n done”. Click to
-  collapse or expand.
+- <Num>1</Num> **Header** — Chevron (aligned with task checkboxes), section
+  title (aligned with task titles), and “n / n done”. Click to collapse or
+  expand. A drag handle appears in the left gutter on hover, same as task rows.
 - <Num>2</Num> **Progress** — A thin bar under the header for completed work.
 - <Num>3</Num> **Task rows** — Each row is a `ChecklistItem`, including its
   hover actions toolbar (assign, due date, edit, more).
 - <Num>4</Num> **Add a task** — Opens an inline edit row to create a task.
 - <Num>5</Num> **Section menu** — Optional rename, duplicate, and delete actions
-  on hover (portaled menu).
+  on hover (small `IconButton`, portaled menu).
 
 Skipped tasks are left out of the done count. Requirements, condition headers,
 and bulk select stay out of this first cut.
