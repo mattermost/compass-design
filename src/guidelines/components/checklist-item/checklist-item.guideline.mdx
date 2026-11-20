@@ -14,23 +14,26 @@ published form `Checkbox`.
 ## Anatomy
 
 <AnatomyStage>
-  <ChecklistItem
-    item={{
-      id: 'demo',
-      title: 'Page the security on-call',
-      description: 'Use the primary rotation first.',
-      state: 'open',
-      assignee: { name: 'Leonard Riley' },
-      dueDate: 'Tomorrow',
-      command: '/zoom start',
-    }}
-    onEdit={() => {}}
-    onAssign={() => {}}
-    onDueDate={() => {}}
-    onDuplicate={() => {}}
-    onDelete={() => {}}
-    onStateChange={() => {}}
-  />
+  {/* Match run RHS content width (400px panel minus 16px padding each side). */}
+  <div style={{ width: '100%', maxWidth: '368px' }}>
+    <ChecklistItem
+      item={{
+        id: 'demo',
+        title: 'Page the security on-call',
+        description: 'Use the primary rotation first.',
+        state: 'open',
+        assignee: { name: 'Leonard Riley' },
+        dueDate: 'Tomorrow',
+        command: '/zoom start',
+      }}
+      onEdit={() => {}}
+      onAssign={() => {}}
+      onDueDate={() => {}}
+      onDuplicate={() => {}}
+      onDelete={() => {}}
+      onStateChange={() => {}}
+    />
+  </div>
 </AnatomyStage>
 
 - <Num>1</Num> **Drag handle** — Shows on hover in the left padding gutter;

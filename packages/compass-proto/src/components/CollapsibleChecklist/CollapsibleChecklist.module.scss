@@ -1,4 +1,6 @@
 .collapsible-checklist {
+  width: 100%;
+  box-sizing: border-box;
   border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-8));
   border-radius: var(--radius-s);
   background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));

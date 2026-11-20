@@ -390,6 +390,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-m);
+  // Typical run RHS content width: 400px panel minus 16px padding each side.
   width: 100%;
-  max-width: 520px;
+  max-width: 368px;
 }

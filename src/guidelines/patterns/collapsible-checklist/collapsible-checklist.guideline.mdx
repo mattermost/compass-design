@@ -13,31 +13,34 @@ composes [`ChecklistItem`](/components/checklist-item) for each row.
 ## Anatomy
 
 <AnatomyStage>
-  <CollapsibleChecklist
-    title="Triage"
-    defaultItems={[
-      {
-        id: '1',
-        title: 'Declare the incident',
-        state: 'closed',
-        checkedBy: { name: 'Leonard Riley' },
-      },
-      {
-        id: '2',
-        title: 'Page the security on-call',
-        description: 'Primary rotation first.',
-        state: 'open',
-        assignee: { name: 'Aiko Tan' },
-        dueDate: 'Tomorrow',
-      },
-      {
-        id: '3',
-        title: 'Start the bridge',
-        state: 'open',
-        command: '/zoom start',
-      },
-    ]}
-  />
+  {/* 400px RHS minus 16px horizontal padding on each side. */}
+  <div style={{ width: '100%', maxWidth: '368px' }}>
+    <CollapsibleChecklist
+      title="Triage"
+      defaultItems={[
+        {
+          id: '1',
+          title: 'Declare the incident',
+          state: 'closed',
+          checkedBy: { name: 'Leonard Riley' },
+        },
+        {
+          id: '2',
+          title: 'Page the security on-call',
+          description: 'Primary rotation first.',
+          state: 'open',
+          assignee: { name: 'Aiko Tan' },
+          dueDate: 'Tomorrow',
+        },
+        {
+          id: '3',
+          title: 'Start the bridge',
+          state: 'open',
+          command: '/zoom start',
+        },
+      ]}
+    />
+  </div>
 </AnatomyStage>
 
 - <Num>1</Num> **Header** — Chevron, section title, and “n / n done”. Click to
