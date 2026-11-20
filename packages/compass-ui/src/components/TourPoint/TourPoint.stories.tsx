@@ -43,21 +43,6 @@ function TourStage({
       }}
     >
       <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          width: 24,
-          height: 24,
-          margin: '-12px 0 0 -12px',
-          border:
-            '1px dashed color-mix(in srgb, var(--center-channel-color) 28%, transparent)',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
         style={{
           position: 'absolute',
           left: '50%',
@@ -133,8 +118,8 @@ export const OpenAndClose: Story = {
           onClose={() => {}}
           primaryAction={{ label: 'Got it', onClick: () => {} }}
         >
-          Click × to collapse. The pulsing dot stays on the dashed anchor. Click
-          the dot to reopen.
+          Click × to collapse. The pulsing dot stays put. Click the dot to
+          reopen.
         </TourPoint>
       </TourStage>
     );
