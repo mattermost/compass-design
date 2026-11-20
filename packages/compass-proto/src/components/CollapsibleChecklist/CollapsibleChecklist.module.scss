@@ -13,16 +13,6 @@
     flex-wrap: wrap;
     align-items: center;
     background-color: var(--center-channel-bg);
-    border-bottom: 1px solid
-      rgba(var(--center-channel-color-rgb), var(--opacity-8));
-  }
-
-  &--collapsed &__header {
-    border-bottom: 0;
-  }
-
-  &--collapsed &__progress {
-    display: none;
   }
 
   &__toggle {
@@ -112,7 +102,6 @@
     position: relative;
     flex: 1 0 100%;
     height: 2px;
-    margin-top: calc(-1 * 1px);
     background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
   }
 
