@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.34] - 2026-11-20
+
 ### Added
 
 - **`TourPoint` closed pulsing-dot state:** optional controlled `open` / uncontrolled `defaultOpen` (default `true`, so current auto-show callers are unchanged) and `onOpenChange`. When closed, the pulsing dot stays mounted as a clickable control (`openLabel` / `openButtonProps`) and opens the card on click. Close and Escape collapse to the dot when the host keeps the instance; mid-series `Next` / `Previous` reopen after exit on retained hosts. `showPulsingDot` controls the tip rings; the closed control always keeps the core dot.
@@ -16,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`TourPoint` title font vs host Metropolis:** the title rule is now `.tour-point__title.tour-point__title:is(h2)` (specificity 0,2,1) so Mattermost `.app__body h2` cannot override `font-family: var(--font-family-body)`. Hosts can drop the `.app__body .anchored-tour-point h2` workaround after bumping.
 - **`TourPoint` exit animation before dismiss callbacks:** close, Escape (when the event target is inside the card), and `primaryAction` / `secondaryAction` play the PopoverMenu-style scale/fade exit (`usePopoverTransition`, `--duration-quick`) and only then call their callbacks. A second dismiss while exiting is ignored. Escape is handled on the card root only (no window listener, no focus trap). Triangle and panel share a `tour-point__surface` so the arrow exits with the card; the pulsing tip stays on a fixed `tour-point__tip-pulse` at the tip origin so open/close scale does not drag it.
 - **`TourPoint` pulsing tip stays put when collapsing:** the root’s `(0,0)` is the pointer tip. Closing to the pulsing-dot control no longer shifts the tip because the open card used to size the root. Hosts should position the root at the UI anchor (tip), not the card’s top-left. Markup adds a `tour-point__anchor` wrapper around the panel.
+- **`TourPoint` card width with tip-anchored root:** panel uses `width: max-content` so copy still grows the card (the 0-wide tip root was resolving to `min-width` only).
 
 ### Changed
 
@@ -627,7 +630,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.33...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.34...HEAD
+[0.1.0-alpha.34]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.33...0.1.0-alpha.34
 [0.1.0-alpha.33]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...0.1.0-alpha.33
 [0.1.0-alpha.32]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.31...0.1.0-alpha.32
 [0.1.0-alpha.31]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.30...0.1.0-alpha.31
