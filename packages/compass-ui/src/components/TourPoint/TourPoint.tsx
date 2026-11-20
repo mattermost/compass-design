@@ -69,6 +69,9 @@ export interface TourPointProps extends Omit<
   /**
    * Controlled panel visibility. When `false`, the pulsing dot stays mounted and
    * opens the card on click. Omit for uncontrolled (see `defaultOpen`).
+   * In controlled mode, the host must set `open` to `false` in `onOpenChange`.
+   * `onClose` and `primaryAction.onClick` run only after the exit transition;
+   * they do not run while the host keeps `open` set to `true`.
    */
   open?: boolean;
   /**
@@ -129,8 +132,15 @@ export default function TourPoint({
   const { mounted: panelMounted, visible } = usePopoverTransition(open);
   const pendingActionRef = useRef<(() => void) | undefined>(undefined);
   const pendingReopenRef = useRef(false);
-  const restoreFocusRef = useRef(false);
+  const restoreFocusToDotRef = useRef(false);
   const rootRef = useRef<HTMLDivElement>(null);
+
+  // Cancel a queued dismiss if the host reopens before the exit finishes.
+  useEffect(() => {
+    if (!open) return;
+    pendingActionRef.current = undefined;
+    pendingReopenRef.current = false;
+  }, [open]);
 
   useOnExited(panelMounted, () => {
     const action = pendingActionRef.current;
@@ -141,14 +151,14 @@ export default function TourPoint({
     // Primary "next" on an uncontrolled retained instance reopens the card for
     // the updated step. Close / Escape stay collapsed as the pulsing dot.
     if (shouldReopen && !isControlled) {
-      restoreFocusRef.current = true;
       setOpen(true);
+    } else if (!shouldReopen) {
+      restoreFocusToDotRef.current = true;
     }
   });
 
   useEffect(() => {
-    if (!panelMounted || !restoreFocusRef.current) return;
-    restoreFocusRef.current = false;
+    if (!panelMounted) return;
     const root = rootRef.current;
     if (!root) return;
     // Don't steal focus if the user or the dismiss callback already moved it.
@@ -170,6 +180,25 @@ export default function TourPoint({
         'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
       );
     focusable?.focus();
+  }, [panelMounted]);
+
+  useEffect(() => {
+    if (panelMounted || !restoreFocusToDotRef.current) return;
+    restoreFocusToDotRef.current = false;
+    const root = rootRef.current;
+    if (!root) return;
+    const active = document.activeElement;
+    if (
+      active instanceof HTMLElement &&
+      active !== document.body &&
+      active !== document.documentElement &&
+      !root.contains(active)
+    ) {
+      return;
+    }
+    root
+      .querySelector<HTMLElement>(`.${styles['tour-point__open']}`)
+      ?.focus();
   }, [panelMounted]);
 
   const requestDismiss = (action?: () => void, reopen = false) => {
@@ -326,7 +355,11 @@ export default function TourPoint({
                   trailingIcon={<Icon size="16" glyph={<ChevronRightIcon />} />}
                   disabled={primaryAction.disabled}
                   loading={primaryAction.loading}
-                  onClick={() => requestDismiss(primaryAction.onClick, true)}
+                  onClick={
+                    primaryAction.onClick
+                      ? () => requestDismiss(primaryAction.onClick, true)
+                      : undefined
+                  }
                 >
                   {primaryAction.label}
                 </Button>

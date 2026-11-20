@@ -244,6 +244,55 @@ describe('TourPoint exit dismiss', () => {
     expect(titleEl()?.textContent).toBe('Step two');
     expect(document.activeElement).toBe(outside);
   });
+
+  it('does nothing when primaryAction has no onClick', () => {
+    const onOpenChange = vi.fn();
+    render(
+      <TourPoint
+        title="Tip"
+        onOpenChange={onOpenChange}
+        primaryAction={{ label: 'Next' }}
+      >
+        Body
+      </TourPoint>,
+    );
+    click(primaryButton()!);
+    flushExit();
+    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(titleEl()?.textContent).toBe('Tip');
+  });
+
+  it('drops a pending dismiss when the host reopens before exit finishes', () => {
+    const onClose = vi.fn();
+    function Host() {
+      const [open, setOpen] = useState(true);
+      return (
+        <div>
+          <button
+            type="button"
+            data-testid="reopen"
+            onClick={() => setOpen(true)}
+          >
+            Reopen
+          </button>
+          <TourPoint
+            title="Tip"
+            open={open}
+            onOpenChange={setOpen}
+            onClose={onClose}
+          >
+            Body
+          </TourPoint>
+        </div>
+      );
+    }
+    render(<Host />);
+    click(closeButton()!);
+    click(document.querySelector('[data-testid="reopen"]')!);
+    flushExit();
+    expect(onClose).not.toHaveBeenCalled();
+    expect(titleEl()?.textContent).toBe('Tip');
+  });
 });
 
 describe('TourPoint closed pulsing dot', () => {
@@ -276,11 +325,35 @@ describe('TourPoint closed pulsing dot', () => {
         Body
       </TourPoint>,
     );
-    click(closeButton()!);
+    const close = closeButton()!;
+    act(() => {
+      close.focus();
+    });
+    click(close);
     flushExit();
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(titleEl()).toBeNull();
     expect(openDot()).not.toBeNull();
+    expect(document.activeElement).toBe(openDot());
+  });
+
+  it('moves focus into the card when opened from the pulsing dot', () => {
+    render(
+      <TourPoint
+        title="Welcome"
+        defaultOpen={false}
+        primaryAction={{ label: 'Next', onClick: () => {} }}
+      >
+        Body
+      </TourPoint>,
+    );
+    const dot = openDot()!;
+    act(() => {
+      dot.focus();
+    });
+    click(dot);
+    expect(titleEl()?.textContent).toBe('Welcome');
+    expect(document.activeElement).toBe(primaryButton());
   });
 
   it('does not close when Escape is pressed outside while closed', () => {
