@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ### Added
 
-- **`TourPoint` closed pulsing-dot state:** optional controlled `open` / uncontrolled `defaultOpen` (default `true`, so current auto-show callers are unchanged) and `onOpenChange`. When closed, the pulsing dot stays mounted as a clickable control (`openLabel` / `openButtonProps`) and opens the card on click. Close and Escape collapse to the dot when the host keeps the instance; `primaryAction` still reopens after exit on uncontrolled retained multi-step hosts. `showPulsingDot` still controls the tip rings while open (and the closed control’s rings).
+- **`TourPoint` closed pulsing-dot state:** optional controlled `open` / uncontrolled `defaultOpen` (default `true`, so current auto-show callers are unchanged) and `onOpenChange`. When closed, the pulsing dot stays mounted as a clickable control (`openLabel` / `openButtonProps`) and opens the card on click. Close and Escape collapse to the dot when the host keeps the instance; mid-series `Next` / `Previous` reopen after exit on retained hosts. `showPulsingDot` controls the tip rings; the closed control always keeps the core dot.
 - **`TourPoint` `secondaryAction`:** optional Previous control for multi-step series (same exit-then-callback timing as `primaryAction`). `TourPointAction` is the shared action shape; `TourPointPrimaryAction` remains an alias. Wire `progress.onPageChange` for clickable step dots (`activePage` is 1-indexed). Pagination dots render only when `progress.pages > 1`. Uncontrolled retained hosts reopen after Previous always, and after primary only for mid-series `Next` (`activePage < pages`); `Got it` / last-step `Done` stay collapsed like close / Escape.
 
 ### Fixed

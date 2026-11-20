@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { TourPoint } from '@mattermost/compass-ui/components/tour-point';
 import type { TourPointPointerPosition } from '@mattermost/compass-ui/components/tour-point';
 import styles from '@/styles/library-demo/patterns.module.scss';
@@ -115,6 +115,41 @@ export default function TourPointLibrary() {
           </TourPointStage>
         </div>
       </section>
+
+      <section className={styles['patterns__section']}>
+        <h2 className={styles['patterns__section-title']}>
+          Closed pulsing dot
+        </h2>
+        <p className={styles['patterns__variant-label']}>
+          Collapsed tip stays on the anchor as a clickable pulsing dot. Click to
+          open; close or Got it collapses back.
+        </p>
+        <div className={styles['patterns__tour-point-single-demo']}>
+          <ClosedDotDemo />
+        </div>
+      </section>
     </div>
+  );
+}
+
+function ClosedDotDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <TourPointStage pointerPosition="top-center">
+      <TourPoint
+        title="Welcome to channels"
+        pointerPosition="top-center"
+        open={open}
+        onOpenChange={setOpen}
+        onClose={() => setOpen(false)}
+        primaryAction={{
+          label: 'Got it',
+          onClick: () => setOpen(false),
+        }}
+      >
+        Starts closed. Click the pulsing dot to open, then close or Got it to
+        collapse again.
+      </TourPoint>
+    </TourPointStage>
   );
 }

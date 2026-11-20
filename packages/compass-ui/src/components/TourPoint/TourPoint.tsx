@@ -292,9 +292,10 @@ export default function TourPoint({
   ) : null;
 
   // Tip pulse stays on the root origin (outside the scaling surface) so open /
-  // close motion never drags the pulsing tip toward the panel.
+  // close motion never drags the pulsing tip toward the panel. Closed always
+  // keeps the core dot; rings follow `showPulsingDot`.
   const tipPulse =
-    showPulsingDot && (closed || showPointer) ? (
+    closed || (showPointer && showPulsingDot) ? (
       <span className={styles['tour-point__tip-pulse']} aria-hidden>
         {pulseRings}
         <span className={styles['tour-point__pointer-pulse-core']} />

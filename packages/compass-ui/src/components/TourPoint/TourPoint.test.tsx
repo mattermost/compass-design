@@ -474,6 +474,21 @@ describe('TourPoint closed pulsing dot', () => {
     expect(openDot()).toBeNull();
   });
 
+  it('keeps the closed core dot when showPulsingDot is false', () => {
+    render(
+      <TourPoint title="Welcome" defaultOpen={false} showPulsingDot={false}>
+        Body
+      </TourPoint>,
+    );
+    expect(openDot()).not.toBeNull();
+    expect(
+      document.querySelector(`.${styles['tour-point__pointer-pulse-core']}`),
+    ).not.toBeNull();
+    expect(
+      document.querySelector(`.${styles['tour-point__pointer-pulse-ring']}`),
+    ).toBeNull();
+  });
+
   it('collapses to the pulsing dot after close when the host keeps the instance', () => {
     const onClose = vi.fn();
     render(
