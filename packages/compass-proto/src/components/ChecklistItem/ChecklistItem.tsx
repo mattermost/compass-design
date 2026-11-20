@@ -17,10 +17,12 @@ import { createPortal } from 'react-dom';
 import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import CalendarOutlineIcon from '@mattermost/compass-icons/components/calendar-outline';
 import CheckCircleOutlineIcon from '@mattermost/compass-icons/components/check-circle-outline';
+import CloseIcon from '@mattermost/compass-icons/components/close';
 import ContentCopyIcon from '@mattermost/compass-icons/components/content-copy';
 import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
 import DragVerticalIcon from '@mattermost/compass-icons/components/drag-vertical';
 import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
+import RestoreIcon from '@mattermost/compass-icons/components/restore';
 import SlashForwardBoxOutlineIcon from '@mattermost/compass-icons/components/slash-forward-box-outline';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
 import { Checkbox } from '@mattermost/compass-ui/components/checkbox';
@@ -251,6 +253,12 @@ function ItemMoreMenu({
                 {onSkipToggle && (
                   <MenuItem
                     label={skipped ? restoreLabel : skipLabel}
+                    leadingVisual={
+                      <Icon
+                        glyph={skipped ? <RestoreIcon /> : <CloseIcon />}
+                        size="16"
+                      />
+                    }
                     onClick={() => run(onSkipToggle)}
                   />
                 )}
