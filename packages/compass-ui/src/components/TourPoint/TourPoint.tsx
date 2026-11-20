@@ -280,9 +280,20 @@ export default function TourPoint({
     </>
   ) : null;
 
+  // Tip pulse stays on the root origin (outside the scaling surface) so open /
+  // close motion never drags the pulsing tip toward the panel.
+  const tipPulse =
+    showPulsingDot && (closed || showPointer) ? (
+      <span className={styles['tour-point__tip-pulse']} aria-hidden>
+        {pulseRings}
+        <span className={styles['tour-point__pointer-pulse-core']} />
+      </span>
+    ) : null;
+
   if (closed) {
     return (
       <div {...rest} ref={rootRef} className={rootClass}>
+        {tipPulse}
         <button
           type="button"
           {...openButtonProps}
@@ -296,12 +307,7 @@ export default function TourPoint({
             restoreFocusRef.current = true;
             setOpen(true);
           }}
-        >
-          <span className={styles['tour-point__pointer-pulse']} aria-hidden>
-            {pulseRings}
-            <span className={styles['tour-point__pointer-pulse-core']} />
-          </span>
-        </button>
+        />
       </div>
     );
   }
@@ -314,16 +320,11 @@ export default function TourPoint({
       className={rootClass}
       onKeyDown={handleKeyDown}
     >
+      {tipPulse}
       <div className={surfaceClass}>
         {showPointer && (
           <span className={styles['tour-point__pointer']} aria-hidden>
             <span className={styles['tour-point__pointer-triangle']} />
-            {showPulsingDot && (
-              <span className={styles['tour-point__pointer-pulse']}>
-                {pulseRings}
-                <span className={styles['tour-point__pointer-pulse-core']} />
-              </span>
-            )}
           </span>
         )}
 
