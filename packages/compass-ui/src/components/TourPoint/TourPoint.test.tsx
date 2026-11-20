@@ -216,6 +216,43 @@ describe('TourPoint exit dismiss', () => {
     expect(document.activeElement).toBe(primaryButton());
   });
 
+  it('restores focus into the tip after Next when open is controlled', () => {
+    const onNext = vi.fn();
+    function Host() {
+      const [step, setStep] = useState(0);
+      const [open, setOpen] = useState(true);
+      const titles = ['Step one', 'Step two'];
+      return (
+        <TourPoint
+          title={titles[step]}
+          open={open}
+          onOpenChange={setOpen}
+          progress={{ pages: 2, activePage: step + 1 }}
+          primaryAction={{
+            label: 'Next',
+            onClick: () => {
+              onNext();
+              setStep(1);
+              setOpen(true);
+            },
+          }}
+        >
+          Body
+        </TourPoint>
+      );
+    }
+    render(<Host />);
+    const next = primaryButton()!;
+    act(() => {
+      next.focus();
+    });
+    click(next);
+    flushExit();
+    expect(onNext).toHaveBeenCalledTimes(1);
+    expect(titleEl()?.textContent).toBe('Step two');
+    expect(document.activeElement).toBe(primaryButton());
+  });
+
   it('does not steal focus when it moved outside during exit', () => {
     function Host() {
       const [step, setStep] = useState(0);

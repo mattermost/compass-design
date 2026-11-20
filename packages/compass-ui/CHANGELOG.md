@@ -23,6 +23,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`TourPoint` pointer overlap:** the arrow sits 1px onto the panel on every `pointerPosition` so no hairline gap shows at the card edge.
 - **`TourPoint` closed pulsing-dot hit area:** the open control is 32×32 (visual pulse remains 40×40).
 - **`TourPoint` stacking:** root uses `z-index: var(--z-popover, 1200)` so a tip-positioned card clears page chrome; hosts can still override via `style` / `className`.
+- **`TourPoint` Next / Previous focus:** after a step action’s exit, focus returns into the tip when the panel remounts for controlled `open` as well as uncontrolled retained hosts (so Escape and further keys keep working).
 - **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto`:** they were added after `0.1.0-alpha.32` and never published from this package, so there is nothing to migrate. The `components/suggestion-list` subpath and root exports are not in any compass-ui release.
 
 ## [0.1.0-alpha.33] - 2026-11-18

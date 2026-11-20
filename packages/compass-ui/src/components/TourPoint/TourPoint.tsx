@@ -172,12 +172,13 @@ export default function TourPoint({
     pendingActionRef.current = undefined;
     pendingReopenRef.current = false;
     action?.();
-    // Primary "next" on an uncontrolled retained instance reopens the card for
-    // the updated step. Close / Escape stay collapsed as the pulsing dot.
-    if (shouldReopen && !isControlled) {
+    // Next / Previous intend to land on the (updated) tip. Restore panel focus
+    // once it is mounted again — controlled hosts reopen via the action /
+    // onOpenChange; uncontrolled retained hosts reopen here.
+    if (shouldReopen) {
       restoreFocusRef.current = true;
-      setOpen(true);
-    } else if (!shouldReopen) {
+      if (!isControlled) setOpen(true);
+    } else {
       restoreFocusToDotRef.current = true;
     }
   });
