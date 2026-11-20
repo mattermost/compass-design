@@ -23,7 +23,7 @@ export const callWidgetDemoProps = {
   participants: callWidgetParticipants,
   currentUserId: host?.id ?? '',
   talkerName: host ? shortName(host.name) : '',
-  talkerAvatarSrc: host?.avatarSrc,
+  talkerAvatarSrc: host?.avatarSrc ?? '',
   channelName: callChannel?.name ?? '',
   internalLink: INTERNAL_LINK,
   externalLink: EXTERNAL_LINK,

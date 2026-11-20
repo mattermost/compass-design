@@ -44,7 +44,7 @@ export default function CallWidgetLayout() {
             participants={participants}
             currentUserId={me.id}
             talkerName={shortName(me.name)}
-            talkerAvatarSrc={me.avatarSrc}
+            talkerAvatarSrc={me.avatarSrc ?? ''}
             channelName={channel.name}
             muted={muted}
             onToggleMute={() => setMuted((m) => !m)}

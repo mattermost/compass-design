@@ -27,7 +27,7 @@ export const otherWithStatus = people.find((u) => u.customStatusText) ?? other;
 export const anatomyUser = workspaceAdmin ?? other;
 
 export const identity = (user: FixtureUser) => ({
-  avatarSrc: avatars[user.id],
+  avatarSrc: avatars[user.id] ?? '',
   avatarAlt: user.displayName,
   name: user.displayName,
   username: `@${user.username}`,

@@ -41,3 +41,8 @@ jobs:
 
       - name: Smoke test packages
         run: npm run smoke-test:packages
+
+      # GitHub Pages runs this inside `npm run build` (`tsc -b`). Without it
+      # here, docs type errors only fail the deploy after they land on main.
+      - name: Typecheck docs app
+        run: npx tsc -b --pretty false
