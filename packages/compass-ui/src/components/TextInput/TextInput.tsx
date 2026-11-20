@@ -201,6 +201,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       trailingIcon != null || showClearButton
         ? styles['text-input--has-trailing-icon']
         : '';
+    const readOnlyClass = readOnly ? styles['text-input--read-only'] : '';
     const iconSize = ICON_SIZE_MAP[size];
 
     const rootClass = [
@@ -210,6 +211,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       labelFloatedClass,
       hasLeadingClass,
       hasTrailingClass,
+      readOnlyClass,
       className,
     ]
       .filter(Boolean)
@@ -247,6 +249,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               maxLength={maxLength}
               disabled={disabled}
               readOnly={readOnly}
+              tabIndex={readOnly ? -1 : undefined}
               aria-invalid={showInvalid ? true : undefined}
               aria-describedby={mergeFieldDescribedBy(
                 describedBy,
