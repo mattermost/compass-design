@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.36] - 2026-11-20
+
 ### Fixed
 
 - **`Dropdown` long-label truncation in flex hosts:** the standalone button now sets `overflow: hidden`, `justify-content: flex-start`, and `text-align: start` (overrides the UA button center align so a hard clip keeps the start of the label). `__trigger` is `display: flex; width: 100%`, and `__content` uses `flex: 1 1 0%`, so a host that constrains width (flex row with `min-width: 0`) can ellipsize the label from the end instead of overflowing or cutting both ends. Default markup is unchanged; hosts still must constrain the button's available width.
@@ -640,7 +642,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.35...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.36...HEAD
+[0.1.0-alpha.36]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.35...0.1.0-alpha.36
 [0.1.0-alpha.35]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.34...0.1.0-alpha.35
 [0.1.0-alpha.34]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.33...0.1.0-alpha.34
 [0.1.0-alpha.33]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...0.1.0-alpha.33
