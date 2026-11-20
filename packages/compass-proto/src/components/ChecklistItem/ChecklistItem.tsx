@@ -92,6 +92,12 @@ export interface ChecklistItemProps extends Omit<
    * text (no input chrome). Enter / blur saves; Escape cancels.
    */
   editing?: boolean;
+  /**
+   * When editing, focus the title field on mount / when editing becomes true.
+   * Set false for remounted drafts so blur/Tab resets don’t steal focus back.
+   * Default: true.
+   */
+  autoFocus?: boolean;
   onStateChange?: (state: ChecklistItemState) => void;
   onTitleChange?: (title: string) => void;
   onDescriptionChange?: (description: string) => void;
@@ -292,6 +298,7 @@ export default function ChecklistItem({
   readOnly = false,
   showDragHandle = true,
   editing = false,
+  autoFocus = true,
   onStateChange,
   onTitleChange,
   onDescriptionChange,
@@ -337,10 +344,11 @@ export default function ChecklistItem({
     const descriptionNode = descriptionEditRef.current;
     if (titleNode) titleNode.textContent = item.title;
     if (descriptionNode) descriptionNode.textContent = item.description ?? '';
-    focusEditableEnd(titleNode);
-    // Seed editable text once when entering edit mode — avoid resetting caret.
+    // Seed editable text when entering edit mode (or remounting a draft).
+    // Skip focus when the host remounts after a blur reset so Tab can leave.
+    if (autoFocus) focusEditableEnd(titleNode);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally seed on edit start only
-  }, [editing]);
+  }, [editing, autoFocus]);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   useOutsideClose(actionsRef, menuOpen, closeMenu, menuPortalRef);

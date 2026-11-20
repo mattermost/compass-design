@@ -118,6 +118,8 @@ export default function ChecklistItemLibrary() {
         key={draftKey}
         item={draft}
         editing
+        // Remount reseeds empty fields; don't steal focus after Tab/blur save.
+        autoFocus={false}
         showDragHandle={false}
         onTitleChange={(title) => setDraft((prev) => ({ ...prev, title }))}
         onDescriptionChange={(description) =>
