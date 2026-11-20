@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { act } from 'react';
+import { act, useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POPOVER_TRANSITION_MS } from '@/hooks/usePopoverTransition';
 import { click, keyDown, render } from '@/test-utils/render';
@@ -89,11 +89,22 @@ describe('TourPoint exit dismiss', () => {
 
   it('calls onClose only after the exit duration', () => {
     const onClose = vi.fn();
-    render(
-      <TourPoint title="Tip" onClose={onClose}>
-        Body
-      </TourPoint>,
-    );
+    function Host() {
+      const [show, setShow] = useState(true);
+      if (!show) return null;
+      return (
+        <TourPoint
+          title="Tip"
+          onClose={() => {
+            onClose();
+            setShow(false);
+          }}
+        >
+          Body
+        </TourPoint>
+      );
+    }
+    render(<Host />);
     click(closeButton()!);
     expect(onClose).not.toHaveBeenCalled();
     expect(root()).not.toBeNull();
@@ -105,15 +116,26 @@ describe('TourPoint exit dismiss', () => {
   it('calls primaryAction.onClick only after the exit duration', () => {
     const onClick = vi.fn();
     const onClose = vi.fn();
-    render(
-      <TourPoint
-        title="Tip"
-        onClose={onClose}
-        primaryAction={{ label: 'Next', onClick }}
-      >
-        Body
-      </TourPoint>,
-    );
+    function Host() {
+      const [show, setShow] = useState(true);
+      if (!show) return null;
+      return (
+        <TourPoint
+          title="Tip"
+          onClose={onClose}
+          primaryAction={{
+            label: 'Next',
+            onClick: () => {
+              onClick();
+              setShow(false);
+            },
+          }}
+        >
+          Body
+        </TourPoint>
+      );
+    }
+    render(<Host />);
     click(primaryButton()!);
     expect(onClick).not.toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();
@@ -126,20 +148,58 @@ describe('TourPoint exit dismiss', () => {
   it('ignores a second dismiss while exiting', () => {
     const onClose = vi.fn();
     const onClick = vi.fn();
-    render(
-      <TourPoint
-        title="Tip"
-        onClose={onClose}
-        primaryAction={{ label: 'Next', onClick }}
-      >
-        Body
-      </TourPoint>,
-    );
+    function Host() {
+      const [show, setShow] = useState(true);
+      if (!show) return null;
+      return (
+        <TourPoint
+          title="Tip"
+          onClose={() => {
+            onClose();
+            setShow(false);
+          }}
+          primaryAction={{ label: 'Next', onClick }}
+        >
+          Body
+        </TourPoint>
+      );
+    }
+    render(<Host />);
     click(closeButton()!);
     click(primaryButton()!);
     flushExit();
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(onClick).not.toHaveBeenCalled();
+  });
+
+  it('reopens with updated props when primary advances a multi-step tour without remounting', () => {
+    const onNext = vi.fn();
+    function Host() {
+      const [step, setStep] = useState(0);
+      const titles = ['Step one', 'Step two'];
+      return (
+        <TourPoint
+          title={titles[step]}
+          progress={{ pages: 2, activePage: step }}
+          primaryAction={{
+            label: 'Next',
+            onClick: () => {
+              onNext();
+              setStep((s) => s + 1);
+            },
+          }}
+        >
+          Body
+        </TourPoint>
+      );
+    }
+    render(<Host />);
+    expect(titleEl()?.textContent).toBe('Step one');
+    click(primaryButton()!);
+    flushExit();
+    expect(onNext).toHaveBeenCalledTimes(1);
+    expect(root()).not.toBeNull();
+    expect(titleEl()?.textContent).toBe('Step two');
   });
 });
 

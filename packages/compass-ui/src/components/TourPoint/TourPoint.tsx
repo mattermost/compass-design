@@ -101,6 +101,9 @@ export default function TourPoint({
     const action = pendingActionRef.current;
     pendingActionRef.current = undefined;
     action?.();
+    // Hosts that unmount in the callback drop us; hosts that keep the same
+    // instance (e.g. multi-step next) need open reset so the next props show.
+    setOpen(true);
   });
 
   const requestDismiss = (action?: () => void) => {
@@ -142,6 +145,7 @@ export default function TourPoint({
   if (!mounted) return null;
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Escape dismiss when focus is inside the card; not a modal (no role/trap)
     <div {...rest} className={rootClass} onKeyDown={handleKeyDown}>
       {showPointer && (
         <span className={styles['tour-point__pointer']} aria-hidden>
