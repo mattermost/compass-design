@@ -79,11 +79,9 @@
 
   &__drag {
     position: absolute;
-    // Sit in the left padding gutter, aligned with the checkbox first line.
-    top: calc(
-      var(--spacing-xs) + (var(--line-height-100) - var(--icon-size-16)) / 2
-    );
-    left: var(--spacing-s);
+    // Sit in the left padding gutter.
+    top: var(--spacing-m);
+    left: var(--spacing-xxxxs);
     display: inline-flex;
     align-items: center;
     justify-content: center;
