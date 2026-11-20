@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`TourPoint` open animation from the closed dot:** opening mounts the card while it is still hidden, then fades and scales it in on the next frame. The card was being created and marked visible in the same turn, so the enter transition had no starting frame. Close is unchanged.
+
 ## [0.1.0-alpha.35] - 2026-11-20
 
 ### Fixed
