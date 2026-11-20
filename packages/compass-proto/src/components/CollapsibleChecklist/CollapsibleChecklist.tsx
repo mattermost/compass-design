@@ -332,7 +332,9 @@ export default function CollapsibleChecklist({
   const hasSectionMenu = Boolean(onRename || onDuplicate || onDelete);
 
   const updateItem = (id: string, patch: Partial<ChecklistItemData>) => {
-    setItems(items.map((item) => (item.id === id ? { ...item, ...patch } : item)));
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, ...patch } : item)),
+    );
   };
 
   const updateItemState = (id: string, state: ChecklistItemState) => {
@@ -422,10 +424,7 @@ export default function CollapsibleChecklist({
 
   return (
     <div className={rootClass} {...rest}>
-      <div
-        ref={headerRef}
-        className={styles['collapsible-checklist__header']}
-      >
+      <div ref={headerRef} className={styles['collapsible-checklist__header']}>
         <button
           type="button"
           className={styles['collapsible-checklist__toggle']}
@@ -434,16 +433,16 @@ export default function CollapsibleChecklist({
           aria-label={collapsed ? expandLabel : collapseLabel}
           onClick={() => setCollapsed(!collapsed)}
         >
-          <span className={styles['collapsible-checklist__chevron']} aria-hidden>
+          <span
+            className={styles['collapsible-checklist__chevron']}
+            aria-hidden
+          >
             <Icon
               size="16"
               glyph={collapsed ? <ChevronRightIcon /> : <ChevronDownIcon />}
             />
           </span>
-          <span
-            id={titleId}
-            className={styles['collapsible-checklist__title']}
-          >
+          <span id={titleId} className={styles['collapsible-checklist__title']}>
             {title}
           </span>
           <span className={styles['collapsible-checklist__done']}>
@@ -483,7 +482,9 @@ export default function CollapsibleChecklist({
             size="small"
             value={percentage}
             aria-label={
-              typeof doneLabel === 'string' ? doneLabel : `${completed} of ${total}`
+              typeof doneLabel === 'string'
+                ? doneLabel
+                : `${completed} of ${total}`
             }
           />
         </div>
@@ -547,9 +548,7 @@ export default function CollapsibleChecklist({
                             dueDate: item.dueDate ? undefined : 'Tomorrow',
                           })
                   }
-                  onDuplicate={
-                    readOnly ? undefined : () => duplicateItem(item)
-                  }
+                  onDuplicate={readOnly ? undefined : () => duplicateItem(item)}
                   onDelete={readOnly ? undefined : () => deleteItem(item.id)}
                 />
               ),

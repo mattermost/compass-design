@@ -60,8 +60,8 @@ describe('CollapsibleChecklist', () => {
     const { container } = render(
       <CollapsibleChecklist title="Triage" defaultItems={items} />,
     );
-    const add = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent?.includes('Add a task'),
+    const add = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.includes('Add a task'),
     );
     expect(add).toBeTruthy();
     click(add!);

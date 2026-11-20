@@ -356,7 +356,10 @@ export default function ChecklistItem({
   return (
     <div className={rootClass} {...rest}>
       {showActions && (
-        <div ref={actionsRef} className={styles['checklist-item__actions-slot']}>
+        <div
+          ref={actionsRef}
+          className={styles['checklist-item__actions-slot']}
+        >
           <div
             className={styles['checklist-item__actions']}
             role="toolbar"

@@ -1143,13 +1143,9 @@ export const TOPICS: Topic[] = [
       'A Playbooks checklist section: collapsible header, progress, ChecklistItem rows, and add-task.',
     status: 'beta',
     guidelinePage: () =>
-      import(
-        '@/guidelines/patterns/collapsible-checklist/collapsible-checklist.guideline.mdx'
-      ),
+      import('@/guidelines/patterns/collapsible-checklist/collapsible-checklist.guideline.mdx'),
     specimenPage: () =>
-      import(
-        '@/guidelines/patterns/collapsible-checklist/collapsible-checklist.specimen'
-      ),
+      import('@/guidelines/patterns/collapsible-checklist/collapsible-checklist.specimen'),
   },
   {
     slug: 'mobile-navigation-bar',
