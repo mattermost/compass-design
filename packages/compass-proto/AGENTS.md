@@ -13,6 +13,7 @@ Unpublished prototyping surface (root barrel only — no component subpaths):
 - Hardcoded menu recipes: `PlusMenu`, `HelpMenu`, `ChannelMenu`, `TeamMenu`, `ChannelCategoryMenu`, `ChannelHeaderMenu`, `ThreadActionsMenu`, `MessageMoreOptionsMenu`, `ProductSwitcherMenu`, `UserAccountMenu`
 - `SuggestionList` and `useSuggestionList` (composer autocomplete; API not yet ready to publish)
 - Demo RHS panels (`RightSidebarThread`, `RightSidebarChannelInfo`) and sidebar fixture helpers
+- Playbooks prototypes: `CollapsibleChecklist`, `ChecklistItem`
 - `WithTooltip` (prototype tooltip host)
 
 Published chrome that pairs with these (import from `@mattermost/compass-ui` subpaths): `RightSidebarHeader`, Message leaves, `Modal`, `ChannelSidebarItem`, `TourPoint`, `PopoverMenu` / `MenuItem`, etc.

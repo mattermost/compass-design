@@ -1,0 +1,71 @@
+import { CollapsibleChecklist } from '@mattermost/compass-proto';
+
+The Collapsible Checklist is an unpublished prototyping composite in
+`@mattermost/compass-proto`. It is a named Playbooks checklist section: a
+header that collapses, a title, “n / n done”, a progress bar, task rows, and
+“Add a task”.
+
+Use it in a run RHS, a channel checklist, or a playbook editor prototype. It
+composes [`ChecklistItem`](/patterns/checklist-item) for each row.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <CollapsibleChecklist
+    title="Triage"
+    defaultItems={[
+      {
+        id: '1',
+        title: 'Declare the incident',
+        state: 'closed',
+        checkedBy: { name: 'Leonard Riley' },
+      },
+      {
+        id: '2',
+        title: 'Page the security on-call',
+        description: 'Primary rotation first.',
+        state: 'open',
+        assignee: { name: 'Aiko Tan' },
+        dueDate: 'Tomorrow',
+      },
+      {
+        id: '3',
+        title: 'Start the bridge',
+        state: 'open',
+        command: '/zoom start',
+      },
+    ]}
+  />
+</AnatomyStage>
+
+- <Num>1</Num> **Header** — Chevron, section title, and “n / n done”. Click to
+  collapse or expand.
+- <Num>2</Num> **Progress** — A thin bar under the header for completed work.
+- <Num>3</Num> **Task rows** — Each row is a `ChecklistItem`.
+- <Num>4</Num> **Add a task** — Opens an inline edit row to create a task.
+- <Num>5</Num> **Section menu** — Optional rename, duplicate, and delete actions
+  on hover (portaled menu).
+
+Skipped tasks are left out of the done count. Requirements, condition headers,
+and bulk select stay out of this first cut.
+
+<Divider />
+
+## Behavior
+
+Collapse keeps the body mounted and animates with the same CSS grid
+`0fr`↔`1fr` pattern used by `AdminPanel`. There is no shared Accordion or
+Disclosure primitive yet; hosts that need the same motion can copy that recipe
+until one lands.
+
+Checking a task and adding a task update through `items` / `onItemsChange`
+(or uncontrolled `defaultItems`).
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for an interactive section, a collapsed start, and a
+read-only list. Import `CollapsibleChecklist` from `@mattermost/compass-proto`.

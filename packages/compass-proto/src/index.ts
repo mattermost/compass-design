@@ -11,6 +11,8 @@ export * from './components/ChannelHeaderMenu/index';
 export * from './components/ChannelMenu/index';
 export * from './components/ChannelShell/index';
 export * from './components/ChannelsSidebar/index';
+export * from './components/ChecklistItem/index';
+export * from './components/CollapsibleChecklist/index';
 export * from './components/EmojiPopover/index';
 export * from './components/GlobalHeader/index';
 export * from './components/SearchModal/index';

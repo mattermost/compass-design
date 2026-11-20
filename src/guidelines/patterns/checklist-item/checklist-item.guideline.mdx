@@ -1,0 +1,59 @@
+import { ChecklistItem } from '@mattermost/compass-proto';
+
+The Checklist Item is an unpublished prototyping composite in
+`@mattermost/compass-proto`. It is one task row inside a Playbooks checklist:
+checkbox, title, optional description, and meta chips for who is assigned, when
+it is due, or which slash command it runs.
+
+Use it inside a [`CollapsibleChecklist`](/patterns/collapsible-checklist), or
+on its own when you need a single task row in a prototype. It is not the
+published form `Checkbox`.
+
+<Divider />
+
+## Anatomy
+
+<AnatomyStage>
+  <ChecklistItem
+    item={{
+      id: 'demo',
+      title: 'Page the security on-call',
+      description: 'Use the primary rotation first.',
+      state: 'open',
+      assignee: { name: 'Leonard Riley' },
+      dueDate: 'Tomorrow',
+      command: '/zoom start',
+    }}
+  />
+</AnatomyStage>
+
+- <Num>1</Num> **Drag handle** — Decorative for prototypes; real drag-and-drop
+  stays with the host.
+- <Num>2</Num> **Checkbox** — Marks the task open or closed.
+- <Num>3</Num> **Title** — The task name. With a description, clicking the title
+  shows or hides it.
+- <Num>4</Num> **Description** — Optional supporting text under the title.
+- <Num>5</Num> **Meta chips** — Optional checked-by, assignee, due date, and
+  slash command.
+
+Inline edit mode swaps the title and description for fields plus Cancel / Save,
+which `CollapsibleChecklist` uses when adding a task.
+
+<Divider />
+
+## States
+
+- **Open** — Unchecked title.
+- **Closed** — Checked title with a strikethrough.
+- **Skipped** — Disabled checkbox and a strikethrough title.
+- **Editing** — Title and description fields for creating or renaming a task.
+
+Requirements, condition indicators, and bulk select are left out of this first
+cut.
+
+<Divider />
+
+## Implementation
+
+See the Specimen tab for open, closed, skipped, meta chips, and editing.
+Import `ChecklistItem` from `@mattermost/compass-proto`.

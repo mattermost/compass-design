@@ -178,6 +178,10 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       slugs: ['admin-panel', 'admin-console-sidebar'],
     },
     {
+      label: 'Playbooks',
+      slugs: ['collapsible-checklist', 'checklist-item'],
+    },
+    {
       label: 'Mobile',
       slugs: [
         'mobile-navigation-bar',

@@ -1,0 +1,110 @@
+.checklist-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xs) var(--spacing-s);
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+  }
+
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+    min-width: 0;
+  }
+
+  &__drag {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--spacing-xxxxs);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+    cursor: grab;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--spacing-xxxs);
+    min-width: 0;
+  }
+
+  &__title {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--center-channel-color);
+    font: inherit;
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-200);
+    text-align: left;
+    overflow-wrap: anywhere;
+
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+
+  &__description {
+    margin: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-100);
+    white-space: pre-wrap;
+  }
+
+  &__edit {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    width: 100%;
+  }
+
+  &__edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-xs);
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xxs);
+    // Align under the title: drag + checkbox + gaps.
+    padding-left: calc(
+      var(--icon-size-16) + var(--spacing-xs) + var(--icon-size-16) +
+        var(--spacing-xs)
+    );
+  }
+
+  &--closed {
+    .checklist-item__title {
+      text-decoration: line-through;
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+  }
+
+  &--skipped {
+    .checklist-item__title {
+      text-decoration: line-through;
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+  }
+
+  &--editing {
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+  }
+}

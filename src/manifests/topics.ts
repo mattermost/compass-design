@@ -1124,6 +1124,34 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.specimen'),
   },
   {
+    slug: 'checklist-item',
+    name: 'Checklist Item',
+    category: 'patterns',
+    description:
+      'A Playbooks checklist task row: checkbox, title, description, and meta chips for assignee, due date, and slash command.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/checklist-item/checklist-item.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/checklist-item/checklist-item.specimen'),
+  },
+  {
+    slug: 'collapsible-checklist',
+    name: 'Collapsible Checklist',
+    category: 'patterns',
+    description:
+      'A Playbooks checklist section: collapsible header, progress, ChecklistItem rows, and add-task.',
+    status: 'beta',
+    guidelinePage: () =>
+      import(
+        '@/guidelines/patterns/collapsible-checklist/collapsible-checklist.guideline.mdx'
+      ),
+    specimenPage: () =>
+      import(
+        '@/guidelines/patterns/collapsible-checklist/collapsible-checklist.specimen'
+      ),
+  },
+  {
     slug: 'mobile-navigation-bar',
     name: 'Mobile Navigation Bar',
     category: 'patterns',
