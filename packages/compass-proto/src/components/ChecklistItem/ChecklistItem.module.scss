@@ -140,7 +140,7 @@
 
       &:empty::before {
         content: attr(data-placeholder);
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-48));
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
         pointer-events: none;
       }
     }
@@ -176,7 +176,7 @@
 
       &:empty::before {
         content: attr(data-placeholder);
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-48));
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
         pointer-events: none;
       }
     }

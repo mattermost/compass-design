@@ -353,6 +353,8 @@ export default function ChecklistItem({
 
   const handleTitleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
+      // IME Enter confirms a composition candidate — don't save yet.
+      if (e.nativeEvent.isComposing) return;
       e.preventDefault();
       onSave?.();
     } else if (e.key === 'Escape') {

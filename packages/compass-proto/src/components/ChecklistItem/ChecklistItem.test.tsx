@@ -108,6 +108,27 @@ describe('ChecklistItem', () => {
     expect(onSave).toHaveBeenCalled();
   });
 
+  it('does not save on Enter while an IME composition is active', () => {
+    const onSave = vi.fn();
+    const { container } = render(
+      <ChecklistItem
+        item={{ ...baseItem, title: '下' }}
+        editing
+        onSave={onSave}
+      />,
+    );
+    const title = container.querySelector('[role="textbox"]') as HTMLElement;
+    title.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+        // jsdom KeyboardEventInit supports isComposing in modern browsers.
+        ...({ isComposing: true } as KeyboardEventInit),
+      }),
+    );
+    expect(onSave).not.toHaveBeenCalled();
+  });
+
   it('shows a hover actions toolbar when action callbacks are provided', () => {
     const onEdit = vi.fn();
     const onAssign = vi.fn();
