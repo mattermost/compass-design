@@ -537,7 +537,7 @@ export default function ChecklistItem({
         <div className={styles['checklist-item__meta']}>
           {showCheckedBy && item.checkedBy && (
             <Chip
-              size="small"
+              size="medium"
               compact
               leadingAvatar={
                 item.checkedBy.src
@@ -553,7 +553,7 @@ export default function ChecklistItem({
           )}
           {item.assignee && (
             <Chip
-              size="small"
+              size="medium"
               compact
               leadingAvatar={
                 item.assignee.src
@@ -565,13 +565,13 @@ export default function ChecklistItem({
             </Chip>
           )}
           {item.dueDate && (
-            <Chip size="small" compact leadingIcon={<CalendarOutlineIcon />}>
+            <Chip size="medium" compact leadingIcon={<CalendarOutlineIcon />}>
               {item.dueDate}
             </Chip>
           )}
           {item.command && (
             <Chip
-              size="small"
+              size="medium"
               compact
               leadingIcon={<SlashForwardBoxOutlineIcon />}
             >
