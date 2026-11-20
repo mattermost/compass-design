@@ -134,24 +134,15 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Panel positioner — places the card relative to the tip; panel only scales
+  // Surface — pointer + panel scale/fade together from the tip origin
   // ---------------------------------------------------------------------------
-  &__anchor {
+  &__surface {
     position: absolute;
-    z-index: 1;
     top: 0;
     left: 0;
-  }
-
-  &__panel {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 280px;
-    max-width: 352px;
-    border-radius: var(--radius-m);
-    background-color: var(--button-bg);
-    box-shadow: var(--elevation-4);
+    width: 0;
+    height: 0;
+    transform-origin: 0 0;
 
     &--transition {
       opacity: 0;
@@ -182,24 +173,23 @@
     }
   }
 
-  &--pointer-top-center &__panel,
-  &--pointer-top-left &__panel,
-  &--pointer-top-right &__panel {
-    transform-origin: 50% 0;
+  // Panel positioner — places the card relative to the tip
+  &__anchor {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
   }
 
-  &--pointer-bottom-center &__panel,
-  &--pointer-bottom-left &__panel,
-  &--pointer-bottom-right &__panel {
-    transform-origin: 50% 100%;
-  }
-
-  &--pointer-left-center &__panel {
-    transform-origin: 0 50%;
-  }
-
-  &--pointer-right-center &__panel {
-    transform-origin: 100% 50%;
+  &__panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    max-width: 352px;
+    border-radius: var(--radius-m);
+    background-color: var(--button-bg);
+    box-shadow: var(--elevation-4);
   }
 
   &__header {

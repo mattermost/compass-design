@@ -14,7 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Fixed
 
 - **`TourPoint` title font vs host Metropolis:** the title rule is now `.tour-point__title.tour-point__title:is(h2)` (specificity 0,2,1) so Mattermost `.app__body h2` cannot override `font-family: var(--font-family-body)`. Hosts can drop the `.app__body .anchored-tour-point h2` workaround after bumping.
-- **`TourPoint` exit animation before dismiss callbacks:** close, Escape (when the event target is inside the card), and `primaryAction` play the PopoverMenu-style scale/fade exit (`usePopoverTransition`, `--duration-quick`) and only then call `onClose` / `primaryAction.onClick`. A second dismiss while exiting is ignored. Escape is handled on the card root only (no window listener, no focus trap). Default markup is unchanged aside from panel transition classes replacing the entrance-only keyframe.
+- **`TourPoint` exit animation before dismiss callbacks:** close, Escape (when the event target is inside the card), and `primaryAction` / `secondaryAction` play the PopoverMenu-style scale/fade exit (`usePopoverTransition`, `--duration-quick`) and only then call their callbacks. A second dismiss while exiting is ignored. Escape is handled on the card root only (no window listener, no focus trap). Pointer and panel share a `tour-point__surface` so the arrow exits with the card.
 - **`TourPoint` pulsing tip stays put when collapsing:** the root’s `(0,0)` is the pointer tip. Closing to the pulsing-dot control no longer shifts the tip because the open card used to size the root. Hosts should position the root at the UI anchor (tip), not the card’s top-left. Markup adds a `tour-point__anchor` wrapper around the panel.
 
 ### Changed
