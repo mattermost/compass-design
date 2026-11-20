@@ -474,6 +474,26 @@ describe('TourPoint closed pulsing dot', () => {
     expect(openDot()).toBeNull();
   });
 
+  it('paints the card hidden before the open transition when opened from the dot', () => {
+    render(
+      <TourPoint title="Welcome" defaultOpen={false}>
+        Body
+      </TourPoint>,
+    );
+    click(openDot()!);
+    const surface = document.querySelector(
+      `.${styles['tour-point__surface']}`,
+    ) as HTMLElement;
+    expect(surface).not.toBeNull();
+    expect(surface.className).not.toContain(
+      styles['tour-point__surface--visible'],
+    );
+    act(() => {
+      vi.advanceTimersByTime(32);
+    });
+    expect(surface.className).toContain(styles['tour-point__surface--visible']);
+  });
+
   it('keeps the closed core dot when showPulsingDot is false', () => {
     render(
       <TourPoint title="Welcome" defaultOpen={false} showPulsingDot={false}>
