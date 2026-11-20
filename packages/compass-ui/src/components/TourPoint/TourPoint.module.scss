@@ -26,6 +26,7 @@
 // ---------------------------------------------------------------------------
 .tour-point {
   position: relative;
+  z-index: var(--z-popover, 1200);
   display: inline-block;
   width: 0;
   height: 0;

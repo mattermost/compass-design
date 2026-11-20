@@ -41,6 +41,14 @@ function flushExit() {
   });
 }
 
+describe('TourPoint stacking', () => {
+  it('uses the popover z-index token on the root', () => {
+    expect(tourPointScss).toMatch(
+      /\.tour-point\s*\{[^}]*z-index:\s*var\(--z-popover,\s*1200\)/s,
+    );
+  });
+});
+
 describe('TourPoint title font', () => {
   let styleEl: HTMLStyleElement;
 
