@@ -148,8 +148,12 @@
     cursor: pointer;
 
     &:hover {
-      background-color: rgba(var(--button-bg-rgb), var(--opacity-8));
-      color: var(--button-bg);
+      // Same row wash as ChecklistItem — not the blue button-bg hover.
+      background-color: color-mix(
+        in srgb,
+        var(--center-channel-color) 4%,
+        var(--center-channel-bg)
+      );
     }
   }
 
