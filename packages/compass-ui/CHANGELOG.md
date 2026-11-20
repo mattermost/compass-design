@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`TourPoint` title font vs host Metropolis:** the title rule is now `.tour-point__title.tour-point__title:is(h2)` (specificity 0,2,1) so Mattermost `.app__body h2` cannot override `font-family: var(--font-family-body)`. Hosts can drop the `.app__body .anchored-tour-point h2` workaround after bumping.
+- **`TourPoint` exit animation before dismiss callbacks:** close, Escape (when the event target is inside the card), and `primaryAction` play the PopoverMenu-style scale/fade exit (`usePopoverTransition`, `--duration-quick`) and only then call `onClose` / `primaryAction.onClick`. A second dismiss while exiting is ignored. Escape is handled on the card root only (no window listener, no focus trap). Default markup is unchanged aside from panel transition classes replacing the entrance-only keyframe.
+
 ### Changed
 
 - **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto`:** they were added after `0.1.0-alpha.32` and never published from this package, so there is nothing to migrate. The `components/suggestion-list` subpath and root exports are not in any compass-ui release.

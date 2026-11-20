@@ -1,13 +1,21 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import {
+  useRef,
+  useState,
+  type HTMLAttributes,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react';
 import CloseIcon from '@mattermost/compass-icons/components/close';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
 import IconButton from '@/components/IconButton/IconButton';
 import PaginationDots from '@/components/PaginationDots/PaginationDots';
+import { usePopoverTransition } from '@/hooks/usePopoverTransition';
 import type { BuiltInButtonProps } from '@/utils/props';
 import { mergeClassNames } from '@/utils/props';
 import { toKebab } from '@/utils/string';
+import { useOnExited } from '@/utils/useOnExited';
 import styles from './TourPoint.module.scss';
 
 export type TourPointPointerPosition =
@@ -56,6 +64,10 @@ export interface TourPointProps extends Omit<
    * callsite or a static tour step.
    */
   showPulsingDot?: boolean;
+  /**
+   * Called after the close (×) or Escape dismiss finishes its exit transition.
+   * Hosts that unmount in this callback get the exit animation first.
+   */
   onClose?: () => void;
   /** Accessible name for the close button. Default: "Close". */
   closeLabel?: string;
@@ -78,8 +90,25 @@ export default function TourPoint({
   progress,
   primaryAction,
   className = '',
+  onKeyDown,
   ...rest
 }: TourPointProps) {
+  const [open, setOpen] = useState(true);
+  const { mounted, visible } = usePopoverTransition(open);
+  const pendingActionRef = useRef<(() => void) | undefined>(undefined);
+
+  useOnExited(mounted, () => {
+    const action = pendingActionRef.current;
+    pendingActionRef.current = undefined;
+    action?.();
+  });
+
+  const requestDismiss = (action?: () => void) => {
+    if (!open) return;
+    pendingActionRef.current = action;
+    setOpen(false);
+  };
+
   const showPointer = pointerPosition !== 'none';
   const pointerModifier =
     showPointer &&
@@ -91,10 +120,29 @@ export default function TourPoint({
     .filter(Boolean)
     .join(' ');
 
+  const panelClass = [
+    styles['tour-point__panel'],
+    styles['tour-point__panel--transition'],
+    visible && styles['tour-point__panel--visible'],
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   const showFooter = progress != null || primaryAction != null;
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown?.(e);
+    if (e.defaultPrevented || e.key !== 'Escape' || !onClose) return;
+    const target = e.target;
+    if (!(target instanceof Node) || !e.currentTarget.contains(target)) return;
+    e.preventDefault();
+    requestDismiss(onClose);
+  };
+
+  if (!mounted) return null;
+
   return (
-    <div {...rest} className={rootClass}>
+    <div {...rest} className={rootClass} onKeyDown={handleKeyDown}>
       {showPointer && (
         <span className={styles['tour-point__pointer']} aria-hidden>
           <span className={styles['tour-point__pointer-triangle']} />
@@ -113,7 +161,7 @@ export default function TourPoint({
         </span>
       )}
 
-      <div className={styles['tour-point__panel']}>
+      <div className={panelClass}>
         <div className={styles['tour-point__header']}>
           <h2 className={styles['tour-point__title']}>{title}</h2>
           {onClose && (
@@ -128,7 +176,7 @@ export default function TourPoint({
               padding="compact"
               style="default"
               icon={<Icon size="16" glyph={<CloseIcon />} />}
-              onClick={onClose}
+              onClick={() => requestDismiss(onClose)}
             />
           )}
         </div>
@@ -167,7 +215,7 @@ export default function TourPoint({
                   trailingIcon={<Icon size="16" glyph={<ChevronRightIcon />} />}
                   disabled={primaryAction.disabled}
                   loading={primaryAction.loading}
-                  onClick={primaryAction.onClick}
+                  onClick={() => requestDismiss(primaryAction.onClick)}
                 >
                   {primaryAction.label}
                 </Button>

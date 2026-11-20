@@ -1,5 +1,7 @@
+import { act } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import type { ReactElement } from 'react';
+import { POPOVER_TRANSITION_MS } from '@/hooks/usePopoverTransition';
 import { click, render } from '@/test-utils/render';
 import type { BuiltInButtonProps } from '@/utils/props';
 import AdminPanel from './AdminPanel/AdminPanel';
@@ -365,7 +367,16 @@ describe('built-in button attribute pass-through', () => {
         label,
       );
       if (!name.startsWith('TabItem')) {
+        if (name.startsWith('TourPoint')) {
+          vi.useFakeTimers();
+        }
         click(button);
+        if (name.startsWith('TourPoint')) {
+          act(() => {
+            vi.advanceTimersByTime(POPOVER_TRANSITION_MS + 1);
+          });
+          vi.useRealTimers();
+        }
         expect(onActivate).toHaveBeenCalledTimes(1);
       }
     });

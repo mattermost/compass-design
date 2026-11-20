@@ -1,5 +1,6 @@
+import { act, type ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import type { ReactNode } from 'react';
+import { POPOVER_TRANSITION_MS } from '@/hooks/usePopoverTransition';
 import { click, getByRole, render } from '@/test-utils/render';
 import TileButton from './TileButton/TileButton';
 import AdminPanel from './AdminPanel/AdminPanel';
@@ -154,6 +155,7 @@ describe('text props accept translated nodes', () => {
 
   it('TourPoint title and primary action label', () => {
     const onNext = vi.fn();
+    vi.useFakeTimers();
     const { container } = render(
       <TourPoint
         title={<Msg>Meet Agents</Msg>}
@@ -165,7 +167,11 @@ describe('text props accept translated nodes', () => {
     expect(container.querySelector('h2')?.textContent).toBe('Meet Agents');
     expect(messages(container)).toEqual(['Meet Agents', 'Next']);
     click(getByRole('button', 'Next'));
+    act(() => {
+      vi.advanceTimersByTime(POPOVER_TRANSITION_MS + 1);
+    });
     expect(onNext).toHaveBeenCalledTimes(1);
+    vi.useRealTimers();
   });
 
   it('PopoverNotice checkboxLabel', () => {
