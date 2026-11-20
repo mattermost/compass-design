@@ -45,12 +45,16 @@ describe('Dropdown', () => {
 
   // happy-dom does not resolve CSS-module computed styles on the button; assert
   // the shrink path in source so a flex host can ellipsize a long label from the start.
+  // Root declarations are checked only on `.dropdown`'s own block (before nested
+  // `&` rules) so removing them cannot be masked by the same properties on
+  // `__trigger` / `__label`.
   it('keeps overflow, start alignment, and a full-width flex trigger for host truncation', () => {
-    expect(dropdownScss).toMatch(/min-width:\s*0;/);
-    expect(dropdownScss).toMatch(/max-width:\s*100%;/);
-    expect(dropdownScss).toMatch(/overflow:\s*hidden;/);
-    expect(dropdownScss).toMatch(/justify-content:\s*flex-start;/);
-    expect(dropdownScss).toMatch(/text-align:\s*start;/);
+    const rootBlock = dropdownScss.match(/\.dropdown\s*\{([\s\S]*?)\n  &/)?.[1] ?? '';
+    expect(rootBlock).toMatch(/min-width:\s*0;/);
+    expect(rootBlock).toMatch(/max-width:\s*100%;/);
+    expect(rootBlock).toMatch(/overflow:\s*hidden;/);
+    expect(rootBlock).toMatch(/justify-content:\s*flex-start;/);
+    expect(rootBlock).toMatch(/text-align:\s*start;/);
     expect(dropdownScss).toMatch(
       /&__trigger\s*\{[^}]*display:\s*flex;[^}]*width:\s*100%;/s,
     );
