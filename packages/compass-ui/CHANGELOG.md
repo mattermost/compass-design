@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`TourPoint` closed pulsing-dot state:** optional controlled `open` / uncontrolled `defaultOpen` (default `true`, so current auto-show callers are unchanged) and `onOpenChange`. When closed, the pulsing dot stays mounted as a clickable control (`openLabel` / `openButtonProps`) and opens the card on click. Close and Escape collapse to the dot when the host keeps the instance; `primaryAction` still reopens after exit on uncontrolled retained multi-step hosts. `showPulsingDot` still controls the tip rings while open (and the closed control’s rings).
+
 ### Fixed
 
 - **`TourPoint` title font vs host Metropolis:** the title rule is now `.tour-point__title.tour-point__title:is(h2)` (specificity 0,2,1) so Mattermost `.app__body h2` cannot override `font-family: var(--font-family-body)`. Hosts can drop the `.app__body .anchored-tour-point h2` workaround after bumping.

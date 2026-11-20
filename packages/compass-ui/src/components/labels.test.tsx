@@ -85,6 +85,16 @@ const BUTTON_NAME_CASES: Array<{
     ),
   },
   {
+    name: 'TourPoint openLabel',
+    english: 'Open tip',
+    render: (l) => (
+      <TourPoint title="T" defaultOpen={false} openLabel={l}>
+        Body
+      </TourPoint>
+    ),
+  },
+
+  {
     name: 'PopoverNotice closeLabel',
     english: 'Close',
     render: (l) => (

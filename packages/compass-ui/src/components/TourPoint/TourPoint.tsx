@@ -62,18 +62,36 @@ export interface TourPointProps extends Omit<
   /**
    * Animated marker at the arrow tip (Figma Pulsing Dot). Only applies when a
    * pointer is shown. Default on; set false for reduced motion preference at the
-   * callsite or a static tour step.
+   * callsite or a static tour step. When the card is closed, the open control
+   * still shows the core dot; rings follow this prop.
    */
   showPulsingDot?: boolean;
   /**
+   * Controlled panel visibility. When `false`, the pulsing dot stays mounted and
+   * opens the card on click. Omit for uncontrolled (see `defaultOpen`).
+   */
+  open?: boolean;
+  /**
+   * Uncontrolled initial panel visibility. Default `true` (auto-show). Pass
+   * `false` to start as a clickable pulsing dot.
+   */
+  defaultOpen?: boolean;
+  /** Called when the panel opens or closes (controlled or uncontrolled). */
+  onOpenChange?: (open: boolean) => void;
+  /**
    * Called after the close (×) or Escape dismiss finishes its exit transition.
-   * Hosts that unmount in this callback get the exit animation first.
+   * Hosts that unmount in this callback get the exit animation first. When the
+   * host keeps the instance, the card collapses to the pulsing dot.
    */
   onClose?: () => void;
   /** Accessible name for the close button. Default: "Close". */
   closeLabel?: string;
   /** Extra attributes for the close button (e.g. `data-testid`). */
   closeButtonProps?: BuiltInButtonProps;
+  /** Accessible name for the closed pulsing-dot control. Default: "Open tip". */
+  openLabel?: string;
+  /** Extra attributes for the closed pulsing-dot button (e.g. `data-testid`). */
+  openButtonProps?: BuiltInButtonProps;
   progress?: TourPointProgress;
   primaryAction?: TourPointPrimaryAction;
   className?: string;
@@ -85,33 +103,51 @@ export default function TourPoint({
   media,
   pointerPosition = 'top-center',
   showPulsingDot = true,
+  open: openProp,
+  defaultOpen = true,
+  onOpenChange,
   onClose,
   closeLabel = 'Close',
   closeButtonProps,
+  openLabel = 'Open tip',
+  openButtonProps,
   progress,
   primaryAction,
   className = '',
   onKeyDown,
   ...rest
 }: TourPointProps) {
-  const [open, setOpen] = useState(true);
-  const { mounted, visible } = usePopoverTransition(open);
+  const isControlled = openProp !== undefined;
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const open = isControlled ? openProp! : uncontrolledOpen;
+
+  const setOpen = (next: boolean) => {
+    if (!isControlled) setUncontrolledOpen(next);
+    onOpenChange?.(next);
+  };
+
+  const { mounted: panelMounted, visible } = usePopoverTransition(open);
   const pendingActionRef = useRef<(() => void) | undefined>(undefined);
+  const pendingReopenRef = useRef(false);
   const restoreFocusRef = useRef(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useOnExited(mounted, () => {
+  useOnExited(panelMounted, () => {
     const action = pendingActionRef.current;
+    const shouldReopen = pendingReopenRef.current;
     pendingActionRef.current = undefined;
+    pendingReopenRef.current = false;
     action?.();
-    // Hosts that unmount in the callback drop us; hosts that keep the same
-    // instance (e.g. multi-step next) need open reset so the next props show.
-    restoreFocusRef.current = true;
-    setOpen(true);
+    // Primary "next" on an uncontrolled retained instance reopens the card for
+    // the updated step. Close / Escape stay collapsed as the pulsing dot.
+    if (shouldReopen && !isControlled) {
+      restoreFocusRef.current = true;
+      setOpen(true);
+    }
   });
 
   useEffect(() => {
-    if (!mounted || !restoreFocusRef.current) return;
+    if (!panelMounted || !restoreFocusRef.current) return;
     restoreFocusRef.current = false;
     const root = rootRef.current;
     if (!root) return;
@@ -134,11 +170,12 @@ export default function TourPoint({
         'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
       );
     focusable?.focus();
-  }, [mounted]);
+  }, [panelMounted]);
 
-  const requestDismiss = (action?: () => void) => {
+  const requestDismiss = (action?: () => void, reopen = false) => {
     if (!open) return;
     pendingActionRef.current = action;
+    pendingReopenRef.current = reopen;
     setOpen(false);
   };
 
@@ -148,8 +185,14 @@ export default function TourPoint({
     styles[
       `tour-point--pointer-${toKebab(pointerPosition as TourPointPointerPosition)}`
     ];
+  const closed = !panelMounted;
 
-  const rootClass = [styles['tour-point'], pointerModifier, className]
+  const rootClass = [
+    styles['tour-point'],
+    pointerModifier,
+    closed && styles['tour-point--closed'],
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -165,14 +208,49 @@ export default function TourPoint({
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
-    if (e.defaultPrevented || e.key !== 'Escape' || !onClose) return;
+    if (e.defaultPrevented || e.key !== 'Escape' || !onClose || !open) return;
     const target = e.target;
     if (!(target instanceof Node) || !e.currentTarget.contains(target)) return;
     e.preventDefault();
-    requestDismiss(onClose);
+    requestDismiss(onClose, false);
   };
 
-  if (!mounted) return null;
+  const pulseRings = showPulsingDot ? (
+    <>
+      <span className={styles['tour-point__pointer-pulse-ring']} />
+      <span
+        className={[
+          styles['tour-point__pointer-pulse-ring'],
+          styles['tour-point__pointer-pulse-ring--delay'],
+        ].join(' ')}
+      />
+    </>
+  ) : null;
+
+  if (closed) {
+    return (
+      <div {...rest} ref={rootRef} className={rootClass}>
+        <button
+          type="button"
+          {...openButtonProps}
+          className={mergeClassNames(
+            styles['tour-point__open'],
+            openButtonProps?.className,
+          )}
+          aria-label={openLabel}
+          onClick={(e) => {
+            openButtonProps?.onClick?.(e);
+            setOpen(true);
+          }}
+        >
+          <span className={styles['tour-point__pointer-pulse']} aria-hidden>
+            {pulseRings}
+            <span className={styles['tour-point__pointer-pulse-core']} />
+          </span>
+        </button>
+      </div>
+    );
+  }
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Escape dismiss when focus is inside the card; not a modal (no role/trap)
@@ -187,13 +265,7 @@ export default function TourPoint({
           <span className={styles['tour-point__pointer-triangle']} />
           {showPulsingDot && (
             <span className={styles['tour-point__pointer-pulse']}>
-              <span className={styles['tour-point__pointer-pulse-ring']} />
-              <span
-                className={[
-                  styles['tour-point__pointer-pulse-ring'],
-                  styles['tour-point__pointer-pulse-ring--delay'],
-                ].join(' ')}
-              />
+              {pulseRings}
               <span className={styles['tour-point__pointer-pulse-core']} />
             </span>
           )}
@@ -215,7 +287,7 @@ export default function TourPoint({
               padding="compact"
               style="default"
               icon={<Icon size="16" glyph={<CloseIcon />} />}
-              onClick={() => requestDismiss(onClose)}
+              onClick={() => requestDismiss(onClose, false)}
             />
           )}
         </div>
@@ -254,7 +326,7 @@ export default function TourPoint({
                   trailingIcon={<Icon size="16" glyph={<ChevronRightIcon />} />}
                   disabled={primaryAction.disabled}
                   loading={primaryAction.loading}
-                  onClick={() => requestDismiss(primaryAction.onClick)}
+                  onClick={() => requestDismiss(primaryAction.onClick, true)}
                 >
                   {primaryAction.label}
                 </Button>

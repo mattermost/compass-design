@@ -181,6 +181,18 @@ const BUTTON_CASES: Record<
       </TourPoint>
     ),
   },
+  'TourPoint openButtonProps': {
+    label: 'Open tip',
+    render: (p, on) => (
+      <TourPoint
+        title="Tip"
+        defaultOpen={false}
+        openButtonProps={{ ...p, onClick: on }}
+      >
+        Body
+      </TourPoint>
+    ),
+  },
   'PopoverNotice closeButtonProps': {
     label: 'Close',
     render: (p, on) => (

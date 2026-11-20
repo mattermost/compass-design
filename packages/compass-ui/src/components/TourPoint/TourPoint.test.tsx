@@ -246,6 +246,69 @@ describe('TourPoint exit dismiss', () => {
   });
 });
 
+describe('TourPoint closed pulsing dot', () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => vi.useRealTimers());
+
+  function openDot() {
+    return document.querySelector(
+      'button[aria-label="Open tip"]',
+    ) as HTMLButtonElement | null;
+  }
+
+  it('starts closed as a clickable pulsing dot when defaultOpen is false', () => {
+    render(
+      <TourPoint title="Welcome" defaultOpen={false}>
+        Body
+      </TourPoint>,
+    );
+    expect(titleEl()).toBeNull();
+    expect(openDot()).not.toBeNull();
+    click(openDot()!);
+    expect(titleEl()?.textContent).toBe('Welcome');
+    expect(openDot()).toBeNull();
+  });
+
+  it('collapses to the pulsing dot after close when the host keeps the instance', () => {
+    const onClose = vi.fn();
+    render(
+      <TourPoint title="Tip" onClose={onClose} defaultOpen>
+        Body
+      </TourPoint>,
+    );
+    click(closeButton()!);
+    flushExit();
+    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(titleEl()).toBeNull();
+    expect(openDot()).not.toBeNull();
+  });
+
+  it('does not close when Escape is pressed outside while closed', () => {
+    const onClose = vi.fn();
+    const onOpenChange = vi.fn();
+    render(
+      <div>
+        <button type="button" data-testid="outside">
+          Outside
+        </button>
+        <TourPoint
+          title="Tip"
+          defaultOpen={false}
+          onClose={onClose}
+          onOpenChange={onOpenChange}
+        >
+          Body
+        </TourPoint>
+      </div>,
+    );
+    keyDown(document.querySelector('[data-testid="outside"]')!, 'Escape');
+    expect(onClose).not.toHaveBeenCalled();
+    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(openDot()).not.toBeNull();
+    expect(titleEl()).toBeNull();
+  });
+});
+
 describe('TourPoint Escape', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());
