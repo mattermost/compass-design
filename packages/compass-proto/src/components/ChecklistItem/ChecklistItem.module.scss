@@ -8,7 +8,7 @@
 
   // Extra left pad so the hover drag handle sits in the gutter, not the row flow.
   &--with-drag {
-    padding-left: calc(var(--spacing-s) + var(--icon-size-16));
+    padding-left: var(--spacing-l);
   }
 
   &:hover,
