@@ -33,7 +33,8 @@ npm test --workspace=@mattermost/compass-ui              # vitest + happy-dom, n
 npm run build --workspace=@mattermost/compass-ui         # also verifies the token snapshot
 npm run build --workspace=@mattermost/compass-proto
 npm run smoke-test:packages                              # pack + install into a scratch Vite app
-npm run build                                            # docs app (tsc -b + vite build)
+npx tsc -b --pretty false                                # docs app typecheck (same step as package CI)
+npm run build                                            # docs app (tsc -b + vite build); GitHub Pages deploy
 ```
 
 For visual checks, use the `computerUse` subagent's Chrome desktop against the localhost URLs above, and screenshot the specimen or story you changed.
