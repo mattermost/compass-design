@@ -12,17 +12,25 @@ new and give optional guidance to users who want more context.
 
 A Tour Point is made up of the following elements:
 
-<AnatomyStage>
-  <TourPoint
-    title="Tour point title"
-    pointerPosition="top-center"
-    onClose={() => {}}
-    progress={{ pages: 3, activePage: 1 }}
-    primaryAction={{ label: 'Next', onClick: () => {} }}
-  >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel orci id
-    urna facilisis luctus.
-  </TourPoint>
+<AnatomyStage
+  style={{
+    position: 'relative',
+    minHeight: 360,
+    padding: 96,
+  }}
+>
+  <div style={{ position: 'absolute', left: '50%', top: '40%' }}>
+    <TourPoint
+      title="Tour point title"
+      pointerPosition="top-center"
+      onClose={() => {}}
+      progress={{ pages: 3, activePage: 1 }}
+      primaryAction={{ label: 'Next', onClick: () => {} }}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel orci
+      id urna facilisis luctus.
+    </TourPoint>
+  </div>
 </AnatomyStage>
 
 - <Num>1</Num> **Container** — The framed surface that holds the tour content.

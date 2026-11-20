@@ -1,3 +1,4 @@
+import { useState, type ReactNode } from 'react';
 import { TourPoint } from '@mattermost/compass-ui/components/tour-point';
 import type { TourPointPointerPosition } from '@mattermost/compass-ui/components/tour-point';
 import styles from '@/styles/library-demo/patterns.module.scss';
@@ -18,6 +19,39 @@ function labelFor(position: TourPointPointerPosition) {
     .split('-')
     .map((word: string) => word[0].toUpperCase() + word.slice(1))
     .join(' ');
+}
+
+function tipClass(position: TourPointPointerPosition | 'none') {
+  return [
+    styles['patterns__tour-point-tip'],
+    styles[`patterns__tour-point-tip--${position}`],
+  ].join(' ');
+}
+
+function stageClass(position: TourPointPointerPosition | 'none') {
+  const side = position === 'left-center' || position === 'right-center';
+  return [
+    styles['patterns__tour-point-stage'],
+    side ? styles['patterns__tour-point-stage--side'] : '',
+    position === 'none' ? styles['patterns__tour-point-stage--none'] : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
+/** Tight per-cell stage: tip on the panel edge so layout matches the old specimen. */
+function TourPointStage({
+  pointerPosition,
+  children,
+}: {
+  pointerPosition: TourPointPointerPosition | 'none';
+  children: ReactNode;
+}) {
+  return (
+    <div className={stageClass(pointerPosition)}>
+      <div className={tipClass(pointerPosition)}>{children}</div>
+    </div>
+  );
 }
 
 export default function TourPointLibrary() {
@@ -45,16 +79,18 @@ export default function TourPointLibrary() {
               <p className={styles['patterns__variant-label']}>
                 {labelFor(pointerPosition)}
               </p>
-              <TourPoint
-                title="Tour point title"
-                pointerPosition={pointerPosition}
-                onClose={() => {}}
-                progress={{ pages: 3, activePage: 1 }}
-                primaryAction={{ label: 'Next', onClick: () => {} }}
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-                vel orci id urna facilisis luctus.
-              </TourPoint>
+              <TourPointStage pointerPosition={pointerPosition}>
+                <TourPoint
+                  title="Tour point title"
+                  pointerPosition={pointerPosition}
+                  onClose={() => {}}
+                  progress={{ pages: 3, activePage: 1 }}
+                  primaryAction={{ label: 'Next', onClick: () => {} }}
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Integer vel orci id urna facilisis luctus.
+                </TourPoint>
+              </TourPointStage>
             </div>
           ))}
         </div>
@@ -66,17 +102,54 @@ export default function TourPointLibrary() {
           Omit the arrow when the card is not tied to an on-canvas anchor.
         </p>
         <div className={styles['patterns__tour-point-single-demo']}>
-          <TourPoint
-            title="Standalone tour copy"
-            pointerPosition="none"
-            onClose={() => {}}
-            primaryAction={{ label: 'Got it', onClick: () => {} }}
-          >
-            Set pointerPosition to none when the card is shown without an
-            on-canvas anchor.
-          </TourPoint>
+          <TourPointStage pointerPosition="none">
+            <TourPoint
+              title="Standalone tour copy"
+              pointerPosition="none"
+              onClose={() => {}}
+              primaryAction={{ label: 'Got it', onClick: () => {} }}
+            >
+              Set pointerPosition to none when the card is shown without an
+              on-canvas anchor.
+            </TourPoint>
+          </TourPointStage>
+        </div>
+      </section>
+
+      <section className={styles['patterns__section']}>
+        <h2 className={styles['patterns__section-title']}>
+          Closed pulsing dot
+        </h2>
+        <p className={styles['patterns__variant-label']}>
+          Collapsed tip stays on the anchor as a clickable pulsing dot. Click to
+          open; close or Got it collapses back.
+        </p>
+        <div className={styles['patterns__tour-point-single-demo']}>
+          <ClosedDotDemo />
         </div>
       </section>
     </div>
+  );
+}
+
+function ClosedDotDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <TourPointStage pointerPosition="top-center">
+      <TourPoint
+        title="Welcome to channels"
+        pointerPosition="top-center"
+        open={open}
+        onOpenChange={setOpen}
+        onClose={() => setOpen(false)}
+        primaryAction={{
+          label: 'Got it',
+          onClick: () => setOpen(false),
+        }}
+      >
+        Starts closed. Click the pulsing dot to open, then close or Got it to
+        collapse again.
+      </TourPoint>
+    </TourPointStage>
   );
 }

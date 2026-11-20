@@ -6,8 +6,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Added
+
+- **`TourPoint` closed pulsing-dot state:** optional controlled `open` / uncontrolled `defaultOpen` (default `true`, so current auto-show callers are unchanged) and `onOpenChange`. When closed, the pulsing dot stays mounted as a clickable control (`openLabel` / `openButtonProps`) and opens the card on click. Close and Escape collapse to the dot when the host keeps the instance; mid-series `Next` / `Previous` reopen after exit on retained hosts. `showPulsingDot` controls the tip rings; the closed control always keeps the core dot.
+- **`TourPoint` `secondaryAction`:** optional Previous control for multi-step series (same exit-then-callback timing as `primaryAction`). `TourPointAction` is the shared action shape; `TourPointPrimaryAction` remains an alias. Wire `progress.onPageChange` for clickable step dots (`activePage` is 1-indexed). Pagination dots render only when `progress.pages > 1`. Uncontrolled retained hosts reopen after Previous always, and after primary only for mid-series `Next` (`activePage < pages`); `Got it` / last-step `Done` stay collapsed like close / Escape.
+
+### Fixed
+
+- **`TourPoint` title font vs host Metropolis:** the title rule is now `.tour-point__title.tour-point__title:is(h2)` (specificity 0,2,1) so Mattermost `.app__body h2` cannot override `font-family: var(--font-family-body)`. Hosts can drop the `.app__body .anchored-tour-point h2` workaround after bumping.
+- **`TourPoint` exit animation before dismiss callbacks:** close, Escape (when the event target is inside the card), and `primaryAction` / `secondaryAction` play the PopoverMenu-style scale/fade exit (`usePopoverTransition`, `--duration-quick`) and only then call their callbacks. A second dismiss while exiting is ignored. Escape is handled on the card root only (no window listener, no focus trap). Triangle and panel share a `tour-point__surface` so the arrow exits with the card; the pulsing tip stays on a fixed `tour-point__tip-pulse` at the tip origin so open/close scale does not drag it.
+- **`TourPoint` pulsing tip stays put when collapsing:** the root’s `(0,0)` is the pointer tip. Closing to the pulsing-dot control no longer shifts the tip because the open card used to size the root. Hosts should position the root at the UI anchor (tip), not the card’s top-left. Markup adds a `tour-point__anchor` wrapper around the panel.
+
 ### Changed
 
+- **`TourPoint` body padding:** `var(--spacing-xxxs) var(--spacing-xl) var(--spacing-l)` (was `var(--spacing-m) var(--spacing-xl) var(--spacing-xl)`).
+- **`TourPoint` pointer overlap:** the arrow sits 1px onto the panel on every `pointerPosition` so no hairline gap shows at the card edge.
+- **`TourPoint` closed pulsing-dot hit area:** the open control is 32×32 (visual pulse remains 40×40).
+- **`TourPoint` stacking:** root uses `z-index: var(--z-popover, 1200)` so a tip-positioned card clears page chrome; hosts can still override via `style` / `className`.
+- **`TourPoint` Next / Previous focus:** after a mid-series step action’s exit, focus returns into the tip when the panel remounts for controlled `open` as well as uncontrolled retained hosts (so Escape and further keys keep working).
 - **`TextInput` `readOnly` state:** a read-only field now looks locked: a tinted fill, value text at 72% opacity, a default cursor and no caret. It no longer shows the hover border, the focus ring or the focused label color, and it leaves the tab order (`tabIndex={-1}`). Pass `tabIndex={0}` to put it back; it then shows the focus ring again so keyboard users can see where they are. Clicking still focuses it, so the value can be selected and copied. Default markup is unchanged; with `readOnly`, the root gains `text-input--read-only` and the input gains `tabindex="-1"`.
 - **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto`:** they were added after `0.1.0-alpha.32` and never published from this package, so there is nothing to migrate. The `components/suggestion-list` subpath and root exports are not in any compass-ui release.
 

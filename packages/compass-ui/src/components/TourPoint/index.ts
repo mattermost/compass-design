@@ -3,5 +3,6 @@ export type {
   TourPointProps,
   TourPointPointerPosition,
   TourPointProgress,
+  TourPointAction,
   TourPointPrimaryAction,
 } from './TourPoint';
