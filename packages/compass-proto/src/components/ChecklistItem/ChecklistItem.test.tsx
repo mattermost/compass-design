@@ -51,6 +51,29 @@ describe('ChecklistItem', () => {
     expect(container.textContent).toContain('/zoom start');
   });
 
+  it('shows checked-by only when the task is closed', () => {
+    const { container, rerender } = render(
+      <ChecklistItem
+        item={{
+          ...baseItem,
+          state: 'closed',
+          checkedBy: { name: 'Aiko Tan' },
+        }}
+      />,
+    );
+    expect(container.textContent).toContain('Aiko Tan');
+    rerender(
+      <ChecklistItem
+        item={{
+          ...baseItem,
+          state: 'open',
+          checkedBy: { name: 'Aiko Tan' },
+        }}
+      />,
+    );
+    expect(container.textContent).not.toContain('Aiko Tan');
+  });
+
   it('passes rest attributes and className to the root', () => {
     const { container } = render(
       <ChecklistItem item={baseItem} data-testid="task" className="host" />,

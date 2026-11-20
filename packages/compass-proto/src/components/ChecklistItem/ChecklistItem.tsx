@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import CalendarOutlineIcon from '@mattermost/compass-icons/components/calendar-outline';
 import CheckCircleOutlineIcon from '@mattermost/compass-icons/components/check-circle-outline';
 import DragVerticalIcon from '@mattermost/compass-icons/components/drag-vertical';
@@ -88,6 +88,7 @@ export default function ChecklistItem({
   ...rest
 }: ChecklistItemProps) {
   const titleId = useId();
+  const titleInputRef = useRef<HTMLInputElement>(null);
   const state = item.state ?? 'open';
   const checked = state === 'closed';
   const skipped = state === 'skipped';
@@ -95,10 +96,17 @@ export default function ChecklistItem({
     Boolean(item.description),
   );
 
+  useEffect(() => {
+    if (editing) titleInputRef.current?.focus();
+  }, [editing]);
+
   const hasDescription = Boolean(item.description?.trim());
+  const showCheckedBy = checked && Boolean(item.checkedBy);
   const showMeta =
     !editing &&
-    Boolean(item.checkedBy || item.assignee || item.dueDate || item.command);
+    Boolean(
+      showCheckedBy || item.assignee || item.dueDate || item.command,
+    );
 
   const rootClass = [
     styles['checklist-item'],
@@ -141,6 +149,7 @@ export default function ChecklistItem({
           {editing ? (
             <div className={styles['checklist-item__edit']}>
               <TextInput
+                ref={titleInputRef}
                 size="small"
                 value={item.title}
                 placeholder={titleInputPlaceholder}
@@ -154,7 +163,6 @@ export default function ChecklistItem({
                     onCancel?.();
                   }
                 }}
-                autoFocus
               />
               <TextArea
                 size="small"
@@ -189,10 +197,29 @@ export default function ChecklistItem({
               >
                 {item.title}
               </button>
-              {hasDescription && descriptionOpen && (
-                <p className={styles['checklist-item__description']}>
-                  {item.description}
-                </p>
+              {hasDescription && (
+                <div
+                  className={[
+                    styles['checklist-item__description-collapse'],
+                    descriptionOpen &&
+                      styles[
+                        'checklist-item__description-collapse--expanded'
+                      ],
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  inert={!descriptionOpen}
+                >
+                  <div
+                    className={
+                      styles['checklist-item__description-collapse-inner']
+                    }
+                  >
+                    <p className={styles['checklist-item__description']}>
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
               )}
             </>
           )}
@@ -200,7 +227,7 @@ export default function ChecklistItem({
       </div>
       {showMeta && (
         <div className={styles['checklist-item__meta']}>
-          {item.checkedBy && (
+          {showCheckedBy && item.checkedBy && (
             <Chip
               size="small"
               compact

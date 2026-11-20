@@ -158,25 +158,40 @@ function SectionMenu({
     };
   }, [open]);
 
+  const focusTrigger = () =>
+    slotRef.current?.parentElement
+      ?.querySelector<HTMLElement>('[aria-haspopup="menu"]')
+      ?.focus();
+
+  // Portaled menu: focus first item on open; restore trigger when focus is
+  // still inside the layer as it unmounts (Escape, item click, outside press).
   useEffect(() => {
     if (!open) return undefined;
     const frame = requestAnimationFrame(() => {
       layerRef.current?.querySelector<HTMLElement>('button')?.focus();
     });
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      if (layerRef.current?.contains(document.activeElement)) focusTrigger();
+    };
   }, [open]);
+
+  const closeToTrigger = () => {
+    onClose();
+    focusTrigger();
+  };
 
   const onLayerKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape' || e.key === 'Tab') {
       e.preventDefault();
       e.stopPropagation();
-      onClose();
+      closeToTrigger();
     }
   };
 
   const run = (action?: () => void) => {
     action?.();
-    onClose();
+    closeToTrigger();
   };
 
   return (
