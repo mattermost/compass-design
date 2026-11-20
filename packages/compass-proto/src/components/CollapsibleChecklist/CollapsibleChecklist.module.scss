@@ -17,6 +17,14 @@
       rgba(var(--center-channel-color-rgb), var(--opacity-8));
   }
 
+  &--collapsed &__header {
+    border-bottom: 0;
+  }
+
+  &--collapsed &__progress {
+    display: none;
+  }
+
   &__toggle {
     display: flex;
     flex: 1 1 auto;
