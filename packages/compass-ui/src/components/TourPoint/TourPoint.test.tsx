@@ -259,6 +259,35 @@ describe('TourPoint exit dismiss', () => {
     expect(document.activeElement).not.toBe(closeButton());
   });
 
+  it('calls secondaryAction.onClick after the exit and reopens for the prior step', () => {
+    const onPrev = vi.fn();
+    function Host() {
+      const [step, setStep] = useState(1);
+      return (
+        <TourPoint
+          title={step === 0 ? 'Step one' : 'Step two'}
+          secondaryAction={{
+            label: 'Previous',
+            onClick: () => {
+              onPrev();
+              setStep(0);
+            },
+          }}
+          primaryAction={{ label: 'Next', onClick: () => {} }}
+        >
+          Body
+        </TourPoint>
+      );
+    }
+    render(<Host />);
+    expect(titleEl()?.textContent).toBe('Step two');
+    click(primaryButton('Previous')!);
+    expect(onPrev).not.toHaveBeenCalled();
+    flushExit();
+    expect(onPrev).toHaveBeenCalledTimes(1);
+    expect(titleEl()?.textContent).toBe('Step one');
+  });
+
   it('does nothing when primaryAction has no onClick', () => {
     const onOpenChange = vi.fn();
     render(

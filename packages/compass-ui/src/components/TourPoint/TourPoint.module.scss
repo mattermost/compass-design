@@ -292,6 +292,46 @@
     flex-shrink: 0;
   }
 
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
+  }
+
+  &__prev-wrap {
+    flex-shrink: 0;
+
+    button {
+      --focus-ring-color: var(--neutral-0);
+      --button-fg: var(--neutral-0);
+
+      background-color: transparent;
+      border-color: transparent;
+      color: var(--neutral-0);
+      transition:
+        background-color var(--duration-quick) var(--ease-transition),
+        color var(--duration-quick) var(--ease-transition);
+
+      &:hover:not(:disabled) {
+        background-color: color-mix(
+          in srgb,
+          var(--button-color) 8%,
+          transparent
+        );
+        color: var(--neutral-0);
+      }
+
+      &:active:not(:disabled) {
+        background-color: color-mix(
+          in srgb,
+          var(--button-color) 20%,
+          transparent
+        );
+      }
+    }
+  }
+
   &__next-wrap {
     flex-shrink: 0;
 

@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from 'react';
 import CloseIcon from '@mattermost/compass-icons/components/close';
+import ChevronLeftIcon from '@mattermost/compass-icons/components/chevron-left';
 import ChevronRightIcon from '@mattermost/compass-icons/components/chevron-right';
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon/Icon';
@@ -31,7 +32,9 @@ export type TourPointPointerPosition =
 
 export interface TourPointProgress {
   pages: number;
+  /** Current step (1-indexed), matching `PaginationDots`. */
   activePage: number;
+  /** Called with the 1-indexed page when a step dot is activated. */
   onPageChange?: (page: number) => void;
   /** Accessible name for the step dots. Default: "Pages". */
   label?: string;
@@ -39,7 +42,7 @@ export interface TourPointProgress {
   formatPageLabel?: (page: number) => string;
 }
 
-export interface TourPointPrimaryAction {
+export interface TourPointAction {
   /** Button label. Accepts translated nodes (e.g. `<FormattedMessage/>`). */
   label: ReactNode;
   onClick?: () => void;
@@ -47,6 +50,9 @@ export interface TourPointPrimaryAction {
   /** Shows a spinner in the button and disables it. */
   loading?: boolean;
 }
+
+/** @see TourPointAction */
+export type TourPointPrimaryAction = TourPointAction;
 
 export interface TourPointProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -100,7 +106,16 @@ export interface TourPointProps extends Omit<
   /** Extra attributes for the closed pulsing-dot button (e.g. `data-testid`). */
   openButtonProps?: BuiltInButtonProps;
   progress?: TourPointProgress;
-  primaryAction?: TourPointPrimaryAction;
+  /**
+   * Primary footer action (`Next`, or `Done` on the last step of a series).
+   * Runs after the exit transition; uncontrolled retained hosts reopen afterward.
+   */
+  primaryAction?: TourPointAction;
+  /**
+   * Optional previous-step action for a series (`Previous`). Same exit-then-callback
+   * timing as `primaryAction`. Omit on the first step.
+   */
+  secondaryAction?: TourPointAction;
   className?: string;
 }
 
@@ -120,6 +135,7 @@ export default function TourPoint({
   openButtonProps,
   progress,
   primaryAction,
+  secondaryAction,
   className = '',
   onKeyDown,
   ...rest
@@ -240,7 +256,8 @@ export default function TourPoint({
     .filter(Boolean)
     .join(' ');
 
-  const showFooter = progress != null || primaryAction != null;
+  const showFooter =
+    progress != null || primaryAction != null || secondaryAction != null;
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
@@ -356,24 +373,49 @@ export default function TourPoint({
                 />
               )}
 
-              {primaryAction != null ? (
-                <div className={styles['tour-point__next-wrap']}>
-                  <Button
-                    emphasis="primary"
-                    size="small"
-                    trailingIcon={
-                      <Icon size="16" glyph={<ChevronRightIcon />} />
-                    }
-                    disabled={primaryAction.disabled}
-                    loading={primaryAction.loading}
-                    onClick={
-                      primaryAction.onClick
-                        ? () => requestDismiss(primaryAction.onClick, true)
-                        : undefined
-                    }
-                  >
-                    {primaryAction.label}
-                  </Button>
+              {secondaryAction != null || primaryAction != null ? (
+                <div className={styles['tour-point__actions']}>
+                  {secondaryAction != null ? (
+                    <div className={styles['tour-point__prev-wrap']}>
+                      <Button
+                        emphasis="tertiary"
+                        size="small"
+                        leadingIcon={
+                          <Icon size="16" glyph={<ChevronLeftIcon />} />
+                        }
+                        disabled={secondaryAction.disabled}
+                        loading={secondaryAction.loading}
+                        onClick={
+                          secondaryAction.onClick
+                            ? () =>
+                                requestDismiss(secondaryAction.onClick, true)
+                            : undefined
+                        }
+                      >
+                        {secondaryAction.label}
+                      </Button>
+                    </div>
+                  ) : null}
+                  {primaryAction != null ? (
+                    <div className={styles['tour-point__next-wrap']}>
+                      <Button
+                        emphasis="primary"
+                        size="small"
+                        trailingIcon={
+                          <Icon size="16" glyph={<ChevronRightIcon />} />
+                        }
+                        disabled={primaryAction.disabled}
+                        loading={primaryAction.loading}
+                        onClick={
+                          primaryAction.onClick
+                            ? () => requestDismiss(primaryAction.onClick, true)
+                            : undefined
+                        }
+                      >
+                        {primaryAction.label}
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>

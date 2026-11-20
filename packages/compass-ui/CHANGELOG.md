@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 ### Added
 
 - **`TourPoint` closed pulsing-dot state:** optional controlled `open` / uncontrolled `defaultOpen` (default `true`, so current auto-show callers are unchanged) and `onOpenChange`. When closed, the pulsing dot stays mounted as a clickable control (`openLabel` / `openButtonProps`) and opens the card on click. Close and Escape collapse to the dot when the host keeps the instance; `primaryAction` still reopens after exit on uncontrolled retained multi-step hosts. `showPulsingDot` still controls the tip rings while open (and the closed control’s rings).
+- **`TourPoint` `secondaryAction`:** optional Previous control for multi-step series (same exit-then-callback timing as `primaryAction`). `TourPointAction` is the shared action shape; `TourPointPrimaryAction` remains an alias. Wire `progress.onPageChange` for clickable step dots (`activePage` is 1-indexed).
 
 ### Fixed
 

@@ -149,7 +149,7 @@ export const MultiStep: Story = {
     const steps = [
       {
         title: 'Find your team',
-        body: 'Jump between channels from the sidebar. This tip advances without remounting.',
+        body: 'Jump between channels from the sidebar. Use Next, Previous, or the step dots.',
       },
       {
         title: 'Start a thread',
@@ -157,12 +157,18 @@ export const MultiStep: Story = {
       },
       {
         title: 'You are ready',
-        body: 'That is the tour. Collapse with × or finish with Done.',
+        body: 'That is the tour. Finish with Done, or collapse with ×.',
       },
     ];
     const [step, setStep] = useState(0);
     const [open, setOpen] = useState(true);
+    const first = step === 0;
     const last = step >= steps.length - 1;
+
+    const goTo = (next: number) => {
+      setStep(next);
+      setOpen(true);
+    };
 
     return (
       <TourStage>
@@ -172,7 +178,19 @@ export const MultiStep: Story = {
           open={open}
           onOpenChange={setOpen}
           onClose={() => setOpen(false)}
-          progress={{ pages: steps.length, activePage: step }}
+          progress={{
+            pages: steps.length,
+            activePage: step + 1,
+            onPageChange: (page) => goTo(page - 1),
+          }}
+          secondaryAction={
+            first
+              ? undefined
+              : {
+                  label: 'Previous',
+                  onClick: () => goTo(step - 1),
+                }
+          }
           primaryAction={{
             label: last ? 'Done' : 'Next',
             onClick: () => {
@@ -180,8 +198,7 @@ export const MultiStep: Story = {
                 setOpen(false);
                 return;
               }
-              setStep((s) => s + 1);
-              setOpen(true);
+              goTo(step + 1);
             },
           }}
         >
