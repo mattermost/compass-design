@@ -6,6 +6,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.35] - 2026-11-20
+
+### Fixed
+
+- **`TourPoint` open animation from the closed dot:** opening mounts the card while it is still hidden, then fades and scales it in on the next frame. The card was being created and marked visible in the same turn, so the enter transition had no starting frame. Close is unchanged.
+
 ## [0.1.0-alpha.34] - 2026-11-20
 
 ### Added
@@ -630,7 +636,8 @@ First alpha on npm (`@alpha` dist-tag). Extracted from `mattermost-proto-playgro
 - **Peer dependencies:** `react`, `react-dom`, `@mattermost/compass-icons`, `simplebar-react` (optional meta for simplebar).
 - **Webapp integration** (webpack) validated separately; switch from `file:` to `@mattermost/compass-ui@alpha` for mergeable PRs.
 
-[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.34...HEAD
+[Unreleased]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.35...HEAD
+[0.1.0-alpha.35]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.34...0.1.0-alpha.35
 [0.1.0-alpha.34]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.33...0.1.0-alpha.34
 [0.1.0-alpha.33]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.32...0.1.0-alpha.33
 [0.1.0-alpha.32]: https://github.com/mattermost/compass-design/compare/0.1.0-alpha.31...0.1.0-alpha.32

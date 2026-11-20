@@ -17,9 +17,17 @@ export function usePopoverTransition(
   const [mounted, setMounted] = useState(open);
   const [visible, setVisible] = useState(false);
 
+  // Mount during render so the hidden surface is in the commit that paints.
+  // The effect reveals it on a later frame. Mounting in that effect as well
+  // skips the start frame when this instance is already on screen (TourPoint's
+  // closed dot). A menu that mounts with `open` already true gets the same
+  // first commit from `useState(open)`.
+  if (open && !mounted) {
+    setMounted(true);
+  }
+
   useEffect(() => {
     if (open) {
-      setMounted(true);
       let raf2 = 0;
       const raf1 = requestAnimationFrame(() => {
         raf2 = requestAnimationFrame(() => setVisible(true));
