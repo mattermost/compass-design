@@ -20,7 +20,7 @@
   &__toggle {
     display: flex;
     flex: 1 1 auto;
-    align-items: baseline;
+    align-items: center;
     gap: var(--spacing-xxs);
     min-width: 0;
     margin: 0;
@@ -93,10 +93,18 @@
     pointer-events: auto;
   }
 
+  // Match Playbooks: 2px square hairline, green fill (`--online-indicator`).
   &__progress {
+    position: relative;
     flex: 1 0 100%;
-    // Hairline track under the header row.
+    height: 2px;
     margin-top: calc(-1 * 1px);
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background-color: var(--online-indicator, var(--color-success));
   }
 
   // Same expand/collapse recipe as AdminPanel — no shared Disclosure yet.

@@ -26,7 +26,6 @@ import {
   PopoverMenu,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
-import { ProgressBar } from '@mattermost/compass-ui/components/progress-bar';
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import ChecklistItem from '../ChecklistItem/ChecklistItem';
 import type {
@@ -477,15 +476,21 @@ export default function CollapsibleChecklist({
             />
           </div>
         )}
-        <div className={styles['collapsible-checklist__progress']}>
-          <ProgressBar
-            size="small"
-            value={percentage}
-            aria-label={
-              typeof doneLabel === 'string'
-                ? doneLabel
-                : `${completed} of ${total}`
-            }
+        <div
+          className={styles['collapsible-checklist__progress']}
+          role="progressbar"
+          aria-valuenow={percentage}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={
+            typeof doneLabel === 'string'
+              ? doneLabel
+              : `${completed} of ${total}`
+          }
+        >
+          <div
+            className={styles['collapsible-checklist__progress-fill']}
+            style={{ width: `${percentage}%` }}
           />
         </div>
       </div>
