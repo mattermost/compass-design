@@ -26,6 +26,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`TourPoint` Next / Previous focus:** after a mid-series step action’s exit, focus returns into the tip when the panel remounts for controlled `open` as well as uncontrolled retained hosts (so Escape and further keys keep working).
 - **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto`:** they were added after `0.1.0-alpha.32` and never published from this package, so there is nothing to migrate. The `components/suggestion-list` subpath and root exports are not in any compass-ui release.
 
+### Added
+
+- **`DateRangePicker` `clearable`, `clearLabel` and `clearButtonProps` ([#284](https://github.com/mattermost/compass-design/issues/284)):** set `clearable` to show a clear button once a date (or range) is set. It calls `onChange('')` in single mode and `onRangeChange('', '')` in range mode, and returns focus to the field. `clearLabel` (default `'Clear'`) names the button; `clearButtonProps` passes attributes to it. Off by default, so default markup is unchanged.
+
+### Fixed
+
+- **`DateRangePicker` opens on the selected month ([#284](https://github.com/mattermost/compass-design/issues/284)):** the calendar now opens on the month of the selected date, or of the range start, instead of always today's month. With no value it still opens on today. No markup change.
+
 ## [0.1.0-alpha.33] - 2026-11-18
 
 ### Changed

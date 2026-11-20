@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import DateRangePicker from './DateRangePicker';
 
 const meta = {
@@ -77,4 +78,16 @@ export const InsideOverflowClip: Story = {
       <DateRangePicker mode="date" />
     </div>
   ),
+};
+
+function ClearableDatePicker() {
+  const [value, setValue] = useState('2031-03-15');
+  return (
+    <DateRangePicker mode="date" clearable value={value} onChange={setValue} />
+  );
+}
+
+/** `clearable` adds a clear button once a date is set; it calls `onChange('')`. */
+export const Clearable: Story = {
+  render: () => <ClearableDatePicker />,
 };
