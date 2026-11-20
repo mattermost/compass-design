@@ -316,9 +316,11 @@
   }
 
   // ── Tour Point demo ─────────────────────────────────────────
+  // Shared surface (same look as before tip-anchoring). Each cell is a tight
+  // stage that reserves panel space and places the tip on the correct edge.
   &__tour-point-demo {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: var(--spacing-xl);
     align-items: start;
     padding: var(--spacing-xl);
@@ -335,6 +337,76 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xs);
+    min-width: 0;
+  }
+
+  // Vertical pointers: tip on top/bottom edge; panel fills the stage.
+  &__tour-point-stage {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 352px;
+    height: 268px;
+  }
+
+  // Side pointers: tip on left/right edge; need a little extra width.
+  &__tour-point-stage--side {
+    max-width: 372px;
+    height: 248px;
+  }
+
+  &__tour-point-stage--none {
+    max-width: 352px;
+    height: 240px;
+  }
+
+  &__tour-point-tip {
+    position: absolute;
+  }
+
+  &__tour-point-tip--top-center {
+    left: 50%;
+    top: 0;
+  }
+
+  &__tour-point-tip--top-left {
+    left: var(--spacing-xl);
+    top: 0;
+  }
+
+  &__tour-point-tip--top-right {
+    left: calc(100% - var(--spacing-xl));
+    top: 0;
+  }
+
+  &__tour-point-tip--bottom-center {
+    left: 50%;
+    top: 100%;
+  }
+
+  &__tour-point-tip--bottom-left {
+    left: var(--spacing-xl);
+    top: 100%;
+  }
+
+  &__tour-point-tip--bottom-right {
+    left: calc(100% - var(--spacing-xl));
+    top: 100%;
+  }
+
+  &__tour-point-tip--left-center {
+    left: 0;
+    top: 50%;
+  }
+
+  &__tour-point-tip--right-center {
+    left: 100%;
+    top: 50%;
+  }
+
+  &__tour-point-tip--none {
+    left: 0;
+    top: 0;
   }
 
   &__tour-point-single-demo {

@@ -1,15 +1,3 @@
-@keyframes tour-point-panel-in {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 // Ripple duration = 4×moderate; then 2s still (40×quick÷3) before loop repeats.
 @keyframes tour-point-pulse-ring {
   0% {
@@ -34,17 +22,58 @@
 
 // ---------------------------------------------------------------------------
 // Block — Tour callout anchored to UI with directional pointer
+// Root (0,0) is the pointer tip so open ↔ closed keeps the pulsing dot fixed.
 // ---------------------------------------------------------------------------
 .tour-point {
   position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: stretch;
-  max-width: 352px;
-  min-width: 280px;
+  z-index: var(--z-popover, 1200);
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: top;
 
   // ---------------------------------------------------------------------------
-  // Pointer (triangle + optional pulsing dot at tip)
+  // Tip pulse — fixed on root (0,0); never scaled with the card surface
+  // ---------------------------------------------------------------------------
+  &__tip-pulse {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 40px;
+    height: 40px;
+    margin: calc(-1 * var(--spacing-xl)) 0 0 calc(-1 * var(--spacing-xl));
+    pointer-events: none;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Closed pulsing-dot control — 32×32 hit target centered on the tip
+  // ---------------------------------------------------------------------------
+  &__open {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    display: block;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    cursor: pointer;
+    color: inherit;
+    transform: translate(-50%, -50%);
+
+    &:focus-visible {
+      outline: 2px solid var(--focus-ring-color, var(--button-bg));
+      outline-offset: 2px;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pointer triangle (pulse lives on __tip-pulse, not here)
   // ---------------------------------------------------------------------------
   &__pointer {
     position: absolute;
@@ -60,14 +89,6 @@
     width: 100%;
     height: 100%;
     background-color: var(--button-bg);
-  }
-
-  &__pointer-pulse {
-    position: absolute;
-    z-index: 0;
-    width: 40px;
-    height: 40px;
-    pointer-events: none;
   }
 
   &__pointer-pulse-ring {
@@ -109,38 +130,65 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Panel
+  // Surface — pointer + panel scale/fade together from the tip origin
   // ---------------------------------------------------------------------------
+  &__surface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    transform-origin: 0 0;
+
+    &--transition {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition:
+        opacity var(--duration-quick) var(--ease-exit),
+        transform var(--duration-quick) var(--ease-exit);
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        transition: none;
+      }
+    }
+
+    &--visible {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      transition:
+        opacity var(--duration-quick) var(--ease-entrance),
+        transform var(--duration-quick) var(--ease-entrance);
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        transition: none;
+      }
+    }
+  }
+
+  // Panel positioner — places the card relative to the tip
+  &__anchor {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+
   &__panel {
     position: relative;
-    z-index: 1;
     display: flex;
     flex-direction: column;
+    // The anchor's containing block is 0px wide, so a block panel resolves to
+    // min-width. max-content keeps the old inline-flex card width.
+    width: max-content;
+    min-width: 280px;
+    max-width: 352px;
     border-radius: var(--radius-m);
     background-color: var(--button-bg);
     box-shadow: var(--elevation-4);
-    animation: tour-point-panel-in var(--duration-quick) var(--ease-entrance)
-      both;
-  }
-
-  &--pointer-top-center &__panel,
-  &--pointer-top-left &__panel,
-  &--pointer-top-right &__panel {
-    transform-origin: 50% 0;
-  }
-
-  &--pointer-bottom-center &__panel,
-  &--pointer-bottom-left &__panel,
-  &--pointer-bottom-right &__panel {
-    transform-origin: 50% 100%;
-  }
-
-  &--pointer-left-center &__panel {
-    transform-origin: 0 50%;
-  }
-
-  &--pointer-right-center &__panel {
-    transform-origin: 100% 50%;
   }
 
   &__header {
@@ -173,7 +221,9 @@
     }
   }
 
-  &__title {
+  // (0,2,1) so host `.app__body h2` Metropolis (0,1,1) cannot override body.
+  // Double the local class (CSS-modules-safe) and `:is(h2)` for the element.
+  &__title#{&}__title:is(:global(h2)) {
     margin: 0;
     padding-right: var(--spacing-xs);
     font-family: var(--font-family-body);
@@ -187,7 +237,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-m);
-    padding: var(--spacing-m) var(--spacing-xl) var(--spacing-xl);
+    padding: var(--spacing-xxxs) var(--spacing-xl) var(--spacing-l);
   }
 
   &__description {
@@ -231,6 +281,46 @@
     flex-shrink: 0;
   }
 
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
+  }
+
+  &__prev-wrap {
+    flex-shrink: 0;
+
+    button {
+      --focus-ring-color: var(--neutral-0);
+      --button-fg: var(--neutral-0);
+
+      background-color: transparent;
+      border-color: transparent;
+      color: var(--neutral-0);
+      transition:
+        background-color var(--duration-quick) var(--ease-transition),
+        color var(--duration-quick) var(--ease-transition);
+
+      &:hover:not(:disabled) {
+        background-color: color-mix(
+          in srgb,
+          var(--button-color) 8%,
+          transparent
+        );
+        color: var(--neutral-0);
+      }
+
+      &:active:not(:disabled) {
+        background-color: color-mix(
+          in srgb,
+          var(--button-color) 20%,
+          transparent
+        );
+      }
+    }
+  }
+
   &__next-wrap {
     flex-shrink: 0;
 
@@ -256,173 +346,166 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Pointer placement modifiers
+  // Pointer placement — tip of the triangle sits at root (0,0)
   // ---------------------------------------------------------------------------
+  // Panel sits 1px under the triangle (9px tip − 1px overlap) so the arrow
+  // seals against the card edge with no hairline gap.
   &--pointer-top-center {
     .tour-point__pointer {
-      top: -9px;
-      left: 50%;
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, 0);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
-    .tour-point__pointer-pulse {
-      left: 50%;
-      top: 0;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-top: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: 8px;
+      left: 0;
+      transform: translateX(-50%);
     }
   }
 
   &--pointer-top-left {
     .tour-point__pointer {
-      top: -9px;
-      left: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, 0);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
-    .tour-point__pointer-pulse {
-      left: 50%;
-      top: 0;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-top: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: 8px;
+      left: calc(-1 * var(--spacing-xl));
     }
   }
 
   &--pointer-top-right {
     .tour-point__pointer {
-      top: -9px;
-      right: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(50%);
+      transform: translate(-50%, 0);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
-    .tour-point__pointer-pulse {
-      left: 50%;
-      top: 0;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-top: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: 8px;
+      left: var(--spacing-xl);
+      transform: translateX(-100%);
     }
   }
 
   &--pointer-bottom-center {
     .tour-point__pointer {
-      bottom: -9px;
-      left: 50%;
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, -100%);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
     }
 
-    .tour-point__pointer-pulse {
-      left: 50%;
-      bottom: 0;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-bottom: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: -8px;
+      left: 0;
+      transform: translate(-50%, -100%);
     }
   }
 
   &--pointer-bottom-left {
     .tour-point__pointer {
-      bottom: -9px;
-      left: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(-50%);
+      transform: translate(-50%, -100%);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
     }
 
-    .tour-point__pointer-pulse {
-      left: 50%;
-      bottom: 0;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-bottom: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: -8px;
+      left: calc(-1 * var(--spacing-xl));
+      transform: translateY(-100%);
     }
   }
 
   &--pointer-bottom-right {
     .tour-point__pointer {
-      bottom: -9px;
-      right: var(--spacing-xl);
+      top: 0;
+      left: 0;
       width: 18px;
       height: 9px;
-      transform: translateX(50%);
+      transform: translate(-50%, -100%);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
     }
 
-    .tour-point__pointer-pulse {
-      left: 50%;
-      bottom: 0;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-bottom: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: -8px;
+      left: var(--spacing-xl);
+      transform: translate(-100%, -100%);
     }
   }
 
   &--pointer-left-center {
     .tour-point__pointer {
-      left: -9px;
-      top: 50%;
+      top: 0;
+      left: 0;
       width: 9px;
       height: 18px;
-      transform: translateY(-50%);
+      transform: translate(0, -50%);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
     }
 
-    .tour-point__pointer-pulse {
-      left: 0;
-      top: 50%;
-      margin-left: calc(-1 * var(--spacing-xl));
-      margin-top: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: 0;
+      left: 8px;
+      transform: translateY(-50%);
     }
   }
 
   &--pointer-right-center {
     .tour-point__pointer {
-      right: -9px;
-      top: 50%;
+      top: 0;
+      left: 0;
       width: 9px;
       height: 18px;
-      transform: translateY(-50%);
+      transform: translate(-100%, -50%);
     }
 
     .tour-point__pointer-triangle {
       clip-path: polygon(100% 50%, 0% 0%, 0% 100%);
     }
 
-    .tour-point__pointer-pulse {
-      right: 0;
-      top: 50%;
-      margin-right: calc(-1 * var(--spacing-xl));
-      margin-top: calc(-1 * var(--spacing-xl));
+    .tour-point__anchor {
+      top: 0;
+      left: -8px;
+      transform: translate(-100%, -50%);
     }
   }
 }
