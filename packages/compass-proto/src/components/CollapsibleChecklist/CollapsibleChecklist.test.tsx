@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import { act } from 'react';
 import { click, render } from '@/test-utils/render';
 import CollapsibleChecklist from './CollapsibleChecklist';
 import type { ChecklistItemData } from '../ChecklistItem/ChecklistItem';
@@ -65,9 +66,9 @@ describe('CollapsibleChecklist', () => {
     );
     expect(add).toBeTruthy();
     click(add!);
-    expect(
-      container.querySelector('input[placeholder="Task name"]'),
-    ).toBeTruthy();
+    const fields = container.querySelectorAll('[role="textbox"]');
+    expect(fields.length).toBeGreaterThanOrEqual(1);
+    expect(fields[0].getAttribute('contenteditable')).toBe('true');
   });
 
   it('wires task hover actions for edit and delete', () => {
@@ -88,15 +89,18 @@ describe('CollapsibleChecklist', () => {
       'button[aria-label="Edit"]',
     ) as HTMLButtonElement;
     click(edit);
-    expect(
-      container.querySelector('input[placeholder="Task name"]'),
-    ).toBeTruthy();
+    const titleField = container.querySelector(
+      '[role="textbox"][aria-label="Task name"]',
+    ) as HTMLElement;
+    expect(titleField).toBeTruthy();
+    expect(titleField.getAttribute('contenteditable')).toBe('true');
 
     // Cancel edit so the first row toolbar is available again.
-    const cancel = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent === 'Cancel',
-    );
-    click(cancel!);
+    act(() => {
+      titleField.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      );
+    });
 
     const more = container
       .querySelectorAll('[role="toolbar"][aria-label="Task actions"]')[0]

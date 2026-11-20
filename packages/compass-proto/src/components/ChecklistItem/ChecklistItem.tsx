@@ -1,5 +1,6 @@
 import type {
   CSSProperties,
+  FocusEvent,
   HTMLAttributes,
   KeyboardEvent,
   RefObject,
@@ -22,7 +23,6 @@ import DragVerticalIcon from '@mattermost/compass-icons/components/drag-vertical
 import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
 import SlashForwardBoxOutlineIcon from '@mattermost/compass-icons/components/slash-forward-box-outline';
 import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
-import { Button } from '@mattermost/compass-ui/components/button';
 import { Checkbox } from '@mattermost/compass-ui/components/checkbox';
 import { Chip } from '@mattermost/compass-ui/components/chip';
 import { Icon } from '@mattermost/compass-ui/components/icon';
@@ -32,11 +32,25 @@ import {
   PopoverMenu,
   PopoverMenuGroup,
 } from '@mattermost/compass-ui/components/popover-menu';
-import { TextArea } from '@mattermost/compass-ui/components/text-area';
-import { TextInput } from '@mattermost/compass-ui/components/text-input';
 import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './ChecklistItem.module.scss';
+
+function focusEditableEnd(node: HTMLElement | null) {
+  if (!node) return;
+  node.focus();
+  const selection = window.getSelection();
+  if (!selection) return;
+  const range = document.createRange();
+  range.selectNodeContents(node);
+  range.collapse(false);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function editableText(node: HTMLElement) {
+  return node.innerText.replace(/\u00a0/g, ' ').replace(/\n$/, '');
+}
 
 export type ChecklistItemState = 'open' | 'closed' | 'skipped';
 
@@ -72,8 +86,8 @@ export interface ChecklistItemProps extends Omit<
   /** Shows a decorative drag handle (dnd stays with the host). Default: true. */
   showDragHandle?: boolean;
   /**
-   * Inline create/edit mode: title and description fields replace the static
-   * text, with Cancel / Save.
+   * Inline create/edit mode: title and description become contentEditable
+   * text (no input chrome). Enter / blur saves; Escape cancels.
    */
   editing?: boolean;
   onStateChange?: (state: ChecklistItemState) => void;
@@ -89,8 +103,6 @@ export interface ChecklistItemProps extends Omit<
   dragHandleLabel?: string;
   titleInputPlaceholder?: string;
   descriptionInputPlaceholder?: string;
-  saveLabel?: string;
-  cancelLabel?: string;
   editLabel?: string;
   assignLabel?: string;
   dueDateLabel?: string;
@@ -285,8 +297,6 @@ export default function ChecklistItem({
   dragHandleLabel = 'Drag to reorder',
   titleInputPlaceholder = 'Task name',
   descriptionInputPlaceholder = 'Add a description…',
-  saveLabel = 'Save',
-  cancelLabel = 'Cancel',
   editLabel = 'Edit',
   assignLabel = 'Assign',
   dueDateLabel = 'Due date',
@@ -300,7 +310,9 @@ export default function ChecklistItem({
   ...rest
 }: ChecklistItemProps) {
   const titleId = useId();
-  const titleInputRef = useRef<HTMLInputElement>(null);
+  const editRootRef = useRef<HTMLDivElement>(null);
+  const titleEditRef = useRef<HTMLDivElement>(null);
+  const descriptionEditRef = useRef<HTMLDivElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
   const menuPortalRef = useRef<HTMLDivElement | null>(null);
   const state = item.state ?? 'open';
@@ -312,11 +324,41 @@ export default function ChecklistItem({
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (editing) titleInputRef.current?.focus();
+    if (!editing) return;
+    const titleNode = titleEditRef.current;
+    const descriptionNode = descriptionEditRef.current;
+    if (titleNode) titleNode.textContent = item.title;
+    if (descriptionNode) descriptionNode.textContent = item.description ?? '';
+    focusEditableEnd(titleNode);
+    // Seed editable text once when entering edit mode — avoid resetting caret.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally seed on edit start only
   }, [editing]);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   useOutsideClose(actionsRef, menuOpen, closeMenu, menuPortalRef);
+
+  const handleEditFocusOut = (e: FocusEvent<HTMLDivElement>) => {
+    const next = e.relatedTarget as Node | null;
+    if (editRootRef.current?.contains(next)) return;
+    onSave?.();
+  };
+
+  const handleTitleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onSave?.();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      onCancel?.();
+    }
+  };
+
+  const handleDescriptionKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      onCancel?.();
+    }
+  };
 
   const hasDescription = Boolean(item.description?.trim());
   const showCheckedBy = checked && Boolean(item.checkedBy);
@@ -457,43 +499,44 @@ export default function ChecklistItem({
         />
         <div className={styles['checklist-item__body']}>
           {editing ? (
-            <div className={styles['checklist-item__edit']}>
-              <TextInput
-                ref={titleInputRef}
-                size="small"
-                value={item.title}
-                placeholder={titleInputPlaceholder}
-                onChange={(e) => onTitleChange?.(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    onSave?.();
-                  } else if (e.key === 'Escape') {
-                    e.preventDefault();
-                    onCancel?.();
-                  }
-                }}
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- focusout commits the inline edit
+            <div
+              ref={editRootRef}
+              className={styles['checklist-item__edit']}
+              onBlur={handleEditFocusOut}
+            >
+              <div
+                ref={titleEditRef}
+                id={titleId}
+                role="textbox"
+                aria-label={titleInputPlaceholder}
+                contentEditable
+                suppressContentEditableWarning
+                data-placeholder={titleInputPlaceholder}
+                className={[
+                  styles['checklist-item__title'],
+                  styles['checklist-item__title--editing'],
+                ].join(' ')}
+                onInput={(e) => onTitleChange?.(editableText(e.currentTarget))}
+                onKeyDown={handleTitleKeyDown}
               />
-              <TextArea
-                size="small"
-                value={item.description ?? ''}
-                placeholder={descriptionInputPlaceholder}
-                onChange={(e) => onDescriptionChange?.(e.target.value)}
-                rows={2}
+              <div
+                ref={descriptionEditRef}
+                role="textbox"
+                aria-multiline="true"
+                aria-label={descriptionInputPlaceholder}
+                contentEditable
+                suppressContentEditableWarning
+                data-placeholder={descriptionInputPlaceholder}
+                className={[
+                  styles['checklist-item__description'],
+                  styles['checklist-item__description--editing'],
+                ].join(' ')}
+                onInput={(e) =>
+                  onDescriptionChange?.(editableText(e.currentTarget))
+                }
+                onKeyDown={handleDescriptionKeyDown}
               />
-              <div className={styles['checklist-item__edit-actions']}>
-                <Button emphasis="tertiary" size="small" onClick={onCancel}>
-                  {cancelLabel}
-                </Button>
-                <Button
-                  emphasis="primary"
-                  size="small"
-                  onClick={onSave}
-                  disabled={!item.title.trim()}
-                >
-                  {saveLabel}
-                </Button>
-              </div>
             </div>
           ) : (
             <>

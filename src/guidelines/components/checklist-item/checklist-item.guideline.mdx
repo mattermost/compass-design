@@ -45,8 +45,9 @@ published form `Checkbox`.
   skip / delete), top-right on hover — same chrome as [`Message
   Actions`](/components/message-actions).
 
-Inline edit mode swaps the title and description for fields plus Cancel / Save,
-which `CollapsibleChecklist` uses when adding or renaming a task.
+Inline edit mode makes the title and description contentEditable in place (no
+input chrome). Enter or blur saves; Escape cancels. `CollapsibleChecklist` uses
+this when adding or renaming a task.
 
 <Divider />
 
@@ -55,7 +56,7 @@ which `CollapsibleChecklist` uses when adding or renaming a task.
 - **Open** — Unchecked title.
 - **Closed** — Checked title with a strikethrough.
 - **Skipped** — Disabled checkbox and a strikethrough title.
-- **Editing** — Title and description fields for creating or renaming a task.
+- **Editing** — Title and description edit inline in place (no input chrome).
 
 Requirements, condition indicators, and bulk select are left out of this first
 cut.

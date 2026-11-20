@@ -89,7 +89,7 @@ describe('ChecklistItem', () => {
     expect(checkbox?.className).toMatch(/checklist-item__checkbox/);
   });
 
-  it('renders edit fields when editing', () => {
+  it('renders inline editable title and description when editing', () => {
     const onSave = vi.fn();
     const { container } = render(
       <ChecklistItem
@@ -98,14 +98,13 @@ describe('ChecklistItem', () => {
         onSave={onSave}
       />,
     );
-    expect(
-      container.querySelector('input[placeholder="Task name"]'),
-    ).toBeTruthy();
-    const save = Array.from(container.querySelectorAll('button')).find(
-      (b) => b.textContent === 'Save',
+    const fields = container.querySelectorAll('[role="textbox"]');
+    expect(fields).toHaveLength(2);
+    expect(fields[0].getAttribute('contenteditable')).toBe('true');
+    expect(fields[0].textContent).toBe('Draft task');
+    fields[0].dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
     );
-    expect(save).toBeTruthy();
-    click(save!);
     expect(onSave).toHaveBeenCalled();
   });
 
