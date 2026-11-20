@@ -28,7 +28,18 @@ function tipClass(position: TourPointPointerPosition | 'none') {
   ].join(' ');
 }
 
-/** Per-example stage with the tip placed so the open panel stays in bounds. */
+function stageClass(position: TourPointPointerPosition | 'none') {
+  const side = position === 'left-center' || position === 'right-center';
+  return [
+    styles['patterns__tour-point-stage'],
+    side ? styles['patterns__tour-point-stage--side'] : '',
+    position === 'none' ? styles['patterns__tour-point-stage--none'] : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
+/** Tight per-cell stage: tip on the panel edge so layout matches the old specimen. */
 function TourPointStage({
   pointerPosition,
   children,
@@ -37,7 +48,7 @@ function TourPointStage({
   children: ReactNode;
 }) {
   return (
-    <div className={styles['patterns__tour-point-stage']}>
+    <div className={stageClass(pointerPosition)}>
       <div className={tipClass(pointerPosition)}>{children}</div>
     </div>
   );
@@ -57,8 +68,7 @@ export default function TourPointLibrary() {
       <section className={styles['patterns__section']}>
         <h2 className={styles['patterns__section-title']}>Pointer placement</h2>
         <p className={styles['patterns__variant-label']}>
-          Same inner content; only the arrow attachment changes. Each stage
-          places the pulsing tip so the open card stays inside the frame.
+          Same inner content; only the arrow attachment changes.
         </p>
         <div className={styles['patterns__tour-point-demo']}>
           {POINTER_VARIANTS.map((pointerPosition) => (
