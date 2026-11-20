@@ -1,0 +1,209 @@
+.collapsible-checklist {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-8));
+  border-radius: var(--radius-s);
+  background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+  overflow: hidden;
+
+  &__header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: var(--center-channel-bg);
+  }
+
+  &__toggle {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    // Match ChecklistItem row: checkbox/chevron → title gap.
+    gap: var(--spacing-xs);
+    min-width: 0;
+    margin: 0;
+    // Left pad matches ChecklistItem --with-drag so chevron ↔ checkbox,
+    // title ↔ task title.
+    padding: var(--spacing-s) var(--spacing-xs) var(--spacing-s)
+      var(--spacing-l);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--center-channel-color) 4%,
+        var(--center-channel-bg)
+      );
+
+      .collapsible-checklist__chevron {
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+      }
+
+      .collapsible-checklist__title {
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-80));
+      }
+
+      .collapsible-checklist__done {
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+      }
+    }
+  }
+
+  &__drag {
+    position: absolute;
+    top: var(--spacing-m);
+    left: var(--spacing-xxxxs);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+    cursor: grab;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  &__header:hover &__drag,
+  &__header:focus-within &__drag,
+  &--menu-open &__drag {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &__chevron {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+  }
+
+  &__title {
+    overflow: hidden;
+    min-width: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-200);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__done {
+    flex-shrink: 0;
+    margin-right: var(--spacing-l);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-size: var(--font-size-50);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+  }
+
+  &__actions {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    margin-right: var(--spacing-xs);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  &__header:hover &__actions,
+  &__header:focus-within &__actions,
+  &--menu-open &__actions {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Match Playbooks: 2px square hairline, green fill (`--online-indicator`).
+  &__progress {
+    position: relative;
+    flex: 1 0 100%;
+    height: 2px;
+    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background-color: var(--online-indicator, var(--color-success));
+  }
+
+  // Same expand/collapse recipe as AdminPanel — no shared Disclosure yet.
+  &__collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-moderate)
+      var(--ease-transition);
+
+    &--expanded {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  &__collapse-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  &__body {
+    padding: var(--spacing-xs) 0;
+    border-top: 0;
+    background-color: var(--center-channel-bg);
+  }
+
+  &__add {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: var(--spacing-xs);
+    box-sizing: border-box;
+    min-height: calc(var(--spacing-xxxxxl) - var(--spacing-xs));
+    margin: 0;
+    padding: var(--spacing-xs) var(--spacing-l);
+    border: 0;
+    background: transparent;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font: inherit;
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-200);
+    cursor: pointer;
+
+    &:hover {
+      // Same row wash as ChecklistItem — not the blue button-bg hover.
+      background-color: color-mix(
+        in srgb,
+        var(--center-channel-color) 4%,
+        var(--center-channel-bg)
+      );
+    }
+  }
+
+  &__menu-slot {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  &__menu-layer {
+    position: fixed;
+    z-index: var(--z-menu, 1100);
+  }
+
+  &--menu-open {
+    .collapsible-checklist__header {
+      z-index: 2;
+    }
+  }
+}

@@ -457,3 +457,12 @@
   width: 240px;
   max-width: 100%;
 }
+
+.patterns__collapsible-checklist-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  // Typical run RHS content width: 400px panel minus 16px padding each side.
+  width: 100%;
+  max-width: 368px;
+}

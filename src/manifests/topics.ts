@@ -397,6 +397,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/components/checkbox/checkbox.specimen'),
   },
   {
+    slug: 'checklist-item',
+    name: 'Checklist Item',
+    category: 'components',
+    description:
+      'A Playbooks checklist task row: checkbox, title, description, meta chips, and a Message Actions–style hover toolbar.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/components/checklist-item/checklist-item.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/components/checklist-item/checklist-item.specimen'),
+  },
+  {
     slug: 'chip',
     name: 'Chip',
     category: 'components',
@@ -1122,6 +1134,18 @@ export const TOPICS: Topic[] = [
       import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.guideline.mdx'),
     specimenPage: () =>
       import('@/guidelines/patterns/channel-bookmarks-bar/channel-bookmarks-bar.specimen'),
+  },
+  {
+    slug: 'collapsible-checklist',
+    name: 'Collapsible Checklist',
+    category: 'patterns',
+    description:
+      'A Playbooks checklist section: collapsible header, progress, ChecklistItem rows, and add-task.',
+    status: 'beta',
+    guidelinePage: () =>
+      import('@/guidelines/patterns/collapsible-checklist/collapsible-checklist.guideline.mdx'),
+    specimenPage: () =>
+      import('@/guidelines/patterns/collapsible-checklist/collapsible-checklist.specimen'),
   },
   {
     slug: 'mobile-navigation-bar',

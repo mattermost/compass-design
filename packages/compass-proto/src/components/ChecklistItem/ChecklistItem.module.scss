@@ -1,0 +1,227 @@
+.checklist-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xs) var(--spacing-s);
+  box-sizing: border-box;
+
+  // Extra left pad so the hover drag handle sits in the gutter, not the row flow.
+  &--with-drag {
+    padding-left: var(--spacing-l);
+  }
+
+  &:hover,
+  &:focus-within {
+    background-color: color-mix(
+      in srgb,
+      var(--center-channel-color) 4%,
+      var(--center-channel-bg)
+    );
+  }
+
+  &__actions-slot {
+    position: absolute;
+    top: calc(-1 * var(--spacing-xs));
+    right: var(--spacing-xxs);
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  &:hover &__actions-slot,
+  &:focus-within &__actions-slot,
+  &--menu-open &__actions-slot {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &:hover &__drag,
+  &:focus-within &__drag,
+  &--menu-open &__drag {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Same chrome as Message Actions: elevated surface of compact Icon Buttons.
+  &__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: var(--spacing-xxxxs);
+    background-color: var(--center-channel-bg);
+    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    border-radius: var(--radius-s);
+    box-shadow: var(--elevation-1);
+  }
+
+  &__menu-slot {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  &__menu-layer {
+    position: fixed;
+    z-index: var(--z-menu, 1100);
+  }
+
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+    min-width: 0;
+  }
+
+  &__drag {
+    position: absolute;
+    // Sit in the left padding gutter.
+    top: var(--spacing-m);
+    left: var(--spacing-xxxxs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
+    cursor: grab;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  // Checkbox's label root defaults to width: 100%; hug the box when the
+  // title is a sibling, not Checkbox children.
+  &__checkbox {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--spacing-xxxs);
+    min-width: 0;
+  }
+
+  &__title {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--center-channel-color);
+    font: inherit;
+    // Same type metrics as Checkbox medium label so the box lines up.
+    font-size: var(--font-size-100);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-100);
+    text-align: left;
+    overflow-wrap: anywhere;
+
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+
+    &:disabled {
+      cursor: default;
+    }
+
+    &--editing {
+      cursor: text;
+      outline: none;
+      min-height: var(--line-height-100);
+
+      &:empty::before {
+        content: attr(data-placeholder);
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+        pointer-events: none;
+      }
+    }
+  }
+
+  &__description-collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-moderate)
+      var(--ease-transition);
+
+    &--expanded {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  &__description-collapse-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  &__description {
+    margin: 0;
+    color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    font-size: var(--font-size-75);
+    line-height: var(--line-height-100);
+    white-space: pre-wrap;
+
+    &--editing {
+      cursor: text;
+      outline: none;
+      min-height: var(--line-height-100);
+
+      &:empty::before {
+        content: attr(data-placeholder);
+        color: rgba(var(--center-channel-color-rgb), var(--opacity-64));
+        pointer-events: none;
+      }
+    }
+  }
+
+  &__edit {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxxs);
+    width: 100%;
+    min-width: 0;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xxs);
+    // Align under the title: checkbox + gap (drag lives in the left padding).
+    padding-left: calc(var(--icon-size-16) + var(--spacing-xs));
+  }
+
+  // Playbooks task chips use regular weight; Chip defaults to semibold.
+  &__meta &__chip {
+    font-weight: var(--font-weight-regular);
+  }
+
+  &--closed {
+    .checklist-item__title {
+      text-decoration: line-through;
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+  }
+
+  &--skipped {
+    .checklist-item__title {
+      text-decoration: line-through;
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+  }
+
+  &--editing {
+    background-color: color-mix(
+      in srgb,
+      var(--center-channel-color) 4%,
+      var(--center-channel-bg)
+    );
+  }
+}

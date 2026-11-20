@@ -164,6 +164,10 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       ],
     },
     {
+      label: 'Playbooks',
+      slugs: ['checklist-item'],
+    },
+    {
       label: 'Progress Indicators',
       slugs: ['pagination-dots', 'progress-bar', 'spinner'],
     },
@@ -176,6 +180,10 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     {
       label: 'Admin Console',
       slugs: ['admin-panel', 'admin-console-sidebar'],
+    },
+    {
+      label: 'Playbooks',
+      slugs: ['collapsible-checklist'],
     },
     {
       label: 'Mobile',
