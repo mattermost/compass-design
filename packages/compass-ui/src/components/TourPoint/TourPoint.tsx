@@ -115,6 +115,16 @@ export default function TourPoint({
     restoreFocusRef.current = false;
     const root = rootRef.current;
     if (!root) return;
+    // Don't steal focus if the user or the dismiss callback already moved it.
+    const active = document.activeElement;
+    if (
+      active instanceof HTMLElement &&
+      active !== document.body &&
+      active !== document.documentElement &&
+      !root.contains(active)
+    ) {
+      return;
+    }
     const primary = root.querySelector<HTMLElement>(
       `.${styles['tour-point__next-wrap']} button:not([disabled])`,
     );

@@ -207,6 +207,43 @@ describe('TourPoint exit dismiss', () => {
     expect(titleEl()?.textContent).toBe('Step two');
     expect(document.activeElement).toBe(primaryButton());
   });
+
+  it('does not steal focus when it moved outside during exit', () => {
+    function Host() {
+      const [step, setStep] = useState(0);
+      return (
+        <div>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
+          <TourPoint
+            title={step === 0 ? 'Step one' : 'Step two'}
+            primaryAction={{
+              label: 'Next',
+              onClick: () => setStep(1),
+            }}
+          >
+            Body
+          </TourPoint>
+        </div>
+      );
+    }
+    render(<Host />);
+    const next = primaryButton()!;
+    act(() => {
+      next.focus();
+    });
+    click(next);
+    const outside = document.querySelector(
+      '[data-testid="outside"]',
+    ) as HTMLButtonElement;
+    act(() => {
+      outside.focus();
+    });
+    flushExit();
+    expect(titleEl()?.textContent).toBe('Step two');
+    expect(document.activeElement).toBe(outside);
+  });
 });
 
 describe('TourPoint Escape', () => {
