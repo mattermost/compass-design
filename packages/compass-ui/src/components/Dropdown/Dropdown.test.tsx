@@ -49,7 +49,8 @@ describe('Dropdown', () => {
   // `&` rules) so removing them cannot be masked by the same properties on
   // `__trigger` / `__label`.
   it('keeps overflow, start alignment, and a full-width flex trigger for host truncation', () => {
-    const rootBlock = dropdownScss.match(/\.dropdown\s*\{([\s\S]*?)\n {2}&/)?.[1] ?? '';
+    const rootBlock =
+      dropdownScss.match(/\.dropdown\s*\{([\s\S]*?)\n {2}&/)?.[1] ?? '';
     expect(rootBlock).toMatch(/min-width:\s*0;/);
     expect(rootBlock).toMatch(/max-width:\s*100%;/);
     expect(rootBlock).toMatch(/overflow:\s*hidden;/);
