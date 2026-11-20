@@ -188,3 +188,19 @@ export const AllVariants: Story = {
     </div>
   ),
 };
+
+export const Pressable: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      <Chip as="button" onClick={fn()}>
+        Summarize this channel
+      </Chip>
+      <Chip as="button" onClick={fn()}>
+        +3
+      </Chip>
+      <Chip as="button" disabled onClick={fn()}>
+        Disabled
+      </Chip>
+    </div>
+  ),
+};
