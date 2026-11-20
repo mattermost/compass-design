@@ -18,7 +18,9 @@ function titleEl() {
 }
 
 function root() {
-  return document.querySelector(`.${styles['tour-point']}`) as HTMLElement | null;
+  return document.querySelector(
+    `.${styles['tour-point']}`,
+  ) as HTMLElement | null;
 }
 
 function closeButton() {
@@ -65,9 +67,7 @@ describe('TourPoint title font', () => {
 
   it('keeps var(--font-family-body) against ancestor .app__body h2 Metropolis', () => {
     expect(styles['tour-point__title']).toBeTruthy();
-    expect(tourPointScss).toMatch(
-      /&__title#\{&\}__title:is\(:global\(h2\)\)/,
-    );
+    expect(tourPointScss).toMatch(/&__title#\{&\}__title:is\(:global\(h2\)\)/);
     render(
       <TourPoint title="Welcome" onClose={() => {}}>
         Body
@@ -195,11 +195,17 @@ describe('TourPoint exit dismiss', () => {
     }
     render(<Host />);
     expect(titleEl()?.textContent).toBe('Step one');
-    click(primaryButton()!);
+    const next = primaryButton()!;
+    act(() => {
+      next.focus();
+    });
+    expect(document.activeElement).toBe(next);
+    click(next);
     flushExit();
     expect(onNext).toHaveBeenCalledTimes(1);
     expect(root()).not.toBeNull();
     expect(titleEl()?.textContent).toBe('Step two');
+    expect(document.activeElement).toBe(primaryButton());
   });
 });
 

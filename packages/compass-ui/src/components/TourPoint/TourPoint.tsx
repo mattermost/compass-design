@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useRef,
   useState,
   type HTMLAttributes,
@@ -96,6 +97,8 @@ export default function TourPoint({
   const [open, setOpen] = useState(true);
   const { mounted, visible } = usePopoverTransition(open);
   const pendingActionRef = useRef<(() => void) | undefined>(undefined);
+  const restoreFocusRef = useRef(false);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useOnExited(mounted, () => {
     const action = pendingActionRef.current;
@@ -103,8 +106,25 @@ export default function TourPoint({
     action?.();
     // Hosts that unmount in the callback drop us; hosts that keep the same
     // instance (e.g. multi-step next) need open reset so the next props show.
+    restoreFocusRef.current = true;
     setOpen(true);
   });
+
+  useEffect(() => {
+    if (!mounted || !restoreFocusRef.current) return;
+    restoreFocusRef.current = false;
+    const root = rootRef.current;
+    if (!root) return;
+    const primary = root.querySelector<HTMLElement>(
+      `.${styles['tour-point__next-wrap']} button:not([disabled])`,
+    );
+    const focusable =
+      primary ??
+      root.querySelector<HTMLElement>(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+    focusable?.focus();
+  }, [mounted]);
 
   const requestDismiss = (action?: () => void) => {
     if (!open) return;
@@ -146,7 +166,12 @@ export default function TourPoint({
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- Escape dismiss when focus is inside the card; not a modal (no role/trap)
-    <div {...rest} className={rootClass} onKeyDown={handleKeyDown}>
+    <div
+      {...rest}
+      ref={rootRef}
+      className={rootClass}
+      onKeyDown={handleKeyDown}
+    >
       {showPointer && (
         <span className={styles['tour-point__pointer']} aria-hidden>
           <span className={styles['tour-point__pointer-triangle']} />
