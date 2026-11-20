@@ -70,6 +70,48 @@ describe('CollapsibleChecklist', () => {
     ).toBeTruthy();
   });
 
+  it('wires task hover actions for edit and delete', () => {
+    const onItemsChange = vi.fn();
+    const { container } = render(
+      <CollapsibleChecklist
+        title="Triage"
+        items={items}
+        onItemsChange={onItemsChange}
+      />,
+    );
+    const toolbars = container.querySelectorAll(
+      '[role="toolbar"][aria-label="Task actions"]',
+    );
+    expect(toolbars.length).toBe(items.length);
+
+    const edit = toolbars[1].querySelector(
+      'button[aria-label="Edit"]',
+    ) as HTMLButtonElement;
+    click(edit);
+    expect(
+      container.querySelector('input[placeholder="Task name"]'),
+    ).toBeTruthy();
+
+    // Cancel edit so the first row toolbar is available again.
+    const cancel = Array.from(container.querySelectorAll('button')).find(
+      (b) => b.textContent === 'Cancel',
+    );
+    click(cancel!);
+
+    const more = container
+      .querySelectorAll('[role="toolbar"][aria-label="Task actions"]')[0]
+      .querySelector('button[aria-haspopup="menu"]') as HTMLButtonElement;
+    click(more);
+    const deleteItem = Array.from(
+      document.body.querySelectorAll('[role="menu"] button'),
+    ).find((el) => el.textContent?.includes('Delete task'));
+    expect(deleteItem).toBeTruthy();
+    click(deleteItem!);
+    expect(onItemsChange).toHaveBeenCalled();
+    const next = onItemsChange.mock.calls.at(-1)?.[0] as ChecklistItemData[];
+    expect(next.map((item) => item.id)).toEqual(['2', '3']);
+  });
+
   it('passes rest attributes to the root', () => {
     const { container } = render(
       <CollapsibleChecklist

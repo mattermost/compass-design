@@ -315,6 +315,7 @@ export default function CollapsibleChecklist({
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [adding, setAdding] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<ChecklistItemData>({
     id: 'draft',
     title: '',
@@ -330,11 +331,16 @@ export default function CollapsibleChecklist({
     formatDoneLabel?.(completed, total) ?? `${completed} / ${total} done`;
   const hasSectionMenu = Boolean(onRename || onDuplicate || onDelete);
 
+  const updateItem = (id: string, patch: Partial<ChecklistItemData>) => {
+    setItems(items.map((item) => (item.id === id ? { ...item, ...patch } : item)));
+  };
+
   const updateItemState = (id: string, state: ChecklistItemState) => {
-    setItems(items.map((item) => (item.id === id ? { ...item, state } : item)));
+    updateItem(id, { state });
   };
 
   const startAdding = () => {
+    setEditingId(null);
     setDraft({
       id: `draft-${Date.now()}`,
       title: '',
@@ -363,6 +369,46 @@ export default function CollapsibleChecklist({
       },
     ]);
     cancelAdding();
+  };
+
+  const startEditing = (item: ChecklistItemData) => {
+    setAdding(false);
+    setEditingId(item.id);
+    setDraft({ ...item });
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setDraft({ id: 'draft', title: '', description: '', state: 'open' });
+  };
+
+  const saveEditing = () => {
+    if (!editingId) return;
+    const titleText = draft.title.trim();
+    if (!titleText) return;
+    updateItem(editingId, {
+      title: titleText,
+      description: draft.description?.trim() || undefined,
+    });
+    cancelEditing();
+  };
+
+  const duplicateItem = (item: ChecklistItemData) => {
+    setItems([
+      ...items,
+      {
+        ...item,
+        id: `task-${Date.now()}`,
+        title: `${item.title} (copy)`,
+        state: 'open',
+        checkedBy: undefined,
+      },
+    ]);
+  };
+
+  const deleteItem = (id: string) => {
+    setItems(items.filter((item) => item.id !== id));
+    if (editingId === id) cancelEditing();
   };
 
   const rootClass = [
@@ -458,14 +504,56 @@ export default function CollapsibleChecklist({
       >
         <div className={styles['collapsible-checklist__collapse-inner']}>
           <div className={styles['collapsible-checklist__body']}>
-            {items.map((item) => (
-              <ChecklistItem
-                key={item.id}
-                item={item}
-                readOnly={readOnly}
-                onStateChange={(state) => updateItemState(item.id, state)}
-              />
-            ))}
+            {items.map((item) =>
+              editingId === item.id ? (
+                <ChecklistItem
+                  key={item.id}
+                  item={draft}
+                  editing
+                  showDragHandle={false}
+                  titleInputPlaceholder={titleInputPlaceholder}
+                  descriptionInputPlaceholder={descriptionInputPlaceholder}
+                  onTitleChange={(titleValue) =>
+                    setDraft((prev) => ({ ...prev, title: titleValue }))
+                  }
+                  onDescriptionChange={(description) =>
+                    setDraft((prev) => ({ ...prev, description }))
+                  }
+                  onSave={saveEditing}
+                  onCancel={cancelEditing}
+                />
+              ) : (
+                <ChecklistItem
+                  key={item.id}
+                  item={item}
+                  readOnly={readOnly}
+                  onStateChange={(state) => updateItemState(item.id, state)}
+                  onEdit={readOnly ? undefined : () => startEditing(item)}
+                  onAssign={
+                    readOnly
+                      ? undefined
+                      : () =>
+                          updateItem(item.id, {
+                            assignee: item.assignee
+                              ? undefined
+                              : { name: 'You' },
+                          })
+                  }
+                  onDueDate={
+                    readOnly
+                      ? undefined
+                      : () =>
+                          updateItem(item.id, {
+                            dueDate: item.dueDate ? undefined : 'Tomorrow',
+                          })
+                  }
+                  onDuplicate={
+                    readOnly ? undefined : () => duplicateItem(item)
+                  }
+                  onDelete={readOnly ? undefined : () => deleteItem(item.id)}
+                />
+              ),
+            )}
             {adding && (
               <ChecklistItem
                 item={draft}
@@ -483,7 +571,7 @@ export default function CollapsibleChecklist({
                 onCancel={cancelAdding}
               />
             )}
-            {!readOnly && !adding && (
+            {!readOnly && !adding && !editingId && (
               <button
                 type="button"
                 className={styles['collapsible-checklist__add']}

@@ -6,7 +6,7 @@ header that collapses, a title, “n / n done”, a progress bar, task rows, and
 “Add a task”.
 
 Use it in a run RHS, a channel checklist, or a playbook editor prototype. It
-composes [`ChecklistItem`](/patterns/checklist-item) for each row.
+composes [`ChecklistItem`](/components/checklist-item) for each row.
 
 <Divider />
 
@@ -43,7 +43,8 @@ composes [`ChecklistItem`](/patterns/checklist-item) for each row.
 - <Num>1</Num> **Header** — Chevron, section title, and “n / n done”. Click to
   collapse or expand.
 - <Num>2</Num> **Progress** — A thin bar under the header for completed work.
-- <Num>3</Num> **Task rows** — Each row is a `ChecklistItem`.
+- <Num>3</Num> **Task rows** — Each row is a `ChecklistItem`, including its
+  hover actions toolbar (assign, due date, edit, more).
 - <Num>4</Num> **Add a task** — Opens an inline edit row to create a task.
 - <Num>5</Num> **Section menu** — Optional rename, duplicate, and delete actions
   on hover (portaled menu).

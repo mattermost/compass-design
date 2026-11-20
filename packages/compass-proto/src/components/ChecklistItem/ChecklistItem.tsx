@@ -1,15 +1,40 @@
-import type { HTMLAttributes } from 'react';
-import { useEffect, useId, useRef, useState } from 'react';
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  KeyboardEvent,
+  RefObject,
+} from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import { createPortal } from 'react-dom';
+import AccountOutlineIcon from '@mattermost/compass-icons/components/account-outline';
 import CalendarOutlineIcon from '@mattermost/compass-icons/components/calendar-outline';
 import CheckCircleOutlineIcon from '@mattermost/compass-icons/components/check-circle-outline';
+import ContentCopyIcon from '@mattermost/compass-icons/components/content-copy';
+import DotsHorizontalIcon from '@mattermost/compass-icons/components/dots-horizontal';
 import DragVerticalIcon from '@mattermost/compass-icons/components/drag-vertical';
+import PencilOutlineIcon from '@mattermost/compass-icons/components/pencil-outline';
 import SlashForwardBoxOutlineIcon from '@mattermost/compass-icons/components/slash-forward-box-outline';
+import TrashCanOutlineIcon from '@mattermost/compass-icons/components/trash-can-outline';
 import { Button } from '@mattermost/compass-ui/components/button';
 import { Checkbox } from '@mattermost/compass-ui/components/checkbox';
 import { Chip } from '@mattermost/compass-ui/components/chip';
 import { Icon } from '@mattermost/compass-ui/components/icon';
+import { IconButton } from '@mattermost/compass-ui/components/icon-button';
+import { MenuItem } from '@mattermost/compass-ui/components/menu-item';
+import {
+  PopoverMenu,
+  PopoverMenuGroup,
+} from '@mattermost/compass-ui/components/popover-menu';
 import { TextArea } from '@mattermost/compass-ui/components/text-area';
 import { TextInput } from '@mattermost/compass-ui/components/text-input';
+import { useOutsideClose } from '@mattermost/compass-ui/hooks/use-outside-close';
 import WithTooltip from '../WithTooltip/WithTooltip';
 import styles from './ChecklistItem.module.scss';
 
@@ -51,68 +76,273 @@ export interface ChecklistItemProps extends Omit<
    * text, with Cancel / Save.
    */
   editing?: boolean;
+  /**
+   * Keeps the hover actions toolbar visible (docs / always-open demos).
+   * Default: false — shown on hover and focus-within.
+   */
+  actionsVisible?: boolean;
   onStateChange?: (state: ChecklistItemState) => void;
   onTitleChange?: (title: string) => void;
   onDescriptionChange?: (description: string) => void;
   onSave?: () => void;
   onCancel?: () => void;
+  onEdit?: () => void;
+  onAssign?: () => void;
+  onDueDate?: () => void;
+  onDuplicate?: () => void;
+  onDelete?: () => void;
   dragHandleLabel?: string;
   titleInputPlaceholder?: string;
   descriptionInputPlaceholder?: string;
   saveLabel?: string;
   cancelLabel?: string;
+  editLabel?: string;
+  assignLabel?: string;
+  dueDateLabel?: string;
+  moreActionsLabel?: string;
+  duplicateLabel?: string;
+  skipLabel?: string;
+  restoreLabel?: string;
+  deleteLabel?: string;
+  actionsToolbarLabel?: string;
   className?: string;
+}
+
+interface ItemMoreMenuProps {
+  open: boolean;
+  portalRef: RefObject<HTMLDivElement | null>;
+  onClose: () => void;
+  skipped: boolean;
+  duplicateLabel: string;
+  skipLabel: string;
+  restoreLabel: string;
+  deleteLabel: string;
+  onDuplicate?: () => void;
+  onSkipToggle?: () => void;
+  onDelete?: () => void;
+}
+
+/**
+ * Portaled overflow menu for a task row — same host pattern as Message /
+ * Bookmarks menus: never in the row's flow.
+ */
+function ItemMoreMenu({
+  open,
+  portalRef,
+  onClose,
+  skipped,
+  duplicateLabel,
+  skipLabel,
+  restoreLabel,
+  deleteLabel,
+  onDuplicate,
+  onSkipToggle,
+  onDelete,
+}: ItemMoreMenuProps) {
+  const slotRef = useRef<HTMLSpanElement>(null);
+  const layerRef = useRef<HTMLDivElement>(null);
+  const [style, setStyle] = useState<CSSProperties>({ visibility: 'hidden' });
+
+  useLayoutEffect(() => {
+    if (!open) return undefined;
+    const place = () => {
+      const slot = slotRef.current;
+      const layer = layerRef.current;
+      if (!slot || !layer) return;
+      const rect = slot.getBoundingClientRect();
+      const { offsetWidth: width, offsetHeight: height } = layer;
+      const margin = 8;
+      const gap = 4;
+      const fitsBelow = rect.top + gap + height <= window.innerHeight - margin;
+      const triggerTop =
+        slot.parentElement?.getBoundingClientRect().top ?? rect.top;
+      const top = fitsBelow
+        ? rect.top + gap
+        : Math.max(margin, triggerTop - gap - height);
+      const left = Math.min(
+        Math.max(margin, rect.left - width),
+        Math.max(margin, window.innerWidth - width - margin),
+      );
+      setStyle({ top, left });
+    };
+    place();
+    const ro = new ResizeObserver(place);
+    if (layerRef.current) ro.observe(layerRef.current);
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', place);
+      window.removeEventListener('scroll', place, true);
+    };
+  }, [open]);
+
+  const focusTrigger = () =>
+    slotRef.current?.parentElement
+      ?.querySelector<HTMLElement>('[aria-haspopup="menu"]')
+      ?.focus();
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const frame = requestAnimationFrame(() => {
+      layerRef.current?.querySelector<HTMLElement>('button')?.focus();
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      if (layerRef.current?.contains(document.activeElement)) focusTrigger();
+    };
+  }, [open]);
+
+  const closeToTrigger = () => {
+    onClose();
+    focusTrigger();
+  };
+
+  const onLayerKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape' || e.key === 'Tab') {
+      e.preventDefault();
+      e.stopPropagation();
+      closeToTrigger();
+    }
+  };
+
+  const run = (action?: () => void) => {
+    action?.();
+    closeToTrigger();
+  };
+
+  return (
+    <>
+      <span
+        ref={slotRef}
+        aria-hidden="true"
+        className={styles['checklist-item__menu-slot']}
+      />
+      {open &&
+        createPortal(
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keyboard handler for the role="menu" surface
+          <div
+            ref={(node) => {
+              layerRef.current = node;
+              portalRef.current = node;
+            }}
+            className={styles['checklist-item__menu-layer']}
+            style={style}
+            onKeyDown={onLayerKeyDown}
+          >
+            <PopoverMenu open={open} role="menu">
+              <PopoverMenuGroup>
+                {onDuplicate && (
+                  <MenuItem
+                    label={duplicateLabel}
+                    leadingVisual={
+                      <Icon glyph={<ContentCopyIcon />} size="16" />
+                    }
+                    onClick={() => run(onDuplicate)}
+                  />
+                )}
+                {onSkipToggle && (
+                  <MenuItem
+                    label={skipped ? restoreLabel : skipLabel}
+                    onClick={() => run(onSkipToggle)}
+                  />
+                )}
+                {onDelete && (
+                  <MenuItem
+                    label={deleteLabel}
+                    destructive
+                    leadingVisual={
+                      <Icon glyph={<TrashCanOutlineIcon />} size="16" />
+                    }
+                    onClick={() => run(onDelete)}
+                  />
+                )}
+              </PopoverMenuGroup>
+            </PopoverMenu>
+          </div>,
+          document.body,
+        )}
+    </>
+  );
 }
 
 /**
  * One Playbooks checklist task row: drag handle, checkbox, title, optional
- * description, and meta chips (checked-by, assignee, due date, slash command).
- * Requirements, conditions and bulk select stay out of this first cut.
+ * description, meta chips, and a Message Actions–style hover toolbar
+ * (assign, due date, edit, more). Requirements, conditions and bulk select
+ * stay out of this first cut.
  */
 export default function ChecklistItem({
   item,
   readOnly = false,
   showDragHandle = true,
   editing = false,
+  actionsVisible = false,
   onStateChange,
   onTitleChange,
   onDescriptionChange,
   onSave,
   onCancel,
+  onEdit,
+  onAssign,
+  onDueDate,
+  onDuplicate,
+  onDelete,
   dragHandleLabel = 'Drag to reorder',
   titleInputPlaceholder = 'Task name',
   descriptionInputPlaceholder = 'Add a description…',
   saveLabel = 'Save',
   cancelLabel = 'Cancel',
+  editLabel = 'Edit',
+  assignLabel = 'Assign',
+  dueDateLabel = 'Due date',
+  moreActionsLabel = 'More',
+  duplicateLabel = 'Duplicate task',
+  skipLabel = 'Skip task',
+  restoreLabel = 'Restore task',
+  deleteLabel = 'Delete task',
+  actionsToolbarLabel = 'Task actions',
   className = '',
   ...rest
 }: ChecklistItemProps) {
   const titleId = useId();
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
+  const menuPortalRef = useRef<HTMLDivElement | null>(null);
   const state = item.state ?? 'open';
   const checked = state === 'closed';
   const skipped = state === 'skipped';
   const [descriptionOpen, setDescriptionOpen] = useState(
     Boolean(item.description),
   );
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (editing) titleInputRef.current?.focus();
   }, [editing]);
 
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  useOutsideClose(actionsRef, menuOpen, closeMenu, menuPortalRef);
+
   const hasDescription = Boolean(item.description?.trim());
   const showCheckedBy = checked && Boolean(item.checkedBy);
   const showMeta =
     !editing &&
-    Boolean(
-      showCheckedBy || item.assignee || item.dueDate || item.command,
-    );
+    Boolean(showCheckedBy || item.assignee || item.dueDate || item.command);
+
+  const hasMoreMenu = Boolean(onDuplicate || onDelete || onStateChange);
+  const showActions =
+    !readOnly &&
+    !editing &&
+    Boolean(onEdit || onAssign || onDueDate || hasMoreMenu);
 
   const rootClass = [
     styles['checklist-item'],
     checked && styles['checklist-item--closed'],
     skipped && styles['checklist-item--skipped'],
     editing && styles['checklist-item--editing'],
+    actionsVisible && styles['checklist-item--actions-visible'],
+    menuOpen && styles['checklist-item--menu-open'],
     className,
   ]
     .filter(Boolean)
@@ -125,6 +355,90 @@ export default function ChecklistItem({
 
   return (
     <div className={rootClass} {...rest}>
+      {showActions && (
+        <div ref={actionsRef} className={styles['checklist-item__actions-slot']}>
+          <div
+            className={styles['checklist-item__actions']}
+            role="toolbar"
+            aria-label={actionsToolbarLabel}
+          >
+            {onAssign && !skipped && (
+              <WithTooltip label={assignLabel}>
+                <IconButton
+                  size="small"
+                  padding="compact"
+                  icon={<Icon glyph={<AccountOutlineIcon />} />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAssign();
+                  }}
+                />
+              </WithTooltip>
+            )}
+            {onDueDate && !skipped && (
+              <WithTooltip label={dueDateLabel}>
+                <IconButton
+                  size="small"
+                  padding="compact"
+                  icon={<Icon glyph={<CalendarOutlineIcon />} />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDueDate();
+                  }}
+                />
+              </WithTooltip>
+            )}
+            {onEdit && (
+              <WithTooltip label={editLabel}>
+                <IconButton
+                  size="small"
+                  padding="compact"
+                  icon={<Icon glyph={<PencilOutlineIcon />} />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit();
+                  }}
+                />
+              </WithTooltip>
+            )}
+            {hasMoreMenu && (
+              <>
+                <WithTooltip label={moreActionsLabel}>
+                  <IconButton
+                    size="small"
+                    padding="compact"
+                    aria-haspopup="menu"
+                    aria-expanded={menuOpen}
+                    icon={<Icon glyph={<DotsHorizontalIcon />} />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuOpen((open) => !open);
+                    }}
+                  />
+                </WithTooltip>
+                <ItemMoreMenu
+                  open={menuOpen}
+                  portalRef={menuPortalRef}
+                  onClose={closeMenu}
+                  skipped={skipped}
+                  duplicateLabel={duplicateLabel}
+                  skipLabel={skipLabel}
+                  restoreLabel={restoreLabel}
+                  deleteLabel={deleteLabel}
+                  onDuplicate={onDuplicate}
+                  onSkipToggle={
+                    onStateChange
+                      ? () => onStateChange(skipped ? 'open' : 'skipped')
+                      : undefined
+                  }
+                  onDelete={onDelete}
+                />
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className={styles['checklist-item__row']}>
         {showDragHandle && !readOnly && (
           <WithTooltip label={dragHandleLabel}>
@@ -202,9 +516,7 @@ export default function ChecklistItem({
                   className={[
                     styles['checklist-item__description-collapse'],
                     descriptionOpen &&
-                      styles[
-                        'checklist-item__description-collapse--expanded'
-                      ],
+                      styles['checklist-item__description-collapse--expanded'],
                   ]
                     .filter(Boolean)
                     .join(' ')}

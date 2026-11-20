@@ -104,6 +104,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
       slugs: [
         'card-button',
         'checkbox',
+        'checklist-item',
         'chip',
         'combobox',
         'date-range-picker',
@@ -179,7 +180,7 @@ export const topicSections: Partial<Record<TopicCategory, SectionGroup[]>> = {
     },
     {
       label: 'Playbooks',
-      slugs: ['collapsible-checklist', 'checklist-item'],
+      slugs: ['collapsible-checklist'],
     },
     {
       label: 'Mobile',

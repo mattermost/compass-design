@@ -108,4 +108,43 @@ describe('ChecklistItem', () => {
     click(save!);
     expect(onSave).toHaveBeenCalled();
   });
+
+  it('shows a hover actions toolbar when action callbacks are provided', () => {
+    const onEdit = vi.fn();
+    const onAssign = vi.fn();
+    const { container } = render(
+      <ChecklistItem
+        item={baseItem}
+        actionsVisible
+        onEdit={onEdit}
+        onAssign={onAssign}
+        onDueDate={() => undefined}
+        onDuplicate={() => undefined}
+        onDelete={() => undefined}
+        onStateChange={() => undefined}
+      />,
+    );
+    const toolbar = container.querySelector('[role="toolbar"]');
+    expect(toolbar).toBeTruthy();
+    expect(toolbar?.getAttribute('aria-label')).toBe('Task actions');
+    const edit = toolbar?.querySelector(
+      'button[aria-label="Edit"]',
+    ) as HTMLButtonElement;
+    expect(edit).toBeTruthy();
+    click(edit);
+    expect(onEdit).toHaveBeenCalled();
+  });
+
+  it('hides the actions toolbar when readOnly', () => {
+    const { container } = render(
+      <ChecklistItem
+        item={baseItem}
+        readOnly
+        actionsVisible
+        onEdit={() => undefined}
+        onAssign={() => undefined}
+      />,
+    );
+    expect(container.querySelector('[role="toolbar"]')).toBeNull();
+  });
 });

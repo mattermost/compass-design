@@ -4,7 +4,7 @@ import {
   type ChecklistItemData,
 } from '@mattermost/compass-proto';
 import leonard from '@/assets/avatars/Leonard Riley.png';
-import styles from '@/styles/library-demo/patterns.module.scss';
+import styles from '@/styles/library-demo/components.module.scss';
 
 const withMeta: ChecklistItemData = {
   id: 'meta',
@@ -26,14 +26,60 @@ export default function ChecklistItemLibrary() {
   });
 
   return (
-    <div className={styles['patterns__checklist-item-demo']}>
-      <p className={styles['patterns__variant-label']}>Interactive</p>
+    <div className={styles['components__checklist-item-demo']}>
+      <span className={styles['components__instance-label']}>
+        Interactive (hover for actions)
+      </span>
       <ChecklistItem
         item={item}
         onStateChange={(state) => setItem((prev) => ({ ...prev, state }))}
+        onEdit={() =>
+          setItem((prev) => ({
+            ...prev,
+            title: prev.title.endsWith(' (edited)')
+              ? prev.title.replace(/ \(edited\)$/, '')
+              : `${prev.title} (edited)`,
+          }))
+        }
+        onAssign={() =>
+          setItem((prev) => ({
+            ...prev,
+            assignee: prev.assignee
+              ? undefined
+              : { name: 'Leonard Riley', src: leonard },
+          }))
+        }
+        onDueDate={() =>
+          setItem((prev) => ({
+            ...prev,
+            dueDate: prev.dueDate ? undefined : 'Tomorrow',
+          }))
+        }
+        onDuplicate={() => undefined}
+        onDelete={() =>
+          setItem((prev) => ({ ...prev, title: `${prev.title} (deleted)` }))
+        }
       />
 
-      <p className={styles['patterns__variant-label']}>Closed</p>
+      <span className={styles['components__instance-label']}>
+        Actions always visible
+      </span>
+      <ChecklistItem
+        actionsVisible
+        item={{
+          id: 'actions',
+          title: 'Declare the incident channel',
+          state: 'open',
+        }}
+        onEdit={() => undefined}
+        onAssign={() => undefined}
+        onDueDate={() => undefined}
+        onDuplicate={() => undefined}
+        onDelete={() => undefined}
+        onStateChange={() => undefined}
+      />
+
+      <span className={styles['components__instance-label']}>Closed</span>
       <ChecklistItem
         item={{
           id: 'closed',
@@ -43,7 +89,7 @@ export default function ChecklistItemLibrary() {
         }}
       />
 
-      <p className={styles['patterns__variant-label']}>Skipped</p>
+      <span className={styles['components__instance-label']}>Skipped</span>
       <ChecklistItem
         item={{
           id: 'skipped',
@@ -52,7 +98,9 @@ export default function ChecklistItemLibrary() {
         }}
       />
 
-      <p className={styles['patterns__variant-label']}>Editing (add a task)</p>
+      <span className={styles['components__instance-label']}>
+        Editing (add a task)
+      </span>
       <ChecklistItem
         item={draft}
         editing

@@ -1,12 +1,62 @@
 .checklist-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxs);
   padding: var(--spacing-xs) var(--spacing-s);
   box-sizing: border-box;
 
-  &:hover {
-    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+  &:hover,
+  &:focus-within {
+    background-color: color-mix(
+      in srgb,
+      var(--center-channel-color) 4%,
+      var(--center-channel-bg)
+    );
+  }
+
+  &__actions-slot {
+    position: absolute;
+    top: calc(-1 * var(--spacing-xs));
+    right: var(--spacing-xxs);
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-quick) var(--ease-transition);
+  }
+
+  &:hover &__actions-slot,
+  &:focus-within &__actions-slot,
+  &--actions-visible &__actions-slot,
+  &--menu-open &__actions-slot {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Same chrome as Message Actions: elevated surface of compact Icon Buttons.
+  &__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: var(--spacing-xxxxs);
+    background-color: var(--center-channel-bg);
+    border: 1px solid rgba(var(--center-channel-color-rgb), var(--opacity-8));
+    border-radius: var(--radius-s);
+    box-shadow: var(--elevation-1);
+  }
+
+  &__menu-slot {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  &__menu-layer {
+    position: fixed;
+    z-index: var(--z-menu, 1100);
   }
 
   &__row {
@@ -128,6 +178,10 @@
   }
 
   &--editing {
-    background-color: rgba(var(--center-channel-color-rgb), var(--opacity-4));
+    background-color: color-mix(
+      in srgb,
+      var(--center-channel-color) 4%,
+      var(--center-channel-bg)
+    );
   }
 }
