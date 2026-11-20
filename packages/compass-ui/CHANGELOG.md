@@ -20,6 +20,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 - **`TourPoint` body padding:** `var(--spacing-xxxs) var(--spacing-xl) var(--spacing-l)` (was `var(--spacing-m) var(--spacing-xl) var(--spacing-xl)`).
 - **`TourPoint` pointer overlap:** the arrow sits 1px onto the panel on every `pointerPosition` so no hairline gap shows at the card edge.
+- **`TourPoint` closed pulsing-dot hit area:** the open control is 32×32 (visual pulse remains 40×40).
 - **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto`:** they were added after `0.1.0-alpha.32` and never published from this package, so there is nothing to migrate. The `components/suggestion-list` subpath and root exports are not in any compass-ui release.
 
 ## [0.1.0-alpha.33] - 2026-11-18
