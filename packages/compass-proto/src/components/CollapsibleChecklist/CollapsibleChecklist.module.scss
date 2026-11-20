@@ -34,6 +34,12 @@
     cursor: pointer;
 
     &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--center-channel-color) 4%,
+        var(--center-channel-bg)
+      );
+
       .collapsible-checklist__chevron {
         color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
       }
