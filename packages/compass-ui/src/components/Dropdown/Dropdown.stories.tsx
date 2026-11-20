@@ -189,7 +189,7 @@ export const AllStates: Story = {
   ),
 };
 
-/** Long labels end in an ellipsis and the trigger shrinks to the space its host gives it. */
+/** Long labels ellipsize when the host constrains width (flex + minWidth: 0). */
 export const LongLabel: Story = {
   render: () => (
     <div
