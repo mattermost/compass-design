@@ -196,9 +196,7 @@ export default function TourPoint({
     ) {
       return;
     }
-    root
-      .querySelector<HTMLElement>(`.${styles['tour-point__open']}`)
-      ?.focus();
+    root.querySelector<HTMLElement>(`.${styles['tour-point__open']}`)?.focus();
   }, [panelMounted]);
 
   const requestDismiss = (action?: () => void, reopen = false) => {
