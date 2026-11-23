@@ -543,7 +543,7 @@ export default function CollapsibleChecklist({
                   key={item.id}
                   item={draft}
                   editing
-                  showDragHandle={false}
+                  showDragHandle={showDragHandle}
                   titleInputPlaceholder={titleInputPlaceholder}
                   descriptionInputPlaceholder={descriptionInputPlaceholder}
                   onTitleChange={(titleValue) =>
@@ -560,6 +560,7 @@ export default function CollapsibleChecklist({
                   key={item.id}
                   item={item}
                   readOnly={readOnly}
+                  showDragHandle={showDragHandle}
                   onStateChange={(state) => updateItemState(item.id, state)}
                   onEdit={readOnly ? undefined : () => startEditing(item)}
                   onAssign={
@@ -589,7 +590,7 @@ export default function CollapsibleChecklist({
               <ChecklistItem
                 item={draft}
                 editing
-                showDragHandle={false}
+                showDragHandle={showDragHandle}
                 titleInputPlaceholder={titleInputPlaceholder}
                 descriptionInputPlaceholder={descriptionInputPlaceholder}
                 onTitleChange={(titleValue) =>

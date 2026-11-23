@@ -425,7 +425,11 @@ export default function ChecklistItem({
     !editing &&
     Boolean(onEdit || onAssign || onDueDate || hasMoreMenu);
 
-  const showDrag = showDragHandle && !readOnly;
+  // Reserve the left gutter whenever the host asks for a drag handle so
+  // edit / read-only rows keep the same indent as ready rows (and align with
+  // CollapsibleChecklist's header). Only the icon is suppressed.
+  const withDragGutter = showDragHandle;
+  const showDrag = showDragHandle && !readOnly && !editing;
 
   const rootClass = [
     styles['checklist-item'],
@@ -433,7 +437,7 @@ export default function ChecklistItem({
     skipped && styles['checklist-item--skipped'],
     editing && styles['checklist-item--editing'],
     menuOpen && styles['checklist-item--menu-open'],
-    showDrag && styles['checklist-item--with-drag'],
+    withDragGutter && styles['checklist-item--with-drag'],
     className,
   ]
     .filter(Boolean)
@@ -540,7 +544,7 @@ export default function ChecklistItem({
             label={dragHandleLabel}
             className={styles['checklist-item__drag']}
           >
-            <span aria-hidden={editing || undefined}>
+            <span aria-hidden>
               <Icon size="16" glyph={<DragVerticalIcon />} />
             </span>
           </WithTooltip>
