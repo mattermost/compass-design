@@ -277,6 +277,21 @@ open.
 Depending on the positioning of the menu popover in relation the trigger button,
 it will either open up or open down.
 
+### Transform origin
+
+Scale grows from the corner toward the trigger. `PopoverMenu` reads
+`--popover-transform-origin` (default `top left`). Hosts set it on the portaled
+layer when they position:
+
+| Placement | Origin |
+| --- | --- |
+| Below, start-aligned | `top left` (default) |
+| Below, end-aligned (`left − width`) | `top right` |
+| Above, start-aligned | `bottom left` |
+| Above, end-aligned | `bottom right` |
+
+Omit the variable and an end-aligned menu will scale from the wrong corner.
+
 ### Positioned above trigger
 
 <PopoverMenuMotion direction="above" />

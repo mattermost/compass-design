@@ -23,6 +23,11 @@ export interface PopoverMenuProps extends HTMLAttributes<HTMLDivElement> {
  * constraints per Compass. Compose with {@link MenuItem} rows and optional
  * titles, group labels, and dividers. Use {@link PopoverMenuScroll} when the item
  * list should scroll while a {@link PopoverMenuTitle} stays pinned.
+ *
+ * Open/close uses scale + fade. The host owns positioning and must set
+ * `--popover-transform-origin` on an ancestor (usually the portaled layer) to
+ * the corner toward the trigger — default `top left` only matches below +
+ * start-aligned. End-aligned menus need `top right` / `bottom right`.
  */
 export default function PopoverMenu({
   variant = 'parent',

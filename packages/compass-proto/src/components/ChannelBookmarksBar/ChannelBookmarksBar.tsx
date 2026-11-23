@@ -142,6 +142,8 @@ interface AnchoredMenuProps {
  * Popover menu portaled to `document.body` and positioned against its
  * trigger, so it is never clipped by or part of the bar's layout. The parent
  * must be `position: relative`; a zero-size slot at its bottom edge is the anchor.
+ * Always sets `--popover-transform-origin` with `top`/`left` (corner toward the
+ * trigger) — do not copy this host without that variable.
  */
 function AnchoredMenu({
   open,

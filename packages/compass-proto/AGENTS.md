@@ -20,7 +20,7 @@ Published chrome that pairs with these (import from `@mattermost/compass-ui` sub
 
 ## Popovers portal
 
-Any popover, menu, or picker a proto composite opens (`EmojiPopover`, `PopoverMenu`, `ProfilePopover`, `TourPoint`, `PopoverNotice`, …) portals out of the trigger's container and is positioned against the trigger — never in flow or inside the trigger's wrapper. See [Popovers always portal](../../AGENTS.md#popovers-always-portal).
+Any popover, menu, or picker a proto composite opens (`EmojiPopover`, `PopoverMenu`, `ProfilePopover`, `TourPoint`, `PopoverNotice`, …) portals out of the trigger's container and is positioned against the trigger — never in flow or inside the trigger's wrapper. See [Popovers always portal](../../AGENTS.md#popovers-always-portal). When hosting a scaling `PopoverMenu`, set `--popover-transform-origin` with `top`/`left` (default `top left` is only below + start; end-aligned needs `top right` / `bottom right`). `AnchoredMenu` in `ChannelBookmarksBar` is the copyable recipe.
 
 ## Docs
 
