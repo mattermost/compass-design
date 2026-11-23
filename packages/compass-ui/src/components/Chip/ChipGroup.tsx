@@ -21,6 +21,14 @@ function chipsIn(toolbar: ParentNode): HTMLElement[] {
   return [...toolbar.querySelectorAll<HTMLElement>('[data-chip]')];
 }
 
+/** True for a disabled chip (native `disabled` or `aria-disabled`). */
+export function isChipDisabled(el: HTMLElement): boolean {
+  return (
+    (el instanceof HTMLButtonElement && el.disabled) ||
+    el.getAttribute('aria-disabled') === 'true'
+  );
+}
+
 /** Roving tabindex + focus for a chip inside a ChipGroup. */
 export function activateChip(el: HTMLElement) {
   const toolbar = el.closest('[role="toolbar"]');
@@ -50,27 +58,47 @@ export default function ChipGroup({
   useLayoutEffect(() => {
     const toolbar = ref.current;
     if (toolbar == null) return;
-    const chips = chipsIn(toolbar);
-    if (chips.length === 0) return;
-    if (disabled) {
-      chips.forEach((chip) => {
+
+    const syncTabStop = () => {
+      const all = chipsIn(toolbar);
+      all.filter(isChipDisabled).forEach((chip) => {
         chip.tabIndex = -1;
       });
-      return;
-    }
-    const focused = chips.find((chip) => chip === document.activeElement);
-    if (focused != null) {
-      chips.forEach((chip) => {
-        chip.tabIndex = chip === focused ? 0 : -1;
-      });
-      return;
-    }
-    if (!chips.some((chip) => chip.tabIndex === 0)) {
-      chips[0].tabIndex = 0;
-      chips.slice(1).forEach((chip) => {
-        chip.tabIndex = -1;
-      });
-    }
+      const chips = all.filter((chip) => !isChipDisabled(chip));
+      if (chips.length === 0) return;
+      if (disabled) {
+        chips.forEach((chip) => {
+          chip.tabIndex = -1;
+        });
+        return;
+      }
+      const focused = chips.find((chip) => chip === document.activeElement);
+      if (focused != null) {
+        chips.forEach((chip) => {
+          chip.tabIndex = chip === focused ? 0 : -1;
+        });
+        return;
+      }
+      if (!chips.some((chip) => chip.tabIndex === 0)) {
+        chips[0].tabIndex = 0;
+        chips.slice(1).forEach((chip) => {
+          chip.tabIndex = -1;
+        });
+      }
+    };
+
+    syncTabStop();
+
+    // A chip can toggle `disabled` / `aria-disabled` on its own (a wrapper with
+    // local state) without re-rendering the group, so watch for it.
+    if (typeof MutationObserver === 'undefined') return;
+    const observer = new MutationObserver(syncTabStop);
+    observer.observe(toolbar, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['disabled', 'aria-disabled'],
+    });
+    return () => observer.disconnect();
   }, [children, disabled]);
 
   const handleFocus = (e: FocusEvent<HTMLDivElement>) => {
@@ -80,7 +108,7 @@ export default function ChipGroup({
     if (!(target instanceof HTMLElement)) return;
     const chip = target.closest<HTMLElement>('[data-chip]');
     const toolbar = e.currentTarget;
-    if (chip == null || !toolbar.contains(chip)) return;
+    if (chip == null || !toolbar.contains(chip) || isChipDisabled(chip)) return;
     chipsIn(toolbar).forEach((c) => {
       c.tabIndex = c === chip ? 0 : -1;
     });
@@ -92,7 +120,7 @@ export default function ChipGroup({
 
     const toolbar = ref.current;
     if (toolbar == null) return;
-    const chips = chipsIn(toolbar);
+    const chips = chipsIn(toolbar).filter((c) => !isChipDisabled(c));
     if (chips.length === 0) return;
 
     const active = document.activeElement;
