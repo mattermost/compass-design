@@ -15,6 +15,30 @@
     background-color: var(--center-channel-bg);
   }
 
+  // Full-width wash across toggle + actions (not just the toggle button),
+  // including while hovering the more-actions control or with the menu open.
+  &__header:hover,
+  &__header:focus-within,
+  &--menu-open &__header {
+    background-color: color-mix(
+      in srgb,
+      var(--center-channel-color) 4%,
+      var(--center-channel-bg)
+    );
+
+    .collapsible-checklist__chevron {
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+
+    .collapsible-checklist__title {
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-80));
+    }
+
+    .collapsible-checklist__done {
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+  }
+
   &__toggle {
     display: flex;
     flex: 1 1 auto;
@@ -33,26 +57,6 @@
     font: inherit;
     text-align: left;
     cursor: pointer;
-
-    &:hover {
-      background-color: color-mix(
-        in srgb,
-        var(--center-channel-color) 4%,
-        var(--center-channel-bg)
-      );
-
-      .collapsible-checklist__chevron {
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
-      }
-
-      .collapsible-checklist__title {
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-80));
-      }
-
-      .collapsible-checklist__done {
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
-      }
-    }
   }
 
   &__drag {

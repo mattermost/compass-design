@@ -10,7 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Fixed
 
-- **2026-11-23 · `CollapsibleChecklist` header drag + title:** Vertically center the section drag handle in the toggle row (not offset with a fixed `top`). Section titles use `flex: 1 1 0` with existing ellipsis/`nowrap` so long names truncate on one line instead of wrapping.
+- **2026-11-23 · `CollapsibleChecklist` header drag + title:** Vertically center the section drag handle in the toggle row (not offset with a fixed `top`). Section titles use `flex: 1 1 0` with existing ellipsis/`nowrap` so long names truncate on one line instead of wrapping. Header hover wash spans the full header (including the more-actions control), not only the toggle button.
 
 ### Added
 
