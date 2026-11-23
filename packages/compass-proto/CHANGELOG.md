@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **2026-11-23 · `CollapsibleChecklist` header drag + title:** Vertically center the section drag handle in the toggle row (not offset with a fixed `top`). Section titles use `flex: 1 1 0` with existing ellipsis/`nowrap` so long names truncate on one line instead of wrapping.
+
 ### Added
 
 - **2026-11-20 · `CollapsibleChecklist` and `ChecklistItem`:** Playbooks checklist section and task row for prototypes. `CollapsibleChecklist` is a named section (collapse, title, “n / n done”, 2px green progress hairline, task list, “Add a task”) with an optional hover overflow menu (rename / duplicate / delete, portaled `PopoverMenu`). `ChecklistItem` is the exported task row it composes (drag handle, `Checkbox`, title, description, meta `Chip`s for checked-by / assignee / due date / slash command, a Message Actions–style hover toolbar for assign / due date / edit / more, and contentEditable inline edit for adding or renaming — no input chrome). Interactive enough for demos (collapse, check tasks, hover actions, add task); requirements accordion/modals, condition headers and bulk-select stay out. Collapse uses the same CSS grid `0fr`↔`1fr` pattern as `AdminPanel` — there is no shared Accordion / Disclosure primitive yet. `ChecklistItem` is documented under Components → Playbooks; `CollapsibleChecklist` under Patterns → Playbooks. Import from `@mattermost/compass-proto`.

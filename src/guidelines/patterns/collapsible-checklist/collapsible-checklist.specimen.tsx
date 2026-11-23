@@ -57,6 +57,20 @@ export default function CollapsibleChecklistLibrary() {
       </p>
       <InteractiveChecklist />
 
+      <p className={styles['patterns__variant-label']}>
+        Long section title (truncates; stays on one line)
+      </p>
+      <CollapsibleChecklist
+        title="Security incident response playbook — primary on-call rotation for production"
+        defaultItems={[
+          { id: 'long-1', title: 'Acknowledge the page', state: 'closed' },
+          { id: 'long-2', title: 'Join the bridge', state: 'open' },
+        ]}
+        onRename={() => {}}
+        onDuplicate={() => {}}
+        onDelete={() => {}}
+      />
+
       <p className={styles['patterns__variant-label']}>Starts collapsed</p>
       <CollapsibleChecklist
         title="Remediation"
