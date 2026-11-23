@@ -11,6 +11,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ### Fixed
 
 - **2026-11-23 · `CollapsibleChecklist` header drag + title:** Vertically center the section drag handle in the toggle row (not offset with a fixed `top`). Header uses a 2-column grid (toggle | actions, progress full-width) so long titles cannot wrap the more-actions control onto a second row. Titles `flex: 1 1 0` with ellipsis/`nowrap` so they fill the row and truncate cleanly before “n / n done”. Header hover wash spans the full header (including the more-actions control), not only the toggle button.
+- **2026-11-23 · Portaled checklist / bookmark menus:** set `--popover-transform-origin` when positioning so end-aligned `PopoverMenu`s scale from `top right` (below) / `bottom right` (above) instead of the default `top left`. Covers `CollapsibleChecklist` section menu, `ChecklistItem` more menu, and `ChannelBookmarksBar` `AnchoredMenu`.
 
 ### Added
 

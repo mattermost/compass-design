@@ -177,7 +177,15 @@ function ItemMoreMenu({
         Math.max(margin, rect.left - width),
         Math.max(margin, window.innerWidth - width - margin),
       );
-      setStyle({ top, left });
+      // End-aligned under the trigger → scale from the top-right corner;
+      // flip above → bottom-right. Default PopoverMenu origin is top left.
+      setStyle({
+        top,
+        left,
+        ['--popover-transform-origin' as string]: fitsBelow
+          ? 'top right'
+          : 'bottom right',
+      });
     };
     place();
     const ro = new ResizeObserver(place);

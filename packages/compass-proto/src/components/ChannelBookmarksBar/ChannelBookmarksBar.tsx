@@ -176,7 +176,13 @@ function AnchoredMenu({
         Math.max(margin, anchorLeft),
         Math.max(margin, window.innerWidth - width - margin),
       );
-      setStyle({ top, left });
+      const x = align === 'end' ? 'right' : 'left';
+      const y = fitsBelow ? 'top' : 'bottom';
+      setStyle({
+        top,
+        left,
+        ['--popover-transform-origin' as string]: `${y} ${x}`,
+      });
     };
     place();
     const ro = new ResizeObserver(place);

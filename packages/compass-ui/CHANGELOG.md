@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+### Fixed
+
+- **`PopoverMenu` transform origin:** transition uses `transform-origin: var(--popover-transform-origin, top left)` so hosts that end-align or flip a menu can set the origin toward the trigger (e.g. `top right` / `bottom right`) on the portaled layer. Default remains `top left`.
+
 ## [0.1.0-alpha.36] - 2026-11-20
 
 ### Fixed

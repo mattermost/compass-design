@@ -100,9 +100,13 @@ Popovers are a short-distance entrance/exit, so they use `--duration-quick`
 rather than the moderate timing reserved for full-size panels and drawers.
 
 Set `transform-origin` so the scale grows from the anchor — for a popover that
-opens below-and-right of its trigger, use `transform-origin: top left`. For
-unmount-on-close panels, the `useExitAnimation` hook in `src/hooks/` keeps the
-element rendered long enough for the exit animation to finish.
+opens below-and-right of its trigger, use `transform-origin: top left`. End-
+aligned menus (right edge of the menu against the trigger) use `top right`
+below and `bottom right` above. `PopoverMenu` reads `--popover-transform-origin`
+(default `top left`) so hosts can set it on the portaled layer when they
+position. For unmount-on-close panels, the `useExitAnimation` hook in
+`src/hooks/` keeps the element rendered long enough for the exit animation to
+finish.
 
 <PopoverPattern />
 

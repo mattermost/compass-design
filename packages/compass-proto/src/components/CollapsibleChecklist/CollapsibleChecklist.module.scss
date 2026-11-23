@@ -47,7 +47,6 @@
     // Match ChecklistItem row: checkbox/chevron → title gap.
     gap: var(--spacing-xs);
     min-width: 0;
-    overflow: hidden;
     margin: 0;
     // Left pad matches ChecklistItem --with-drag so chevron ↔ checkbox,
     // title ↔ task title.
