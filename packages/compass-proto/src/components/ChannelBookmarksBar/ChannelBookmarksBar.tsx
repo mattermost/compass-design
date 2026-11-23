@@ -633,6 +633,7 @@ export default function ChannelBookmarksBar({
                 aria-label={`${l.overflow}, ${hidden.length}`}
                 aria-haspopup="menu"
                 aria-expanded={openMenu === OVERFLOW_MENU}
+                active={openMenu === OVERFLOW_MENU}
                 icon={
                   <Icon
                     glyph={canManage ? <PlusIcon /> : <DotsHorizontalIcon />}
@@ -717,6 +718,7 @@ export default function ChannelBookmarksBar({
                 className={styles['channel-bookmarks-bar__add']}
                 aria-haspopup="menu"
                 aria-expanded={openMenu === ADD_MENU}
+                active={openMenu === ADD_MENU}
                 icon={<Icon glyph={<PlusIcon />} />}
                 onClick={toggleAdd}
               />

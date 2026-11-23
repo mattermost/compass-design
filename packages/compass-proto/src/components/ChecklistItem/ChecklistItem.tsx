@@ -503,6 +503,7 @@ export default function ChecklistItem({
                     padding="compact"
                     aria-haspopup="menu"
                     aria-expanded={menuOpen}
+                    active={menuOpen}
                     icon={<Icon glyph={<DotsHorizontalIcon />} />}
                     onClick={(e) => {
                       e.stopPropagation();
