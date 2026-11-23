@@ -41,7 +41,9 @@
 
   &__toggle {
     display: flex;
-    flex: 1 1 auto;
+    // Basis 0 so a long nowrap title shrinks/ellipsizes instead of wrapping
+    // the sibling actions onto a second line (header is flex-wrap).
+    flex: 1 1 0;
     align-items: center;
     // Match ChecklistItem row: checkbox/chevron → title gap.
     gap: var(--spacing-xs);
