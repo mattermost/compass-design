@@ -94,8 +94,9 @@
   }
 
   &__title {
-    // Fill space before the done count; ellipsize when the row is tight.
-    flex: 1 1 0;
+    // Hug the label so “n / n done” sits beside it; shrink + ellipsis when
+    // the toggle runs out of room (grid keeps actions on the same row).
+    flex: 0 1 auto;
     overflow: hidden;
     min-width: 0;
     color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
