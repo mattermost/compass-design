@@ -196,3 +196,34 @@ describe('TextInput trailingAction', () => {
     ).toBe(true);
   });
 });
+
+describe('TextInput readOnly', () => {
+  it('takes the read-only modifier and leaves the tab order', () => {
+    const { container } = render(
+      <TextInput label="Q" defaultValue="abc" readOnly />,
+    );
+    const input = container.querySelector('input')!;
+    expect(input.readOnly).toBe(true);
+    expect(input.tabIndex).toBe(-1);
+    expect(container.firstElementChild!.className).toContain(
+      'text-input--read-only',
+    );
+  });
+
+  it('honors an explicit tabIndex', () => {
+    const { container } = render(
+      <TextInput label="Q" defaultValue="abc" readOnly tabIndex={0} />,
+    );
+    expect(container.querySelector('input')!.tabIndex).toBe(0);
+  });
+
+  it('is unchanged when not read-only', () => {
+    const { container } = render(<TextInput label="Q" defaultValue="abc" />);
+    expect(container.querySelector('input')!.hasAttribute('tabindex')).toBe(
+      false,
+    );
+    expect(container.firstElementChild!.className).not.toContain(
+      'text-input--read-only',
+    );
+  });
+});

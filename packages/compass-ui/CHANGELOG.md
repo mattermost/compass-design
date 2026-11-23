@@ -43,6 +43,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 - **`TourPoint` closed pulsing-dot hit area:** the open control is 32×32 (visual pulse remains 40×40).
 - **`TourPoint` stacking:** root uses `z-index: var(--z-popover, 1200)` so a tip-positioned card clears page chrome; hosts can still override via `style` / `className`.
 - **`TourPoint` Next / Previous focus:** after a mid-series step action’s exit, focus returns into the tip when the panel remounts for controlled `open` as well as uncontrolled retained hosts (so Escape and further keys keep working).
+- **`TextInput` `readOnly` state:** a read-only field now looks locked: a tinted fill, value text at 72% opacity, a default cursor and no caret. It no longer shows the hover border, the focus ring or the focused label color, and it leaves the tab order (`tabIndex={-1}`). Pass `tabIndex={0}` to put it back; it then shows the focus ring again so keyboard users can see where they are. Clicking still focuses it, so the value can be selected and copied. Default markup is unchanged; with `readOnly`, the root gains `text-input--read-only` and the input gains `tabindex="-1"`.
 - **`SuggestionList` and `useSuggestionList` moved to `@mattermost/compass-proto`:** they were added after `0.1.0-alpha.32` and never published from this package, so there is nothing to migrate. The `components/suggestion-list` subpath and root exports are not in any compass-ui release.
 
 ## [0.1.0-alpha.33] - 2026-11-18
