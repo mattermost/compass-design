@@ -9,15 +9,40 @@
   &__header {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
+    // Grid keeps toggle + actions on one row and progress on the next —
+    // avoids flex-wrap pushing actions under a long title (header grew ~74px).
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     background-color: var(--center-channel-bg);
   }
 
+  // Full-width wash across toggle + actions (not just the toggle button),
+  // including while hovering the more-actions control or with the menu open.
+  &__header:hover,
+  &__header:focus-within,
+  &--menu-open &__header {
+    background-color: color-mix(
+      in srgb,
+      var(--center-channel-color) 4%,
+      var(--center-channel-bg)
+    );
+
+    .collapsible-checklist__chevron {
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+
+    .collapsible-checklist__title {
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-80));
+    }
+
+    .collapsible-checklist__done {
+      color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
+    }
+  }
+
   &__toggle {
     display: flex;
-    flex: 1 1 auto;
     align-items: center;
     // Match ChecklistItem row: checkbox/chevron → title gap.
     gap: var(--spacing-xs);
@@ -33,38 +58,20 @@
     font: inherit;
     text-align: left;
     cursor: pointer;
-
-    &:hover {
-      background-color: color-mix(
-        in srgb,
-        var(--center-channel-color) 4%,
-        var(--center-channel-bg)
-      );
-
-      .collapsible-checklist__chevron {
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
-      }
-
-      .collapsible-checklist__title {
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-80));
-      }
-
-      .collapsible-checklist__done {
-        color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
-      }
-    }
   }
 
   &__drag {
     position: absolute;
-    top: var(--spacing-m);
+    // Center in the toggle row (header padding + title line), not the
+    // progress hairline below.
+    top: 0;
     left: var(--spacing-xxxxs);
     z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: var(--icon-size-16);
-    height: var(--icon-size-16);
+    height: calc(var(--spacing-s) * 2 + var(--line-height-200));
     color: rgba(var(--center-channel-color-rgb), var(--opacity-56));
     cursor: grab;
     opacity: 0;
@@ -87,6 +94,9 @@
   }
 
   &__title {
+    // Hug the label so “n / n done” sits beside it; shrink + ellipsis when
+    // the toggle runs out of room (grid keeps actions on the same row).
+    flex: 0 1 auto;
     overflow: hidden;
     min-width: 0;
     color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
@@ -98,7 +108,7 @@
   }
 
   &__done {
-    flex-shrink: 0;
+    flex: 0 0 auto;
     margin-right: var(--spacing-l);
     color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
     font-size: var(--font-size-50);
@@ -127,7 +137,7 @@
   // Match Playbooks: 2px square hairline, green fill (`--online-indicator`).
   &__progress {
     position: relative;
-    flex: 1 0 100%;
+    grid-column: 1 / -1;
     height: 2px;
     background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
   }

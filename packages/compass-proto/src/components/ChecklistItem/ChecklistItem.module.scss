@@ -6,7 +6,9 @@
   padding: var(--spacing-xs) var(--spacing-s);
   box-sizing: border-box;
 
-  // Extra left pad so the hover drag handle sits in the gutter, not the row flow.
+  // Extra left pad for the drag gutter (and to match CollapsibleChecklist
+  // header). Applied whenever showDragHandle is set — including edit and
+  // read-only — so row indent does not jump when the icon is hidden.
   &--with-drag {
     padding-left: var(--spacing-l);
   }

@@ -142,6 +142,8 @@ interface AnchoredMenuProps {
  * Popover menu portaled to `document.body` and positioned against its
  * trigger, so it is never clipped by or part of the bar's layout. The parent
  * must be `position: relative`; a zero-size slot at its bottom edge is the anchor.
+ * Always sets `--popover-transform-origin` with `top`/`left` (corner toward the
+ * trigger) — do not copy this host without that variable.
  */
 function AnchoredMenu({
   open,
@@ -176,7 +178,13 @@ function AnchoredMenu({
         Math.max(margin, anchorLeft),
         Math.max(margin, window.innerWidth - width - margin),
       );
-      setStyle({ top, left });
+      const x = align === 'end' ? 'right' : 'left';
+      const y = fitsBelow ? 'top' : 'bottom';
+      setStyle({
+        top,
+        left,
+        ['--popover-transform-origin' as string]: `${y} ${x}`,
+      });
     };
     place();
     const ro = new ResizeObserver(place);
@@ -625,6 +633,7 @@ export default function ChannelBookmarksBar({
                 aria-label={`${l.overflow}, ${hidden.length}`}
                 aria-haspopup="menu"
                 aria-expanded={openMenu === OVERFLOW_MENU}
+                active={openMenu === OVERFLOW_MENU}
                 icon={
                   <Icon
                     glyph={canManage ? <PlusIcon /> : <DotsHorizontalIcon />}
@@ -709,6 +718,7 @@ export default function ChannelBookmarksBar({
                 className={styles['channel-bookmarks-bar__add']}
                 aria-haspopup="menu"
                 aria-expanded={openMenu === ADD_MENU}
+                active={openMenu === ADD_MENU}
                 icon={<Icon glyph={<PlusIcon />} />}
                 onClick={toggleAdd}
               />

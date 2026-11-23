@@ -8,6 +8,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **2026-11-23 · `CollapsibleChecklist` header drag + title:** Vertically center the section drag handle in the toggle row (not offset with a fixed `top`). Header uses a 2-column grid (toggle | actions, progress full-width) so long titles cannot wrap the more-actions control onto a second row. Titles hug content (`flex: 0 1 auto`) with ellipsis/`nowrap` so “n / n done” stays beside short names and long names still truncate. Header hover wash spans the full header (including the more-actions control), not only the toggle button.
+- **2026-11-23 · `ChecklistItem` edit / read-only indent:** keep the drag gutter (`--with-drag`) whenever `showDragHandle` is set, including edit and read-only, so task rows stay aligned with ready rows and the section header. The drag icon still hides when editing or read-only.
+- **2026-11-23 · Portaled checklist / bookmark menus:** set `--popover-transform-origin` when positioning so end-aligned `PopoverMenu`s scale from `top right` (below) / `bottom right` (above) instead of the default `top left`. Menu triggers keep `active` while open (`CollapsibleChecklist` / `ChecklistItem` more, bookmarks overflow + add). Covers those hosts and `ChannelBookmarksBar` `AnchoredMenu`.
+
 ### Added
 
 - **2026-11-20 · `CollapsibleChecklist` and `ChecklistItem`:** Playbooks checklist section and task row for prototypes. `CollapsibleChecklist` is a named section (collapse, title, “n / n done”, 2px green progress hairline, task list, “Add a task”) with an optional hover overflow menu (rename / duplicate / delete, portaled `PopoverMenu`). `ChecklistItem` is the exported task row it composes (drag handle, `Checkbox`, title, description, meta `Chip`s for checked-by / assignee / due date / slash command, a Message Actions–style hover toolbar for assign / due date / edit / more, and contentEditable inline edit for adding or renaming — no input chrome). Interactive enough for demos (collapse, check tasks, hover actions, add task); requirements accordion/modals, condition headers and bulk-select stay out. Collapse uses the same CSS grid `0fr`↔`1fr` pattern as `AdminPanel` — there is no shared Accordion / Disclosure primitive yet. `ChecklistItem` is documented under Components → Playbooks; `CollapsibleChecklist` under Patterns → Playbooks. Import from `@mattermost/compass-proto`.

@@ -277,6 +277,29 @@ open.
 Depending on the positioning of the menu popover in relation the trigger button,
 it will either open up or open down.
 
+### Transform origin
+
+Scale grows from the corner toward the trigger. `PopoverMenu` reads
+`--popover-transform-origin` (default `top left`). Hosts set it on the portaled
+layer when they position:
+
+| Placement                                    | Origin               |
+| -------------------------------------------- | -------------------- |
+| Below, start-aligned                         | `top left` (default) |
+| Below, end-aligned (`trigger.right − width`) | `top right`          |
+| Above, start-aligned                         | `bottom left`        |
+| Above, end-aligned                           | `bottom right`       |
+
+Omit the variable and an end-aligned menu will scale from the wrong corner.
+
+### Trigger active while open
+
+The trigger that opened the menu stays in its pressed/active look until the menu
+closes. For `IconButton` or `Button`, pass `active={open}` together with
+`aria-expanded={open}` — use `active`, not `toggled` (`toggled` sets
+`aria-pressed`; the open state already lives on `aria-expanded`). Submenu parent
+rows use `MenuItem` `active` the same way.
+
 ### Positioned above trigger
 
 <PopoverMenuMotion direction="above" />

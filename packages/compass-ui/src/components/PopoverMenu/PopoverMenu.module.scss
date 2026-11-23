@@ -33,7 +33,9 @@
   &--transition {
     opacity: 0;
     transform: scale(0.9);
-    transform-origin: top left;
+    // Host sets --popover-transform-origin to the corner toward the trigger
+    // (e.g. top right when the menu opens below and is end-aligned).
+    transform-origin: var(--popover-transform-origin, top left);
     pointer-events: none;
     transition:
       opacity var(--duration-quick) var(--ease-exit),

@@ -147,7 +147,15 @@ function SectionMenu({
         Math.max(margin, rect.left - width),
         Math.max(margin, window.innerWidth - width - margin),
       );
-      setStyle({ top, left });
+      // End-aligned under the trigger → scale from the top-right corner;
+      // flip above → bottom-right. Default PopoverMenu origin is top left.
+      setStyle({
+        top,
+        left,
+        ['--popover-transform-origin' as string]: fitsBelow
+          ? 'top right'
+          : 'bottom right',
+      });
     };
     place();
     const ro = new ResizeObserver(place);
@@ -474,6 +482,7 @@ export default function CollapsibleChecklist({
                 padding="compact"
                 aria-haspopup="menu"
                 aria-expanded={menuOpen}
+                active={menuOpen}
                 icon={<Icon glyph={<DotsHorizontalIcon />} />}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -534,7 +543,7 @@ export default function CollapsibleChecklist({
                   key={item.id}
                   item={draft}
                   editing
-                  showDragHandle={false}
+                  showDragHandle={showDragHandle}
                   titleInputPlaceholder={titleInputPlaceholder}
                   descriptionInputPlaceholder={descriptionInputPlaceholder}
                   onTitleChange={(titleValue) =>
@@ -551,6 +560,7 @@ export default function CollapsibleChecklist({
                   key={item.id}
                   item={item}
                   readOnly={readOnly}
+                  showDragHandle={showDragHandle}
                   onStateChange={(state) => updateItemState(item.id, state)}
                   onEdit={readOnly ? undefined : () => startEditing(item)}
                   onAssign={
@@ -580,7 +590,7 @@ export default function CollapsibleChecklist({
               <ChecklistItem
                 item={draft}
                 editing
-                showDragHandle={false}
+                showDragHandle={showDragHandle}
                 titleInputPlaceholder={titleInputPlaceholder}
                 descriptionInputPlaceholder={descriptionInputPlaceholder}
                 onTitleChange={(titleValue) =>

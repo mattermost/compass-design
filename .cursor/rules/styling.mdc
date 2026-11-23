@@ -181,7 +181,7 @@ Use `var(--font-weight-semibold)` (600) for emphasis. Do not use bold/`700` unle
 
 ## Popover open/close
 
-Menus/info popovers/dropdowns: scale 90%→100% + fade in on open (`--duration-quick` / `--ease-entrance`); reverse on close (`--ease-exit`). Set `transform-origin` toward the anchor.
+Menus/info popovers/dropdowns: scale 90%→100% + fade in on open (`--duration-quick` / `--ease-entrance`); reverse on close (`--ease-exit`). Set `transform-origin` toward the trigger — `PopoverMenu` defaults to `top left` (below + start). End-aligned menus (`left = trigger.left - width`) need `top right` below / `bottom right` above; start-aligned flips use `bottom left`. Prefer setting `--popover-transform-origin` on the portaled layer (inherited by the menu) when positioning.
 
 JS timers that wait for a CSS transition (`usePopoverTransition`, etc.) must read the same duration token via `readDurationMs` from `@/utils/duration` — never a hard-coded `150`/`300`.
 
