@@ -9,8 +9,10 @@
   &__header {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
+    // Grid keeps toggle + actions on one row and progress on the next —
+    // avoids flex-wrap pushing actions under a long title (header grew ~74px).
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     background-color: var(--center-channel-bg);
   }
@@ -41,14 +43,10 @@
 
   &__toggle {
     display: flex;
-    // Basis 0 so a long nowrap title shrinks/ellipsizes instead of wrapping
-    // the sibling actions onto a second line (header is flex-wrap).
-    flex: 1 1 0;
     align-items: center;
     // Match ChecklistItem row: checkbox/chevron → title gap.
     gap: var(--spacing-xs);
     min-width: 0;
-    // Clip rather than paint over the sibling actions at extreme narrow widths.
     overflow: hidden;
     margin: 0;
     // Left pad matches ChecklistItem --with-drag so chevron ↔ checkbox,
@@ -97,9 +95,8 @@
   }
 
   &__title {
-    // Hug content so “n / n done” sits beside the title; shrink + ellipsis
-    // when the toggle runs out of room (do not grow and shove done right).
-    flex: 0 1 auto;
+    // Fill space before the done count; ellipsize when the row is tight.
+    flex: 1 1 0;
     overflow: hidden;
     min-width: 0;
     color: rgba(var(--center-channel-color-rgb), var(--opacity-72));
@@ -140,7 +137,7 @@
   // Match Playbooks: 2px square hairline, green fill (`--online-indicator`).
   &__progress {
     position: relative;
-    flex: 1 0 100%;
+    grid-column: 1 / -1;
     height: 2px;
     background-color: rgba(var(--center-channel-color-rgb), var(--opacity-8));
   }
